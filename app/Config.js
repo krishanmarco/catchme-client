@@ -1,0 +1,180 @@
+/** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import {Colors as _Colors} from './lib/theme/RkTheme';
+
+const Globals = {
+  packageName: 'it.catchme'
+};
+
+export const Colors = _Colors;
+
+
+export const Icons = {
+  friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},
+  friendRequestDeny: {name: 'md-hand', type: 'ionicon', color: Colors.secondary},
+  locationAttendanceAccept: {name: 'logo-apple', type: 'ionicon'},
+  locationFavorites: {name: 'logo-apple', type: 'ionicon'},
+  userLocationStatusNow: {name: 'logo-apple', type: 'ionicon'},
+  userLocationStatusLater: {name: 'logo-apple', type: 'ionicon'},
+  search: {name: 'md-search', type: 'ionicon'},
+  back: {name: 'logo-apple', type: 'ionicon'},
+  phone: {name: 'logo-apple', type: 'ionicon'},
+  email: {name: 'logo-apple', type: 'ionicon'},
+  settingAdminLocations: {name: 'logo-apple', type: 'ionicon'},
+  settingAccount: {name: 'logo-apple', type: 'ionicon'},
+  settingPrivacy: {name: 'logo-apple', type: 'ionicon'},
+  settingChangePassword: {name: 'logo-apple', type: 'ionicon'},
+  settingChangePhone: {name: 'logo-apple', type: 'ionicon'},
+  settingNotifications: {name: 'logo-apple', type: 'ionicon'},
+  settingLogout: {name: 'logo-apple', type: 'ionicon'},
+  settingHelp: {name: 'logo-apple', type: 'ionicon'},
+  locationOpenTimes: {name: 'logo-apple', type: 'ionicon'},
+  locationAdminAdd: {name: 'logo-apple', type: 'ionicon'},
+  address: {name: 'logo-apple', type: 'ionicon'},
+  sad: {name: 'logo-apple', type: 'ionicon'},
+  addImage: {name: 'logo-apple', type: 'ionicon'},
+  addTiming: {name: 'plus', type: 'evilicon', color: Colors.primary},
+  removeTiming: {name: 'minus', type: 'evilicon', color: Colors.alertRed},
+};
+
+export const Urls = {
+  api: 'http://www.catchme.krishanmadan.website/api',
+  apiImages: 'http://www.catchme.krishanmadan.website/api/images'
+};
+
+export const Const = {
+
+  packageName: Globals.packageName,
+
+
+  NavigationComponents: {
+    ScreenLocationProfile: `${Globals.packageName}.ScreenLocationProfile`,
+    ScreenUserProfile: `${Globals.packageName}.ScreenUserProfile`,
+    ScreenUserFeed: `${Globals.packageName}.ScreenUserFeed`,
+    ScreenSearch: `${Globals.packageName}.ScreenSearch`,
+
+    ScreenLogin: `${Globals.packageName}.ScreenLogin`,
+    ScreenRegister: `${Globals.packageName}.ScreenRegister`,
+    ScreenRecoverPassword: `${Globals.packageName}.ScreenRecoverPassword`,
+
+
+    ModalCamera: `${Globals.packageName}.ModalCamera`,
+    ModalTiming: `${Globals.packageName}.ModalTiming`,
+    ModalAddressPicker: `${Globals.packageName}.ModalAddressPicker`,
+    ModalUserLocationStatus: `${Globals.packageName}.ModalUserLocationStatus`,
+
+
+    ScreenSettingsUserAccount: `${Globals.packageName}.ScreenSettingsUserAccount`,
+    ScreenSettingsAdminLocations: `${Globals.packageName}.ScreenSettingsAdminLocations`,
+    ScreenSettingsUserNotifications: `${Globals.packageName}.ScreenSettingsUserNotifications`,
+
+    ScreenAddContacts: `${Globals.packageName}.ScreenAddContacts`,
+    ScreenLogout: `${Globals.packageName}.ScreenLogout`,
+
+    ScreenEditLocation: `${Globals.packageName}.ScreenEditLocation`,
+
+    // todo screens
+    ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,
+
+    ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
+
+    HelpFAQ: `${Globals.packageName}.HelpFAQ`,
+    HelpContactUs: `${Globals.packageName}.HelpContactUs`,
+    HelpTermsOfService: `${Globals.packageName}.HelpTermsOfService`,
+    HelpAppInfo: `${Globals.packageName}.HelpAppInfo`,
+  },
+
+  GooglePlacesApi: {
+    key: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
+    debounceTimeMs: 500
+  },
+
+  ApiAuthentication: {
+    RSA_N: 'd466e1dafbba9fc2db029277d5349e4605f29661958aee8e67146892397412d630582952d054b767c8afb96dbfdc35e1cf0cd446c1f0cfda4a8f66a8422d7f152ad580d751b191423a4c8ddca4b7c860344d410555ed25cbf4e8e41aba9874ed92cb17205d347d788a1a48a1239cb731eebe0fe914f8363cf0e5fdf324d799c1',
+    RSA_E: '10001'
+  },
+
+  ApiClient: {
+    maxApi401: 5
+  },
+
+  DataProvider: {
+    cacheTTLSec: 0  // 5 * 60,
+  },
+
+  ImageURISource: {
+
+    // One of ['default', 'reload', 'force-cache', 'only-if-cached']
+    cachingPolicy: 'default'
+  },
+
+
+  Firebase: {
+    apiKey: "AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI",
+    databaseURL: "https://catch-me-179514.firebaseio.com",
+  },
+
+  Chat: {
+    loadMoreItems: 20,
+    unknownUserFallback: {_id: -1, name: '', avatar: 'https://lorempixel.com/640/480/?2702'}
+  },
+
+
+
+  DaoUser: {
+    reputationIcons: [
+      {metaName: 'JOE', rep: 200, icon: Icons.friendRequestAccept},
+      {metaName: 'DUDE', rep: 800, icon: Icons.friendRequestAccept},
+      {metaName: 'HERO', rep: 3200, icon: Icons.friendRequestAccept},
+      {metaName: 'VIP', rep: 12800, icon: Icons.friendRequestAccept},
+      {metaName: 'CATCHER', rep: 51200, icon: Icons.friendRequestAccept},
+      {metaName: 'SU', rep: Infinity, icon: Icons.friendRequestAccept},
+    ],
+  },
+
+
+  FeedList: {
+    loadMoreItems: 10,
+  },
+
+
+
+  UserLocationStatus: {
+    defaultTonightStartHrs: 22,
+    defaultStayHrs: 2
+  },
+
+
+
+  FeedHandler: {
+    actions: {
+      FriendshipRequestAccept: 'FriendshipRequestAccept',
+      FriendshipRequestDeny: 'FriendshipRequestDeny',
+      AttendanceConfirm: 'AttendanceConfirm',
+      LocationFollow: 'LocationFollow',
+      GoToLocationProfile: 'GoToLocationProfile',
+      GoToUserProfile: 'GoToUserProfile',
+    }
+  },
+
+
+  SettingsUserAccount: {
+    privacyMeFriendsEveryone: [
+      {label: 'Only me', value: '0'},
+      {label: 'My friends', value: '1'},
+      {label: 'Everyone', value: '2'},
+    ],
+    privacyFriendsEveryone: [
+      {label: 'My friends', value: '1'},
+      {label: 'Everyone', value: '2'},
+    ],
+  }
+
+
+};
+
+export default {
+  Colors,
+  Icons,
+  Urls,
+  Const
+};
