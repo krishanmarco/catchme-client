@@ -11,7 +11,7 @@ import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 
 import {View, Image, Dimensions, Keyboard} from 'react-native';
 
-import {RkButton, RkText, RkTextInput, RkAvoidKeyboard, RkStyleSheet} from 'react-native-ui-kitten';
+import {RkButton, RkText, RkAvoidKeyboard, RkStyleSheet} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
@@ -24,7 +24,6 @@ import {GradientButton} from "../../comp/Misc";
 import ApiClient from '../../lib/data/ApiClient';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
-import {SignInTwitter} from "../../lib/social/SignInTwitter";
 
 
 
@@ -41,7 +40,6 @@ class ScreenLoginPresentational extends React.Component {
     this._onLoginPress = this._onLoginPress.bind(this);
     this._onFacebookLogin = this._onFacebookLogin.bind(this);
     this._onGoogleLogin = this._onGoogleLogin.bind(this);
-    this._onTwitterLogin = this._onTwitterLogin.bind(this);
     this._renderSocialIcon = this._renderSocialIcon.bind(this);
     this._onGoToSignupPress = this._onGoToSignupPress.bind(this);
     this._onGoToRecoverPasswordPress = this._onGoToRecoverPasswordPress.bind(this);
@@ -87,13 +85,6 @@ class ScreenLoginPresentational extends React.Component {
         .catch(this._handleSignInError);
   }
 
-  _onTwitterLogin() {
-    SignInTwitter.signInAndGetAccessToken()
-        .then(accessToken => ApiClient.accountsLoginTwitter(accessToken))
-        .then(this._handleSignInSuccess)
-        .catch(this._handleSignInError);
-  }
-
   _onGoToSignupPress() {
     Router.toRegister(this.props.navigator);
   }
@@ -118,7 +109,6 @@ class ScreenLoginPresentational extends React.Component {
           <View style={Styles.listItemHeaderContent}>
             <View style={Styles.buttons}>
               {[
-                {icon: FontAwesome.twitter, onPress: this._onTwitterLogin},
                 {icon: FontAwesome.google, onPress: this._onGoogleLogin},
                 {icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
               ].map(this._renderSocialIcon)}

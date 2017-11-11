@@ -3,6 +3,7 @@ package com.catchme;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.magus.fblogin.FacebookLoginPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.horcrux.svg.SvgPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends NavigationApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new FacebookLoginPackage(),
                     new RNGoogleSigninPackage(),
                     new SvgPackage(),
                     new RCTCameraPackage(),

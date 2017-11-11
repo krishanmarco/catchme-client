@@ -1,7 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/09/2017 © */
-// import {FBLoginManager} from 'react-native-facebook-login';
+import {FBLoginManager} from 'react-native-facebook-login';
 import _ from 'lodash';
-import firebase from '../data/Firebase';
 
 
 // {
@@ -17,7 +16,7 @@ import firebase from '../data/Firebase';
 //   accessToken: <needed to access google API from the application>
 // }
 export class SignInFacebook {
-  static pAccessToken = 'accessToken';
+  static pAccessToken = 'credentials.token';
 
 
   static initialize() {
@@ -31,14 +30,13 @@ export class SignInFacebook {
 
 
   static signIn() {
-    const facebook = firebase.auth.FacebookAuthProvider();
-    facebook.addScope('email');
-
-    return firebase.auth().signInWithRedirect(facebook)
-        .then(data => {
-          console.log(data);
-          return firebase.auth().getRedirectResult();
-        });
+    return new Promise((resolve, reject) => {
+      FBLoginManager.loginWithPermissions(['email'], (error, data) => {
+        if (error != null)
+          reject(error);
+        else resolve(data);
+      });
+    });
   }
 
   static signInAndGetAccessToken() {
