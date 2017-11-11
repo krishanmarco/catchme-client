@@ -11,6 +11,11 @@ class ApiClient {
 
   constructor() {
     this.api401Attempts = 0;
+    this._handleResponse = this._handleResponse.bind(this);
+    this._get = this._get.bind(this);
+    this._post = this._post.bind(this);
+    this._postMultipart = this._postMultipart.bind(this);
+    this._onUserLogin = this._onUserLogin.bind(this);
   }
 
 
@@ -171,17 +176,17 @@ class ApiClient {
   }
 
   accountsLoginFacebook(accessToken) {
-    return this._post(`${Urls.api}/accounts/facebook`, {token: accessToken})
+    return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
         .then(this._onUserLogin);
   }
 
   accountsLoginGoogle(accessToken) {
-    return this._post(`${Urls.api}/accounts/google`, {token: accessToken})
+    return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
         .then(this._onUserLogin);
   }
 
   accountsLoginTwitter(accessToken) {
-    return this._post(`${Urls.api}/accounts/twitter`, {token: accessToken})
+    return this._post(`${Urls.api}/accounts/login/twitter`, {token: accessToken})
         .then(this._onUserLogin);
   }
 

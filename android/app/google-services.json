@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:458235769872:android:9cfe5be0d176d799",
+        "mobilesdk_app_id": "1:458235769872:android:81f653166c1b1727",
         "android_client_info": {
-          "package_name": "com.client"
+          "package_name": "com.catchme"
         }
       },
       "oauth_client": [

@@ -22,7 +22,7 @@ import DaoUser from "../../lib/daos/DaoUser";
 import {GradientButton} from "../../comp/Misc";
 
 import ApiClient from '../../lib/data/ApiClient';
-import SignInGoogle from '../../lib/social/SignInGoogle';
+import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
 import {SignInTwitter} from "../../lib/social/SignInTwitter";
 
@@ -48,6 +48,8 @@ class ScreenLoginPresentational extends React.Component {
   }
 
   _handleSignInError(error = undefined) {
+    console.log("_handleSignInError!");
+    console.log(error);
     // todo
   }
 
@@ -73,21 +75,21 @@ class ScreenLoginPresentational extends React.Component {
 
   _onFacebookLogin() {
     SignInFacebook.signInAndGetAccessToken()
-        .then(ApiClient.accountsLoginFacebook)
+        .then(accessToken => ApiClient.accountsLoginFacebook(accessToken))
         .then(this._handleSignInSuccess)
         .catch(this._handleSignInError);
   }
 
   _onGoogleLogin() {
     SignInGoogle.signInAndGetAccessToken()
-        .then(ApiClient.accountsLoginGoogle)
+        .then(accessToken => ApiClient.accountsLoginGoogle(accessToken))
         .then(this._handleSignInSuccess)
         .catch(this._handleSignInError);
   }
 
   _onTwitterLogin() {
     SignInTwitter.signInAndGetAccessToken()
-        .then(ApiClient.accountsLoginTwitter)
+        .then(accessToken => ApiClient.accountsLoginTwitter(accessToken))
         .then(this._handleSignInSuccess)
         .catch(this._handleSignInError);
   }
