@@ -9,13 +9,15 @@ import runAppUnuth from './AppUnauthenticated';
 import runAppAuth from './AppAuthenticated';
 
 
-
 export function initializeApplication() {
 
   // Set all the warnings to ignore by adding the prefix of the warning message
   console.ignoredYellowBox = [
     'Setting a timer',
-    'Warning: Failed prop type: Invalid props.style key `fontSize`'
+    'Warning: Failed prop type: Invalid props.style key `fontSize`',
+    'Warning: React.createClass is no longer supported',
+    'Warning: PropTypes has been moved to a separate',
+    'Warning: checkPropTypes has been moved to a separate'
   ];
 
 
@@ -23,7 +25,6 @@ export function initializeApplication() {
   bootstrapRkTheme();
 
 }
-
 
 
 export function startApplication(userProfile = undefined) {

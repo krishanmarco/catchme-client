@@ -151,8 +151,8 @@ class ApiClient {
 
 
 
-  _onUserLogin(userDataJsonPromise) {
-    return userDataJsonPromise
+  _onUserLogin(userProfileJson) {
+    return Promise.resolve(userProfileJson)
         .then(json => JSON.parse(json))
         .then(userData => {
           RealmIO.setLocalUser(userData);
