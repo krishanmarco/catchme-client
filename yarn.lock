@@ -4988,9 +4988,9 @@ react-native-contacts@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-1.0.4.tgz#188d182e992c6c1c16996f2237c0f5dc938f6ac7"
 
-react-native-easy-grid@^0.1.14:
-  version "0.1.14"
-  resolved "https://registry.yarnpkg.com/react-native-easy-grid/-/react-native-easy-grid-0.1.14.tgz#087810ae7ad7c60593c66ee66bdb4602dccd5164"
+react-native-easy-grid@^0.1.15:
+  version "0.1.15"
+  resolved "https://registry.yarnpkg.com/react-native-easy-grid/-/react-native-easy-grid-0.1.15.tgz#02939ae032d74662b50c9540d902c79866ba638a"
   dependencies:
     lodash "^4.11.1"
 

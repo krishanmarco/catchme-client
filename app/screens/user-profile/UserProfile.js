@@ -210,7 +210,10 @@ class UserProfilePresentational extends React.Component {
 
   _renderTab(tabLabel, jsx) {
     return (
-        <View tabLabel={tabLabel} style={{paddingVertical: 8}}>
+        <View
+            key={tabLabel}
+            tabLabel={tabLabel}
+            style={{paddingVertical: 8}}>
           {jsx}
         </View>
     );

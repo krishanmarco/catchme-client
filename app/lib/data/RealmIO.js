@@ -9,14 +9,14 @@ import DaoLocation from "../daos/DaoLocation";
 class RealmIO {
 
   constructor() {
-    this._prepareLocationForDb = this._prepareLocationForDb.bind(this);
-    this._prepareUserForDb = this._prepareUserForDb.bind(this);
+    this._prepareApiLocationForDb = this._prepareApiLocationForDb.bind(this);
+    this._prepareApiUserForDb = this._prepareApiUserForDb.bind(this);
   }
 
 
 
   setLocalUser(user) {
-    user = this._prepareUserForDb(user);
+    user = this._prepareApiUserForDb(user);
     this._tryAddToRealm('LocalUser', {user: {insertTs: -1, ...user}});
     ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user))
   }
@@ -26,7 +26,7 @@ class RealmIO {
     ApiAuthentication.update(-1, '');
   }
 
-  getLocalUserData() {
+  getLocalUserData() { console.log("GETTING LOCAL USER DATA");
     return _.get(realm.objects('LocalUser'), '[0].user');
   }
 
@@ -34,19 +34,27 @@ class RealmIO {
 
 
   addUser(user) {
-    user = this._prepareUserForDb(user);
+    user = this._prepareApiUserForDb(user);
     this._tryAddToRealm('User', user);
   }
 
   getUserById(id) {
-    return realm.objectForPrimaryKey('User', id);
+    let user = realm.objectForPrimaryKey('User', id);
+
+    if (user == null)
+      return null;
+
+    return {
+        ...user,
+      
+    };
   }
 
 
 
 
   addLocation(location) {
-    location = this._prepareLocationForDb(location);
+    location = this._prepareApiLocationForDb(location);
     this._tryAddToRealm('Location', location);
   }
 
@@ -54,7 +62,7 @@ class RealmIO {
     let location = realm.objectForPrimaryKey('Location', id);
 
     if (location == null)
-      return location;
+      return null;
 
     return {
       ...location,
@@ -66,42 +74,42 @@ class RealmIO {
   }
 
 
-  _prepareUserForDb(user) {
+  _prepareApiUserForDb(user) {
 
     _.set(user, DaoUser.pLocationsFavorite,
-        _.get(user, DaoUser.pLocationsFavorite, []).map(this._prepareLocationForDb));
+        _.get(user, DaoUser.pLocationsFavorite, []).map(this._prepareApiLocationForDb));
 
     _.set(user, DaoUser.pLocationsTop,
-        _.get(user, DaoUser.pLocationsTop, []).map(this._prepareLocationForDb));
+        _.get(user, DaoUser.pLocationsTop, []).map(this._prepareApiLocationForDb));
 
     _.set(user, DaoUser.pLocationsPast,
-        _.get(user, DaoUser.pLocationsPast, []).map(this._prepareLocationForDb));
+        _.get(user, DaoUser.pLocationsPast, []).map(this._prepareApiLocationForDb));
 
     _.set(user, DaoUser.pLocationsNow,
-        _.get(user, DaoUser.pLocationsNow, []).map(this._prepareLocationForDb));
+        _.get(user, DaoUser.pLocationsNow, []).map(this._prepareApiLocationForDb));
 
     _.set(user, DaoUser.pLocationsFuture,
-        _.get(user, DaoUser.pLocationsFuture, []).map(this._prepareLocationForDb));
+        _.get(user, DaoUser.pLocationsFuture, []).map(this._prepareApiLocationForDb));
 
     _.set(user, DaoUser.pAdminLocations,
-        _.get(user, DaoUser.pAdminLocations, []).map(this._prepareLocationForDb));
+        _.get(user, DaoUser.pAdminLocations, []).map(this._prepareApiLocationForDb));
 
     _.set(user, DaoUser.pConnectionFriends,
-        _.get(user, DaoUser.pConnectionFriends, []).map(this._prepareUserForDb));
+        _.get(user, DaoUser.pConnectionFriends, []).map(this._prepareApiUserForDb));
 
     _.set(user, DaoUser.pConnectionRequests,
-        _.get(user, DaoUser.pConnectionRequests, []).map(this._prepareUserForDb));
+        _.get(user, DaoUser.pConnectionRequests, []).map(this._prepareApiUserForDb));
 
     _.set(user, DaoUser.pConnectionBlocked,
-        _.get(user, DaoUser.pConnectionBlocked, []).map(this._prepareUserForDb));
+        _.get(user, DaoUser.pConnectionBlocked, []).map(this._prepareApiUserForDb));
 
-    user = {...user, insertTs: seconds()}
+    user = {...user, insertTs: seconds()};
 
     return user;
   }
 
 
-  _prepareLocationForDb(location) {
+  _prepareApiLocationForDb(location) {
 
     _.set(location, DaoLocation.pImageUrls, {value: JSON.stringify(_.get(location, DaoLocation.pImageUrls, []))});
 
@@ -112,10 +120,10 @@ class RealmIO {
     _.set(location, DaoLocation.pAddress, {value: JSON.stringify(_.get(location, DaoLocation.pAddress, {}))});
 
     _.set(location, DaoLocation.pConnectionsNow,
-        _.get(location, DaoLocation.pConnectionsNow, []).map(this._prepareUserForDb));
+        _.get(location, DaoLocation.pConnectionsNow, []).map(this._prepareApiUserForDb));
 
     _.set(location, DaoLocation.pConnectionsFuture,
-        _.get(location, DaoLocation.pConnectionsFuture, []).map(this._prepareUserForDb));
+        _.get(location, DaoLocation.pConnectionsFuture, []).map(this._prepareApiUserForDb));
 
     location = {...location, insertTs: seconds()}
 
