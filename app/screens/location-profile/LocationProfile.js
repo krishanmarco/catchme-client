@@ -12,7 +12,7 @@ import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 import {Text, FlatList, View} from 'react-native';
 
 import AvatarDescription from '../../comp/misc/AvatarDescription';
-import TabBar from '../../comp/misc/TabBar';
+// import TabBar from '../../comp/misc/TabBar';
 import ListDataPoints from '../../comp/misc/ListDataPoints';
 
 import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
@@ -34,6 +34,8 @@ import DaoUser from "../../lib/daos/DaoUser";
 import LocationChat from '../../comp-buisness/location/LocationChat';
 import Router from '../../lib/helpers/Router';
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import DefaultTabBar from '../../comp/misc/tab-view/DefaultTabBar';
 
 
 
@@ -151,46 +153,51 @@ class LocationProfilePresentational extends React.Component {
 
 
   render() {
-    return (
-        <CollapsingHeaderWithScroll
-            ref={LocationProfile.refCollapsingHeader}
-
-            dragEnabled={this.props.headerDragEnabled}
-
-            headerHeight={220}    // Dynamic calculation??
-            contentHeight={514}   // Screen - NavigationBar - TabBarTop - TabBarBottom
-            contentBackgroundColor={Colors.background}
-
-            header={this._renderProfileHeader()}
-            interactable={this._renderTabBar()}/>
-    );
-  }
-
-
-  _renderTabBar() {
     const tabs = [];
 
-    tabs.push(<TabBar.Tab key={0} icon={Icons.friendRequestAccept}>{this._renderTabLocationImages()}</TabBar.Tab>);
-    tabs.push(<TabBar.Tab key={1} icon={Icons.friendRequestAccept}>{this._renderTabFriendsNow()}</TabBar.Tab>);
-    tabs.push(<TabBar.Tab key={2} icon={Icons.friendRequestAccept}>{this._renderTabFriendsFuture()}</TabBar.Tab>);
+    tabs.push(this._renderTab('0', this._renderTabProfileHeader()));
+    tabs.push(this._renderTab('1', this._renderTabLocationImages()));
+    tabs.push(this._renderTab('2', this._renderTabFriendsNow()));
+    tabs.push(this._renderTab('3', this._renderTabFriendsFuture()));
 
     if (Context.isFirebaseAuthenticated())
-      tabs.push(<TabBar.Tab key={3} icon={Icons.friendRequestAccept}>{this._renderTabChat()}</TabBar.Tab>);
+      tabs.push(this._renderTab('4', this._renderTabChat()));
 
-    tabs.push(<TabBar.Tab key={4} icon={Icons.friendRequestAccept}>{this._renderTabInfo()}</TabBar.Tab>);
+    tabs.push(this._renderTab('5', this._renderTabInfo()));
 
     return (
-        <Grid>
-          <Row>
-            <TabBar onTabChange={this._onTabSwitch}>
-              {tabs}
-            </TabBar>
-          </Row>
-        </Grid>
+        <ScrollableTabView
+            scrollWithoutAnimation={true}
+            renderTabBar={(props) => this._renderCustomTabBar(props)}>
+          {tabs}
+        </ScrollableTabView>
     );
   }
 
-  _renderProfileHeader() {
+  _renderCustomTabBar(props) {
+    return (
+        <DefaultTabBar
+            {...props}
+            icons={[
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+            ]}/>
+    );
+  }
+
+  _renderTab(tabLabel, jsx) {
+    return (
+        <View tabLabel={tabLabel} style={{paddingVertical: 8}}>
+          {jsx}
+        </View>
+    );
+  }
+
+  _renderTabProfileHeader() {
     let locationProfile = this._locationProfile();
 
     return (

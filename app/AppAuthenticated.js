@@ -89,7 +89,7 @@ export default function run(authenticatedUser) {
         passProps: {userId: DaoUser.gId(authenticatedUser)},
         title: DaoUser.gName(authenticatedUser),
         navigatorStyle: {}
-      },
+      }/*,
       {
         icon: require('./assets/icons/americanExpressIcon.png'),
         selectedIcon: require('./assets/icons/masterCardIcon.png'),
@@ -103,7 +103,7 @@ export default function run(authenticatedUser) {
         screen: Const.NavigationComponents.ScreenUserFeed,
         title: 'Feed',
         navigatorStyle: {}
-      }
+      }*/
     ],
     tabsStyle: {
       initialTabIndex: 0,
