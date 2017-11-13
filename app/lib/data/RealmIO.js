@@ -26,7 +26,7 @@ class RealmIO {
     ApiAuthentication.update(-1, '');
   }
 
-  getLocalUserData() { console.log("GETTING LOCAL USER DATA");
+  getLocalUserData() {
     return _.get(realm.objects('LocalUser'), '[0].user');
   }
 
@@ -125,7 +125,7 @@ class RealmIO {
     _.set(location, DaoLocation.pConnectionsFuture,
         _.get(location, DaoLocation.pConnectionsFuture, []).map(this._prepareApiUserForDb));
 
-    location = {...location, insertTs: seconds()}
+    location = {...location, insertTs: seconds()};
 
     return location;
   }
