@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = DefaultTabBar;
+export default DefaultTabBar;

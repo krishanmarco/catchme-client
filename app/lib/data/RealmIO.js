@@ -11,6 +11,8 @@ class RealmIO {
   constructor() {
     this._prepareApiLocationForDb = this._prepareApiLocationForDb.bind(this);
     this._prepareApiUserForDb = this._prepareApiUserForDb.bind(this);
+    this._normalizeLocationFromDb = this._normalizeLocationFromDb.bind(this);
+    this._normalizeUserFromDb = this._normalizeUserFromDb.bind(this);
   }
 
 
@@ -44,10 +46,7 @@ class RealmIO {
     if (user == null)
       return null;
 
-    return {
-        ...user,
-      
-    };
+    return this._normalizeUserFromDb(user);
   }
 
 
@@ -64,13 +63,45 @@ class RealmIO {
     if (location == null)
       return null;
 
-    return {
-      ...location,
-      timings: JSON.parse(_.get(location, `${DaoLocation.pTimings}.value`)),
-      imageUrls: JSON.parse(_.get(location, `${DaoLocation.pImageUrls}.value`)),
-      people: JSON.parse(_.get(location, `${DaoLocation.pPeople}.value`)),
-      address: JSON.parse(_.get(location, `${DaoLocation.pAddress}.value`))
-    };
+    return this._normalizeLocationFromDb(location);
+  }
+
+
+  _normalizeUserFromDb(dbUser, maxDepth = 1, currentDepth = 0) {
+    const user = DaoUser.shallowCopy(dbUser);
+
+    const recurse = currentDepth < maxDepth;
+    const nlfb = (location) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
+    const nufb = (user) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
+
+    _.set(user, DaoUser.pAdminLocations,
+        (recurse ? Object.values(DaoUser.gAdminLocations(user)) : []).map(nlfb));
+
+    _.set(user, DaoUser.pLocationsFavorite,
+        (recurse ? Object.values(DaoUser.gLocationsFavorite(user)) : []).map(nlfb));
+
+    _.set(user, DaoUser.pLocationsTop,
+        (recurse ? Object.values(DaoUser.gLocationsTop(user)) : []).map(nlfb));
+
+    _.set(user, DaoUser.pLocationsPast,
+        (recurse ? Object.values(DaoUser.gLocationsPast(user)) : []).map(nlfb));
+
+    _.set(user, DaoUser.pLocationsNow,
+        (recurse ? Object.values(DaoUser.gLocationsNow(user)) : []).map(nlfb));
+
+    _.set(user, DaoUser.pLocationsFuture,
+        (recurse ? Object.values(DaoUser.gLocationsFuture(user)) : []).map(nlfb));
+
+    _.set(user, DaoUser.pConnectionFriends,
+        (recurse ? Object.values(DaoUser.gConnectionsFriends(user)) : []).map(nufb));
+
+    _.set(user, DaoUser.pConnectionRequests,
+        (recurse ? Object.values(DaoUser.gConnectionsRequests(user)) : []).map(nufb));
+
+    _.set(user, DaoUser.pConnectionBlocked,
+        (recurse ? Object.values(DaoUser.gConnectionsBlocked(user)) : []).map(nufb));
+
+    return user;
   }
 
 
@@ -111,9 +142,9 @@ class RealmIO {
 
   _prepareApiLocationForDb(location) {
 
-    _.set(location, DaoLocation.pImageUrls, {value: JSON.stringify(_.get(location, DaoLocation.pImageUrls, []))});
-
     _.set(location, DaoLocation.pTimings, {value: JSON.stringify(_.get(location, DaoLocation.pTimings, []))});
+
+    _.set(location, DaoLocation.pImageUrls, {value: JSON.stringify(_.get(location, DaoLocation.pImageUrls, []))});
 
     _.set(location, DaoLocation.pPeople, {value: JSON.stringify(_.get(location, DaoLocation.pPeople, {}))});
 
@@ -126,6 +157,31 @@ class RealmIO {
         _.get(location, DaoLocation.pConnectionsFuture, []).map(this._prepareApiUserForDb));
 
     location = {...location, insertTs: seconds()};
+
+    return location;
+  }
+  
+  
+  _normalizeLocationFromDb(dbLocation, maxDepth = 1, currentDepth = 0) {
+    const location = DaoLocation.shallowCopy(dbLocation);
+
+    const recurse = currentDepth < maxDepth;
+    const nlfb = (location) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
+    const nufb = (user) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
+
+    _.set(location, DaoLocation.pTimings, JSON.parse(_.get(location, `${DaoLocation.pTimings}.value`)));
+
+    _.set(location, DaoLocation.pImageUrls, JSON.parse(_.get(location, `${DaoLocation.pImageUrls}.value`)));
+
+    _.set(location, DaoLocation.pPeople, JSON.parse(_.get(location, `${DaoLocation.pPeople}.value`)));
+
+    _.set(location, DaoLocation.pAddress, JSON.parse(_.get(location, `${DaoLocation.pAddress}.value`)));
+
+    _.set(location, DaoLocation.pConnectionsNow,
+        (recurse ? Object.values(DaoLocation.gFriendsNow(location)) : []).map(nufb));
+
+    _.set(location, DaoLocation.pConnectionsFuture,
+        (recurse ? Object.values(DaoLocation.gFriendsFuture(location)) : []).map(nufb));
 
     return location;
   }

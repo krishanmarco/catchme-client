@@ -28,6 +28,36 @@ export default class DaoLocation {
   static pConnectionsFuture = `${DaoLocation.pConnections}.future`;
 
 
+  static shallowCopy(location) {
+    const newLocation = {};
+    _.set(newLocation, DaoLocation.pId, DaoLocation.gId(location));
+    _.set(newLocation, DaoLocation.pName, DaoLocation.gName(location));
+    _.set(newLocation, DaoLocation.pDescription, DaoLocation.gDescription(location));
+    _.set(newLocation, DaoLocation.pCapacity, DaoLocation.gCapacity(location));
+    _.set(newLocation, DaoLocation.pPictureUrl, DaoLocation.gPictureUrl(location));
+    _.set(newLocation, DaoLocation.pPhone, DaoLocation.gPhone(location));
+    _.set(newLocation, DaoLocation.pEmail, DaoLocation.gEmail(location));
+    _.set(newLocation, DaoLocation.pTimings, DaoLocation.gTimings(location));
+    _.set(newLocation, DaoLocation.pImageUrls, DaoLocation.gImageUrls(location));
+    _.set(newLocation, DaoLocation.pAddress, DaoLocation.gAddress(location));
+    _.set(newLocation, DaoLocation.pPeople, DaoLocation.gPeople(location));
+    _.set(newLocation, DaoLocation.pConnections, DaoLocation.gConnections(location));
+    _.set(newLocation, DaoLocation.pGooglePlaceId, DaoLocation.gGooglePlaceId(location));
+    _.set(newLocation, DaoLocation.pAddressCountry, DaoLocation.gCountry(location));
+    _.set(newLocation, DaoLocation.pAddressState, DaoLocation.gState(location));
+    _.set(newLocation, DaoLocation.pAddressCity, DaoLocation.gCity(location));
+    _.set(newLocation, DaoLocation.pAddressPostcode, DaoLocation.gPostcode(location));
+    _.set(newLocation, DaoLocation.pAddressAddress, DaoLocation.gAddress(location));
+    _.set(newLocation, DaoLocation.pAddressLatLng, DaoLocation.gLatLng(location));
+    _.set(newLocation, DaoLocation.pPeopleMen, DaoLocation.gMen(location));
+    _.set(newLocation, DaoLocation.pPeopleWomen, DaoLocation.gWomen(location));
+    _.set(newLocation, DaoLocation.pPeopleTotal, DaoLocation.gTotal(location));
+    _.set(newLocation, DaoLocation.pConnectionsNow, DaoLocation.gFriendsNow(location));
+    _.set(newLocation, DaoLocation.pConnectionsFuture, DaoLocation.gFriendsFuture(location));
+    return newLocation;
+  }
+  
+
   static gId(location) {
     return _.get(location, DaoLocation.pId);
   }
