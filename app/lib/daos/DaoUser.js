@@ -107,7 +107,7 @@ export default class DaoUser {
   }
 
   static gGender(user) {
-    return _.get(user, DaoUser.pGender, Const.DaoUser.gender[0].value);
+    return _.get(user, DaoUser.pGender, Maps.genderDefault().value);
   }
 
   static gConnections(user) {

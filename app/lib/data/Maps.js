@@ -12,15 +12,19 @@ export default class Maps {
     {value: 2,     icon: Icons.friendRequestAccept}
   ];
 
+  static genderDefault() {
+    return Maps._EGenders[2];
+  }
+
   static genderToIcon(value) {
-    return _.get(Maps._EGenders, `[${value}].icon`, Maps._EGenders[2].icon);
+    return _.get(Maps._EGenders, `[${value}].icon`, Maps.genderDefault().icon);
   }
 
 
 
 
 
-  static _EReputations: [
+  static _EReputations = [
     {value: 200,        icon: Icons.friendRequestAccept,      name: 'joe'},
     {value: 800,        icon: Icons.friendRequestAccept,      name: 'dude'},
     {value: 3200,       icon: Icons.friendRequestAccept,      name: 'hero'},

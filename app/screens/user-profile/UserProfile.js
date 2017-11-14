@@ -261,7 +261,7 @@ class UserProfilePresentational extends React.Component {
   _renderTabUserFriends() {
     let userProfile = this._userProfile();
     let authUserProfile = this._authenticatedUserProfile();
-console.log(DaoUser.gConnectionsFriends(userProfile));
+    
     return (
         <UserList
             users={DaoUser.gConnectionsFriends(userProfile)}
