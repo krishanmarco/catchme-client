@@ -32,6 +32,7 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from '../../comp/misc/tab-view/DefaultTabBar';
+import Maps from "../../lib/data/Maps";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -243,8 +244,8 @@ class UserProfilePresentational extends React.Component {
             avatar={DaoUser.gPictureUrl(userProfile)}
             content={DaoUser.gPublicMessage(userProfile)}
             badges={[
-              DaoUser.gGenderIcon(userProfile),
-              DaoUser.gReputationIcon(userProfile)
+                Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
+                Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
             ]}/>
     );
   }

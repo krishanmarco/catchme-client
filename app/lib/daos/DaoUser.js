@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {Const} from '../../Config';
 import ObjectCache from "../helpers/ObjectCache";
 import DaoLocation from "./DaoLocation";
+import Maps from "../data/Maps";
 
 
 export default class DaoUser {
@@ -14,6 +15,7 @@ export default class DaoUser {
   static pPhone = 'phone';
   static pEmail = 'email';
   static pApiKey = 'apiKey';
+  static pGender = 'gender';
   static pSettingPrivacy = 'privacy';
   static pSettingNotifications = 'settingsNotifications';
   static pAdminLocations = 'adminLocations';
@@ -97,11 +99,15 @@ export default class DaoUser {
   }
 
   static gSettingPrivacy(user) {
-    return _.get(user, DaoUser.pSettingPrivacy, '33333');
+    return _.get(user, DaoUser.pSettingPrivacy, Const.DaoUser.defaultPrivacySettings);
   }
 
   static gSettingNotifications(user) {
-    return _.get(user, DaoUser.pSettingNotifications, '111');
+    return _.get(user, DaoUser.pSettingNotifications, Const.DaoUser.defaultNotificationSettings);
+  }
+
+  static gGender(user) {
+    return _.get(user, DaoUser.pGender, Const.DaoUser.gender[0].value);
   }
 
   static gConnections(user) {
@@ -201,14 +207,5 @@ export default class DaoUser {
   }
 
 
-
-  static gReputationIcon(user) {
-    const ur = DaoUser.gReputation(user);
-    return Const.DaoUser.reputationIcons.filter(r => r.rep > ur)[0].icon;
-  }
-
-  static gGenderIcon(user) {
-
-  }
 
 }

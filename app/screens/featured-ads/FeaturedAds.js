@@ -29,6 +29,7 @@ import Router from "../../lib/helpers/Router";
 import FeaturedAdsInfoItems from '../../lib/user/FeaturedAdsInfoItems';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
+import Maps from "../../lib/data/Maps";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -104,9 +105,17 @@ class FeaturedAdsPresentational extends React.Component {
   }
 
 
-  _navigator() { return this.props.navigator; }
-  _userProfile() { return this.props.userProfile; }
-  _authenticatedUserProfile() { return this.props.authenticatedFeaturedAds; }
+  _navigator() {
+    return this.props.navigator;
+  }
+
+  _userProfile() {
+    return this.props.userProfile;
+  }
+
+  _authenticatedUserProfile() {
+    return this.props.authenticatedFeaturedAds;
+  }
 
   _onLocationPress(location) {
     Router.toLocationProfile(this._navigator(), location);
@@ -192,8 +201,8 @@ class FeaturedAdsPresentational extends React.Component {
                 avatar={DaoUser.gPictureUrl(userProfile)}
                 content={DaoUser.gPublicMessage(userProfile)}
                 badges={[
-                  DaoUser.gGenderIcon(userProfile),
-                  DaoUser.gReputationIcon(userProfile)
+                  Maps.genderToIcon(DaoUser.gGender(userProfile)),
+                  Maps.reputationToIcon(DaoUser.gReputation(userProfile))
                 ]}/>
           </Row>
         </Grid>
