@@ -670,6 +670,7 @@ const ReduxPoolBuilder = {
         post: (d, i) => ApiClient.userProfileEdit(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
           [DaoUser.pSettingPrivacy]: '33333',
+          [DaoUser.pSettingNotifications]: '111',
           [DaoUser.pPictureUrl]: '',
           [DaoUser.pPhone]: '',
           [DaoUser.pEmail]: '',
