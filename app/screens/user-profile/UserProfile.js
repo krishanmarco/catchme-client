@@ -93,6 +93,7 @@ class UserProfilePresentational extends React.Component {
     this._onUserPress = this._onUserPress.bind(this);
     this._renderTabBarScene = this._renderTabBarScene.bind(this);
     this._renderCustomTabBar = this._renderCustomTabBar.bind(this);
+    this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
     this._initializeState();
   }
 
@@ -214,7 +215,7 @@ class UserProfilePresentational extends React.Component {
         <View
             key={tabLabel}
             tabLabel={tabLabel}
-            style={{paddingVertical: 8}}>
+            style={{paddingVertical: 8, height: 440}}>
           {jsx}
         </View>
     );
@@ -238,14 +239,15 @@ class UserProfilePresentational extends React.Component {
 
   _renderProfileHeader() {
     let userProfile = this._userProfile();
+    console.log(userProfile);
 
     return (
         <AvatarDescription
             avatar={DaoUser.gPictureUrl(userProfile)}
             content={DaoUser.gPublicMessage(userProfile)}
             badges={[
-                Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
-                Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
+              Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
+              Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
             ]}/>
     );
   }
@@ -261,7 +263,7 @@ class UserProfilePresentational extends React.Component {
   _renderTabUserFriends() {
     let userProfile = this._userProfile();
     let authUserProfile = this._authenticatedUserProfile();
-    
+
     return (
         <UserList
             users={DaoUser.gConnectionsFriends(userProfile)}
@@ -274,11 +276,15 @@ class UserProfilePresentational extends React.Component {
     return (
         <StaticSectionList
             sections={this.state.userInfoSections}
-            renderItem={({item}) => (
-                <ListItemInfo
-                    onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._navigator())}
-                    {...item}/>
-            )}/>
+            renderItem={this._renderTabUserInfoItem}/>
+    );
+  }
+
+  _renderTabUserInfoItem({item}) {
+    return (
+        <ListItemInfo
+            onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._navigator())}
+            {...item}/>
     );
   }
 

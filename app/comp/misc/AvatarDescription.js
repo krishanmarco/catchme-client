@@ -36,11 +36,15 @@ const AvatarDescription = ({avatar, content, badges, maxHeight, style}) => (
         </Row>
 
         <Row style={[styles.publicMessage]}>
-          <RkText rkType='primary1 hint'>{content} {content}</RkText>
+          <RkText rkType='primary1 hint'>{content}</RkText>
         </Row>
 
         <Row style={[styles.badges]}>
-          {badges.map((b, k) => <Icon key={k} style={{marginRight: 8}} size={50} {...b}/>)}
+          {badges.map((b, k) => (
+              <Col key={k}>
+                <Icon style={{marginRight: 8}} size={50} {...b}/>
+              </Col>
+          ))}
         </Row>
       </Grid>
     </ScrollView>

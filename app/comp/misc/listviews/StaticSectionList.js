@@ -11,12 +11,12 @@ export default class StaticSectionList extends React.PureComponent {
   render() {
 
     return (
-        <SectionList
-            sections={this.props.sections}
-            renderItem={this.props.renderItem}
-            keyExtractor={(item, index) => index}
-            renderSectionHeader={this._renderHeader}
-        />
+          <SectionList
+              sections={this.props.sections}
+              renderItem={this.props.renderItem}
+              keyExtractor={(item, index) => index}
+              renderSectionHeader={this._renderHeader}
+          />
     );
   }
 
