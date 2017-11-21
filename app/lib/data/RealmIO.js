@@ -18,8 +18,8 @@ class RealmIO {
 
 
   setLocalUser(user) {
-    user = this._prepareApiUserForDb(user);
-    this._tryAddToRealm('LocalUser', {user: {insertTs: -1, ...user}});
+    const localUser = this._prepareApiUserForDb(user);
+    this._tryAddToRealm('LocalUser', {user: {insertTs: -1, ...localUser}});
     ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user))
   }
 
@@ -29,7 +29,14 @@ class RealmIO {
   }
 
   getLocalUserData() {
-    return _.get(realm.objects('LocalUser'), '[0].user');
+    // realm.objects returns an array but the
+    // LocalUser table will only have one entry
+    const dbUser = _.get(realm.objects('LocalUser'), '[0].user');
+
+    if (dbUser == null)
+      return null;
+
+    return this._normalizeUserFromDb(dbUser);
   }
 
 
@@ -41,7 +48,7 @@ class RealmIO {
   }
 
   getUserById(id) {
-    let user = realm.objectForPrimaryKey('User', id);
+    const user = realm.objectForPrimaryKey('User', id);
 
     if (user == null)
       return null;
@@ -58,7 +65,7 @@ class RealmIO {
   }
 
   getLocationById(id) {
-    let location = realm.objectForPrimaryKey('Location', id);
+    const location = realm.objectForPrimaryKey('Location', id);
 
     if (location == null)
       return null;
@@ -142,8 +149,6 @@ class RealmIO {
 
   _prepareApiLocationForDb(location) {
 
-    _.set(location, DaoLocation.pTimings, {value: JSON.stringify(_.get(location, DaoLocation.pTimings, []))});
-
     _.set(location, DaoLocation.pImageUrls, {value: JSON.stringify(_.get(location, DaoLocation.pImageUrls, []))});
 
     _.set(location, DaoLocation.pPeople, {value: JSON.stringify(_.get(location, DaoLocation.pPeople, {}))});
@@ -163,19 +168,20 @@ class RealmIO {
   
   
   _normalizeLocationFromDb(dbLocation, maxDepth = 1, currentDepth = 0) {
-    const location = DaoLocation.shallowCopy(dbLocation);
+    const editableLocation = {...dbLocation};
+
+    _.set(editableLocation, DaoLocation.pImageUrls, JSON.parse(_.get(dbLocation, `${DaoLocation.pImageUrls}.value`)));
+
+    _.set(editableLocation, DaoLocation.pPeople, JSON.parse(_.get(dbLocation, `${DaoLocation.pPeople}.value`)));
+
+    _.set(editableLocation, DaoLocation.pAddress, JSON.parse(_.get(dbLocation, `${DaoLocation.pAddress}.value`)));
+
+
+    const location = DaoLocation.shallowCopy(editableLocation);
 
     const recurse = currentDepth < maxDepth;
     const nlfb = (location) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
     const nufb = (user) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
-
-    _.set(location, DaoLocation.pTimings, JSON.parse(_.get(location, `${DaoLocation.pTimings}.value`)));
-
-    _.set(location, DaoLocation.pImageUrls, JSON.parse(_.get(location, `${DaoLocation.pImageUrls}.value`)));
-
-    _.set(location, DaoLocation.pPeople, JSON.parse(_.get(location, `${DaoLocation.pPeople}.value`)));
-
-    _.set(location, DaoLocation.pAddress, JSON.parse(_.get(location, `${DaoLocation.pAddress}.value`)));
 
     _.set(location, DaoLocation.pConnectionsNow,
         (recurse ? Object.values(DaoLocation.gFriendsNow(location)) : []).map(nufb));

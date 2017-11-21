@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 
 export default class DaoLocation {
   static pId = 'id';
@@ -39,9 +40,6 @@ export default class DaoLocation {
     _.set(newLocation, DaoLocation.pEmail, DaoLocation.gEmail(location));
     _.set(newLocation, DaoLocation.pTimings, DaoLocation.gTimings(location));
     _.set(newLocation, DaoLocation.pImageUrls, DaoLocation.gImageUrls(location));
-    _.set(newLocation, DaoLocation.pAddress, DaoLocation.gAddress(location));
-    _.set(newLocation, DaoLocation.pPeople, DaoLocation.gPeople(location));
-    _.set(newLocation, DaoLocation.pConnections, DaoLocation.gConnections(location));
     _.set(newLocation, DaoLocation.pGooglePlaceId, DaoLocation.gGooglePlaceId(location));
     _.set(newLocation, DaoLocation.pAddressCountry, DaoLocation.gCountry(location));
     _.set(newLocation, DaoLocation.pAddressState, DaoLocation.gState(location));
@@ -79,7 +77,7 @@ export default class DaoLocation {
   }
 
   static gTimings(location) {
-    return _.get(location, DaoLocation.pTimings);
+    return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.intDayDefault);
   }
 
   static gPhone(location) {

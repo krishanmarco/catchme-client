@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Realm from 'realm';
+import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 
 
 
@@ -73,22 +74,22 @@ class Location {
     name: 'Location',
     primaryKey: 'id',
     properties: {
-      insertTs:       {type: 'int',                                                                                },
-      id:             {type: 'int',                                                                   indexed: true},
-      name:           {type: 'string'                                                                              },
-      adminId:        {type: 'int',                                                     default: 1                 },
-      signupTs:       {type: 'int',                                     optional: true                             },
-      description:    {type: 'string',                                  optional: true                             },
-      capacity:       {type: 'int',                                                     default: 0                 },
-      pictureUrl:     {type: 'string',                                  optional: true                             },
-      reputation:     {type: 'int',                                                     default: 0                 },
-      email:          {type: 'string',                                  optional: true                             },
-      phone:          {type: 'string',                                  optional: true                             },
-      timings:        {type: 'GenericObject',                           optional: true                             },
-      imageUrls:      {type: 'GenericObject',                           optional: true                             },
-      people:         {type: 'GenericObject',                           optional: true                             },
-      address:        {type: 'GenericObject',                           optional: true                             },
-      connections:    {type: 'LocationConnections',                     optional: true                             }
+      insertTs:       {type: 'int',                                                                                              },
+      id:             {type: 'int',                                                                   indexed: true              },
+      name:           {type: 'string'                                                                                            },
+      adminId:        {type: 'int',                                                     default: 1                               },
+      signupTs:       {type: 'int',                                     optional: true                                           },
+      description:    {type: 'string',                                  optional: true                                           },
+      capacity:       {type: 'int',                                                     default: 0                               },
+      pictureUrl:     {type: 'string',                                  optional: true                                           },
+      reputation:     {type: 'int',                                                     default: 0                               },
+      email:          {type: 'string',                                  optional: true                                           },
+      phone:          {type: 'string',                                  optional: true                                           },
+      timings:        {type: 'string',                                  optional: true, default: ManagerWeekTimings.intDayDefault},
+      imageUrls:      {type: 'GenericObject',                           optional: true                                           },
+      people:         {type: 'GenericObject',                           optional: true                                           },
+      address:        {type: 'GenericObject',                           optional: true                                           },
+      connections:    {type: 'LocationConnections',                     optional: true                                           }
     }
   }
 }
