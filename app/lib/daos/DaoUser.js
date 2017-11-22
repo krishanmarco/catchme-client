@@ -16,8 +16,8 @@ export default class DaoUser {
   static pEmail = 'email';
   static pApiKey = 'apiKey';
   static pGender = 'gender';
-  static pSettingPrivacy = 'privacy';
-  static pSettingNotifications = 'settingsNotifications';
+  static pSettingPrivacy = 'settingPrivacy';
+  static pSettingNotifications = 'settingNotifications';
   static pAdminLocations = 'adminLocations';
   static pConnections = 'connections';
   static pLocations = 'locations';

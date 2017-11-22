@@ -201,13 +201,13 @@ class ApiClient {
         .then(json => JSON.parse(json));
   }
 
-  userProfileEdit(userData, filepath = null) {
+  userProfileEdit(userData, filePath = null) {
     const formData = Object.keys(userData)
         .map(key => ({name: key, data: userData[key]}));
 
-    if (filepath != null) {
+    if (filePath != null) {
       const n = seconds().toString();
-      formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filepath)});
+      formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filePath)});
     }
 
     return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
@@ -242,13 +242,13 @@ class ApiClient {
     return this._get(`${Urls.api}/user/locations/favorites/del/${locationId}`);
   }
 
-  userLocationsAdminEditLid(locationData, filepath = null) {
+  userLocationsAdminEditLid(locationData, filePath = null) {
     const formData = Object.keys(locationData)
         .map(key => ({name: key, data: locationData[key]}));
 
-    if (filepath != null) {
+    if (filePath != null) {
       const n = seconds().toString();
-      formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filepath)});
+      formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filePath)});
     }
 
     const url = `${Urls.api}/user/locations/administrating/edit/${DaoLocation.gId(locationData)}`;
