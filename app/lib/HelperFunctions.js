@@ -143,3 +143,7 @@ export function isFunction(functionToCheck) {
   let getType = {};
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
 }
+
+export function mergeWithoutExtend(a, b) {
+  return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
+}

@@ -54,7 +54,7 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
     };
   }
 
-  _getUserProfileValueFromState() {
+  _getSettingNotificationsAsString() {
     return [
       boolToString(this.state.friendshipRequestOn),
       boolToString(this.state.friendActionsOn),
@@ -65,12 +65,8 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
   setStateAndPost(newState) {
     // Update the state
     this.setState(newState, () => {
-
-      // Send the update to the Web service
-      ApiClient.userProfileEdit({
-        [DaoUser.pSettingNotifications]: this._getUserProfileValueFromState()
-      }).then(userProfile => this.setState(this._getStateValuesFromUserProfile(userProfile)));
-
+      const newSettings = this._getSettingNotificationsAsString();
+      this.props.onSettingNotificationsChanged(newSettings);
     });
   }
 

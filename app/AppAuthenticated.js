@@ -7,6 +7,7 @@ import {Colors, Const} from './Config';
 import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import ReduxThunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise-middleware';
 import ReduxReducer from './redux/Reducers';
 
 import DaoUser from "./lib/daos/DaoUser";
@@ -52,7 +53,7 @@ export default function run(authenticatedUser) {
 
 
 
-  const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk));
+  const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk, promiseMiddleware()));
 
   [
 

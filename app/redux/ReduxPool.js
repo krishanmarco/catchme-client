@@ -7,7 +7,7 @@ import DaoUser from "../lib/daos/DaoUser";
 import DaoLocation from "../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../lib/helpers/ManagerWeekTimings";
 import _ from 'lodash';
-import {denormObj, seconds} from '../lib/HelperFunctions';
+import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
 import {Const} from "../Config";
 import DaoUserLocationStatus from "../lib/daos/DaoUserLocationStatus";
 
@@ -327,10 +327,11 @@ const ReduxPoolBuilder = {
           // null the next request will not be processed because we know
           // that one has already been sent out
           if (!promiseResolved) {
-            dispatch({
+            return dispatch({
               poolType: POOL_TYPE_CACHE,
               poolId: poolId,
               type: POOL_ACTION_CACHE_INIT_DATA,
+              payload: new Promise((resolve, reject) => resolve(loadingPromise)),
               loadingPromise: loadingPromise
             });
           }
@@ -559,7 +560,7 @@ const ReduxPoolBuilder = {
         post: (extraParams) => dispatch((dispatch, getState) => {
 
           let formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
-
+          console.log("posting", formInput);
           dispatch({
             poolType: POOL_TYPE_API_FORMS,
             poolId: poolId,
@@ -625,7 +626,7 @@ const ReduxPoolBuilder = {
 
     poolActions: {
       [POOL_ACTION_API_FORMS_ON_CHANGE]: (action, subState) => ({
-        apiInput: _.merge(subState.apiInput, action.apiInput),
+        apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
         validationError: action.validationError
       }),
       [POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) => (
@@ -738,7 +739,7 @@ const ReduxPoolBuilder = {
 
     poolActions: {
       [POOL_ACTION_LOCAL_FORMS_ON_CHANGE]: (action, subState) => ({
-        input: _.merge(subState.input, action.input),
+        input: mergeWithoutExtend(subState.input, action.input),
         validationError: action.validationError
       }),
       [POOL_ACTION_LOCAL_FORMS_ON_RESET]: (action, subState) => (
