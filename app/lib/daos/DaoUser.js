@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {Const} from '../../Config';
 import ObjectCache from "../helpers/ObjectCache";
 import DaoLocation from "./DaoLocation";
+import Maps from "../data/Maps";
 
 
 export default class DaoUser {
@@ -14,11 +15,12 @@ export default class DaoUser {
   static pPhone = 'phone';
   static pEmail = 'email';
   static pApiKey = 'apiKey';
-  static pSettingPrivacy = 'privacy';
-  static pSettingNotifications = 'settingsNotifications';
+  static pGender = 'gender';
+  static pSettingPrivacy = 'settingPrivacy';
+  static pSettingNotifications = 'settingNotifications';
+  static pAdminLocations = 'adminLocations';
   static pConnections = 'connections';
   static pLocations = 'locations';
-  static pAdminLocations = 'adminLocations';
   static pConnectionFriends = `${DaoUser.pConnections}.friends`;
   static pConnectionRequests = `${DaoUser.pConnections}.requests`;
   static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
@@ -33,6 +35,35 @@ export default class DaoUser {
   static _pConnectionRequestIds = `${DaoUser._pConnectionIds}.requests`;
   static _pConnectionBlockedIds = `${DaoUser._pConnectionIds}.blocked`;
   static _pLocationFavoriteIds = `${DaoUser._pLocationIds}.favorites`;
+  
+  
+  static shallowCopy(user) {
+    const newUser = {};
+    _.set(newUser, DaoUser.pId, DaoUser.gId(user));
+    _.set(newUser, DaoUser.pPictureUrl, DaoUser.gPictureUrl(user));
+    _.set(newUser, DaoUser.pName, DaoUser.gName(user));
+    _.set(newUser, DaoUser.pReputation, DaoUser.gReputation(user));
+    _.set(newUser, DaoUser.pPublicMessage, DaoUser.gPublicMessage(user));
+    _.set(newUser, DaoUser.pPhone, DaoUser.gPhone(user));
+    _.set(newUser, DaoUser.pEmail, DaoUser.gEmail(user));
+    _.set(newUser, DaoUser.pApiKey, DaoUser.gApiKey(user));
+    _.set(newUser, DaoUser.pSettingPrivacy, DaoUser.gSettingPrivacy(user));
+    _.set(newUser, DaoUser.pSettingNotifications, DaoUser.gSettingNotifications(user));
+    _.set(newUser, DaoUser.pAdminLocations, DaoUser.gAdminLocations(user));
+    _.set(newUser, DaoUser.pConnectionFriends, DaoUser.gConnectionsFriends(user));
+    _.set(newUser, DaoUser.pConnectionRequests, DaoUser.gConnectionsRequests(user));
+    _.set(newUser, DaoUser.pConnectionBlocked, DaoUser.gConnectionsBlocked(user));
+    _.set(newUser, DaoUser.pLocationsFavorite, DaoUser.gLocationsFavorite(user));
+    _.set(newUser, DaoUser.pLocationsTop, DaoUser.gLocationsTop(user));
+    _.set(newUser, DaoUser.pLocationsPast, DaoUser.gLocationsPast(user));
+    _.set(newUser, DaoUser.pLocationsNow, DaoUser.gLocationsNow(user));
+    _.set(newUser, DaoUser.pLocationsFuture, DaoUser.gLocationsFuture(user));
+    // Private fields (_) will have to be recalculated...
+    return newUser;
+  }
+  
+  
+  
 
 
   static gId(user) {
@@ -68,11 +99,15 @@ export default class DaoUser {
   }
 
   static gSettingPrivacy(user) {
-    return _.get(user, DaoUser.pSettingPrivacy, '33333');
+    return _.get(user, DaoUser.pSettingPrivacy, Const.DaoUser.defaultPrivacySettings);
   }
 
   static gSettingNotifications(user) {
-    return _.get(user, DaoUser.pSettingNotifications, '111');
+    return _.get(user, DaoUser.pSettingNotifications, Const.DaoUser.defaultNotificationSettings);
+  }
+
+  static gGender(user) {
+    return _.get(user, DaoUser.pGender, Maps.genderDefault().value);
   }
 
   static gConnections(user) {
@@ -89,6 +124,14 @@ export default class DaoUser {
 
   static gConnectionsFriends(user) {
     return _.get(user, DaoUser.pConnectionFriends, []);
+  }
+
+  static gConnectionsRequests(user) {
+    return _.get(user, DaoUser.pConnectionRequests, []);
+  }
+
+  static gConnectionsBlocked(user) {
+    return _.get(user, DaoUser.pConnectionBlocked, []);
   }
 
   static gLocationsFavorite(user) {
@@ -164,14 +207,5 @@ export default class DaoUser {
   }
 
 
-
-  static gReputationIcon(user) {
-    const ur = DaoUser.gReputation(user);
-    return Const.DaoUser.reputationIcons.filter(r => r.rep > ur)[0].icon;
-  }
-
-  static gGenderIcon(user) {
-
-  }
 
 }

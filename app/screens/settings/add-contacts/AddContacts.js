@@ -75,7 +75,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
     }).filter(s => s.length > 0);
 
-    console.log(searchStrings);
+    
     // Query the WS for all the users in the searchString
     ApiClient.searchUsers(searchStrings)
         .then(users => {

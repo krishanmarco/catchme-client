@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+// @flow
 import React from 'react';
 
 import {Dimensions, View, Text, StyleSheet} from 'react-native';
@@ -7,7 +8,6 @@ import {TabViewAnimated, TabViewPagerPan, TabBar, SceneMap} from 'react-native-t
 
 import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
-
 
 
 // Config *************************************************************************************************
@@ -31,16 +31,10 @@ const Styles = StyleSheet.create({
 });
 
 
-
-
 // TabBar *************************************************************************************************
 // TabBar *************************************************************************************************
 
-export default class TabBarView extends React.Component {
-
-  // Empty react component
-  static Tab = ({icon, children}) => null;
-
+export default class TabBarView extends React.PureComponent {
 
   constructor(props, context) {
     super(props, context);
@@ -49,19 +43,9 @@ export default class TabBarView extends React.Component {
     // Initialize the state
     this.state = {
       index: 0,
-
-      // Important, key has to be a string or you get an invalid Prop warning
-      routes: this._getChildren(props).map((tab, key) => ({key: key.toString()}))
+      routes: props.tabs
     };
   }
-
-
-  _getChildren(props = this.props) {
-    return Array.isArray(props.children)
-        ? props.children
-        : [props.children];
-  }
-
 
 
   _handleIndexChange(index) {
@@ -86,17 +70,18 @@ export default class TabBarView extends React.Component {
 
             navigationState={this.state}
 
-            renderScene={({route}) => this._getChildren()[parseInt(route.key)].props.children}
+            renderScene={({route}) => this.props.renderScene(route.key)}
             renderHeader={!this.props.footer ? (props) => this._renderTabBar(props) : null}
             renderFooter={this.props.footer ? (props) => this._renderTabBar(props) : null}
-            onIndexChange={this._handleIndexChange}/>
+            onIndexChange={this._handleIndexChange}
+            useNativeDriver
+        />
     );
   }
 
 
-
-  _renderIcon(routeKey) {
-    let icon = this._getChildren()[routeKey].props.icon;
+  _renderIcon(routeKey: string) {
+    let icon = this.state.routes.find(r => r.key == routeKey).icon;
 
     if (icon == null)
       return null;
@@ -109,8 +94,8 @@ export default class TabBarView extends React.Component {
     )
   }
 
-  _renderText(routeKey) {
-    let text = this._getChildren()[routeKey].props.text;
+  _renderText(routeKey: string) {
+    let text = this.state.routes.find(r => r.key == routeKey).text;
 
     if (text == null)
       return null;
@@ -127,8 +112,8 @@ export default class TabBarView extends React.Component {
             style={Styles.tabBar}
             tabStyle={{backgroundColor: Colors.white}}
             indicatorStyle={{height: 1, backgroundColor: Colors.primary}}
-            renderLabel={({route}) => this._renderText(parseInt(route.key))}
-            renderIcon={({route}) => this._renderIcon(parseInt(route.key))}/>
+            renderLabel={({route}) => this._renderText(route.key)}
+            renderIcon={({route}) => this._renderIcon(route.key)}/>
     );
   }
 

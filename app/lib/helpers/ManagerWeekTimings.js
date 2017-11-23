@@ -37,7 +37,8 @@ import ObjectCache from "./ObjectCache";
 //   [ [0, 3], [5, 8] ]                       // idx(5) -> Sunday
 // ]
 export default class ManagerWeekTimings {
-  static boolDayDefault = new Array(24).fill().map(i => false);
+  static intDayDefault = new Array(24).fill().map(i => false);
+  static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => false);
 
   static buildFromLocation(location) {
     return ObjectCache.get(location, 'ManagerWeekTimings',

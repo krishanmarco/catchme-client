@@ -307,8 +307,7 @@ const ReduxPoolBuilder = {
                 return buildResultData;
 
               }).catch(apiExceptionResponse => {
-
-                console.log(apiExceptionResponse);
+                console.log("ReduxPool POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
 
                 /* todo: remove comment after development
                 dispatch({
@@ -468,7 +467,7 @@ const ReduxPoolBuilder = {
                 return buildResultData;
               })
               .catch(apiExceptionResponse => {
-                console.log(apiExceptionResponse);
+                console.log("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
 
                 dispatch({
                   poolType: POOL_TYPE_CACHE_MAP,
@@ -669,7 +668,8 @@ const ReduxPoolBuilder = {
       [FORM_API_ID_EDIT_USER_PROFILE]: {
         post: (d, i) => ApiClient.userProfileEdit(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
-          [DaoUser.pSettingPrivacy]: '33333',
+          [DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
+          [DaoUser.pSettingNotifications]: Const.DaoUser.defaultNotificationSettings,
           [DaoUser.pPictureUrl]: '',
           [DaoUser.pPhone]: '',
           [DaoUser.pEmail]: '',

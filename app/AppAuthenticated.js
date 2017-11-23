@@ -46,8 +46,7 @@ export default function run(authenticatedUser) {
         return firebase.auth().signInWithCustomToken(jwt)
       })
       .catch(exception => {
-        console.log("AppAuthenticated _: Failed to login to firebase");
-        console.log(exception);
+        console.log("AppAuthenticated _: Failed to login to firebase: ", exception);
       });
 
 
@@ -89,7 +88,7 @@ export default function run(authenticatedUser) {
         passProps: {userId: DaoUser.gId(authenticatedUser)},
         title: DaoUser.gName(authenticatedUser),
         navigatorStyle: {}
-      },
+      }/*,
       {
         icon: require('./assets/icons/americanExpressIcon.png'),
         selectedIcon: require('./assets/icons/masterCardIcon.png'),
@@ -103,7 +102,7 @@ export default function run(authenticatedUser) {
         screen: Const.NavigationComponents.ScreenUserFeed,
         title: 'Feed',
         navigatorStyle: {}
-      }
+      }*/
     ],
     tabsStyle: {
       initialTabIndex: 0,

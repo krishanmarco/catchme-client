@@ -7,16 +7,29 @@ import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
 export default class StaticSectionList extends React.PureComponent {
 
+  constructor(props, context) {
+    super(props, context);
+    this._keyExtractor = this._keyExtractor.bind(this);
+  }
+
+
+  _keyExtractor(item, index) {
+    if (this.props.keyExtractor)
+      return this.props.keyExtractor(item, index);
+
+    return index;
+  }
+
 
   render() {
 
     return (
-        <SectionList
-            sections={this.props.sections}
-            renderItem={this.props.renderItem}
-            keyExtractor={(item, index) => index}
-            renderSectionHeader={this._renderHeader}
-        />
+          <SectionList
+              sections={this.props.sections}
+              renderItem={this.props.renderItem}
+              keyExtractor={this._keyExtractor}
+              renderSectionHeader={this._renderHeader}
+          />
     );
   }
 

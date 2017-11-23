@@ -13,19 +13,24 @@ class ScreenUserProfilePresentational extends React.Component {
 
   componentWillMount() {
 
+    // Initialize the logged in user profile
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
+    // Initialize the profile of the user that is being viewed
     this.props[CACHE_MAP_ID_USER_PROFILES].initializeItem(this.props.userId);
         //.then(userProfile => this.navigator.setTitle({title: DaoUser.gName(userProfile)}))
 
   }
 
-  _userProfile() {
-    return this.props[CACHE_MAP_ID_USER_PROFILES].get(this.props.userId);
-  }
-
   _authenticatedUserProfile() {
     return this.props[CACHE_ID_USER_PROFILE].data;
+  }
+
+  _userProfile() {
+    if (this.props.userId === DaoUser.gId(this._authenticatedUserProfile()))
+      return this._authenticatedUserProfile();
+
+    return this.props[CACHE_MAP_ID_USER_PROFILES].get(this.props.userId);
   }
 
   render() {

@@ -13,6 +13,7 @@ import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInp
 import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";
 import {AvatarCircle} from "../../../comp/misc/Avatars";
+import Maps from "../../../lib/data/Maps";
 
 
 // Redux ************************************************************************************************
@@ -170,16 +171,20 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
 
   _renderPrivacySection() {
+    const privacyAll = Maps.privacyOptions();
+    const privacySub = Maps.privacyOptions();
+    delete privacySub[1];
+    
     return (
         <View>
           <ListItemHeader name='Privacy'/>
           <View style={Styles.content}>
             {[
-              {title: 'My previous location', options: Const.SettingsUserAccount.privacyMeFriendsEveryone},
-              {title: 'My current location', options: Const.SettingsUserAccount.privacyFriendsEveryone},
-              {title: 'My next location', options: Const.SettingsUserAccount.privacyMeFriendsEveryone},
-              {title: 'My email', options: Const.SettingsUserAccount.privacyMeFriendsEveryone},
-              {title: 'My phone number', options: Const.SettingsUserAccount.privacyMeFriendsEveryone}
+              {title: 'My previous location',   options: privacyAll},
+              {title: 'My current location',    options: privacySub},
+              {title: 'My next location',       options: privacyAll},
+              {title: 'My email',               options: privacyAll},
+              {title: 'My phone number',        options: privacyAll}
             ].map((data, key) => (
                 <RkMultiChoice
                     key={key}

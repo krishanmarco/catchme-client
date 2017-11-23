@@ -64,7 +64,6 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
   _onSaveTimings() {
     const weekBoolTimings = this.refs[EditLocationTimingsPresentational.refWeekTimingsList].getTimings();
     const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
-    console.log(weekStrTimings);
   }
 
 

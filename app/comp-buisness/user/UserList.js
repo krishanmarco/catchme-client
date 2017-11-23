@@ -20,6 +20,7 @@ export default class UserList extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
     this._filterExtractor = this._filterExtractor.bind(this);
+    this._renderItem = this._renderItem.bind(this);
   }
 
 
@@ -38,18 +39,18 @@ export default class UserList extends React.PureComponent {
             {...searchableFlatListProps}
 
             data={users}
-            keyExtractor={(item, index) => DaoUser.gId(item)}
-            renderItem={({item}) => this._renderItem(item)}
+            keyExtractor={DaoUser.gId}
+            renderItem={this._renderItem}
 
             searchPlaceholder='Search by name, email or phone'
             filterExtractor={this._filterExtractor}
         />
+
     );
   }
 
 
-
-  _renderItem(user) {
+  _renderItem({item: user}) {
     let {friendIds, requestIds, blockedIds, onItemPress} = this.props;
     let listItemProps = {user: user, onPress: onItemPress};
 

@@ -5,38 +5,49 @@ import {AvatarCircle} from './Avatars';
 import {Col, Row, Grid} from "react-native-easy-grid";
 
 
-import {View, ScrollView} from 'react-native';
+import {View, ScrollView, StyleSheet} from 'react-native';
 import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 
 
 
 
-let styles = RkStyleSheet.create(theme => ({
+let styles = StyleSheet.create({
   header: {
+    marginTop: 24,
     paddingHorizontal: 12,
     marginBottom: 16,
+    alignItems: 'center'
+  },
+  publicMessage: {
+    marginTop: 12,
+    paddingHorizontal: 16
+  },
+  badges: {
+    marginTop: 24
   }
-}));
-// {marginTop: -32, justifyContent: 'center'}
+});
 
 const AvatarDescription = ({avatar, content, badges, maxHeight, style}) => (
-    <Grid style={[styles.header, style]}>
-      <Col size={50}>
-        <AvatarCircle uri={avatar} rkType='big'/>
-      </Col>
+    <ScrollView>
+      <Grid style={[styles.header, style]}>
+        <Row>
+          <AvatarCircle uri={avatar} rkType='huge'/>
+        </Row>
 
-      <Col size={100} style={{marginTop: 4}}>
-        <View>
-          <RkText rkType='primary4'>{content} {content}</RkText>
-          <Grid style={{marginTop: 4}}>
-            <Row>
-              {badges.map((b, k) => <Icon key={k} style={{marginRight: 8}} size={24} {...b}/>)}
-            </Row>
-          </Grid>
-        </View>
-      </Col>
-    </Grid>
+        <Row style={[styles.publicMessage]}>
+          <RkText rkType='primary1 hint'>{content}</RkText>
+        </Row>
+
+        <Row style={[styles.badges]}>
+          {badges.map((b, k) => (
+              <Col key={k}>
+                <Icon style={{marginRight: 8}} size={50} {...b}/>
+              </Col>
+          ))}
+        </Row>
+      </Grid>
+    </ScrollView>
 );
 
 AvatarDescription.defaultProps = {

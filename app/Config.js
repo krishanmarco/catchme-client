@@ -121,14 +121,8 @@ export const Const = {
 
 
   DaoUser: {
-    reputationIcons: [
-      {metaName: 'JOE', rep: 200, icon: Icons.friendRequestAccept},
-      {metaName: 'DUDE', rep: 800, icon: Icons.friendRequestAccept},
-      {metaName: 'HERO', rep: 3200, icon: Icons.friendRequestAccept},
-      {metaName: 'VIP', rep: 12800, icon: Icons.friendRequestAccept},
-      {metaName: 'CATCHER', rep: 51200, icon: Icons.friendRequestAccept},
-      {metaName: 'SU', rep: Infinity, icon: Icons.friendRequestAccept},
-    ],
+    defaultPrivacySettings: '22222',
+    defaultNotificationSettings: '111'
   },
 
 
@@ -155,20 +149,6 @@ export const Const = {
       GoToUserProfile: 'GoToUserProfile',
     }
   },
-
-
-  SettingsUserAccount: {
-    privacyMeFriendsEveryone: [
-      {label: 'Only me', value: '0'},
-      {label: 'My friends', value: '1'},
-      {label: 'Everyone', value: '2'},
-    ],
-    privacyFriendsEveryone: [
-      {label: 'My friends', value: '1'},
-      {label: 'Everyone', value: '2'},
-    ],
-  }
-
 
 };
 

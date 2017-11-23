@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,10 +10,10 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
-import {Text, FlatList, View} from 'react-native';
+import {Text, FlatList, View, Dimensions} from 'react-native';
 
 import AvatarDescription from '../../comp/misc/AvatarDescription';
-import TabBar from '../../comp/misc/TabBar';
+// import TabBar from '../../comp/misc/TabBar';
 import ListDataPoints from '../../comp/misc/ListDataPoints';
 
 import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
@@ -29,6 +30,9 @@ import Router from "../../lib/helpers/Router";
 import UserProfileInfoItems from '../../lib/user/UserProfileInfoItems';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import DefaultTabBar from '../../comp/misc/tab-view/DefaultTabBar';
+import Maps from "../../lib/data/Maps";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -87,6 +91,9 @@ class UserProfilePresentational extends React.Component {
     this._onTabSwitch = this._onTabSwitch.bind(this);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
+    this._renderTabBarScene = this._renderTabBarScene.bind(this);
+    this._renderCustomTabBar = this._renderCustomTabBar.bind(this);
+    this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
     this._initializeState();
   }
 
@@ -104,9 +111,17 @@ class UserProfilePresentational extends React.Component {
   }
 
 
-  _navigator() { return this.props.navigator; }
-  _userProfile() { return this.props.userProfile; }
-  _authenticatedUserProfile() { return this.props.authenticatedUserProfile; }
+  _navigator() {
+    return this.props.navigator;
+  }
+
+  _userProfile() {
+    return this.props.userProfile;
+  }
+
+  _authenticatedUserProfile() {
+    return this.props.authenticatedUserProfile;
+  }
 
   _onLocationPress(location) {
     Router.toLocationProfile(this._navigator(), location);
@@ -122,81 +137,117 @@ class UserProfilePresentational extends React.Component {
 
 
   _onTabSwitch(tabIndex) {
+    /*
+        if (tabIndex == 0 && !this.props.headerDragEnabled) {
+          // The first tab has been selected and the previous headerDragEnabled
+          // state is different than what is expected at tab 0
 
-    if (tabIndex == 0 && !this.props.headerDragEnabled) {
-      // The first tab has been selected and the previous headerDragEnabled
-      // state is different than what is expected at tab 0
+          // Snap the header to the bottom and enable interactions
+          this.props.setHeaderDragEnabled(true);
+          this.refs[UserProfile.refCollapsingHeader].snapToBottom();
+          return;
+        }
 
-      // Snap the header to the bottom and enable interactions
-      this.props.setHeaderDragEnabled(true);
-      this.refs[UserProfile.refCollapsingHeader].snapToBottom();
-      return;
-    }
+        if (tabIndex > 0 && this.props.headerDragEnabled) {
+          // The second, third or fourth tab have been selected and the previous
+          // headerDragEnabled is different than what is expected at tab > 0
 
-    if (tabIndex > 0 && this.props.headerDragEnabled) {
-      // The second, third or fourth tab have been selected and the previous
-      // headerDragEnabled is different than what is expected at tab > 0
-
-      // Snap the header to the top and disable interactions
-      this.props.setHeaderDragEnabled(false);
-      this.refs[UserProfile.refCollapsingHeader].snapToTop();
-    }
+          // Snap the header to the top and disable interactions
+          this.props.setHeaderDragEnabled(false);
+          this.refs[UserProfile.refCollapsingHeader].snapToTop();
+        }
+        */
   }
+
+  /*
+    render() {
+      return (
+          <CollapsingHeaderWithScroll
+              ref={UserProfile.refCollapsingHeader}
+
+              dragEnabled={this.props.headerDragEnabled}
+
+              headerHeight={150}    // Dynamic calculation??
+              contentHeight={555}   // Screen - NavigationBar - TabBarTop - TabBarBottom
+              contentBackgroundColor={Colors.background}
+
+              header={this._renderTabProfileHeader()}
+              interactable={this._renderTabBar()}/>
+      );
+    }
+    */
 
 
   render() {
+    const tabs = [];
+
+    tabs.push(this._renderTab('0', this._renderProfileHeader()));
+    tabs.push(this._renderTab('1', this._renderTabUserLocations()));
+    tabs.push(this._renderTab('2', this._renderTabUserFriends()));
+
+    if (this.state.userInfoSections.length > 0)
+      tabs.push(this._renderTab('3', this._renderTabUserInfo()));
+
     return (
-        <CollapsingHeaderWithScroll
-            ref={UserProfile.refCollapsingHeader}
-
-            dragEnabled={this.props.headerDragEnabled}
-
-            headerHeight={150}    // Dynamic calculation??
-            contentHeight={555}   // Screen - NavigationBar - TabBarTop - TabBarBottom
-            contentBackgroundColor={Colors.background}
-
-            header={this._renderProfileHeader()}
-            interactable={this._renderTabBar()}/>
+        <ScrollableTabView
+            scrollWithoutAnimation={true}
+            renderTabBar={(props) => this._renderCustomTabBar(props)}>
+          {tabs}
+        </ScrollableTabView>
     );
   }
 
-
-  _renderTabBar() {
-    const tabs = [];
-
-    tabs.push(<TabBar.Tab key={0} icon={Icons.friendRequestAccept}>{this._renderTabUserLocations()}</TabBar.Tab>);
-    tabs.push(<TabBar.Tab key={1} icon={Icons.friendRequestAccept}>{this._renderTabUserFriends()}</TabBar.Tab>);
-
-
-    if (this.state.userInfoSections.length > 0)
-      tabs.push(<TabBar.Tab key={2} icon={Icons.friendRequestAccept}>{this._renderTabUserInfo()}</TabBar.Tab>);
-
+  _renderCustomTabBar(props) {
     return (
-        <Grid>
-          <Row>
-            <TabBar onTabChange={this._onTabSwitch}>
-              {tabs}
-            </TabBar>
-          </Row>
-        </Grid>
+        <DefaultTabBar
+            {...props}
+            icons={[
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+            ]}/>
     );
+  }
+
+  _renderTab(tabLabel, jsx) {
+    return (
+        <View
+            key={tabLabel}
+            tabLabel={tabLabel}
+            style={{paddingVertical: 8, height: 440}}>
+          {jsx}
+        </View>
+    );
+  }
+
+  _renderTabBarScene(sceneKey: string) {
+    sceneKey = parseInt(sceneKey);
+    switch (sceneKey) {
+      case 0:
+        return this._renderProfileHeader();
+      case 1:
+        return this._renderTabUserLocations();
+      case 2:
+        return this._renderTabUserFriends();
+      case 3:
+        return this._renderTabUserInfo();
+      default:
+        return null;
+    }
   }
 
   _renderProfileHeader() {
     let userProfile = this._userProfile();
 
     return (
-        <Grid style={{marginTop: 16}}>
-          <Row>
-            <AvatarDescription
-                avatar={DaoUser.gPictureUrl(userProfile)}
-                content={DaoUser.gPublicMessage(userProfile)}
-                badges={[
-                  DaoUser.gGenderIcon(userProfile),
-                  DaoUser.gReputationIcon(userProfile)
-                ]}/>
-          </Row>
-        </Grid>
+        <AvatarDescription
+            avatar={DaoUser.gPictureUrl(userProfile)}
+            content={DaoUser.gPublicMessage(userProfile)}
+            badges={[
+              Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
+              Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
+            ]}/>
     );
   }
 
@@ -224,11 +275,15 @@ class UserProfilePresentational extends React.Component {
     return (
         <StaticSectionList
             sections={this.state.userInfoSections}
-            renderItem={({item}) => (
-                <ListItemInfo
-                    onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._navigator())}
-                    {...item}/>
-            )}/>
+            renderItem={this._renderTabUserInfoItem}/>
+    );
+  }
+
+  _renderTabUserInfoItem({item}) {
+    return (
+        <ListItemInfo
+            onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._navigator())}
+            {...item}/>
     );
   }
 

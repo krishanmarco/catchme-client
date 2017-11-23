@@ -42,15 +42,15 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
     this._onFriendshipRequestValueChange = this._onFriendshipRequestValueChange.bind(this);
     this._onFriendActionsValueChange = this._onFriendActionsValueChange.bind(this);
     this._onCatchmeSuggestionsValueChange = this._onCatchmeSuggestionsValueChange.bind(this);
-    this.state = this._getStateValuesFromUserProfile(props.userProfile);
+    this.state = this._getStateValuesFromUserProfile(props.authenticatedUserProfile);
   }
 
 
   _getStateValuesFromUserProfile(userProfile) {
     return {
       friendshipRequestOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[0]),
-      friendActionsOn:  stringToBool(DaoUser.gSettingNotifications(userProfile)[1]),
-      catchmeSuggestionsOn:  stringToBool(DaoUser.gSettingNotifications(userProfile)[2])
+      friendActionsOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[1]),
+      catchmeSuggestionsOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[2])
     };
   }
 
@@ -59,17 +59,19 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
       boolToString(this.state.friendshipRequestOn),
       boolToString(this.state.friendActionsOn),
       boolToString(this.state.catchmeSuggestionsOn)
-    ].join();
+    ].join('');
   }
 
   setStateAndPost(newState) {
     // Update the state
-    this.setState(newState);
+    this.setState(newState, () => {
 
-    // Send the update to the API
-    ApiClient.userProfileEdit({
-      [DaoUser.pSettingPrivacy]: this._getUserProfileValueFromState()
-    }).then(userProfile => this.setState(this._getStateValuesFromUserProfile(userProfile)));
+      // Send the update to the Web service
+      ApiClient.userProfileEdit({
+        [DaoUser.pSettingNotifications]: this._getUserProfileValueFromState()
+      }).then(userProfile => this.setState(this._getStateValuesFromUserProfile(userProfile)));
+
+    });
   }
 
   _onDisableAllValueChange(value) {
