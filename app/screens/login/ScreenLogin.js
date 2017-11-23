@@ -46,12 +46,11 @@ class ScreenLoginPresentational extends React.Component {
   }
 
   _handleSignInError(error = undefined) {
-    console.log("_handleSignInError!");
-    console.log(error);
+    console.log("_handleSignInError!: ", error);
     // todo
   }
 
-  _handleSignInSuccess(userProfile) { console.log(userProfile);
+  _handleSignInSuccess(userProfile) {
     if (DaoUser.gApiKey(userProfile) == null) {
       this._handleSignInError();
       return;

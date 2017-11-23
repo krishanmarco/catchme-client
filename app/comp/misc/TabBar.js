@@ -62,7 +62,7 @@ export default class TabBarView extends React.PureComponent {
   }
 
 
-  render() { console.log(this.state);
+  render() {
     return (
         <TabViewAnimated
             style={[Styles.container, this.props.style]}

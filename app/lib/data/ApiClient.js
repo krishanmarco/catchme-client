@@ -15,7 +15,7 @@ class ApiClient {
     this._get = this._get.bind(this);
     this._post = this._post.bind(this);
     this._postMultipart = this._postMultipart.bind(this);
-    this._onUserLogin = this._onUserLogin.bind(this);
+    this._onReceiveAuthenticatedUserProfile = this._onReceiveAuthenticatedUserProfile.bind(this);
   }
 
 
@@ -63,7 +63,7 @@ class ApiClient {
       return response.text()
           .then(json => {
             let apiException = JSON.parse(json);
-            console.log(apiException);
+            console.log('ApiClient _handleResponse: ', apiException);
             return Promise.reject(apiException);
           });
     }
@@ -140,7 +140,15 @@ class ApiClient {
               formData
           );
         })
-        .then(response => this._handleResponse(response, url, () => this._postMultipart(url, formData)));
+        .then(rnFetchResponse => {
+          // Map the RNFetchBlob answer to a normal fetch response
+          const response = {
+            // Add any parameters that _handleResponse may need in the response object
+            text: () => rnFetchResponse.text(),
+            status: rnFetchResponse.respInfo.status
+          };
+          return this._handleResponse(response, url, () => this._postMultipart(url, formData))
+        });
   }
 
 
@@ -156,7 +164,7 @@ class ApiClient {
 
 
 
-  _onUserLogin(userProfileJson) {
+  _onReceiveAuthenticatedUserProfile(userProfileJson) {
     return Promise.resolve(userProfileJson)
         .then(json => JSON.parse(json))
         .then(userData => {
@@ -167,38 +175,38 @@ class ApiClient {
 
   accountsRegister(formUserRegister) {
     return this._post(`${Urls.api}/accounts/register`, formUserRegister)
-        .then(this._onUserLogin);
+        .then(this._onReceiveAuthenticatedUserProfile);
   }
 
   accountsLogin(formUserLogin) {
     return this._post(`${Urls.api}/accounts/login`, formUserLogin)
-        .then(this._onUserLogin);
+        .then(this._onReceiveAuthenticatedUserProfile);
   }
 
   accountsLoginFacebook(accessToken) {
     return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
-        .then(this._onUserLogin);
+        .then(this._onReceiveAuthenticatedUserProfile);
   }
 
   accountsLoginGoogle(accessToken) {
     return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
-        .then(this._onUserLogin);
+        .then(this._onReceiveAuthenticatedUserProfile);
   }
 
   accountsLoginTwitter(accessToken) {
     return this._post(`${Urls.api}/accounts/login/twitter`, {token: accessToken})
-        .then(this._onUserLogin);
+        .then(this._onReceiveAuthenticatedUserProfile);
   }
 
 
-
-  userFirebaseJwt() {
-    return this._get(`${Urls.api}/user/firebase-jwt`);
-  }
 
   userProfile() {
     return this._get(Urls.api + '/user/profile')
-        .then(json => JSON.parse(json));
+        .then(this._onReceiveAuthenticatedUserProfile);
+  }
+
+  userFirebaseJwt() {
+    return this._get(`${Urls.api}/user/firebase-jwt`);
   }
 
   userProfileEdit(userData, filePath = null) {

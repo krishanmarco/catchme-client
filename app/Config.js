@@ -121,7 +121,7 @@ export const Const = {
 
 
   DaoUser: {
-    defaultPrivacySettings: '33333',
+    defaultPrivacySettings: '22222',
     defaultNotificationSettings: '111'
   },
 

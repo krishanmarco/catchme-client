@@ -239,7 +239,6 @@ class UserProfilePresentational extends React.Component {
 
   _renderProfileHeader() {
     let userProfile = this._userProfile();
-    console.log(userProfile);
 
     return (
         <AvatarDescription

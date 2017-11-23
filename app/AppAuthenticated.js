@@ -46,8 +46,7 @@ export default function run(authenticatedUser) {
         return firebase.auth().signInWithCustomToken(jwt)
       })
       .catch(exception => {
-        console.log("AppAuthenticated _: Failed to login to firebase");
-        console.log(exception);
+        console.log("AppAuthenticated _: Failed to login to firebase: ", exception);
       });
 
 

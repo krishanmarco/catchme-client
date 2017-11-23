@@ -25,7 +25,7 @@ export class SignInGoogle {
   }
 
 
-  static gAccessToken(data) { console.log(data);
+  static gAccessToken(data) {
     return _.get(data, SignInGoogle.pAccessToken, '');
   }
 
