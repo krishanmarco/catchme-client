@@ -37,6 +37,10 @@ export function stringToBool(str) {
   return str == '1';
 }
 
+export function stringReplace(string, index, replacement) {
+  return string.substr(0, index) + replacement+ string.substr(index + replacement.length);
+}
+
 export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
   // For each word in the searchWords check if
   // the matchString contains that word

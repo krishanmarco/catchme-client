@@ -267,7 +267,6 @@ const ReduxPoolBuilder = {
         }),
 
         initialize: (extraParams) => dispatch((dispatch, getState) => {
-
           // If the data is already set (or is about to be set [loadingPromise != null]) there is
           // no need to run the request again.
 
@@ -283,8 +282,9 @@ const ReduxPoolBuilder = {
             return reduxPoolCache.loadingPromise;
           }
 
-          if (reduxPoolCache.data !== null)
+          if (reduxPoolCache.data !== null) {
             return Promise.resolve(reduxPoolCache.data);
+          }
 
 
           // resolved promise flag
@@ -326,17 +326,15 @@ const ReduxPoolBuilder = {
           // Save loadingPromise to the state, this way, even if [data] is
           // null the next request will not be processed because we know
           // that one has already been sent out
-          if (!promiseResolved) {
-            return dispatch({
-              poolType: POOL_TYPE_CACHE,
-              poolId: poolId,
-              type: POOL_ACTION_CACHE_INIT_DATA,
-              payload: new Promise((resolve, reject) => resolve(loadingPromise)),
-              loadingPromise: loadingPromise
-            });
-          }
+          return dispatch({
+            poolType: POOL_TYPE_CACHE,
+            poolId: poolId,
+            type: POOL_ACTION_CACHE_INIT_DATA,
+            payload: loadingPromise,
+            loadingPromise: loadingPromise
+          });
 
-          return loadingPromise;
+
         })
 
       })
@@ -560,7 +558,6 @@ const ReduxPoolBuilder = {
         post: (extraParams) => dispatch((dispatch, getState) => {
 
           let formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
-          console.log("posting", formInput);
           dispatch({
             poolType: POOL_TYPE_API_FORMS,
             poolId: poolId,
@@ -569,8 +566,6 @@ const ReduxPoolBuilder = {
 
 
           return pool.post(
-              // Redux Dispatch Function
-              dispatch,
 
               // data
               formInput,
@@ -578,7 +573,13 @@ const ReduxPoolBuilder = {
               // Some post methods like ApiClient.resetPassword
               // require extra parameters that are passed in through
               // this extra nullable object
-              extraParams
+              extraParams,
+
+              // Redux Dispatch Function
+              dispatch,
+
+              // Redux state Function
+              getState
           )
 
               .then(apiResponse => {
@@ -651,14 +652,14 @@ const ReduxPoolBuilder = {
 
     pools: {
       [FORM_API_ID_LOGIN]: {
-        post: (d, i) => ApiClient.accountsLogin(i),
+        post: (i, e, d, s) => ApiClient.accountsLogin(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_LOGIN, {
-          email: 'krishanmarco@outlook.com',
+          email: 'krishanmarco@outlook.com',  // todo remove
           password: 'MomrpdrbrM93'
         })
       },
       [FORM_API_ID_REGISTER]: {
-        post: (d, i) => ApiClient.accountsRegister(i),
+        post: (i) => ApiClient.accountsRegister(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_REGISTER, {
           name: '',
           email: '',
@@ -667,7 +668,28 @@ const ReduxPoolBuilder = {
         })
       },
       [FORM_API_ID_EDIT_USER_PROFILE]: {
-        post: (d, i) => ApiClient.userProfileEdit(i),
+        post: (i, e, dispatch) => {
+          // Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
+          const poolTypeCache = ReduxPoolBuilder[POOL_TYPE_CACHE];
+          const poolTypeApiForms = ReduxPoolBuilder[POOL_TYPE_API_FORMS];
+
+          // Get CACHE_ID_USER_PROFILE and FORM_API_ID_EDIT_USER_PROFILE pool
+          const cacheUserProfile = poolTypeCache.pools[CACHE_ID_USER_PROFILE];
+          const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
+
+          // Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
+          const userProfileActions = poolTypeCache.poolConnect
+              .mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
+          const userProfileFormActions = poolTypeApiForms.poolConnect
+              .mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
+
+
+          // Post and invalidate CACHE_ID_USER_PROFILE
+          return ApiClient.userProfileEdit(i)
+              .then(() => dispatch(() => userProfileActions.invalidate()))
+              .then(() => dispatch(() => userProfileActions.initialize()))
+              .then(({value}) => userProfileFormActions.change(value));
+        },
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
           [DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
           [DaoUser.pSettingNotifications]: Const.DaoUser.defaultNotificationSettings,
@@ -678,13 +700,13 @@ const ReduxPoolBuilder = {
         }))
       },
       [FORM_API_ID_EDIT_USER_LOCATION_STATUS]: {
-        post: (d, i) => ApiClient.userStatusAdd(i),
+        post: (i) => ApiClient.userStatusAdd(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_LOCATION_STATUS, denormObj(
             DaoUserLocationStatus.createInitialStatus()
         ))
       },
       [FORM_API_ID_EDIT_LOCATION_PROFILE]: {
-        post: (d, i) => ApiClient.userLocationsAdminEditLid(i),
+        post: (i) => ApiClient.userLocationsAdminEditLid(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, denormObj({
           [DaoLocation.pName]: '',
           [DaoLocation.pPictureUrl]: '',

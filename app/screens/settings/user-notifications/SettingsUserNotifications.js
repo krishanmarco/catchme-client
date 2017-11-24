@@ -2,7 +2,7 @@
 import React from 'react';
 
 import ApiClient from '../../../lib/data/ApiClient';
-import {boolToString, stringToBool} from '../../../lib/HelperFunctions';
+import {boolToString, stringReplace, stringToBool} from '../../../lib/HelperFunctions';
 
 import {Icons} from '../../../Config';
 
@@ -42,60 +42,39 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
     this._onFriendshipRequestValueChange = this._onFriendshipRequestValueChange.bind(this);
     this._onFriendActionsValueChange = this._onFriendActionsValueChange.bind(this);
     this._onCatchmeSuggestionsValueChange = this._onCatchmeSuggestionsValueChange.bind(this);
-    this.state = this._getStateValuesFromUserProfile(props.authenticatedUserProfile);
+  }
+
+  _userProfile() {
+    return this.props.authenticatedUserProfile;
+  }
+
+  post(newSettings) {
+    this.props.onSettingNotificationsChanged(newSettings);
   }
 
 
-  _getStateValuesFromUserProfile(userProfile) {
-    return {
-      friendshipRequestOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[0]),
-      friendActionsOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[1]),
-      catchmeSuggestionsOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[2])
-    };
-  }
-
-  _getSettingNotificationsAsString() {
-    return [
-      boolToString(this.state.friendshipRequestOn),
-      boolToString(this.state.friendActionsOn),
-      boolToString(this.state.catchmeSuggestionsOn)
-    ].join('');
-  }
-
-  setStateAndPost(newState) {
-    // Update the state
-    this.setState(newState, () => {
-      const newSettings = this._getSettingNotificationsAsString();
-      this.props.onSettingNotificationsChanged(newSettings);
-    });
+  _changeSettingValue(settingStr, index, newBoolVal) {
+    return stringReplace(settingStr, index, boolToString(newBoolVal));
   }
 
   _onDisableAllValueChange(value) {
-    this.setStateAndPost({
-      friendshipRequestOn: !value,
-      friendActionsOn: !value,
-      catchmeSuggestionsOn: !value
-    });
+    let settingStr = DaoUser.gSettingNotifications(this._userProfile());
+    settingStr = this._changeSettingValue(settingStr, 0, !value);
+    settingStr = this._changeSettingValue(settingStr, 1, !value);
+    settingStr = this._changeSettingValue(settingStr, 2, !value);
+    this.post(settingStr);
   }
 
   _onFriendshipRequestValueChange(value) {
-    this.setStateAndPost({friendshipRequestOn: value});
+    this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 0, value));
   }
 
   _onFriendActionsValueChange(value) {
-    this.setStateAndPost({friendActionsOn: value});
+    this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 1, value));
   }
 
   _onCatchmeSuggestionsValueChange(value) {
-    this.setStateAndPost({catchmeSuggestionsOn: value});
-  }
-
-  _disableAllOn() {
-    return [
-      this.state.friendActionsOn,
-      this.state.friendshipRequestOn,
-      this.state.catchmeSuggestionsOn
-    ].every(i => !i);
+    this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 2, value));
   }
 
   render() {
@@ -120,23 +99,29 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
   }
 
   _renderNotificationSwitches() {
+    const settingNotifications = DaoUser.gSettingNotifications(this._userProfile());
+    console.log("settingNotifications", settingNotifications);
     return (
         <View style={{marginTop: 64}}>
           <RkSwitch
               title='Disable all'
-              value={this._disableAllOn()}
+              value={[
+                stringToBool(settingNotifications[0]),
+                stringToBool(settingNotifications[1]),
+                stringToBool(settingNotifications[2])
+              ].every(i => !i)}
               onValueChange={this._onDisableAllValueChange}/>
           <RkSwitch
               title='Friendship request'
-              value={this.state.friendshipRequestOn}
+              value={stringToBool(settingNotifications[0])}
               onValueChange={this._onFriendshipRequestValueChange}/>
           <RkSwitch
               title='Friend actions'
-              value={this.state.friendActionsOn}
+              value={stringToBool(settingNotifications[1])}
               onValueChange={this._onFriendActionsValueChange}/>
           <RkSwitch
               title='Catchme suggestions'
-              value={this.state.catchmeSuggestionsOn}
+              value={stringToBool(settingNotifications[2])}
               onValueChange={this._onCatchmeSuggestionsValueChange}/>
         </View>
     );

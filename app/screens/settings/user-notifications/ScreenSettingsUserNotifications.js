@@ -21,6 +21,8 @@ class ScreenSettingsUserNotificationsPresentational extends React.Component {
     // the users profile data into the user-profile form handler
     this._cacheUserProfile().initialize()
         .then(() => this._formApiEditUserProfile().change(this._cacheUserProfile().data));
+
+    console.log("data", this._cacheUserProfile().data);
   }
 
 
@@ -47,12 +49,12 @@ class ScreenSettingsUserNotificationsPresentational extends React.Component {
   render() {
     return (
         <NullableObjects
-            objects={[this._cacheUserProfile().data]}
-            renderChild={([authenticatedUserProfile]) => (
+            objects={[this._formApiEditUserProfile().apiInput]}
+            renderChild={([userProfileFormData]) => (
                 <SettingsUserNotifications
                     navigator={this.props.navigator}
                     onSettingNotificationsChanged={this.onSettingNotificationsChanged}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
+                    authenticatedUserProfile={userProfileFormData}/>
             )}/>
     );
   }

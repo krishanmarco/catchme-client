@@ -11,6 +11,17 @@ import DaoUser from "../../lib/daos/DaoUser";
 
 class ScreenUserProfilePresentational extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.onChangeTab = this.onChangeTab.bind(this);
+    this.state = {selectedTab: 0};
+  }
+
+  onChangeTab(selectedTab) {
+    this.setState({selectedTab: selectedTab});
+  }
+
+
   componentWillMount() {
 
     // Initialize the logged in user profile
@@ -41,7 +52,9 @@ class ScreenUserProfilePresentational extends React.Component {
                 <UserProfile
                     navigator={this.props.navigator}
                     userProfile={userProfile}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
+                    authenticatedUserProfile={authenticatedUserProfile}
+                    selectedTab={this.state.selectedTab}
+                    onChangeTab={this.onChangeTab}/>
             )}/>
     );
   }
