@@ -190,7 +190,11 @@ class UserProfilePresentational extends React.Component {
 
     return (
         <ScrollableTabView
+            initialPage={this.props.selectedTab}
+            onChangeTab={({i, ref}) => this.props.onChangeTab(i)}
+
             scrollWithoutAnimation={true}
+            prerenderingSiblingsNumber={Infinity}
             renderTabBar={(props) => this._renderCustomTabBar(props)}>
           {tabs}
         </ScrollableTabView>

@@ -7,7 +7,7 @@ import DaoUser from "../lib/daos/DaoUser";
 import DaoLocation from "../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../lib/helpers/ManagerWeekTimings";
 import _ from 'lodash';
-import {denormObj, seconds} from '../lib/HelperFunctions';
+import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
 import {Const} from "../Config";
 import DaoUserLocationStatus from "../lib/daos/DaoUserLocationStatus";
 
@@ -267,7 +267,6 @@ const ReduxPoolBuilder = {
         }),
 
         initialize: (extraParams) => dispatch((dispatch, getState) => {
-
           // If the data is already set (or is about to be set [loadingPromise != null]) there is
           // no need to run the request again.
 
@@ -283,17 +282,14 @@ const ReduxPoolBuilder = {
             return reduxPoolCache.loadingPromise;
           }
 
-          if (reduxPoolCache.data !== null)
+          if (reduxPoolCache.data !== null) {
             return Promise.resolve(reduxPoolCache.data);
+          }
 
-
-          // resolved promise flag
-          let promiseResolved = false;
 
           // Run request or data builder
-          let loadingPromise = pool.buildDataSet(dispatch, extraParams)
+          const loadingPromise = pool.buildDataSet(dispatch, extraParams)
               .then(buildResultData => {
-                promiseResolved = true;
 
                 // Save the result data into the pool
                 dispatch({
@@ -326,16 +322,15 @@ const ReduxPoolBuilder = {
           // Save loadingPromise to the state, this way, even if [data] is
           // null the next request will not be processed because we know
           // that one has already been sent out
-          if (!promiseResolved) {
-            dispatch({
-              poolType: POOL_TYPE_CACHE,
-              poolId: poolId,
-              type: POOL_ACTION_CACHE_INIT_DATA,
-              loadingPromise: loadingPromise
-            });
-          }
+          return dispatch({
+            poolType: POOL_TYPE_CACHE,
+            poolId: poolId,
+            type: POOL_ACTION_CACHE_INIT_DATA,
+            payload: loadingPromise,
+            loadingPromise: loadingPromise
+          });
 
-          return loadingPromise;
+
         })
 
       })
@@ -440,19 +435,16 @@ const ReduxPoolBuilder = {
             }
 
 
-            if (cacheMapItem.data !== null)
+            if (cacheMapItem.data !== null) {
               return Promise.resolve(cacheMapItem.data);
+            }
 
           }
 
 
-          // resolved promise flag
-          let promiseResolved = false;
-
           // Run request or data builder
-          let loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
+          const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
               .then(buildResultData => {
-                promiseResolved = true;
 
                 // Save the result data into the pool
                 dispatch({
@@ -486,17 +478,15 @@ const ReduxPoolBuilder = {
           // Save loadingPromise to th state, this way, even if [data] is
           // null the next request will not be processed because we know
           // that one has already been sent out
-          if (!promiseResolved) {
-            dispatch({
-              poolType: POOL_TYPE_CACHE_MAP,
-              poolId: poolId,
-              type: POOL_ACTION_CACHE_MAP_INIT_DATA,
-              itemId: itemId,
-              loadingPromise: loadingPromise
-            });
-          }
+          return dispatch({
+            poolType: POOL_TYPE_CACHE_MAP,
+            poolId: poolId,
+            type: POOL_ACTION_CACHE_MAP_INIT_DATA,
+            itemId: itemId,
+            payload: loadingPromise,
+            loadingPromise: loadingPromise
+          });
 
-          return loadingPromise;
         })
 
       })
@@ -559,7 +549,6 @@ const ReduxPoolBuilder = {
         post: (extraParams) => dispatch((dispatch, getState) => {
 
           let formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
-
           dispatch({
             poolType: POOL_TYPE_API_FORMS,
             poolId: poolId,
@@ -568,8 +557,6 @@ const ReduxPoolBuilder = {
 
 
           return pool.post(
-              // Redux Dispatch Function
-              dispatch,
 
               // data
               formInput,
@@ -577,7 +564,13 @@ const ReduxPoolBuilder = {
               // Some post methods like ApiClient.resetPassword
               // require extra parameters that are passed in through
               // this extra nullable object
-              extraParams
+              extraParams,
+
+              // Redux Dispatch Function
+              dispatch,
+
+              // Redux state Function
+              getState
           )
 
               .then(apiResponse => {
@@ -625,7 +618,7 @@ const ReduxPoolBuilder = {
 
     poolActions: {
       [POOL_ACTION_API_FORMS_ON_CHANGE]: (action, subState) => ({
-        apiInput: _.merge(subState.apiInput, action.apiInput),
+        apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
         validationError: action.validationError
       }),
       [POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) => (
@@ -650,14 +643,14 @@ const ReduxPoolBuilder = {
 
     pools: {
       [FORM_API_ID_LOGIN]: {
-        post: (d, i) => ApiClient.accountsLogin(i),
+        post: (i, e, d, s) => ApiClient.accountsLogin(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_LOGIN, {
-          email: 'krishanmarco@outlook.com',
+          email: 'krishanmarco@outlook.com',  // todo remove
           password: 'MomrpdrbrM93'
         })
       },
       [FORM_API_ID_REGISTER]: {
-        post: (d, i) => ApiClient.accountsRegister(i),
+        post: (i) => ApiClient.accountsRegister(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_REGISTER, {
           name: '',
           email: '',
@@ -666,7 +659,29 @@ const ReduxPoolBuilder = {
         })
       },
       [FORM_API_ID_EDIT_USER_PROFILE]: {
-        post: (d, i) => ApiClient.userProfileEdit(i),
+        post: (i, e, dispatch) => {
+          // Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
+          const poolTypeCache = ReduxPoolBuilder[POOL_TYPE_CACHE];
+          const poolTypeApiForms = ReduxPoolBuilder[POOL_TYPE_API_FORMS];
+
+          // Get CACHE_ID_USER_PROFILE and FORM_API_ID_EDIT_USER_PROFILE pool
+          const cacheUserProfile = poolTypeCache.pools[CACHE_ID_USER_PROFILE];
+          const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
+
+          // Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
+          const userProfileActions = poolTypeCache.poolConnect
+              .mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
+          const userProfileFormActions = poolTypeApiForms.poolConnect
+              .mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
+
+
+          // Post and invalidate CACHE_ID_USER_PROFILE
+          return ApiClient.userProfileEdit(i)
+              .then(() => userProfileActions.invalidate())
+              .then(() => userProfileActions.initialize())
+              .then(({value}) => userProfileFormActions.change(value));
+
+        },
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
           [DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
           [DaoUser.pSettingNotifications]: Const.DaoUser.defaultNotificationSettings,
@@ -677,13 +692,13 @@ const ReduxPoolBuilder = {
         }))
       },
       [FORM_API_ID_EDIT_USER_LOCATION_STATUS]: {
-        post: (d, i) => ApiClient.userStatusAdd(i),
+        post: (i) => ApiClient.userStatusAdd(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_LOCATION_STATUS, denormObj(
             DaoUserLocationStatus.createInitialStatus()
         ))
       },
       [FORM_API_ID_EDIT_LOCATION_PROFILE]: {
-        post: (d, i) => ApiClient.userLocationsAdminEditLid(i),
+        post: (i) => ApiClient.userLocationsAdminEditLid(i),
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, denormObj({
           [DaoLocation.pName]: '',
           [DaoLocation.pPictureUrl]: '',
@@ -738,7 +753,7 @@ const ReduxPoolBuilder = {
 
     poolActions: {
       [POOL_ACTION_LOCAL_FORMS_ON_CHANGE]: (action, subState) => ({
-        input: _.merge(subState.input, action.input),
+        input: mergeWithoutExtend(subState.input, action.input),
         validationError: action.validationError
       }),
       [POOL_ACTION_LOCAL_FORMS_ON_RESET]: (action, subState) => (

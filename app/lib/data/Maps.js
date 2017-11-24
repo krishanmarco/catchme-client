@@ -42,7 +42,7 @@ export default class Maps {
 
 
 
-  static _EPrivacySettings: [
+  static _EPrivacySettings = [
       {value: 0,        label: 'Only me'},
       {value: 1,        label: 'My friends'},
       {value: 2,        label: 'Everyone'},

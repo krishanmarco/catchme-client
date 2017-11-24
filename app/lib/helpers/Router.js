@@ -135,5 +135,48 @@ export default class Router {
   }
 
 
+  static toSettingsUserAccount(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenSettingsUserAccount,
+      title: 'Account',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+
+  static toSettingsAdminLocations(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenSettingsAdminLocations,
+      title: 'My Locations',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+  static toSettingsUserNotifications(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenSettingsUserNotifications,
+      title: 'Notifications',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+  static toScreenEditLocation(navigator, locationId = -1) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenEditLocation,
+      title: 'My Locations',
+      passProps: {locationId: locationId},
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+
 
 }

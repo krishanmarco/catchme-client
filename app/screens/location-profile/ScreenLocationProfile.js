@@ -33,9 +33,9 @@ class ScreenLocationProfilePresentational extends React.Component {
     this._initializeNavigatorButtons();
     this._navigator().setOnNavigatorEvent(this._onNavigatorEvent.bind(this));
   }
-  
-  
-  
+
+
+
 
 
   _initializeNavigatorButtons() {
@@ -79,8 +79,8 @@ class ScreenLocationProfilePresentational extends React.Component {
 
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
-    this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId);
-    // .then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
+    this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
+      .then(({value}) => this._navigator().setTitle({title: DaoLocation.gName(value)}));
 
   }
 
@@ -88,16 +88,16 @@ class ScreenLocationProfilePresentational extends React.Component {
   _navigator() {
     return this.props.navigator;
   }
-  
+
   _authenticatedUserProfile() {
     return this.props[CACHE_ID_USER_PROFILE].data;
   }
-  
+
   _locationProfile() {
     return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(this.props.locationId);
   }
 
-  
+
   render() {
     return (
         <NullableObjects

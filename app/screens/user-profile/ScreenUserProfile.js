@@ -11,14 +11,25 @@ import DaoUser from "../../lib/daos/DaoUser";
 
 class ScreenUserProfilePresentational extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this.onChangeTab = this.onChangeTab.bind(this);
+    this.state = {selectedTab: 0};
+  }
+
+  onChangeTab(selectedTab) {
+    this.setState({selectedTab: selectedTab});
+  }
+
+
   componentWillMount() {
 
     // Initialize the logged in user profile
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
     // Initialize the profile of the user that is being viewed
-    this.props[CACHE_MAP_ID_USER_PROFILES].initializeItem(this.props.userId);
-        //.then(userProfile => this.navigator.setTitle({title: DaoUser.gName(userProfile)}))
+    this.props[CACHE_MAP_ID_USER_PROFILES].initializeItem(this.props.userId)
+        .then(({value}) => this.props.navigator.setTitle({title: DaoUser.gName(value)}))
 
   }
 
@@ -41,7 +52,9 @@ class ScreenUserProfilePresentational extends React.Component {
                 <UserProfile
                     navigator={this.props.navigator}
                     userProfile={userProfile}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
+                    authenticatedUserProfile={authenticatedUserProfile}
+                    selectedTab={this.state.selectedTab}
+                    onChangeTab={this.onChangeTab}/>
             )}/>
     );
   }

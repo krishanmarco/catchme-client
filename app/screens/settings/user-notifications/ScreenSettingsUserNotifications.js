@@ -11,13 +11,21 @@ import DaoUser from "../../../lib/daos/DaoUser";
 
 class ScreenSettingsUserNotificationsPresentational extends React.Component {
 
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
+  constructor(props, context) {
+    super(props, context);
   }
+
+  componentWillMount() {
+    // Fetch the authenticated users profile and then set
+    // the users profile data into the user-profile form handler
+    return this.props[CACHE_ID_USER_PROFILE].initialize();
+  }
+
 
   _authenticatedUserProfile() {
     return this.props[CACHE_ID_USER_PROFILE].data;
   }
+
 
   render() {
     return (

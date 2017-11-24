@@ -1,13 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
+import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
 import ApiClient from '../../../lib/data/ApiClient';
-import {boolToString, stringToBool} from '../../../lib/HelperFunctions';
+import {boolToString, stringReplace, stringToBool} from '../../../lib/HelperFunctions';
 
 import {Icons} from '../../../Config';
 
 import {View} from 'react-native';
-import {RkText} from 'react-native-ui-kitten';
+import {RkText, RkStyleSheet} from 'react-native-ui-kitten';
 import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
@@ -21,20 +22,19 @@ import DaoUser from "../../../lib/daos/DaoUser";
 // FlowProps ********************************************************************************************
 
 type Props = {
-  navigator: Navigator
+  navigator: Navigator,
+  authenticatedUserProfile: Object,
 };
 
 type State = {
-  friendshipRequestOn: true,
-  friendActionsOn: true,
-  catchmeSuggestionsOn: true
+  // Nothing for now
 };
 
 
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-export default class SettingsUserNotifications extends React.Component<any, Props, State> {
+class SettingsUserNotificationsPresentational extends React.Component<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
@@ -42,64 +42,56 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
     this._onFriendshipRequestValueChange = this._onFriendshipRequestValueChange.bind(this);
     this._onFriendActionsValueChange = this._onFriendActionsValueChange.bind(this);
     this._onCatchmeSuggestionsValueChange = this._onCatchmeSuggestionsValueChange.bind(this);
-    this.state = this._getStateValuesFromUserProfile(props.authenticatedUserProfile);
+  }
+
+  componentWillMount() {
+    // We now have access to a user profile
+    // Initialize the redux pool form by setting all its values
+    this._formApiEditUserProfile().change(this._userProfile());
+  }
+
+  _formApiEditUserProfile() {
+    return this.props[FORM_API_ID_EDIT_USER_PROFILE];
   }
 
 
-  _getStateValuesFromUserProfile(userProfile) {
-    return {
-      friendshipRequestOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[0]),
-      friendActionsOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[1]),
-      catchmeSuggestionsOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[2])
-    };
+  _userProfile() {
+    return this.props.authenticatedUserProfile;
   }
 
-  _getUserProfileValueFromState() {
-    return [
-      boolToString(this.state.friendshipRequestOn),
-      boolToString(this.state.friendActionsOn),
-      boolToString(this.state.catchmeSuggestionsOn)
-    ].join('');
-  }
-
-  setStateAndPost(newState) {
-    // Update the state
-    this.setState(newState, () => {
-
-      // Send the update to the Web service
-      ApiClient.userProfileEdit({
-        [DaoUser.pSettingNotifications]: this._getUserProfileValueFromState()
-      }).then(userProfile => this.setState(this._getStateValuesFromUserProfile(userProfile)));
-
+  post(newSettings) {
+    // Change the value in the form handler
+    this._formApiEditUserProfile().change({
+      [DaoUser.pSettingNotifications]: newSettings
     });
+
+    // Post the updated form
+    this._formApiEditUserProfile().post();
+  }
+
+
+  _changeSettingValue(settingStr, index, newBoolVal) {
+    return stringReplace(settingStr, index, boolToString(newBoolVal));
   }
 
   _onDisableAllValueChange(value) {
-    this.setStateAndPost({
-      friendshipRequestOn: !value,
-      friendActionsOn: !value,
-      catchmeSuggestionsOn: !value
-    });
+    let settingStr = DaoUser.gSettingNotifications(this._userProfile());
+    settingStr = this._changeSettingValue(settingStr, 0, !value);
+    settingStr = this._changeSettingValue(settingStr, 1, !value);
+    settingStr = this._changeSettingValue(settingStr, 2, !value);
+    this.post(settingStr);
   }
 
   _onFriendshipRequestValueChange(value) {
-    this.setStateAndPost({friendshipRequestOn: value});
+    this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 0, value));
   }
 
   _onFriendActionsValueChange(value) {
-    this.setStateAndPost({friendActionsOn: value});
+    this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 1, value));
   }
 
   _onCatchmeSuggestionsValueChange(value) {
-    this.setStateAndPost({catchmeSuggestionsOn: value});
-  }
-
-  _disableAllOn() {
-    return [
-      this.state.friendActionsOn,
-      this.state.friendshipRequestOn,
-      this.state.catchmeSuggestionsOn
-    ].every(i => !i);
+    this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 2, value));
   }
 
   render() {
@@ -124,26 +116,67 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
   }
 
   _renderNotificationSwitches() {
+    const settingNotifications = DaoUser.gSettingNotifications(this._userProfile())
+        .split('')
+        .map(stringToBool);
+    
     return (
         <View style={{marginTop: 64}}>
           <RkSwitch
               title='Disable all'
-              value={this._disableAllOn()}
+              value={[
+                settingNotifications[0],
+                settingNotifications[1],
+                settingNotifications[2]
+              ].every(i => !i)}
               onValueChange={this._onDisableAllValueChange}/>
           <RkSwitch
               title='Friendship request'
-              value={this.state.friendshipRequestOn}
+              value={settingNotifications[0]}
               onValueChange={this._onFriendshipRequestValueChange}/>
           <RkSwitch
               title='Friend actions'
-              value={this.state.friendActionsOn}
+              value={settingNotifications[1]}
               onValueChange={this._onFriendActionsValueChange}/>
           <RkSwitch
               title='Catchme suggestions'
-              value={this.state.catchmeSuggestionsOn}
+              value={settingNotifications[2]}
               onValueChange={this._onCatchmeSuggestionsValueChange}/>
         </View>
     );
   }
 
 }
+
+
+
+
+// ContainerComponent ***********************************************************************************
+// ContainerComponent ***********************************************************************************
+
+const SettingsUserNotifications = poolConnect(
+    // Presentational Component
+    SettingsUserNotificationsPresentational,
+
+    // mapStateToProps
+    (state) => state.settingsUserAccountReducer,
+
+    // mapDispatchToProps
+    (dispatch) => ({}),
+
+    // Array of pools to subscribe to
+    [FORM_API_ID_EDIT_USER_PROFILE]
+);
+
+export default SettingsUserNotifications;
+
+
+
+// Styles ***********************************************************************************************
+// Styles ***********************************************************************************************
+
+const Styles = RkStyleSheet.create(theme => ({
+  content: {
+    paddingHorizontal: 4,
+  },
+}));
