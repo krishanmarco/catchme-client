@@ -15,13 +15,13 @@ export default class UserProfileInfoItems {
       case UserProfileInfoItems.infoItemIdEmail:
         break;
       case UserProfileInfoItems.infoItemIdAccount:
-        Router.toScreen(navigator, Const.NavigationComponents.ScreenSettingsUserAccount);
+        Router.toSettingsUserAccount(navigator);
         break;
       case UserProfileInfoItems.infoItemIdAdminLocations:
-        Router.toScreen(navigator, Const.NavigationComponents.ScreenSettingsAdminLocations);
+        Router.toSettingsAdminLocations(navigator);
         break;
       case UserProfileInfoItems.infoItemIdNotifications:
-        Router.toScreen(navigator, Const.NavigationComponents.ScreenSettingsUserNotifications);
+        Router.toSettingsUserNotifications(navigator);
         break;
       case UserProfileInfoItems.infoItemIdHelpFAQ:
         Router.toScreen(navigator, Const.NavigationComponents.HelpFAQ);

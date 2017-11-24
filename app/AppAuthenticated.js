@@ -87,7 +87,7 @@ export default function run(authenticatedUser) {
         selectedIcon: require('./assets/icons/masterCardIcon.png'),
         screen: Const.NavigationComponents.ScreenUserProfile,
         passProps: {userId: DaoUser.gId(authenticatedUser)},
-        title: DaoUser.gName(authenticatedUser),
+        title: 'Catchme',
         navigatorStyle: {}
       }/*,
       {

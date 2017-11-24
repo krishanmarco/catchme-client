@@ -65,14 +65,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
   componentWillMount() {
     // We now have access to a user profile
     // Initialize the redux pool form by setting all its values
-
-    this._formApiEditUserProfile().change({
-      [DaoUser.pSettingPrivacy]: DaoUser.gSettingPrivacy(this._userProfile()),
-      [DaoUser.pPictureUrl]: DaoUser.gPictureUrl(this._userProfile()),
-      [DaoUser.pPhone]: DaoUser.gPhone(this._userProfile()),
-      [DaoUser.pEmail]: DaoUser.gEmail(this._userProfile()),
-      [DaoUser.pPublicMessage]: DaoUser.gPublicMessage(this._userProfile()),
-    });
+    this._formApiEditUserProfile().change(this._userProfile());
   }
 
   componentWillUnmount() {
@@ -120,7 +113,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   render() {
     return (
-        <ScrollView style={{flex: 1}}>
+        <ScrollView>
           {this._renderProfileSection()}
           {this._renderPrivacySection()}
           {this._renderSecuritySection()}
@@ -131,7 +124,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   _renderProfileSection() {
     return (
-        <View>
+        <View style={{flex: 1}}>
           <ListItemHeader name='Profile'/>
           <View style={Styles.content}>
             <View style={{alignItems: 'center'}}>
@@ -173,10 +166,10 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
   _renderPrivacySection() {
     const privacyAll = Maps.privacyOptions();
     const privacySub = Maps.privacyOptions();
-    delete privacySub[1];
+    privacySub.splice(1, 1);
     
     return (
-        <View>
+        <View style={{flex: 1}}>
           <ListItemHeader name='Privacy'/>
           <View style={Styles.content}>
             {[
@@ -200,7 +193,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   _renderSecuritySection() {
     return (
-        <View>
+        <View style={{flex: 1}}>
           <ListItemHeader name='Security'/>
           <View style={Styles.content}>
             <ListItemInfo
@@ -219,7 +212,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   _renderLogoutSection() {
     return (
-        <View>
+        <View style={{flex: 1}}>
           <ListItemHeader/>
           <View style={Styles.content}>
             <ListItemInfo

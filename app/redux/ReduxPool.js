@@ -287,13 +287,9 @@ const ReduxPoolBuilder = {
           }
 
 
-          // resolved promise flag
-          let promiseResolved = false;
-
           // Run request or data builder
-          let loadingPromise = pool.buildDataSet(dispatch, extraParams)
+          const loadingPromise = pool.buildDataSet(dispatch, extraParams)
               .then(buildResultData => {
-                promiseResolved = true;
 
                 // Save the result data into the pool
                 dispatch({
@@ -439,19 +435,16 @@ const ReduxPoolBuilder = {
             }
 
 
-            if (cacheMapItem.data !== null)
+            if (cacheMapItem.data !== null) {
               return Promise.resolve(cacheMapItem.data);
+            }
 
           }
 
 
-          // resolved promise flag
-          let promiseResolved = false;
-
           // Run request or data builder
-          let loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
+          const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
               .then(buildResultData => {
-                promiseResolved = true;
 
                 // Save the result data into the pool
                 dispatch({
@@ -485,17 +478,15 @@ const ReduxPoolBuilder = {
           // Save loadingPromise to th state, this way, even if [data] is
           // null the next request will not be processed because we know
           // that one has already been sent out
-          if (!promiseResolved) {
-            dispatch({
-              poolType: POOL_TYPE_CACHE_MAP,
-              poolId: poolId,
-              type: POOL_ACTION_CACHE_MAP_INIT_DATA,
-              itemId: itemId,
-              loadingPromise: loadingPromise
-            });
-          }
+          return dispatch({
+            poolType: POOL_TYPE_CACHE_MAP,
+            poolId: poolId,
+            type: POOL_ACTION_CACHE_MAP_INIT_DATA,
+            itemId: itemId,
+            payload: loadingPromise,
+            loadingPromise: loadingPromise
+          });
 
-          return loadingPromise;
         })
 
       })

@@ -13,6 +13,7 @@ import {FlatList} from 'react-native';
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import DaoUser from "../../../lib/daos/DaoUser";
+import Router from "../../../lib/helpers/Router";
 
 
 
@@ -33,18 +34,22 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
   constructor(props, context) {
     super(props, context);
+    this._onLocationPress = this._onLocationPress.bind(this);
     this._onLocationAdd = this._onLocationAdd.bind(this);
   }
 
-  _userProfile() { return this.props.userProfile; }
+  _userProfile() {
+    return this.props.userProfile;
+  }
 
   _onLocationPress(location) {
-
+    Router.toScreenEditLocation(this.props.navigator, DaoLocation.gId(location));
   }
 
   _onLocationAdd() {
-
+    Router.toScreenEditLocation(this.props.navigator);
   }
+
 
   render() {
     return (
@@ -72,11 +77,6 @@ export default class SettingsUserAdministratingLocations extends React.Component
         <FlatList
             data={DaoUser.gAdminLocations(this._userProfile())}
             keyExtractor={DaoLocation.gId}
-            renderItem={({item}) => (
-                <ListItemLocation
-                    location={item}
-                    onPress={() => this._onLocationPress(item)}/>
-            )}
             ListHeaderComponent={
               <ListItemInfo
                   title='Add a new Location'
@@ -84,6 +84,11 @@ export default class SettingsUserAdministratingLocations extends React.Component
                   icon={Icons.locationAdminAdd}
                   onPress={this._onLocationAdd}/>
             }
+            renderItem={({item}) => (
+                <ListItemLocation
+                    location={item}
+                    onPress={() => this._onLocationPress(item)}/>
+            )}
         />
     );
   }
