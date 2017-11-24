@@ -100,7 +100,6 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
 
   _renderNotificationSwitches() {
     const settingNotifications = DaoUser.gSettingNotifications(this._userProfile());
-    console.log("settingNotifications", settingNotifications);
     return (
         <View style={{marginTop: 64}}>
           <RkSwitch

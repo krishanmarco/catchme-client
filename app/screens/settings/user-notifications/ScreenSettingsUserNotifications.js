@@ -21,8 +21,6 @@ class ScreenSettingsUserNotificationsPresentational extends React.Component {
     // the users profile data into the user-profile form handler
     this._cacheUserProfile().initialize()
         .then(() => this._formApiEditUserProfile().change(this._cacheUserProfile().data));
-
-    console.log("data", this._cacheUserProfile().data);
   }
 
 

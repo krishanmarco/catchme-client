@@ -686,9 +686,10 @@ const ReduxPoolBuilder = {
 
           // Post and invalidate CACHE_ID_USER_PROFILE
           return ApiClient.userProfileEdit(i)
-              .then(() => dispatch(() => userProfileActions.invalidate()))
-              .then(() => dispatch(() => userProfileActions.initialize()))
+              .then(() => userProfileActions.invalidate())
+              .then(() => userProfileActions.initialize())
               .then(({value}) => userProfileFormActions.change(value));
+
         },
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
           [DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
