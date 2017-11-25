@@ -3,7 +3,7 @@ import React from 'react';
 
 import ApiClient from '../../../lib/data/ApiClient';
 import RealmIO from '../../../lib/data/RealmIO';
-import {boolToString, stringToBool} from '../../../lib/HelperFunctions';
+import {boolToIntString, intStringToBool} from '../../../lib/HelperFunctions';
 
 import {startApplication} from "../../../App";
 import {Icons} from '../../../Config';

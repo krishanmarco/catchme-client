@@ -3,7 +3,7 @@ import React from 'react';
 
 import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
 import ApiClient from '../../../lib/data/ApiClient';
-import {boolToString, stringReplace, stringToBool} from '../../../lib/HelperFunctions';
+import {boolToIntString, stringReplace, intStringToBool} from '../../../lib/HelperFunctions';
 
 import {Icons} from '../../../Config';
 
@@ -71,7 +71,7 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
 
 
   _changeSettingValue(settingStr, index, newBoolVal) {
-    return stringReplace(settingStr, index, boolToString(newBoolVal));
+    return stringReplace(settingStr, index, boolToIntString(newBoolVal));
   }
 
   _onDisableAllValueChange(value) {
@@ -118,7 +118,7 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
   _renderNotificationSwitches() {
     const settingNotifications = DaoUser.gSettingNotifications(this._userProfile())
         .split('')
-        .map(stringToBool);
+        .map(intStringToBool);
     
     return (
         <View style={{marginTop: 64}}>

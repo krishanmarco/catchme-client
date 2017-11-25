@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import moment from 'moment';
-import {stringToBool, boolToString} from '../HelperFunctions';
+import {intStringToBool, boolToIntString} from '../HelperFunctions';
 import DaoLocation from "../daos/DaoLocation";
 import ObjectCache from "./ObjectCache";
 
@@ -50,13 +50,13 @@ export default class ManagerWeekTimings {
   // '0001011101...' => [[false, false, ...], [true, false, true...], ...]
   static mapStrTimingsToBoolTimings(strWeekTimings) {
     strWeekTimings = _.chunk(strWeekTimings.split(''), 24);
-    return strWeekTimings.map(day => day.map(stringToBool));
+    return strWeekTimings.map(day => day.map(intStringToBool));
   }
 
   // [[false, false, ...], [true, false, true...], ...] => '0001011101...'
   static mapBoolTimingsToStr(boolWeekTimings) {
     return boolWeekTimings
-        .map(boolDayTimings => boolDayTimings.map(boolToString).join(''))
+        .map(boolDayTimings => boolDayTimings.map(boolToIntString).join(''))
         .join('');
   }
 
