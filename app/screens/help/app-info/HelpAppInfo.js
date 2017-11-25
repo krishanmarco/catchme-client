@@ -24,7 +24,6 @@ import DaoUser from "../../../lib/daos/DaoUser";
 // FlowProps ********************************************************************************************
 
 type Props = {
-  authenticatedUserProfile: Object,
   navigator: Navigator
 };
 
@@ -36,56 +35,27 @@ type State = {
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-export default class SettingsUserNotifications extends React.Component<any, Props, State> {
+export default class HelpAppInfo extends React.Component<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
-    this._onLogoutPress = this._onLogoutPress.bind(this);
-  }
-
-  _userProfile() {
-    return this.props.authenticatedUserProfile;
-  }
-
-  _onLogoutPress() {
-    RealmIO.removeLocalUser();
-    startApplication();
   }
 
   render() {
     return (
         <View>
-          {this._renderScreenHeader()}
-          {this._renderLogoutButton()}
-        </View>
-    );
-  }
-
-  _renderScreenHeader() {
-    return (
-        <ScreenInfo
-            imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Are you sure you want to log out?'/>
-    );
-  }
-
-  _renderLogoutButton() {
-    return (
-        <View style={Styles.buttonCont}>
-          <RkButton style={Styles.button} onPress={this._onLogoutPress}>
-            <RkText rkType='awesome hero accentColor'>Logout</RkText>
-          </RkButton>
+          <ScreenInfo
+              imageContainerStyle={{marginTop: 64}}
+              scale={550}
+              height={100}
+              width={150}
+              image={require('../../../assets/images/splashBack.png')}
+              text='Catchme info...'/>
         </View>
     );
   }
 
 }
-
-
 
 
 

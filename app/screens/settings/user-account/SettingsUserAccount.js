@@ -14,6 +14,7 @@ import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";
 import {AvatarCircle} from "../../../comp/misc/Avatars";
 import Maps from "../../../lib/data/Maps";
+import {stringReplace} from "../../../lib/HelperFunctions";
 
 
 // Redux ************************************************************************************************
@@ -72,22 +73,32 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
     // this._formApiEditUserProfile().post();
   }
 
-  _navigator() { return this.props.navigator; }
-  _userProfile() { return this.props.authenticatedUserProfile; }
-  _formApiEditUserProfile() { return this.props[FORM_API_ID_EDIT_USER_PROFILE]; }
+  _navigator() {
+    return this.props.navigator;
+  }
+
+  _userProfile() {
+    return this.props.authenticatedUserProfile;
+  }
+
+  _formApiEditUserProfile() {
+    return this.props[FORM_API_ID_EDIT_USER_PROFILE];
+  }
 
 
   _onChangePrivacyValue(index, value) {
     let privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
-    privacyStr = privacyStr.split('');
-    privacyStr[index] = value;
-    privacyStr = privacyStr.join('');
-    this._formApiEditUserProfile().change({[DaoUser.pSettingPrivacy]: privacyStr});
+    this._formApiEditUserProfile().change({
+      [DaoUser.pSettingPrivacy]: stringReplace(privacyStr, index, value.toString())
+    });
   }
 
   _getPrivacyValue(posIndex) {
-    const field = `${DaoUser.pSettingPrivacy}[${posIndex}]`;
-    return _.get(this._formApiEditUserProfile().apiInput, field, 1);
+    return parseInt(_.get(
+        this._formApiEditUserProfile().apiInput,
+        `${DaoUser.pSettingPrivacy}[${posIndex}]`,
+        Maps.privacyDefault().value.toString()
+    ));
   }
 
   _onChangePasswordPress() {
@@ -99,32 +110,39 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
   }
 
   _onLogoutPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenLogout);
+    Router.toLogoutScreen(this._navigator());
   }
 
   _onAddContactsPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenAddContacts);
+    Router.toAddContactsScreen(this._navigator());
   }
 
   _onUserPicturePress() {
     // todo: open picker and upload then update
   }
 
+  /**
+
+   * **/
 
   render() {
     return (
-        <ScrollView>
-          {this._renderProfileSection()}
-          {this._renderPrivacySection()}
-          {this._renderSecuritySection()}
-          {this._renderLogoutSection()}
-        </ScrollView>
+        <View style={{flex: 1}}>
+          <View style={{height: 480}}>
+            <ScrollView>
+              {this._renderProfileSection()}
+              {this._renderPrivacySection()}
+              {this._renderSecuritySection()}
+              {this._renderLogoutSection()}
+            </ScrollView>
+          </View>
+        </View>
     );
   }
 
   _renderProfileSection() {
     return (
-        <View style={{flex: 1}}>
+        <View>
           <ListItemHeader name='Profile'/>
           <View style={Styles.content}>
             <View style={{alignItems: 'center'}}>
@@ -167,17 +185,17 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
     const privacyAll = Maps.privacyOptions();
     const privacySub = Maps.privacyOptions();
     privacySub.splice(1, 1);
-    
+
     return (
-        <View style={{flex: 1}}>
+        <View>
           <ListItemHeader name='Privacy'/>
           <View style={Styles.content}>
             {[
-              {title: 'My previous location',   options: privacyAll},
-              {title: 'My current location',    options: privacySub},
-              {title: 'My next location',       options: privacyAll},
-              {title: 'My email',               options: privacyAll},
-              {title: 'My phone number',        options: privacyAll}
+              {title: 'My previous location', options: privacyAll},
+              {title: 'My current location', options: privacySub},
+              {title: 'My next location', options: privacyAll},
+              {title: 'My email', options: privacyAll},
+              {title: 'My phone number', options: privacyAll}
             ].map((data, key) => (
                 <RkMultiChoice
                     key={key}
@@ -193,7 +211,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   _renderSecuritySection() {
     return (
-        <View style={{flex: 1}}>
+        <View>
           <ListItemHeader name='Security'/>
           <View style={Styles.content}>
             <ListItemInfo
@@ -212,7 +230,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   _renderLogoutSection() {
     return (
-        <View style={{flex: 1}}>
+        <View>
           <ListItemHeader/>
           <View style={Styles.content}>
             <ListItemInfo
@@ -256,8 +274,8 @@ export default SettingsUserAccount;
 // Styles ***********************************************************************************************
 // Styles ***********************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
+const Styles = StyleSheet.create({
   content: {
     paddingHorizontal: 4,
   },
-}));
+});

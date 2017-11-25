@@ -18,14 +18,32 @@ class RealmIO {
 
 
   setLocalUser(user) {
-    const localUser = this._prepareApiUserForDb(user);
-    this._tryAddToRealm('LocalUser', {user: {insertTs: -1, ...localUser}});
+    const newUser = this._prepareApiUserForDb(user);
+    newUser.insertTs = -1;
+
+    const localUser = _.get(realm.objects('LocalUser'), '[0]');
+
+    if (localUser != null) {
+      realm.write(() => {localUser.user = newUser;});
+
+    } else {
+      this._tryAddToRealm('LocalUser', {user: newUser});
+
+    }
+
     ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user))
   }
 
   removeLocalUser() {
-    realm.write(() => realm.update('LocalUser', {user: null}));
+    const localUser = _.get(realm.objects('LocalUser'), '[0]');
+
+    if (!localUser)
+      return false;
+
+    realm.write(() => {localUser.user = null;});
     ApiAuthentication.update(-1, '');
+
+    return true;
   }
 
   getLocalUserData() {

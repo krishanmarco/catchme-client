@@ -29,11 +29,11 @@ export function compareTimeSmaller(date1, date2) {
   return normalizedDate1 < normalizedDate2;
 }
 
-export function boolToString(bool) {
+export function boolToIntString(bool) {
   return bool ? '1' : '0';
 }
 
-export function stringToBool(str) {
+export function intStringToBool(str) {
   return str == '1';
 }
 

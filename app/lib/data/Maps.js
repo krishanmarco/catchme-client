@@ -48,6 +48,10 @@ export default class Maps {
       {value: 2,        label: 'Everyone'},
   ];
 
+  static privacyDefault() {
+    return Maps._EPrivacySettings[2];
+  }
+
   static privacyOptions() {
     return Maps._EPrivacySettings.slice(0);
   }
