@@ -135,6 +135,28 @@ export default class Router {
   }
 
 
+  static toAddContactsScreen(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenAddContacts,
+      title: 'My Contacts',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+
+  static toLogoutScreen(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenLogout,
+      title: 'Logout',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+
   static toSettingsUserAccount(navigator) {
     navigator.push({
       screen: Const.NavigationComponents.ScreenSettingsUserAccount,

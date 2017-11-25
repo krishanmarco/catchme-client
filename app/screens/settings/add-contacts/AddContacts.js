@@ -158,6 +158,7 @@ class SearchPresentational extends React.Component {
     const userProfile = this._userProfile();
     return (
         <View style={Styles.root}>
+          <View style={{height: 480}}>
           <UserList
               users={this.props.usersList}
 
@@ -169,6 +170,7 @@ class SearchPresentational extends React.Component {
               onSearchChanged={this.props.setUsersSearchQuery}
 
               loading={!this.props.initialized}/>
+          </View>
         </View>
     );
   }
@@ -209,6 +211,7 @@ AddContacts.propTypes = {
 
 const Styles = StyleSheet.create({
   root: {
+    flex: 1,
     paddingTop: 8
   }
 });

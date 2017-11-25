@@ -35,7 +35,7 @@ export const RkMultiChoice = ({title, textProps, options = [], style, ...props})
           {...props}
           mode={Picker.MODE_DROPDOWN}
           style={{width: 140}}>
-        {options.map((item, k) => <Picker.Item key={k} {...item}/>)}
+        {options.map((item) => <Picker.Item key={item.value} {...item}/>)}
       </Picker>
     </View>
 );
