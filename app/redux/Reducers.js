@@ -7,6 +7,7 @@ import {locationProfileReducer} from '../screens/location-profile/LocationProfil
 import {userProfileReducer} from '../screens/user-profile/UserProfile';
 import {searchReducer} from '../screens/search/Search';
 import {feedReducer} from '../screens/feed/Feed';
+import {featuredAdsReducer} from '../screens/featured-ads/FeaturedAds';
 
 import {settingsUserAccountReducer} from '../screens/settings/user-account/SettingsUserAccount';
 import {addContactsReducer} from '../screens/settings/add-contacts/AddContacts';

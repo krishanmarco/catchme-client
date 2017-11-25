@@ -24,6 +24,7 @@ import ScreenSearch from './screens/search/ScreenSearch';
 import ScreenSettingsUserAccount from './screens/settings/user-account/ScreenSettingsUserAccount';
 import ScreenSettingsAdminLocations from './screens/settings/user-admin-locations/ScreenSettingsAdminLocations';
 import ScreenSettingsUserNotifications from './screens/settings/user-notifications/ScreenSettingsUserNotifications';
+import ScreenHelpAppInfo from './screens/help/app-info/ScreenHelpAppInfo';
 import ScreenLogout from './screens/settings/logout/ScreenLogout';
 import ScreenAddContacts from './screens/settings/add-contacts/ScreenAddContacts';
 
@@ -74,6 +75,7 @@ export default function run(authenticatedUser) {
     {name: Const.NavigationComponents.ScreenSettingsUserNotifications, getComponent: () => ScreenSettingsUserNotifications},
     {name: Const.NavigationComponents.ScreenLogout, getComponent: () => ScreenLogout},
     {name: Const.NavigationComponents.ScreenAddContacts, getComponent: () => ScreenAddContacts},
+    {name: Const.NavigationComponents.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
 
   ].map(route => Navigation.registerComponent(route.name, route.getComponent, store, Provider));
 

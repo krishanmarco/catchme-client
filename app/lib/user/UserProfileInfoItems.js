@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 // @flow
+import {Linking} from 'react-native';
 import {Icons, Const} from '../../Config';
 import type {TypeInfoItem} from '../types/TypeInfoItem';
 import DaoUser from "../daos/DaoUser";
@@ -11,7 +12,6 @@ export default class UserProfileInfoItems {
   static handleOnItemPress(pressedItemId, navigator) {
     switch (pressedItemId) {
       case UserProfileInfoItems.infoItemIdPhone:
-        break;
       case UserProfileInfoItems.infoItemIdEmail:
         break;
       case UserProfileInfoItems.infoItemIdAccount:
@@ -24,16 +24,16 @@ export default class UserProfileInfoItems {
         Router.toSettingsUserNotifications(navigator);
         break;
       case UserProfileInfoItems.infoItemIdHelpFAQ:
-        Router.toScreen(navigator, Const.NavigationComponents.HelpFAQ);
+        Linking.openURL('http://catchme.krishanmadan.website');
         break;
       case UserProfileInfoItems.infoItemIdHelpContactUs:
-        Router.toScreen(navigator, Const.NavigationComponents.HelpContactUs);
+        Linking.openURL('http://catchme.krishanmadan.website');
         break;
       case UserProfileInfoItems.infoItemIdHelpTermsOfService:
-        Router.toScreen(navigator, Const.NavigationComponents.HelpTermsOfService);
+        Linking.openURL('http://catchme.krishanmadan.website');
         break;
       case UserProfileInfoItems.infoItemIdHelpAppInfo:
-        Router.toScreen(navigator, Const.NavigationComponents.HelpAppInfo);
+        Router.toScreenHelpAppInfo(navigator);
         break;
     }
   }

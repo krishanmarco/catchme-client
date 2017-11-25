@@ -72,15 +72,10 @@ export const Const = {
 
     ScreenEditLocation: `${Globals.packageName}.ScreenEditLocation`,
 
-    // todo screens
-    ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,
+    ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,  // todo
 
     ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
-
-    HelpFAQ: `${Globals.packageName}.HelpFAQ`,
-    HelpContactUs: `${Globals.packageName}.HelpContactUs`,
-    HelpTermsOfService: `${Globals.packageName}.HelpTermsOfService`,
-    HelpAppInfo: `${Globals.packageName}.HelpAppInfo`,
+    ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,
   },
 
   GooglePlacesApi: {

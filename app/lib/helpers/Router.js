@@ -177,6 +177,15 @@ export default class Router {
     });
   }
 
+  static toScreenHelpAppInfo(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenHelpAppInfo,
+      title: 'Catchme',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
 
 
 }
