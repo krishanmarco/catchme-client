@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {NetInfo} from 'react-native';
-import firebase from '../lib/data/Firebase';
+import firebase from './data/Firebase';
 
 class Context {
 

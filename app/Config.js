@@ -121,7 +121,11 @@ export const Const = {
   },
 
 
-  FeedList: {
+  FirebaseDataPool: {
+    loadMoreItems: 10,
+  },
+
+  FeaturedAdsList: {
     loadMoreItems: 10,
   },
 
