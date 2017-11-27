@@ -1,8 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import {poolConnect} from '../../redux/ReduxPool';
+import {View} from 'react-native';
+import {poolConnect, FIREBASE_DATA_ID_FEED} from '../../redux/ReduxPool';
 import FeedList from '../../comp-buisness/feed/FeedList';
+import DaoUser from "../../lib/daos/DaoUser";
 
 
 // Redux ************************************************************************************************
@@ -14,7 +16,7 @@ const feedInitState = {
 
 export function feedReducer(state = feedInitState, action) {
   switch (action.type) {
-    // Nothing for now
+      // Nothing for now
   }
 
   return state;
@@ -27,15 +29,45 @@ export function feedReducer(state = feedInitState, action) {
 
 class FeedPresentational extends React.Component {
 
-  _userProfile() { return this.props.userProfile; }
-  _navigator() { return this.props.navigator; }
+  constructor(props, context) {
+    super(props, context);
+    this._loadMore = this._loadMore.bind(this);
+  }
+
+  componentWillMount() {
+    this._firebaseDataFeed().initialize(DaoUser.gId(this._userProfile()));
+  }
+
+  _firebaseDataFeed() {
+    return this.props[FIREBASE_DATA_ID_FEED];
+  }
+
+  _userProfile() {
+    return this.props.userProfile;
+  }
+
+  _navigator() {
+    return this.props.navigator;
+  }
+
+  _loadMore() {
+    this._firebaseDataFeed().loadMore(DaoUser.gId(this._userProfile()));
+  }
 
 
   render() {
     return (
-        <FeedList
-            userProfile={this._userProfile()}
-            navigator={this._navigator()}/>
+        <View style={{flex: 1}}>
+          <View style={{height: 500}}>
+          <FeedList
+              userProfile={this._userProfile()}
+              navigator={this._navigator()}
+
+              feedList={this._firebaseDataFeed().data}
+              loading={this._firebaseDataFeed().runningBulkFetch}
+              loadMore={this._loadMore}/>
+          </View>
+        </View>
     );
   }
 
@@ -55,7 +87,7 @@ const Feed = poolConnect(
     (dispatch) => ({}),
 
     // Array of pools to subscribe to
-    []
+    [FIREBASE_DATA_ID_FEED]
 );
 export default Feed;
 

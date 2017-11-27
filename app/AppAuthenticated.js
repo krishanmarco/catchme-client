@@ -91,8 +91,8 @@ export default function run(authenticatedUser) {
         passProps: {userId: DaoUser.gId(authenticatedUser)},
         title: 'Catchme',
         navigatorStyle: {}
-      }/*,
-      {
+      },
+      /*{
         icon: require('./assets/icons/americanExpressIcon.png'),
         selectedIcon: require('./assets/icons/masterCardIcon.png'),
         screen: Const.NavigationComponents.ScreenSearch,

@@ -18,7 +18,6 @@ import {editLocationTimingsReducer} from '../screens/location-edit/pages/EditLoc
 import {editLocationAddressReducer} from '../screens/location-edit/pages/EditLocationAddress';
 import {editLocationSaveReducer} from '../screens/location-edit/pages/EditLocationSave';
 
-import {feedListReducer} from "../comp-buisness/feed/FeedList";
 import {chatReducer} from "../comp/chat/ReducerChat";
 
 const CombinedReducers = combineReducers({
@@ -26,7 +25,6 @@ const CombinedReducers = combineReducers({
   reduxPoolReducer,
 
   chatReducer,
-  feedListReducer,
 
   locationProfileReducer,
   userProfileReducer,

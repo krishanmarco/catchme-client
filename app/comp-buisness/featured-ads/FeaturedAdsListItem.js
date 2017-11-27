@@ -19,7 +19,7 @@ import FeedHandler from '../../lib/helpers/FeedHandler';
 
 
 
-export default class FeedListItem extends React.Component {
+export default class FeaturedAdsListItem extends React.Component {
 
   constructor(props, context) {
     super(props, context);
