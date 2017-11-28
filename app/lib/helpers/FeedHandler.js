@@ -107,7 +107,7 @@ const _FeedItems = {
 
 
 
-
+// todo: rename class to Action Handler
 class FeedHandler {
 
   actionIsValid(feed, action) {

@@ -1,20 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Colors} from '../../Config';
 
 import {Icon, Avatar} from 'react-native-elements'
-import {Col, Grid} from "react-native-easy-grid";
 
-import {AvatarCircle} from '../../comp/misc/Avatars';
-
-import {View, TouchableNativeFeedback} from 'react-native';
-import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
+import {View, TouchableNativeFeedback, Image} from 'react-native';
+import {RkStyleSheet, RkText, RkButton, RkCard} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
-import HTMLView from 'react-native-htmlview';
-import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
 import FeedHandler from '../../lib/helpers/FeedHandler';
+import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 
 
 
@@ -23,77 +16,66 @@ export default class FeaturedAdsListItem extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this._handleAction = this._handleAction.bind(this);
     this._onItemPress = this._onItemPress.bind(this);
   }
 
-  _feed() { return this.props.feed; }
-  _navigator() { return this.props.navigator; }
+  _featuredAd() {
+    return this.props.featuredAd;
+  }
+
+  _navigator() {
+    return this.props.navigator;
+  }
 
 
   _onItemPress() {
-    const clickAction = DaoFeed.gClickAction(this._feed());
+    const clickAction = DaoFeed.gClickAction(this._featuredAd());
 
-    if (clickAction && FeedHandler.actionIsValid(this._feed(), clickAction))
-      FeedHandler.handleFeedAction(clickAction, this._feed(), this._navigator());
+    if (clickAction && FeedHandler.actionIsValid(this._featuredAd(), clickAction))
+      this._handleAction(clickAction);
+  }
 
+
+  _handleAction(action) {
+    FeedHandler.handleFeedAction(action, this._featuredAd(), this._navigator())
   }
 
 
   render() {
     return (
         <TouchableNativeFeedback onPress={this._onItemPress}>
-          <Grid style={Styles.listItem}>
-            <Col size={100} style={{marginRight: 8}}>
-              <View style={Styles.listItemHeaderContent}>
-                {this._renderLeftAvatar()}
-                <View style={Styles.listItemContent}>
-                  <HTMLView
-                      style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap'}}
-                      value={DaoFeed.gContent(this._feed())}/>
-                </View>
+          <RkCard rkType='backImg'>
+            <Image rkCardImg source={{uri: DaoFeaturedAd.gImage(this._featuredAd())}}/>
+            <View rkCardImgOverlay rkCardContent style={Styles.overlay}>
+              <RkText rkType='header2 inverseColor'>{DaoFeaturedAd.gTitle(this._featuredAd()).toUpperCase()}</RkText>
+              <RkText rkType='secondary2 inverseColor'>{DaoFeaturedAd.gSubTitle(this._featuredAd())}</RkText>
+              <View rkCardFooter style={Styles.footer}>
+                {this._renderActionBar()}
               </View>
-            </Col>
-            {this._renderActions()}
-            {this._renderRightAvatar()}
-          </Grid>
+            </View>
+          </RkCard>
         </TouchableNativeFeedback>
     );
   }
 
 
-  _renderLeftAvatar() {
-    const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
-    return leftAvatar && <AvatarCircle uri={leftAvatar}/>
+  _renderActionBar() {
+    const actions = DaoFeaturedAd.gActions(this._featuredAd())
+        .filter(action => FeedHandler.actionIsValid(this._featuredAd(), action));
+
+    return (
+        <View style={Styles.actionBarContainer}>
+          {actions.map((action, key) => (
+              <View key={key} style={Styles.actionBarSection}>
+                <RkButton rkType='clear' onPress={() => this._handleAction(action)}>
+                  <Icon color='#fff' size={30} {...FeedHandler.mapActionToIcon(action)}/>
+                </RkButton>
+              </View>
+          ))}
+        </View>
+    );
   }
-
-  _renderRightAvatar() {
-    const rightAvatar = DaoFeed.gRightAvatar(this._feed());
-    return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
-  }
-
-
-  // todo: can be calculated from state
-  _renderActions() {
-    const actions = DaoFeed.gActions(this._feed())
-        .filter(action => FeedHandler.actionIsValid(this._feed(), action));
-
-    return actions.map((action, key) => {
-
-      const marginRight = key === actions.length ? 0 : 8;
-      const actionProps = {
-        nameType: FeedHandler.mapActionToIcon(action),
-        onPress: () => FeedHandler.handleFeedAction(action, this._feed(), this._navigator())
-      };
-
-      return (
-          <Col key={key} size={15} style={{marginRight}}>
-            <ListItemActionIcon {...actionProps}/>
-          </Col>
-      );
-
-    });
-  }
-
 
 }
 
@@ -107,20 +89,15 @@ export default class FeaturedAdsListItem extends React.Component {
 let Styles = RkStyleSheet.create(theme => ({
 
   listItem: {
-    paddingLeft: 12,
-    paddingRight: 12,
-
+    paddingHorizontal: 12,
     display: 'flex',
     alignItems: 'center',
-
     borderBottomWidth: 0,
     borderColor: theme.colors.border.base,
   },
 
   listItemHeaderContent: {
-    paddingTop: 12,
-    paddingBottom: 12,
-
+    paddingVertical: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
@@ -134,5 +111,26 @@ let Styles = RkStyleSheet.create(theme => ({
   listItemContent: {
     marginLeft: 12,
     flex: 1
-  }
+  },
+
+  root: {
+    backgroundColor: theme.colors.screen.base
+  },
+  overlay: {
+    justifyContent: 'flex-end',
+  },
+  footer: {
+    width: '100%'
+  },
+
+  actionBarContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  actionBarSection: {
+    paddingHorizontal: 8,
+    marginLeft: 12,
+  },
 }));

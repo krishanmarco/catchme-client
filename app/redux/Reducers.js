@@ -30,6 +30,7 @@ const CombinedReducers = combineReducers({
   userProfileReducer,
   searchReducer,
   feedReducer,
+  featuredAdsReducer,
 
   settingsUserAccountReducer,
   addContactsReducer,

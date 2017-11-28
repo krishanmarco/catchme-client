@@ -27,13 +27,13 @@ export class FirebaseData {
 
   static dbFeaturedAdById(feedId) {
     return firebase.database()
-        .ref('usersFeed')
+        .ref('featuredAds')
         .child(feedId);
   }
 
   static dbUserFeaturedAdIds(userId) {
     return firebase.database()
-        .ref(`users/${userId}/feed`);
+        .ref(`users/${userId}/featuredAds`);
   }
 
 }
