@@ -88,7 +88,6 @@ class UserProfilePresentational extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this._onTabSwitch = this._onTabSwitch.bind(this);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
     this._renderTabBarScene = this._renderTabBarScene.bind(this);
@@ -135,49 +134,6 @@ class UserProfilePresentational extends React.Component {
     return DaoUser.gId(this._userProfile()) === DaoUser.gId(this._authenticatedUserProfile());
   }
 
-
-  _onTabSwitch(tabIndex) {
-    /*
-        if (tabIndex == 0 && !this.props.headerDragEnabled) {
-          // The first tab has been selected and the previous headerDragEnabled
-          // state is different than what is expected at tab 0
-
-          // Snap the header to the bottom and enable interactions
-          this.props.setHeaderDragEnabled(true);
-          this.refs[UserProfile.refCollapsingHeader].snapToBottom();
-          return;
-        }
-
-        if (tabIndex > 0 && this.props.headerDragEnabled) {
-          // The second, third or fourth tab have been selected and the previous
-          // headerDragEnabled is different than what is expected at tab > 0
-
-          // Snap the header to the top and disable interactions
-          this.props.setHeaderDragEnabled(false);
-          this.refs[UserProfile.refCollapsingHeader].snapToTop();
-        }
-        */
-  }
-
-  /*
-    render() {
-      return (
-          <CollapsingHeaderWithScroll
-              ref={UserProfile.refCollapsingHeader}
-
-              dragEnabled={this.props.headerDragEnabled}
-
-              headerHeight={150}    // Dynamic calculation??
-              contentHeight={555}   // Screen - NavigationBar - TabBarTop - TabBarBottom
-              contentBackgroundColor={Colors.background}
-
-              header={this._renderTabProfileHeader()}
-              interactable={this._renderTabBar()}/>
-      );
-    }
-    */
-
-
   render() {
     const tabs = [];
 
@@ -219,7 +175,7 @@ class UserProfilePresentational extends React.Component {
         <View
             key={tabLabel}
             tabLabel={tabLabel}
-            style={{paddingVertical: 8, height: 440}}>
+            style={{height: 440}}>
           {jsx}
         </View>
     );

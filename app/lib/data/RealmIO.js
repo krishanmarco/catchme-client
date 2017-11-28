@@ -25,13 +25,10 @@ class RealmIO {
 
     if (localUser != null) {
       realm.write(() => {localUser.user = newUser;});
-
-    } else {
-      this._tryAddToRealm('LocalUser', {user: newUser});
-
+      return;
     }
 
-    ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user))
+    this._tryAddToRealm('LocalUser', {user: newUser});
   }
 
   removeLocalUser() {

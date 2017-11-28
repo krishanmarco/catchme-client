@@ -9,6 +9,7 @@ import {Colors} from '../../Config';
 
 // this.props.timings, this.props.isEditable this.props.getLabel(index) this.props.centerLabel
 export default class Clock extends React.Component {
+  static CLOCK_HEIGHT = 246;
 
   constructor(props, context) {
     super(props, context);
@@ -46,10 +47,10 @@ export default class Clock extends React.Component {
 
   render() {
     return (
-        <Svg width={246} height={246} viewBox='0 0 245 245' style={{width: '100%', height: 'auto'}}>
+        <Svg width={Clock.CLOCK_HEIGHT} height={Clock.CLOCK_HEIGHT} viewBox='0 0 245 245' style={{width: '100%', height: 'auto'}}>
           <VictoryPie
-              height={246}
-              width={246}
+              height={Clock.CLOCK_HEIGHT}
+              width={Clock.CLOCK_HEIGHT}
               labelRadius={50}
               innerRadius={16}
               standalone={false}
@@ -58,15 +59,15 @@ export default class Clock extends React.Component {
               colorScale={this.state.colorScale}
 
               style={{labels: {fill: 'white', fontSize: 12}}}
-              labelComponent={<VictoryLabel dy={-16}/>}
+              labelComponent={<VictoryLabel />}
 
               eventKey={datum => datum.x}
               events={[{target: "data", eventHandlers: {onPress: this._onSlicePress}}]}/>
           <VictoryLabel
               textAnchor="middle"
               style={{fill: Colors.primary, fontWeight: 'bold'}}
-              x={123}
-              y={117}
+              x={Clock.CLOCK_HEIGHT / 2}
+              y={Clock.CLOCK_HEIGHT / 2}
               text={this.props.centerLabel}
           />
         </Svg>

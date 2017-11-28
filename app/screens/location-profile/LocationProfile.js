@@ -80,7 +80,6 @@ class LocationProfilePresentational extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this._onTabSwitch = this._onTabSwitch.bind(this);
   }
 
   _onUserPress(user) {
@@ -110,10 +109,9 @@ class LocationProfilePresentational extends React.Component {
       locationInfo.push({
         icon: Icons.locationOpenTimes,
         title: managerWeekTimings.toStringRangeStatusAndCurrentDay(),
-        onPress: () => Router.toTimingModal(this.props.navigator, {managerWeekTimings})
+        onPress: () => Router.toTimingModal(this.props.navigator, DaoLocation.gName(this._locationProfile()), {managerWeekTimings})
       });
     }
-
 
 
     if (DaoLocation.hasAddressObj(locationProfile))
@@ -121,31 +119,6 @@ class LocationProfilePresentational extends React.Component {
 
     return locationInfo;
   }
-
-
-  _onTabSwitch(tabIndex) {
-
-    if (tabIndex == 0 && !this.props.headerDragEnabled) {
-      // The first tab has been selected and the previous headerDragEnabled
-      // state is different than what is expected at tab 0
-
-      // Snap the header to the bottom and enable interactions
-      this.props.setHeaderDragEnabled(true);
-      this.refs[LocationProfile.refCollapsingHeader].snapToBottom();
-      return;
-    }
-
-    if (tabIndex > 0 && this.props.headerDragEnabled) {
-      // The second, third or fourth tab have been selected and the previous
-      // headerDragEnabled is different than what is expected at tab > 0
-
-      // Snap the header to the top and disable interactions
-      this.props.setHeaderDragEnabled(false);
-      this.refs[LocationProfile.refCollapsingHeader].snapToTop();
-    }
-
-  }
-
 
   _onAddImagePress() {
     this.refs[LocationProfile.refCollapsingHeader].open();
@@ -191,7 +164,10 @@ class LocationProfilePresentational extends React.Component {
 
   _renderTab(tabLabel, jsx) {
     return (
-        <View tabLabel={tabLabel} style={{paddingVertical: 8}}>
+        <View
+            key={tabLabel}
+            tabLabel={tabLabel}
+            style={{height: 510}}>
           {jsx}
         </View>
     );
@@ -202,12 +178,12 @@ class LocationProfilePresentational extends React.Component {
 
     return (
         <Grid style={{marginTop: 16}}>
-          <Row size={100}>
+          <Row size={-1}>
             <AvatarDescription
                 avatar={DaoLocation.gPictureUrl(locationProfile)}
                 content={DaoLocation.gDescription(locationProfile)}/>
           </Row>
-          <Row size={50}>
+          <Row size={-1}>
             <ListDataPoints listDataPoints={[
               {name: 'Capacity', value: DaoLocation.gCapacity(locationProfile)},
               {name: 'Male', value: DaoLocation.gMen(locationProfile)},
@@ -262,7 +238,6 @@ class LocationProfilePresentational extends React.Component {
 
   _renderTabInfo() {
     let locationProfile = this._locationProfile();
-    let authUserProfile = this._authenticatedUserProfile();
 
     return (
         <Grid style={{marginTop: 16}}>
