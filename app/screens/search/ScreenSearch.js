@@ -24,7 +24,7 @@ class ScreenSearchPresentational extends React.Component {
             renderChild={([userProfile]) => (
                 <Search
                     navigator={this.props.navigator}
-                  userProfile={userProfile}/>
+                    userProfile={userProfile}/>
             )}/>
     );
   }
