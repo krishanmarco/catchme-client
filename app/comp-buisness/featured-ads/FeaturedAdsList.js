@@ -3,10 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {FlatList} from 'react-native';
-import DaoFeed from "../../lib/daos/DaoFeed";
 import FeaturedAdsListItem from "./FeaturedAdsListItem";
 
 import DefaultLoader from '../../comp/misc/DefaultLoader';
+import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 
 
 // PresentationalComponent ******************************************************************************
@@ -22,9 +22,9 @@ export default class FeaturedAdsList extends React.Component {
   render() {
     return (
         <FlatList
-            data={this.props.FeaturedAdsList}
+            data={this.props.featuredAdsList}
             renderItem={({item}) => this._renderItem(item)}
-            keyExtractor={(item, index) => DaoFeed.gId(item)}
+            keyExtractor={(item, index) => DaoFeaturedAd.gId(item)}
 
             ListEmptyComponent={() => null}
 
@@ -38,10 +38,10 @@ export default class FeaturedAdsList extends React.Component {
   }
 
 
-  _renderItem(feed) {
+  _renderItem(featuredAd) {
     return (
         <FeaturedAdsListItem
-            feed={feed}
+            featuredAd={featuredAd}
             navigator={this.props.navigator}/>
     );
   }
@@ -60,7 +60,7 @@ FeaturedAdsList.defaultProps = {};
 FeaturedAdsList.propTypes = {
   userProfile: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
-  FeaturedAdsList: PropTypes.array.isRequired,
+  featuredAdsList: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
   loadMore: PropTypes.func.isRequired
 };

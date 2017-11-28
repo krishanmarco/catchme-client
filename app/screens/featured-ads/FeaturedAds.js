@@ -1,8 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import {poolConnect} from '../../redux/ReduxPool';
+import {View} from 'react-native';
+import {poolConnect, FIREBASE_DATA_ID_FEATURED_ADS} from '../../redux/ReduxPool';
 import FeaturedAdsList from '../../comp-buisness/featured-ads/FeaturedAdsList';
+import DaoUser from "../../lib/daos/DaoUser";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -13,7 +15,7 @@ const featuredAdsInitState = {
 
 export function featuredAdsReducer(state = featuredAdsInitState, action) {
   switch (action.type) {
-    // Nothing for now
+      // Nothing for now
   }
 
   return state;
@@ -25,20 +27,45 @@ export function featuredAdsReducer(state = featuredAdsInitState, action) {
 
 class FeaturedAdsPresentational extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+    this._loadMore = this._loadMore.bind(this);
+  }
+
+  componentWillMount() {
+    this._firebaseDataFeaturedAds().initialize(DaoUser.gId(this._userProfile()));
+  }
+
   _navigator() {
     return this.props.navigator;
   }
 
-  _authenticatedUserProfile() {
-    return this.props.userProfile;
+  _userProfile() {
+    return this.props.authenticatedUserProfile;
+  }
+
+  _firebaseDataFeaturedAds() {
+    return this.props[FIREBASE_DATA_ID_FEATURED_ADS];
+  }
+
+  _loadMore() {
+    this._firebaseDataFeaturedAds().loadMore(DaoUser.gId(this._userProfile()));
   }
 
 
   render() {
     return (
-        <FeaturedAdsList
-            userProfile={this._authenticatedUserProfile()}
-            navigator={this._navigator()}/>
+        <View style={{flex: 1}}>
+          <View style={{height: 500}}>
+            <FeaturedAdsList
+                userProfile={this._userProfile()}
+                navigator={this._navigator()}
+
+                featuredAdsList={this._firebaseDataFeaturedAds().data}
+                loading={this._firebaseDataFeaturedAds().runningBulkFetch}
+                loadMore={this._loadMore}/>
+          </View>
+        </View>
     );
   }
 
@@ -58,7 +85,7 @@ const FeaturedAds = poolConnect(
     (dispatch) => ({}),
 
     // Array of pools to subscribe to
-    []
+    [FIREBASE_DATA_ID_FEATURED_ADS]
 );
 
 

@@ -7,7 +7,6 @@ import ObjectCache from "../helpers/ObjectCache";
 
  FeedItem: {
     id: 1,                                      // (!) Unique feed item identifier
-    userId: 1,                                  // (!) The object is destined for this users feed
     time: 10000000000,                          // (!) Seconds in which the feed was generated
     expiry: -1,                                 // (!) Seconds of expiry, if expired the item is not displayed (-1 means never)
     consumeOnView: true,                        // (!) If true the item is deleted from the realtime db once it has been viewed
@@ -20,13 +19,12 @@ import ObjectCache from "../helpers/ObjectCache";
       'FriendshipRequestDeny',                  // (?) {ACTION}
       ...                                       // (?) {ACTION}
     ],
-    payload: {...}                              // (?) Field that is unique for each feed item
+    payload: {...}                              // (?) Field that is unique for each feed item type
  },
 
  **/
 export default class DaoFeed {
   static pId = 'id';
-  static pUserId = 'userId';
   static pTime = 'time';
   static pExpiry = 'expiry';
   static pConsumeOnView = 'consumeOnView';
@@ -42,10 +40,6 @@ export default class DaoFeed {
 
   static gId(feed) {
     return _.get(feed, DaoFeed.pId);
-  }
-
-  static gUserId(feed) {
-    return _.get(feed, DaoFeed.pUserId);
   }
 
   static gTime(feed) {

@@ -49,7 +49,7 @@ export const Const = {
   NavigationComponents: {
     ScreenLocationProfile: `${Globals.packageName}.ScreenLocationProfile`,
     ScreenUserProfile: `${Globals.packageName}.ScreenUserProfile`,
-    ScreenUserFeed: `${Globals.packageName}.ScreenUserFeed`,
+    ScreenFeed: `${Globals.packageName}.ScreenUserFeed`,
     ScreenSearch: `${Globals.packageName}.ScreenSearch`,
 
     ScreenLogin: `${Globals.packageName}.ScreenLogin`,

@@ -19,6 +19,7 @@ import ScreenLocationProfile from './screens/location-profile/ScreenLocationProf
 import ScreenEditLocation from './screens/location-edit/ScreenEditLocation';
 import ScreenUserProfile from './screens/user-profile/ScreenUserProfile';
 import ScreenFeed from './screens/feed/ScreenFeed';
+import ScreenFeaturedAds from './screens/featured-ads/ScreenFeaturedAds';
 import ScreenSearch from './screens/search/ScreenSearch';
 
 import ScreenSettingsUserAccount from './screens/settings/user-account/ScreenSettingsUserAccount';
@@ -60,8 +61,9 @@ export default function run(authenticatedUser) {
 
     {name: Const.NavigationComponents.ScreenUserProfile, getComponent: () => ScreenUserProfile},
     {name: Const.NavigationComponents.ScreenLocationProfile, getComponent: () => ScreenLocationProfile},
-    {name: Const.NavigationComponents.ScreenUserFeed, getComponent: () => ScreenFeed},
     {name: Const.NavigationComponents.ScreenSearch, getComponent: () => ScreenSearch},
+    {name: Const.NavigationComponents.ScreenFeed, getComponent: () => ScreenFeed},
+    {name: Const.NavigationComponents.ScreenFeaturedAds, getComponent: () => ScreenFeaturedAds},
 
     {name: Const.NavigationComponents.ScreenEditLocation, getComponent: () => ScreenEditLocation},
 
@@ -92,7 +94,7 @@ export default function run(authenticatedUser) {
         title: 'Catchme',
         navigatorStyle: {}
       },
-      /*{
+      {
         icon: require('./assets/icons/americanExpressIcon.png'),
         selectedIcon: require('./assets/icons/masterCardIcon.png'),
         screen: Const.NavigationComponents.ScreenSearch,
@@ -102,10 +104,17 @@ export default function run(authenticatedUser) {
       {
         icon: require('./assets/icons/americanExpressIcon.png'),
         selectedIcon: require('./assets/icons/masterCardIcon.png'),
-        screen: Const.NavigationComponents.ScreenUserFeed,
+        screen: Const.NavigationComponents.ScreenFeed,
         title: 'Feed',
         navigatorStyle: {}
-      }*/
+      },
+      {
+        icon: require('./assets/icons/americanExpressIcon.png'),
+        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        screen: Const.NavigationComponents.ScreenFeaturedAds,
+        title: 'Featured',
+        navigatorStyle: {}
+      }
     ],
     tabsStyle: {
       initialTabIndex: 0,
