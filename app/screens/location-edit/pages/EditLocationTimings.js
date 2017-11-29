@@ -74,7 +74,8 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
           <WeekTimingsList
               ref={EditLocationTimingsPresentational.refWeekTimingsList}
               managerWeekTimings={this._managerWeekTimings()}
-              isEditable={true}/>
+              isEditable={true}
+              size={246}/>
         </View>
     );
   }

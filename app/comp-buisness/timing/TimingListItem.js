@@ -54,10 +54,13 @@ export default class TimingListItem extends React.Component {
   }
 
   _renderTimingContent() {
+    const {size} = this.props;
+
     return (
-        <Grid>
-          <Col style={Styles.content} size={50}>
+        <Grid style={{height: size * 0.55}}>
+          <Col size={50} style={[Styles.content]}>
             <Clock
+                size={this.props.size}
                 ref={TimingListItem.refClockAm}
                 isEditable={this._isEditable()}
                 getLabel={index => index + 1}
@@ -65,8 +68,9 @@ export default class TimingListItem extends React.Component {
                 timings={this._timingsInDay().slice(0, 12)}/>
           </Col>
           <Col size={4}></Col>
-          <Col style={Styles.content} size={50}>
+          <Col size={50} style={Styles.content}>
             <Clock
+                size={this.props.size}
                 ref={TimingListItem.refClockPm}
                 isEditable={this._isEditable()}
                 getLabel={index => index + 13}
@@ -92,6 +96,11 @@ const Styles = StyleSheet.create({
   root: {
     marginTop: 4,
   },
+  content: {
+    marginTop: 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   headerSpan: {
     backgroundColor: Colors.background,
     paddingVertical: 0,
@@ -103,12 +112,5 @@ const Styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderStyle: 'solid',
     borderColor: 'black',
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 165
   }
 });

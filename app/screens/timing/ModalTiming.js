@@ -20,7 +20,8 @@ class ModalTimingPresentational extends React.Component {
           <WeekTimingsList
               ref={ModalTimingPresentational.refWeekTimingsList}
               managerWeekTimings={this._managerWeekTimings()}
-              isEditable={false}/>
+              isEditable={false}
+              size={200}/>
         </View>
     );
   }

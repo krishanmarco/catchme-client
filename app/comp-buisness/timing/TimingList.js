@@ -45,6 +45,7 @@ export default class WeekTimingsList extends React.Component {
                           key={key}
                           ref={WeekTimingsList.refTimingListItem + key}
                           day={key}
+                          size={this.props.size}
                           managerWeekTimings={this._managerWeekTimings()}
                           isEditable={this._isEditable()}/>
                   ))}

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import {AvatarCircle} from './Avatars';
+import {Avatar} from './Avatars';
 import {Col, Row, Grid} from "react-native-easy-grid";
 
 
@@ -32,7 +32,7 @@ const AvatarDescription = ({avatar, content, badges, maxHeight, style}) => (
     <ScrollView>
       <Grid style={[styles.header, style]}>
         <Row>
-          <AvatarCircle uri={avatar} rkType='huge'/>
+          <Avatar uri={avatar} rkType='huge'/>
         </Row>
 
         <Row style={[styles.publicMessage]}>

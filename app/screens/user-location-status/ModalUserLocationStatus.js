@@ -3,7 +3,6 @@ import React from 'react';
 import {Const, Icons} from '../../Config';
 import PropTypes from 'prop-types';
 import {poolConnect, FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../redux/ReduxPool';
-import WeekTimingsList from '../../comp-buisness/timing/TimingList';
 import {Row, Grid, Col} from "react-native-easy-grid";
 import {RkText, RkButton} from "react-native-ui-kitten";
 import {View, StyleSheet, Image, TouchableNativeFeedback, TouchableOpacity} from 'react-native';

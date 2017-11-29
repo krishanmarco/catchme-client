@@ -20,7 +20,6 @@ class ChatPresentational extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-
     this._onSend = this._onSend.bind(this);
     this._onPressAvatar = this._onPressAvatar.bind(this);
     this._renderBubble = this._renderBubble.bind(this);
@@ -66,7 +65,7 @@ class ChatPresentational extends React.Component {
   render() {
     return (
         <GiftedChat
-            ref={component => this.giftedChat = component}
+            ref={component => {this.giftedChat = component;}}
 
             messages={this.props.messages}
             user={this._getChatUser()}

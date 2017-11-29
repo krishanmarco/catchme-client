@@ -14,6 +14,19 @@ export default firebase;
 // Functions to access specific data in the firebase database
 export class FirebaseData {
 
+  static dbUserById(userId) {
+    return firebase.database()
+        .ref('users')
+        .child(userId);
+  }
+
+  static dbLocationChatMessages(locationId) {
+    return firebase.database()
+        .ref('locations')
+        .child(locationId)
+        .child('messages');
+  }
+
   static dbFeedById(feedId) {
     return firebase.database()
         .ref('usersFeed')

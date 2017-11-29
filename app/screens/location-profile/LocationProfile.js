@@ -9,9 +9,9 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 import Context from '../../lib/Context';
 import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
-import {Text, FlatList, View} from 'react-native';
+import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
 
-import AvatarDescription from '../../comp/misc/AvatarDescription';
+import {Avatar} from '../../comp/misc/Avatars';
 // import TabBar from '../../comp/misc/TabBar';
 import ListDataPoints from '../../comp/misc/ListDataPoints';
 
@@ -80,15 +80,25 @@ class LocationProfilePresentational extends React.Component {
 
   constructor(props, context) {
     super(props, context);
+    this._onUserPress = this._onUserPress.bind(this);
   }
 
   _onUserPress(user) {
-    Router.toUserProfile(this.props.navigator, user);
+    Router.toUserProfile(this._navigator(), user);
+  }
+  
+  
+  _navigator() {
+    return this.props.navigator;
   }
 
+  _locationProfile() {
+    return this.props.locationProfile;
+  }
 
-  _locationProfile() { return this.props.locationProfile; }
-  _authenticatedUserProfile() { return this.props.authenticatedUserProfile; }
+  _authenticatedUserProfile() {
+    return this.props.authenticatedUserProfile;
+  }
 
 
   _getTabInfo() {
@@ -109,7 +119,7 @@ class LocationProfilePresentational extends React.Component {
       locationInfo.push({
         icon: Icons.locationOpenTimes,
         title: managerWeekTimings.toStringRangeStatusAndCurrentDay(),
-        onPress: () => Router.toTimingModal(this.props.navigator, DaoLocation.gName(this._locationProfile()), {managerWeekTimings})
+        onPress: () => Router.toTimingModal(this._navigator(), DaoLocation.gName(this._locationProfile()), {managerWeekTimings})
       });
     }
 
@@ -128,8 +138,8 @@ class LocationProfilePresentational extends React.Component {
   render() {
     const tabs = [];
 
-    tabs.push(this._renderTab('0', this._renderTabProfileHeader()));
-    tabs.push(this._renderTab('1', this._renderTabLocationImages()));
+    tabs.push(this._renderTab('0', this._renderTabHome()));
+    tabs.push(this._renderTab('1', this._renderTabImages()));
     tabs.push(this._renderTab('2', this._renderTabFriendsNow()));
     tabs.push(this._renderTab('3', this._renderTabFriendsFuture()));
 
@@ -173,17 +183,23 @@ class LocationProfilePresentational extends React.Component {
     );
   }
 
-  _renderTabProfileHeader() {
+  _renderTabHome() {
     let locationProfile = this._locationProfile();
 
     return (
-        <Grid style={{marginTop: 16}}>
+        <Grid style={Styles.tabRootHome}>
           <Row size={-1}>
-            <AvatarDescription
-                avatar={DaoLocation.gPictureUrl(locationProfile)}
-                content={DaoLocation.gDescription(locationProfile)}/>
+            <Image
+                style={{width: '100%', height: 200}}
+                resizeMode='cover'
+                source={{uri: DaoLocation.gPictureUrl(locationProfile)}} />
           </Row>
-          <Row size={-1}>
+
+          <Row size={-1} style={Styles.publicMessage}>
+            <RkText rkType='primary1 hint'>{DaoLocation.gDescription(locationProfile)}</RkText>
+          </Row>
+
+          <Row size={-1} style={Styles.badges}>
             <ListDataPoints listDataPoints={[
               {name: 'Capacity', value: DaoLocation.gCapacity(locationProfile)},
               {name: 'Male', value: DaoLocation.gMen(locationProfile)},
@@ -195,11 +211,13 @@ class LocationProfilePresentational extends React.Component {
     );
   }
 
-  _renderTabLocationImages() {
+  _renderTabImages() {
     return (
-        <LocationGallery
-            navigator={this.props.navigator}
-            locationProfile={this._locationProfile()}/>
+        <View style={Styles.tabRootImages}>
+          <LocationGallery
+              navigator={this._navigator()}
+              locationProfile={this._locationProfile()}/>
+        </View>
     );
   }
 
@@ -208,10 +226,12 @@ class LocationProfilePresentational extends React.Component {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <UserList
-            users={DaoLocation.gFriendsNow(locationProfile)}
-            requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
-            onItemPress={this._onUserPress}/>
+        <View style={Styles.tabRootFriendsNow}>
+          <UserList
+              users={DaoLocation.gFriendsNow(locationProfile)}
+              requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
+              onItemPress={this._onUserPress}/>
+        </View>
     );
   }
 
@@ -220,10 +240,12 @@ class LocationProfilePresentational extends React.Component {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <UserList
-            users={DaoLocation.gFriendsFuture(locationProfile)}
-            requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
-            onItemPress={this._onUserPress}/>
+        <View style={Styles.tabRootFriendsFuture}>
+          <UserList
+              users={DaoLocation.gFriendsFuture(locationProfile)}
+              requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
+              onItemPress={this._onUserPress}/>
+        </View>
     );
   }
 
@@ -232,7 +254,9 @@ class LocationProfilePresentational extends React.Component {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <LocationChat location={locationProfile} user={authUserProfile}/>
+        <View style={Styles.tabRootChat}>
+          <LocationChat location={locationProfile} user={authUserProfile}/>
+        </View>
     );
   }
 
@@ -240,7 +264,7 @@ class LocationProfilePresentational extends React.Component {
     let locationProfile = this._locationProfile();
 
     return (
-        <Grid style={{marginTop: 16}}>
+        <Grid style={Styles.tabRootInfo}>
           <Row size={-1}>
             <StaticSectionList
                 sections={[{title: 'CATCH INFO', data: this._getTabInfo(locationProfile)}]}
@@ -286,3 +310,38 @@ LocationProfile.propTypes = {
 
 // Style ************************************************************************************************
 // Style ************************************************************************************************
+
+
+
+const Styles = StyleSheet.create({
+  tabRootHome: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  tabRootImages: {
+    flex: 1,
+  },
+  tabRootFriendsNow: {
+    flex: 1,
+    marginTop: 8
+  },
+  tabRootFriendsFuture: {
+    flex: 1,
+    marginTop: 8
+  },
+  tabRootChat: {
+    flex: 1,
+  },
+  tabRootInfo: {
+    flex: 1,
+    marginTop: 8
+  },
+
+  publicMessage: {
+    marginTop: 12,
+    paddingHorizontal: 16
+  },
+  badges: {
+    marginTop: 24
+  }
+});
