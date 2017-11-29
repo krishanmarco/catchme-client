@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import TimingListItem from './TimingListItem';
 
 
@@ -22,35 +22,43 @@ export default class WeekTimingsList extends React.Component {
     return weekTimings;
   }
 
-  _isEditable() { return this.props.isEditable; }
-  _managerWeekTimings() { return this.props.managerWeekTimings; }
+  _isEditable() {
+    return this.props.isEditable;
+  }
+
+  _managerWeekTimings() {
+    return this.props.managerWeekTimings;
+  }
 
   render() {
     return (
-        <ScrollView
-            style={Styles.root}
-            showsVerticalScrollIndicator={false}>
+        <View style={{flex: 1}}>
+          <View style={{height: 560}}>
+            <ScrollView
+                style={Styles.root}
+                showsVerticalScrollIndicator={false}>
 
-          {this._managerWeekTimings()
-              .getBoolWeekTimings()
-              .map((dayTimings, key) => (
-                  <TimingListItem
-                      key={key}
-                      ref={WeekTimingsList.refTimingListItem + key}
-                      day={key}
-                      managerWeekTimings={this._managerWeekTimings()}
-                      isEditable={this._isEditable()}/>
-              ))}
-
-        </ScrollView>
+              {this._managerWeekTimings()
+                  .getBoolWeekTimings()
+                  .map((dayTimings, key) => (
+                      <TimingListItem
+                          key={key}
+                          ref={WeekTimingsList.refTimingListItem + key}
+                          day={key}
+                          size={this.props.size}
+                          managerWeekTimings={this._managerWeekTimings()}
+                          isEditable={this._isEditable()}/>
+                  ))}
+            </ScrollView>
+          </View>
+        </View>
     );
   }
 
 
 }
 
-WeekTimingsList.defaultProps = {
-};
+WeekTimingsList.defaultProps = {};
 
 WeekTimingsList.propTypes = {
   managerWeekTimings: PropTypes.object.isRequired,

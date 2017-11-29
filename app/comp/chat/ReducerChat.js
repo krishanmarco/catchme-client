@@ -1,16 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import firebase from '../../lib/data/Firebase';
+import firebase, {FirebaseData} from '../../lib/data/Firebase';
 import {Const} from '../../Config';
 import _ from 'lodash';
 
 // HelperFunctions **************************************************************************************
 // HelperFunctions **************************************************************************************
-
-function databaseGetUserById(userId) {
-  return firebase.database()
-      .ref('users')
-      .child(userId);
-}
 
 
 function mapDbMessageToLocalMessage(dispatch, users, message) {
@@ -27,7 +21,8 @@ function mapDbMessageToLocalMessage(dispatch, users, message) {
   message.user = Const.Chat.unknownUserFallback;
 
   // Get the unknown user pId
-  databaseGetUserById(senderId).once('value')
+  FirebaseData.dbUserById(senderId)
+      .once('value')
       .then(user => dispatch(addUser(user.val())));
 
   return message;
@@ -49,8 +44,8 @@ const chatInitState = {
   messages: []
 };
 
+const ACTION_LOCATION_CHAT_RESET = 'ACTION_LOCATION_CHAT_RESET';
 const ACTION_LOCATION_CHAT_ADD_USER = 'ACTION_LOCATION_CHAT_ADD_USER';
-// const ACTION_LOCATION_CHAT_START_AUTHORIZING = 'ACTION_LOCATION_CHAT_START_AUTHORIZING';
 const ACTION_LOCATION_CHAT_SET_AUTHORIZED = 'ACTION_LOCATION_CHAT_SET_AUTHORIZED';
 const ACTION_LOCATION_CHAT_PRE_BULK_FETCH = 'ACTION_LOCATION_CHAT_PRE_BULK_FETCH';
 const ACTION_LOCATION_CHAT_START_ON_MESSAGES_RECEIVED = 'ACTION_LOCATION_CHAT_START_ON_MESSAGES_RECEIVED';
@@ -60,16 +55,13 @@ const ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS = 'ACTION_LOCATION_CHAT_SET_FET
 export function chatReducer(state = chatInitState, action) {
   switch (action.type) {
 
+    case ACTION_LOCATION_CHAT_RESET:
+      return Object.assign({}, chatInitState);
+
     case ACTION_LOCATION_CHAT_ADD_USER:
       return Object.assign({}, state, {
         users: Object.assign(state.users, {[action.user._id]: action.user})
       });
-
-      /*case ACTION_LOCATION_CHAT_START_AUTHORIZING:
-        return Object.assign({}, state, {
-          authorizing: true,
-          authorized: false
-        });*/
 
     case ACTION_LOCATION_CHAT_SET_AUTHORIZED:
       return Object.assign({}, state, {
@@ -92,7 +84,7 @@ export function chatReducer(state = chatInitState, action) {
 
     case ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS:
       return Object.assign({}, state, {
-        fetchedAllItems: action.fetchedAllItems,
+        fetchedAllItems: true,
         runningBulkFetch: false,
       });
 
@@ -101,24 +93,21 @@ export function chatReducer(state = chatInitState, action) {
   return state;
 }
 
+
+export function initialize(getFirebaseMessages, user) {
+  return (dispatch) => {
+    dispatch({type: ACTION_LOCATION_CHAT_RESET});
+    dispatch(addUser(user));
+    dispatch({type: ACTION_LOCATION_CHAT_SET_AUTHORIZED});
+    dispatch(chatFetchMessages(getFirebaseMessages));
+    FirebaseData.dbUserById(user._id).update(user);
+  };
+}
+
 function addUser(user) {
   return {
     type: ACTION_LOCATION_CHAT_ADD_USER,
     user: user
-  };
-}
-
-
-export function initialize(getFirebaseMessages, user) {
-  return (dispatch) => {
-
-    // dispatch({type: ACTION_LOCATION_CHAT_START_AUTHORIZING});
-    dispatch(addUser(user));
-    dispatch({type: ACTION_LOCATION_CHAT_SET_AUTHORIZED});
-
-    databaseGetUserById(user._id)
-        .update(user);
-
   };
 }
 
@@ -148,11 +137,13 @@ export function chatFetchMessages(getFirebaseMessages) {
       let firebaseMessages = snapshot.val();
 
       if (firebaseMessages == null)
-        return;
+        firebaseMessages = {};
 
+      const state = getState().chatReducer;
       let messages = Object.values(firebaseMessages);
-      if (messages.length === getState().chatReducer.messages.length) {
-        dispatch({type: ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS, fetchedAllItems: true});
+
+      if (messages.length === state.messages.length) {
+        dispatch({type: ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS});
         return;
       }
 
@@ -161,6 +152,9 @@ export function chatFetchMessages(getFirebaseMessages) {
       messages = messages.map(m => mapDbMessageToLocalMessage(dispatch, users, m));
 
       dispatch(chatReceiveMessages(messages));
+
+      if (messages.length < state.itemsToLoad)
+        dispatch({type: ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS});
     });
 
 

@@ -103,13 +103,16 @@ export default class Gallery extends React.Component {
   }
 
   _renderAddImageButton() {
+    // The padding: 1 is needed to balance the other images
     return (
-        <RkButton
-            style={{width: this.state.imageSize, height: this.state.imageSize, backgroundColor: Colors.greyFade}}
-            rkType='clear contrast'
-            onPress={this.props.onAddImage}>
-          <Icon size={this.state.imageSize / 1.5} {...Icons.addImage} color={Colors.black}/>
-        </RkButton>
+        <View style={{padding: 1}}>
+          <RkButton
+              style={{width: this.state.imageSize, height: this.state.imageSize, backgroundColor: Colors.greyFade}}
+              rkType='clear contrast'
+              onPress={this.props.onAddImage}>
+            <Icon size={this.state.imageSize / 1.5} {...Icons.addImage} color={Colors.black}/>
+          </RkButton>
+        </View>
     );
   }
 

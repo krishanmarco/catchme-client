@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View} from 'react-native';
 import {VictoryPie, VictoryLabel} from 'victory-native';
 import Svg from 'react-native-svg';
 import {Colors} from '../../Config';
@@ -45,28 +44,37 @@ export default class Clock extends React.Component {
 
 
   render() {
+    const {size} = this.props;
+    const svgProps = {
+      width: size,
+      height: size,
+      viewBox: `0 0 ${size} ${size}`,
+      style: {width: '100%', height: 'auto'}
+    };
+
+
     return (
-        <Svg width={246} height={246} viewBox='0 0 245 245' style={{width: '100%', height: 'auto'}}>
+        <Svg {...svgProps}>
           <VictoryPie
-              height={246}
-              width={246}
-              labelRadius={50}
-              innerRadius={16}
+              height={size}
+              width={size}
+              labelRadius={size * 0.14}
+              innerRadius={size * 0.06}
               standalone={false}
 
               data={this.state.data}
               colorScale={this.state.colorScale}
 
-              style={{labels: {fill: 'white', fontSize: 12}}}
-              labelComponent={<VictoryLabel dy={-16}/>}
+              style={{labels: {fill: 'white', fontSize: size * 0.05}}}
+              labelComponent={<VictoryLabel />}
 
               eventKey={datum => datum.x}
               events={[{target: "data", eventHandlers: {onPress: this._onSlicePress}}]}/>
           <VictoryLabel
               textAnchor="middle"
-              style={{fill: Colors.primary, fontWeight: 'bold'}}
-              x={123}
-              y={117}
+              style={{fill: Colors.primary, fontSize: size * 0.06, fontWeight: 'bold'}}
+              x={size / 2}
+              y={size / 2}
               text={this.props.centerLabel}
           />
         </Svg>

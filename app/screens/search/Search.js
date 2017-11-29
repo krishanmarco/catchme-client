@@ -26,6 +26,8 @@ import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
 import Gallery from '../../comp/misc/Gallery';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+
 
 import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
 
@@ -257,14 +259,20 @@ class SearchPresentational extends React.Component {
 
   render() {
     return (
-        <Grid>
-          <Row>
-            <TabBar>
-              <TabBar.Tab text="Locations">{this._renderTabSearchLocations()}</TabBar.Tab>
-              <TabBar.Tab text="People">{this._renderTabSearchUsers()}</TabBar.Tab>
-            </TabBar>
-          </Row>
-        </Grid>
+        <ScrollableTabView
+            scrollWithoutAnimation={true}
+            prerenderingSiblingsNumber={Infinity}>
+          <View
+              tabLabel='Locations'
+              style={{paddingVertical: 8, height: 440}}>
+            {this._renderTabSearchLocations()}
+          </View>
+          <View
+              tabLabel='People'
+              style={{paddingVertical: 8, height: 440}}>
+            {this._renderTabSearchUsers()}
+          </View>
+        </ScrollableTabView>
     );
   }
 

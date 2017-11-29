@@ -92,7 +92,15 @@ export default function run(authenticatedUser) {
         screen: Const.NavigationComponents.ScreenUserProfile,
         passProps: {userId: DaoUser.gId(authenticatedUser)},
         title: 'Catchme',
-        navigatorStyle: {}
+        navigatorStyle: {},
+        /*navigatorButtons: {
+          leftButtons: [
+            {
+              id: 'NAV_BUTTON_ID_CATCHME_LOGO',
+              icon: require('./assets/images/screenLoginBackground.png'),
+            }
+          ]
+        }*/
       },
       {
         icon: require('./assets/icons/americanExpressIcon.png'),

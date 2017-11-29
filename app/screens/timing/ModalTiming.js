@@ -10,7 +10,9 @@ import {View} from 'react-native';
 
 class ModalTimingPresentational extends React.Component {
 
-  _managerWeekTimings() { return this.props.managerWeekTimings; }
+  _managerWeekTimings() {
+    return this.props.managerWeekTimings;
+  }
 
   render() {
     return (
@@ -18,7 +20,8 @@ class ModalTimingPresentational extends React.Component {
           <WeekTimingsList
               ref={ModalTimingPresentational.refWeekTimingsList}
               managerWeekTimings={this._managerWeekTimings()}
-              isEditable={false}/>
+              isEditable={false}
+              size={200}/>
         </View>
     );
   }

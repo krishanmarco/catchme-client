@@ -29,7 +29,7 @@ class ScreenUserProfilePresentational extends React.Component {
 
     // Initialize the profile of the user that is being viewed
     this.props[CACHE_MAP_ID_USER_PROFILES].initializeItem(this.props.userId)
-        .then(({value}) => this.props.navigator.setTitle({title: DaoUser.gName(value)}))
+        .then(userProfile => this.props.navigator.setTitle({title: DaoUser.gName(userProfile)}))
 
   }
 

@@ -80,7 +80,7 @@ class ScreenLocationProfilePresentational extends React.Component {
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
     this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-      .then(({value}) => this._navigator().setTitle({title: DaoLocation.gName(value)}));
+      .then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
 
   }
 

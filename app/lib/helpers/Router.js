@@ -60,9 +60,10 @@ export default class Router {
   }
 
 
-  static toTimingModal(navigator, props) {
+  static toTimingModal(navigator, title, props) {
     navigator.showModal({
       screen: Const.NavigationComponents.ModalTiming,
+      title: title,
       passProps: props,
       animated: true,
       animationType: 'slide-up',

@@ -10,9 +10,9 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
-import {Text, FlatList, View, Dimensions} from 'react-native';
+import {StyleSheet, Image, Text, FlatList, View, Dimensions} from 'react-native';
 
-import AvatarDescription from '../../comp/misc/AvatarDescription';
+import {Avatar} from '../../comp/misc/Avatars';
 // import TabBar from '../../comp/misc/TabBar';
 import ListDataPoints from '../../comp/misc/ListDataPoints';
 
@@ -88,7 +88,6 @@ class UserProfilePresentational extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this._onTabSwitch = this._onTabSwitch.bind(this);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
     this._renderTabBarScene = this._renderTabBarScene.bind(this);
@@ -135,58 +134,15 @@ class UserProfilePresentational extends React.Component {
     return DaoUser.gId(this._userProfile()) === DaoUser.gId(this._authenticatedUserProfile());
   }
 
-
-  _onTabSwitch(tabIndex) {
-    /*
-        if (tabIndex == 0 && !this.props.headerDragEnabled) {
-          // The first tab has been selected and the previous headerDragEnabled
-          // state is different than what is expected at tab 0
-
-          // Snap the header to the bottom and enable interactions
-          this.props.setHeaderDragEnabled(true);
-          this.refs[UserProfile.refCollapsingHeader].snapToBottom();
-          return;
-        }
-
-        if (tabIndex > 0 && this.props.headerDragEnabled) {
-          // The second, third or fourth tab have been selected and the previous
-          // headerDragEnabled is different than what is expected at tab > 0
-
-          // Snap the header to the top and disable interactions
-          this.props.setHeaderDragEnabled(false);
-          this.refs[UserProfile.refCollapsingHeader].snapToTop();
-        }
-        */
-  }
-
-  /*
-    render() {
-      return (
-          <CollapsingHeaderWithScroll
-              ref={UserProfile.refCollapsingHeader}
-
-              dragEnabled={this.props.headerDragEnabled}
-
-              headerHeight={150}    // Dynamic calculation??
-              contentHeight={555}   // Screen - NavigationBar - TabBarTop - TabBarBottom
-              contentBackgroundColor={Colors.background}
-
-              header={this._renderTabProfileHeader()}
-              interactable={this._renderTabBar()}/>
-      );
-    }
-    */
-
-
   render() {
     const tabs = [];
 
-    tabs.push(this._renderTab('0', this._renderProfileHeader()));
-    tabs.push(this._renderTab('1', this._renderTabUserLocations()));
-    tabs.push(this._renderTab('2', this._renderTabUserFriends()));
+    tabs.push(this._renderTab('0', this._renderTabHome()));
+    tabs.push(this._renderTab('1', this._renderTabLocations()));
+    tabs.push(this._renderTab('2', this._renderTabFriends()));
 
     if (this.state.userInfoSections.length > 0)
-      tabs.push(this._renderTab('3', this._renderTabUserInfo()));
+      tabs.push(this._renderTab('3', this._renderTabInfo()));
 
     return (
         <ScrollableTabView
@@ -219,7 +175,7 @@ class UserProfilePresentational extends React.Component {
         <View
             key={tabLabel}
             tabLabel={tabLabel}
-            style={{paddingVertical: 8, height: 440}}>
+            style={{height: 440}}>
           {jsx}
         </View>
     );
@@ -229,57 +185,79 @@ class UserProfilePresentational extends React.Component {
     sceneKey = parseInt(sceneKey);
     switch (sceneKey) {
       case 0:
-        return this._renderProfileHeader();
+        return this._renderTabHome();
       case 1:
-        return this._renderTabUserLocations();
+        return this._renderTabLocations();
       case 2:
-        return this._renderTabUserFriends();
+        return this._renderTabFriends();
       case 3:
-        return this._renderTabUserInfo();
+        return this._renderTabInfo();
       default:
         return null;
     }
   }
 
-  _renderProfileHeader() {
+  _renderTabHome() {
     let userProfile = this._userProfile();
 
     return (
-        <AvatarDescription
-            avatar={DaoUser.gPictureUrl(userProfile)}
-            content={DaoUser.gPublicMessage(userProfile)}
-            badges={[
+        <Grid style={[Styles.tabRootHome]}>
+          <Row size={-1}>
+            <Image
+                style={{width: '100%', height: 200}}
+                resizeMode='cover'
+                source={{uri: DaoUser.gPictureUrl(userProfile)}} />
+          </Row>
+
+          <Row size={-1} style={[Styles.publicMessage]}>
+            <RkText rkType='primary1 hint'>{DaoUser.gPublicMessage(userProfile)}</RkText>
+          </Row>
+
+          <Row size={-1} style={[Styles.badges]}>
+            {[
               Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
               Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
-            ]}/>
+            ].map((b, k) => (
+                <Col key={k}>
+                  <Icon style={{marginRight: 8}} size={50} {...b}/>
+                </Col>
+            ))}
+          </Row>
+        </Grid>
     );
   }
 
-  _renderTabUserLocations() {
+  _renderTabLocations() {
     return (
-        <UserLocationsSectionedList
-            userProfile={this._userProfile()}
-            onItemPress={this._onLocationPress}/>
+        <View style={[Styles.tabRootLocations]}>
+          <UserLocationsSectionedList
+              userProfile={this._userProfile()}
+              onItemPress={this._onLocationPress}/>
+        </View>
     );
   }
 
-  _renderTabUserFriends() {
+  _renderTabFriends() {
     let userProfile = this._userProfile();
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <UserList
-            users={DaoUser.gConnectionsFriends(userProfile)}
-            friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
-            onItemPress={this._onUserPress}/>
+        <View style={[Styles.tabRootFriends]}>
+          <UserList
+              users={DaoUser.gConnectionsFriends(userProfile)}
+              friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
+              onItemPress={this._onUserPress}/>
+        </View>
     );
   }
 
-  _renderTabUserInfo() {
+  _renderTabInfo() {
     return (
-        <StaticSectionList
-            sections={this.state.userInfoSections}
-            renderItem={this._renderTabUserInfoItem}/>
+        <View style={[Styles.tabRootInfo]}>
+          <StaticSectionList
+              sections={this.state.userInfoSections}
+              renderItem={this._renderTabUserInfoItem}/>
+        </View>
     );
   }
 
@@ -325,3 +303,30 @@ UserProfile.propTypes = {
 
 // Style ************************************************************************************************
 // Style ************************************************************************************************
+
+const Styles = StyleSheet.create({
+  tabRootHome: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  tabRootLocations: {
+    flex: 1,
+    marginTop: 8
+  },
+  tabRootFriends: {
+    flex: 1,
+    marginTop: 8
+  },
+  tabRootInfo: {
+    flex: 1,
+    marginTop: 8
+  },
+
+  publicMessage: {
+    marginTop: 12,
+    paddingHorizontal: 16
+  },
+  badges: {
+    marginTop: 24
+  }
+});

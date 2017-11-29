@@ -5,6 +5,7 @@ import ApiAuthentication from './ApiAuthentication';
 import RealmIO from './RealmIO';
 import RNFetchBlob from 'react-native-fetch-blob';
 import DaoLocation from "../daos/DaoLocation";
+import DaoUser from "../daos/DaoUser";
 
 
 class ApiClient {
@@ -169,6 +170,7 @@ class ApiClient {
         .then(json => JSON.parse(json))
         .then(userData => {
           RealmIO.setLocalUser(userData);
+          ApiAuthentication.update(DaoUser.gId(userData), DaoUser.gApiKey(userData))
           return userData;
         });
   }

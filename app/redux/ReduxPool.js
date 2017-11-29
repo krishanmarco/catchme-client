@@ -367,7 +367,7 @@ const ReduxPoolBuilder = {
             type: POOL_ACTION_CACHE_INIT_DATA,
             payload: loadingPromise,
             loadingPromise: loadingPromise
-          });
+          }).then(({value}) => value);
 
 
         })
@@ -524,7 +524,7 @@ const ReduxPoolBuilder = {
             itemId: itemId,
             payload: loadingPromise,
             loadingPromise: loadingPromise
-          });
+          }).then(({value}) => value);
 
         })
 
