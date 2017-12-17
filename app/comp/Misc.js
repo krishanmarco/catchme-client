@@ -9,3 +9,6 @@ export const NullableObjects = _NullableObjects;
 
 import _GradientButton from './misc/GradientButton';
 export const GradientButton = _GradientButton;
+
+import _SearchBar from './misc/SearchBar';
+export const SearchBar = _SearchBar;

@@ -1,8 +1,47 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 
+/**
+ * Returns '1' if true, else '0'.
+ * Loose comparison!
+ * @param bool
+ * @returns {string}
+ */
+export function boolToIntString(bool) {
+  return bool ? '1' : '0';
+}
 
 
+/**
+ * Returns true if '1', else false.
+ * Loose comparison!
+ * @param str
+ * @returns {boolean}
+ */
+export function intStringToBool(str) {
+  return str == '1';
+}
+
+
+/**
+ * Replaces a value in a string at a certain index.
+ * @param string
+ * @param index
+ * @param replacement
+ * @returns {string}
+ */
+export function stringReplace(string, index, replacement) {
+  return string.substr(0, index) + replacement+ string.substr(index + replacement.length);
+}
+
+
+/**
+ * Recreates a de-normalized object from a flat object
+ * that has lodash keys.
+ * {'property1.property2': 'value'} ==> {'property1': {'property2': 'value'}}
+ * @param object
+ * @returns {{}}
+ */
 export function denormObj(object) {
   const mappedApiInput = {};
 
@@ -14,11 +53,22 @@ export function denormObj(object) {
 }
 
 
-
+/**
+ * Returns current epoch timestamp
+ * @returns {number}
+ */
 export function seconds() {
   return Math.floor(Date.now() / 1000);
 }
 
+
+/**
+ * Compares two timestamps ignoring the date.
+ * Parameters can be anything accepted by the Date constructor.
+ * @param date1
+ * @param date2
+ * @returns {boolean}
+ */
 export function compareTimeSmaller(date1, date2) {
   const normalizedDate1 = new Date(date1);
   normalizedDate1.setFullYear(0, 0, 0);
@@ -29,23 +79,26 @@ export function compareTimeSmaller(date1, date2) {
   return normalizedDate1 < normalizedDate2;
 }
 
-export function boolToIntString(bool) {
-  return bool ? '1' : '0';
+
+/**
+ * overrides the values in a with the values in b Object.assign
+ * without adding properties that are in b but not in a
+ * @param {object} a
+ * @param {object} b
+ */
+export function mergeWithoutExtend(a, b) {
+  return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
 }
 
-export function intStringToBool(str) {
-  return str == '1';
-}
 
-export function stringReplace(string, index, replacement) {
-  return string.substr(0, index) + replacement+ string.substr(index + replacement.length);
-}
+
+
 
 export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
   // For each word in the searchWords check if
   // the matchString contains that word
   // Eg: 'BENCH PRESS' will match 'PRESS BENCH'
-  for (var p = 0; p < ucSearchWords.length; p++) {
+  for (let p = 0; p < ucSearchWords.length; p++) {
     // if matchString doesn't contain the [p]th word
     if (ucMatchString.indexOf(ucSearchWords[p]) == -1) {
       // The filter is not successful
@@ -61,18 +114,18 @@ export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
 
 export function filterByUnOrderedTextMatch(elements, searchString, getTextFromElementFunction) {
   // initialize result array
-  var result = [];
+  const result = [];
 
   // Set the search string to uppercase and get all its words
-  var searchWords = searchString.toUpperCase().split(" ");
+  const searchWords = searchString.toUpperCase().split(" ");
 
   // Iterate each element and filter accordingly
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i];
 
     // get and prepare the second text string
     // for the text search process
-    var matchString = getTextFromElementFunction(element).toUpperCase();
+    const matchString = getTextFromElementFunction(element).toUpperCase();
 
     // If the i[th] element passes the filter
     // then push it onto the result
@@ -85,7 +138,7 @@ export function filterByUnOrderedTextMatch(elements, searchString, getTextFromEl
 
 
 export function arrayFind(elements, finderFunction) {
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     if (finderFunction(elements[i]))
       return elements[i];
   }
@@ -94,7 +147,7 @@ export function arrayFind(elements, finderFunction) {
 
 
 export function arrayClean(elements, deleteValue) {
-  for (var i = 0; i < elements.length; i++) {
+  for (let i = 0; i < elements.length; i++) {
     if (elements[i] == deleteValue) {
       elements.splice(i, 1);
       i--;
@@ -110,27 +163,16 @@ export function arrayRemove(elements, index) {
   return elements;
 }
 
-export function readCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
-
 
 export function timeToDate(intTimestamp) {
-  var moment = require('moment');
-  var date = moment(intTimestamp);
+  const moment = require('moment');
+  const date = moment(intTimestamp);
   return date.format("MMMM Do YYYY, h:mm:ss a");
 }
 
 
 export function strtr(string, replacePairs) {
-  var str = string, key, re;
+  let str = string, key, re;
   for (key in replacePairs) {
     if (replacePairs.hasOwnProperty(key)) {
       re = new RegExp(key, "g");
@@ -141,13 +183,7 @@ export function strtr(string, replacePairs) {
 }
 
 
-
-
 export function isFunction(functionToCheck) {
   let getType = {};
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
-}
-
-export function mergeWithoutExtend(a, b) {
-  return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
 }
