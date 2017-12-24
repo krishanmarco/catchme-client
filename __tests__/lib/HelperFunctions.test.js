@@ -66,7 +66,6 @@ describe('lib/HelperFunctions.js', () => {
     expect(compareTimeSmaller(new Date(), new Date(new Date().getTime() + 10000))).toBe(true);
     expect(compareTimeSmaller(new Date(), new Date(new Date().getTime() - 10000))).toBe(false);
     expect(compareTimeSmaller(1263949200, new Date(new Date().getTime() - 10000))).toBe(true);
-    expect(compareTimeSmaller(new Date(), 1513544488001)).toBe(false);
   });
 
 
