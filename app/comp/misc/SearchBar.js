@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Colors, Icons} from '../../Config';
 import {View} from 'react-native';
 import {Icon} from 'react-native-elements';
-import {RkStyleSheet, RkText, RkTextInput} from 'react-native-ui-kitten';
+import {RkStyleSheet, RkTextInput} from 'react-native-ui-kitten';
 
 
 // label={<RkText rkType='awesome'>{FontAwesome.search}</RkText>}
