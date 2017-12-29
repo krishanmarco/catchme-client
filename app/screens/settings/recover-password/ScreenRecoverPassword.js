@@ -10,7 +10,7 @@ import {
   RkTextInput,
   RkTheme
 } from 'react-native-ui-kitten';
-import GradientButton from '../../../comp/misc/GradientButton';
+import {GradientButton} from "../../../comp/Misc";
 import {scale, scaleModerate, scaleVertical} from '../../../lib/utils/scale';
 
 

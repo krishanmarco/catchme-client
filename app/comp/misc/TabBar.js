@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-// @flow
 import React from 'react';
 
 import {Dimensions, View, Text, StyleSheet} from 'react-native';

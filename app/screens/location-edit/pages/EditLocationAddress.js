@@ -16,7 +16,7 @@ import LocationMap from '../../../comp-buisness/location/LocationMap';
 
 import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import Router from "../../../lib/helpers/Router";
-import ScreenInfo from '../../../comp/misc/ScreenInfo';
+import {ScreenInfo} from "../../../comp/Misc";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -75,12 +75,12 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
         <ScrollView style={{flex: 1}}>
           <ScreenInfo
               imageContainerStyle={{marginTop: 8}}
-              onPress={this._onGoogleMapsSelectorPress}
-              scale={575}
-              height={80}
-              width={80}
-              image={require('../../../assets/images/splashBack.png')}
-              text='Press the image above to select a location'/>
+              imageContainerScale={575}
+              imageContainerOnPress={this._onGoogleMapsSelectorPress}
+              imageHeight={80}
+              imageWidth={80}
+              imageSource={require('../../../assets/images/splashBack.png')}
+              textText='Press the image above to select a location'/>
           <View style={Styles.content}>
             {[
               {field: DaoLocation.pAddressCountry, label: 'Country'},

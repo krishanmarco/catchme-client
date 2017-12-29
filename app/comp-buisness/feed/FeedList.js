@@ -6,7 +6,7 @@ import {FlatList} from 'react-native';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import FeedListItem from "./FeedListItem";
 
-import DefaultLoader from '../../comp/misc/DefaultLoader';
+import {DefaultLoader} from "../../comp/Misc";
 
 
 // PresentationalComponent ******************************************************************************

@@ -7,7 +7,7 @@ import {Icons, Const} from '../../../Config';
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import GradientButton from '../../../comp/misc/GradientButton';
+import {GradientButton} from "../../../comp/Misc";
 import {AvatarCircle} from "../../../comp/misc/Avatars";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 

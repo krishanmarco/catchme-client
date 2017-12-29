@@ -14,8 +14,8 @@ import {RkText, RkButton, RkStyleSheet} from 'react-native-ui-kitten';
 import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
 import DaoUser from "../../../lib/daos/DaoUser";
+import {ScreenInfo} from "../../../comp/Misc";
 
 
 
@@ -46,11 +46,11 @@ export default class HelpAppInfo extends React.Component<any, Props, State> {
         <View>
           <ScreenInfo
               imageContainerStyle={{marginTop: 64}}
-              scale={550}
-              height={100}
-              width={150}
-              image={require('../../../assets/images/splashBack.png')}
-              text='Catchme info...'/>
+              imageContainerScale={550}
+              imageHeight={100}
+              imageWidth={150}
+              imageSource={require('../../../assets/images/splashBack.png')}
+              textText='Catchme info...'/>
         </View>
     );
   }

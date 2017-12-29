@@ -7,7 +7,7 @@ import {View} from 'react-native';
 import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkSwitchFromPool} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
+import {ScreenInfo} from "../../../comp/Misc";
 import {FlatList} from 'react-native';
 
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
@@ -64,11 +64,11 @@ export default class SettingsUserAdministratingLocations extends React.Component
     return (
         <ScreenInfo
             imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Here you can tweak your notification settings'/>
+            imageContainerScale={550}
+            imageHeight={100}
+            imageWidth={150}
+            imageSource={require('../../../assets/images/splashBack.png')}
+            textText='Here you can tweak your notification settings'/>
     );
   }
 

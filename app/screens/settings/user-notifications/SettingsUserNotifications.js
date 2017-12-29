@@ -12,7 +12,7 @@ import {RkText, RkStyleSheet} from 'react-native-ui-kitten';
 import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
+import {ScreenInfo} from "../../../comp/Misc";
 import DaoUser from "../../../lib/daos/DaoUser";
 
 
@@ -107,11 +107,11 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
     return (
         <ScreenInfo
             imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Here you can tweak your notification settings'/>
+            imageContainerScale={550}
+            imageHeight={100}
+            imageWidth={150}
+            imageSource={require('../../../assets/images/splashBack.png')}
+            textText='Here you can tweak your notification settings'/>
     );
   }
 

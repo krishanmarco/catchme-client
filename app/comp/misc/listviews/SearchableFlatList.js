@@ -6,8 +6,7 @@ import {Colors} from '../../../Config';
 
 import {FlatList, Text, SectionList} from 'react-native';
 
-import SearchBar from '../../misc/SearchBar';
-import {DefaultLoader} from "../../Misc";
+import {DefaultLoader, SearchBar} from "../../Misc";
 
 
 export default class SearchableFlatList extends React.PureComponent {
