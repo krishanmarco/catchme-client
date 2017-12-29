@@ -11,22 +11,18 @@ import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
 import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
 
-import {Avatar} from '../../comp/misc/Avatars';
 // import TabBar from '../../comp/misc/TabBar';
 import {ListDataPoints} from "../../comp/Misc";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 
 import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
-import Gallery from '../../comp/misc/Gallery';
 
 import {ListItemInfo} from "../../comp/Misc";
 
 import LocationMap from '../../comp-buisness/location/LocationMap';
 
 import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoUser from "../../lib/daos/DaoUser";
 
 import LocationChat from '../../comp-buisness/location/LocationChat';

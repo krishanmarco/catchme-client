@@ -6,22 +6,15 @@ import PropTypes from 'prop-types';
 import {Icons, Colors} from '../../Config';
 
 import {poolConnect} from '../../redux/ReduxPool';
-import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
-import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
 import {StyleSheet, Image, Text, FlatList, View, Dimensions} from 'react-native';
-
-import {Avatar} from '../../comp/misc/Avatars';
-// import TabBar from '../../comp/misc/TabBar';
-
 
 import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 
 import {RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 
 import UserLocationsSectionedList from '../../comp-buisness/user/UserLocationsSectionedList';
 import Router from "../../lib/helpers/Router";

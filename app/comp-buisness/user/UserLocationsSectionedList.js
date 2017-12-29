@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from '../../lib/daos/DaoUser';
 
-import {View} from 'react-native';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemLocation, ListItemLocationFollow} from '../location/LocationListItems';
 

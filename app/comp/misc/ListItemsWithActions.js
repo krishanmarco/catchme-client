@@ -7,7 +7,8 @@ import {Colors} from '../../Config';
 import {Icon, Avatar} from 'react-native-elements'
 import {Col, Grid} from "react-native-easy-grid";
 
-import {AvatarCircle} from '../misc/Avatars';
+import {AvatarCircle} from "../Misc";
+
 
 import {View, TouchableNativeFeedback} from 'react-native';
 import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';

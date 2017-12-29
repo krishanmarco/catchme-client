@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {Icon, Avatar} from 'react-native-elements'
+import {Icon} from 'react-native-elements'
 
 import {View, TouchableNativeFeedback, Image} from 'react-native';
 import {RkStyleSheet, RkText, RkButton, RkCard} from 'react-native-ui-kitten';

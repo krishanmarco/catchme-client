@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Router from "../../lib/helpers/Router";
-import {Const} from "../../Config";
 
 import {poolConnect, FORM_API_ID_REGISTER} from '../../redux/ReduxPool';
 

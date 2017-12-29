@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {StyleSheet, View, SectionList} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';

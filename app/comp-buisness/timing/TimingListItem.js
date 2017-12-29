@@ -8,8 +8,6 @@ import {StyleSheet, FlatList} from 'react-native';
 import {Row, Grid, Col} from "react-native-easy-grid";
 import {View} from 'react-native';
 import {RkButton, RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import {VictoryPie, VictoryLabel, Slice} from 'victory-native';
 import Clock from './Clock';
 
 

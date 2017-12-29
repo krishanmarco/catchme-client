@@ -19,15 +19,11 @@ type Props = {
   textText: string
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-export default class ScreenInfo extends React.Component<any, Props, State> {
+export default class ScreenInfo extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);

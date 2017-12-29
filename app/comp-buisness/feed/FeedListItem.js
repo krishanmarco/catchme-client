@@ -1,13 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import {Colors} from '../../Config';
-
-import {Icon, Avatar} from 'react-native-elements'
 import {Col, Grid} from "react-native-easy-grid";
 
-import {AvatarCircle} from '../../comp/misc/Avatars';
+import {AvatarCircle} from "../../comp/Misc";
 
 import {View, TouchableNativeFeedback} from 'react-native';
 import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';

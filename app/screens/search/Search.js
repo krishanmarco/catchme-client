@@ -2,40 +2,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Const} from '../../Config';
-
 import _ from 'lodash';
 import ApiClient from '../../lib/data/ApiClient';
 
-import {Icons, Colors} from '../../Config';
-
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
-import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
 import {Text, FlatList, View} from 'react-native';
 
-import TabBar from '../../comp/misc/TabBar';
-
-import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
-import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
-import Gallery from '../../comp/misc/Gallery';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 
 
 
-import LocationMap from '../../comp-buisness/location/LocationMap';
-
-import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoUser from "../../lib/daos/DaoUser";
 
-import LocationChat from '../../comp-buisness/location/LocationChat';
 import Router from '../../lib/helpers/Router';
 
 

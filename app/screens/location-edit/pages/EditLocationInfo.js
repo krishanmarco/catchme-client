@@ -1,7 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {Icons, Const} from '../../../Config';
 
@@ -9,7 +8,7 @@ import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
-import {AvatarCircle} from "../../../comp/misc/Avatars";
+import {AvatarCircle} from "../../../comp/Misc";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 
 
@@ -38,16 +37,12 @@ type Props = {
   locationProfile: Object,
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class EditLocationInfoPresentational extends React.Component<any, Props, State> {
+class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);

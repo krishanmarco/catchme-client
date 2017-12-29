@@ -1,14 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
 
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {GradientButton} from "../../../comp/Misc";
-import {AvatarCircle} from "../../../comp/misc/Avatars";
+import {AvatarCircle} from "../../../comp/Misc";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 
 
@@ -37,16 +35,12 @@ type Props = {
   onSaveComplete: Function
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class EditLocationSavePresentational extends React.Component<any, Props, State> {
+class EditLocationSavePresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);

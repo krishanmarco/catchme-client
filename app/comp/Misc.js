@@ -20,3 +20,6 @@ export const ListDataPoints = _ListDataPoints;
 
 import _ListItemInfo from './misc/ListItemsInfos';
 export const ListItemInfo = _ListItemInfo;
+
+import {AvatarCircle as _AvatarCircle} from './misc/Avatars';
+export const AvatarCircle = _AvatarCircle;

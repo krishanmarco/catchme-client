@@ -6,13 +6,12 @@ import {Icons, Const} from '../../../Config';
 
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
-import {RkStyleSheet} from 'react-native-ui-kitten';
 import ListItemHeader from '../../../comp/misc/ListItemHeader';
 import {ListItemInfo} from "../../../comp/Misc";
 import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";
-import {AvatarCircle} from "../../../comp/misc/Avatars";
+import {AvatarCircle} from "../../../comp/Misc";
 import Maps from "../../../lib/data/Maps";
 import {stringReplace} from "../../../lib/HelperFunctions";
 
@@ -43,16 +42,12 @@ type Props = {
   changePrivacy: Function
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class SettingsUserAccountPresentational extends React.Component<any, Props, State> {
+class SettingsUserAccountPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);

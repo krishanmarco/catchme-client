@@ -1,16 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import DaoLocation from '../../lib/daos/DaoLocation';
 
 import {Colors} from '../../Config';
 
 import {StyleSheet, View, Text, Image} from 'react-native';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-
-import {Grid, Row, Col} from 'react-native-easy-grid';
-import {Avatar} from 'react-native-elements';
 
 import MapsTheme from '../../lib/maps/GoogleMapsTheme';
 import MapView from 'react-native-maps';

@@ -2,10 +2,7 @@
 import React from 'react';
 
 import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
-import ApiClient from '../../../lib/data/ApiClient';
 import {boolToIntString, stringReplace, intStringToBool} from '../../../lib/HelperFunctions';
-
-import {Icons} from '../../../Config';
 
 import {View} from 'react-native';
 import {RkText, RkStyleSheet} from 'react-native-ui-kitten';
@@ -24,15 +21,11 @@ type Props = {
   authenticatedUserProfile: Object,
 };
 
-type State = {
-  // Nothing for now
-};
-
 
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-class SettingsUserNotificationsPresentational extends React.Component<any, Props, State> {
+class SettingsUserNotificationsPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);

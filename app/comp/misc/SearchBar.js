@@ -15,15 +15,11 @@ type Props = {
   onChange: Function,
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-export default class SearchBar extends React.Component<any, Props, State> {
+export default class SearchBar extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
