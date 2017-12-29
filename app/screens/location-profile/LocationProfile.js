@@ -127,9 +127,6 @@ class LocationProfilePresentational extends React.Component {
     return locationInfo;
   }
 
-  _onAddImagePress() {
-    this.refs[LocationProfile.refCollapsingHeader].open();
-  }
 
 
   render() {
