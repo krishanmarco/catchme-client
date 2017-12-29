@@ -15,11 +15,8 @@ import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
 import {Text, FlatList, View} from 'react-native';
 
-import AvatarDescription from '../../comp/misc/AvatarDescription';
 import TabBar from '../../comp/misc/TabBar';
-import ListDataPoints from '../../comp/misc/ListDataPoints';
 
-import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 
 import {Row, Grid, Col} from "react-native-easy-grid";

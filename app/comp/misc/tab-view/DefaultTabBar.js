@@ -1,6 +1,6 @@
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/DefaultTabBar.js
 const React = require('react');
-const { ViewPropTypes } = ReactNative = require('react-native');
+const {ViewPropTypes} = ReactNative = require('react-native');
 const PropTypes = require('prop-types');
 const createReactClass = require('create-react-class');
 const {
@@ -43,13 +43,13 @@ const DefaultTabBar = createReactClass({
   },
 
   renderTab(name, page, isTabActive, onPressHandler) {
-    const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
+    const {activeTextColor, inactiveTextColor, textStyle,} = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
     const icon = this.props.icons[parseInt(name)];
 
     return <Button
-        style={{flex: 1, }}
+        style={{flex: 1,}}
         key={name}
         accessible={true}
         accessibilityLabel={name}
@@ -78,10 +78,10 @@ const DefaultTabBar = createReactClass({
 
     const translateX = this.props.scrollValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0,  containerWidth / numberOfTabs],
+      outputRange: [0, containerWidth / numberOfTabs],
     });
     return (
-        <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor, }, this.props.style, ]}>
+        <View style={[styles.tabs, {backgroundColor: this.props.backgroundColor,}, this.props.style,]}>
           {this.props.tabs.map((name, page) => {
             const isTabActive = this.props.activeTab === page;
             const renderTab = this.props.renderTab || this.renderTab;
@@ -92,7 +92,7 @@ const DefaultTabBar = createReactClass({
                 tabUnderlineStyle,
                 {
                   transform: [
-                    { translateX },
+                    {translateX},
                   ]
                 },
                 this.props.underlineStyle,

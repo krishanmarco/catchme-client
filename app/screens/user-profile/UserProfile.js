@@ -14,9 +14,7 @@ import {StyleSheet, Image, Text, FlatList, View, Dimensions} from 'react-native'
 
 import {Avatar} from '../../comp/misc/Avatars';
 // import TabBar from '../../comp/misc/TabBar';
-import ListDataPoints from '../../comp/misc/ListDataPoints';
 
-import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
 
 import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
@@ -83,7 +81,6 @@ function userProfileSetUserInfoSections(sections) {
 // PresentationalComponent ******************************************************************************
 
 class UserProfilePresentational extends React.Component {
-  static refCollapsingHeader = 'CollapsingHeaderWithScroll';
 
 
   constructor(props, context) {

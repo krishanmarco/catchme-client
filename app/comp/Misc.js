@@ -15,3 +15,5 @@ export const SearchBar = _SearchBar;
 import _ScreenInfo from './misc/ScreenInfo';
 export const ScreenInfo = _ScreenInfo;
 
+import _ListDataPoints from './misc/ListDataPoints';
+export const ListDataPoints = _ListDataPoints;

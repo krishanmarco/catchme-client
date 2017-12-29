@@ -13,9 +13,7 @@ import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
 
 import {Avatar} from '../../comp/misc/Avatars';
 // import TabBar from '../../comp/misc/TabBar';
-import ListDataPoints from '../../comp/misc/ListDataPoints';
-
-import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
+import {ListDataPoints} from "../../comp/Misc";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 
 import {Row, Grid, Col} from "react-native-easy-grid";
@@ -74,7 +72,6 @@ function locationProfileSetHeaderDragEnabled(enabled) {
 // PresentationalComponent ******************************************************************************
 
 class LocationProfilePresentational extends React.Component {
-  static refCollapsingHeader = 'CollapsingHeaderWithScroll';
   static refCameraModalLocationImages = 'refCameraModalLocationImages';
 
 
