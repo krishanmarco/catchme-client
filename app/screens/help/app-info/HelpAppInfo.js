@@ -11,8 +11,6 @@ import {Icons} from '../../../Config';
 import {View} from 'react-native';
 import {scaleVertical} from '../../../lib/utils/scale';
 import {RkText, RkButton, RkStyleSheet} from 'react-native-ui-kitten';
-import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
 import {ScreenInfo} from "../../../comp/Misc";

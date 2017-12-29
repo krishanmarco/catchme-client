@@ -27,7 +27,7 @@ import UserLocationsSectionedList from '../../comp-buisness/user/UserLocationsSe
 import Router from "../../lib/helpers/Router";
 import UserProfileInfoItems from '../../lib/user/UserProfileInfoItems';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
+import {ListItemInfo} from "../../comp/Misc";
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from '../../comp/misc/tab-view/DefaultTabBar';
 import Maps from "../../lib/data/Maps";

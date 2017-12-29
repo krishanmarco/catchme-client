@@ -8,7 +8,7 @@ import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import ListItemHeader from '../../../comp/misc/ListItemHeader';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
+import {ListItemInfo} from "../../../comp/Misc";
 import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";

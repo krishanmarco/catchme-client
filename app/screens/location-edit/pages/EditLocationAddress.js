@@ -14,7 +14,6 @@ import {AvatarCircle} from "../../../comp/misc/Avatars";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import Router from "../../../lib/helpers/Router";
 import {ScreenInfo} from "../../../comp/Misc";
 

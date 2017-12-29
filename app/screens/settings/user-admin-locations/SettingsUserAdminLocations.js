@@ -5,7 +5,7 @@ import {Icons} from '../../../Config';
 
 import {View} from 'react-native';
 import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
+import {ListItemInfo} from "../../../comp/Misc";
 import {RkSwitchFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {FlatList} from 'react-native';

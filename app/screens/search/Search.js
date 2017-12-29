@@ -26,7 +26,7 @@ import Gallery from '../../comp/misc/Gallery';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 
-import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
+
 
 import LocationMap from '../../comp-buisness/location/LocationMap';
 

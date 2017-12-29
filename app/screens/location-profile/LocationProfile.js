@@ -20,7 +20,7 @@ import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 import Gallery from '../../comp/misc/Gallery';
 
-import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
+import {ListItemInfo} from "../../comp/Misc";
 
 import LocationMap from '../../comp-buisness/location/LocationMap';
 

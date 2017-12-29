@@ -17,3 +17,6 @@ export const ScreenInfo = _ScreenInfo;
 
 import _ListDataPoints from './misc/ListDataPoints';
 export const ListDataPoints = _ListDataPoints;
+
+import _ListItemInfo from './misc/ListItemsInfos';
+export const ListItemInfo = _ListItemInfo;
