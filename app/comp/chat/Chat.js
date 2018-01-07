@@ -13,6 +13,7 @@ import {initialize, chatMessagesSendMessage, chatMessagesLoadMore} from './Reduc
 import {DefaultLoader} from "../Misc";
 import {View} from 'react-native';
 import {RkStyleSheet, RkText, RkTextInput} from 'react-native-ui-kitten';
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 
@@ -46,7 +47,7 @@ class ChatPresentational extends React.Component {
   }
 
 
-  _onPressAvatar(user) {
+  _onPressAvatar(user: TUser) {
 
   }
 

@@ -34,9 +34,10 @@ import ModalAddressPicker from './screens/address-picker/ModalAddressPicker';
 import ModalUserLocationStatus from './screens/user-location-status/ModalUserLocationStatus';
 
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
+import type {TUser} from "./lib/daos/DaoUser";
 
 
-export default function run(authenticatedUser) {
+export default function run(authenticatedUser: TUser) {
 
   // Must be the first statement
   // The user is logged in and cannot be null

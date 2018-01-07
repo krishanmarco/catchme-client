@@ -23,6 +23,7 @@ import {GradientButton} from "../../comp/Misc";
 import ApiClient from '../../lib/data/ApiClient';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 
@@ -49,7 +50,7 @@ class ScreenLoginPresentational extends React.Component {
     // todo
   }
 
-  _handleSignInSuccess(userProfile) {
+  _handleSignInSuccess(userProfile: TUser) {
     if (DaoUser.gApiKey(userProfile) == null) {
       this._handleSignInError();
       return;

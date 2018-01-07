@@ -7,6 +7,7 @@ import RealmIO from './lib/data/RealmIO';
 import DaoUser from "./lib/daos/DaoUser";
 import runAppUnuth from './AppUnauthenticated';
 import runAppAuth from './AppAuthenticated';
+import type {TUser} from "./lib/daos/DaoUser";
 
 
 export function initializeApplication() {
@@ -27,7 +28,7 @@ export function initializeApplication() {
 }
 
 
-export function startApplication(userProfile = undefined) {
+export function startApplication(userProfile: TUser = undefined) {
   userProfile = userProfile || RealmIO.getLocalUserData();
 
   // Try get the logged in user from realm

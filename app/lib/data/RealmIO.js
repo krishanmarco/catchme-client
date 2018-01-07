@@ -5,6 +5,8 @@ import realm from './RealmSchema';
 import ApiAuthentication from './ApiAuthentication';
 import DaoUser from '../daos/DaoUser';
 import DaoLocation from "../daos/DaoLocation";
+import type {TUser} from "../daos/DaoUser";
+import type {TLocation} from "../daos/DaoLocation";
 
 class RealmIO {
 
@@ -17,7 +19,7 @@ class RealmIO {
 
 
 
-  setLocalUser(user) {
+  setLocalUser(user: TUser) {
     const newUser = this._prepareApiUserForDb(user);
     newUser.insertTs = -1;
 
@@ -43,7 +45,7 @@ class RealmIO {
     return true;
   }
 
-  getLocalUserData() {
+  getLocalUserData(): TUser|null {
     // realm.objects returns an array but the
     // LocalUser table will only have one entry
     const dbUser = _.get(realm.objects('LocalUser'), '[0].user');
@@ -57,7 +59,7 @@ class RealmIO {
 
 
 
-  addUser(user) {
+  addUser(user: TUser) {
     user = this._prepareApiUserForDb(user);
     this._tryAddToRealm('User', user);
   }
@@ -74,7 +76,7 @@ class RealmIO {
 
 
 
-  addLocation(location) {
+  addLocation(location: TLocation) {
     location = this._prepareApiLocationForDb(location);
     this._tryAddToRealm('Location', location);
   }
@@ -93,8 +95,8 @@ class RealmIO {
     const user = DaoUser.shallowCopy(dbUser);
 
     const recurse = currentDepth < maxDepth;
-    const nlfb = (location) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
-    const nufb = (user) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
+    const nlfb = (location: TLocation) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
+    const nufb = (user: TUser) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
 
     _.set(user, DaoUser.pAdminLocations,
         (recurse ? Object.values(DaoUser.gAdminLocations(user)) : []).map(nlfb));
@@ -127,7 +129,7 @@ class RealmIO {
   }
 
 
-  _prepareApiUserForDb(user) {
+  _prepareApiUserForDb(user: TUser) {
 
     _.set(user, DaoUser.pLocationsFavorite,
         _.get(user, DaoUser.pLocationsFavorite, []).map(this._prepareApiLocationForDb));
@@ -162,7 +164,7 @@ class RealmIO {
   }
 
 
-  _prepareApiLocationForDb(location) {
+  _prepareApiLocationForDb(location: TLocation) {
 
     _.set(location, DaoLocation.pImageUrls, {value: JSON.stringify(_.get(location, DaoLocation.pImageUrls, []))});
 
@@ -195,8 +197,8 @@ class RealmIO {
     const location = DaoLocation.shallowCopy(editableLocation);
 
     const recurse = currentDepth < maxDepth;
-    const nlfb = (location) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
-    const nufb = (user) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
+    const nlfb = (location: TLocation) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
+    const nufb = (user: TUser) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
 
     _.set(location, DaoLocation.pConnectionsNow,
         (recurse ? Object.values(DaoLocation.gFriendsNow(location)) : []).map(nufb));

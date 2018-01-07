@@ -42,8 +42,8 @@ class Avatar extends RkComponent {
 
 type Props = {
   uri: string,
-  badge: Object,
-  rkType: string
+  badge?: Object,
+  rkType?: string
 };
 
 export const AvatarCircle = ({uri, badge, rkType}: Props) => (
