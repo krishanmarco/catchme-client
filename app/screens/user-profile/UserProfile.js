@@ -16,12 +16,13 @@ import {Icon} from 'react-native-elements';
 
 import UserLocationsSectionedList from '../../comp-buisness/user/UserLocationsSectionedList';
 import Router from "../../lib/helpers/Router";
-import UserProfileInfoItems from '../../lib/user/UserProfileInfoItems';
+import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TUserProfileInfoItems} from "../../lib/user/UserProfileInfoItems";
+import type {TDataPoint, TSectionListDataPointSections} from "../../lib/Types";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -40,8 +41,8 @@ export function userProfileReducer(state = userProfileInitState, action) {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
 type Props = {
   userProfile: TUser,
@@ -50,13 +51,18 @@ type Props = {
 };
 
 type State = {
-  userInfoSections: TUserProfileInfoItems
+  userInfoSections: Array<TSectionListDataPointSections>
 };
+
+
+
+// PresentationalComponent ******************************************************************************
+// PresentationalComponent ******************************************************************************
 
 class UserProfilePresentational extends React.Component<any, Props, State> {
 
 
-  constructor(props, context) {
+  constructor(props: Props, context) {
     super(props, context);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
@@ -90,15 +96,15 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
     return props.authenticatedUserProfile;
   }
 
-  _onLocationPress(location) {
+  _onLocationPress(location: TLocation) {
     Router.toLocationProfile(this._navigator(), location);
   }
 
-  _onUserPress(user) {
+  _onUserPress(user: TUser) {
     Router.toUserProfile(this._navigator(), user);
   }
 
-  _isSameUser(props: Props = this.props) {
+  _isSameUser(props: Props = this.props): boolean {
     return DaoUser.gId(this._userProfile(props)) === DaoUser.gId(this._authenticatedUserProfile(props));
   }
 
@@ -200,10 +206,10 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
     );
   }
 
-  _renderTabUserInfoItem({item}) {
+  _renderTabUserInfoItem({item}: {item: TDataPoint}) {
     return (
         <ListItemInfo
-            onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._navigator())}
+            onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._userProfile(), this._navigator())}
             {...item}/>
     );
   }

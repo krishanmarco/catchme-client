@@ -13,3 +13,15 @@ export type TFeedAction = {
   actionIsValid: (TFeed) => boolean,
   action: (Object, TFeed) => Promise
 };
+
+export type TDataPoint = {
+  id: string;
+  title: string;
+  subtitle?: string;
+  icon?: Object;
+}
+
+export type TSectionListDataPointSections = {
+  title: string,
+  data: Array<TDataPoint>
+};

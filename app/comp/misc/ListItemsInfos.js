@@ -4,19 +4,18 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 import {Grid, Col} from 'react-native-easy-grid';
+import type {TDataPoint} from "../../lib/Types";
 
 
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
 type Props = {
-  title: string,
-  subTitle: ?string,
-  icon: ?Object,
-  onPress: ?Function,
-  itemRight: ?Node,
-  textRkType: ?string,
-};
+  subTitle?: string,
+  onPress?: Function,
+  itemRight?: Node,
+  textRkType?: string,
+} & TDataPoint;
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

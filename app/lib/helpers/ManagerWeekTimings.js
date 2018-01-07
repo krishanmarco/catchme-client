@@ -4,6 +4,7 @@ import moment from 'moment';
 import {intStringToBool, boolToIntString} from '../HelperFunctions';
 import DaoLocation from "../daos/DaoLocation";
 import ObjectCache from "./ObjectCache";
+import type {TLocation} from "../daos/DaoLocation";
 
 
 // A location string-timing has the following shape
@@ -42,7 +43,7 @@ export default class ManagerWeekTimings {
   static intDayDefault = new Array(24).fill().map(i => 0);
   static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => intStringToBool(i));
 
-  static buildFromLocation(location) {
+  static buildFromLocation(location: TLocation) {
     return ObjectCache.get(location, 'ManagerWeekTimings',
         () => new ManagerWeekTimings(DaoLocation.gTimings(location))
     );

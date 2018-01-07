@@ -7,9 +7,8 @@ import {Icons, Colors} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import Context from '../../lib/Context';
-import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
 
-import {StyleSheet, Text, FlatList, View, Image} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 
 // import TabBar from '../../comp/misc/TabBar';
 import {ListDataPoints} from "../../comp/Misc";
@@ -27,7 +26,11 @@ import DaoUser from "../../lib/daos/DaoUser";
 
 import LocationChat from '../../comp-buisness/location/LocationChat';
 import Router from '../../lib/helpers/Router';
+import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataPoints';
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TDataPoint, TSectionListDataPointSections} from "../../lib/Types";
 
 
 
@@ -35,92 +38,74 @@ import LocationGallery from "../../comp-buisness/location/LocationGallery";
 // Redux ************************************************************************************************
 
 const locationProfileInitState = {
-  headerDragEnabled: true,
+  // Nothing for now
 };
-
-const ACTION_LOCATION_PROFILE_SET_HEADER_DRAG_ENABLED = 'ACTION_LOCATION_PROFILE_SET_HEADER_VISIBLE';
 
 export function locationProfileReducer(state = locationProfileInitState, action) {
   switch (action.type) {
-
-    case ACTION_LOCATION_PROFILE_SET_HEADER_DRAG_ENABLED:
-      return Object.assign({}, state, {
-        headerDragEnabled: action.headerDragEnabled
-      })
-
+    // Nothing for now
   }
 
   return state;
 }
 
 
-function locationProfileSetHeaderDragEnabled(enabled) {
-  return {
-    type: ACTION_LOCATION_PROFILE_SET_HEADER_DRAG_ENABLED,
-    headerDragEnabled: enabled
-  };
-}
+
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  locationProfile: TLocation,
+  authenticatedUserProfile: TUser,
+  navigator: Object
+};
+
+type State = {
+  locationInfoSections: Array<TSectionListDataPointSections>
+};
+
 
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class LocationProfilePresentational extends React.Component {
-  static refCameraModalLocationImages = 'refCameraModalLocationImages';
+class LocationProfilePresentational extends React.Component<any, Props, State> {
 
-
-  constructor(props, context) {
+  constructor(props: Props, context) {
     super(props, context);
     this._onUserPress = this._onUserPress.bind(this);
+    this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
+    this.state = this._calculateState(props);
   }
 
-  _onUserPress(user) {
-    Router.toUserProfile(this._navigator(), user);
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._calculateState(nextProps));
   }
-  
+
+  _calculateState(props: Props) {
+    // Calculate the location info section value only once
+    return {
+      locationInfoSections: new LocationProfileDataPoints(this._locationProfile(props))
+          .build()
+    };
+  }
   
   _navigator() {
     return this.props.navigator;
   }
 
-  _locationProfile() {
-    return this.props.locationProfile;
+  _locationProfile(props: Props = this.props) {
+    return props.locationProfile;
   }
 
-  _authenticatedUserProfile() {
-    return this.props.authenticatedUserProfile;
+  _authenticatedUserProfile(props: Props = this.props) {
+    return props.authenticatedUserProfile;
   }
 
-
-  _getTabInfo() {
-    let locationProfile = this._locationProfile();
-
-    let locationInfo = [];
-
-    if (DaoLocation.hasPhone(locationProfile))
-      locationInfo.push({icon: Icons.phone, title: DaoLocation.gPhone(locationProfile)});
-
-    if (DaoLocation.hasEmail(locationProfile))
-      locationInfo.push({icon: Icons.email, title: DaoLocation.gEmail(locationProfile)});
-
-
-    if (DaoLocation.hasTimings(locationProfile)) {
-      let managerWeekTimings = LocationTimings.buildFromLocation(locationProfile);
-
-      locationInfo.push({
-        icon: Icons.locationOpenTimes,
-        title: managerWeekTimings.toStringRangeStatusAndCurrentDay(),
-        onPress: () => Router.toTimingModal(this._navigator(), DaoLocation.gName(this._locationProfile()), {managerWeekTimings})
-      });
-    }
-
-
-    if (DaoLocation.hasAddressObj(locationProfile))
-      locationInfo.push({icon: Icons.address, title: DaoLocation.gAddress(locationProfile)});
-
-    return locationInfo;
+  _onUserPress(user: TUser) {
+    Router.toUserProfile(this._navigator(), user);
   }
-
 
 
   render() {
@@ -247,8 +232,8 @@ class LocationProfilePresentational extends React.Component {
         <Grid style={Styles.tabRootInfo}>
           <Row size={-1}>
             <StaticSectionList
-                sections={[{title: 'CATCH INFO', data: this._getTabInfo(locationProfile)}]}
-                renderItem={({item}) => (<ListItemInfo {...item} />)}/>
+                sections={this.state.locationInfoSections}
+                renderItem={this._renderTabLocationInfoItem}/>
           </Row>
           <Row size={100} style={{marginTop: 16}}>
             <LocationMap locations={[locationProfile]}/>
@@ -256,6 +241,15 @@ class LocationProfilePresentational extends React.Component {
         </Grid>
     );
   }
+
+  _renderTabLocationInfoItem({item}: {item: TDataPoint}) {
+    return (
+        <ListItemInfo
+            onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, this._locationProfile(), this._navigator())}
+            {...item}/>
+    );
+  }
+
 
 }
 
@@ -270,9 +264,7 @@ const LocationProfile = poolConnect(
     (state) => state.locationProfileReducer,
 
     // mapDispatchToProps
-    (dispatch) => ({
-      setHeaderDragEnabled: (enabled) => dispatch(locationProfileSetHeaderDragEnabled(enabled)),
-    }),
+    (dispatch) => ({}),
 
     // Array of pools to subscribe to
     []
@@ -282,14 +274,8 @@ const LocationProfile = poolConnect(
 export default LocationProfile;
 
 
-LocationProfile.propTypes = {
-  locationProfile: PropTypes.object.isRequired,
-  authenticatedUserProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-};
-
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 
 

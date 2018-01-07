@@ -3,8 +3,25 @@ import React from 'react';
 
 import {StyleSheet, View, SectionList} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import type {TSectionListDataPointSections} from "../../../lib/Types";
 
-export default class StaticSectionList extends React.PureComponent {
+
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  sections: Array<TSectionListDataPointSections>,
+  keyExtractor?: (TSectionListDataPointSections, number) => number
+};
+
+
+
+
+// StaticSectionList ************************************************************************************
+// StaticSectionList ************************************************************************************
+
+export default class StaticSectionList extends React.PureComponent<any, Props, void> {
 
   constructor(props, context) {
     super(props, context);
@@ -44,10 +61,17 @@ export default class StaticSectionList extends React.PureComponent {
 }
 
 
-let styles = RkStyleSheet.create(theme => ({
+
+
+// Config **********************************************************************************************
+// Config **********************************************************************************************
+
+const styles = RkStyleSheet.create(theme => ({
+
   heading: {
     paddingBottom: 6
   },
+
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -56,4 +80,5 @@ let styles = RkStyleSheet.create(theme => ({
     borderColor: theme.colors.border.base,
     alignItems: 'center'
   },
+
 }));
