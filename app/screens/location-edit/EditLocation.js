@@ -5,16 +5,17 @@ import PropTypes from 'prop-types';
 import {Icons} from '../../Config';
 
 import {poolConnect, FORM_API_ID_EDIT_LOCATION_PROFILE} from '../../redux/ReduxPool';
-import TabBar from '../../comp/misc/TabBar';
 
 import {Row, Grid} from "react-native-easy-grid";
 
+import {View} from 'react-native';
 import EditLocationInfo from './pages/EditLocationInfo';
 import EditLocationTimings from './pages/EditLocationTimings';
 import EditLocationAddress from './pages/EditLocationAddress';
 import EditLocationRecap from './pages/EditLocationSave';
 import {denormObj} from '../../lib/HelperFunctions';
 import DaoLocation from "../../lib/daos/DaoLocation";
+import {ScrollableIconTabView} from "../../comp/Misc";
 
 
 // Redux ************************************************************************************************
@@ -82,9 +83,6 @@ class EditLocationPresentational extends React.Component {
     //    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal()) todo
   }
 
-  _onTabChange(tabIndex) {
-    console.log("SWITHCING TO TAB" + tabIndex);
-  }
 
   _allowIndexChange(currentIndex, nextIndex) {
     // Todo only allow submit if the current tab is completed
@@ -94,16 +92,32 @@ class EditLocationPresentational extends React.Component {
 
   render() {
     return (
-        <Grid>
-          <Row>
-            <TabBar allowIndexChange={this._allowIndexChange} onTabChange={this._onTabChange}>
-              <TabBar.Tab key={0} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditInfo()}</TabBar.Tab>
-              <TabBar.Tab key={1} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditTimings()}</TabBar.Tab>
-              <TabBar.Tab key={2} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditAddress()}</TabBar.Tab>
-              <TabBar.Tab key={3} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditRecap()}</TabBar.Tab>
-            </TabBar>
-          </Row>
-        </Grid>
+        <ScrollableIconTabView
+            allowIndexChange={this._allowIndexChange}
+            icons={[
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept,
+              Icons.friendRequestAccept
+            ]}>
+          {[
+            this._renderTabLocationEditInfo(),
+            this._renderTabLocationEditTimings(),
+            this._renderTabLocationEditAddress(),
+            this._renderTabLocationEditRecap()
+          ].map((jsx, index) => this._renderTab(index.toString(), jsx))}
+        </ScrollableIconTabView>
+    );
+  }
+
+  _renderTab(tabLabel, jsx) {
+    return (
+        <View
+            key={tabLabel}
+            tabLabel={tabLabel}
+            style={{height: 440}}>
+          {jsx}
+        </View>
     );
   }
 

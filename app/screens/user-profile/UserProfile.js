@@ -20,9 +20,7 @@ import UserLocationsSectionedList from '../../comp-buisness/user/UserLocationsSe
 import Router from "../../lib/helpers/Router";
 import UserProfileInfoItems from '../../lib/user/UserProfileInfoItems';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from "../../comp/Misc";
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import DefaultTabBar from '../../comp/misc/tab-view/DefaultTabBar';
+import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
 
 // Redux ************************************************************************************************
@@ -80,8 +78,6 @@ class UserProfilePresentational extends React.Component {
     super(props, context);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
-    this._renderTabBarScene = this._renderTabBarScene.bind(this);
-    this._renderCustomTabBar = this._renderCustomTabBar.bind(this);
     this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
     this._initializeState();
   }
@@ -135,28 +131,15 @@ class UserProfilePresentational extends React.Component {
       tabs.push(this._renderTab('3', this._renderTabInfo()));
 
     return (
-        <ScrollableTabView
-            initialPage={this.props.selectedTab}
-            onChangeTab={({i, ref}) => this.props.onChangeTab(i)}
-
-            scrollWithoutAnimation={true}
-            prerenderingSiblingsNumber={Infinity}
-            renderTabBar={(props) => this._renderCustomTabBar(props)}>
+        <ScrollableIconTabView
+          icons={[
+            Icons.friendRequestAccept,
+            Icons.friendRequestAccept,
+            Icons.friendRequestAccept,
+            Icons.friendRequestAccept
+          ]}>
           {tabs}
-        </ScrollableTabView>
-    );
-  }
-
-  _renderCustomTabBar(props) {
-    return (
-        <DefaultTabBar
-            {...props}
-            icons={[
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-            ]}/>
+        </ScrollableIconTabView>
     );
   }
 
@@ -169,22 +152,6 @@ class UserProfilePresentational extends React.Component {
           {jsx}
         </View>
     );
-  }
-
-  _renderTabBarScene(sceneKey: string) {
-    sceneKey = parseInt(sceneKey);
-    switch (sceneKey) {
-      case 0:
-        return this._renderTabHome();
-      case 1:
-        return this._renderTabLocations();
-      case 2:
-        return this._renderTabFriends();
-      case 3:
-        return this._renderTabInfo();
-      default:
-        return null;
-    }
   }
 
   _renderTabHome() {

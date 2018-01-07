@@ -18,7 +18,7 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 
-import {ListItemInfo} from "../../comp/Misc";
+import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 
 import LocationMap from '../../comp-buisness/location/LocationMap';
 
@@ -28,8 +28,6 @@ import DaoUser from "../../lib/daos/DaoUser";
 import LocationChat from '../../comp-buisness/location/LocationChat';
 import Router from '../../lib/helpers/Router';
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-import DefaultTabBar from '../../comp/misc/tab-view/DefaultTabBar';
 
 
 
@@ -139,18 +137,7 @@ class LocationProfilePresentational extends React.Component {
     tabs.push(this._renderTab('5', this._renderTabInfo()));
 
     return (
-        <ScrollableTabView
-            scrollWithoutAnimation={true}
-            renderTabBar={(props) => this._renderCustomTabBar(props)}>
-          {tabs}
-        </ScrollableTabView>
-    );
-  }
-
-  _renderCustomTabBar(props) {
-    return (
-        <DefaultTabBar
-            {...props}
+        <ScrollableIconTabView
             icons={[
               Icons.friendRequestAccept,
               Icons.friendRequestAccept,
@@ -158,9 +145,12 @@ class LocationProfilePresentational extends React.Component {
               Icons.friendRequestAccept,
               Icons.friendRequestAccept,
               Icons.friendRequestAccept,
-            ]}/>
+            ]}>
+          {tabs}
+        </ScrollableIconTabView>
     );
   }
+
 
   _renderTab(tabLabel, jsx) {
     return (

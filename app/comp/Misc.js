@@ -23,3 +23,6 @@ export const ListItemInfo = _ListItemInfo;
 
 import {AvatarCircle as _AvatarCircle} from './misc/Avatars';
 export const AvatarCircle = _AvatarCircle;
+
+import _ScrollableIconTabView from './misc/tab-view/ScrollableIconTabView';
+export const ScrollableIconTabView = _ScrollableIconTabView;
