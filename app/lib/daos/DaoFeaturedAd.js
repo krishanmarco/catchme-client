@@ -1,25 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 
-/**
 
- FeedItem: {
-    id: 1,                                      // (!) Unique feed item identifier
-    time: 10000000000,                          // (!) Seconds in which the feed was generated
-    expiry: -1,                                 // (!) Seconds of expiry, if expired the item is not displayed (-1 means never)
-    title: 'AreaDocks - DJ Alvarez'             // (!) Title text
-    subTitle: 'Monday 27 October @AreaDocks'    // (!) Subtitle text
-    image: 'http://www.google.com/image.jpg',   // (!) Background image
-    clickAction: 'LocationGoToProfile',         // (?) Action to be triggered when the item is clicked
-    actions: [                                  // (?) {ACTION}s. for social bar - when an action is triggered the object is passed in
-      'FriendshipRequestAccept',                // (?) {ACTION}
-      'FriendshipRequestDeny',                  // (?) {ACTION}
-      ...                                       // (?) {ACTION}
-    ],
-    payload: {...}                              // (?) Field that is unique for each feed item type
- },
+export type TFeaturedAd = {
+  id: number,                   // 1                                Unique feed item identifier
+  time: number,                 // 1000000000                       Seconds in which the feed was generated
+  expiry: number,               // 1000000000|-1                    Seconds of expiry, if expired the item is not displayed (-1 => never)
+  title: string,                // 'AreaDocks - DJ Alvarez'         Title text
+  subTitle: string,             // 'Monday 27 October @AreaDocks'   Subtitle text
+  image: string,                // 'http://ctvh.com/image.png'      Background image
+  clickAction?: string,         // 'LocationGoToProfile'            Action to be triggered when the item is clicked
+  actions?: Array<string>,      // ['FriendshipRequestAccept']      Actions that are allowed on this item
+  payload?: Object              // {connectionId: 1}                Payload data for each action
+};
 
- **/
+
 export default class DaoFeaturedAd {
   static pId = 'id';
   static pTime = 'time';
@@ -34,59 +29,47 @@ export default class DaoFeaturedAd {
   static pPayloadLocationId = `${DaoFeaturedAd.pPayload}.locationId`;
 
 
-  static gId(featuredAd) {
+  static gId(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pId);
   }
 
-  static gTime(featuredAd) {
+  static gTime(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pTime);
   }
 
-  static gExpiry(featuredAd) {
+  static gExpiry(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pExpiry);
   }
 
-  static gTitle(featuredAd) {
+  static gTitle(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pTitle);
   }
 
-  static gSubTitle(featuredAd) {
+  static gSubTitle(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pSubTitle);
   }
   
-  static gImage(featuredAd) {
+  static gImage(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pImage);
   }
 
-  static gPayload(featuredAd) {
+  static gPayload(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pPayload);
   }
 
-  static gLeftAvatar(featuredAd) {
-    return _.get(featuredAd, DaoFeaturedAd.pLeftAvatar);
-  }
-
-  static gRightAvatar(featuredAd) {
-    return _.get(featuredAd, DaoFeaturedAd.pRightAvatar);
-  }
-
-  static gContent(featuredAd) {
-    return _.get(featuredAd, DaoFeaturedAd.pContent);
-  }
-
-  static gClickAction(featuredAd) {
+  static gClickAction(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pClickAction);
   }
 
-  static gActions(featuredAd) {
+  static gActions(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pActions, []);
   }
 
-  static gPayloadConnectionId(featuredAd) {
+  static gPayloadConnectionId(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pPayloadConnectionId);
   }
 
-  static gPayloadLocationId(featuredAd) {
+  static gPayloadLocationId(featuredAd: TFeaturedAd) {
     return _.get(featuredAd, DaoFeaturedAd.pPayloadLocationId);
   }
 

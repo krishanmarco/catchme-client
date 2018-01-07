@@ -77,7 +77,7 @@ export default class FeedListItem extends React.Component {
 
       const marginRight = key === actions.length ? 0 : 8;
       const actionProps = {
-        nameType: FeedHandler.mapActionToIcon(action),
+        icon: FeedHandler.mapActionToIcon(action),
         onPress: () => FeedHandler.handleFeedAction(action, this._feed(), this._navigator())
       };
 

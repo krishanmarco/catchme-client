@@ -1,0 +1,14 @@
+[include]
+
+[ignore]
+.*/android/.*
+.*/ios/.*
+.*/node_modules/.*
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

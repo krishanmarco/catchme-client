@@ -1,6 +1,50 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
+import type {TUser} from "./DaoUser";
+
+
+export type TLocation = {
+  id: number,                         // 1                                Unique feed item identifier
+  name: string,                       // 'Area Docks'                     Location name
+  description: string,                // 'Area Docks club'                Location Description
+  capacity: number,                   // 500                              Maximum capacity of this location
+  pictureUrl: string,                 // 'http://catchme.top/image.png'   URL of the location profile picture
+  phone: string,                      // '+393347014935'                  Location phone number
+  email: string,                      // 'admin@areadocks.com'            Location email address
+  timings: string,                    // '01001101010101...'              Timing string for location (len=24) 0=closed, 1=open
+  imageUrls: string,                  // ['http:...', 'http:...']         Array of location images
+  googlePlaceId: string,              // '203948230ksa98'                 Google places location ID
+  address: TLocationAddress,          // {...TLocationAddress}            Address object for this location
+  people: TLocationPeople,            // {...TLocationPeople}             People object for this location
+  connections: TLocationConnections   // {...TLocationConnections}  Connections object for this location
+};
+
+export type TLocationAddress = {
+  country: string,                    // 'US'                             Country ISO code
+  state: string,                      // 'CA'                             State ISO code
+  city: string,                       // 'San Francisco'                  City or province
+  postcode: string,                   // '25038'                          Postcode
+  address: string,                    // 'Via Francesco Baracca 61'       Other address fields
+  latLng: TLocationAddressLatLng      // {...TLocationAddressLatLng}      Latitude and Longitude
+};
+
+export type TLocationAddressLatLng = {
+  lat: number,
+  lng: number
+};
+
+export type TLocationPeople = {
+  men: number,                        // 50                               Number of men currently in this location
+  women: number,                      // 50                               Number of women currently in this location
+  total: number                       // 150                              Total number of people in this location
+};
+
+export type TLocationConnections = {
+  now: Array<TUser>,                  // [{...TUser}, ...]                Friends of current user in location now
+  future: Array<TUser>                // [{...TUser}, ...]                Friends of current user in location later
+};
+
 
 export default class DaoLocation {
   static pId = 'id';
@@ -29,7 +73,7 @@ export default class DaoLocation {
   static pConnectionsFuture = `${DaoLocation.pConnections}.future`;
 
 
-  static shallowCopy(location) {
+  static shallowCopy(location: TLocation): TLocation {
     const newLocation = {};
     _.set(newLocation, DaoLocation.pId, DaoLocation.gId(location));
     _.set(newLocation, DaoLocation.pName, DaoLocation.gName(location));
@@ -56,127 +100,127 @@ export default class DaoLocation {
   }
   
 
-  static gId(location) {
+  static gId(location: TLocation) {
     return _.get(location, DaoLocation.pId);
   }
 
-  static gName(location) {
+  static gName(location: TLocation) {
     return _.get(location, DaoLocation.pName);
   }
 
-  static gDescription(location) {
+  static gDescription(location: TLocation) {
     return _.get(location, DaoLocation.pDescription);
   }
 
-  static gCapacity(location) {
+  static gCapacity(location: TLocation) {
     return _.get(location, DaoLocation.pCapacity);
   }
 
-  static gPictureUrl(location) {
+  static gPictureUrl(location: TLocation) {
     return _.get(location, DaoLocation.pPictureUrl);
   }
 
-  static gTimings(location) {
+  static gTimings(location: TLocation) {
     return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.intDayDefault);
   }
 
-  static gPhone(location) {
+  static gPhone(location: TLocation) {
     return _.get(location, DaoLocation.pPhone);
   }
 
-  static gEmail(location) {
+  static gEmail(location: TLocation) {
     return _.get(location, DaoLocation.pEmail);
   }
 
-  static gGooglePlaceId(location) {
+  static gGooglePlaceId(location: TLocation) {
     return _.get(location, DaoLocation.pGooglePlaceId);
   }
 
-  static gAddressObj(location) {
+  static gAddressObj(location: TLocation) {
     return _.get(location, DaoLocation.pAddress);
   }
 
-  static gCountry(location) {
+  static gCountry(location: TLocation) {
     return _.get(location, DaoLocation.pAddressCountry);
   }
 
-  static gState(location) {
+  static gState(location: TLocation) {
     return _.get(location, DaoLocation.pAddressState);
   }
 
-  static gCity(location) {
+  static gCity(location: TLocation) {
     return _.get(location, DaoLocation.pAddressCity);
   }
 
-  static gPostcode(location) {
+  static gPostcode(location: TLocation) {
     return _.get(location, DaoLocation.pAddressPostcode);
   }
 
-  static gAddress(location) {
+  static gAddress(location: TLocation) {
     return _.get(location, DaoLocation.pAddressAddress);
   }
 
-  static gLatLng(location) {
+  static gLatLng(location: TLocation) {
     return _.get(location, DaoLocation.pAddressLatLng);
   }
 
-  static gImageUrls(location) {
+  static gImageUrls(location: TLocation) {
     return _.get(location, DaoLocation.pImageUrls, []);
   }
 
-  static gPeople(location) {
+  static gPeople(location: TLocation) {
     return _.get(location, DaoLocation.pPeople);
   }
 
-  static gMen(location) {
+  static gMen(location: TLocation) {
     return _.get(location, DaoLocation.pPeopleMen, 0);
   }
 
-  static gWomen(location) {
+  static gWomen(location: TLocation) {
     return _.get(location, DaoLocation.pPeopleWomen, 0);
   }
 
-  static gTotal(location) {
+  static gTotal(location: TLocation) {
     return _.get(location, DaoLocation.pPeopleTotal, 0);
   }
 
 
 
-  static gConnections(location) {
+  static gConnections(location: TLocation): TLocationConnections {
     return _.get(location, DaoLocation.pConnections);
   }
 
-  static gFriendsNow(location) {
+  static gFriendsNow(location: TLocation): Array<TUser> {
     return _.get(location, DaoLocation.pConnectionsNow, []);
   }
 
-  static gFriendsFuture(location) {
+  static gFriendsFuture(location: TLocation): Array<TUser> {
     return _.get(location, DaoLocation.pConnectionsFuture, []);
   }
 
 
 
-  static hasTimings(location) {
+  static hasTimings(location: TLocation): boolean {
     return DaoLocation.pTimings in location;
   }
 
-  static hasPhone(location) {
+  static hasPhone(location: TLocation): boolean {
     return DaoLocation.pPhone in location;
   }
 
-  static hasEmail(location) {
+  static hasEmail(location: TLocation): boolean {
     return DaoLocation.pEmail in location;
   }
 
-  static hasConnections(location) {
+  static hasConnections(location: TLocation): boolean {
     return DaoLocation.pConnections in location;
   }
 
-  static hasAddressObj(location) {
+  static hasAddressObj(location: TLocation): boolean {
     return DaoLocation.pAddress in location;
   }
 
-  static hasPeople(location) {
+  static hasPeople(location: TLocation): boolean {
     return DaoLocation.pPeople in location;
   }
 
