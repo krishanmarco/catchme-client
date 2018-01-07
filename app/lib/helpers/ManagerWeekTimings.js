@@ -7,13 +7,15 @@ import ObjectCache from "./ObjectCache";
 
 
 // A location string-timing has the following shape
-// '000010110100011101000011               // first24group -> Monday
-// 000010110100011101000011                // second24group -> Tuesday
-// 000010110100011101000011                // third24group -> Wednesday
-// 000010110100011101000011                // fourth24group -> Thursday
-// 000010110100011101000011                // fifth24group -> Friday
-// 000010110100011101000011                // sixth24group -> Saturday
-// 000010110100011101000011'               // seventh24group -> Sunday
+// '
+//   000010110100011101000011                // first24group -> Monday
+//   000010110100011101000011                // second24group -> Tuesday
+//   000010110100011101000011                // third24group -> Wednesday
+//   000010110100011101000011                // fourth24group -> Thursday
+//   000010110100011101000011                // fifth24group -> Friday
+//   000010110100011101000011                // sixth24group -> Saturday
+//   000010110100011101000011                // seventh24group -> Sunday
+// '
 //
 // A location bool-array-timing has the following shape
 // [
@@ -37,8 +39,8 @@ import ObjectCache from "./ObjectCache";
 //   [ [0, 3], [5, 8] ]                       // idx(5) -> Sunday
 // ]
 export default class ManagerWeekTimings {
-  static intDayDefault = new Array(24).fill().map(i => false);
-  static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => false);
+  static intDayDefault = new Array(24).fill().map(i => 0);
+  static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => intStringToBool(i));
 
   static buildFromLocation(location) {
     return ObjectCache.get(location, 'ManagerWeekTimings',
@@ -59,6 +61,7 @@ export default class ManagerWeekTimings {
         .map(boolDayTimings => boolDayTimings.map(boolToIntString).join(''))
         .join('');
   }
+
 
   // [[false, false, ...], [true, false, true...], ...] => [[3, 3], [5, 7], [8, 8]]
   static _mapBoolTimingsToRangeTimings(boolWeekTimings) {
@@ -157,9 +160,9 @@ export default class ManagerWeekTimings {
 
   // Maps a timing int 8 to a string '08:00'
   _toStringRangeTimeInt(float) {
-    let m = moment();
+    let m = moment(0);
     m.hour(Math.floor(float));
-    m.minute(Math.ceil((float % 1) * 100));
+    m.minute(Math.trunc((float % 1) * 100));
     return m.format('HH:mm');
   }
 
@@ -176,11 +179,11 @@ export default class ManagerWeekTimings {
   }
 
   boolTimingsInDay(day) {
-    return _.get(this.getBoolWeekTimings(), `[${day}]`, ManagerWeekTimings.boolDayDefault);
+    return _.get(this.boolWeekTimings, `[${day}]`, ManagerWeekTimings.boolDayDefault);
   }
 
   rangeTimingsInDay(day) {
-    return _.get(this.getBoolWeekTimings, `[${day}]`, []);
+    return _.get(this.rangeWeekTimings, `[${day}]`, []);
   }
 
   isOpen() {
