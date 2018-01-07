@@ -1,7 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {Icons, Colors} from '../../Config';
 
@@ -22,56 +20,40 @@ import UserProfileInfoItems from '../../lib/user/UserProfileInfoItems';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TUserProfileInfoItems} from "../../lib/user/UserProfileInfoItems";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
 const userProfileInitState = {
-  headerDragEnabled: true,
-  userInfoSections: [],           // Calculated onComponentWillMount
+  // Nothing for now
 };
-
-const ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED = 'ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED';
-const ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS = 'ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS';
 
 export function userProfileReducer(state = userProfileInitState, action) {
   switch (action.type) {
-
-    case ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED:
-      return Object.assign({}, state, {
-        headerDragEnabled: action.headerDragEnabled
-      });
-
-    case ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS:
-      return Object.assign({}, state, {
-        userInfoSections: action.userInfoSections
-      })
-
+    // Nothing for now
   }
 
   return state;
 }
 
 
-function userProfileSetHeaderDragEnabled(enabled) {
-  return {
-    type: ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED,
-    headerDragEnabled: enabled
-  };
-}
-
-function userProfileSetUserInfoSections(sections) {
-  return {
-    type: ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS,
-    userInfoSections: sections
-  };
-}
-
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class UserProfilePresentational extends React.Component {
+type Props = {
+  userProfile: TUser,
+  authenticatedUserProfile: TUser,
+  navigator: Object
+};
+
+type State = {
+  userInfoSections: TUserProfileInfoItems
+};
+
+class UserProfilePresentational extends React.Component<any, Props, State> {
 
 
   constructor(props, context) {
@@ -79,19 +61,19 @@ class UserProfilePresentational extends React.Component {
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
     this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
-    this._initializeState();
+    this.state = this._calculateState(props);
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._calculateState(nextProps));
+  }
 
-  _initializeState() {
-
+  _calculateState(props: Props) {
     // Calculate the user info section value only once
-    const userInfoSections = new UserProfileInfoItems(this._userProfile())
-        .includeSettingsAndHelpIf(this._isSameUser())
-        .build();
-
-    this.state = {
-      userInfoSections: userInfoSections
+    return {
+      userInfoSections: new UserProfileInfoItems(this._userProfile(props))
+          .includeSettingsAndHelpIf(this._isSameUser(props))
+          .build()
     };
   }
 
@@ -100,12 +82,12 @@ class UserProfilePresentational extends React.Component {
     return this.props.navigator;
   }
 
-  _userProfile() {
-    return this.props.userProfile;
+  _userProfile(props: Props = this.props) {
+    return props.userProfile;
   }
 
-  _authenticatedUserProfile() {
-    return this.props.authenticatedUserProfile;
+  _authenticatedUserProfile(props: Props = this.props) {
+    return props.authenticatedUserProfile;
   }
 
   _onLocationPress(location) {
@@ -116,8 +98,8 @@ class UserProfilePresentational extends React.Component {
     Router.toUserProfile(this._navigator(), user);
   }
 
-  _isSameUser() {
-    return DaoUser.gId(this._userProfile()) === DaoUser.gId(this._authenticatedUserProfile());
+  _isSameUser(props: Props = this.props) {
+    return DaoUser.gId(this._userProfile(props)) === DaoUser.gId(this._authenticatedUserProfile(props));
   }
 
   render() {
@@ -239,24 +221,14 @@ const UserProfile = poolConnect(
     (state) => state.userProfileReducer,
 
     // mapDispatchToProps
-    (dispatch) => ({
-      setHeaderDragEnabled: (enabled) => dispatch(userProfileSetHeaderDragEnabled(enabled)),
-      setUserInfoSections: (sections) => dispatch(userProfileSetUserInfoSections(sections)),
-    }),
+    (dispatch) => ({}),
 
     // Array of pools to subscribe to
     []
 );
 
-
 export default UserProfile;
 
-
-UserProfile.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  authenticatedUserProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-};
 
 // Style ************************************************************************************************
 // Style ************************************************************************************************

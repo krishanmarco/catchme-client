@@ -1,10 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-// @flow
 import {Linking} from 'react-native';
 import {Icons, Const} from '../../Config';
 import type {TypeInfoItem} from '../types/TypeInfoItem';
 import DaoUser from "../daos/DaoUser";
 import Router from "../helpers/Router";
+
+
+export type TUserProfileInfoItems = {
+
+};
 
 
 export default class UserProfileInfoItems {
