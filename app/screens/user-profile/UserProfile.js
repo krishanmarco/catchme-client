@@ -21,7 +21,7 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TSectionListDataPointSections} from "../../lib/Types";
+import type {TDataPoint, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Redux ************************************************************************************************

@@ -2,7 +2,7 @@
 import {Icons} from '../../Config';
 import ManagerWeekTimings from '../helpers/ManagerWeekTimings';
 import Router from "../helpers/Router";
-import type {TDataPoint, TSectionListDataPointSections} from '../Types';
+import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 import type {TLocation} from "../daos/DaoLocation";
 import DaoLocation from "../daos/DaoLocation";
 

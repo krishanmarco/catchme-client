@@ -4,7 +4,7 @@ import {Icons} from '../../Config';
 import type {TUser} from "../daos/DaoUser";
 import DaoUser from "../daos/DaoUser";
 import Router from "../helpers/Router";
-import type {TDataPoint, TSectionListDataPointSections} from '../Types';
+import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 
 
 export default class UserProfileDataPoints {

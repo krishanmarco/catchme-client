@@ -3,7 +3,7 @@ import React from 'react';
 
 import {StyleSheet, View, SectionList} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import type {TSectionListDataPointSections} from "../../../lib/Types";
+import type {TSectionListDataPointSections} from "../../../lib/types/Types";
 
 
 

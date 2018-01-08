@@ -11,7 +11,7 @@ import {AvatarCircle} from "../Misc";
 import {StyleSheet, View, TouchableNativeFeedback} from 'react-native';
 import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
 
-import type {TIcon} from "../../lib/Types";
+import type {TIcon} from "../../lib/types/Types";
 
 
 

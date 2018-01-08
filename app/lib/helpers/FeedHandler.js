@@ -3,7 +3,7 @@ import {Const, Icons} from '../../Config';
 import ApiClient from '../data/ApiClient';
 import DaoFeed from "../daos/DaoFeed";
 import Router from "./Router";
-import type {TFeedAction} from "../Types";
+import type {TFeedAction} from "../types/Types";
 
 
 const _FeedItems = {

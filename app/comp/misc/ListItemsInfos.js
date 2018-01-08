@@ -4,7 +4,7 @@ import {TouchableOpacity, StyleSheet} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 import {Grid, Col} from 'react-native-easy-grid';
-import type {TDataPoint} from "../../lib/Types";
+import type {TDataPoint} from "../../lib/types/Types";
 
 
 // Flow *************************************************************************************************

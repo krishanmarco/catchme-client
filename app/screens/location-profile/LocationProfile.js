@@ -29,7 +29,7 @@ import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataP
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TSectionListDataPointSections} from "../../lib/Types";
+import type {TDataPoint, TSectionListDataPointSections} from "../../lib/types/Types";
 
 
 
