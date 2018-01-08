@@ -14,19 +14,19 @@ export type TLocation = {
   email: string,                      // 'admin@areadocks.com'            Location email address
   timings: string,                    // '01001101010101...'              Timing string for location (len=24) 0=closed, 1=open
   imageUrls: string,                  // ['http:...', 'http:...']         Array of location images
-  googlePlaceId: string,              // '203948230ksa98'                 Google places location ID
   address: TLocationAddress,          // {...TLocationAddress}            Address object for this location
-  people: TLocationPeople,            // {...TLocationPeople}             People object for this location
-  connections: TLocationConnections   // {...TLocationConnections}  Connections object for this location
+  googlePlaceId?: string,             // '203948230ksa98'                 Google places location ID
+  people?: TLocationPeople,           // {...TLocationPeople}             People object for this location
+  connections?: TLocationConnections  // {...TLocationConnections}  Connections object for this location
 };
 
 export type TLocationAddress = {
   country: string,                    // 'US'                             Country ISO code
-  state: string,                      // 'CA'                             State ISO code
-  city: string,                       // 'San Francisco'                  City or province
   postcode: string,                   // '25038'                          Postcode
   address: string,                    // 'Via Francesco Baracca 61'       Other address fields
-  latLng: TLocationAddressLatLng      // {...TLocationAddressLatLng}      Latitude and Longitude
+  state: ?string,                     // 'CA'                             State ISO code
+  city: ?string,                      // 'San Francisco'                  City or province
+  latLng?: TLocationAddressLatLng     // {...TLocationAddressLatLng}      Latitude and Longitude
 };
 
 export type TLocationAddressLatLng = {
@@ -43,6 +43,7 @@ export type TLocationPeople = {
 export type TLocationConnections = {
   now: Array<TUser>,                  // [{...TUser}, ...]                Friends of current user in location now
   future: Array<TUser>                // [{...TUser}, ...]                Friends of current user in location later
+  past?: Array<TUser>                 // [{...TUser}, ...]                Friends of current user in location later
 };
 
 
