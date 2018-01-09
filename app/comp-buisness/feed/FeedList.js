@@ -7,12 +7,27 @@ import DaoFeed from "../../lib/daos/DaoFeed";
 import FeedListItem from "./FeedListItem";
 
 import {DefaultLoader} from "../../comp/Misc";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TFeed} from "../../lib/daos/DaoFeed";
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-export default class FeedList extends React.Component {
+type Props = {
+  userProfile: TUser,
+  navigator: Object,
+  feedList: Array<TFeed>,
+  loading: boolean,
+  loadMore: boolean
+};
+
+
+
+// FeedList *********************************************************************************************
+// FeedList *********************************************************************************************
+
+export default class FeedList extends React.Component<Props> {
 
   constructor(props, context) {
     super(props, context);
@@ -55,13 +70,4 @@ export default class FeedList extends React.Component {
 
 }
 
-FeedList.defaultProps = {};
-
-FeedList.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-  feedList: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-  loadMore: PropTypes.func.isRequired
-};
 

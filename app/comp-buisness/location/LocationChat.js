@@ -1,25 +1,40 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
-import firebase, {FirebaseData} from '../../lib/data/Firebase';
+import {FirebaseData} from '../../lib/data/Firebase';
 
 import DaoLocation from '../../lib/daos/DaoLocation';
 import Chat from '../../comp/chat/Chat';
 
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-export default class LocationChat extends React.Component {
+type Props = {
+  location: TLocation,
+  user: TUser
+};
+
+
+// LocationChat *****************************************************************************************
+// LocationChat *****************************************************************************************
+
+export default class LocationChat extends React.Component<Props> {
 
   constructor(props, context) {
     super(props, context);
     this._getFirebaseMessages = this._getFirebaseMessages.bind(this);
   }
 
-  _getLocation() { return this.props.location }
-  _getUser() { return this.props.user }
+  _getLocation() {
+    return this.props.location
+  }
+
+  _getUser() {
+    return this.props.user
+  }
 
 
   _getFirebaseMessages() {
@@ -37,8 +52,3 @@ export default class LocationChat extends React.Component {
   }
 
 }
-
-LocationChat.propTypes = {
-  location: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired
-};
