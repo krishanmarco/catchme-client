@@ -41,7 +41,7 @@ const _FeedItems = {
 
 
   [Const.FeedHandler.actions.AttendanceConfirm]: ({
-    icon: Icons.locationAttendanceAccept,
+    icon: Icons.locationPersonFuture,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
@@ -58,7 +58,7 @@ const _FeedItems = {
 
 
   [Const.FeedHandler.actions.LocationFollow]: ({
-    icon: Icons.locationFavorites,
+    icon: Icons.locationFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
@@ -74,7 +74,7 @@ const _FeedItems = {
 
 
   [Const.FeedHandler.actions.GoToUserProfile]: ({
-    icon: Icons.locationFavorites,
+    icon: Icons.userProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
@@ -91,7 +91,7 @@ const _FeedItems = {
 
 
   [Const.FeedHandler.actions.GoToLocationProfile]: ({
-    icon: Icons.locationFavorites,
+    icon: Icons.locationProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);

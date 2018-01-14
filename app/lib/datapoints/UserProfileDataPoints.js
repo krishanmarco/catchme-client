@@ -85,11 +85,11 @@ export default class UserProfileDataPoints {
   _buildUserDataSectionData(): Array<TDataPoint> {
     const userDataSectionData = [];
 
-    if (DaoUser.hasEmail(this.userProfile))
-      userDataSectionData.push(this._infoItemUserEmail());
-
     if (DaoUser.hasPhone(this.userProfile))
       userDataSectionData.push(this._infoItemUserPhone());
+
+    if (DaoUser.hasEmail(this.userProfile))
+      userDataSectionData.push(this._infoItemUserEmail());
 
     return userDataSectionData;
   }
@@ -114,19 +114,19 @@ export default class UserProfileDataPoints {
 
 
 
-  _infoItemUserEmail(): TDataPoint {
-    return {
-      id: UserProfileDataPoints.infoItemIdEmail,
-      title: DaoUser.gEmail(this.userProfile),
-      icon: Icons.userEmail
-    };
-  }
-
   _infoItemUserPhone(): TDataPoint {
     return {
       id: UserProfileDataPoints.infoItemIdPhone,
       title: DaoUser.gPhone(this.userProfile),
       icon: Icons.userPhone
+    };
+  }
+
+  _infoItemUserEmail(): TDataPoint {
+    return {
+      id: UserProfileDataPoints.infoItemIdEmail,
+      title: DaoUser.gEmail(this.userProfile),
+      icon: Icons.userEmail
     };
   }
 

@@ -262,7 +262,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
               <TouchableOpacity onPress={this._onHereNowPressed}>
                 <Icon
                     size={55}
-                    {...Icons.userLocationStatusNow}/>
+                    {...Icons.locationPersonNow}/>
                 <RkText rkType='secondary2'>I am here now</RkText>
               </TouchableOpacity>
             </View>
@@ -272,7 +272,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
               <TouchableOpacity onPress={this._onHereTonightPressed}>
                 <Icon
                     size={55}
-                    {...Icons.userLocationStatusLater}/>
+                    {...Icons.locationPersonFuture}/>
                 <RkText rkType='secondary2'>I will be here tonight</RkText>
               </TouchableOpacity>
             </View>

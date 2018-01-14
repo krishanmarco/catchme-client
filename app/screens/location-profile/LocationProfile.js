@@ -123,12 +123,12 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     return (
         <ScrollableIconTabView
             icons={[
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
-              Icons.friendRequestAccept,
+              Icons.locationProfile,
+              Icons.locationImages,
+              Icons.locationPersonNow,
+              Icons.locationPersonFuture,
+              Icons.locationChat,      // todo: what if the chat is not added?, thenn renderTabInfo would have this icon!
+              Icons.locationInfo,
             ]}>
           {tabs}
         </ScrollableIconTabView>

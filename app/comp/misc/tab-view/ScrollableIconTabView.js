@@ -28,7 +28,7 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
     this.state = {selectedTab: 0};
   }
 
-  _onChangeTab(nextIndex, ref) {/*
+  _onChangeTab(nextIndex, ref) {
 
     if (this.props.allowIndexChange)
       if (!this.props.allowIndexChange(this.state.selectedTab, nextIndex))
@@ -37,10 +37,12 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
     if (this.props.onTabChange)
       this.props.onTabChange(nextIndex);
 
-    this.setState({selectedTab: nextIndex} ,() => {
-      if (this.props.onTabChanged)
-        this.props.onTabChanged(nextIndex, ref);
-    });*/
+    // Important: Do not use setState because if you
+    // trigger an update you will get indirect recursion
+    this.state.selectedTab = nextIndex;
+
+    if (this.props.onTabChanged)
+      this.props.onTabChanged(nextIndex, ref);
   }
 
 

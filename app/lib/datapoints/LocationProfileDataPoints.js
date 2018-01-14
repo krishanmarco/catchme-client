@@ -70,7 +70,7 @@ export default class LocationProfileDataPoints {
     return {
       id: LocationProfileDataPoints.infoItemIdPhone,
       title: DaoLocation.gPhone(this.locationProfile),
-      icon: Icons.phone
+      icon: Icons.locationPhone
     };
   }
 
@@ -78,7 +78,7 @@ export default class LocationProfileDataPoints {
     return {
       id: LocationProfileDataPoints.infoItemIdEmail,
       title: DaoLocation.gEmail(this.locationProfile),
-      icon: Icons.email
+      icon: Icons.locationEmail
     };
   }
 
@@ -88,7 +88,7 @@ export default class LocationProfileDataPoints {
     return {
       id: LocationProfileDataPoints.infoItemIdTimings,
       title: managerWeekTimings.toStringRangeStatusAndCurrentDay(),
-      icon: Icons.locationOpenTimes
+      icon: Icons.locationTimings
     };
   }
 
@@ -96,7 +96,7 @@ export default class LocationProfileDataPoints {
     return {
       id: LocationProfileDataPoints.infoItemIdAddress,
       title: DaoLocation.gAddress(this.locationProfile),
-      icon: Icons.address
+      icon: Icons.locationMap
     };
   }
 

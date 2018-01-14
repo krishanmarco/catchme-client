@@ -16,14 +16,14 @@ class ScreenLocationProfilePresentational extends React.Component {
 
   static NAV_BUTTON_USER_LOCATION_STATUS = {
     id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
-    icon: require('../../assets/images/screenLoginBackground.png'),
+    icon: require('../../assets/icons/timerSandFull.png'),
     buttonFontSize: 14,
     buttonFontWeight: '600',
   };
 
   static NAV_BUTTON_FOLLOW_LOCATION = {
     id: 'NAV_BUTTON_ID_FOLLOW_LOCATION',
-    icon: require('../../assets/images/screenLoginBackground.png'),
+    icon: require('../../assets/icons/cocktailGlass.png'),
     buttonFontSize: 14,
     buttonFontWeight: '600',
   };
