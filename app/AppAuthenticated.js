@@ -88,8 +88,8 @@ export default function run(authenticatedUser: TUser) {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/iosPerson.png'),
+        selectedIcon: require('./assets/icons/iosPerson.png'),
         screen: Const.NavigationComponents.ScreenUserProfile,
         passProps: {userId: DaoUser.gId(authenticatedUser)},
         title: 'Catchme',
@@ -104,22 +104,22 @@ export default function run(authenticatedUser: TUser) {
         }*/
       },
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/search.png'),
+        selectedIcon: require('./assets/icons/search.png'),
         screen: Const.NavigationComponents.ScreenSearch,
         title: 'Search',
         navigatorStyle: {}
       },
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/feed.png'),
+        selectedIcon: require('./assets/icons/feed.png'),
         screen: Const.NavigationComponents.ScreenFeed,
         title: 'Feed',
         navigatorStyle: {}
       },
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/spotlight.png'),
+        selectedIcon: require('./assets/icons/spotlight.png'),
         screen: Const.NavigationComponents.ScreenFeaturedAds,
         title: 'Featured',
         navigatorStyle: {}

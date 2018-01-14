@@ -26,16 +26,15 @@ type ListItemActionIconProps = {
   onPress?: () => void
 };
 
-export const ListItemActionIcon = ({icon, color, size, onPress}: ListItemActionIconProps) => (
+export const ListItemActionIcon = ({icon, size, onPress}: ListItemActionIconProps) => (
     <RkButton rkType='clear' style={listItemActionIconStyles.root} onPress={onPress}>
-      <Icon {...icon} color={color} size={size}/>
+      <Icon {...icon} size={size}/>
     </RkButton>
 );
 
 ListItemActionIcon.defaultProps = {
   icon: Icons.defaultIcon,
   size: 30,
-  color: Colors.black,
   onPress: new Function()
 };
 
@@ -97,7 +96,7 @@ const ListItemWithActions = ({header, subHeader, content, avatarUri, onPress, ac
 
         <Col size={100} style={{marginRight: 8}}>
           <View style={listItemWithActionStyles.headerContent}>
-            {avatar && <AvatarCircle uri={avatarUri}/>}
+            {avatarUri && <AvatarCircle uri={avatarUri}/>}
             <View style={listItemWithActionStyles.content}>
               <RkText style={listItemWithActionStyles.contentText}>
                 <RkText>{header}</RkText>

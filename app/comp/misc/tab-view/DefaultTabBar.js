@@ -39,32 +39,6 @@ const DefaultTabBar = createReactClass({
     };
   },
 
-  renderTabOption(name, page) {
-  },
-
-  renderTab(name, page, isTabActive, onPressHandler) {
-    const {activeTextColor, inactiveTextColor, textStyle,} = this.props;
-    const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-    const fontWeight = isTabActive ? 'bold' : 'normal';
-    const icon = this.props.icons[parseInt(name)];
-
-    return <Button
-        style={{flex: 1,}}
-        key={name}
-        accessible={true}
-        accessibilityLabel={name}
-        accessibilityTraits='button'
-        onPress={() => onPressHandler(page)}
-    >
-      <View style={[styles.tab, this.props.tabStyle]}>
-        <Icon
-            {...icon}
-            size={isTabActive ? 30 : 25}
-            color={Colors.primary}/>
-      </View>
-    </Button>;
-  },
-
   render() {
     const containerWidth = this.props.containerWidth;
     const numberOfTabs = this.props.tabs.length;
@@ -101,6 +75,56 @@ const DefaultTabBar = createReactClass({
         </View>
     );
   },
+
+  renderTabOption(name, page) {
+  },
+
+  renderTab(name, page, isTabActive, onPressHandler) {
+    const {activeTextColor, inactiveTextColor, textStyle,} = this.props;
+    const fontWeight = isTabActive ? 'bold' : 'normal';
+    const icon = this.props.icons[parseInt(name)];
+
+    return <Button
+        style={{flex: 1,}}
+        key={name}
+        accessible={true}
+        accessibilityLabel={name}
+        accessibilityTraits='button'
+        onPress={() => onPressHandler(page)}
+    >
+      <View style={[styles.tab, this.props.tabStyle]}>
+        <Icon
+            color={this._getTextColor(icon, isTabActive)}
+            {...icon}
+            size={24}/>
+      </View>
+    </Button>;
+  },
+
+
+  _getTextColor(icon, isTabActive) {
+    const {activeTextColor, inactiveTextColor} = this.props;
+
+    if (isTabActive) {
+      if (activeTextColor)
+        return activeTextColor;
+
+      if (icon.color)
+        return icon.color;
+
+      return Colors.primary;
+    }
+
+    if (inactiveTextColor)
+      return inactiveTextColor;
+
+    if (icon.color)
+      return icon.color;
+
+    return Colors.black;
+  }
+
+
 });
 
 const styles = StyleSheet.create({

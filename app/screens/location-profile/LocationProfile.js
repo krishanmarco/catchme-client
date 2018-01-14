@@ -13,7 +13,7 @@ import {StyleSheet, View, Image} from 'react-native';
 import {ListDataPoints} from "../../comp/Misc";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 
-import {Row, Grid, Col} from "react-native-easy-grid";
+import {Row, Grid} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
@@ -82,7 +82,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     this.setState(this._calculateState(nextProps));
   }
 
-  _calculateState(props: Props) {
+  _calculateState(props: Props = this.props) {
     // Calculate the location info section value only once
     return {
       locationInfoSections: new LocationProfileDataPoints(this._locationProfile(props))

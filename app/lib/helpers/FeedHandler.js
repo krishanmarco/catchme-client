@@ -9,7 +9,7 @@ import type {TFeedAction} from "../types/Types";
 const _FeedItems = {
 
   [Const.FeedHandler.actions.FriendshipRequestAccept]: ({
-    icon: Icons.friendRequestAccept,
+    icon: Icons.userFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
@@ -25,7 +25,7 @@ const _FeedItems = {
 
 
   [Const.FeedHandler.actions.FriendshipRequestDeny]: ({
-    icon: Icons.friendRequestDeny,
+    icon: Icons.userBlock,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);

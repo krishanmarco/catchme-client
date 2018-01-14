@@ -16,8 +16,8 @@ type State = {
   selectedTab: number
 };
 
-// ScrollableTabView **********************************************************************
-// ScrollableTabView **********************************************************************
+// ScrollableIconTabView ******************************************************************
+// ScrollableIconTabView ******************************************************************
 
 export default class ScrollableIconTabView extends React.Component<any, Props, State> {
 
@@ -28,8 +28,7 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
     this.state = {selectedTab: 0};
   }
 
-
-  _onChangeTab(nextIndex, ref) {
+  _onChangeTab(nextIndex, ref) {/*
 
     if (this.props.allowIndexChange)
       if (!this.props.allowIndexChange(this.state.selectedTab, nextIndex))
@@ -39,8 +38,9 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
       this.props.onTabChange(nextIndex);
 
     this.setState({selectedTab: nextIndex} ,() => {
-      this.onTabChanged(nextIndex, ref);
-    });
+      if (this.props.onTabChanged)
+        this.props.onTabChanged(nextIndex, ref);
+    });*/
   }
 
 
@@ -52,7 +52,7 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
             renderTabBar={this._renderCustomTabBar}
 
             scrollWithoutAnimation={true}
-            prerenderingSiblingsNumber={Infinity}>
+            prerenderingSiblingsNumber={2}>
           {this.props.children}
         </ScrollableTabView>
     );

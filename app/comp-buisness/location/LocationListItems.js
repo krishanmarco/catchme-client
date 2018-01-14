@@ -28,7 +28,6 @@ export class ListItemLocation extends React.Component {
       return;
     }
 
-
   }
 
 
@@ -60,7 +59,7 @@ export const ListItemLocationFollow = ({location, onPress}) => (
         location={location}
         onPress={onPress}
         actions={[{
-          icon: Icons.locationFavorites,
+          icon: Icons.locationFollow,
           color: Colors.primary,
           onPress: () => ApiClient.userLocationsFavoritesAddLid(DaoLocation.gId(location))
         }]}/>

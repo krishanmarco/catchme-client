@@ -1,6 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Colors as _Colors} from './lib/theme/RkTheme';
 
+
+
+// Globals **********************************************************************************************
+// Globals **********************************************************************************************
+
 const Globals = {
   packageName: 'it.catchme'
 };
@@ -8,8 +13,45 @@ const Globals = {
 export const Colors = _Colors;
 
 
+
+
+// Icons ************************************************************************************************
+// Icons ************************************************************************************************
+
+const _Icons = {
+  questionMark:                 {name: 'ios-help',                  type: 'ionicon',                  color: Colors.primary},
+  user:                         {name: 'ios-person',                type: 'ionicon',                  color: Colors.primary},
+  cup:                          {name: 'md-wine',                   type: 'ionicon',                  color: Colors.primary},
+  friends:                      {name: 'ios-people',                type: 'ionicon',                  color: Colors.primary},
+  info:                         {name: 'ios-information-circle',    type: 'ionicon',                  color: Colors.primary},
+  female:                       {name: 'ios-female',                type: 'ionicon',                  color: Colors.primary},
+  male:                         {name: 'ios-male',                  type: 'ionicon',                  color: Colors.primary},
+  email:                        {name: 'email',                     type: 'entypo',                   color: Colors.primary},
+  phone:                        {name: 'phone',                     type: 'entypo',                   color: Colors.primary},
+  personSettings:               {name: 'account-settings-variant',  type: 'material-community',       color: Colors.black},
+  bell:                         {name: 'ios-notifications',         type: 'ionicon',                  color: Colors.black},
+  building:                     {name: 'location-city',             type: 'material-icons',           color: Colors.black},
+  hand:                         {name: 'md-hand',                   type: 'ionicon',                  color: Colors.primary}
+};
+
 export const Icons = {
-  defaultIcon:                  {name: 'md-hand',       type: 'ionicon',      color: Colors.primary},
+  defaultIcon:                  _Icons.questionMark,
+  userProfile:                  _Icons.user,
+  userLocations:                _Icons.cup,
+  userFriends:                  _Icons.friends,
+  userInfo:                     _Icons.info,
+  genderFemale:                 _Icons.female,
+  genderMale:                   _Icons.male,
+  genderUnknown:                _Icons.questionMark,
+  userEmail:                    _Icons.email,
+  userPhone:                    _Icons.phone,
+  userAccountSettings:          _Icons.personSettings,
+  userNotificationSettings:     _Icons.bell,
+  userAdminLocations:           _Icons.building,
+  locationFollow:               _Icons.cup,
+  userFollow:                   {..._Icons.hand,        color: Colors.primary},
+  userBlock:                    {..._Icons.hand,        color: Colors.alertRed},
+
   friendRequestAccept:          {name: 'md-hand',       type: 'ionicon',      color: Colors.primary},
   friendRequestDeny:            {name: 'md-hand',       type: 'ionicon',      color: Colors.secondary},
   locationAttendanceAccept:     {name: 'logo-apple',    type: 'ionicon'},
@@ -37,10 +79,22 @@ export const Icons = {
   removeTiming:                 {name: 'minus',         type: 'evilicon',     color: Colors.alertRed},
 };
 
+
+
+
+// Urls *************************************************************************************************
+// Urls *************************************************************************************************
+
 export const Urls = {
   api: 'http://www.catchme.krishanmadan.website/api',
   apiImages: 'http://www.catchme.krishanmadan.website/api/images'
 };
+
+
+
+
+// Constants ********************************************************************************************
+// Constants ********************************************************************************************
 
 export const Const = {
 

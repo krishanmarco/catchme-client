@@ -118,7 +118,7 @@ export default class UserProfileDataPoints {
     return {
       id: UserProfileDataPoints.infoItemIdEmail,
       title: DaoUser.gEmail(this.userProfile),
-      icon: Icons.email
+      icon: Icons.userEmail
     };
   }
 
@@ -126,7 +126,7 @@ export default class UserProfileDataPoints {
     return {
       id: UserProfileDataPoints.infoItemIdPhone,
       title: DaoUser.gPhone(this.userProfile),
-      icon: Icons.phone
+      icon: Icons.userPhone
     };
   }
 
@@ -134,7 +134,7 @@ export default class UserProfileDataPoints {
     return {
       id: UserProfileDataPoints.infoItemIdAccount,
       title: 'Account',
-      icon: Icons.settingAccount
+      icon: Icons.userAccountSettings
     };
   }
 
@@ -142,7 +142,7 @@ export default class UserProfileDataPoints {
     return {
       id: UserProfileDataPoints.infoItemIdNotifications,
       title: 'Notifications',
-      icon: Icons.settingNotifications
+      icon: Icons.userNotificationSettings
     };
   }
 
@@ -150,7 +150,7 @@ export default class UserProfileDataPoints {
     return {
       id: UserProfileDataPoints.infoItemIdAdminLocations,
       title: 'My locations',
-      icon: Icons.settingAdminLocations
+      icon: Icons.userAdminLocations
     };
   }
 

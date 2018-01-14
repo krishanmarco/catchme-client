@@ -121,10 +121,10 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
     return (
         <ScrollableIconTabView
           icons={[
-            Icons.friendRequestAccept,
-            Icons.friendRequestAccept,
-            Icons.friendRequestAccept,
-            Icons.friendRequestAccept
+            Icons.userProfile,
+            Icons.userLocations,
+            Icons.userFriends,
+            Icons.userInfo
           ]}>
           {tabs}
         </ScrollableIconTabView>

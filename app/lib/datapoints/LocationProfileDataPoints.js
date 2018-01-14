@@ -47,19 +47,19 @@ export default class LocationProfileDataPoints {
   }
 
 
-  _buildLocationDataSectionData(): Array<TDataPoint> {
+  _buildLocationDataSectionData(): Array<TDataPoint> {    
     let locationInfo = [];
 
-    if (DaoLocation.hasPhone(locationProfile))
-      locationInfo.push(this._infoItemLocationPhone(locationProfile));
+    if (DaoLocation.hasPhone(this.locationProfile))
+      locationInfo.push(this._infoItemLocationPhone(this.locationProfile));
 
-    if (DaoLocation.hasEmail(locationProfile))
+    if (DaoLocation.hasEmail(this.locationProfile))
       locationInfo.push(this._infoItemLocationEmail());
 
-    if (DaoLocation.hasTimings(locationProfile))
+    if (DaoLocation.hasTimings(this.locationProfile))
       locationInfo.push(this._infoItemLocationTimings());
 
-    if (DaoLocation.hasAddressObj(locationProfile))
+    if (DaoLocation.hasAddressObj(this.locationProfile))
       locationInfo.push(this._infoItemLocationAddress());
 
     return locationInfo;
@@ -69,7 +69,7 @@ export default class LocationProfileDataPoints {
   _infoItemLocationPhone(): TDataPoint {
     return {
       id: LocationProfileDataPoints.infoItemIdPhone,
-      title: DaoLocation.gPhone(locationProfile),
+      title: DaoLocation.gPhone(this.locationProfile),
       icon: Icons.phone
     };
   }
@@ -77,13 +77,13 @@ export default class LocationProfileDataPoints {
   _infoItemLocationEmail(): TDataPoint {
     return {
       id: LocationProfileDataPoints.infoItemIdEmail,
-      title: DaoLocation.gEmail(locationProfile),
+      title: DaoLocation.gEmail(this.locationProfile),
       icon: Icons.email
     };
   }
 
   _infoItemLocationTimings(): TDataPoint {
-    let managerWeekTimings = ManagerWeekTimings.buildFromLocation(locationProfile);
+    let managerWeekTimings = ManagerWeekTimings.buildFromLocation(this.locationProfile);
 
     return {
       id: LocationProfileDataPoints.infoItemIdTimings,
@@ -95,7 +95,7 @@ export default class LocationProfileDataPoints {
   _infoItemLocationAddress(): TDataPoint {
     return {
       id: LocationProfileDataPoints.infoItemIdAddress,
-      title: DaoLocation.gAddress(locationProfile),
+      title: DaoLocation.gAddress(this.locationProfile),
       icon: Icons.address
     };
   }

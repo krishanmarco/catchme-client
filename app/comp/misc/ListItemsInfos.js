@@ -26,7 +26,7 @@ export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkT
 
         {icon && (
             <Col size={10} style={styles.icon}>
-              <Icon size={30} {...icon} />
+              <Icon size={24} {...icon} />
             </Col>
         )}
 
@@ -61,7 +61,7 @@ const styles = RkStyleSheet.create(theme => ({
     alignItems: 'center'
   },
   icon: {
-    marginRight: -16
+    marginRight: -12
   },
   text: {
     marginLeft: 24

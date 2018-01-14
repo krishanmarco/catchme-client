@@ -42,7 +42,7 @@ export type TLocationPeople = {
 
 export type TLocationConnections = {
   now: Array<TUser>,                  // [{...TUser}, ...]                Friends of current user in location now
-  future: Array<TUser>                // [{...TUser}, ...]                Friends of current user in location later
+  future: Array<TUser>,               // [{...TUser}, ...]                Friends of current user in location later
   past?: Array<TUser>                 // [{...TUser}, ...]                Friends of current user in location later
 };
 

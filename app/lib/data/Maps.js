@@ -7,9 +7,9 @@ export default class Maps {
 
 
   static _EGenders = [
-    {value: 0,     icon: Icons.friendRequestAccept},
-    {value: 1,     icon: Icons.friendRequestAccept},
-    {value: 2,     icon: Icons.friendRequestAccept}
+    {value: 0,     icon: Icons.female},
+    {value: 1,     icon: Icons.male},
+    {value: 2,     icon: Icons.genderUnknown}
   ];
 
   static genderDefault() {
