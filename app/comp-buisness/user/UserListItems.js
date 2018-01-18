@@ -36,7 +36,7 @@ export class ListItemUser extends React.Component {
         <ListItemWithActions
             header={DaoUser.gName(this._getUser())}
             content={DaoUser.gPublicMessage(this._getUser())}
-            avatar={DaoUser.gPictureUrl(this._getUser())}
+            avatarUri={DaoUser.gPictureUrl(this._getUser())}
             actions={this.props.actions}
             image={this.props.image}
             onPress={this._defaultOnPress}/>

@@ -30,5 +30,8 @@ export const NullableObjects = _NullableObjects;
 import _ScreenInfo from './misc/ScreenInfo';
 export const ScreenInfo = _ScreenInfo;
 
+import _Screen from './misc/Screen';
+export const Screen = _Screen;
+
 import _SearchBar from './misc/SearchBar';
 export const SearchBar = _SearchBar;

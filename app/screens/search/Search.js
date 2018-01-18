@@ -8,7 +8,7 @@ import ApiClient from '../../lib/data/ApiClient';
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
 
-import {Text, FlatList, View} from 'react-native';
+import {View} from 'react-native';
 
 import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
@@ -20,6 +20,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DaoUser from "../../lib/daos/DaoUser";
 
 import Router from '../../lib/helpers/Router';
+import {Colors} from "../../Config";
 
 
 
@@ -241,15 +242,15 @@ class SearchPresentational extends React.Component {
     return (
         <ScrollableTabView
             scrollWithoutAnimation={true}
-            prerenderingSiblingsNumber={Infinity}>
-          <View
-              tabLabel='Locations'
-              style={{paddingVertical: 8, height: 440}}>
+            prerenderingSiblingsNumber={Infinity}
+            tabBarTextStyle={{marginBottom: -8}}
+            tabBarUnderlineStyle={{height: 2, backgroundColor: Colors.primary}}
+            tabBarActiveTextColor={Colors.primary}
+            tabBarInactiveTextColor={Colors.black}>
+          <View tabLabel='Locations'>
             {this._renderTabSearchLocations()}
           </View>
-          <View
-              tabLabel='People'
-              style={{paddingVertical: 8, height: 440}}>
+          <View tabLabel='People'>
             {this._renderTabSearchUsers()}
           </View>
         </ScrollableTabView>

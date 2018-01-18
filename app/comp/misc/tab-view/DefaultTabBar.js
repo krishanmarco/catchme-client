@@ -23,8 +23,8 @@ const DefaultTabBar = createReactClass({
     activeTab: PropTypes.number,
     tabs: PropTypes.array,
     backgroundColor: PropTypes.string,
-    activeTextColor: PropTypes.string,
-    inactiveTextColor: PropTypes.string,
+    activeColor: PropTypes.string,
+    inactiveColor: PropTypes.string,
     textStyle: Text.propTypes.style,
     tabStyle: ViewPropTypes.style,
     renderTab: PropTypes.func,
@@ -33,8 +33,8 @@ const DefaultTabBar = createReactClass({
 
   getDefaultProps() {
     return {
-      activeTextColor: 'navy',
-      inactiveTextColor: 'black',
+      activeColor: 'navy',
+      inactiveColor: 'black',
       backgroundColor: null,
     };
   },
@@ -80,34 +80,33 @@ const DefaultTabBar = createReactClass({
   },
 
   renderTab(name, page, isTabActive, onPressHandler) {
-    const {activeTextColor, inactiveTextColor, textStyle,} = this.props;
-    const fontWeight = isTabActive ? 'bold' : 'normal';
     const icon = this.props.icons[parseInt(name)];
 
-    return <Button
-        style={{flex: 1,}}
-        key={name}
-        accessible={true}
-        accessibilityLabel={name}
-        accessibilityTraits='button'
-        onPress={() => onPressHandler(page)}
-    >
-      <View style={[styles.tab, this.props.tabStyle]}>
-        <Icon
-            color={this._getTextColor(icon, isTabActive)}
-            {...icon}
-            size={24}/>
-      </View>
-    </Button>;
+    return (
+        <Button
+            style={{flex: 1}}
+            key={name}
+            accessible={true}
+            accessibilityLabel={name}
+            accessibilityTraits='button'
+            onPress={() => onPressHandler(page)}>
+          <View style={[styles.tab, this.props.tabStyle]}>
+            <Icon
+                {...icon}
+                color={this._getTextColor(icon, isTabActive)}
+                size={24}/>
+          </View>
+        </Button>
+    );
   },
 
 
   _getTextColor(icon, isTabActive) {
-    const {activeTextColor, inactiveTextColor} = this.props;
+    const {activeColor, inactiveColor} = this.props;
 
     if (isTabActive) {
-      if (activeTextColor)
-        return activeTextColor;
+      if (activeColor)
+        return activeColor;
 
       if (icon.color)
         return icon.color;
@@ -115,8 +114,8 @@ const DefaultTabBar = createReactClass({
       return Colors.primary;
     }
 
-    if (inactiveTextColor)
-      return inactiveTextColor;
+    if (inactiveColor)
+      return inactiveColor;
 
     if (icon.color)
       return icon.color;

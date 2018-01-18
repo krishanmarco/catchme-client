@@ -2,6 +2,7 @@
 import React from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import DefaultTabBar from './DefaultTabBar';
+import {Colors} from "../../../Config";
 
 
 type Props = {
@@ -64,6 +65,8 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
     return (
         <DefaultTabBar
             {...props}
+            activeColor={Colors.primary}
+            inactiveColor={Colors.black}
             icons={this.props.icons}/>
     );
   }

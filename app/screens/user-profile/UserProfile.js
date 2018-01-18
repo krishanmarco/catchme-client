@@ -136,7 +136,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
         <View
             key={tabLabel}
             tabLabel={tabLabel}
-            style={{height: 440}}>
+            style={{flex: 1}}>
           {jsx}
         </View>
     );

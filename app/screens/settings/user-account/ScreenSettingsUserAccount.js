@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Screen} from "../../../comp/Misc";
 import {poolConnect, CACHE_MAP_ID_USER_PROFILES, CACHE_ID_USER_PROFILE} from '../../../redux/ReduxPool';
 import {NullableObjects} from "../../../comp/Misc";
 import SettingsUserAccount from './SettingsUserAccount';
@@ -19,13 +20,15 @@ class ScreenSettingsUserAccountPresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._authenticatedUserProfile()]}
-            renderChild={([authenticatedUserProfile]) => (
-                <SettingsUserAccount
-                    navigator={this.props.navigator}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._authenticatedUserProfile()]}
+              renderChild={([authenticatedUserProfile]) => (
+                  <SettingsUserAccount
+                      navigator={this.props.navigator}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

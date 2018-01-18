@@ -14,6 +14,7 @@ import {scaleVertical} from '../../lib/utils/scale';
 
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 
+import {Screen} from "../../comp/Misc";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import DaoUser from "../../lib/daos/DaoUser";
 import {startApplication} from "../../App";
@@ -58,60 +59,62 @@ class ScreenRegisterPresentational extends React.Component {
 
   render() {
     return (
-        <RkAvoidKeyboard
-            style={Styles.screen}
-            onStartShouldSetResponder={ (e) => true}
-            onResponderRelease={ (e) => Keyboard.dismiss()}>
+        <Screen>
+          <RkAvoidKeyboard
+              style={Styles.screen}
+              onStartShouldSetResponder={(e) => true}
+              onResponderRelease={(e) => Keyboard.dismiss()}>
 
-          <View style={{alignItems: 'center'}}>
-            <Image style={Styles.image} source={require('../../assets/images/logo.png')}/>
-            <RkText rkType='h1'>Registration</RkText>
-          </View>
-
-          <View style={Styles.listItemContent}>
-            <View>
-
-              <RkTextInputFromPool
-                  pool={this._getFormApiRegister()}
-                  field='name'
-                  placeholder='Name' />
-
-              <RkTextInputFromPool
-                  pool={this._getFormApiRegister()}
-                  field='email'
-                  keyboardType='email-address'
-                  placeholder='Email' />
-
-              <RkTextInputFromPool
-                  pool={this._getFormApiRegister()}
-                  field='password'
-                  placeholder='Password'
-                  secureTextEntry/>
-
-              <RkTextInputFromPool
-                  pool={this._getFormApiRegister()}
-                  field='passwordConfirm'
-                  placeholder='Confirm Password'
-                  secureTextEntry/>
-
-              <RkButton
-                  style={Styles.save}
-                  rkType='large stretch accentColor'
-                  onPress={this._onRegisterPress}>
-                {'Sign up'.toUpperCase()}
-              </RkButton>
-
+            <View style={{alignItems: 'center'}}>
+              <Image style={Styles.image} source={require('../../assets/images/logo.png')}/>
+              <RkText rkType='h1'>Registration</RkText>
             </View>
 
-            <View style={Styles.footer}>
-              <FormFooterLink
-                  text='Already have an account?'
-                  clickableText='Sign in!'
-                  onPress={this._onGoToLoginPress} />
-            </View>
-          </View>
+            <View style={Styles.listItemContent}>
+              <View>
 
-        </RkAvoidKeyboard>
+                <RkTextInputFromPool
+                    pool={this._getFormApiRegister()}
+                    field='name'
+                    placeholder='Name'/>
+
+                <RkTextInputFromPool
+                    pool={this._getFormApiRegister()}
+                    field='email'
+                    keyboardType='email-address'
+                    placeholder='Email'/>
+
+                <RkTextInputFromPool
+                    pool={this._getFormApiRegister()}
+                    field='password'
+                    placeholder='Password'
+                    secureTextEntry/>
+
+                <RkTextInputFromPool
+                    pool={this._getFormApiRegister()}
+                    field='passwordConfirm'
+                    placeholder='Confirm Password'
+                    secureTextEntry/>
+
+                <RkButton
+                    style={Styles.save}
+                    rkType='large stretch accentColor'
+                    onPress={this._onRegisterPress}>
+                  {'Sign up'.toUpperCase()}
+                </RkButton>
+
+              </View>
+
+              <View style={Styles.footer}>
+                <FormFooterLink
+                    text='Already have an account?'
+                    clickableText='Sign in!'
+                    onPress={this._onGoToLoginPress}/>
+              </View>
+            </View>
+
+          </RkAvoidKeyboard>
+        </Screen>
     )
   }
 }
@@ -157,8 +160,8 @@ let Styles = RkStyleSheet.create(theme => ({
   },
   image: {
     marginBottom: 10,
-    height:scaleVertical(77),
-    resizeMode:'contain'
+    height: scaleVertical(77),
+    resizeMode: 'contain'
   },
   listItemContent: {
     justifyContent: 'space-between'
@@ -172,8 +175,8 @@ let Styles = RkStyleSheet.create(theme => ({
     marginHorizontal: 24,
     justifyContent: 'space-around'
   },
-  footer:{
-    justifyContent:'flex-end'
+  footer: {
+    justifyContent: 'flex-end'
   },
   textRow: {
     flexDirection: 'row',

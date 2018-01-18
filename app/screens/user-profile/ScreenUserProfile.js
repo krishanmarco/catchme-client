@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {poolConnect, CACHE_MAP_ID_USER_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
-import {NullableObjects} from "../../comp/Misc";
+import {Screen, NullableObjects} from "../../comp/Misc";
 import UserProfile from './UserProfile';
 import DaoUser from "../../lib/daos/DaoUser";
 
@@ -40,14 +40,16 @@ class ScreenUserProfilePresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._userProfile(), this._authenticatedUserProfile()]}
-            renderChild={([userProfile, authenticatedUserProfile]) => (
-                <UserProfile
-                    navigator={this.props.navigator}
-                    userProfile={userProfile}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._userProfile(), this._authenticatedUserProfile()]}
+              renderChild={([userProfile, authenticatedUserProfile]) => (
+                  <UserProfile
+                      navigator={this.props.navigator}
+                      userProfile={userProfile}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

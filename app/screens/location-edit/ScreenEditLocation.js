@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {poolConnect, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
-import {NullableObjects} from '../../comp/Misc';
+import {Screen, NullableObjects} from '../../comp/Misc';
 import EditLocation from './EditLocation';
 import DaoLocation from "../../lib/daos/DaoLocation";
 
@@ -34,14 +34,16 @@ class ScreenEditLocationPresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._locationProfile(), this._authenticatedUserProfile()]}
-            renderChild={([locationProfile, authenticatedUserProfile]) => (
-                <EditLocation
-                    navigator={this.props.navigator}
-                    locationProfile={locationProfile}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._locationProfile(), this._authenticatedUserProfile()]}
+              renderChild={([locationProfile, authenticatedUserProfile]) => (
+                  <EditLocation
+                      navigator={this.props.navigator}
+                      locationProfile={locationProfile}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

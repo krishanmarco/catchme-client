@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollView} from 'react-native';
 import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeocoderTextEdit';
@@ -23,10 +24,12 @@ class ScreenAddressPickerPresentational extends React.Component {
 
   render() {
     return (
-        <ScrollView>
-          <LocationGeocoderTextEdit
-              onSelect={this._onSelect}/>
-        </ScrollView>
+        <Screen>
+          <ScrollView>
+            <LocationGeocoderTextEdit
+                onSelect={this._onSelect}/>
+          </ScrollView>
+        </Screen>
     );
   }
 

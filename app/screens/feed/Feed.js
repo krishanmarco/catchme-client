@@ -57,8 +57,7 @@ class FeedPresentational extends React.Component {
 
   render() {
     return (
-        <View style={{flex: 1}}>
-          <View style={{height: 500}}>
+        <View>
           <FeedList
               userProfile={this._userProfile()}
               navigator={this._navigator()}
@@ -66,7 +65,6 @@ class FeedPresentational extends React.Component {
               feedList={this._firebaseDataFeed().data}
               loading={this._firebaseDataFeed().runningBulkFetch}
               loadMore={this._loadMore}/>
-          </View>
         </View>
     );
   }
