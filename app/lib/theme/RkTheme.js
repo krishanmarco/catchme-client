@@ -10,6 +10,7 @@ export const Colors = {
   black: '#000000',     //#212121
   white: '#ffffff',
   transparent: '#00FFFFFF',
+  grey: '#f0f0f0',
 
   primaryFade: 'rgba(37, 165, 154, 0.3)',
   primaryTrans: 'rgba(37, 165, 154, 0.2)',

@@ -12,7 +12,7 @@ type Props = {
 
 export default ({name = ' ', style}: Props) => (
     <View style={[Styles.row, style]}>
-      <RkText rkType='primary header5'>{name.toUpperCase()}</RkText>
+      <RkText rkType='primary header6'>{name.toUpperCase()}</RkText>
     </View>
 );
 

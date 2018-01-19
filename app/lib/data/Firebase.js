@@ -11,6 +11,13 @@ export default firebase;
 
 
 
+export type TFirebaseChatUser = {};
+export type TFirebaseChatMessage = {};
+export type TGetFirebaseMessages = () => Array<TFirebaseChatMessage>;
+export type TFirebaseFeed = {};
+export type TFirebaseFeaturedAd = {};
+
+
 // Functions to access specific data in the firebase database
 export class FirebaseData {
 

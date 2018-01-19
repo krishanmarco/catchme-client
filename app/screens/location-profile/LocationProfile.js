@@ -288,18 +288,18 @@ const Styles = StyleSheet.create({
   },
   tabRootFriendsNow: {
     flex: 1,
-    marginTop: 8
+    paddingTop: 8
   },
   tabRootFriendsFuture: {
     flex: 1,
-    marginTop: 8
+    paddingTop: 8
   },
   tabRootChat: {
     flex: 1,
   },
   tabRootInfo: {
     flex: 1,
-    marginTop: 8
+    paddingTop: 8
   },
 
   publicMessage: {

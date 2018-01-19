@@ -2,6 +2,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import _ from 'lodash';
+import {Colors} from "../../Config";
 
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************
@@ -25,12 +26,13 @@ export default class Screen extends React.Component {
   }
 
   render() {
+    const {children, style} = this.props;
     return (
         <View
-            style={{flex: 1}}
+            style={[{flex: 1, backgroundColor: Colors.background}, style]}
             onLayout={this._onLayout}>
           <View style={{height: this.state.height}}>
-            {this.props.children}
+            {children}
           </View>
         </View>
     );

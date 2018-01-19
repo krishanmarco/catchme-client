@@ -42,7 +42,7 @@ export default class UserList extends React.PureComponent {
             keyExtractor={DaoUser.gId}
             renderItem={this._renderItem}
 
-            searchPlaceholder='Search by name, email or phone'
+            searchPlaceholder='Search by name, email or number'
             filterExtractor={this._filterExtractor}
         />
 

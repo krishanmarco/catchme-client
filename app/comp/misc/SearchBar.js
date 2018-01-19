@@ -33,8 +33,9 @@ export default class SearchBar extends React.Component<any, Props, any> {
 
 
   render() {
+    const {placeholder, style} = this.props;
     return (
-        <View style={styles.searchContainer}>
+        <View style={[styles.searchContainer, style]}>
           <RkTextInput
               style={styles.textInput}
               rkType='row rounded'
@@ -42,7 +43,7 @@ export default class SearchBar extends React.Component<any, Props, any> {
               autoCorrect={false}
               label={<Icon {...Icons.search} />}
               onChange={this._onChange}
-              placeholder={this.props.placeholder}/>
+              placeholder={placeholder}/>
         </View>
     );
   }

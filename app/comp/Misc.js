@@ -17,6 +17,9 @@ export const GradientButton = _GradientButton;
 import _ListDataPoints from './misc/ListDataPoints';
 export const ListDataPoints = _ListDataPoints;
 
+import _ListItemHeader from './misc/ListItemHeader';
+export const ListItemHeader = _ListItemHeader;
+
 import _ListItemInfo from './misc/ListItemsInfos';
 export const ListItemInfo = _ListItemInfo;
 

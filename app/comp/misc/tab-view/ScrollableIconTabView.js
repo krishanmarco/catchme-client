@@ -29,7 +29,8 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
     this.state = {selectedTab: 0};
   }
 
-  _onChangeTab(nextIndex, ref) {
+  _onChangeTab({i, ref}) {
+    const nextIndex = i;
 
     if (this.props.allowIndexChange)
       if (!this.props.allowIndexChange(this.state.selectedTab, nextIndex))

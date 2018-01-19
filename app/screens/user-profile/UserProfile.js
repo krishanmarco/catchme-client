@@ -246,15 +246,15 @@ const Styles = StyleSheet.create({
   },
   tabRootLocations: {
     flex: 1,
-    marginTop: 8
+    paddingTop: 8
   },
   tabRootFriends: {
     flex: 1,
-    marginTop: 8
+    paddingTop: 8
   },
   tabRootInfo: {
     flex: 1,
-    marginTop: 8
+    paddingTop: 8
   },
 
   publicMessage: {

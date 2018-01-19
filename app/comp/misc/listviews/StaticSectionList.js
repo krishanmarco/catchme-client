@@ -4,8 +4,7 @@ import React from 'react';
 import {StyleSheet, View, SectionList} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import type {TSectionListDataPointSections} from "../../../lib/types/Types";
-
-
+import {ListItemHeader} from "../../Misc";
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
@@ -49,13 +48,8 @@ export default class StaticSectionList extends React.PureComponent<any, Props, v
     );
   }
 
-
   _renderHeader({section}) {
-    return (
-        <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>{section.title.toUpperCase()}</RkText>
-        </View>
-    );
+    return (<ListItemHeader name={section.title}/>)
   }
 
 }
@@ -67,18 +61,5 @@ export default class StaticSectionList extends React.PureComponent<any, Props, v
 // Config **********************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-
-  heading: {
-    paddingBottom: 6
-  },
-
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center'
-  },
-
+  // Nothing for now
 }));

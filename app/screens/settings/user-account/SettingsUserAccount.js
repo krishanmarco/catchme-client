@@ -6,12 +6,10 @@ import {Icons, Const} from '../../../Config';
 
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
-import ListItemHeader from '../../../comp/misc/ListItemHeader';
-import {ListItemInfo} from "../../../comp/Misc";
 import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";
-import {AvatarCircle} from "../../../comp/Misc";
+import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import Maps from "../../../lib/data/Maps";
 import {stringReplace} from "../../../lib/HelperFunctions";
 
@@ -122,16 +120,12 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
 
   render() {
     return (
-        <View style={{flex: 1}}>
-          <View style={{height: 480}}>
-            <ScrollView>
-              {this._renderProfileSection()}
-              {this._renderPrivacySection()}
-              {this._renderSecuritySection()}
-              {this._renderLogoutSection()}
-            </ScrollView>
-          </View>
-        </View>
+        <ScrollView>
+          {this._renderProfileSection()}
+          {this._renderPrivacySection()}
+          {this._renderSecuritySection()}
+          {this._renderLogoutSection()}
+        </ScrollView>
     );
   }
 
@@ -271,6 +265,6 @@ export default SettingsUserAccount;
 
 const Styles = StyleSheet.create({
   content: {
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
   },
 });

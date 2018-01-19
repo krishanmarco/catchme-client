@@ -8,7 +8,7 @@ import ApiClient from '../../lib/data/ApiClient';
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
 
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
@@ -28,22 +28,24 @@ import {Colors} from "../../Config";
 // Redux ************************************************************************************************
 
 const locationProfileInitState = {
-  usersSuggestSeed: 0,
-  usersStopSuggestLoop: false,
-  usersSuggestList: [],
-
-  locationsSuggestSeed: 0,
-  locationsStopSuggestLoop: false,
-  locationsSuggestList: [],
-
-  usersSearchQuery: '',
-  usersSearchList: [],
-
-  locationsSearchQuery: '',
-  locationsSearchList: [],
 
   usersLoading: false,
-  locationsLoading: false
+  usersStopSuggestLoop: false,
+  usersSearchQuery: '',
+  usersSuggestSeed: 0,
+  usersList: [],
+  usersSearchList: [],
+  usersSuggestList: [],
+
+
+  locationsLoading: false,
+  locationsStopSuggestLoop: false,
+  locationsSearchQuery: '',
+  locationsSuggestSeed: 0,
+  locationsList: [],
+  locationsSearchList: [],
+  locationsSuggestList: [],
+
 };
 
 const ACTION_CONCAT_USERS_SUGGEST_LIST = 'ACTION_SET_USERS_SUGGEST_LIST';
@@ -65,7 +67,8 @@ export function searchReducer(state = locationProfileInitState, action) {
         usersSuggestSeed: state.usersSuggestSeed + 1,
         usersStopSuggestLoop: action.usersStopSuggestLoop,
         usersSuggestList: action.usersSuggestList,
-        usersLoading: false
+        usersList: _.uniqBy(state.usersSearchList.concat(action.usersSuggestList), DaoUser.gId),
+        usersLoading: false,
       });
 
     case ACTION_CONCAT_LOCATIONS_SUGGEST_LIST:
@@ -73,18 +76,20 @@ export function searchReducer(state = locationProfileInitState, action) {
         locationsSuggestSeed: state.locationsSuggestSeed + 1,
         locationsStopSuggestLoop: action.locationsStopSuggestLoop,
         locationsSuggestList: action.locationsSuggestList,
-        locationsLoading: false
+        locationsLoading: false,
+        locationsList: _.uniqBy(state.locationsSearchList.concat(action.locationsSuggestList), DaoLocation.gId)
       });
 
 
     case ACTION_SET_USERS_SEARCH_QUERY:
       return Object.assign({}, state, {
-        usersSearchQuery: action.usersSearchQuery
+        usersSearchQuery: action.usersSearchQuery,
       });
 
     case ACTION_SET_USERS_SEARCH_LIST:
       return Object.assign({}, state, {
         usersSearchList: action.usersSearchList,
+        usersList: _.uniqBy(action.usersSearchList.concat(state.usersSuggestList), DaoUser.gId),
         usersLoading: false
       });
 
@@ -96,6 +101,7 @@ export function searchReducer(state = locationProfileInitState, action) {
     case ACTION_SET_LOCATIONS_SEARCH_LIST:
       return Object.assign({}, state, {
         locationsSearchList: action.locationsSearchList,
+        locationsList: _.uniqBy(action.locationsSearchList.concat(state.locationsSuggestList), DaoLocation.gId),
         locationsLoading: false
       });
 
@@ -216,6 +222,8 @@ class SearchPresentational extends React.Component {
     super(props, context);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
+    this._locationsOnEndReached = this._locationsOnEndReached.bind(this);
+    this._usersOnEndReached = this._usersOnEndReached.bind(this);
   }
 
 
@@ -237,20 +245,40 @@ class SearchPresentational extends React.Component {
     Router.toUserProfile(this.props.navigator, user);
   }
 
+  _locationsOnEndReached() { console.log("_____________end REACHED_________________");
+    if (!this.props.locationsStopSuggestLoop)
+      return;
+
+    // Suggest new locations
+    this.props.suggestLocations();
+  }
+
+  _usersOnEndReached() {
+    if (!this.props.usersStopSuggestLoop)
+      return;
+
+    // Suggest new locations
+    this.props.suggestUsers();
+  }
+
 
   render() {
     return (
         <ScrollableTabView
             scrollWithoutAnimation={true}
             prerenderingSiblingsNumber={Infinity}
-            tabBarTextStyle={{marginBottom: -8}}
-            tabBarUnderlineStyle={{height: 2, backgroundColor: Colors.primary}}
+            tabBarTextStyle={styles.tabBarTextStyle}
+            tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
             tabBarActiveTextColor={Colors.primary}
             tabBarInactiveTextColor={Colors.black}>
-          <View tabLabel='Locations'>
+          <View
+              tabLabel='Locations'
+              style={styles.tabRootUsers}>
             {this._renderTabSearchLocations()}
           </View>
-          <View tabLabel='People'>
+          <View
+              tabLabel='People'
+              style={styles.tabRootLocations}>
             {this._renderTabSearchUsers()}
           </View>
         </ScrollableTabView>
@@ -264,19 +292,16 @@ class SearchPresentational extends React.Component {
 
     return (
         <LocationList
-            locations={this.props.locationsSearchQuery.length <= 0
-                ? this.props.locationsSuggestList
-                : this.props.locationsSearchList
-            }
-
+            locations={this.props.locationsList}
             favoriteIds={DaoUser.gLocationFavoriteIds(userProfile)}
 
             onItemPress={this._onLocationPress}
             onSearchPressed={this.props.searchLocations}
             onSearchChanged={this.props.setLocationsSearchQuery}
+            autoFilter={true}
 
             loading={this.props.locationsLoading}
-            onEndReached={!this.props.locationsStopSuggestLoop ? this.props.suggestLocations : null}/>
+            onEndReached={this._locationsOnEndReached}/>
     );
   }
 
@@ -285,11 +310,7 @@ class SearchPresentational extends React.Component {
 
     return (
         <UserList
-            users={this.props.usersSearchQuery.length <= 0
-                ? this.props.usersSuggestList
-                : this.props.usersSearchList
-            }
-
+            users={this.props.usersList}
             friendIds={DaoUser.gConnectionFriendIds(userProfile)}
             requestIds={DaoUser.gConnectionRequestIds(userProfile)}
             blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
@@ -297,9 +318,10 @@ class SearchPresentational extends React.Component {
             onItemPress={this._onUserPress}
             onSearchPressed={this.props.searchUsers}
             onSearchChanged={this.props.setUsersSearchQuery}
+            autoFilter={true}
 
             loading={this.props.usersLoading}
-            onEndReached={!this.props.usersStopSuggestLoop ? this.props.suggestUsers : null}/>
+            onEndReached={this._usersOnEndReached}/>
     );
   }
 
@@ -332,11 +354,28 @@ const Search = poolConnect(
 
 export default Search;
 
+// Style ************************************************************************************************
+// Style ************************************************************************************************
 
 Search.propTypes = {
   userProfile: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
 };
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+const styles = StyleSheet.create({
+  tabBarTextStyle: {
+    marginBottom: -8
+  },
+  tabBarUnderlineStyle: {
+    height: 2,
+    backgroundColor: Colors.primary
+  },
+  tabRootUsers: {
+    flex: 1,
+    paddingTop: 8
+  },
+  tabRootLocations: {
+    flex: 1,
+    paddingTop: 8
+  },
+});
