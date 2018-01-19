@@ -2,7 +2,7 @@
 import React from 'react';
 import {poolConnect, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
 import Context from '../../lib/Context';
-import {NullableObjects} from "../../comp/Misc";
+import {Screen, NullableObjects} from "../../comp/Misc";
 import Feed from './Feed';
 
 
@@ -21,13 +21,15 @@ class ScreenFeedPresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._userProfile(), Context.getFirebaseUser()]}
-            renderChild={([userProfile]) => (
-                <Feed
-                    userProfile={userProfile}
-                    navigator={this.props.navigator}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._userProfile(), Context.getFirebaseUser()]}
+              renderChild={([userProfile]) => (
+                  <Feed
+                      userProfile={userProfile}
+                      navigator={this.props.navigator}/>
+              )}/>
+        </Screen>
     );
   }
 

@@ -34,9 +34,10 @@ import ModalAddressPicker from './screens/address-picker/ModalAddressPicker';
 import ModalUserLocationStatus from './screens/user-location-status/ModalUserLocationStatus';
 
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
+import type {TUser} from "./lib/daos/DaoUser";
 
 
-export default function run(authenticatedUser) {
+export default function run(authenticatedUser: TUser) {
 
   // Must be the first statement
   // The user is logged in and cannot be null
@@ -87,8 +88,8 @@ export default function run(authenticatedUser) {
   Navigation.startTabBasedApp({
     tabs: [
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/iosPerson.png'),
+        selectedIcon: require('./assets/icons/iosPerson.png'),
         screen: Const.NavigationComponents.ScreenUserProfile,
         passProps: {userId: DaoUser.gId(authenticatedUser)},
         title: 'Catchme',
@@ -103,22 +104,22 @@ export default function run(authenticatedUser) {
         }*/
       },
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/search.png'),
+        selectedIcon: require('./assets/icons/search.png'),
         screen: Const.NavigationComponents.ScreenSearch,
         title: 'Search',
         navigatorStyle: {}
       },
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/feed.png'),
+        selectedIcon: require('./assets/icons/feed.png'),
         screen: Const.NavigationComponents.ScreenFeed,
         title: 'Feed',
         navigatorStyle: {}
       },
       {
-        icon: require('./assets/icons/americanExpressIcon.png'),
-        selectedIcon: require('./assets/icons/masterCardIcon.png'),
+        icon: require('./assets/icons/spotlight.png'),
+        selectedIcon: require('./assets/icons/spotlight.png'),
         screen: Const.NavigationComponents.ScreenFeaturedAds,
         title: 'Featured',
         navigatorStyle: {}

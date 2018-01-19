@@ -1,18 +1,32 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {FlatList} from 'react-native';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import FeedListItem from "./FeedListItem";
 
-import DefaultLoader from '../../comp/misc/DefaultLoader';
+import {DefaultLoader} from "../../comp/Misc";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TFeed} from "../../lib/daos/DaoFeed";
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-export default class FeedList extends React.Component {
+type Props = {
+  userProfile: TUser,
+  navigator: Object,
+  feedList: Array<TFeed>,
+  loading: boolean,
+  loadMore: boolean
+};
+
+
+
+// FeedList *********************************************************************************************
+// FeedList *********************************************************************************************
+
+export default class FeedList extends React.Component<Props> {
 
   constructor(props, context) {
     super(props, context);
@@ -55,13 +69,4 @@ export default class FeedList extends React.Component {
 
 }
 
-FeedList.defaultProps = {};
-
-FeedList.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-  feedList: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
-  loadMore: PropTypes.func.isRequired
-};
 

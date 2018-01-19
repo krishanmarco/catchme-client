@@ -1,13 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import {Colors} from '../../Config';
-
-import {Icon, Avatar} from 'react-native-elements'
 import {Col, Grid} from "react-native-easy-grid";
 
-import {AvatarCircle} from '../../comp/misc/Avatars';
+import {AvatarCircle} from "../../comp/Misc";
 
 import {View, TouchableNativeFeedback} from 'react-native';
 import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
@@ -81,7 +77,7 @@ export default class FeedListItem extends React.Component {
 
       const marginRight = key === actions.length ? 0 : 8;
       const actionProps = {
-        nameType: FeedHandler.mapActionToIcon(action),
+        icon: FeedHandler.mapActionToIcon(action),
         onPress: () => FeedHandler.handleFeedAction(action, this._feed(), this._navigator())
       };
 

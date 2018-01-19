@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
+import _ from 'lodash';
 
-import {Colors, Icons} from '../../Config';
+import {Colors} from '../../Config';
 
 import {connect} from 'react-redux';
 
@@ -11,23 +11,52 @@ import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import {initialize, chatMessagesSendMessage, chatMessagesLoadMore} from './ReducerChat';
 
 import {DefaultLoader} from "../Misc";
-import {View} from 'react-native';
-import {RkStyleSheet, RkText, RkTextInput} from 'react-native-ui-kitten';
+import {View, StyleSheet} from 'react-native';
+import {RkText} from 'react-native-ui-kitten';
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
+import type {TReducerChatState} from "./ReducerChat";
 
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-class ChatPresentational extends React.Component {
+
+type Props = {
+  chatId: string,
+  user: TUser,
+  getFirebaseMessages: TGetFirebaseMessages,
+  placeholder: ?string,
+
+  messages: Array<TFirebaseChatMessage>,
+  fetchedAllItems: boolean,
+  loadMore: (TGetFirebaseMessages) => {},
+  runningBulkFetch: boolean
+};
+
+
+type State = TReducerChatState & {
+  initialize: (TGetFirebaseMessages, TUser) => {},
+  sendMessage: (TGetFirebaseMessages, TFirebaseChatMessage) => {},
+  loadMore: (TGetFirebaseMessages) => {}
+};
+
+
+// ChatPresentational ***********************************************************************************
+// ChatPresentational ***********************************************************************************
+
+class ChatPresentational extends React.Component<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
     this._onSend = this._onSend.bind(this);
     this._onPressAvatar = this._onPressAvatar.bind(this);
     this._renderBubble = this._renderBubble.bind(this);
-    this._renderCustomView = this._renderCustomView.bind(this);
+    this._renderBubbleHeader = this._renderBubbleHeader.bind(this);
   }
 
 
-  _getChatUser() {
+  _getChatUser(): TFirebaseChatUser {
     return {
       _id: DaoUser.gId(this.props.user),
       name: DaoUser.gName(this.props.user),
@@ -46,7 +75,7 @@ class ChatPresentational extends React.Component {
   }
 
 
-  _onPressAvatar(user) {
+  _onPressAvatar(user: TUser) {
 
   }
 
@@ -86,7 +115,7 @@ class ChatPresentational extends React.Component {
             onPressAvatar={this._onPressAvatar}
 
             renderBubble={this._renderBubble}
-            renderCustomView={this._renderCustomView}
+            renderCustomView={this._renderBubbleHeader}
 
         />
     );
@@ -98,23 +127,24 @@ class ChatPresentational extends React.Component {
         <Bubble
             {...props}
             wrapperStyle={{
-              left: {
-                backgroundColor: '#f0f0f0',
-              },
-              right: {
-                backgroundColor: Colors.primary
-              }
+              left: styles.bubbleLeft,
+              right: styles.bubbleRight
             }}
         />
     );
   }
 
 
-  _renderCustomView(props) {
+  _renderBubbleHeader(props) {
+    const senderId = _.get(props, 'currentMessage.user._id', -1);
+    if (senderId == DaoUser.gId(this.props.user))
+      return null;
+
+
     return (
-        <View style={{paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 4}}>
-          <RkText style={{fontSize: 10}} rkType='secondary6'>{props.currentMessage.user.name}</RkText>
-          <View style={{borderBottomColor: 'rgba(0, 0, 0, 0.1)', borderBottomWidth: 1}}/>
+        <View style={styles.bubbleHeader}>
+          <RkText style={styles.bubbleHeaderText} rkType='secondary6'>{props.currentMessage.user.name}</RkText>
+          <View style={styles.bubbleHeaderFooter}/>
         </View>
     );
   }
@@ -140,10 +170,29 @@ ChatContainer.defaultProps = {
   placeholder: 'Type a message...'
 };
 
-ChatContainer.propTypes = {
-  chatId: PropTypes.string.isRequired,
-  user: PropTypes.object.isRequired,
-  getFirebaseMessages: PropTypes.func.isRequired,
 
-  placeholder: PropTypes.string,
-};
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+  bubbleLeft: {
+    backgroundColor: Colors.grey,
+  },
+  bubbleRight: {
+    backgroundColor: Colors.primary
+  },
+  bubbleHeader: {
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 4,
+    paddingBottom: 4
+  },
+  bubbleHeaderText: {
+    fontSize: 10
+  },
+  bubbleHeaderFooter: {
+    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+    borderBottomWidth: 1
+  },
+});

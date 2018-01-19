@@ -2,6 +2,22 @@
 import firebase, {FirebaseData} from '../../lib/data/Firebase';
 import {Const} from '../../Config';
 import _ from 'lodash';
+import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+export type TReducerChatState = {
+  authorizing: boolean,
+  authorized: boolean,
+
+  fetchedAllItems: boolean,
+  runningBulkFetch: boolean,
+  itemsToLoad: number,
+
+  users: Array<TFirebaseChatUser>,
+  messages: Array<TFirebaseChatMessage>
+};
 
 // HelperFunctions **************************************************************************************
 // HelperFunctions **************************************************************************************
@@ -32,7 +48,7 @@ function mapDbMessageToLocalMessage(dispatch, users, message) {
 // Redux ************************************************************************************************
 
 
-const chatInitState = {
+const chatInitState: TReducerChatState = {
   authorizing: false,
   authorized: false,
 
@@ -52,7 +68,7 @@ const ACTION_LOCATION_CHAT_START_ON_MESSAGES_RECEIVED = 'ACTION_LOCATION_CHAT_ST
 const ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS = 'ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS';
 
 
-export function chatReducer(state = chatInitState, action) {
+export function chatReducer(state: TReducerChatState = chatInitState, action): TReducerChatState {
   switch (action.type) {
 
     case ACTION_LOCATION_CHAT_RESET:
@@ -94,7 +110,7 @@ export function chatReducer(state = chatInitState, action) {
 }
 
 
-export function initialize(getFirebaseMessages, user) {
+export function initialize(getFirebaseMessages: TGetFirebaseMessages, user) {
   return (dispatch) => {
     dispatch({type: ACTION_LOCATION_CHAT_RESET});
     dispatch(addUser(user));
@@ -104,7 +120,7 @@ export function initialize(getFirebaseMessages, user) {
   };
 }
 
-function addUser(user) {
+function addUser(user: TFirebaseChatUser) {
   return {
     type: ACTION_LOCATION_CHAT_ADD_USER,
     user: user
@@ -113,11 +129,11 @@ function addUser(user) {
 
 
 
-export function chatMessagesLoadMore(getFirebaseMessages) {
+export function chatMessagesLoadMore(getFirebaseMessages: TGetFirebaseMessages) {
   return chatFetchMessages(getFirebaseMessages);
 }
 
-export function chatFetchMessages(getFirebaseMessages) {
+export function chatFetchMessages(getFirebaseMessages: TGetFirebaseMessages) {
   return (dispatch, getState) => {
 
     dispatch({type: ACTION_LOCATION_CHAT_PRE_BULK_FETCH});

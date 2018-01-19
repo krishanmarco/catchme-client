@@ -1,8 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {StyleSheet} from 'react-native';
+import {Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import WeekTimingsList from '../../comp-buisness/timing/TimingList';
-import {View} from 'react-native';
 
 
 // PresentationalComponent ******************************************************************************
@@ -16,13 +17,13 @@ class ModalTimingPresentational extends React.Component {
 
   render() {
     return (
-        <View style={{flex: 1, paddingLeft: 24, paddingRight: 24}}>
+        <Screen style={styles.root}>
           <WeekTimingsList
               ref={ModalTimingPresentational.refWeekTimingsList}
               managerWeekTimings={this._managerWeekTimings()}
               isEditable={false}
               size={200}/>
-        </View>
+        </Screen>
     );
   }
 
@@ -47,3 +48,13 @@ const ModalTiming = poolConnect(
 export default ModalTiming;
 
 ModalTiming.defaultProps = {};
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+  root: {
+    paddingHorizontal: 24,
+    paddingVertical: 8,
+  }
+});

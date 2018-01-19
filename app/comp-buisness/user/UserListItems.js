@@ -8,7 +8,7 @@ import ApiClient from '../../lib/data/ApiClient';
 
 import DaoUser from '../../lib/daos/DaoUser';
 
-import ListItemWithAction from '../../comp/misc/ListItemsWithActions';
+import {ListItemWithActions} from "../../comp/Misc";
 
 
 
@@ -33,10 +33,10 @@ export class ListItemUser extends React.Component {
 
   render() {
     return (
-        <ListItemWithAction
+        <ListItemWithActions
             header={DaoUser.gName(this._getUser())}
             content={DaoUser.gPublicMessage(this._getUser())}
-            avatar={DaoUser.gPictureUrl(this._getUser())}
+            avatarUri={DaoUser.gPictureUrl(this._getUser())}
             actions={this.props.actions}
             image={this.props.image}
             onPress={this._defaultOnPress}/>
@@ -61,7 +61,7 @@ export const ListItemUserRequestSend = ({user, onPress}) => (
         user={user}
         onPress={onPress}
         actions={[{
-          nameType: Icons.friendRequestAccept,
+          icon: Icons.friendRequestAccept,
           color: Colors.primary,
           onPress: () => ApiClient.userConnectionsAddUid(DaoUser.gId(user))
         }]}/>
@@ -73,11 +73,11 @@ export const ListItemUserRequestReceived = ({user, onPress}) => (
         user={user}
         onPress={onPress}
         actions={[{
-          nameType: Icons.friendRequestAccept,
+          icon: Icons.friendRequestAccept,
           color: Colors.primary,
           onPress: () => ApiClient.userConnectionsAcceptUid(DaoUser.gId(user))
         }, {
-          nameType: Icons.friendRequestAccept,
+          icon: Icons.friendRequestAccept,
           color: Colors.secondary,
           onPress: () => ApiClient.userConnectionsBlockUid(DaoUser.gId(user))
         }]}/>

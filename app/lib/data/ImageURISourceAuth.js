@@ -2,6 +2,14 @@
 import {Const} from '../../Config';
 import ApiAuthentication from './ApiAuthentication';
 
+
+export type TImageURISourceAuth = {
+  uri: string,                        // Url of the image
+  headers: {authorization: string},   // Catch me authorization header of the request
+  cache: string,                      // Caching policy (Defined in Config.js)
+};
+
+
 // Wraps the react-native ImageURISource object adding an
 // authentication header to access protected server-side images
 export default class ImageURISourceAuth {

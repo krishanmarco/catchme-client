@@ -1,42 +1,30 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import ApiClient from '../../../lib/data/ApiClient';
 import RealmIO from '../../../lib/data/RealmIO';
-import {boolToIntString, intStringToBool} from '../../../lib/HelperFunctions';
 
 import {startApplication} from "../../../App";
-import {Icons} from '../../../Config';
 
 import {View} from 'react-native';
-import {scaleVertical} from '../../../lib/utils/scale';
 import {RkText, RkButton, RkStyleSheet} from 'react-native-ui-kitten';
-import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
-import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
-import DaoUser from "../../../lib/daos/DaoUser";
+import {ScreenInfo} from "../../../comp/Misc";
 
 
 
 
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
 type Props = {
   authenticatedUserProfile: Object,
   navigator: Navigator
 };
 
-type State = {
-  // Nothing for now
-};
-
 
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-export default class SettingsUserNotifications extends React.Component<any, Props, State> {
+export default class SettingsUserNotifications extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
@@ -65,11 +53,11 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
     return (
         <ScreenInfo
             imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Are you sure you want to log out?'/>
+            imageContainerScale={550}
+            imageHeight={100}
+            imageWidth={150}
+            imageSource={require('../../../assets/images/splashBack.png')}
+            textText='Are you sure you want to log out?'/>
     );
   }
 

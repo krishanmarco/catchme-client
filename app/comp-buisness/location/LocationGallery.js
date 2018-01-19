@@ -13,9 +13,19 @@ import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import {RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 import Router from "../../lib/helpers/Router";
+import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 
 
-export default class LocationGallery extends React.Component {
+type Props = {
+  // todo
+};
+
+type State = {
+  imageSources: Array<TImageURISourceAuth>
+};
+
+
+export default class LocationGallery extends React.Component<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
@@ -52,7 +62,7 @@ export default class LocationGallery extends React.Component {
         .then(addedUrl => {
 
           // Update only location images
-          let newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
+          const newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
           this.setState({imageSources: newImages});
 
         });

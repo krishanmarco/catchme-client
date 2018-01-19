@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Router from "../../lib/helpers/Router";
-import {Const} from "../../Config";
 
 import {poolConnect, FORM_API_ID_LOGIN} from '../../redux/ReduxPool';
 
@@ -19,11 +18,12 @@ import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FontAwesome} from '../../assets/Icons';
 import {startApplication} from "../../App";
 import DaoUser from "../../lib/daos/DaoUser";
-import {GradientButton} from "../../comp/Misc";
+import {Screen, GradientButton} from "../../comp/Misc";
 
 import ApiClient from '../../lib/data/ApiClient';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 
@@ -50,7 +50,7 @@ class ScreenLoginPresentational extends React.Component {
     // todo
   }
 
-  _handleSignInSuccess(userProfile) {
+  _handleSignInSuccess(userProfile: TUser) {
     if (DaoUser.gApiKey(userProfile) == null) {
       this._handleSignInError();
       return;
@@ -98,51 +98,53 @@ class ScreenLoginPresentational extends React.Component {
   render() {
 
     return (
-        <RkAvoidKeyboard
-            onStartShouldSetResponder={(e) => true}
-            onResponderRelease={e => Keyboard.dismiss()}
-            style={Styles.screen}>
+        <Screen>
+          <RkAvoidKeyboard
+              onStartShouldSetResponder={(e) => true}
+              onResponderRelease={e => Keyboard.dismiss()}
+              style={Styles.screen}>
 
-          {this._renderImage()}
+            {this._renderImage()}
 
-          <View style={Styles.listItemHeaderContent}>
-            <View style={Styles.buttons}>
-              {[
-                {icon: FontAwesome.google, onPress: this._onGoogleLogin},
-                {icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
-              ].map(this._renderSocialIcon)}
+            <View style={Styles.listItemHeaderContent}>
+              <View style={Styles.buttons}>
+                {[
+                  {icon: FontAwesome.google, onPress: this._onGoogleLogin},
+                  {icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
+                ].map(this._renderSocialIcon)}
+              </View>
+
+              <RkTextInputFromPool
+                  pool={this._getFormApiLogin()}
+                  field='email'
+                  placeholder='Email'/>
+
+              <RkTextInputFromPool
+                  pool={this._getFormApiLogin()}
+                  field='email'
+                  placeholder='Password'
+                  secureTextEntry/>
+
+              <GradientButton
+                  style={Styles.save}
+                  rkType='large stretch accentColor'
+                  text={'Login'.toUpperCase()}
+                  onPress={this._onLoginPress}/>
+
+
+              <View style={Styles.footer}>
+                <FormFooterLink
+                    text='Don’t have an account?'
+                    clickableText='Sign up now!'
+                    onPress={this._onGoToSignupPress}/>
+                <FormFooterLink
+                    text='Forgot your password?'
+                    clickableText='Recover it!'
+                    onPress={this._onGoToRecoverPasswordPress}/>
+              </View>
             </View>
-
-            <RkTextInputFromPool
-                pool={this._getFormApiLogin()}
-                field='email'
-                placeholder='Email'/>
-
-            <RkTextInputFromPool
-                pool={this._getFormApiLogin()}
-                field='email'
-                placeholder='Password'
-                secureTextEntry/>
-
-            <GradientButton
-                style={Styles.save}
-                rkType='large stretch accentColor'
-                text={'Login'.toUpperCase()}
-                onPress={this._onLoginPress}/>
-
-
-            <View style={Styles.footer}>
-              <FormFooterLink
-                  text='Don’t have an account?'
-                  clickableText='Sign up now!'
-                  onPress={this._onGoToSignupPress}/>
-              <FormFooterLink
-                  text='Forgot your password?'
-                  clickableText='Recover it!'
-                  onPress={this._onGoToRecoverPasswordPress}/>
-            </View>
-          </View>
-        </RkAvoidKeyboard>
+          </RkAvoidKeyboard>
+        </Screen>
     );
   }
 

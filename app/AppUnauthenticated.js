@@ -14,8 +14,6 @@ import ScreenLogin from './screens/login/ScreenLogin';
 import ScreenRegister from './screens/register/ScreenRegister';
 import ScreenRecoverPassword from './screens/settings/recover-password/ScreenRecoverPassword';
 
-import firebase from './lib/data/Firebase';
-
 
 export default function run() {
 

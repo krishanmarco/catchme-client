@@ -3,12 +3,13 @@ import {Const, Icons} from '../../Config';
 import ApiClient from '../data/ApiClient';
 import DaoFeed from "../daos/DaoFeed";
 import Router from "./Router";
+import type {TFeedAction} from "../types/Types";
 
 
 const _FeedItems = {
 
-  [Const.FeedHandler.actions.FriendshipRequestAccept]: {
-    icon: Icons.friendRequestAccept,
+  [Const.FeedHandler.actions.FriendshipRequestAccept]: ({
+    icon: Icons.userFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
@@ -18,13 +19,13 @@ const _FeedItems = {
 
       return ApiClient.userConnectionsAcceptUid(connectionId);
     }
-  },
+  }: TFeedAction),
 
 
 
 
-  [Const.FeedHandler.actions.FriendshipRequestDeny]: {
-    icon: Icons.friendRequestDeny,
+  [Const.FeedHandler.actions.FriendshipRequestDeny]: ({
+    icon: Icons.userBlock,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
@@ -34,13 +35,13 @@ const _FeedItems = {
 
       return ApiClient.userConnectionsBlockUid(connectionId);
     }
-  },
+  }: TFeedAction),
 
 
 
 
-  [Const.FeedHandler.actions.AttendanceConfirm]: {
-    icon: Icons.locationAttendanceAccept,
+  [Const.FeedHandler.actions.AttendanceConfirm]: ({
+    icon: Icons.locationPersonFuture,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
@@ -51,13 +52,13 @@ const _FeedItems = {
       return Promise.resolve(0); // todo
       // return ApiClient.userConnectionsBlockUid(locationId);
     }
-  },
+  }: TFeedAction),
 
 
 
 
-  [Const.FeedHandler.actions.LocationFollow]: {
-    icon: Icons.locationFavorites,
+  [Const.FeedHandler.actions.LocationFollow]: ({
+    icon: Icons.locationFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
@@ -67,13 +68,13 @@ const _FeedItems = {
 
       return ApiClient.userLocationsFavoritesAddLid(locationId);
     }
-  },
+  }: TFeedAction),
 
 
 
 
-  [Const.FeedHandler.actions.GoToUserProfile]: {
-    icon: Icons.locationFavorites,
+  [Const.FeedHandler.actions.GoToUserProfile]: ({
+    icon: Icons.userProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
@@ -84,13 +85,13 @@ const _FeedItems = {
       Router.toUserProfileById(navigator, connectionId);
       return Promise.resolve(0);
     }
-  },
+  }: TFeedAction),
 
 
 
 
-  [Const.FeedHandler.actions.GoToLocationProfile]: {
-    icon: Icons.locationFavorites,
+  [Const.FeedHandler.actions.GoToLocationProfile]: ({
+    icon: Icons.locationProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
@@ -101,7 +102,7 @@ const _FeedItems = {
       Router.toLocationProfileById(navigator, locationId);
       return Promise.resolve(0);
     }
-  },
+  }: TFeedAction),
 
 };
 
@@ -132,11 +133,11 @@ class FeedHandler {
 
 
 
-  mapActionToIcon(action) {
+  mapActionToIcon(action: string) {
     return _FeedItems[action].icon;
   }
 
-  handleFeedAction(action, feed, navigator) {
+  handleFeedAction(action: string, feed, navigator) {
     return _FeedItems[action].action(navigator, feed);
   }
 

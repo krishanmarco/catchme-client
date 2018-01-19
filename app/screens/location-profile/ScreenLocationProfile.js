@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Screen} from "../../comp/Misc";
 import PropTypes from 'prop-types';
 import {poolConnect, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
 import ApiClient from '../../lib/data/ApiClient';
@@ -16,16 +17,16 @@ class ScreenLocationProfilePresentational extends React.Component {
 
   static NAV_BUTTON_USER_LOCATION_STATUS = {
     id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
-    icon: require('../../assets/images/screenLoginBackground.png'),
-    buttonFontSize: 14,
-    buttonFontWeight: '600',
+    icon: require('../../assets/icons/timerSandFull.png'),
+    buttonFontSize: 2,
+    buttonFontWeight: '100',
   };
 
   static NAV_BUTTON_FOLLOW_LOCATION = {
     id: 'NAV_BUTTON_ID_FOLLOW_LOCATION',
-    icon: require('../../assets/images/screenLoginBackground.png'),
-    buttonFontSize: 14,
-    buttonFontWeight: '600',
+    icon: require('../../assets/icons/cocktailGlass.png'),
+    buttonFontSize: 2,
+    buttonFontWeight: '100',
   };
 
   constructor(props, context) {
@@ -60,7 +61,9 @@ class ScreenLocationProfilePresentational extends React.Component {
     if (event.id === ScreenLocationProfilePresentational.NAV_BUTTON_USER_LOCATION_STATUS.id) {
       Router.toModalUserLocationStatus(this._navigator(), {
         location: this._locationProfile(),
-        onStatusConfirm: (status) => {console.log(status);},
+        onStatusConfirm: (status) => {
+          console.log(status);
+        },
       });
       return;
     }
@@ -80,7 +83,7 @@ class ScreenLocationProfilePresentational extends React.Component {
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
     this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-      .then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
+        .then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
 
   }
 
@@ -100,14 +103,16 @@ class ScreenLocationProfilePresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._locationProfile(), this._authenticatedUserProfile()]}
-            renderChild={([locationProfile, authenticatedUserProfile]) => (
-                <LocationProfile
-                    navigator={this._navigator()}
-                    locationProfile={locationProfile}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._locationProfile(), this._authenticatedUserProfile()]}
+              renderChild={([locationProfile, authenticatedUserProfile]) => (
+                  <LocationProfile
+                      navigator={this._navigator()}
+                      locationProfile={locationProfile}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

@@ -1,0 +1,15 @@
+[include]
+
+[ignore]
+.*/android/.*
+.*/ios/.*
+.*/node_modules/.*
+.*/__tests__/.*
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

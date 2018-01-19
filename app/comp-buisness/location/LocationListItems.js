@@ -8,7 +8,7 @@ import ApiClient from '../../lib/data/ApiClient';
 
 import DaoLocation from '../../lib/daos/DaoLocation';
 
-import ListItemWithAction from '../../comp/misc/ListItemsWithActions';
+import {ListItemWithActions} from "../../comp/Misc";
 
 
 
@@ -28,16 +28,15 @@ export class ListItemLocation extends React.Component {
       return;
     }
 
-
   }
 
 
   render() {
     return (
-        <ListItemWithAction
+        <ListItemWithActions
             header={DaoLocation.gName(this._getLocation())}
             content={DaoLocation.gDescription(this._getLocation())}
-            avatar={DaoLocation.gPictureUrl(this._getLocation())}
+            avatarUri={DaoLocation.gPictureUrl(this._getLocation())}
             onPress={this._defaultOnPress}
             actions={this.props.actions}
             image={this.props.image}/>
@@ -60,7 +59,7 @@ export const ListItemLocationFollow = ({location, onPress}) => (
         location={location}
         onPress={onPress}
         actions={[{
-          nameType: Icons.locationFavorites,
+          icon: Icons.locationFollow,
           color: Colors.primary,
           onPress: () => ApiClient.userLocationsFavoritesAddLid(DaoLocation.gId(location))
         }]}/>

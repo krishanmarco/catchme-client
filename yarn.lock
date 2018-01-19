@@ -5126,12 +5126,6 @@ react-native-svg@^6.0.0:
     github-download "^0.5.0"
     lodash "^4.16.6"
 
-react-native-tab-view@^0.0.70:
-  version "0.0.70"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.70.tgz#1dd2ded32acd0cb6bfef38d26e53675db733b37b"
-  dependencies:
-    prop-types "^15.5.10"
-
 react-native-ui-kitten@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-native-ui-kitten/-/react-native-ui-kitten-2.0.1.tgz#bbd4483a11e35f13502f0bd86d78ef1621fd0d7d"

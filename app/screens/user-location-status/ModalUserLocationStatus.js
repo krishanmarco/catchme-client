@@ -1,13 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Const, Icons} from '../../Config';
+import {Screen} from "../../comp/Misc";
 import PropTypes from 'prop-types';
 import {poolConnect, FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../redux/ReduxPool';
 import {Row, Grid, Col} from "react-native-easy-grid";
 import {RkText, RkButton} from "react-native-ui-kitten";
 import {View, StyleSheet, Image, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import {seconds, compareTimeSmaller} from "../../lib/HelperFunctions";
+import {compareTimeSmaller} from "../../lib/HelperFunctions";
 import moment from 'moment';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoLocation from "../../lib/daos/DaoLocation";
@@ -179,7 +180,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
 
   render() {
     return (
-        <View style={{flex: 1}}>
+        <Screen>
           <Grid style={Styles.mainGrid}>
             <Row size={30} style={Styles.imageRow}>{this._renderHeaderImage()}</Row>
             <Row size={25} style={Styles.contentRow}>{this._renderContent()}</Row>
@@ -205,7 +206,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
               date={this._getUntilDate()}
               onConfirm={this._onUntilPicked}
               onCancel={this._onUntilCanceled}/>
-        </View>
+        </Screen>
     );
   }
 
@@ -262,7 +263,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
               <TouchableOpacity onPress={this._onHereNowPressed}>
                 <Icon
                     size={55}
-                    {...Icons.userLocationStatusNow}/>
+                    {...Icons.locationPersonNow}/>
                 <RkText rkType='secondary2'>I am here now</RkText>
               </TouchableOpacity>
             </View>
@@ -272,7 +273,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
               <TouchableOpacity onPress={this._onHereTonightPressed}>
                 <Icon
                     size={55}
-                    {...Icons.userLocationStatusLater}/>
+                    {...Icons.locationPersonFuture}/>
                 <RkText rkType='secondary2'>I will be here tonight</RkText>
               </TouchableOpacity>
             </View>

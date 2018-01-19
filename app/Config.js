@@ -1,6 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Colors as _Colors} from './lib/theme/RkTheme';
 
+
+
+// Globals **********************************************************************************************
+// Globals **********************************************************************************************
+
 const Globals = {
   packageName: 'it.catchme'
 };
@@ -8,38 +13,105 @@ const Globals = {
 export const Colors = _Colors;
 
 
-export const Icons = {
-  friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},
-  friendRequestDeny: {name: 'md-hand', type: 'ionicon', color: Colors.secondary},
-  locationAttendanceAccept: {name: 'logo-apple', type: 'ionicon'},
-  locationFavorites: {name: 'logo-apple', type: 'ionicon'},
-  userLocationStatusNow: {name: 'logo-apple', type: 'ionicon'},
-  userLocationStatusLater: {name: 'logo-apple', type: 'ionicon'},
-  search: {name: 'md-search', type: 'ionicon'},
-  back: {name: 'logo-apple', type: 'ionicon'},
-  phone: {name: 'logo-apple', type: 'ionicon'},
-  email: {name: 'logo-apple', type: 'ionicon'},
-  settingAdminLocations: {name: 'logo-apple', type: 'ionicon'},
-  settingAccount: {name: 'logo-apple', type: 'ionicon'},
-  settingPrivacy: {name: 'logo-apple', type: 'ionicon'},
-  settingChangePassword: {name: 'logo-apple', type: 'ionicon'},
-  settingChangePhone: {name: 'logo-apple', type: 'ionicon'},
-  settingNotifications: {name: 'logo-apple', type: 'ionicon'},
-  settingLogout: {name: 'logo-apple', type: 'ionicon'},
-  settingHelp: {name: 'logo-apple', type: 'ionicon'},
-  locationOpenTimes: {name: 'logo-apple', type: 'ionicon'},
-  locationAdminAdd: {name: 'logo-apple', type: 'ionicon'},
-  address: {name: 'logo-apple', type: 'ionicon'},
-  sad: {name: 'logo-apple', type: 'ionicon'},
-  addImage: {name: 'logo-apple', type: 'ionicon'},
-  addTiming: {name: 'plus', type: 'evilicon', color: Colors.primary},
-  removeTiming: {name: 'minus', type: 'evilicon', color: Colors.alertRed},
+
+
+// Icons ************************************************************************************************
+// Icons ************************************************************************************************
+
+const _Icons = {
+  questionMark:                 {name: 'ios-help',                  type: 'ionicon',                  color: Colors.primary},
+  user:                         {name: 'ios-person',                type: 'ionicon',                  color: Colors.primary},
+  cup:                          {name: 'md-wine',                   type: 'ionicon',                  color: Colors.primary},
+  friends:                      {name: 'ios-people',                type: 'ionicon',                  color: Colors.primary},
+  info:                         {name: 'ios-information-circle',    type: 'ionicon',                  color: Colors.primary},
+  female:                       {name: 'ios-female',                type: 'ionicon',                  color: Colors.primary},
+  male:                         {name: 'ios-male',                  type: 'ionicon',                  color: Colors.primary},
+  email:                        {name: 'email',                     type: 'entypo',                   color: Colors.primary},
+  phone:                        {name: 'phone',                     type: 'entypo',                   color: Colors.primary},
+  personSettings:               {name: 'account-settings-variant',  type: 'material-community',       color: Colors.primary},
+  bell:                         {name: 'ios-notifications',         type: 'ionicon',                  color: Colors.primary},
+  building:                     {name: 'location-city',             type: 'material-icons',           color: Colors.primary},
+  hand:                         {name: 'md-hand',                   type: 'ionicon',                  color: Colors.primary},
+  images:                       {name: 'md-images',                 type: 'ionicon',                  color: Colors.primary},
+  timeNow:                      {name: 'timer-sand-empty',          type: 'material-community',       color: Colors.primary},
+  timeFuture:                   {name: 'timer-sand',                type: 'material-community',       color: Colors.primary},
+  chat:                         {name: 'ios-chatbubbles',           type: 'ionicon',                  color: Colors.primary},
+  timings:                      {name: 'calendar-clock',            type: 'material-community',       color: Colors.primary},
+  mapSigns:                     {name: 'map-signs',                 type: 'font-awesome',             color: Colors.primary},
 };
+
+export const Icons = {
+  defaultIcon:                  _Icons.questionMark,
+  userProfile:                  _Icons.user,
+  userLocations:                _Icons.cup,
+  userFriends:                  _Icons.friends,
+  userInfo:                     _Icons.info,
+  genderFemale:                 _Icons.female,
+  genderMale:                   _Icons.male,
+  genderUnknown:                _Icons.questionMark,
+  userPhone:                    _Icons.phone,
+  userEmail:                    _Icons.email,
+  userAccountSettings:          _Icons.personSettings,
+  userNotificationSettings:     _Icons.bell,
+  locationFollow:               _Icons.cup,
+  userFollow:                   {..._Icons.hand,        color: Colors.primary},
+  userBlock:                    {..._Icons.hand,        color: Colors.alertRed},
+  userAdminLocations:           _Icons.building,
+  locationProfile:              _Icons.building,
+  locationImages:               _Icons.images,
+  locationPersonNow:            _Icons.timeNow,
+  locationPersonFuture:         _Icons.timeFuture,
+  locationChat:                 _Icons.chat,
+  locationInfo:                 _Icons.info,
+  locationPhone:                _Icons.phone,
+  locationEmail:                _Icons.email,
+  locationTimings:              _Icons.timings,
+  locationMap:                  _Icons.mapSigns,
+
+
+  friendRequestAccept:          {name: 'md-hand',       type: 'ionicon',      color: Colors.primary},
+  friendRequestDeny:            {name: 'md-hand',       type: 'ionicon',      color: Colors.secondary},
+  locationAttendanceAccept:     {name: 'logo-apple',    type: 'ionicon'},
+  locationFavorites:            {name: 'logo-apple',    type: 'ionicon'},
+  userLocationStatusNow:        {name: 'logo-apple',    type: 'ionicon'},
+  userLocationStatusLater:      {name: 'logo-apple',    type: 'ionicon'},
+  search:                       {name: 'md-search',     type: 'ionicon'},
+  back:                         {name: 'logo-apple',    type: 'ionicon'},
+  phone:                        {name: 'logo-apple',    type: 'ionicon'},
+  email:                        {name: 'logo-apple',    type: 'ionicon'},
+  settingAdminLocations:        {name: 'logo-apple',    type: 'ionicon'},
+  settingAccount:               {name: 'logo-apple',    type: 'ionicon'},
+  settingPrivacy:               {name: 'logo-apple',    type: 'ionicon'},
+  settingChangePassword:        {name: 'logo-apple',    type: 'ionicon'},
+  settingChangePhone:           {name: 'logo-apple',    type: 'ionicon'},
+  settingNotifications:         {name: 'logo-apple',    type: 'ionicon'},
+  settingLogout:                {name: 'logo-apple',    type: 'ionicon'},
+  settingHelp:                  {name: 'logo-apple',    type: 'ionicon'},
+  locationOpenTimes:            {name: 'logo-apple',    type: 'ionicon'},
+  locationAdminAdd:             {name: 'logo-apple',    type: 'ionicon'},
+  address:                      {name: 'logo-apple',    type: 'ionicon'},
+  sad:                          {name: 'logo-apple',    type: 'ionicon'},
+  addImage:                     {name: 'logo-apple',    type: 'ionicon'},
+  addTiming:                    {name: 'plus',          type: 'evilicon',     color: Colors.primary},
+  removeTiming:                 {name: 'minus',         type: 'evilicon',     color: Colors.alertRed},
+};
+
+
+
+
+// Urls *************************************************************************************************
+// Urls *************************************************************************************************
 
 export const Urls = {
   api: 'http://www.catchme.krishanmadan.website/api',
   apiImages: 'http://www.catchme.krishanmadan.website/api/images'
 };
+
+
+
+
+// Constants ********************************************************************************************
+// Constants ********************************************************************************************
 
 export const Const = {
 

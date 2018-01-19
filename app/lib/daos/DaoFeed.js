@@ -1,28 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {Const} from '../../Config';
-import ObjectCache from "../helpers/ObjectCache";
 
-/**
 
- FeedItem: {
-    id: 1,                                      // (!) Unique feed item identifier
-    time: 10000000000,                          // (!) Seconds in which the feed was generated
-    expiry: -1,                                 // (!) Seconds of expiry, if expired the item is not displayed (-1 means never)
-    consumeOnView: true,                        // (!) If true the item is deleted from the realtime db once it has been viewed
-    leftAvatar: 'http://ctvh.com/left.png'      // (?) Left avatar
-    rightAvatar: 'http://ctvh.com/left.png'     // (?) Right avatar
-    content: '<b>Hi! </b>how are you today?'    // (!) Middle text (HTML)
-    clickAction: 'LocationGoToProfile',         // (?) Action to be triggered when the item is clicked
-    actions: [                                  // (?) {ACTION}s. When an action is triggered a feed object is passed in
-      'FriendshipRequestAccept',                // (?) {ACTION}
-      'FriendshipRequestDeny',                  // (?) {ACTION}
-      ...                                       // (?) {ACTION}
-    ],
-    payload: {...}                              // (?) Field that is unique for each feed item type
- },
+export type TFeed = {
+  id: number,                   // 1                            Unique feed item identifier
+  time: number,                 // 1000000000                   Seconds in which the feed was generated
+  expiry: number,               // 1000000000|-1                Seconds of expiry, if expired the item is not displayed (-1 => never)
+  consumeOnView: boolean,       // true|false                   If true the item is deleted from the realtime db once it has been viewed
+  content: string,              // '<b>Hi! </b>how are you?'    HTML middle text
+  leftAvatar?: string,          // 'http://ctvh.com/left.png'   Left Avatar
+  rightAvatar?: string,         // 'http://ctvh.com/right.png'  Right Avatar
+  clickAction?: string,         // 'LocationGoToProfile'        Action to be triggered when the item is clicked
+  actions?: Array<string>,      // ['FriendshipRequestAccept']  Actions that are allowed on this item
+  payload?: Object              // {connectionId: 1}            Payload data for each action
+};
 
- **/
+
 export default class DaoFeed {
   static pId = 'id';
   static pTime = 'time';
@@ -38,51 +31,51 @@ export default class DaoFeed {
   static pPayloadLocationId = `${DaoFeed.pPayload}.locationId`;
 
 
-  static gId(feed) {
+  static gId(feed: TFeed) {
     return _.get(feed, DaoFeed.pId);
   }
 
-  static gTime(feed) {
+  static gTime(feed: TFeed) {
     return _.get(feed, DaoFeed.pTime);
   }
 
-  static gExpiry(feed) {
+  static gExpiry(feed: TFeed) {
     return _.get(feed, DaoFeed.pExpiry);
   }
 
-  static gConsumeOnView(feed) {
+  static gConsumeOnView(feed: TFeed) {
     return _.get(feed, DaoFeed.pConsumeOnView);
   }
 
-  static gPayload(feed) {
+  static gPayload(feed: TFeed) {
     return _.get(feed, DaoFeed.pPayload);
   }
 
-  static gLeftAvatar(feed) {
+  static gLeftAvatar(feed: TFeed) {
     return _.get(feed, DaoFeed.pLeftAvatar);
   }
 
-  static gRightAvatar(feed) {
+  static gRightAvatar(feed: TFeed) {
     return _.get(feed, DaoFeed.pRightAvatar);
   }
 
-  static gContent(feed) {
+  static gContent(feed: TFeed) {
     return _.get(feed, DaoFeed.pContent);
   }
 
-  static gClickAction(feed) {
+  static gClickAction(feed: TFeed) {
     return _.get(feed, DaoFeed.pClickAction);
   }
 
-  static gActions(feed) {
+  static gActions(feed: TFeed) {
     return _.get(feed, DaoFeed.pActions, []);
   }
 
-  static gPayloadConnectionId(feed) {
+  static gPayloadConnectionId(feed: TFeed) {
     return _.get(feed, DaoFeed.pPayloadConnectionId);
   }
 
-  static gPayloadLocationId(feed) {
+  static gPayloadLocationId(feed: TFeed) {
     return _.get(feed, DaoFeed.pPayloadLocationId);
   }
 

@@ -6,13 +6,10 @@ import {Icons, Const} from '../../../Config';
 
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
 
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import ListItemHeader from '../../../comp/misc/ListItemHeader';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";
-import {AvatarCircle} from "../../../comp/misc/Avatars";
+import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import Maps from "../../../lib/data/Maps";
 import {stringReplace} from "../../../lib/HelperFunctions";
 
@@ -34,8 +31,8 @@ export function settingsUserAccountReducer(state = settingsUserAccountInitState,
 }
 
 
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
 type Props = {
   navigator: Navigator,
@@ -43,16 +40,12 @@ type Props = {
   changePrivacy: Function
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class SettingsUserAccountPresentational extends React.Component<any, Props, State> {
+class SettingsUserAccountPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
@@ -127,16 +120,12 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, Stat
 
   render() {
     return (
-        <View style={{flex: 1}}>
-          <View style={{height: 480}}>
-            <ScrollView>
-              {this._renderProfileSection()}
-              {this._renderPrivacySection()}
-              {this._renderSecuritySection()}
-              {this._renderLogoutSection()}
-            </ScrollView>
-          </View>
-        </View>
+        <ScrollView>
+          {this._renderProfileSection()}
+          {this._renderPrivacySection()}
+          {this._renderSecuritySection()}
+          {this._renderLogoutSection()}
+        </ScrollView>
     );
   }
 
@@ -276,6 +265,6 @@ export default SettingsUserAccount;
 
 const Styles = StyleSheet.create({
   content: {
-    paddingHorizontal: 4,
+    paddingHorizontal: 8,
   },
 });

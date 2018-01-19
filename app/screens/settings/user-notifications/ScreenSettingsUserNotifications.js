@@ -1,10 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 import {poolConnect, CACHE_ID_USER_PROFILE} from '../../../redux/ReduxPool';
-import {NullableObjects} from "../../../comp/Misc";
+import {Screen, NullableObjects} from "../../../comp/Misc";
 import SettingsUserNotifications from './SettingsUserNotifications';
-import DaoUser from "../../../lib/daos/DaoUser";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
@@ -29,13 +27,15 @@ class ScreenSettingsUserNotificationsPresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._authenticatedUserProfile()]}
-            renderChild={([authenticatedUserProfile]) => (
-                <SettingsUserNotifications
-                    navigator={this.props.navigator}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._authenticatedUserProfile()]}
+              renderChild={([authenticatedUserProfile]) => (
+                  <SettingsUserNotifications
+                      navigator={this.props.navigator}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

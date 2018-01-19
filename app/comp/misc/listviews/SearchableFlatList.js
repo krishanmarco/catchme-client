@@ -4,29 +4,59 @@ import PropTypes from 'prop-types';
 
 import {Colors} from '../../../Config';
 
-import {FlatList, Text, SectionList} from 'react-native';
+import {StyleSheet, FlatList} from 'react-native';
 
-import SearchBar from '../../misc/SearchBar';
-import {DefaultLoader} from "../../Misc";
+import {DefaultLoader, SearchBar} from "../../Misc";
 
 
-export default class SearchableFlatList extends React.PureComponent {
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props<T> = {
+  data: Array<T>,
+
+  onListEmpty: () => Node,
+  onSearchResultsEmpty: () => Node,
+
+  filterExtractor: (T, RegExp) => boolean,
+  searchPlaceholder?: string,
+  numTriggerChars?: number,
+  onSearchChanged?: (string) => {},
+  onSearchPressed?: (string) => {},
+
+};
+
+type State = {
+  searchText: string
+};
+
+// SearchableFlatList ***********************************************************************************
+// SearchableFlatList ***********************************************************************************
+
+export default class SearchableFlatList extends React.PureComponent<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
-    this._onSearchChange = this._onSearchChange.bind(this);
-    this._onListEmpty = this._onListEmpty.bind(this);
+    this._onSearchChanged = this._onSearchChanged.bind(this);
+    this._renderOnListEmpty = this._renderOnListEmpty.bind(this);
     this._renderFooterLoader = this._renderFooterLoader.bind(this);
+    this.state = {searchText: ''};
   }
 
 
-  state = {
-    searchText: ''
-  };
+  _onSearchChanged(searchText) {
+    if (this.props.onSearchChanged)
+      this.props.onSearchChanged(searchText);
 
 
-  _onSearchChange(searchText) {
+    // If autoFilter is set then also change the internal state so
+    // the input list gets filtered using searchText with _filterExtractor
+    if (this.props.autoFilter)
+      this._autoFilter(searchText);
+  }
 
+  _autoFilter(searchText) {
     if (searchText.length < this.props.minTriggerChars)
       searchText = '';
 
@@ -34,24 +64,17 @@ export default class SearchableFlatList extends React.PureComponent {
   }
 
 
-  _onListEmpty() {
+  _getFilteredData() {
+    let regExp;
+    try {
+      regExp = new RegExp(String(this.state.searchText), 'i');
 
-    if (this.state.searchText.length > 0 && this.props.onSearchResultsEmpty) {
-      // List empty but the search box is not
-      return this.props.onSearchResultsEmpty(this.state.searchText);
+    } catch (exception) {
+      // Invalid regular expression, do not filter
+      return this.props.data;
     }
 
-    // The list is empty or a search callback wasn't specified
-    if (this.props.onListEmpty)
-      return this.props.onListEmpty();
-
-    return null;
-  }
-
-
-  _getFilteredData() {
-    let regExp = new RegExp(String(this.state.searchText), 'i');
-    let helper = (item) => this.props.filterExtractor(item, regExp);
+    const helper = (item) => this.props.filterExtractor(item, regExp);
     return this.props.data.filter(helper);
   }
 
@@ -60,17 +83,16 @@ export default class SearchableFlatList extends React.PureComponent {
 
     return (
         <FlatList
-            style={{backgroundColor: Colors.background}}
             data={this._getFilteredData()}
             renderItem={this.props.renderItem}
             keyExtractor={this.props.keyExtractor}
 
-            ListEmptyComponent={this._onListEmpty}
+            ListEmptyComponent={this._renderOnListEmpty}
             ListHeaderComponent={
                 <SearchBar
                     placeholder={this.props.searchPlaceholder}
                     onSearchPressed={this.props.onSearchPressed}
-                    onChange={this.props.onSearchChanged || this._onSearchChange}/>
+                    onChange={this._onSearchChanged}/>
             }
 
             onEndReached={this.props.onEndReached}
@@ -87,35 +109,47 @@ export default class SearchableFlatList extends React.PureComponent {
   }
 
 
+  _renderOnListEmpty() {
+
+    if (this.state.searchText.length > 0 && this.props.onSearchResultsEmpty) {
+      // List empty but the search box is not
+      return this.props.onSearchResultsEmpty(this.state.searchText);
+    }
+
+    // The list is empty or a search callback wasn't specified
+    if (this.props.onListEmpty)
+      return this.props.onListEmpty();
+
+    return null;
+  }
+
+
   _renderFooterLoader() {
 
     if (!this.props.loading)
       return null;
 
     return (
-        <DefaultLoader style={{marginVertical: 16}} size={8}/>
+        <DefaultLoader style={styles.defaultLoader} size={8}/>
     );
   }
 
 
 }
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
 SearchableFlatList.defaultProps = {
   searchPlaceholder: 'Search',
-  minTriggerChars: 4,
-  onEndReachedThreshold: 0.5
+  minTriggerChars: 0,
+  onEndReachedThreshold: 24
 };
 
-SearchableFlatList.propTypes = {
-  data: PropTypes.array.isRequired,
 
-  onListEmpty: PropTypes.func,
-  onSearchResultsEmpty: PropTypes.func,
+const styles = StyleSheet.create({
+  defaultLoader: {
+    marginVertical: 16
+  }
+});
 
-  filterExtractor: PropTypes.func.isRequired,
-  searchPlaceholder: PropTypes.string,
-  minTriggerChars: PropTypes.number,
-  onSearchChanged: PropTypes.func,
-  onSearchPressed: PropTypes.func,
-
-};

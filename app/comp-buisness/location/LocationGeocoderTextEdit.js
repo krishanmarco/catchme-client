@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import _ from 'lodash';
 import {Const} from '../../Config';
 
 

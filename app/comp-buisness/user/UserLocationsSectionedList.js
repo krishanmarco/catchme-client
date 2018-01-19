@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from '../../lib/daos/DaoUser';
 
-import {View} from 'react-native';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemLocation, ListItemLocationFollow} from '../location/LocationListItems';
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 
 export default class UserLocationsSectionedList extends React.Component {
@@ -38,7 +38,7 @@ export default class UserLocationsSectionedList extends React.Component {
 
 
 
-  _renderItem(location) {
+  _renderItem(location: TLocation) {
     let {favoriteIds} = this.props;
     let listItemProps = {location: location, onPress: this.props.onItemPress};
 

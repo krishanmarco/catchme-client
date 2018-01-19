@@ -55,16 +55,14 @@ class FeaturedAdsPresentational extends React.Component {
 
   render() {
     return (
-        <View style={{flex: 1}}>
-          <View style={{height: 500}}>
-            <FeaturedAdsList
-                userProfile={this._userProfile()}
-                navigator={this._navigator()}
+        <View>
+          <FeaturedAdsList
+              userProfile={this._userProfile()}
+              navigator={this._navigator()}
 
-                featuredAdsList={this._firebaseDataFeaturedAds().data}
-                loading={this._firebaseDataFeaturedAds().runningBulkFetch}
-                loadMore={this._loadMore}/>
-          </View>
+              featuredAdsList={this._firebaseDataFeaturedAds().data}
+              loading={this._firebaseDataFeaturedAds().runningBulkFetch}
+              loadMore={this._loadMore}/>
         </View>
     );
   }
