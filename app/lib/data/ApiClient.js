@@ -225,15 +225,15 @@ class ApiClient {
   }
 
   userConnectionsAddUid(uid) {
-    return this._get(Urls.api + '/user/pConnections/add/' + uid);
+    return this._get(Urls.api + '/user/connections/add/' + uid);
   }
 
   userConnectionsAcceptUid(uid) {
-    return this._get(Urls.api + '/user/pConnections/accept/' + uid);
+    return this._get(Urls.api + '/user/connections/accept/' + uid);
   }
 
   userConnectionsBlockUid(uid) {
-    return this._get(Urls.api + '/user/pConnections/block/' + uid);
+    return this._get(Urls.api + '/user/connections/block/' + uid);
   }
 
   userStatusAdd(status) {

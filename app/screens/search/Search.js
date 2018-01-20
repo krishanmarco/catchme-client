@@ -124,19 +124,23 @@ export function searchReducer(state = locationProfileInitState, action) {
 
 function searchSuggestUsers() {
   return (dispatch, getState) => {
+
+    const currentState = getState().searchReducer;
+
+    if (currentState.usersLoading)
+      return;
+
     dispatch({type: ACTION_SET_USERS_LOADING});
 
-    let currentSeed = getState().searchReducer.usersSuggestSeed;
-
     // Run the suggestion api call
-    ApiClient.suggestSeedUsers(currentSeed)
+    ApiClient.suggestSeedUsers(currentState.usersSuggestSeed)
         .then(users => {
-          let previousData = getState().searchReducer.usersSuggestList;
-          users = _.uniqBy(previousData.concat(users), DaoUser.pId);
+          const previousData = getState().searchReducer.usersSuggestList;
+          const newUsers = _.uniqBy(previousData.concat(users), DaoUser.pId);
 
           dispatch({
             type: ACTION_CONCAT_USERS_SUGGEST_LIST,
-            usersSuggestList: users,
+            usersSuggestList: newUsers,
             usersStopSuggestLoop: previousData.length === users.length
           });
         });
@@ -146,19 +150,23 @@ function searchSuggestUsers() {
 
 function searchSuggestLocations() {
   return (dispatch, getState) => {
+
+    const currentState = getState().searchReducer;
+
+    if (currentState.locationsLoading)
+      return;
+
     dispatch({type: ACTION_SET_LOCATIONS_LOADING});
 
-    let currentSeed = getState().searchReducer.locationsSuggestSeed;
-
     // Run the suggestion api call
-    ApiClient.suggestSeedLocations(currentSeed)
+    ApiClient.suggestSeedLocations(currentState.locationsSuggestSeed)
         .then(locations => {
-          let previousData = getState().searchReducer.locationsSuggestList;
-          locations = _.uniqBy(previousData.concat(locations), DaoLocation.pId);
+          const previousData = getState().searchReducer.locationsSuggestList;
+          const newLocations = _.uniqBy(previousData.concat(locations), DaoLocation.pId);
 
           dispatch({
             type: ACTION_CONCAT_LOCATIONS_SUGGEST_LIST,
-            locationsSuggestList: locations,
+            locationsSuggestList: newLocations,
             locationsStopSuggestLoop: previousData.length === locations.length
           });
         });
@@ -245,8 +253,8 @@ class SearchPresentational extends React.Component {
     Router.toUserProfile(this.props.navigator, user);
   }
 
-  _locationsOnEndReached() { console.log("_____________end REACHED_________________");
-    if (!this.props.locationsStopSuggestLoop)
+  _locationsOnEndReached() {
+    if (this.props.locationsStopSuggestLoop)
       return;
 
     // Suggest new locations
@@ -254,7 +262,7 @@ class SearchPresentational extends React.Component {
   }
 
   _usersOnEndReached() {
-    if (!this.props.usersStopSuggestLoop)
+    if (this.props.usersStopSuggestLoop)
       return;
 
     // Suggest new locations

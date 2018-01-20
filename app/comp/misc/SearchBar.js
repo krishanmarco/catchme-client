@@ -13,6 +13,7 @@ import {RkStyleSheet, RkTextInput} from 'react-native-ui-kitten';
 type Props = {
   placeholder: ?string,
   onChange: Function,
+  onSearchPressed: Function
 };
 
 
@@ -43,6 +44,7 @@ export default class SearchBar extends React.Component<any, Props, any> {
               autoCorrect={false}
               label={<Icon {...Icons.search} />}
               onChange={this._onChange}
+              onEndEditing={this.props.onSearchPressed}
               placeholder={placeholder}/>
         </View>
     );
