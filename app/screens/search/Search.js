@@ -27,6 +27,75 @@ import {Colors} from "../../Config";
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
+const listTypeUsers = 'users';
+const listTypeLocations = 'locations';
+
+const searchConfig = {
+  [listTypeUsers]: {
+    name: listTypeUsers,
+    suggestApiCall: ApiClient.suggestSeedUsers,
+
+  },
+  [listTypeUsers]: {
+    name: listType
+  },
+};
+
+
+const SearchReducerSection = {
+  loading: false,
+  stopSuggestLoop: false,
+  searchQuery: '',
+  suggestSeed: 0,
+  list: [],
+  searchList: [],
+  suggestList: [],
+};
+
+const searchReducerInitState = {
+  [listTypeUsers]: Object.assign(SearchReducerSection),
+  [listTypeLocations]: Object.assign(SearchReducerSection)
+};
+
+const ACTION_CONCAT_SUGGEST_LIST = 'ACTION_CONCAT_SUGGEST_LIST';
+const ACTION_SET_SEARCH_QUERY = 'ACTION_SET_SEARCH_QUERY';
+const ACTION_SET_SEARCH_LIST = 'ACTION_SET_SEARCH_LIST';
+const ACTION_SET_LOADING = 'ACTION_SET_LOADING';
+
+
+function searchSuggest(listType: string) {
+  return (dispatch, getState) => {
+
+    const currentState = getState().searchReducer[listType];
+
+    if (currentState.loading)
+      return;
+
+    dispatch({
+      type: ACTION_SET_LOADING,
+      listType: listType
+    });
+
+    // Run the suggestion api call
+    ApiClient.suggestSeedUsers(currentState.usersSuggestSeed)
+        .then(users => {
+          const previousData = getState().searchReducer.usersSuggestList;
+          const newUsers = _.uniqBy(previousData.concat(users), DaoUser.pId);
+
+          dispatch({
+            type: ACTION_CONCAT_USERS_SUGGEST_LIST,
+            listType: listType,
+            usersSuggestList: newUsers,
+            usersStopSuggestLoop: previousData.length === users.length
+          });
+        });
+  };
+}
+
+
+
+
+
 const locationProfileInitState = {
 
   usersLoading: false,
