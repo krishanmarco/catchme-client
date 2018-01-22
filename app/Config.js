@@ -204,7 +204,7 @@ export const Const = {
 
 
   UserLocationStatus: {
-    defaultTonightStartHrs: 22,
+    defaultLaterStartHrs: 22,
     defaultStayHrs: 2
   },
 

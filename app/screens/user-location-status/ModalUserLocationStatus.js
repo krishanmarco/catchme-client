@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {Const, Icons} from '../../Config';
+import {Colors, Const, Icons} from '../../Config';
 import {Screen} from "../../comp/Misc";
 import PropTypes from 'prop-types';
 import {poolConnect, FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../redux/ReduxPool';
@@ -14,12 +14,28 @@ import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoLocation from "../../lib/daos/DaoLocation";
 import {Icon} from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-class ModalUserLocationStatusPresentational extends React.Component {
+type Props = {
+  location: TLocation,
+  onStatusConfirm: () => {}, // todo define a LocationStatus type
+  initialStatus: Object // todo define a LocationStatus type
+};
+
+export type TModalUserLocationStatusProps = Props;
+
+type State = {
+
+};
+
+// ModalUserLocationStatus ******************************************************************************
+// ModalUserLocationStatus ******************************************************************************
+
+class ModalUserLocationStatusPresentational extends React.Component<any, Props, State> {
   static DATE_TIME_NOW = new Date();
 
   constructor(props, context) {
@@ -35,7 +51,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
     this._onUntilPicked = this._onUntilPicked.bind(this);
     this._onStatusConfirm = this._onStatusConfirm.bind(this);
     this._onHereNowPressed = this._onHereNowPressed.bind(this);
-    this._onHereTonightPressed = this._onHereTonightPressed.bind(this);
+    this._onHereLaterPressed = this._onHereLaterPressed.bind(this);
 
     this.state = {
       dtDateVisible: false,
@@ -125,11 +141,11 @@ class ModalUserLocationStatusPresentational extends React.Component {
     this.forceUpdate();
   }
 
-  _onHereTonightPressed() {
+  _onHereLaterPressed() {
     const from = new Date();
     const until = new Date();
 
-    const startHrs = Const.UserLocationStatus.defaultTonightStartHrs;
+    const startHrs = Const.UserLocationStatus.defaultLaterStartHrs;
     const stayHrs = Const.UserLocationStatus.defaultStayHrs;
 
     if (from.getHours() < startHrs)
@@ -175,6 +191,20 @@ class ModalUserLocationStatusPresentational extends React.Component {
   _getUntilMoment() {
     const untilSec = DaoUserLocationStatus.gUntilTs(this._formApiEditUserLocationStatusInput());
     return moment(untilSec * 1000);
+  }
+
+  _getHereNowColor() {
+    if (moment().isBetween(this._getFromMoment(), this._getUntilMoment()))
+      return Colors.primary;
+
+    return Colors.black;
+  }
+
+  _getHereLaterColor() {
+    if (moment().isBefore(this._getFromMoment()))
+      return Colors.primary;
+
+    return Colors.black;
   }
 
 
@@ -223,9 +253,9 @@ class ModalUserLocationStatusPresentational extends React.Component {
   _renderContent() {
     return (
         <Grid>
-          <Row size={30}>
-            <RkText rkType='primary header3'>
-              {DaoLocation.gName(this._location())}
+          <Row size={30} style={{width: '100%'}}>
+            <RkText rkType='secondary3'>
+              {DaoLocation.gAddress(this._location())}
             </RkText>
           </Row>
           <Row size={30} style={{marginTop: 24}}>
@@ -263,18 +293,18 @@ class ModalUserLocationStatusPresentational extends React.Component {
               <TouchableOpacity onPress={this._onHereNowPressed}>
                 <Icon
                     size={55}
-                    {...Icons.locationPersonNow}/>
+                    {...{...Icons.locationPersonFuture, color: this._getHereNowColor()}}/>
                 <RkText rkType='secondary2'>I am here now</RkText>
               </TouchableOpacity>
             </View>
           </Col>
           <Col style={Styles.center}>
             <View>
-              <TouchableOpacity onPress={this._onHereTonightPressed}>
+              <TouchableOpacity onPress={this._onHereLaterPressed}>
                 <Icon
                     size={55}
-                    {...Icons.locationPersonFuture}/>
-                <RkText rkType='secondary2'>I will be here tonight</RkText>
+                    {...{...Icons.locationPersonFuture, color: this._getHereLaterColor()}}/>
+                <RkText rkType='secondary2'>I will be here later</RkText>
               </TouchableOpacity>
             </View>
           </Col>
@@ -295,8 +325,6 @@ class ModalUserLocationStatusPresentational extends React.Component {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ModalUserLocationStatus = poolConnect(
     // Presentational Component
@@ -313,12 +341,6 @@ const ModalUserLocationStatus = poolConnect(
 );
 export default ModalUserLocationStatus;
 
-ModalUserLocationStatus.defaultProps = {
-  navigator: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  onStatusConfirm: PropTypes.func.isRequired,
-  initialStatus: PropTypes.object
-};
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************

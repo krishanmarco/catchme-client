@@ -61,9 +61,7 @@ class ScreenLocationProfilePresentational extends React.Component {
     if (event.id === ScreenLocationProfilePresentational.NAV_BUTTON_USER_LOCATION_STATUS.id) {
       Router.toModalUserLocationStatus(this._navigator(), {
         location: this._locationProfile(),
-        onStatusConfirm: (status) => {
-          console.log(status);
-        },
+        onStatusConfirm: (status) => { console.log(status); /**todo**/},
       });
       return;
     }
