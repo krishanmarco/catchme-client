@@ -75,7 +75,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
     }).filter(s => s.length > 0);
 
-    
+
     // Query the WS for all the users in the searchString
     ApiClient.searchUsers(searchStrings)
         .then(users => {
@@ -157,8 +157,7 @@ class SearchPresentational extends React.Component {
   render() {
     const userProfile = this._userProfile();
     return (
-        <View style={Styles.root}>
-          <View style={{height: 480}}>
+        <View style={styles.root}>
           <UserList
               users={this.props.usersList}
 
@@ -170,7 +169,6 @@ class SearchPresentational extends React.Component {
               onSearchChanged={this.props.setUsersSearchQuery}
 
               loading={!this.props.initialized}/>
-          </View>
         </View>
     );
   }
@@ -209,7 +207,7 @@ AddContacts.propTypes = {
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: 8

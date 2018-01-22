@@ -7,6 +7,7 @@ import ApiClient from '../../lib/data/ApiClient';
 
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUser from "../../lib/daos/DaoUser";
 
 import {StyleSheet, View} from 'react-native';
 
@@ -14,10 +15,6 @@ import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
-
-
-
-import DaoUser from "../../lib/daos/DaoUser";
 
 import Router from '../../lib/helpers/Router';
 import {Colors} from "../../Config";
@@ -30,24 +27,20 @@ import {Colors} from "../../Config";
 const listTypeUsers = 'users';
 const listTypeLocations = 'locations';
 
-const searchConfig = {
+const SearchActionConfig = {
   [listTypeUsers]: {
     name: listTypeUsers,
-    suggestApiCall: ApiClient.suggestSeedUsers,
-    searchApiCall: ApiClient.searchQueryUsers,
+    suggestApiCall: (seed) => ApiClient.suggestSeedUsers(seed),
+    searchApiCall: (query) => ApiClient.searchQueryUsers(query),
     uniqueFilter: DaoUser.gId
   },
   [listTypeLocations]: {
     name: listTypeLocations,
-    suggestApiCall: ApiClient.suggestSeedLocations,
-    searchApiCall: ApiClient.searchQueryLocations,
+    suggestApiCall: (seed) => ApiClient.suggestSeedLocations(seed),
+    searchApiCall: (query) => ApiClient.searchQueryLocations(query),
     uniqueFilter: DaoLocation.gId
   },
 };
-
-function getTypeState(getState, listType) {
-  return getState().searchReducer[listType];
-}
 
 
 const SearchReducerSection = {
@@ -70,69 +63,15 @@ const ACTION_SET_SEARCH_QUERY = 'ACTION_SET_SEARCH_QUERY';
 const ACTION_SET_SEARCH_LIST = 'ACTION_SET_SEARCH_LIST';
 const ACTION_SET_LOADING = 'ACTION_SET_LOADING';
 
-
-function searchSuggest(listType: string) {
-  return (dispatch, getState) => {
-    const actionConfig = searchConfig[listType];
-    const currentState = getTypeState(getState, listType);
-
-    if (currentState.loading)
-      return;
-
-    dispatch({
-      type: ACTION_SET_LOADING,
-      listType: listType
-    });
-
-    // Run the suggestion api call
-    return actionConfig.suggestApiCall(currentState.suggestSeed)
-        .then(items => dispatch({
-          type: ACTION_CONCAT_SUGGEST_LIST,
-          listType: listType,
-          suggestList: items,
-        }));
-  };
-}
-
-function searchSearch(listType: string) {
-  return (dispatch, getState) => {
-    const actionConfig = searchConfig[listType];
-    const currentState = getTypeState(getState, listType);
-
-    const query = currentState.searchQuery;
-
-    // Run the search api call
-    actionConfig.searchApiCall(query)
-        .then(items => dispatch({
-          type: ACTION_SET_SEARCH_LIST,
-          listType: listType,
-          searchList: items
-        }));
-
-  };
-}
-
-function searchSetSearchQuery(listType: string, query) {
-  return {
-    type: ACTION_SET_SEARCH_QUERY,
-    listType: listType,
-    searchQuery: query
-  };
-}
-
-
 export function searchReducer(state = searchInitState, action) {
   switch (action.type) {
 
     case ACTION_CONCAT_SUGGEST_LIST:
-      const oldState1 = getTypeState(state, action.listType);
-      const listTypeConfig1 = searchConfig[action.listType];
+      const oldState1 = state[action.listType];
+      const listTypeConfig1 = SearchActionConfig[action.listType];
 
       // The suggestSeed should be incremented
       const suggestSeed = oldState1.suggestSeed + 1;
-
-      // Loading is now completed
-      const loading = false;
 
       // Stop the suggesting loop if no new data was received
       const stopSuggestLoop = oldState1.suggestList.length === action.suggestList.length;
@@ -144,9 +83,9 @@ export function searchReducer(state = searchInitState, action) {
       const list = _.uniqBy(oldState1.searchList.concat(suggestList), listTypeConfig1.uniqueFilter);
 
       return Object.assign({}, state, {
-        [action.listType]: Object.assign(oldState1, {
+        [action.listType]: Object.assign({}, oldState1, {
+          loading: false,
           suggestSeed: suggestSeed,
-          loading: loading,
           stopSuggestLoop: stopSuggestLoop,
           suggestList: suggestList,
           list: list
@@ -154,11 +93,8 @@ export function searchReducer(state = searchInitState, action) {
       });
 
     case ACTION_SET_SEARCH_LIST:
-      const oldState2 = getTypeState(state, action.listType);
-      const listTypeConfig2 = searchConfig[action.listType];
-
-      // Loading is now completed
-      const loading2 = false;
+      const oldState2 = state[action.listType];
+      const listTypeConfig2 = SearchActionConfig[action.listType];
 
       // The new search list is only what was returned as new data
       const searchList = _.uniqBy(action.searchList, listTypeConfig2.uniqueFilter);
@@ -167,8 +103,8 @@ export function searchReducer(state = searchInitState, action) {
       const list2 = _.uniqBy(searchList.concat(oldState2.suggestList), listTypeConfig2.uniqueFilter);
 
       return Object.assign({}, state, {
-        [action.listType]: Object.assign(oldState1, {
-          loading: loading2,
+        [action.listType]: Object.assign({}, oldState2, {
+          loading: false,
           searchList: searchList,
           list: list2
         })
@@ -176,22 +112,76 @@ export function searchReducer(state = searchInitState, action) {
 
     case ACTION_SET_SEARCH_QUERY:
       return Object.assign({}, state, {
-        [action.listType]: Object.assign(state[action.listType], {
+        [action.listType]: Object.assign({}, state[action.listType], {
           searchQuery: action.searchQuery
         })
       });
 
     case ACTION_SET_LOADING:
       return Object.assign({}, state, {
-        [action.listType]: Object.assign(state[action.listType], {
+        [action.listType]: Object.assign({}, state[action.listType], {
           loading: true
         })
       });
-
-
   }
 
   return state;
+}
+
+function searchSuggest(listType: string) {
+  return (dispatch, getState) => {
+    const actionConfig = SearchActionConfig[listType];
+    const currentState = getState().searchReducer[listType];
+
+    if (currentState.loading)
+      return;
+
+    dispatch({
+      type: ACTION_SET_LOADING,
+      listType: listType
+    });
+
+    // Run the suggestion api call
+    actionConfig.suggestApiCall(currentState.suggestSeed)
+        .then(items => dispatch({
+          type: ACTION_CONCAT_SUGGEST_LIST,
+          listType: listType,
+          suggestList: items,
+        }));
+  };
+}
+
+function searchSearch(listType: string) {
+  return (dispatch, getState) => {
+    const actionConfig = SearchActionConfig[listType];
+    const currentState = getState().searchReducer[listType];
+    const query = currentState.searchQuery;
+
+    if (!query || query.length <= 0)
+      return;
+
+    // Always search, even if something is already fetching
+    dispatch({
+      type: ACTION_SET_LOADING,
+      listType: listType
+    });
+
+    // Run the search api call
+    actionConfig.searchApiCall(query)
+        .then(items => dispatch({
+          type: ACTION_SET_SEARCH_LIST,
+          listType: listType,
+          searchList: items
+        }));
+  };
+}
+
+function searchSetSearchQuery(listType: string, query) {
+  return {
+    type: ACTION_SET_SEARCH_QUERY,
+    listType: listType,
+    searchQuery: query
+  };
 }
 
 
@@ -214,6 +204,14 @@ class SearchPresentational extends React.Component {
     this.props.suggestUsers();
   }
 
+  _locationsState() {
+    return this.props[listTypeLocations];
+  }
+
+  _usersState() {
+    return this.props[listTypeUsers];
+  }
+
 
   _userProfile() {
     return this.props.userProfile;
@@ -228,7 +226,7 @@ class SearchPresentational extends React.Component {
   }
 
   _locationsOnEndReached() {
-    if (this.props.locationsStopSuggestLoop)
+    if (this._locationsState().stopSuggestLoop)
       return;
 
     // Suggest new locations
@@ -236,10 +234,10 @@ class SearchPresentational extends React.Component {
   }
 
   _usersOnEndReached() {
-    if (this.props.usersStopSuggestLoop)
+    if (this._usersState().stopSuggestLoop)
       return;
 
-    // Suggest new locations
+    // Suggest new users
     this.props.suggestUsers();
   }
 
@@ -270,11 +268,11 @@ class SearchPresentational extends React.Component {
 
 
   _renderTabSearchLocations() {
-    let userProfile = this._userProfile();
-
+    const userProfile = this._userProfile();
+    const {list, loading} = this._locationsState();
     return (
         <LocationList
-            locations={this.props.locationsList}
+            locations={list}
             favoriteIds={DaoUser.gLocationFavoriteIds(userProfile)}
 
             onItemPress={this._onLocationPress}
@@ -282,17 +280,17 @@ class SearchPresentational extends React.Component {
             onSearchChanged={this.props.setLocationsSearchQuery}
             autoFilter={true}
 
-            loading={this.props.locationsLoading}
+            loading={loading}
             onEndReached={this._locationsOnEndReached}/>
     );
   }
 
   _renderTabSearchUsers() {
-    let userProfile = this._userProfile();
-
+    const userProfile = this._userProfile();
+    const {list, loading} = this._usersState();
     return (
         <UserList
-            users={this.props.usersList}
+            users={list}
             friendIds={DaoUser.gConnectionFriendIds(userProfile)}
             requestIds={DaoUser.gConnectionRequestIds(userProfile)}
             blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
@@ -302,7 +300,7 @@ class SearchPresentational extends React.Component {
             onSearchChanged={this.props.setUsersSearchQuery}
             autoFilter={true}
 
-            loading={this.props.usersLoading}
+            loading={loading}
             onEndReached={this._usersOnEndReached}/>
     );
   }
@@ -327,7 +325,7 @@ const Search = poolConnect(
       searchUsers: () => dispatch(searchSearch(listTypeUsers)),
       searchLocations: () => dispatch(searchSearch(listTypeLocations)),
 
-      setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(listTypeLocations, query)),
+      setUsersSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeUsers, query)),
       setLocationsSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeLocations, query)),
     }),
 

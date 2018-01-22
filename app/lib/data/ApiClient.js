@@ -290,17 +290,17 @@ class ApiClient {
         .then(json => JSON.parse(json));
   }
 
-  searchUsers(queryArray) {
+  searchUsers(queryArray = []) {
     return this._post(`${Urls.api}/search/users`, {queries: queryArray})
         .then(json => JSON.parse(json));
   }
 
-  suggestSeedLocations(seed) {
+  suggestSeedLocations(seed = 0) {
     return this._get(`${Urls.api}/suggest/${seed}/locations`)
         .then(json => JSON.parse(json));
   }
 
-  suggestSeedUsers(seed) {
+  suggestSeedUsers(seed = 0) {
     return this._get(`${Urls.api}/suggest/${seed}/users`)
         .then(json => JSON.parse(json));
   }

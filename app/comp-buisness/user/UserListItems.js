@@ -19,15 +19,16 @@ export class ListItemUser extends React.Component {
     this._defaultOnPress = this._defaultOnPress.bind(this);
   }
 
-  _getUser() { return this.props.user; }
+  _getUser() {
+    return this.props.user;
+  }
 
 
   _defaultOnPress() {
-    if (this.props.onPress) {
+    if (this.props.onPress)
       this.props.onPress(this._getUser());
-      return;
-    }
 
+    // Add more on-press actions here
   }
 
 
@@ -45,9 +46,7 @@ export class ListItemUser extends React.Component {
 
 }
 
-ListItemUser.defaultProps = {
-
-};
+ListItemUser.defaultProps = {};
 
 ListItemUser.propTypes = {
   user: PropTypes.object.isRequired
@@ -61,8 +60,7 @@ export const ListItemUserRequestSend = ({user, onPress}) => (
         user={user}
         onPress={onPress}
         actions={[{
-          icon: Icons.friendRequestAccept,
-          color: Colors.primary,
+          icon: Icons.userFollow,
           onPress: () => ApiClient.userConnectionsAddUid(DaoUser.gId(user))
         }]}/>
 );
@@ -73,12 +71,10 @@ export const ListItemUserRequestReceived = ({user, onPress}) => (
         user={user}
         onPress={onPress}
         actions={[{
-          icon: Icons.friendRequestAccept,
-          color: Colors.primary,
+          icon: Icons.userFollow,
           onPress: () => ApiClient.userConnectionsAcceptUid(DaoUser.gId(user))
         }, {
-          icon: Icons.friendRequestAccept,
-          color: Colors.secondary,
+          icon: Icons.userBlock,
           onPress: () => ApiClient.userConnectionsBlockUid(DaoUser.gId(user))
         }]}/>
 );
