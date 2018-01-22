@@ -34,12 +34,20 @@ const searchConfig = {
   [listTypeUsers]: {
     name: listTypeUsers,
     suggestApiCall: ApiClient.suggestSeedUsers,
-
+    searchApiCall: ApiClient.searchQueryUsers,
+    uniqueFilter: DaoUser.gId
   },
-  [listTypeUsers]: {
-    name: listType
+  [listTypeLocations]: {
+    name: listTypeLocations,
+    suggestApiCall: ApiClient.suggestSeedLocations,
+    searchApiCall: ApiClient.searchQueryLocations,
+    uniqueFilter: DaoLocation.gId
   },
 };
+
+function getTypeState(getState, listType) {
+  return getState().searchReducer[listType];
+}
 
 
 const SearchReducerSection = {
@@ -52,7 +60,7 @@ const SearchReducerSection = {
   suggestList: [],
 };
 
-const searchReducerInitState = {
+const searchInitState = {
   [listTypeUsers]: Object.assign(SearchReducerSection),
   [listTypeLocations]: Object.assign(SearchReducerSection)
 };
@@ -65,8 +73,8 @@ const ACTION_SET_LOADING = 'ACTION_SET_LOADING';
 
 function searchSuggest(listType: string) {
   return (dispatch, getState) => {
-
-    const currentState = getState().searchReducer[listType];
+    const actionConfig = searchConfig[listType];
+    const currentState = getTypeState(getState, listType);
 
     if (currentState.loading)
       return;
@@ -77,216 +85,113 @@ function searchSuggest(listType: string) {
     });
 
     // Run the suggestion api call
-    ApiClient.suggestSeedUsers(currentState.usersSuggestSeed)
-        .then(users => {
-          const previousData = getState().searchReducer.usersSuggestList;
-          const newUsers = _.uniqBy(previousData.concat(users), DaoUser.pId);
+    return actionConfig.suggestApiCall(currentState.suggestSeed)
+        .then(items => dispatch({
+          type: ACTION_CONCAT_SUGGEST_LIST,
+          listType: listType,
+          suggestList: items,
+        }));
+  };
+}
 
-          dispatch({
-            type: ACTION_CONCAT_USERS_SUGGEST_LIST,
-            listType: listType,
-            usersSuggestList: newUsers,
-            usersStopSuggestLoop: previousData.length === users.length
-          });
-        });
+function searchSearch(listType: string) {
+  return (dispatch, getState) => {
+    const actionConfig = searchConfig[listType];
+    const currentState = getTypeState(getState, listType);
+
+    const query = currentState.searchQuery;
+
+    // Run the search api call
+    actionConfig.searchApiCall(query)
+        .then(items => dispatch({
+          type: ACTION_SET_SEARCH_LIST,
+          listType: listType,
+          searchList: items
+        }));
+
+  };
+}
+
+function searchSetSearchQuery(listType: string, query) {
+  return {
+    type: ACTION_SET_SEARCH_QUERY,
+    listType: listType,
+    searchQuery: query
   };
 }
 
 
-
-
-
-const locationProfileInitState = {
-
-  usersLoading: false,
-  usersStopSuggestLoop: false,
-  usersSearchQuery: '',
-  usersSuggestSeed: 0,
-  usersList: [],
-  usersSearchList: [],
-  usersSuggestList: [],
-
-
-  locationsLoading: false,
-  locationsStopSuggestLoop: false,
-  locationsSearchQuery: '',
-  locationsSuggestSeed: 0,
-  locationsList: [],
-  locationsSearchList: [],
-  locationsSuggestList: [],
-
-};
-
-const ACTION_CONCAT_USERS_SUGGEST_LIST = 'ACTION_SET_USERS_SUGGEST_LIST';
-const ACTION_CONCAT_LOCATIONS_SUGGEST_LIST = 'ACTION_CONCAT_LOCATIONS_SUGGEST_LIST';
-
-const ACTION_SET_USERS_SEARCH_QUERY = 'ACTION_SET_USERS_SEARCH_QUERY';
-const ACTION_SET_USERS_SEARCH_LIST = 'ACTION_SET_USERS_SEARCH_LIST';
-const ACTION_SET_LOCATIONS_SEARCH_QUERY = 'ACTION_SET_LOCATIONS_SEARCH_QUERY';
-const ACTION_SET_LOCATIONS_SEARCH_LIST = 'ACTION_SET_LOCATIONS_SEARCH_LIST';
-
-const ACTION_SET_LOCATIONS_LOADING = 'ACTION_SET_LOCATIONS_LOADING';
-const ACTION_SET_USERS_LOADING = 'ACTION_SET_USERS_LOADING';
-
-export function searchReducer(state = locationProfileInitState, action) {
+export function searchReducer(state = searchInitState, action) {
   switch (action.type) {
 
-    case ACTION_CONCAT_USERS_SUGGEST_LIST:
+    case ACTION_CONCAT_SUGGEST_LIST:
+      const oldState1 = getTypeState(state, action.listType);
+      const listTypeConfig1 = searchConfig[action.listType];
+
+      // The suggestSeed should be incremented
+      const suggestSeed = oldState1.suggestSeed + 1;
+
+      // Loading is now completed
+      const loading = false;
+
+      // Stop the suggesting loop if no new data was received
+      const stopSuggestLoop = oldState1.suggestList.length === action.suggestList.length;
+
+      // The new suggest list is the old suggestList + the new received data
+      const suggestList = _.uniqBy(oldState1.suggestList.concat(action.suggestList), listTypeConfig1.uniqueFilter);
+
+      // The new display list is the old searchList + the new suggestList
+      const list = _.uniqBy(oldState1.searchList.concat(suggestList), listTypeConfig1.uniqueFilter);
+
       return Object.assign({}, state, {
-        usersSuggestSeed: state.usersSuggestSeed + 1,
-        usersStopSuggestLoop: action.usersStopSuggestLoop,
-        usersSuggestList: action.usersSuggestList,
-        usersList: _.uniqBy(state.usersSearchList.concat(action.usersSuggestList), DaoUser.gId),
-        usersLoading: false,
+        [action.listType]: Object.assign(oldState1, {
+          suggestSeed: suggestSeed,
+          loading: loading,
+          stopSuggestLoop: stopSuggestLoop,
+          suggestList: suggestList,
+          list: list
+        })
       });
 
-    case ACTION_CONCAT_LOCATIONS_SUGGEST_LIST:
+    case ACTION_SET_SEARCH_LIST:
+      const oldState2 = getTypeState(state, action.listType);
+      const listTypeConfig2 = searchConfig[action.listType];
+
+      // Loading is now completed
+      const loading2 = false;
+
+      // The new search list is only what was returned as new data
+      const searchList = _.uniqBy(action.searchList, listTypeConfig2.uniqueFilter);
+
+      // The new display list is the new searchList + the old suggestList
+      const list2 = _.uniqBy(searchList.concat(oldState2.suggestList), listTypeConfig2.uniqueFilter);
+
       return Object.assign({}, state, {
-        locationsSuggestSeed: state.locationsSuggestSeed + 1,
-        locationsStopSuggestLoop: action.locationsStopSuggestLoop,
-        locationsSuggestList: action.locationsSuggestList,
-        locationsLoading: false,
-        locationsList: _.uniqBy(state.locationsSearchList.concat(action.locationsSuggestList), DaoLocation.gId)
+        [action.listType]: Object.assign(oldState1, {
+          loading: loading2,
+          searchList: searchList,
+          list: list2
+        })
       });
 
-
-    case ACTION_SET_USERS_SEARCH_QUERY:
+    case ACTION_SET_SEARCH_QUERY:
       return Object.assign({}, state, {
-        usersSearchQuery: action.usersSearchQuery,
+        [action.listType]: Object.assign(state[action.listType], {
+          searchQuery: action.searchQuery
+        })
       });
 
-    case ACTION_SET_USERS_SEARCH_LIST:
+    case ACTION_SET_LOADING:
       return Object.assign({}, state, {
-        usersSearchList: action.usersSearchList,
-        usersList: _.uniqBy(action.usersSearchList.concat(state.usersSuggestList), DaoUser.gId),
-        usersLoading: false
+        [action.listType]: Object.assign(state[action.listType], {
+          loading: true
+        })
       });
 
-    case ACTION_SET_LOCATIONS_SEARCH_QUERY:
-      return Object.assign({}, state, {
-        locationsSearchQuery: action.locationsSearchQuery
-      });
-
-    case ACTION_SET_LOCATIONS_SEARCH_LIST:
-      return Object.assign({}, state, {
-        locationsSearchList: action.locationsSearchList,
-        locationsList: _.uniqBy(action.locationsSearchList.concat(state.locationsSuggestList), DaoLocation.gId),
-        locationsLoading: false
-      });
-
-
-    case ACTION_SET_LOCATIONS_LOADING:
-      return Object.assign({}, state, {
-        locationsLoading: true
-      });
-
-    case ACTION_SET_USERS_LOADING:
-      return Object.assign({}, state, {
-        usersLoading: true
-      });
 
   }
 
   return state;
-}
-
-
-function searchSuggestUsers() {
-  return (dispatch, getState) => {
-
-    const currentState = getState().searchReducer;
-
-    if (currentState.usersLoading)
-      return;
-
-    dispatch({type: ACTION_SET_USERS_LOADING});
-
-    // Run the suggestion api call
-    ApiClient.suggestSeedUsers(currentState.usersSuggestSeed)
-        .then(users => {
-          const previousData = getState().searchReducer.usersSuggestList;
-          const newUsers = _.uniqBy(previousData.concat(users), DaoUser.pId);
-
-          dispatch({
-            type: ACTION_CONCAT_USERS_SUGGEST_LIST,
-            usersSuggestList: newUsers,
-            usersStopSuggestLoop: previousData.length === users.length
-          });
-        });
-  };
-}
-
-
-function searchSuggestLocations() {
-  return (dispatch, getState) => {
-
-    const currentState = getState().searchReducer;
-
-    if (currentState.locationsLoading)
-      return;
-
-    dispatch({type: ACTION_SET_LOCATIONS_LOADING});
-
-    // Run the suggestion api call
-    ApiClient.suggestSeedLocations(currentState.locationsSuggestSeed)
-        .then(locations => {
-          const previousData = getState().searchReducer.locationsSuggestList;
-          const newLocations = _.uniqBy(previousData.concat(locations), DaoLocation.pId);
-
-          dispatch({
-            type: ACTION_CONCAT_LOCATIONS_SUGGEST_LIST,
-            locationsSuggestList: newLocations,
-            locationsStopSuggestLoop: previousData.length === locations.length
-          });
-        });
-  };
-}
-
-
-function searchSearchUsers() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_USERS_LOADING});
-
-    let query = getState().searchReducer.usersSearchQuery;
-
-    // Run the suggestion api call
-    ApiClient.searchQueryUsers(query)
-        .then(users => dispatch({
-          type: ACTION_SET_USERS_SEARCH_LIST,
-          usersSearchList: users
-        }));
-  };
-}
-
-
-function searchSearchLocations() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_LOCATIONS_LOADING});
-
-    let query = getState().searchReducer.locationsSearchQuery;
-
-    // Run the suggestion api call
-    ApiClient.searchQueryLocations(query)
-        .then(locations => dispatch({
-          type: ACTION_SET_LOCATIONS_SEARCH_LIST,
-          locationsSearchList: locations
-        }));
-  };
-}
-
-
-function searchSetLocationsSearchQuery(query) {
-  return {
-    type: ACTION_SET_LOCATIONS_SEARCH_QUERY,
-    locationsSearchQuery: query
-  };
-}
-
-function searchSetUsersSearchQuery(query) {
-  return {
-    type: ACTION_SET_USERS_SEARCH_QUERY,
-    usersSearchQuery: query
-  };
 }
 
 
@@ -416,12 +321,14 @@ const Search = poolConnect(
 
     // mapDispatchToProps
     (dispatch) => ({
-      suggestUsers: () => dispatch(searchSuggestUsers()),
-      suggestLocations: () => dispatch(searchSuggestLocations()),
-      searchUsers: () => dispatch(searchSearchUsers()),
-      searchLocations: () => dispatch(searchSearchLocations()),
-      setLocationsSearchQuery: (query) => dispatch(searchSetLocationsSearchQuery(query)),
-      setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(query)),
+      suggestUsers: () => dispatch(searchSuggest(listTypeUsers)),
+      suggestLocations: () => dispatch(searchSuggest(listTypeLocations)),
+
+      searchUsers: () => dispatch(searchSearch(listTypeUsers)),
+      searchLocations: () => dispatch(searchSearch(listTypeLocations)),
+
+      setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(listTypeLocations, query)),
+      setLocationsSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeLocations, query)),
     }),
 
     // Array of pools to subscribe to
