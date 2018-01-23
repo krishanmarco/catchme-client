@@ -2,7 +2,7 @@
 import {Const, Colors} from '../../Config';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
-import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ModalUserLocationStatus";
+import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
 
 export default class Router {
   static NAV_BUTTON_SET_USER_LOCATION_STATUS = 'NAV_BUTTON_SET_USER_LOCATION_STATUS';
@@ -78,8 +78,7 @@ export default class Router {
       screen: Const.NavigationComponents.ModalUserLocationStatus,
       passProps: props,
       animated: true,
-      animationType: 'slide-up',
-      title: DaoLocation.gName(props.location)
+      animationType: 'slide-up'
     });
   }
 

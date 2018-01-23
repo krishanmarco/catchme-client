@@ -31,7 +31,7 @@ import ScreenAddContacts from './screens/settings/add-contacts/ScreenAddContacts
 
 import ModalTiming from './screens/timing/ModalTiming';
 import ModalAddressPicker from './screens/address-picker/ModalAddressPicker';
-import ModalUserLocationStatus from './screens/user-location-status/ModalUserLocationStatus';
+import ScreenModalUserLocationStatus from './screens/user-location-status/ScreenModalUserLocationStatus';
 
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
 import type {TUser} from "./lib/daos/DaoUser";
@@ -71,7 +71,7 @@ export default function run(authenticatedUser: TUser) {
     {name: Const.NavigationComponents.ModalCamera, getComponent: () => CameraWrapper},
     {name: Const.NavigationComponents.ModalTiming, getComponent: () => ModalTiming},
     {name: Const.NavigationComponents.ModalAddressPicker, getComponent: () => ModalAddressPicker},
-    {name: Const.NavigationComponents.ModalUserLocationStatus, getComponent: () => ModalUserLocationStatus},
+    {name: Const.NavigationComponents.ModalUserLocationStatus, getComponent: () => ScreenModalUserLocationStatus},
 
     {name: Const.NavigationComponents.ScreenSettingsUserAccount, getComponent: () => ScreenSettingsUserAccount},
     {name: Const.NavigationComponents.ScreenSettingsAdminLocations, getComponent: () => ScreenSettingsAdminLocations},

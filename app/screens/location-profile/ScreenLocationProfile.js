@@ -15,6 +15,7 @@ import Router from "../../lib/helpers/Router";
 
 class ScreenLocationProfilePresentational extends React.Component {
 
+  // todo: these buttons should only be accessible once the locationProfile is not null any more!!
   static NAV_BUTTON_USER_LOCATION_STATUS = {
     id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
     icon: require('../../assets/icons/timerSandFull.png'),
@@ -34,8 +35,6 @@ class ScreenLocationProfilePresentational extends React.Component {
     this._initializeNavigatorButtons();
     this._navigator().setOnNavigatorEvent(this._onNavigatorEvent.bind(this));
   }
-
-
 
 
 
@@ -60,7 +59,7 @@ class ScreenLocationProfilePresentational extends React.Component {
 
     if (event.id === ScreenLocationProfilePresentational.NAV_BUTTON_USER_LOCATION_STATUS.id) {
       Router.toModalUserLocationStatus(this._navigator(), {
-        location: this._locationProfile(),
+        locationId: DaoLocation.gId(this._locationProfile()),
         onStatusConfirm: (status) => { console.log(status); /**todo**/},
       });
       return;
@@ -77,7 +76,6 @@ class ScreenLocationProfilePresentational extends React.Component {
 
 
   componentWillMount() {
-
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
     this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
