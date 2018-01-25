@@ -25,13 +25,15 @@ type Props = {
   locationProfile: TLocation,
   userLocationStatus: TUserLocationStatus,
   onStatusConfirm: (TUserLocationStatus) => {},
-  onStatusChange: (TUserLocationStatus) => {}
-};
+  onStatusChange: (TUserLocationStatus) => {},
 
-type State = {
   dtDateVisible: boolean,
   dtFromVisible: boolean,
   dtUntilVisible: boolean
+};
+
+type State = {
+  // Nothing for now
 };
 
 

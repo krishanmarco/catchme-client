@@ -236,6 +236,14 @@ export default class DaoUser {
     ObjectCache.invalidate(user, DaoUser._pLocationFavoriteIds);
   }
 
+  static removeLocationFromFavorites(user: TUser, location: TLocation) {
+    const favoriteLocations = DaoUser.gLocationsFavorite(user);
+    const locationId = DaoLocation.gId(location);
+    _.remove(favoriteLocations, (loc) => DaoLocation.gId(loc) == locationId);
+    user[DaoUser.pLocationsFavorite] = favoriteLocations;
+    ObjectCache.invalidate(user, DaoUser._pLocationFavoriteIds);
+  }
+
 
 
   static hasPhone(user: TUser) {

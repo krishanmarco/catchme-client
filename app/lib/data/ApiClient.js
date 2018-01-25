@@ -6,6 +6,8 @@ import RealmIO from './RealmIO';
 import RNFetchBlob from 'react-native-fetch-blob';
 import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
+import type {TUser} from "../daos/DaoUser";
+import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 
 
 class ApiClient {
@@ -236,7 +238,7 @@ class ApiClient {
     return this._get(Urls.api + '/user/connections/block/' + uid);
   }
 
-  userStatusAdd(status) {
+  userStatusAdd(status: TUserLocationStatus) {
     return this._post(`${Urls.api}/user/status/add`, status);
   }
 
