@@ -7,6 +7,7 @@ import {
   CACHE_MAP_ID_LOCATION_PROFILES
 } from '../../redux/ReduxPool';
 
+import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
@@ -21,7 +22,7 @@ import ModalUserLocationStatus from './ModalUserLocationStatus';
 type Props = {
   navigator: Object,
   locationId: number,
-  onStatusConfirm: (TUserLocationStatus) => {},
+  onStatusConfirm?: (TUserLocationStatus) => {},
   initialStatus?: TUserLocationStatus
 };
 
@@ -74,7 +75,15 @@ class ScreenModalUserLocationStatusPresentational extends React.Component<any, P
   }
 
   _onStatusConfirm() {
-    this.props.onStatusConfirm(this._formApiEditUserLocationStatusInput());
+    const newStatus = this._formApiEditUserLocationStatusInput();
+
+    // Update the user location status
+    ApiClient.userStatusAdd(newStatus)
+        .then(success => {
+          // Notify the parent component that the status has changed
+          if (this.props.onStatusConfirm)
+            this.props.onStatusConfirm(newStatus);
+        });
   }
 
   _onStatusChange(objectToMerge) {

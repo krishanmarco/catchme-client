@@ -92,7 +92,6 @@ if(rng_pool == null) {
         rng_pool[rng_pptr++] = z.charCodeAt(t) & 255;
     }
   } else {
-    // TODO： we are in nodejs mode, consider to add some randomness from node js functions
 
   }
 
@@ -117,7 +116,6 @@ function rng_get_byte() {
     rng_pptr = 0;
     //rng_pool = null;
   }
-  // TODO: allow reseeding after first request
   return rng_state.next();
 }
 

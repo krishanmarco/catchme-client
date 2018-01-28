@@ -56,7 +56,7 @@ class ScreenLoginPresentational extends React.Component {
       return;
     }
 
-    // todo: before production pass userProfile into startApplication()
+    // todo: before release pass userProfile into startApplication()
     // Login was successful, start app
     startApplication();
   }
