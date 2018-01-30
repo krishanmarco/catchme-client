@@ -10,7 +10,7 @@ import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import HTMLView from 'react-native-htmlview';
 import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
-import FeedHandler from '../../lib/helpers/FeedHandler';
+import ActionHandler from '../../lib/helpers/ActionHandler';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 
 
@@ -49,8 +49,8 @@ export default class FeedListItem extends React.Component<any, Props, State> {
   _onItemPress() {
     const clickAction = DaoFeed.gClickAction(this._feed());
 
-    if (clickAction && FeedHandler.actionIsValid(this._feed(), clickAction))
-      FeedHandler.handleFeedAction(clickAction, this._feed(), this._navigator());
+    if (clickAction && ActionHandler.actionIsValid(this._feed(), clickAction))
+      ActionHandler.handleFeedAction(clickAction, this._feed(), this._navigator());
 
   }
 
@@ -90,14 +90,14 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
   _renderActions() {
     const actions = DaoFeed.gActions(this._feed())
-        .filter(action => FeedHandler.actionIsValid(this._feed(), action));
+        .filter(action => ActionHandler.actionIsValid(this._feed(), action));
 
     return actions.map((action, key) => {
 
       const marginRight = key === actions.length ? 0 : 8;
       const actionProps = {
-        icon: FeedHandler.mapActionToIcon(action),
-        onPress: () => FeedHandler.handleFeedAction(action, this._feed(), this._navigator())
+        icon: ActionHandler.mapActionToIcon(action),
+        onPress: () => ActionHandler.handleFeedAction(action, this._feed(), this._navigator())
       };
 
       return (
