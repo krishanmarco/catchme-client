@@ -4,6 +4,8 @@ import ApiClient from '../data/ApiClient';
 import DaoFeed from "../daos/DaoFeed";
 import Router from "./Router";
 import type {TFeedAction} from "../types/Types";
+import type {TUser} from "../daos/DaoUser";
+import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 
 
 const _FeedItems = {
@@ -49,11 +51,17 @@ const _FeedItems = {
       if (!locationId)
         return Promise.resolve(0);
 
+      // todo: we need access to the redux pool here to change this feed
+      const poolUserLocationStatus = {};
+
+
       Router.toModalUserLocationStatus(navigator, {
         locationId: locationId,
-        initialStatus: undefined, // todo what if a status for this location is already defined, where would it be? update onStatusConfirm
-        onStatusConfirm: (TUserLocationStatus) => {
-          // todo
+        initialStatus: poolUserLocationStatus.apiInput,
+        onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
+          // The Api request to change/add the userLocationStatus has already been sent
+          // We need to update the poolUserLocationStatus to reflect the new status
+
         }
       });
 
