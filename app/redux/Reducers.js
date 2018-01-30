@@ -19,12 +19,14 @@ import {editLocationAddressReducer} from '../screens/location-edit/pages/EditLoc
 import {editLocationSaveReducer} from '../screens/location-edit/pages/EditLocationSave';
 
 import {chatReducer} from "../comp/chat/ReducerChat";
+import {modalUserLocationStatusReducer} from '../screens/user-location-status/ModalUserLocationStatus';
 
 const CombinedReducers = combineReducers({
   applicationGlobalReducer,
   reduxPoolReducer,
 
   chatReducer,
+  modalUserLocationStatusReducer,
 
   locationProfileReducer,
   userProfileReducer,

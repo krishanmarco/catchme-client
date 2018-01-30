@@ -49,8 +49,15 @@ const _FeedItems = {
       if (!locationId)
         return Promise.resolve(0);
 
-      return Promise.resolve(0); // todo
-      // return ApiClient.userConnectionsBlockUid(locationId);
+      Router.toModalUserLocationStatus(navigator, {
+        locationId: locationId,
+        initialStatus: undefined, // todo what if a status for this location is already defined, where would it be? update onStatusConfirm
+        onStatusConfirm: (TUserLocationStatus) => {
+          // todo
+        }
+      });
+
+      return Promise.resolve(0);
     }
   }: TFeedAction),
 

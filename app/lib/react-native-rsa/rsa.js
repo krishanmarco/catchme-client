@@ -27,7 +27,7 @@ function byte2Hex(b) {
 
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
 function pkcs1pad2(s,n) {
-  if(n < s.length + 11) { // TODO: fix for utf-8
+  if(n < s.length + 11) {
     console.log("Message too long for RSA");
     return null;
   }
@@ -258,7 +258,6 @@ function RSADoPrivate(x) {
   if(this.p == null || this.q == null)
     return x.modPow(this.d, this.n);
 
-  // TODO: re-calculate any missing CRT params
   var xp = x.mod(this.p).modPow(this.dmp1, this.p);
   var xq = x.mod(this.q).modPow(this.dmq1, this.q);
 

@@ -6,6 +6,8 @@ import RealmIO from './RealmIO';
 import RNFetchBlob from 'react-native-fetch-blob';
 import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
+import type {TUser} from "../daos/DaoUser";
+import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 
 
 class ApiClient {
@@ -225,18 +227,18 @@ class ApiClient {
   }
 
   userConnectionsAddUid(uid) {
-    return this._get(Urls.api + '/user/pConnections/add/' + uid);
+    return this._get(Urls.api + '/user/connections/add/' + uid);
   }
 
   userConnectionsAcceptUid(uid) {
-    return this._get(Urls.api + '/user/pConnections/accept/' + uid);
+    return this._get(Urls.api + '/user/connections/accept/' + uid);
   }
 
   userConnectionsBlockUid(uid) {
-    return this._get(Urls.api + '/user/pConnections/block/' + uid);
+    return this._get(Urls.api + '/user/connections/block/' + uid);
   }
 
-  userStatusAdd(status) {
+  userStatusAdd(status: TUserLocationStatus) {
     return this._post(`${Urls.api}/user/status/add`, status);
   }
 
@@ -290,17 +292,17 @@ class ApiClient {
         .then(json => JSON.parse(json));
   }
 
-  searchUsers(queryArray) {
+  searchUsers(queryArray = []) {
     return this._post(`${Urls.api}/search/users`, {queries: queryArray})
         .then(json => JSON.parse(json));
   }
 
-  suggestSeedLocations(seed) {
+  suggestSeedLocations(seed = 0) {
     return this._get(`${Urls.api}/suggest/${seed}/locations`)
         .then(json => JSON.parse(json));
   }
 
-  suggestSeedUsers(seed) {
+  suggestSeedUsers(seed = 0) {
     return this._get(`${Urls.api}/suggest/${seed}/users`)
         .then(json => JSON.parse(json));
   }
