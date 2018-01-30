@@ -59,13 +59,13 @@ const POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS = 'POOL_ACTION_FIREBASE_DA
 
 // ReduxPoolCache Ids
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
+export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';
 
 
 // ReduxPoolCacheMap Ids
 export const CACHE_MAP_ID_USERS = 'CACHE_ID_USERS_LIST';
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
-
 
 // ReduxPoolApiForms Ids
 export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
@@ -381,7 +381,10 @@ const ReduxPoolBuilder = {
         initState: () => new ReduxPoolCache(CACHE_ID_USER_PROFILE),
         buildDataSet: (d) => ApiClient.userProfile(d)
       },
-
+      [CACHE_ID_USER_LOCATION_STATUS]: {
+        initState: () => new ReduxPoolCache(CACHE_ID_USER_LOCATION_STATUS),
+        buildDataSet: (d) => ApiClient.userStatusGet(d)
+      },
     }
 
   },
