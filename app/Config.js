@@ -210,7 +210,7 @@ export const Const = {
 
 
 
-  FeedHandler: {
+  ActionHandler: {
     actions: {
       FriendshipRequestAccept: 'FriendshipRequestAccept',
       FriendshipRequestDeny: 'FriendshipRequestDeny',

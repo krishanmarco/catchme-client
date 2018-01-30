@@ -8,7 +8,7 @@ import type {TFeedAction} from "../types/Types";
 
 const _FeedItems = {
 
-  [Const.FeedHandler.actions.FriendshipRequestAccept]: ({
+  [Const.ActionHandler.actions.FriendshipRequestAccept]: ({
     icon: Icons.userFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
@@ -24,7 +24,7 @@ const _FeedItems = {
 
 
 
-  [Const.FeedHandler.actions.FriendshipRequestDeny]: ({
+  [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
     icon: Icons.userBlock,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
@@ -40,7 +40,7 @@ const _FeedItems = {
 
 
 
-  [Const.FeedHandler.actions.AttendanceConfirm]: ({
+  [Const.ActionHandler.actions.AttendanceConfirm]: ({
     icon: Icons.locationPersonFuture,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
@@ -64,7 +64,7 @@ const _FeedItems = {
 
 
 
-  [Const.FeedHandler.actions.LocationFollow]: ({
+  [Const.ActionHandler.actions.LocationFollow]: ({
     icon: Icons.locationFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
@@ -80,7 +80,7 @@ const _FeedItems = {
 
 
 
-  [Const.FeedHandler.actions.GoToUserProfile]: ({
+  [Const.ActionHandler.actions.GoToUserProfile]: ({
     icon: Icons.userProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
     action: (navigator, feed) => {
@@ -97,7 +97,7 @@ const _FeedItems = {
 
 
 
-  [Const.FeedHandler.actions.GoToLocationProfile]: ({
+  [Const.ActionHandler.actions.GoToLocationProfile]: ({
     icon: Icons.locationProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
     action: (navigator, feed) => {
@@ -115,14 +115,13 @@ const _FeedItems = {
 
 
 
-// todo: rename class to Action Handler
-class FeedHandler {
+class ActionHandler {
 
   actionIsValid(feed, action) {
     const exists = action in _FeedItems;
 
     if (!exists) {
-      console.log('FeedHandler actionIsValid: ActionExists(false)');
+      console.log('ActionHandler actionIsValid: ActionExists(false)');
       return false;
     }
 
@@ -130,11 +129,11 @@ class FeedHandler {
     const actionIsValid = _FeedItems[action].actionIsValid(feed);
 
     if (!actionIsValid) {
-      console.log('FeedHandler actionIsValid: ActionExists(true), ActionValid(false)');
+      console.log('ActionHandler actionIsValid: ActionExists(true), ActionValid(false)');
       return false;
     }
 
-    console.log('FeedHandler actionIsValid: ActionExists(true), ActionValid(true)');
+    console.log('ActionHandler actionIsValid: ActionExists(true), ActionValid(true)');
     return true;
   }
 
@@ -150,7 +149,7 @@ class FeedHandler {
 
 }
 
-const feedHandler = new FeedHandler();
-export default feedHandler;
+const actionHandler = new ActionHandler();
+export default actionHandler;
 
 

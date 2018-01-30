@@ -6,7 +6,7 @@ import {Icon} from 'react-native-elements'
 import {View, TouchableNativeFeedback, Image} from 'react-native';
 import {RkStyleSheet, RkText, RkButton, RkCard} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
-import FeedHandler from '../../lib/helpers/FeedHandler';
+import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 
 
@@ -32,13 +32,13 @@ export default class FeaturedAdsListItem extends React.Component {
   _onItemPress() {
     const clickAction = DaoFeed.gClickAction(this._featuredAd());
 
-    if (clickAction && FeedHandler.actionIsValid(this._featuredAd(), clickAction))
+    if (clickAction && ActionHandler.actionIsValid(this._featuredAd(), clickAction))
       this._handleAction(clickAction);
   }
 
 
   _handleAction(action) {
-    FeedHandler.handleFeedAction(action, this._featuredAd(), this._navigator())
+    ActionHandler.handleFeedAction(action, this._featuredAd(), this._navigator())
   }
 
 
@@ -62,14 +62,14 @@ export default class FeaturedAdsListItem extends React.Component {
 
   _renderActionBar() {
     const actions = DaoFeaturedAd.gActions(this._featuredAd())
-        .filter(action => FeedHandler.actionIsValid(this._featuredAd(), action));
+        .filter(action => ActionHandler.actionIsValid(this._featuredAd(), action));
 
     return (
         <View style={Styles.actionBarContainer}>
           {actions.map((action, key) => (
               <View key={key} style={Styles.actionBarSection}>
                 <RkButton rkType='clear' onPress={() => this._handleAction(action)}>
-                  <Icon color='#fff' size={30} {...FeedHandler.mapActionToIcon(action)}/>
+                  <Icon color='#fff' size={30} {...ActionHandler.mapActionToIcon(action)}/>
                 </RkButton>
               </View>
           ))}
