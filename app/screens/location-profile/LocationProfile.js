@@ -29,7 +29,7 @@ import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataP
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TSectionListDataPointSections} from "../../lib/types/Types";
+import type {TDataPoint, TSectionListDataPointSections, TNavigator} from "../../lib/types/Types";
 
 
 
@@ -57,7 +57,7 @@ export function locationProfileReducer(state = locationProfileInitState, action)
 type Props = {
   locationProfile: TLocation,
   authenticatedUserProfile: TUser,
-  navigator: Object
+  navigator: TNavigator
 };
 
 type State = {
@@ -90,7 +90,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     };
   }
   
-  _navigator() {
+  _navigator(): TNavigator {
     return this.props.navigator;
   }
 

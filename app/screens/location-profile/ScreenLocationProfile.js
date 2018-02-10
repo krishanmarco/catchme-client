@@ -13,12 +13,13 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TModalUserLocationStatusProps} from "../user-location-status/ScreenModalUserLocationStatus";
+import type {TNavigator} from "../../lib/types/Types";
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Object,
+  navigator: TNavigator,
   locationId: number,
 
 };
@@ -130,7 +131,7 @@ class ScreenLocationProfilePresentational extends React.Component<any, Props, St
   }
 
 
-  _navigator() {
+  _navigator(): TNavigator {
     return this.props.navigator;
   }
 

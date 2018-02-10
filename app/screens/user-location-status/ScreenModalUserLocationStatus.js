@@ -14,13 +14,14 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 import {Screen, NullableObjects} from "../../comp/Misc";
 import ModalUserLocationStatus from './ModalUserLocationStatus';
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Object,
+  navigator: TNavigator,
   locationId: number,
   onStatusConfirm?: (TUserLocationStatus) => {},
   initialStatus?: TUserLocationStatus

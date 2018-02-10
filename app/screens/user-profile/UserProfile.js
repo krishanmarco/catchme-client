@@ -21,7 +21,7 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TSectionListDataPointSections} from "../../lib/types/Types";
+import type {TDataPoint, TSectionListDataPointSections, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Redux ************************************************************************************************
@@ -47,7 +47,7 @@ export function userProfileReducer(state = userProfileInitState, action) {
 type Props = {
   userProfile: TUser,
   authenticatedUserProfile: TUser,
-  navigator: Object
+  navigator: TNavigator
 };
 
 type State = {
@@ -84,7 +84,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
   }
 
 
-  _navigator() {
+  _navigator(): TNavigator {
     return this.props.navigator;
   }
 
