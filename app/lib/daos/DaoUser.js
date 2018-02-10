@@ -5,6 +5,7 @@ import ObjectCache from "../helpers/ObjectCache";
 import DaoLocation from "./DaoLocation";
 import Maps from "../data/Maps";
 import type {TLocation} from "./DaoLocation";
+import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 
 
 export type TUser = {
@@ -38,19 +39,20 @@ export type TUserConnectionIds = {
 };
 
 export type TUserLocations = {
-  favorites: Array<TLocation>,        // [1, 2, 3, 4, ...]            Preferred locations by this user
-  top: Array<TLocation>,              // [1, 2, 3, 4, ...]            Where the user has been most
-  past: Array<TLocation>,             // [1, 2, 3, 4, ...]            Where the user has been
-  now: Array<TLocation>,              // [1, 2, 3, 4, ...]            Where the user is now
-  future: Array<TLocation>            // [1, 2, 3, 4, ...]            Where the user will be later
+  favorites: Array<number>,                         // [1, 2, 3, 4, ...]            Preferred locations by this user, no order
+  top: Array<number>,                               // [1, 2, 3, 4, ...]            Where the user has been most, ordered
+  userLocationStatuses: Array<TUserLocationStatus>, // [{...TUserLocationStatus}]   All UserLocationStatuses not necessarily ordered
+  locations: Array<TLocation>                       // [{...TLocation}, ...]        All locations which have a corresponding id in object
+  // past: Array<TLocation>,                        // [1, 2, 3, 4, ...]            Where the user has been
+  // now: Array<TLocation>,                         // [1, 2, 3, 4, ...]            Where the user is now
+  // future: Array<TLocation>                       // [1, 2, 3, 4, ...]            Where the user will be later
 };
 
 export type TUserLocationIds = {
-  favorites: Array<number>,        // [1, 2, 3, 4, ...]               Ids of preferred locations by this user, lazy and cached
-  top: Array<number>,              // [1, 2, 3, 4, ...]               Ids of where the user has been most, lazy and cached
-  past: Array<number>,             // [1, 2, 3, 4, ...]               Ids of where the user has been, lazy and cached
-  now: Array<number>,              // [1, 2, 3, 4, ...]               Ids of Where the user is now, lazy and cached
-  future: Array<number>            // [1, 2, 3, 4, ...]               Ids of where the user will be later, lazy and cached
+  favorites: Array<number>,             // [1, 2, 3, 4, ...]          Ids of preferred locations by this user, lazy and cached, no order
+  top: Array<number>,                   // [1, 2, 3, 4, ...]          Ids of where the user has been most, lazy and cached, ordered
+  userLocationStatuses: Array<number>,  // [1, 2, 3, 4, ...]          Ids of where UserLocationStatuses (past, now, future), lazy and cached
+  locations: Array<number>              // [1, 2, 3, 4, ...]          Ids of all locations used in the other fields of this object
 };
 
 
@@ -74,9 +76,11 @@ export default class DaoUser {
   static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
   static pLocationsFavorite = `${DaoUser.pLocations}.favorites`;
   static pLocationsTop = `${DaoUser.pLocations}.top`;
-  static pLocationsPast = `${DaoUser.pLocations}.past`;
-  static pLocationsNow = `${DaoUser.pLocations}.now`;
-  static pLocationsFuture = `${DaoUser.pLocations}.future`;
+  static pLocationsUserLocationStatuses = `${DaoUser.pLocations}.userLocationStatuses`;
+  static pLocationsLocations = `${DaoUser.pLocations}.locations`;
+  // static pLocationsPast = `${DaoUser.pLocations}.past`;
+  // static pLocationsNow = `${DaoUser.pLocations}.now`;
+  // static pLocationsFuture = `${DaoUser.pLocations}.future`;
   static _pConnectionIds = '_connectionIds';
   static _pLocationIds = '_locationIds';
   static _pConnectionFriendIds = `${DaoUser._pConnectionIds}.friends`;
@@ -103,9 +107,12 @@ export default class DaoUser {
     _.set(newUser, DaoUser.pConnectionBlocked, DaoUser.gConnectionsBlocked(user));
     _.set(newUser, DaoUser.pLocationsFavorite, DaoUser.gLocationsFavorite(user));
     _.set(newUser, DaoUser.pLocationsTop, DaoUser.gLocationsTop(user));
-    _.set(newUser, DaoUser.pLocationsPast, DaoUser.gLocationsPast(user));
-    _.set(newUser, DaoUser.pLocationsNow, DaoUser.gLocationsNow(user));
-    _.set(newUser, DaoUser.pLocationsFuture, DaoUser.gLocationsFuture(user));
+    _.set(newUser, DaoUser.pLocationsUserLocationStatuses, DaoUser.gLocationsUserLocationStatuses(user));
+    _.set(newUser, DaoUser.pLocationsLocations, DaoUser.gLocationsLocations(user));
+    // _.set(newUser, DaoUser.pLocationsPast, DaoUser.gLocationsPast(user));
+    // _.set(newUser, DaoUser.pLocationsNow, DaoUser.gLocationsNow(user));
+    // _.set(newUser, DaoUser.pLocationsFuture, DaoUser.gLocationsFuture(user));
+
     // Private fields (_) will have to be recalculated...
     return newUser;
   }
@@ -186,20 +193,16 @@ export default class DaoUser {
     return _.get(user, DaoUser.pLocationsFavorite, []);
   }
 
-  static gLocationsPast(user: TUser) {
-    return _.get(user, DaoUser.pLocationsPast, []);
-  }
-
-  static gLocationsNow(user: TUser) {
-    return _.get(user, DaoUser.pLocationsNow, []);
-  }
-
-  static gLocationsFuture(user: TUser) {
-    return _.get(user, DaoUser.pLocationsFuture, []);
-  }
-
   static gLocationsTop(user: TUser) {
     return _.get(user, DaoUser.pLocationsTop, []);
+  }
+
+  static gLocationsUserLocationStatuses(user: TUser) {
+    return _.get(user, DaoUser.pLocationsUserLocationStatuses, []);
+  }
+
+  static gLocationsLocations(user: TUser) {
+    return _.get(user, DaoUser.pLocationsLocations, []);
   }
 
 

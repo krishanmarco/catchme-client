@@ -45,11 +45,10 @@ class UserLocations {
   static schema = {
     name: 'UserLocations',
     properties: {
-      favorites:      {type: 'list',            objectType: 'Location',                 default: []                },
-      top:            {type: 'list',            objectType: 'Location',                 default: []                },
-      past:           {type: 'list',            objectType: 'Location',                 default: []                },
-      now:            {type: 'list',            objectType: 'Location',                 default: []                },
-      future:         {type: 'list',            objectType: 'Location',                 default: []                },
+      favorites:              {type: 'GenericObject',                                                                },
+      top:                    {type: 'GenericObject',      objectType: 'int',                                        },
+      userLocationStatuses:   {type: 'list',               objectType: 'UserLocationStatus',    default: []          },
+      locations:              {type: 'list',               objectType: 'Location',              default: []          },
     }
   }
 }
@@ -142,7 +141,8 @@ const realm = new Realm({
     UserConnections,
     Location,
     LocationConnections,
-    GenericObject
+    UserLocationStatus,
+    GenericObject,
   ]
 });
 export default realm;

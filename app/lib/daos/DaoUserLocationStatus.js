@@ -19,6 +19,18 @@ export default class DaoUserLocationStatus {
   static pUntilTs = 'untilTs';
 
 
+  static shallowCopy(userLocationStatus: TUserLocationStatus): TUserLocationStatus {
+    const newUserLocationStatus = {};
+    _.set(newUserLocationStatus, DaoUserLocationStatus.pId, DaoUserLocationStatus.gId(userLocationStatus));
+    _.set(newUserLocationStatus, DaoUserLocationStatus.pLocationId, DaoUserLocationStatus.gLocationId(userLocationStatus));
+    _.set(newUserLocationStatus, DaoUserLocationStatus.pFromTs, DaoUserLocationStatus.gFromTs(userLocationStatus));
+    _.set(newUserLocationStatus, DaoUserLocationStatus.pUntilTs, DaoUserLocationStatus.gUntilTs(userLocationStatus));
+
+    // Private fields (_) will have to be recalculated...
+    return newUserLocationStatus;
+  }
+
+
   static createInitialStatus(locationId = -1) {
     return denormObj({
       [DaoUserLocationStatus.pId]: -1,

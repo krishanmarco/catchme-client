@@ -23,7 +23,6 @@ export const ListItemHeader = _ListItemHeader;
 import _ListItemInfo from './misc/ListItemsInfos';
 export const ListItemInfo = _ListItemInfo;
 
-// LIST ITEMS WITH ACTIONS
 import _ListItemWithActions from './misc/ListItemsWithActions';
 export const ListItemWithActions = _ListItemWithActions;
 

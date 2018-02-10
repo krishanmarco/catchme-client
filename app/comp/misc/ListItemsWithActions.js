@@ -81,7 +81,7 @@ const listItemImageStyles = StyleSheet.create({
 
 type ListItemWithActionProps = {
   header: Node,
-  subHeader?: Node,
+  subContent?: Node,
   content?: Node,
   avatarUri?: string,
   onPress?: () => void,
@@ -89,7 +89,7 @@ type ListItemWithActionProps = {
   image?: ListItemImageProps
 };
 
-const ListItemWithActions = ({header, subHeader, content, avatarUri, onPress, actions, image}: ListItemWithActionProps) => (
+const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, actions, image}: ListItemWithActionProps) => (
     <TouchableNativeFeedback onPress={onPress}>
 
       <Grid style={listItemWithActionStyles.root}>
@@ -97,13 +97,13 @@ const ListItemWithActions = ({header, subHeader, content, avatarUri, onPress, ac
         <Col size={100} style={{marginRight: 8}}>
           <View style={listItemWithActionStyles.headerContent}>
             {avatarUri && <AvatarCircle uri={avatarUri}/>}
+
             <View style={listItemWithActionStyles.content}>
-              <RkText style={listItemWithActionStyles.contentText}>
-                <RkText>{header}</RkText>
-                {subHeader && <RkText>{subHeader}</RkText>}
-              </RkText>
+              <RkText style={listItemWithActionStyles.contentText}>{header}</RkText>
               {content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
+              {subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
             </View>
+
           </View>
         </Col>
 
@@ -154,7 +154,7 @@ const listItemWithActionStyles = RkStyleSheet.create(theme => ({
   },
 
   contentText: {
-    marginBottom: 3
+    marginBottom: 2
   }
 
 }));

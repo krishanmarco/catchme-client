@@ -14,7 +14,7 @@ import UserList from '../../comp-buisness/user/UserList';
 import {RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 
-import UserLocationsSectionedList from '../../comp-buisness/user/UserLocationsSectionedList';
+import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import Router from "../../lib/helpers/Router";
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
@@ -172,12 +172,14 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
     );
   }
 
+
   _renderTabLocations() {
     return (
         <View style={[Styles.tabRootLocations]}>
-          <UserLocationsSectionedList
+          <UserLocationsStatusList
+              allowEdit={this._isSameUser()}
               userProfile={this._userProfile()}
-              onItemPress={this._onLocationPress}/>
+              onLocationPress={this._onLocationPress}/>
         </View>
     );
   }
