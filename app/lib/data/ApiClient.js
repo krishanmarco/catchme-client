@@ -246,6 +246,10 @@ class ApiClient {
     return this._get(`${Urls.api}/user/status/del/${statusId}`);
   }
 
+  userStatusGet(): Promise<TUserLocationStatus> {//todo
+    return Promise.resolve([]);
+  }
+
   userLocationsFavoritesAdd(locationId) {
     return this._get(`${Urls.api}/user/locations/favorites/add/${locationId}`);
   }
