@@ -25,3 +25,7 @@ export type TSectionListDataPointSections = {
   title: string,
   data: Array<TDataPoint>
 };
+
+export type TNavigator = Object & {
+  // react-native-navigation navigator
+};

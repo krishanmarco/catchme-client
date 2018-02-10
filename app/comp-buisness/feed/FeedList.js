@@ -8,6 +8,7 @@ import FeedListItem from "./FeedListItem";
 import {DefaultLoader} from "../../comp/Misc";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TFeed} from "../../lib/daos/DaoFeed";
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Flow *************************************************************************************************
@@ -15,7 +16,7 @@ import type {TFeed} from "../../lib/daos/DaoFeed";
 
 type Props = {
   userProfile: TUser,
-  navigator: Object,
+  navigator: TNavigator,
   feedList: Array<TFeed>,
   loading: boolean,
   loadMore: boolean

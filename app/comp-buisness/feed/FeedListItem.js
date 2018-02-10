@@ -12,13 +12,14 @@ import HTMLView from 'react-native-htmlview';
 import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
 import ActionHandler from '../../lib/helpers/ActionHandler';
 import type {TFeed} from "../../lib/daos/DaoFeed";
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Object,
+  navigator: TNavigator,
   feed: TFeed
 };
 
@@ -37,7 +38,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
     this._onItemPress = this._onItemPress.bind(this);
   }
 
-  _navigator(): Object {
+  _navigator(): TNavigator {
     return this.props.navigator;
   }
 
