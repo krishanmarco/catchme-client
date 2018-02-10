@@ -50,8 +50,8 @@ export default class FeedListItem extends React.Component<any, Props, State> {
   _onItemPress() {
     const clickAction = DaoFeed.gClickAction(this._feed());
 
-    if (clickAction && ActionHandler.actionIsValid(this._feed(), clickAction))
-      ActionHandler.handleFeedAction(clickAction, this._feed(), this._navigator());
+    if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._feed()))
+      ActionHandler.handleAction(clickAction, this._feed(), this._navigator());
 
   }
 
@@ -91,14 +91,14 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
   _renderActions() {
     const actions = DaoFeed.gActions(this._feed())
-        .filter(action => ActionHandler.actionIsValid(this._feed(), action));
+        .filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._feed()));
 
-    return actions.map((action, key) => {
+    return actions.map((clickAction, key) => {
 
       const marginRight = key === actions.length ? 0 : 8;
       const actionProps = {
-        icon: ActionHandler.mapActionToIcon(action),
-        onPress: () => ActionHandler.handleFeedAction(action, this._feed(), this._navigator())
+        icon: ActionHandler.mapActionToIcon(clickAction),
+        onPress: () => ActionHandler.handleAction(clickAction, this._feed(), this._navigator())
       };
 
       return (

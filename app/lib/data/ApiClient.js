@@ -247,8 +247,7 @@ class ApiClient {
   }
 
   userStatusGet(): Promise<TUserLocationStatus> {
-    //todo must return a list of UserLocationStatus for the current user
-    return Promise.resolve([]);
+    return this._get(`${Urls.api}/user/status`);
   }
 
   userLocationsFavoritesAdd(locationId) {

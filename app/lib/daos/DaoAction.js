@@ -19,7 +19,7 @@ export default class DaoAction {
   static pPayload = 'payload';
   static pPayloadConnectionId = `${DaoAction.pPayload}.connectionId`;
   static pPayloadLocationId = `${DaoAction.pPayload}.locationId`;
-  
+
   static gId(action: TAction) {
     return _.get(action, DaoAction.pId);
   }

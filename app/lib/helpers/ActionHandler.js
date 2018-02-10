@@ -1,20 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Const, Icons} from '../../Config';
 import ApiClient from '../data/ApiClient';
-import DaoFeed from "../daos/DaoFeed";
+import DaoAction from "../daos/DaoAction";
 import Router from "./Router";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 import type {TActionHandler, TNavigator} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
 
 
-const _FeedItems = {
+const _ClickActionHandlers = ({
 
   [Const.ActionHandler.actions.FriendshipRequestAccept]: ({
     icon: Icons.userFollow,
-    actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
+    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
     action: (navigator: TNavigator, action: TAction) => {
-      const connectionId = DaoFeed.gPayloadConnectionId(feed);
+      const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
         return Promise.resolve(0);
@@ -28,9 +28,9 @@ const _FeedItems = {
 
   [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
     icon: Icons.userBlock,
-    actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
+    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
     action: (navigator: TNavigator, action: TAction) => {
-      const connectionId = DaoFeed.gPayloadConnectionId(feed);
+      const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
         return Promise.resolve(0);
@@ -44,9 +44,9 @@ const _FeedItems = {
 
   [Const.ActionHandler.actions.AttendanceConfirm]: ({
     icon: Icons.locationPersonFuture,
-    actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
+    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
     action: (navigator: TNavigator, action: TAction) => {
-      const locationId = DaoFeed.gPayloadLocationId(feed);
+      const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
@@ -74,9 +74,9 @@ const _FeedItems = {
 
   [Const.ActionHandler.actions.LocationFollow]: ({
     icon: Icons.locationFollow,
-    actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
+    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
     action: (navigator: TNavigator, action: TAction) => {
-      const locationId = DaoFeed.gPayloadLocationId(feed);
+      const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
@@ -90,9 +90,9 @@ const _FeedItems = {
 
   [Const.ActionHandler.actions.GoToUserProfile]: ({
     icon: Icons.userProfile,
-    actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
+    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
     action: (navigator: TNavigator, action: TAction) => {
-      const connectionId = DaoFeed.gPayloadConnectionId(feed);
+      const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
         return Promise.resolve(0);
@@ -107,9 +107,9 @@ const _FeedItems = {
 
   [Const.ActionHandler.actions.GoToLocationProfile]: ({
     icon: Icons.locationProfile,
-    actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
+    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
     action: (navigator: TNavigator, action: TAction) => {
-      const locationId = DaoFeed.gPayloadLocationId(feed);
+      const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
@@ -119,40 +119,43 @@ const _FeedItems = {
     }
   }: TActionHandler),
 
-};
+}: Array<TActionHandler>);
 
 
 
 class ActionHandler {
 
-  actionIsValid(feed, action) {
-    const exists = action in _FeedItems;
+  clickActionIsValid(clickAction: string, action: TAction) {
 
-    if (!exists) {
-      console.log('ActionHandler actionIsValid: ActionExists(false)');
+    // Check if the click action exists
+    const clickActionExists = !clickAction in _ClickActionHandlers;
+
+    if (clickActionExists) {
+      console.error('ActionHandler clickActionIsValid: ActionExists(false)');
       return false;
     }
 
-    // The action exists
-    const actionIsValid = _FeedItems[action].actionIsValid(feed);
+    // The action exists, check if valid
+    const clickActionIsValid = _ClickActionHandlers[clickAction]
+        .isValid(action);
 
-    if (!actionIsValid) {
-      console.log('ActionHandler actionIsValid: ActionExists(true), ActionValid(false)');
+    if (!clickActionIsValid) {
+      console.error('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
       return false;
     }
 
-    console.log('ActionHandler actionIsValid: ActionExists(true), ActionValid(true)');
+    console.log('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(true)');
     return true;
   }
 
 
 
   mapActionToIcon(actionName: string) {
-    return _FeedItems[actionName].icon;
+    return _ClickActionHandlers[actionName].icon;
   }
 
-  handleFeedAction(actionName: string, feed, navigator) {
-    return _FeedItems[actionName].action(navigator, feed);
+  handleAction(clickAction: string, action: TAction, navigator: TNavigator) {
+    return _ClickActionHandlers[clickAction].action(navigator, action);
   }
 
 }

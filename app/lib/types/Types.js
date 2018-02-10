@@ -4,7 +4,7 @@ import type {TAction} from "../daos/DaoAction";
 
 export type TActionHandler = {
   icon: TIcon,
-  actionIsValid: (TAction) => boolean,
+  isValid: (TAction) => boolean,
   action: (Object, TAction) => Promise
 };
 
