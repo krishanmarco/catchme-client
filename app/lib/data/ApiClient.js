@@ -246,7 +246,8 @@ class ApiClient {
     return this._get(`${Urls.api}/user/status/del/${statusId}`);
   }
 
-  userStatusGet(): Promise<TUserLocationStatus> {//todo
+  userStatusGet(): Promise<TUserLocationStatus> {
+    //todo must return a list of UserLocationStatus for the current user
     return Promise.resolve([]);
   }
 

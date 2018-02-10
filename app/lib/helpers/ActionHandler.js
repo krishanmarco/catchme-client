@@ -3,9 +3,9 @@ import {Const, Icons} from '../../Config';
 import ApiClient from '../data/ApiClient';
 import DaoFeed from "../daos/DaoFeed";
 import Router from "./Router";
-import type {TFeedAction} from "../types/Types";
-import type {TUser} from "../daos/DaoUser";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import type {TActionHandler, TNavigator} from "../types/Types";
+import type {TAction} from "../daos/DaoAction";
 
 
 const _FeedItems = {
@@ -13,7 +13,7 @@ const _FeedItems = {
   [Const.ActionHandler.actions.FriendshipRequestAccept]: ({
     icon: Icons.userFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
-    action: (navigator, feed) => {
+    action: (navigator: TNavigator, action: TAction) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
 
       if (!connectionId)
@@ -21,7 +21,7 @@ const _FeedItems = {
 
       return ApiClient.userConnectionsAcceptUid(connectionId);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
@@ -29,7 +29,7 @@ const _FeedItems = {
   [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
     icon: Icons.userBlock,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
-    action: (navigator, feed) => {
+    action: (navigator: TNavigator, action: TAction) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
 
       if (!connectionId)
@@ -37,7 +37,7 @@ const _FeedItems = {
 
       return ApiClient.userConnectionsBlockUid(connectionId);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
@@ -45,7 +45,7 @@ const _FeedItems = {
   [Const.ActionHandler.actions.AttendanceConfirm]: ({
     icon: Icons.locationPersonFuture,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
-    action: (navigator, feed) => {
+    action: (navigator: TNavigator, action: TAction) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
 
       if (!locationId)
@@ -67,7 +67,7 @@ const _FeedItems = {
 
       return Promise.resolve(0);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
@@ -75,7 +75,7 @@ const _FeedItems = {
   [Const.ActionHandler.actions.LocationFollow]: ({
     icon: Icons.locationFollow,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
-    action: (navigator, feed) => {
+    action: (navigator: TNavigator, action: TAction) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
 
       if (!locationId)
@@ -83,7 +83,7 @@ const _FeedItems = {
 
       return ApiClient.userLocationsFavoritesAddLid(locationId);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
@@ -91,7 +91,7 @@ const _FeedItems = {
   [Const.ActionHandler.actions.GoToUserProfile]: ({
     icon: Icons.userProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
-    action: (navigator, feed) => {
+    action: (navigator: TNavigator, action: TAction) => {
       const connectionId = DaoFeed.gPayloadConnectionId(feed);
 
       if (!connectionId)
@@ -100,7 +100,7 @@ const _FeedItems = {
       Router.toUserProfileById(navigator, connectionId);
       return Promise.resolve(0);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
@@ -108,7 +108,7 @@ const _FeedItems = {
   [Const.ActionHandler.actions.GoToLocationProfile]: ({
     icon: Icons.locationProfile,
     actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
-    action: (navigator, feed) => {
+    action: (navigator: TNavigator, action: TAction) => {
       const locationId = DaoFeed.gPayloadLocationId(feed);
 
       if (!locationId)
@@ -117,7 +117,7 @@ const _FeedItems = {
       Router.toLocationProfileById(navigator, locationId);
       return Promise.resolve(0);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 };
 
@@ -147,12 +147,12 @@ class ActionHandler {
 
 
 
-  mapActionToIcon(action: string) {
-    return _FeedItems[action].icon;
+  mapActionToIcon(actionName: string) {
+    return _FeedItems[actionName].icon;
   }
 
-  handleFeedAction(action: string, feed, navigator) {
-    return _FeedItems[action].action(navigator, feed);
+  handleFeedAction(actionName: string, feed, navigator) {
+    return _FeedItems[actionName].action(navigator, feed);
   }
 
 }
