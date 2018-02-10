@@ -239,6 +239,7 @@ class ApiClient {
   }
 
   userStatusAdd(status: TUserLocationStatus) {
+    console.log("_userStatusAdd SENDING STATUS CONFIRM REQUEST.....");
     return this._post(`${Urls.api}/user/status/add`, status);
   }
 

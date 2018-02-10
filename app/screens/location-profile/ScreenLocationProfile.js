@@ -97,13 +97,9 @@ class ScreenLocationProfilePresentational extends React.Component<any, Props, St
       // [navigator] is automatically added by the navigator that opens the modal
     }: TModalUserLocationStatusProps);
 
-    // Add the location id to the props
     passProps.locationId = DaoLocation.gId(locationProfile);
-
-    // Add the onStatusConfirm callback to the props
-    passProps.onStatusConfirm = (userLocationStatus: TUserLocationStatus) => {
-      return ApiClient.userStatusAdd(userLocationStatus);
-    };
+    // passProps.postOnConfirm = true;
+    // passProps.onStatusConfirm, passProps.initialStatus not needed
 
     Router.toModalUserLocationStatus(this._navigator(), passProps);
   }

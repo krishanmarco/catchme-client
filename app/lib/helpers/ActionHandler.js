@@ -13,7 +13,7 @@ const _ClickActionHandlers = ({
   [Const.ActionHandler.actions.FriendshipRequestAccept]: ({
     icon: Icons.userFollow,
     isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
-    action: (navigator: TNavigator, action: TAction) => {
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
       const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
@@ -29,7 +29,7 @@ const _ClickActionHandlers = ({
   [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
     icon: Icons.userBlock,
     isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
-    action: (navigator: TNavigator, action: TAction) => {
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
       const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
@@ -45,24 +45,16 @@ const _ClickActionHandlers = ({
   [Const.ActionHandler.actions.AttendanceConfirm]: ({
     icon: Icons.locationPersonFuture,
     isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
-    action: (navigator: TNavigator, action: TAction) => {
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
       const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
 
-      // todo: we need access to the redux pool here to change this feed
-      const poolUserLocationStatus = {};
-
-
       Router.toModalUserLocationStatus(navigator, {
         locationId: locationId,
-        initialStatus: poolUserLocationStatus.apiInput,
-        onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
-          // The Api request to change/add the userLocationStatus has already been sent
-          // We need to update the poolUserLocationStatus to reflect the new status
-
-        }
+        postOnConfirm: true
+        // passProps.onStatusConfirm, passProps.initialStatus not needed
       });
 
       return Promise.resolve(0);
@@ -75,7 +67,7 @@ const _ClickActionHandlers = ({
   [Const.ActionHandler.actions.LocationFollow]: ({
     icon: Icons.locationFollow,
     isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
-    action: (navigator: TNavigator, action: TAction) => {
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
       const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
@@ -91,7 +83,7 @@ const _ClickActionHandlers = ({
   [Const.ActionHandler.actions.GoToUserProfile]: ({
     icon: Icons.userProfile,
     isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
-    action: (navigator: TNavigator, action: TAction) => {
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
       const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
@@ -108,7 +100,7 @@ const _ClickActionHandlers = ({
   [Const.ActionHandler.actions.GoToLocationProfile]: ({
     icon: Icons.locationProfile,
     isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
-    action: (navigator: TNavigator, action: TAction) => {
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
       const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
@@ -154,8 +146,8 @@ class ActionHandler {
     return _ClickActionHandlers[actionName].icon;
   }
 
-  handleAction(clickAction: string, action: TAction, navigator: TNavigator) {
-    return _ClickActionHandlers[clickAction].action(navigator, action);
+  handleAction(clickAction: string, action: TAction, navigator: TNavigator, dispatch: ?Function) {
+    return _ClickActionHandlers[clickAction].action(action, navigator, dispatch);
   }
 
 }
