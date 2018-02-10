@@ -138,13 +138,13 @@ export const Const = {
     ScreenSettingsUserAccount: `${Globals.packageName}.ScreenSettingsUserAccount`,
     ScreenSettingsAdminLocations: `${Globals.packageName}.ScreenSettingsAdminLocations`,
     ScreenSettingsUserNotifications: `${Globals.packageName}.ScreenSettingsUserNotifications`,
+    ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,
 
     ScreenAddContacts: `${Globals.packageName}.ScreenAddContacts`,
     ScreenLogout: `${Globals.packageName}.ScreenLogout`,
 
     ScreenEditLocation: `${Globals.packageName}.ScreenEditLocation`,
 
-    ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,  // todo
 
     ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
     ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,

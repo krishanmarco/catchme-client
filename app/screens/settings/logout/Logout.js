@@ -7,7 +7,7 @@ import {startApplication} from "../../../App";
 
 import {View} from 'react-native';
 import {RkText, RkButton, RkStyleSheet} from 'react-native-ui-kitten';
-import {ScreenInfo} from "../../../comp/Misc";
+import {ScreenInfo, GradientButton} from "../../../comp/Misc";
 
 
 
@@ -43,34 +43,23 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
   render() {
     return (
         <View>
-          {this._renderScreenHeader()}
-          {this._renderLogoutButton()}
+          <ScreenInfo
+              imageContainerStyle={{marginTop: 64}}
+              imageContainerScale={550}
+              imageHeight={100}
+              imageWidth={150}
+              imageSource={require('../../../assets/images/splashBack.png')}
+              textText='Are you sure you want to log out?'/>
+          
+          <GradientButton
+              style={styles.logout}
+              rkType='large stretch accentColor'
+              text={'Logout'.toUpperCase()}
+              onPress={this._onLogoutPress}/>
         </View>
     );
   }
-
-  _renderScreenHeader() {
-    return (
-        <ScreenInfo
-            imageContainerStyle={{marginTop: 64}}
-            imageContainerScale={550}
-            imageHeight={100}
-            imageWidth={150}
-            imageSource={require('../../../assets/images/splashBack.png')}
-            textText='Are you sure you want to log out?'/>
-    );
-  }
-
-  _renderLogoutButton() {
-    return (
-        <View style={Styles.buttonCont}>
-          <RkButton style={Styles.button} onPress={this._onLogoutPress}>
-            <RkText rkType='awesome hero accentColor'>Logout</RkText>
-          </RkButton>
-        </View>
-    );
-  }
-
+  
 }
 
 
@@ -80,12 +69,9 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-let Styles = RkStyleSheet.create(theme => ({
-  buttonCont: {
+let styles = RkStyleSheet.create(theme => ({
+  logout: {
     marginTop: 64,
-    alignItems: 'center'
-  },
-  button: {
     alignItems: 'center'
   }
 }));

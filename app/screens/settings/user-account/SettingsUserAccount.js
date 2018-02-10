@@ -50,7 +50,6 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
   constructor(props, context) {
     super(props, context);
     this._onChangePasswordPress = this._onChangePasswordPress.bind(this);
-    this._onRecoverPasswordPress = this._onRecoverPasswordPress.bind(this);
     this._onLogoutPress = this._onLogoutPress.bind(this);
     this._onAddContactsPress = this._onAddContactsPress.bind(this);
     this._onUserPicturePress = this._onUserPicturePress.bind(this);
@@ -63,7 +62,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
   }
 
   componentWillUnmount() {
-    // this._formApiEditUserProfile().post();
+    // todo ---> this._formApiEditUserProfile().post();
   }
 
   _navigator() {
@@ -95,12 +94,9 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
   }
 
   _onChangePasswordPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenSettingsChangePassword);
+    Router.toSettingsChangePassword(this._navigator());
   }
 
-  _onRecoverPasswordPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenRecoverPassword);
-  }
 
   _onLogoutPress() {
     Router.toLogoutScreen(this._navigator());
@@ -207,10 +203,6 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
                 title='Change Password'
                 icon={Icons.settingChangePassword}
                 onPress={this._onChangePasswordPress}/>
-            <ListItemInfo
-                title='Recover Password'
-                icon={Icons.settingChangePassword}
-                onPress={this._onRecoverPasswordPress}/>
           </View>
         </View>
     );

@@ -126,14 +126,14 @@ export default class Router {
   }
 
 
-  static toScreen(navigator, screenName) {
-    navigator.push({
-      screen: screenName,
-      navigatorStyle: {
-        navBarBackgroundColor: Colors.primary
-      }
-    });
-  }
+  // static toScreen(navigator, screenName) {
+  //   navigator.push({
+  //     screen: screenName,
+  //     navigatorStyle: {
+  //       navBarBackgroundColor: Colors.primary
+  //     }
+  //   });
+  // }
 
 
   static toAddContactsScreen(navigator) {
@@ -183,6 +183,17 @@ export default class Router {
     navigator.push({
       screen: Const.NavigationComponents.ScreenSettingsUserNotifications,
       title: 'Notifications',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+
+  static toSettingsChangePassword(navigator, screenName) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenSettingsChangePassword,
+      title: 'Change password',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
       }

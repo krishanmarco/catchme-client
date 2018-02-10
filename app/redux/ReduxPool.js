@@ -70,6 +70,7 @@ export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
 // ReduxPoolApiForms Ids
 export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
 export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';
+export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 export const FORM_API_ID_EDIT_USER_PROFILE = 'FORM_API_ID_EDIT_USER_PROFILE';
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
@@ -697,6 +698,14 @@ const ReduxPoolBuilder = {
           email: '',
           password: '',
           passwordConfirm: ''
+        })
+      },
+      [FORM_API_ID_CHANGE_PASSWORD]: {
+        post: (i) => ApiClient.accountsChangePassword(i),
+        initState: () => new ReduxPoolApiForms(FORM_API_ID_CHANGE_PASSWORD, {
+          passwordPrevious: '',
+          passwordNext: '',
+          passwordConfirmNext: ''
         })
       },
       [FORM_API_ID_EDIT_USER_PROFILE]: {

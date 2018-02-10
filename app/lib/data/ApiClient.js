@@ -197,9 +197,8 @@ class ApiClient {
         .then(this._onReceiveAuthenticatedUserProfile);
   }
 
-  accountsLoginTwitter(accessToken) {
-    return this._post(`${Urls.api}/accounts/login/twitter`, {token: accessToken})
-        .then(this._onReceiveAuthenticatedUserProfile);
+  accountsChangePassword(formChangePassword) {
+    return this._post(`${Urls.api}/accounts/password/change`, formChangePassword);
   }
 
 

@@ -25,6 +25,7 @@ import ScreenSearch from './screens/search/ScreenSearch';
 import ScreenSettingsUserAccount from './screens/settings/user-account/ScreenSettingsUserAccount';
 import ScreenSettingsAdminLocations from './screens/settings/user-admin-locations/ScreenSettingsAdminLocations';
 import ScreenSettingsUserNotifications from './screens/settings/user-notifications/ScreenSettingsUserNotifications';
+import ScreenSettingsChangePassword from './screens/settings/change-password/ScreenSettingsChangePassword';
 import ScreenHelpAppInfo from './screens/help/app-info/ScreenHelpAppInfo';
 import ScreenLogout from './screens/settings/logout/ScreenLogout';
 import ScreenAddContacts from './screens/settings/add-contacts/ScreenAddContacts';
@@ -76,6 +77,7 @@ export default function run(authenticatedUser: TUser) {
     {name: Const.NavigationComponents.ScreenSettingsUserAccount, getComponent: () => ScreenSettingsUserAccount},
     {name: Const.NavigationComponents.ScreenSettingsAdminLocations, getComponent: () => ScreenSettingsAdminLocations},
     {name: Const.NavigationComponents.ScreenSettingsUserNotifications, getComponent: () => ScreenSettingsUserNotifications},
+    {name: Const.NavigationComponents.ScreenSettingsChangePassword, getComponent: () => ScreenSettingsChangePassword},
     {name: Const.NavigationComponents.ScreenLogout, getComponent: () => ScreenLogout},
     {name: Const.NavigationComponents.ScreenAddContacts, getComponent: () => ScreenAddContacts},
     {name: Const.NavigationComponents.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
