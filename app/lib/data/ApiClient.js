@@ -239,6 +239,7 @@ class ApiClient {
   }
 
   userStatusAdd(status: TUserLocationStatus) {
+    console.log("_userStatusAdd SENDING STATUS CONFIRM REQUEST.....");
     return this._post(`${Urls.api}/user/status/add`, status);
   }
 
@@ -246,8 +247,8 @@ class ApiClient {
     return this._get(`${Urls.api}/user/status/del/${statusId}`);
   }
 
-  userStatusGet(): Promise<TUserLocationStatus> {//todo
-    return Promise.resolve([]);
+  userStatusGet(): Promise<TUserLocationStatus> {
+    return this._get(`${Urls.api}/user/status`);
   }
 
   userLocationsFavoritesAdd(locationId) {

@@ -1,98 +1,90 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Const, Icons} from '../../Config';
 import ApiClient from '../data/ApiClient';
-import DaoFeed from "../daos/DaoFeed";
+import DaoAction from "../daos/DaoAction";
 import Router from "./Router";
-import type {TFeedAction} from "../types/Types";
-import type {TUser} from "../daos/DaoUser";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import type {TActionHandler, TNavigator} from "../types/Types";
+import type {TAction} from "../daos/DaoAction";
 
 
-const _FeedItems = {
+const _ClickActionHandlers = ({
 
   [Const.ActionHandler.actions.FriendshipRequestAccept]: ({
     icon: Icons.userFollow,
-    actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
-    action: (navigator, feed) => {
-      const connectionId = DaoFeed.gPayloadConnectionId(feed);
+    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
+      const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
         return Promise.resolve(0);
 
       return ApiClient.userConnectionsAcceptUid(connectionId);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
 
   [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
     icon: Icons.userBlock,
-    actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
-    action: (navigator, feed) => {
-      const connectionId = DaoFeed.gPayloadConnectionId(feed);
+    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
+      const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
         return Promise.resolve(0);
 
       return ApiClient.userConnectionsBlockUid(connectionId);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
 
   [Const.ActionHandler.actions.AttendanceConfirm]: ({
     icon: Icons.locationPersonFuture,
-    actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
-    action: (navigator, feed) => {
-      const locationId = DaoFeed.gPayloadLocationId(feed);
+    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
+      const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
 
-      // todo: we need access to the redux pool here to change this feed
-      const poolUserLocationStatus = {};
-
-
       Router.toModalUserLocationStatus(navigator, {
         locationId: locationId,
-        initialStatus: poolUserLocationStatus.apiInput,
-        onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
-          // The Api request to change/add the userLocationStatus has already been sent
-          // We need to update the poolUserLocationStatus to reflect the new status
-
-        }
+        postOnConfirm: true
+        // passProps.onStatusConfirm, passProps.initialStatus not needed
       });
 
       return Promise.resolve(0);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
 
   [Const.ActionHandler.actions.LocationFollow]: ({
     icon: Icons.locationFollow,
-    actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
-    action: (navigator, feed) => {
-      const locationId = DaoFeed.gPayloadLocationId(feed);
+    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
+      const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
 
       return ApiClient.userLocationsFavoritesAddLid(locationId);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
 
   [Const.ActionHandler.actions.GoToUserProfile]: ({
     icon: Icons.userProfile,
-    actionIsValid: (feed) => DaoFeed.gPayloadConnectionId(feed) != null,
-    action: (navigator, feed) => {
-      const connectionId = DaoFeed.gPayloadConnectionId(feed);
+    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
+      const connectionId = DaoAction.gPayloadConnectionId(action);
 
       if (!connectionId)
         return Promise.resolve(0);
@@ -100,16 +92,16 @@ const _FeedItems = {
       Router.toUserProfileById(navigator, connectionId);
       return Promise.resolve(0);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
 
 
 
   [Const.ActionHandler.actions.GoToLocationProfile]: ({
     icon: Icons.locationProfile,
-    actionIsValid: (feed) => DaoFeed.gPayloadLocationId(feed) != null,
-    action: (navigator, feed) => {
-      const locationId = DaoFeed.gPayloadLocationId(feed);
+    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
+    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
+      const locationId = DaoAction.gPayloadLocationId(action);
 
       if (!locationId)
         return Promise.resolve(0);
@@ -117,42 +109,45 @@ const _FeedItems = {
       Router.toLocationProfileById(navigator, locationId);
       return Promise.resolve(0);
     }
-  }: TFeedAction),
+  }: TActionHandler),
 
-};
+}: Array<TActionHandler>);
 
 
 
 class ActionHandler {
 
-  actionIsValid(feed, action) {
-    const exists = action in _FeedItems;
+  clickActionIsValid(clickAction: string, action: TAction) {
 
-    if (!exists) {
-      console.log('ActionHandler actionIsValid: ActionExists(false)');
+    // Check if the click action exists
+    const clickActionExists = !clickAction in _ClickActionHandlers;
+
+    if (clickActionExists) {
+      console.error('ActionHandler clickActionIsValid: ActionExists(false)');
       return false;
     }
 
-    // The action exists
-    const actionIsValid = _FeedItems[action].actionIsValid(feed);
+    // The action exists, check if valid
+    const clickActionIsValid = _ClickActionHandlers[clickAction]
+        .isValid(action);
 
-    if (!actionIsValid) {
-      console.log('ActionHandler actionIsValid: ActionExists(true), ActionValid(false)');
+    if (!clickActionIsValid) {
+      console.error('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
       return false;
     }
 
-    console.log('ActionHandler actionIsValid: ActionExists(true), ActionValid(true)');
+    console.log('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(true)');
     return true;
   }
 
 
 
-  mapActionToIcon(action: string) {
-    return _FeedItems[action].icon;
+  mapActionToIcon(actionName: string) {
+    return _ClickActionHandlers[actionName].icon;
   }
 
-  handleFeedAction(action: string, feed, navigator) {
-    return _FeedItems[action].action(navigator, feed);
+  handleAction(clickAction: string, action: TAction, navigator: TNavigator, dispatch: ?Function) {
+    return _ClickActionHandlers[clickAction].action(action, navigator, dispatch);
   }
 
 }

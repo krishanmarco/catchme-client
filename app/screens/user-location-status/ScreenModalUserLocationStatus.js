@@ -4,7 +4,8 @@ import React from 'react';
 import {
   poolConnect,
   FORM_API_ID_EDIT_USER_LOCATION_STATUS,
-  CACHE_MAP_ID_LOCATION_PROFILES
+  CACHE_MAP_ID_LOCATION_PROFILES,
+  CACHE_ID_USER_LOCATION_STATUS
 } from '../../redux/ReduxPool';
 
 import ApiClient from '../../lib/data/ApiClient';
@@ -23,8 +24,9 @@ import type {TNavigator} from "../../lib/types/Types";
 type Props = {
   navigator: TNavigator,
   locationId: number,
+  initialStatus?: TUserLocationStatus,
   onStatusConfirm?: (TUserLocationStatus) => {},
-  initialStatus?: TUserLocationStatus
+  postOnConfirm?: boolean
 };
 
 export type TModalUserLocationStatusProps = Props;
@@ -38,6 +40,10 @@ type State = {
 // ModalUserLocationStatus ******************************************************************************
 
 class ScreenModalUserLocationStatusPresentational extends React.Component<any, Props, State> {
+
+  static defaultProps = {
+    postOnConfirm: true
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -54,8 +60,30 @@ class ScreenModalUserLocationStatusPresentational extends React.Component<any, P
         });
 
     // Bind the initialStatus to the redux form status
-    this._formApiEditUserLocationStatus()
-        .change(this.props.initialStatus || DaoUserLocationStatus.createInitialStatus(this.props.locationId));
+    this._formApiEditUserLocationStatus().change(this._getInitialStatus());
+  }
+
+  _getInitialStatus() {
+
+    // If initialStatus props are set use
+    // those as the initial status
+    if (this.props.initialStatus)
+      return this.props.initialStatus;
+
+
+    // Redux pool fallback from initialStatus
+    const userLocationStatusList = this._cacheUserLocationStatusData();
+    if (userLocationStatusList) {
+      const uls = userLocationStatusList
+          .find(uls => DaoUserLocationStatus.gLocationId(uls) == this.props.locationId);
+
+      if (uls)
+        return uls;
+    }
+
+
+    // Create new initialStatus fallback from redux pool
+    return DaoUserLocationStatus.createInitialStatus(this.props.locationId);
   }
 
 
@@ -71,6 +99,10 @@ class ScreenModalUserLocationStatusPresentational extends React.Component<any, P
     return this.props[CACHE_MAP_ID_LOCATION_PROFILES];
   }
 
+  _cacheUserLocationStatusData(): ?TUserLocationStatus {
+    return this.props[CACHE_ID_USER_LOCATION_STATUS].data;
+  }
+
   _locationProfile() {
     return this._cacheMapLocationProfiles().get(this.props.locationId);
   }
@@ -78,13 +110,17 @@ class ScreenModalUserLocationStatusPresentational extends React.Component<any, P
   _onStatusConfirm() {
     const newStatus = this._formApiEditUserLocationStatusInput();
 
-    // Update the user location status
-    ApiClient.userStatusAdd(newStatus)
-        .then(success => {
-          // Notify the parent component that the status has changed
-          if (this.props.onStatusConfirm)
-            this.props.onStatusConfirm(newStatus);
-        });
+    if (this.props.postOnConfirm) {
+      this._formApiEditUserLocationStatus().post()
+          .then(success => {
+
+            // Notify the parent component that the status has changed
+            if (this.props.onStatusConfirm)
+              this.props.onStatusConfirm(newStatus);
+          });
+    }
+
+    this.props.navigator.dismissModal({animationType: 'slide-down'});
   }
 
   _onStatusChange(objectToMerge) {
@@ -123,7 +159,7 @@ const ScreenModalUserLocationStatus = poolConnect(
     (dispatch) => ({}),
 
     // Array of pools to subscribe to
-    [FORM_API_ID_EDIT_USER_LOCATION_STATUS, CACHE_MAP_ID_LOCATION_PROFILES]
+    [FORM_API_ID_EDIT_USER_LOCATION_STATUS, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_LOCATION_STATUS]
 );
 export default ScreenModalUserLocationStatus;
 

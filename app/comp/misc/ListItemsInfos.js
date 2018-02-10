@@ -10,12 +10,12 @@ import type {TDataPoint} from "../../lib/types/Types";
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
-type Props = {
+type Props = TDataPoint & {
   subTitle?: string,
   onPress?: Function,
   itemRight?: Node,
   textRkType?: string,
-} & TDataPoint;
+};
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
