@@ -6,6 +6,7 @@ import DaoLocation from "./DaoLocation";
 import Maps from "../data/Maps";
 import type {TLocation} from "./DaoLocation";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
+import {mapIdsToObjects} from "../HelperFunctions";
 
 
 export type TUser = {
@@ -43,9 +44,6 @@ export type TUserLocations = {
   top: Array<number>,                               // [1, 2, 3, 4, ...]            Where the user has been most, ordered
   userLocationStatuses: Array<TUserLocationStatus>, // [{...TUserLocationStatus}]   All UserLocationStatuses not necessarily ordered
   locations: Array<TLocation>                       // [{...TLocation}, ...]        All locations which have a corresponding id in object
-  // past: Array<TLocation>,                        // [1, 2, 3, 4, ...]            Where the user has been
-  // now: Array<TLocation>,                         // [1, 2, 3, 4, ...]            Where the user is now
-  // future: Array<TLocation>                       // [1, 2, 3, 4, ...]            Where the user will be later
 };
 
 export type TUserLocationIds = {
@@ -74,20 +72,15 @@ export default class DaoUser {
   static pConnectionFriends = `${DaoUser.pConnections}.friends`;
   static pConnectionRequests = `${DaoUser.pConnections}.requests`;
   static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
-  static pLocationsFavorite = `${DaoUser.pLocations}.favorites`;
+  static pLocationsFavorites = `${DaoUser.pLocations}.favorites`;
   static pLocationsTop = `${DaoUser.pLocations}.top`;
   static pLocationsUserLocationStatuses = `${DaoUser.pLocations}.userLocationStatuses`;
   static pLocationsLocations = `${DaoUser.pLocations}.locations`;
-  // static pLocationsPast = `${DaoUser.pLocations}.past`;
-  // static pLocationsNow = `${DaoUser.pLocations}.now`;
-  // static pLocationsFuture = `${DaoUser.pLocations}.future`;
   static _pConnectionIds = '_connectionIds';
-  static _pLocationIds = '_locationIds';
   static _pConnectionFriendIds = `${DaoUser._pConnectionIds}.friends`;
   static _pConnectionRequestIds = `${DaoUser._pConnectionIds}.requests`;
   static _pConnectionBlockedIds = `${DaoUser._pConnectionIds}.blocked`;
-  static _pLocationFavoriteIds = `${DaoUser._pLocationIds}.favorites`;
-  
+
   
   static shallowCopy(user: TUser): TUser {
     const newUser = {};
@@ -105,21 +98,20 @@ export default class DaoUser {
     _.set(newUser, DaoUser.pConnectionFriends, DaoUser.gConnectionsFriends(user));
     _.set(newUser, DaoUser.pConnectionRequests, DaoUser.gConnectionsRequests(user));
     _.set(newUser, DaoUser.pConnectionBlocked, DaoUser.gConnectionsBlocked(user));
-    _.set(newUser, DaoUser.pLocationsFavorite, DaoUser.gLocationsFavorite(user));
-    _.set(newUser, DaoUser.pLocationsTop, DaoUser.gLocationsTop(user));
+    _.set(newUser, DaoUser.pLocationsFavorites, DaoUser.gLocationsFavoriteIds(user));
+    _.set(newUser, DaoUser.pLocationsTop, DaoUser.gLocationsTopIds(user));
     _.set(newUser, DaoUser.pLocationsUserLocationStatuses, DaoUser.gLocationsUserLocationStatuses(user));
     _.set(newUser, DaoUser.pLocationsLocations, DaoUser.gLocationsLocations(user));
-    // _.set(newUser, DaoUser.pLocationsPast, DaoUser.gLocationsPast(user));
-    // _.set(newUser, DaoUser.pLocationsNow, DaoUser.gLocationsNow(user));
-    // _.set(newUser, DaoUser.pLocationsFuture, DaoUser.gLocationsFuture(user));
 
     // Private fields (_) will have to be recalculated...
     return newUser;
   }
-  
-  
-  
 
+
+
+
+// Accessors ********************************************************************************************
+// Accessors ********************************************************************************************
 
   static gId(user: TUser) {
     return _.get(user, DaoUser.pId);
@@ -189,11 +181,11 @@ export default class DaoUser {
     return _.get(user, DaoUser.pConnectionBlocked, []);
   }
 
-  static gLocationsFavorite(user: TUser) {
-    return _.get(user, DaoUser.pLocationsFavorite, []);
+  static gLocationsFavoriteIds(user: TUser) {
+    return _.get(user, DaoUser.pLocationsFavorites, []);
   }
 
-  static gLocationsTop(user: TUser) {
+  static gLocationsTopIds(user: TUser) {
     return _.get(user, DaoUser.pLocationsTop, []);
   }
 
@@ -206,6 +198,9 @@ export default class DaoUser {
   }
 
 
+
+// CacheAccessors ***************************************************************************************
+// CacheAccessors ***************************************************************************************
 
   static gConnectionFriendIds(user: TUser) {
     return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
@@ -225,26 +220,26 @@ export default class DaoUser {
     );
   }
 
-  static gLocationFavoriteIds(user: TUser) {
-    return ObjectCache.get(user, DaoUser._pLocationFavoriteIds,
-        () => _.get(user, DaoUser.pLocationsFavorite, []).map(DaoLocation.gId)
+
+
+
+// HelperAccessors **************************************************************************************
+// HelperAccessors **************************************************************************************
+
+  static gLocationsFavorites(user: TUser) {
+    return mapIdsToObjects(
+        DaoUser.gLocationsFavoriteIds(user),
+        DaoUser.gLocationsLocations(user),
+        DaoLocation.gId
     );
   }
 
-
-  static addLocationToFavorites(user: TUser, location: TLocation) {
-    const favoriteLocations = DaoUser.gLocationsFavorite(user);
-    favoriteLocations.push(location);
-    user[DaoUser.pLocationsFavorite] = favoriteLocations;
-    ObjectCache.invalidate(user, DaoUser._pLocationFavoriteIds);
-  }
-
-  static removeLocationFromFavorites(user: TUser, location: TLocation) {
-    const favoriteLocations = DaoUser.gLocationsFavorite(user);
-    const locationId = DaoLocation.gId(location);
-    _.remove(favoriteLocations, (loc) => DaoLocation.gId(loc) == locationId);
-    user[DaoUser.pLocationsFavorite] = favoriteLocations;
-    ObjectCache.invalidate(user, DaoUser._pLocationFavoriteIds);
+  static gLocationsTop(user: TUser) {
+    return mapIdsToObjects(
+        DaoUser.gLocationsTopIds(user),
+        DaoUser.gLocationsLocations(user),
+        DaoLocation.gId
+    );
   }
 
 
@@ -265,6 +260,46 @@ export default class DaoUser {
     return DaoUser.pLocations in user;
   }
 
+
+// HelperAccessors **************************************************************************************
+// HelperAccessors **************************************************************************************
+
+  static addLocationToFavorites(user: TUser, location: TLocation) {
+    const locationId = DaoLocation.gId(location);
+
+    // Get all the location ids
+    let favoriteLocationIds = DaoUser.gLocationsFavoriteIds(user);
+
+    // If this is already a favorite location don't do anything
+    if (favoriteLocationIds.includes(locationId))
+      return;
+
+    // This location needs to be added to the favorite location list
+    favoriteLocationIds.push(locationId);
+
+    // Set the new list into the user.locations object
+    user[DaoUser.pLocationsFavorites] = favoriteLocationIds;
+
+
+    // Get the list of locations associated to the user.locations object
+    const locations = DaoUser.gLocationsLocations(user);
+
+    const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
+    if (locationAlreadyIncluded)
+      return;
+
+    // The location needs to be added to the accumulated locations
+    locations.push(location);
+
+    // Set the new list into the user.locations object
+    user[DaoUser.pLocationsLocations] = locations;
+  }
+
+  static removeLocationFromFavorites(user: TUser, location: TLocation) {
+    const favoriteLocations = DaoUser.gLocationsFavoriteIds(user);
+    _.remove(favoriteLocations, DaoLocation.gId(location));
+    user[DaoUser.pLocationsFavorites] = favoriteLocations;
+  }
 
 
 }

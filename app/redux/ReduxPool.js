@@ -144,7 +144,7 @@ class ReduxPoolApiForms {
     // each field of this form object
     this.apiInput = apiInput;
 
-    // String|null when the form is validated
+    // ?String when the form is validated
     // this string should be set (see FormHandlerApi)
     this.validationError = null;
 
@@ -167,7 +167,7 @@ class ReduxPoolLocalForms {
     // each field of this form object
     this.input = input;
 
-    // String|null when the form is validated
+    // ?String when the form is validated
     // this string should be set (see FormHandlerApi)
     this.validationError = null;
 

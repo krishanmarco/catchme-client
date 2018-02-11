@@ -57,19 +57,20 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
 
     // Calculate the top, past, now, later fields with only one iteration of locations
 
-    // Initialize the raw state
-    state.top = DaoUser.gLocationsTop(user);      // Array of ids
+    // Initialize the raw stategLocationId
+    state.top = DaoUser.gLocationsTopIds(user);   // Array of ids
     state.past = [];                              // Array of TUserLocationStatus
     state.now = [];                               // Array of TUserLocationStatus
     state.future = [];                            // Array of TUserLocationStatus
 
 
     // Iterate the UserLocationStatuses and populate past, now, later accordingly
-    const uls = DaoUser.gLocationsUserLocationStatuses(user);
-    for (let i = 0; i < uls.length; i++) {
-      const now = moment();
-      const from = DaoUserLocationStatus.gFromTs(uls[i]);
-      const until = DaoUserLocationStatus.gUntilTs(uls[i]);
+    const userLocationStatuses = DaoUser.gLocationsUserLocationStatuses(user);
+    const now = moment();
+    for (let i = 0; i < userLocationStatuses.length; i++) {
+      const uls = userLocationStatuses[i];
+      const from = moment(DaoUserLocationStatus.gFromTs(uls) * 1000);
+      const until = moment(DaoUserLocationStatus.gUntilTs(uls) * 1000);
 
       if (now.isBefore(from))
         state.future.push(uls);
@@ -79,11 +80,10 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
         state.past.push(uls);
     }
 
-
     // Iterate the Locations and map the ids from state.top, state.past
     // state.now, state.future to TLocation Objects
     const locations = DaoUser.gLocationsLocations(user);
-    for (let i = 0; locations.length; i++) {
+    for (let i = 0; i < locations.length; i++) {
       const location = locations[i];
       const locationId = DaoLocation.gId(location);
 
@@ -156,10 +156,8 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
       );
     }
 
-
     if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(location)))
       return <ListItemLocationFollow {...listItemProps}/>;
-
 
     return <ListItemLocation {...listItemProps}/>;
   }

@@ -273,7 +273,7 @@ class SearchPresentational extends React.Component {
     return (
         <LocationList
             locations={list}
-            favoriteIds={DaoUser.gLocationFavoriteIds(userProfile)}
+            favoriteIds={DaoUser.gLocationsFavoriteIds(userProfile)}
 
             onItemPress={this._onLocationPress}
             onSearchPressed={this.props.searchLocations}

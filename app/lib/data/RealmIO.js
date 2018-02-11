@@ -47,7 +47,7 @@ class RealmIO {
     return true;
   }
 
-  getLocalUserData(): TUser|null {
+  getLocalUserData(): ?TUser {
     // realm.objects returns an array but the
     // LocalUser table will only have one entry
     const dbUser = _.get(realm.objects('LocalUser'), '[0].user');
@@ -94,18 +94,27 @@ class RealmIO {
 
 
   _normalizeUserFromDb(dbUser, maxDepth = 1, currentDepth = 0) {
-    const editableUser = {...dbUser};
-    console.log(editableUser);
-    _.set(editableUser, DaoUser.pLocationsFavorite, JSON.parse(_.get(dbUser, `${DaoUser.pLocationsFavorite}.value`)));
+    const editableUser = {
+      ...dbUser,
 
-    _.set(editableUser, DaoUser.pLocationsTop, JSON.parse(_.get(dbUser, `${DaoUser.pLocationsTop}.value`)));
+      // If realm objects are nested they have to be duplicated to prevent write errors
+      [DaoUser.pLocations]: {..._.get(dbUser, DaoUser.pLocations, {})}
+    };
+
+    _.set(editableUser, DaoUser.pLocationsFavorites,
+        JSON.parse(_.get(editableUser, `${DaoUser.pLocationsFavorites}.value`)));
+
+    _.set(editableUser, DaoUser.pLocationsTop,
+        JSON.parse(_.get(editableUser, `${DaoUser.pLocationsTop}.value`)));
+
+
+    const recurse = currentDepth < maxDepth; ///todo : the currentDepth + 1 seems wrong...
+    const nlfdb = (l: TLocation) => this._normalizeLocationFromDb(l, maxDepth, currentDepth + 1);
+    const nufdb = (u: TUser) => this._normalizeUserFromDb(u, maxDepth, currentDepth + 1);
+    const nulsfdb = (lus: TUserLocationStatus) => this._normalizeUserLocationStatusFromDb(lus, maxDepth, currentDepth + 1);
+
 
     const user = DaoUser.shallowCopy(editableUser);
-
-    const recurse = currentDepth < maxDepth; ///todo : the currentDepth++ seems wrong...
-    const nlfdb = (location: TLocation) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
-    const nufdb = (user: TUser) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
-    const nulsfdb = (userLocationStatus: TUserLocationStatus) => this._normalizeUserLocationStatusFromDb(userLocationStatus, maxDepth, currentDepth++);
 
     _.set(user, DaoUser.pAdminLocations,
         (recurse ? Object.values(DaoUser.gAdminLocations(user)) : []).map(nlfdb));
@@ -128,11 +137,11 @@ class RealmIO {
     return user;
   }
 
-  _prepareApiUserForDb(user: TUser) {
+  _prepareApiUserForDb(user: TUser) { // todo: replace _.get() with Dao accessor
 
-    _.set(user, DaoUser.pLocationsFavorite, {value: JSON.stringify(_.get(user, DaoUser.pLocationsFavorite, {}))});
+    _.set(user, DaoUser.pLocationsFavorites, {value: JSON.stringify(_.get(user, DaoUser.pLocationsFavorites, []))});
 
-    _.set(user, DaoUser.pLocationsTop, {value: JSON.stringify(_.get(user, DaoUser.pLocationsTop, {}))});
+    _.set(user, DaoUser.pLocationsTop, {value: JSON.stringify(_.get(user, DaoUser.pLocationsTop, []))});
 
     _.set(user, DaoUser.pLocationsUserLocationStatuses,
         _.get(user, DaoUser.pLocationsUserLocationStatuses, []).map(this._prepareApiUserLocationStatusForDb));
@@ -168,11 +177,11 @@ class RealmIO {
     _.set(editableLocation, DaoLocation.pAddress, JSON.parse(_.get(dbLocation, `${DaoLocation.pAddress}.value`)));
 
 
-    const location = DaoLocation.shallowCopy(editableLocation);
-
     const recurse = currentDepth < maxDepth;
-    const nlfdb = (location: TLocation) => this._normalizeLocationFromDb(location, maxDepth, currentDepth++);
-    const nufdb = (user: TUser) => this._normalizeUserFromDb(user, maxDepth, currentDepth++);
+    const nlfdb = (l: TLocation) => this._normalizeLocationFromDb(l, maxDepth, currentDepth + 1);
+    const nufdb = (u: TUser) => this._normalizeUserFromDb(u, maxDepth, currentDepth + 1);
+
+    const location = DaoLocation.shallowCopy(editableLocation);
 
     _.set(location, DaoLocation.pConnectionsNow,
         (recurse ? Object.values(DaoLocation.gFriendsNow(location)) : []).map(nufdb));
@@ -229,7 +238,6 @@ class RealmIO {
     }
 
   }
-
 
 }
 

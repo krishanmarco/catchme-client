@@ -146,7 +146,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
     let userProfile = this._userProfile();
 
     return (
-        <Grid style={[Styles.tabRootHome]}>
+        <Grid style={[styles.tabRootHome]}>
           <Row size={-1}>
             <Image
                 style={{width: '100%', height: 200}}
@@ -154,11 +154,11 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
                 source={{uri: DaoUser.gPictureUrl(userProfile)}} />
           </Row>
 
-          <Row size={-1} style={[Styles.publicMessage]}>
+          <Row size={-1} style={[styles.publicMessage]}>
             <RkText rkType='primary1 hint'>{DaoUser.gPublicMessage(userProfile)}</RkText>
           </Row>
 
-          <Row size={-1} style={[Styles.badges]}>
+          <Row size={-1} style={[styles.badges]}>
             {[
               Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
               Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
@@ -175,7 +175,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
 
   _renderTabLocations() {
     return (
-        <View style={[Styles.tabRootLocations]}>
+        <View style={[styles.tabRootLocations]}>
           <UserLocationsStatusList
               allowEdit={this._isSameUser()}
               userProfile={this._userProfile()}
@@ -189,7 +189,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <View style={[Styles.tabRootFriends]}>
+        <View style={[styles.tabRootFriends]}>
           <UserList
               users={DaoUser.gConnectionsFriends(userProfile)}
               friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
@@ -200,7 +200,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
 
   _renderTabInfo() {
     return (
-        <View style={[Styles.tabRootInfo]}>
+        <View style={[styles.tabRootInfo]}>
           <StaticSectionList
               sections={this.state.userInfoSections}
               renderItem={this._renderTabUserInfoItem}/>
@@ -241,7 +241,7 @@ export default UserProfile;
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   tabRootHome: {
     flex: 1,
     alignItems: 'center'

@@ -60,7 +60,7 @@ class ScreenLocationProfilePresentational extends React.Component<any, Props, St
   _initializeNavigatorButtons() {
     const rightButtons = [];
 
-    const favoriteIds = DaoUser.gLocationFavoriteIds(this._authenticatedUserProfile());
+    const favoriteIds = DaoUser.gLocationsFavoriteIds(this._authenticatedUserProfile());
     if (!favoriteIds.includes(DaoLocation.gId(this._locationProfile())))
       rightButtons.push(ScreenLocationProfilePresentational.NAV_BUTTON_FOLLOW_LOCATION);
 

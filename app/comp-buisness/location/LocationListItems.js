@@ -135,13 +135,13 @@ export class ListItemUserLocationStatus extends React.Component<any, ListItemUse
             onPress={onPress}
             content={this._renderContent()}
             actions={[{
-              icon: Icons.locationFollow,
+              icon: Icons.statusEdit,
+              color: Colors.neutralOrange,
+              onPress: this._onPressLocationStatusEdit
+            }, {
+              icon: Icons.statusDelete,
               color: Colors.alertRed,
               onPress: this._onPressLocationStatusDelete
-            }, {
-              icon: Icons.locationFollow,
-              color: Colors.primary,
-              onPress: this._onPressLocationStatusEdit
             }]}/>
     );
   }

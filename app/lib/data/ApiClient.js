@@ -169,11 +169,12 @@ class ApiClient {
 
   _onReceiveAuthenticatedUserProfile(userProfileJson) {
     return Promise.resolve(userProfileJson)
-        .then(json => JSON.parse(json))
-        .then(userData => {
-          RealmIO.setLocalUser(userData);
-          ApiAuthentication.update(DaoUser.gId(userData), DaoUser.gApiKey(userData))
-          return userData;
+        .then(userDataJSON => {
+          const instanceForDb = JSON.parse(userDataJSON);
+          const instanceForReturn = JSON.parse(userDataJSON);
+          RealmIO.setLocalUser(instanceForDb);
+          ApiAuthentication.update(DaoUser.gId(instanceForReturn), DaoUser.gApiKey(instanceForReturn));
+          return instanceForReturn;// todo: return RealmIO.getLocalUserData();
         });
   }
 

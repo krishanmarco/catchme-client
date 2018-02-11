@@ -164,12 +164,6 @@ export function arrayRemove(elements, index) {
 }
 
 
-export function timeToDate(intTimestamp) {
-  const moment = require('moment');
-  const date = moment(intTimestamp);
-  return date.format("MMMM Do YYYY, h:mm:ss a");
-}
-
 
 export function strtr(string, replacePairs) {
   let str = string, key, re;
@@ -186,4 +180,20 @@ export function strtr(string, replacePairs) {
 export function isFunction(functionToCheck) {
   let getType = {};
   return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
+
+export function mapIdsToObjects(idList, objectList, getIdFromObject) {
+  const result = [];
+
+  for (let i = 0; i < objectList.length; i++) {
+    const object = objectList[i];
+    const objectId = getIdFromObject(object);
+
+    const indexOf = idList.indexOf(objectId);
+    if (indexOf !== -1)
+      result[indexOf] = object;
+  }
+
+  return result;
 }

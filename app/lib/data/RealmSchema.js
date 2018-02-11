@@ -112,7 +112,7 @@ class UserLocationStatus {
   static schema = {
     name: 'UserLocationStatus',
     properties: {
-      timingId:       {type: 'int'                                                                                 },
+      id:             {type: 'int'                                                                                 },
       locationId:     {type: 'int'                                                                                 },
       fromTs:         {type: 'int'                                                                                 },
       untilTs:        {type: 'int'                                                                                 },
