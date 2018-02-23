@@ -45,16 +45,14 @@ export default function run(authenticatedUser: TUser) {
   ApiAuthentication.update(DaoUser.gId(authenticatedUser), DaoUser.gApiKey(authenticatedUser));
 
 
-  ApiClient.userFirebaseJwt()
-      .then(jwt => {
+  ApiClient.userFirebaseJwt().
+      then(jwt => {
         console.log(`AppAuthenticated _: Received firebase jwt ${jwt}`);
-        return firebase.auth().signInWithCustomToken(jwt)
-      })
-      .catch(exception => {
+        return firebase.auth().signInWithCustomToken(jwt);
+      }).
+      catch(exception => {
         console.log("AppAuthenticated _: Failed to login to firebase: ", exception);
       });
-
-
 
 
   const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk, promiseMiddleware()));
@@ -83,8 +81,6 @@ export default function run(authenticatedUser: TUser) {
     {name: Const.NavigationComponents.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
 
   ].map(route => Navigation.registerComponent(route.name, route.getComponent, store, Provider));
-
-
 
 
   Navigation.startTabBasedApp({

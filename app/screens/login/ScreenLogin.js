@@ -24,7 +24,7 @@ import ApiClient from '../../lib/data/ApiClient';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
 import type {TUser} from "../../lib/daos/DaoUser";
-
+import Logger from "../../lib/Logger";
 
 
 // PresentationalComponent ******************************************************************************
@@ -45,8 +45,8 @@ class ScreenLoginPresentational extends React.Component {
     this._onGoToRecoverPasswordPress = this._onGoToRecoverPasswordPress.bind(this);
   }
 
-  _handleSignInError(error = undefined) {
-    console.log("_handleSignInError!: ", error);
+  _handleSignInError(error = null) {
+    Logger.e("_handleSignInError!: ", error);
     // todo
   }
 
@@ -66,22 +66,22 @@ class ScreenLoginPresentational extends React.Component {
   }
 
   _onLoginPress() {
-    this._getFormApiLogin().post()
-        .then(this._handleSignInSuccess);
+    this._getFormApiLogin().post().
+        then(this._handleSignInSuccess);
   }
 
   _onFacebookLogin() {
-    SignInFacebook.signInAndGetAccessToken()
-        .then(accessToken => ApiClient.accountsLoginFacebook(accessToken))
-        .then(this._handleSignInSuccess)
-        .catch(this._handleSignInError);
+    SignInFacebook.signInAndGetAccessToken().
+        then(accessToken => ApiClient.accountsLoginFacebook(accessToken)).
+        then(this._handleSignInSuccess).
+        catch(this._handleSignInError);
   }
 
   _onGoogleLogin() {
-    SignInGoogle.signInAndGetAccessToken()
-        .then(accessToken => ApiClient.accountsLoginGoogle(accessToken))
-        .then(this._handleSignInSuccess)
-        .catch(this._handleSignInError);
+    SignInGoogle.signInAndGetAccessToken().
+        then(accessToken => ApiClient.accountsLoginGoogle(accessToken)).
+        then(this._handleSignInSuccess).
+        catch(this._handleSignInError);
   }
 
   _onGoToSignupPress() {
@@ -91,8 +91,6 @@ class ScreenLoginPresentational extends React.Component {
   _onGoToRecoverPasswordPress() {
     Router.toRecoverPassword(this.props.navigator);
   }
-
-
 
 
   render() {
@@ -149,8 +147,6 @@ class ScreenLoginPresentational extends React.Component {
   }
 
 
-
-
   _renderSocialIcon({icon, onPress}, key) {
     return (
         <RkButton key={key} style={Styles.button} rkType='social' onPress={onPress}>
@@ -158,8 +154,6 @@ class ScreenLoginPresentational extends React.Component {
         </RkButton>
     );
   }
-
-
 
 
   _renderImage() {
@@ -177,8 +171,6 @@ class ScreenLoginPresentational extends React.Component {
 
 
 }
-
-
 
 
 // ContainerComponent ***********************************************************************************
@@ -203,8 +195,6 @@ export default ScreenLogin;
 ScreenLogin.propTypes = {
   navigator: PropTypes.object.isRequired,
 };
-
-
 
 
 // Style ************************************************************************************************

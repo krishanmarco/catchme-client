@@ -19,7 +19,6 @@ class Context {
   }
 
 
-
 }
 
 const context = new Context();

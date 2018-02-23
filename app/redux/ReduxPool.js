@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 import ApiClient from '../lib/data/ApiClient';
 import DataProvider from '../lib/data/DataProvider';
 import DaoUser from "../lib/daos/DaoUser";
@@ -11,8 +11,7 @@ import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
 import {Const} from "../Config";
 import DaoUserLocationStatus from "../lib/daos/DaoUserLocationStatus";
 import {FirebaseData} from "../lib/data/Firebase";
-
-
+import Logger from "../lib/Logger";
 
 
 // Top Level Ids ******************************************************************************************************
@@ -84,7 +83,6 @@ export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROF
 // ReduxPoolFirebaseData Ids
 export const FIREBASE_DATA_ID_FEED = 'firebaseDataIdFeed';
 export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
-
 
 
 // ObjectWrappers *****************************************************************************************************
@@ -262,8 +260,6 @@ function poolIterator(poolDeclaration, poolIds, apply) {
 }
 
 
-
-
 // ReduxPool Top Level Builders ***************************************************************************************
 // ReduxPool Top Level Builders ***************************************************************************************
 
@@ -302,7 +298,7 @@ const ReduxPoolBuilder = {
 
         invalidate: () => dispatch({
           poolType: POOL_TYPE_CACHE,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_CACHE_INVALIDATE_DATA
         }),
 
@@ -318,7 +314,7 @@ const ReduxPoolBuilder = {
           let reduxPoolCache = getState().reduxPoolReducer[POOL_TYPE_CACHE][poolId];
 
           if (reduxPoolCache.loadingPromise != null) {
-            console.log(`ReduxPool initialize: Requested ${poolId} initialization but already loading.`);
+            Logger.v(`ReduxPool initialize: Requested ${poolId} initialization but already loading.`);
             return reduxPoolCache.loadingPromise;
           }
 
@@ -328,13 +324,13 @@ const ReduxPoolBuilder = {
 
 
           // Run request or data builder
-          const loadingPromise = pool.buildDataSet(dispatch, extraParams)
-              .then(buildResultData => {
+          const loadingPromise = pool.buildDataSet(dispatch, extraParams).
+              then(buildResultData => {
 
                 // Save the result data into the pool
                 dispatch({
                   poolType: POOL_TYPE_CACHE,
-                  poolId: poolId,
+                  poolId,
                   type: POOL_ACTION_CACHE_SET_DATA,
                   data: buildResultData
                 });
@@ -343,7 +339,7 @@ const ReduxPoolBuilder = {
                 return buildResultData;
 
               }).catch(apiExceptionResponse => {
-                console.log("ReduxPool POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
+                Logger.v("ReduxPool POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
 
                 /* todo: remove comment after development
                 dispatch({
@@ -364,10 +360,10 @@ const ReduxPoolBuilder = {
           // that one has already been sent out
           return dispatch({
             poolType: POOL_TYPE_CACHE,
-            poolId: poolId,
+            poolId,
             type: POOL_ACTION_CACHE_INIT_DATA,
             payload: loadingPromise,
-            loadingPromise: loadingPromise
+            loadingPromise
           }).then(({value}) => value);
 
 
@@ -391,29 +387,25 @@ const ReduxPoolBuilder = {
   },
 
 
-
-
   [POOL_TYPE_CACHE_MAP]: {
 
     poolActions: {
-      [POOL_ACTION_CACHE_MAP_INIT_DATA]: (action, state) => (
+      [POOL_ACTION_CACHE_MAP_INIT_DATA]: (action, state) =>
           Object.assign(state.data, {
             [action.itemId]: Object.assign(new ReduxPoolCache(action.itemId), {
               data: null,
               loading: true,
               loadingPromise: action.loadingPromise
             })
-          })
-      ),
-      [POOL_ACTION_CACHE_MAP_SET_DATA]: (action, state) => (
+          }),
+      [POOL_ACTION_CACHE_MAP_SET_DATA]: (action, state) =>
           Object.assign(state.data, {
             [action.itemId]: Object.assign(new ReduxPoolCache(action.itemId), {
               data: action.data,
               loading: false,
               loadingPromise: null
             })
-          })
-      ),
+          }),
       [POOL_ACTION_CACHE_MAP_INVALIDATE_DATA]: (action, state) => {
         delete state.data[action.itemId];
         return state;
@@ -446,14 +438,14 @@ const ReduxPoolBuilder = {
 
         invalidateItem: (itemId) => dispatch({
           poolType: POOL_TYPE_CACHE_MAP,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
-          itemId: itemId
+          itemId
         }),
 
         invalidateAll: () => dispatch({
           poolType: POOL_TYPE_CACHE_MAP,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA
         }),
 
@@ -486,29 +478,29 @@ const ReduxPoolBuilder = {
 
 
           // Run request or data builder
-          const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
-              .then(buildResultData => {
+          const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams).
+              then(buildResultData => {
 
                 // Save the result data into the pool
                 dispatch({
                   poolType: POOL_TYPE_CACHE_MAP,
-                  poolId: poolId,
+                  poolId,
                   type: POOL_ACTION_CACHE_MAP_SET_DATA,
-                  itemId: itemId,
+                  itemId,
                   data: buildResultData
                 });
 
                 // Continue the promise chain
                 return buildResultData;
-              })
-              .catch(apiExceptionResponse => {
+              }).
+              catch(apiExceptionResponse => {
                 console.log("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
 
                 dispatch({
                   poolType: POOL_TYPE_CACHE_MAP,
-                  poolId: poolId,
+                  poolId,
                   type: POOL_ACTION_CACHE_MAP_SET_DATA,
-                  itemId: itemId,
+                  itemId,
                   data: null,
                 });
 
@@ -523,11 +515,11 @@ const ReduxPoolBuilder = {
           // that one has already been sent out
           return dispatch({
             poolType: POOL_TYPE_CACHE_MAP,
-            poolId: poolId,
+            poolId,
             type: POOL_ACTION_CACHE_MAP_INIT_DATA,
-            itemId: itemId,
+            itemId,
             payload: loadingPromise,
-            loadingPromise: loadingPromise
+            loadingPromise
           }).then(({value}) => value);
 
         })
@@ -555,8 +547,6 @@ const ReduxPoolBuilder = {
   },
 
 
-
-
   [POOL_TYPE_API_FORMS]: {
 
     poolConnect: {
@@ -570,22 +560,22 @@ const ReduxPoolBuilder = {
 
         change: (apiInput, validationError) => dispatch({
           poolType: POOL_TYPE_API_FORMS,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_API_FORMS_ON_CHANGE,
-          apiInput: apiInput,
-          validationError: validationError
+          apiInput,
+          validationError
         }),
 
         reset: () => dispatch({
           poolType: POOL_TYPE_API_FORMS,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_API_FORMS_ON_RESET,
           newState: pool.initState()
         }),
 
         dismissError: () => dispatch({
           poolType: POOL_TYPE_API_FORMS,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_API_FORMS_ON_ERROR_DISMISS
         }),
 
@@ -594,7 +584,7 @@ const ReduxPoolBuilder = {
           let formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
           dispatch({
             poolType: POOL_TYPE_API_FORMS,
-            poolId: poolId,
+            poolId,
             type: POOL_ACTION_API_FORMS_ON_POST
           });
 
@@ -613,18 +603,17 @@ const ReduxPoolBuilder = {
 
               // Redux state Function
               getState
-          )
+          ).
 
-              .then(apiResponse => {
+              then(apiResponse => {
 
                 // Handle the state change
                 dispatch({
                   poolType: POOL_TYPE_API_FORMS,
-                  poolId: poolId,
+                  poolId,
                   type: POOL_ACTION_API_FORMS_ON_FINISH,
-                  apiResponse: apiResponse
+                  apiResponse
                 });
-
 
 
                 // todo: replace 0 with R::return_ok
@@ -635,9 +624,9 @@ const ReduxPoolBuilder = {
 
                 // Request has completed successfully
                 return apiResponse;
-              })
+              }).
 
-              .catch(apiExceptionResponse => {
+              catch(apiExceptionResponse => {
                 // Note: the api has already handled the exception
                 // here you should only do form specific actions
                 // for example set the button out of its loading state
@@ -645,7 +634,7 @@ const ReduxPoolBuilder = {
                 // Handle the state change
                 dispatch({
                   poolType: POOL_TYPE_API_FORMS,
-                  poolId: poolId,
+                  poolId,
                   type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION
                 });
 
@@ -663,9 +652,8 @@ const ReduxPoolBuilder = {
         apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
         validationError: action.validationError
       }),
-      [POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) => (
-          action.newState
-      ),
+      [POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) =>
+          action.newState,
       [POOL_ACTION_API_FORMS_ON_POST]: (action, subState) => ({
         loading: true,
         apiResponse: null
@@ -719,17 +707,17 @@ const ReduxPoolBuilder = {
           const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
 
           // Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
-          const userProfileActions = poolTypeCache.poolConnect
-              .mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
-          const userProfileFormActions = poolTypeApiForms.poolConnect
-              .mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
+          const userProfileActions = poolTypeCache.poolConnect.
+              mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
+          const userProfileFormActions = poolTypeApiForms.poolConnect.
+              mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
 
 
           // Post and invalidate CACHE_ID_USER_PROFILE
-          return ApiClient.userProfileEdit(i)
-              .then(() => userProfileActions.invalidate())
-              .then(() => userProfileActions.initialize())
-              .then(({value}) => userProfileFormActions.change(value));
+          return ApiClient.userProfileEdit(i).
+              then(() => userProfileActions.invalidate()).
+              then(() => userProfileActions.initialize()).
+              then(({value}) => userProfileFormActions.change(value));
 
         },
         initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
@@ -770,8 +758,6 @@ const ReduxPoolBuilder = {
   },
 
 
-
-
   [POOL_TYPE_LOCAL_FORMS]: {
 
     poolConnect: {
@@ -784,15 +770,15 @@ const ReduxPoolBuilder = {
 
         change: (input, validationError) => dispatch({
           poolType: POOL_TYPE_LOCAL_FORMS,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_LOCAL_FORMS_ON_CHANGE,
-          input: input,
-          validationError: validationError
+          input,
+          validationError
         }),
 
         reset: () => dispatch({
           poolType: POOL_TYPE_LOCAL_FORMS,
-          poolId: poolId,
+          poolId,
           type: POOL_ACTION_LOCAL_FORMS_ON_RESET,
           newState: pool.initState()
         }),
@@ -806,9 +792,9 @@ const ReduxPoolBuilder = {
         input: mergeWithoutExtend(subState.input, action.input),
         validationError: action.validationError
       }),
-      [POOL_ACTION_LOCAL_FORMS_ON_RESET]: (action, subState) => (
+      [POOL_ACTION_LOCAL_FORMS_ON_RESET]: (action, subState) =>
           action.newState
-      )
+
     },
 
     pools: {
@@ -821,8 +807,6 @@ const ReduxPoolBuilder = {
        },*/
     },
   },
-
-
 
 
   [POOL_TYPE_FIREBASE_DATA]: {
@@ -861,16 +845,16 @@ const ReduxPoolBuilder = {
           stateObjIdsArr = _.chunk(stateObjIdsArr, 7);
 
           const _getObjectByFirebaseId = (firebaseObjId) => {
-            return pool.getObjectByFirebaseId(firebaseObjId)
-                .once('value')
-                .then(f => f.val());
+            return pool.getObjectByFirebaseId(firebaseObjId).
+                once('value').
+                then(f => f.val());
           };
 
 
           stateObjIdsArr.forEach(chunkOfObjects => {
 
-            Promise.all(chunkOfObjects.map(_getObjectByFirebaseId))
-                .then(objArr => {
+            Promise.all(chunkOfObjects.map(_getObjectByFirebaseId)).
+                then(objArr => {
                   // Get the current state
                   const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
 
@@ -879,7 +863,7 @@ const ReduxPoolBuilder = {
 
                   dispatch({
                     poolType: POOL_TYPE_FIREBASE_DATA,
-                    poolId: poolId,
+                    poolId,
                     type: POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
                     data: mappedData.reverse().concat(reduxFirebasePool.data)
                   });
@@ -896,16 +880,16 @@ const ReduxPoolBuilder = {
           // Notify of start fetch
           dispatch({
             poolType: POOL_TYPE_FIREBASE_DATA,
-            poolId: poolId,
+            poolId,
             type: POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
           });
 
           // Get the current state
           const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
 
-          pool.getUserObjectIds(userId)
-              .limitToLast(reduxFirebasePool.itemsToLoad)
-              .once('value', (snapshot) => {
+          pool.getUserObjectIds(userId).
+              limitToLast(reduxFirebasePool.itemsToLoad).
+              once('value', (snapshot) => {
                 let firebaseId = snapshot.val();
 
                 if (firebaseId == null) {
@@ -913,7 +897,7 @@ const ReduxPoolBuilder = {
                   // the initialization is complete
                   dispatch({
                     poolType: POOL_TYPE_FIREBASE_DATA,
-                    poolId: poolId,
+                    poolId,
                     type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
                   });
                   return;
@@ -931,17 +915,17 @@ const ReduxPoolBuilder = {
                   // the initialization is complete
                   dispatch({
                     poolType: POOL_TYPE_FIREBASE_DATA,
-                    poolId: poolId,
+                    poolId,
                     type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
                   });
                   return;
                 }
 
                 // Get the _saveReceivedData method from the ReduxPoolBuilder
-                const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-                    .poolConnect
-                    .mergeMapDispatchToProps(poolId, pool, dispatch)
-                    ._saveReceivedData;
+                const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].
+                    poolConnect.
+                    mergeMapDispatchToProps(poolId, pool, dispatch).
+                    _saveReceivedData;
 
                 // New items have come in, reverse and save the list
                 _saveReceivedData(receivedIds);
@@ -959,10 +943,10 @@ const ReduxPoolBuilder = {
 
 
           // Get the _saveReceivedData method from the ReduxPoolBuilder
-          const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-              .poolConnect
-              .mergeMapDispatchToProps(poolId, pool, dispatch)
-              ._getUserObjectIds;
+          const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].
+              poolConnect.
+              mergeMapDispatchToProps(poolId, pool, dispatch).
+              _getUserObjectIds;
 
           // Initialization, run the bulk request
           _getUserObjectIds(userId);
@@ -987,19 +971,19 @@ const ReduxPoolBuilder = {
               return;
 
             // Get the _saveReceivedData method from the ReduxPoolBuilder
-            const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-                .poolConnect
-                .mergeMapDispatchToProps(poolId, pool, dispatch)
-                ._saveReceivedData;
+            const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].
+                poolConnect.
+                mergeMapDispatchToProps(poolId, pool, dispatch).
+                _saveReceivedData;
 
             _saveReceivedData([snapshot.key]);
           });
 
           // Get the _saveReceivedData method from the ReduxPoolBuilder
-          const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-              .poolConnect
-              .mergeMapDispatchToProps(poolId, pool, dispatch)
-              ._getUserObjectIds;
+          const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].
+              poolConnect.
+              mergeMapDispatchToProps(poolId, pool, dispatch).
+              _getUserObjectIds;
 
           // Initialization, run the bulk request
           _getUserObjectIds(userId);
@@ -1046,7 +1030,6 @@ const ReduxPoolBuilder = {
 const reduxPoolInitState = build(ReduxPoolBuilder);
 
 
-
 export function reduxPoolReducer(state = reduxPoolInitState, action) {
 
 
@@ -1054,9 +1037,9 @@ export function reduxPoolReducer(state = reduxPoolInitState, action) {
 
     return Object.assign({}, state, {
       [action.poolType]: Object.assign({}, state[action.poolType], {
-        [action.poolId]: Object.assign({}, state[action.poolType][action.poolId], (
+        [action.poolId]: Object.assign({}, state[action.poolType][action.poolId],
             ReduxPoolBuilder[action.poolType].poolActions[action.type](action, state[action.poolType][action.poolId])
-        ))
+        )
       })
     });
 
@@ -1066,8 +1049,6 @@ export function reduxPoolReducer(state = reduxPoolInitState, action) {
   return state;
 
 }
-
-
 
 
 // ReduxPoolSubscribers ***********************************************************************************************
@@ -1107,7 +1088,7 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 
                   // Merge the sub-pool extra props
                   ReduxPoolBuilder[poolType].poolConnect.extraProps(poolId, pool, stateProps[poolId], dispatchProps[poolId])
-              )
+              );
 
             }
         );
@@ -1117,8 +1098,6 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
       }
   )(presentationalComponent);
 }
-
-
 
 
 function subscribeStateToPools(mapStateToProps, poolIds) {
@@ -1160,7 +1139,6 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
     let mapDispatchToPropsResult = mapDispatchToProps(dispatch);
 
 
-
     poolIterator(
         // Pool Builder
         ReduxPoolBuilder,
@@ -1185,9 +1163,8 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
           );
 
 
-
           // Merge the current result with all the indicated pools
-          mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch})
+          mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch});
 
         }
     );
