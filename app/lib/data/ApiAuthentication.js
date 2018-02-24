@@ -6,8 +6,7 @@ import ApiClient from './ApiClient';
 import RSAKey from '../react-native-rsa/rsa';
 import {hex2b64} from '../react-native-rsa/base64';
 import MD5 from 'md5';
-
-
+import Logger from "../Logger";
 
 
 // AUTHORIZATION TOKEN UNENCRYPTED
@@ -45,14 +44,14 @@ class ApiAuthentication {
     if (this.userAuthToken !== null) {
       // userAuthToken is still valid no need
       // to recalculate it so call the callback immediately
-      console.log("ApiAuthentication getUserAuthenticationToken: ApiAuthentication found valid token");
+      Logger.v("ApiAuthentication getUserAuthenticationToken: ApiAuthentication found valid token");
       return Promise.resolve(this.userAuthToken);
     }
 
 
     // No local timestamp,  Request server timestamp
-    return ApiClient.time()
-        .then(serverTimestamp => {
+    return ApiClient.time().
+        then(serverTimestamp => {
           this.userAuthToken = this._createToken(this.userId, this.apiKey, serverTimestamp);
           return this.userAuthToken;
         });
@@ -73,7 +72,7 @@ class ApiAuthentication {
     rsa.setPublic(Const.ApiAuthentication.RSA_N, Const.ApiAuthentication.RSA_E);
 
     let key = MD5(serverTimestamp + apiKey);
-    let json = JSON.stringify({id: userId, key: key});
+    let json = JSON.stringify({id: userId, key});
     let encrypted = rsa.encrypt(json);
 
     return hex2b64(encrypted);

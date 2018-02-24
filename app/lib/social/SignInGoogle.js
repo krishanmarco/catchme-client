@@ -16,35 +16,36 @@ import _ from 'lodash';
 //   accessToken: <needed to access google API from the application>
 // }
 export class SignInGoogle {
-  static GOOGLE_SIGNIN_SCOPE = 'https://www.googleapis.com/auth/userinfo.profile';
-  static pAccessToken = 'accessToken';
-
-
-  static initialize() {
-    GoogleSignin.hasPlayServices({autoResolve: true});
-  }
-
-
-  static gAccessToken(data) {
-    return _.get(data, SignInGoogle.pAccessToken, '');
-  }
-
-  static signInAndGetAccessToken() {
-    return SignInGoogle.signIn()
-        .then(SignInGoogle.gAccessToken);
-  }
-
-
-  static signIn() {
-    // You can only call currentUserAsync() after configure()
-    return GoogleSignin.configure({
-      scopes: [SignInGoogle.GOOGLE_SIGNIN_SCOPE],
-      offlineAccess: true,
-      // webClientId: '744057353512-cg4d582ren9g86uuvgvog80k1pnuij8h.apps.googleusercontent.com',
-      // hostedDomain: 'CATCHME_DOMAIN_FROM_WHERE_THE_ACCESS_TOKEN_IS_PARSED',
-      // iosClientId: '<FROM DEVELOPER CONSOLE> FOR IOS ONLY',
-    }).then(() => GoogleSignin.signIn());
-  }
-
-
+	static GOOGLE_SIGNIN_SCOPE = 'https://www.googleapis.com/auth/userinfo.profile';
+	static pAccessToken = 'accessToken';
+	
+	
+	static initialize() {
+		GoogleSignin.hasPlayServices({autoResolve: true});
+	}
+	
+	
+	static gAccessToken(data) {
+		return _.get(data, SignInGoogle.pAccessToken, '');
+	}
+	
+	static signInAndGetAccessToken() {
+		return SignInGoogle.signIn().then(SignInGoogle.gAccessToken);
+	}
+	
+	
+	static signIn() {
+		// You can only call currentUserAsync() after configure()
+		return GoogleSignin.configure({
+			scopes: [SignInGoogle.GOOGLE_SIGNIN_SCOPE],
+			offlineAccess: true,
+			// webClientId: '744057353512-cg4d582ren9g86uuvgvog80k1pnuij8h.apps.googleusercontent.com',
+			// hostedDomain: 'CATCHME_DOMAIN_FROM_WHERE_THE_ACCESS_TOKEN_IS_PARSED',
+			// iosClientId: '<FROM DEVELOPER CONSOLE> FOR IOS ONLY',
+		}).then(() => {
+			GoogleSignin.signIn();
+		});
+	}
+	
+	
 }

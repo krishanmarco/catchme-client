@@ -36,6 +36,7 @@ import ScreenModalUserLocationStatus from './screens/user-location-status/Screen
 
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
 import type {TUser} from "./lib/daos/DaoUser";
+import Logger from "./lib/Logger";
 
 
 export default function run(authenticatedUser: TUser) {
@@ -47,11 +48,11 @@ export default function run(authenticatedUser: TUser) {
 
   ApiClient.userFirebaseJwt().
       then(jwt => {
-        console.log(`AppAuthenticated _: Received firebase jwt ${jwt}`);
+        Logger.v(`AppAuthenticated _: Received firebase jwt ${jwt}`);
         return firebase.auth().signInWithCustomToken(jwt);
       }).
       catch(exception => {
-        console.log("AppAuthenticated _: Failed to login to firebase: ", exception);
+        Logger.e("AppAuthenticated _: Failed to login to firebase: ", exception);
       });
 
 

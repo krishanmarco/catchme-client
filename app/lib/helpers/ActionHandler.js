@@ -6,6 +6,7 @@ import Router from "./Router";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 import type {TActionHandler, TNavigator} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
+import Logger from "../Logger";
 
 
 const _ClickActionHandlers = ({
@@ -24,8 +25,6 @@ const _ClickActionHandlers = ({
   }: TActionHandler),
 
 
-
-
   [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
     icon: Icons.userBlock,
     isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
@@ -40,8 +39,6 @@ const _ClickActionHandlers = ({
   }: TActionHandler),
 
 
-
-
   [Const.ActionHandler.actions.AttendanceConfirm]: ({
     icon: Icons.locationPersonFuture,
     isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
@@ -52,7 +49,7 @@ const _ClickActionHandlers = ({
         return Promise.resolve(0);
 
       Router.toModalUserLocationStatus(navigator, {
-        locationId: locationId,
+        locationId,
         postOnConfirm: true
         // passProps.onStatusConfirm, passProps.initialStatus not needed
       });
@@ -60,8 +57,6 @@ const _ClickActionHandlers = ({
       return Promise.resolve(0);
     }
   }: TActionHandler),
-
-
 
 
   [Const.ActionHandler.actions.LocationFollow]: ({
@@ -78,8 +73,6 @@ const _ClickActionHandlers = ({
   }: TActionHandler),
 
 
-
-
   [Const.ActionHandler.actions.GoToUserProfile]: ({
     icon: Icons.userProfile,
     isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
@@ -93,8 +86,6 @@ const _ClickActionHandlers = ({
       return Promise.resolve(0);
     }
   }: TActionHandler),
-
-
 
 
   [Const.ActionHandler.actions.GoToLocationProfile]: ({
@@ -114,32 +105,30 @@ const _ClickActionHandlers = ({
 }: Array<TActionHandler>);
 
 
-
 class ActionHandler {
 
   clickActionIsValid(clickAction: string, action: TAction) {
 
     // Check if the click action exists
-    const clickActionExists = !clickAction in _ClickActionHandlers;
+    const clickActionExists = !(clickAction in _ClickActionHandlers);
 
     if (clickActionExists) {
-      console.error('ActionHandler clickActionIsValid: ActionExists(false)');
+      Logger.error('ActionHandler clickActionIsValid: ActionExists(false)');
       return false;
     }
 
     // The action exists, check if valid
-    const clickActionIsValid = _ClickActionHandlers[clickAction]
-        .isValid(action);
+    const clickActionIsValid = _ClickActionHandlers[clickAction].
+        isValid(action);
 
     if (!clickActionIsValid) {
-      console.error('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
+      Logger.e('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
       return false;
     }
 
-    console.log('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(true)');
+    Logger.v('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(true)');
     return true;
   }
-
 
 
   mapActionToIcon(actionName: string) {

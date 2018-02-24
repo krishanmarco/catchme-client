@@ -3,6 +3,7 @@ import React from 'react';
 import {View} from 'react-native';
 import _ from 'lodash';
 import {Colors} from "../../Config";
+import Logger from "../../lib/Logger";
 
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************
@@ -19,8 +20,8 @@ export default class Screen extends React.Component {
   _onLayout(layout) {
     // layout: {nativeEvent: { layout: {x, y, width, height}}}
     const measuredHeight =  _.get(layout, 'nativeEvent.layout.height');
-    if (this.state.height == Screen.ScreenInitialHeight) {
-      console.log("Screen _onLayout: Updating for new height: " + measuredHeight);
+    if (this.state.height === Screen.ScreenInitialHeight) {
+      Logger.v("Screen _onLayout: Updating for new height: " + measuredHeight);
       this.setState({height: measuredHeight});
     }
   }

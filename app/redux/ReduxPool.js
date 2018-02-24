@@ -465,7 +465,7 @@ const ReduxPoolBuilder = {
             let cacheMapItem = cacheMapData[itemId];
 
             if (cacheMapItem.loadingPromise != null) {
-              console.log(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
+              Logger.v(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
               return cacheMapItem.loadingPromise;
             }
 
@@ -494,7 +494,7 @@ const ReduxPoolBuilder = {
                 return buildResultData;
               }).
               catch(apiExceptionResponse => {
-                console.log("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
+                Logger.v("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
 
                 dispatch({
                   poolType: POOL_TYPE_CACHE_MAP,
