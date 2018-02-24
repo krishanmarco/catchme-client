@@ -112,7 +112,7 @@
     "consistent-return": 2,
 //    "default-case": 2,
     "dot-notation": 2,
-    "dot-location": [2,"object"],
+    "dot-location": [2,"property"],
     "guard-for-in": 2,
     "no-alert": 2,
     "no-caller": 2,
