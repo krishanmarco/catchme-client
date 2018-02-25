@@ -56,8 +56,8 @@ class DataProvider {
 
 
       // There is a cached element with this pId, extract the insert time
-      let {insertTs, ...cache} = realmObject;
-      let cacheIsValid = this._cacheValid(insertTs);
+      const {insertTs, ...cache} = realmObject;
+			const cacheIsValid = this._cacheValid(insertTs);
 
       if (!cacheIsValid) {
 
