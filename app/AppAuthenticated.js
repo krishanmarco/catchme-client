@@ -46,12 +46,12 @@ export default function run(authenticatedUser: TUser) {
   ApiAuthentication.update(DaoUser.gId(authenticatedUser), DaoUser.gApiKey(authenticatedUser));
 
 
-  ApiClient.userFirebaseJwt().
-      then(jwt => {
+  ApiClient.userFirebaseJwt()
+    .then(jwt => {
         Logger.v(`AppAuthenticated _: Received firebase jwt ${jwt}`);
         return firebase.auth().signInWithCustomToken(jwt);
-      }).
-      catch(exception => {
+      })
+    .catch(exception => {
         Logger.e("AppAuthenticated _: Failed to login to firebase: ", exception);
       });
 
