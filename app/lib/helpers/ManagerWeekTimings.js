@@ -143,8 +143,8 @@ export default class ManagerWeekTimings {
     this.rangeWeekTimings = ManagerWeekTimings._mapBoolTimingsToRangeTimings(this.boolWeekTimings);
   }
 
-  boolWeekTimings: undefined;
-  rangeWeekTimings: undefined;
+  boolWeekTimings: null;
+  rangeWeekTimings: null;
 
 
   _currentTimeIndex() {
@@ -170,7 +170,7 @@ export default class ManagerWeekTimings {
   // Maps a timing range [8, 17] to a string '08:00 - 17.00'
   _toStringRangeTime(rangeTime) {
     // Index 0 and 1 of rangeTime always have to be defined
-    return `${this._toStringRangeTimeInt(rangeTime[0])} - ${this._toStringRangeTimeInt(rangeTime[1])}`
+    return `${this._toStringRangeTimeInt(rangeTime[0])} - ${this._toStringRangeTimeInt(rangeTime[1])}`;
   }
 
 

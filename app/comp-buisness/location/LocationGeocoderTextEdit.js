@@ -33,7 +33,7 @@ export default class LocationGeocoderTextEdit extends React.Component<any, Props
 
   // Available options can be found at:
   // https://developers.google.com/maps/documentation/geocoding/intro
-  static GoogleReverseGeocodingQueryOptions = { };
+  static GoogleReverseGeocodingQueryOptions = {};
 
   // Filter the reverse geocoding results by types
   // Eg. ['locality', 'administrative_area_level_3'] to only display cities

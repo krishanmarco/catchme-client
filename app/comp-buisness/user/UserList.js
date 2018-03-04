@@ -52,7 +52,7 @@ export default class UserList extends React.PureComponent {
 
   _renderItem({item: user}) {
     let {friendIds, requestIds, blockedIds, onItemPress} = this.props;
-    let listItemProps = {user: user, onPress: onItemPress};
+    let listItemProps = {user, onPress: onItemPress};
 
     if (requestIds && requestIds.includes(DaoUser.gId(user)))
       return <ListItemUserRequestReceived {...listItemProps}/>;
