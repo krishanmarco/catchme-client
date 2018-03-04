@@ -14,10 +14,13 @@ import {RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 import Router from "../../lib/helpers/Router";
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
+import type {TNavigator} from "../../lib/types/Types";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 
 type Props = {
-  // todo
+  navigator: TNavigator,
+  locationProfile: TLocation
 };
 
 type State = {
@@ -106,11 +109,6 @@ export default class LocationGallery extends React.Component<any, Props, State> 
   }
 
 }
-
-
-LocationGallery.defaultProps = {
-
-};
 
 LocationGallery.propTypes = {
   locationProfile: PropTypes.object.isRequired,

@@ -29,11 +29,11 @@ export default class LocationChat extends React.Component<Props> {
   }
 
   _getLocation() {
-    return this.props.location
+    return this.props.location;
   }
 
   _getUser() {
-    return this.props.user
+    return this.props.user;
   }
 
 
