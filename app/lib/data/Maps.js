@@ -53,6 +53,24 @@ export default class Maps {
 	static privacyOptions() {
 		return Maps._EPrivacySettings.slice(0);
 	}
-	
+
+
+
+	static _EDaysOfWeek = [
+		{value: 0, label: 'Monday'},
+		{value: 1, label: 'Tuesday'},
+		{value: 2, label: 'Wednesday'},
+		{value: 3, label: 'Thursday'},
+		{value: 4, label: 'Friday'},
+		{value: 5, label: 'Saturday'},
+		{value: 6, label: 'Sunday'},
+		{value: 7, label: '?'},			// todo: this value has to be here because of an error on the server (returns 7 index days), remove after fix
+	];
+
+	static daysOfWeek() {
+		return this._EDaysOfWeek.map(day => day.label);
+	}
+
+
 	
 }

@@ -1,18 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-
 import {View} from 'react-native';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
-
-
-
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Navigator
+	navigator: Navigator
 };
 
 
@@ -21,37 +17,31 @@ type Props = {
 
 export default class HelpAppInfo extends React.Component<any, Props, any> {
 
-  constructor(props, context) {
-    super(props, context);
-  }
+	constructor(props, context) {
+		super(props, context);
+	}
 
-  render() {
-    return (
-        <View>
-          <ScreenInfo
-              imageContainerStyle={{marginTop: 64}}
-              imageContainerScale={550}
-              imageHeight={100}
-              imageWidth={150}
-              imageSource={require('../../../assets/images/splashBack.png')}
-              textText='Catchme info...'/>
-        </View>
-    );
-  }
+	render() {
+		return (
+			<View>
+				<ScreenInfo
+					imageContainerStyle={styles.imageContainer}
+					imageContainerScale={550}
+					imageHeight={100}
+					imageWidth={150}
+					imageSource={require('../../../assets/images/splashBack.png')}
+					textText='Catchme info...'/>
+			</View>
+		);
+	}
 
 }
 
-
-
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-let Styles = RkStyleSheet.create(theme => ({
-  buttonCont: {
-    marginTop: 64,
-    alignItems: 'center'
-  },
-  button: {
-    alignItems: 'center'
-  }
+let styles = RkStyleSheet.create(theme => ({
+	imageContainer: {
+		marginTop: 64
+	}
 }));

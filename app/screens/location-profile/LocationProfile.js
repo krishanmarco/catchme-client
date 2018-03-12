@@ -151,7 +151,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     let locationProfile = this._locationProfile();
 
     return (
-        <Grid style={Styles.tabRootHome}>
+        <Grid style={styles.tabRootHome}>
           <Row size={-1}>
             <Image
                 style={{width: '100%', height: 200}}
@@ -159,11 +159,11 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
                 source={{uri: DaoLocation.gPictureUrl(locationProfile)}} />
           </Row>
 
-          <Row size={-1} style={Styles.publicMessage}>
+          <Row size={-1} style={styles.publicMessage}>
             <RkText rkType='primary1 hint'>{DaoLocation.gDescription(locationProfile)}</RkText>
           </Row>
 
-          <Row size={-1} style={Styles.badges}>
+          <Row size={-1} style={styles.badges}>
             <ListDataPoints listDataPoints={[
               {name: 'Capacity', value: DaoLocation.gCapacity(locationProfile)},
               {name: 'Male', value: DaoLocation.gMen(locationProfile)},
@@ -177,7 +177,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 
   _renderTabImages() {
     return (
-        <View style={Styles.tabRootImages}>
+        <View style={styles.tabRootImages}>
           <LocationGallery
               navigator={this._navigator()}
               locationProfile={this._locationProfile()}/>
@@ -190,7 +190,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <View style={Styles.tabRootFriendsNow}>
+        <View style={styles.tabRootFriendsNow}>
           <UserList
               users={DaoLocation.gFriendsNow(locationProfile)}
               requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
@@ -204,7 +204,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <View style={Styles.tabRootFriendsFuture}>
+        <View style={styles.tabRootFriendsFuture}>
           <UserList
               users={DaoLocation.gFriendsFuture(locationProfile)}
               requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
@@ -218,7 +218,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     let authUserProfile = this._authenticatedUserProfile();
 
     return (
-        <View style={Styles.tabRootChat}>
+        <View style={styles.tabRootChat}>
           <LocationChat location={locationProfile} user={authUserProfile}/>
         </View>
     );
@@ -228,7 +228,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
     let locationProfile = this._locationProfile();
 
     return (
-        <Grid style={Styles.tabRootInfo}>
+        <Grid style={styles.tabRootInfo}>
           <Row size={-1}>
             <StaticSectionList
                 sections={this.state.locationInfoSections}
@@ -276,9 +276,7 @@ export default LocationProfile;
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-
-
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   tabRootHome: {
     flex: 1,
     alignItems: 'center'
