@@ -1,13 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-
 import {View} from 'react-native';
 import {RkButton, RkText, RkTextInput, RkAvoidKeyboard, RkStyleSheet} from 'react-native-ui-kitten';
 
+type FormFooterLinkProps = {
+  text: string,
+  clickableText: string,
+  onPress?: () => {}
+};
 
-
-export const FormFooterLink = ({text, clickableText, onPress}) => (
-    <View style={Styles.textRow}>
+export const FormFooterLink = ({text, clickableText, onPress}: FormFooterLinkProps) => (
+    <View style={styles.textRow}>
       <RkText rkType='primary3'>{text}</RkText>
       <RkButton rkType='clear'>
         <RkText rkType='header6' onPress={onPress}>{` ${clickableText}`}</RkText>
@@ -15,8 +18,7 @@ export const FormFooterLink = ({text, clickableText, onPress}) => (
     </View>
 );
 
-
-let Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   textRow: {
     justifyContent: 'center',
     flexDirection: 'row',

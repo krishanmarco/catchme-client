@@ -4,7 +4,7 @@ import _ from 'lodash';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {View, StyleSheet, Picker, Switch} from 'react-native';
 import {RkStyleSheet, RkText, RkTextInput as _RkTextInput} from 'react-native-ui-kitten';
-
+// todo: refactor with Flow after having flow-typed ReduxPool
 
 export const RkTextInput = ({rkType, style, ...props}) => {
 
@@ -13,7 +13,7 @@ export const RkTextInput = ({rkType, style, ...props}) => {
     rowOverride = {paddingVertical: 0, marginVertical: 0};
 
   return (
-      <View style={[Styles.row, rowOverride, style]}>
+      <View style={[styles.row, rowOverride, style]}>
         <_RkTextInput {...props} rkType={rkType}/>
       </View>
   );
@@ -21,15 +21,15 @@ export const RkTextInput = ({rkType, style, ...props}) => {
 
 
 export const RkSwitch = ({title, style, textProps, ...props}) => (
-    <View style={[style, Styles.row]}>
+    <View style={[style, styles.row]}>
       <RkText {...textProps} rkType='header6'>{title}</RkText>
-      <Switch {...props} style={Styles.switch}/>
+      <Switch {...props} style={styles.switch}/>
     </View>
 );
 
 
 export const RkMultiChoice = ({title, textProps, options = [], style, ...props}) => (
-    <View style={[style, Styles.row]}>
+    <View style={[style, styles.row]}>
       <RkText {...textProps} rkType='header6'>{title}</RkText>
       <Picker
           {...props}
@@ -73,7 +73,7 @@ export const RkMultiChoiceFromPool = ({pool, field, title, textProps, options, s
         {...props}/>
 );
 
-let Styles = RkStyleSheet.create(theme => ({
+let styles = RkStyleSheet.create(theme => ({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',

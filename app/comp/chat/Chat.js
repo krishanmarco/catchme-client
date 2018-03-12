@@ -17,10 +17,8 @@ import type {TUser} from "../../lib/daos/DaoUser";
 import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
 import type {TReducerChatState} from "./ReducerChat";
 
-
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
-
 
 type Props = {
   chatId: string,
