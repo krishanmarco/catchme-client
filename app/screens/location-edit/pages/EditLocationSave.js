@@ -60,21 +60,21 @@ class EditLocationSavePresentational extends React.Component<any, Props, any> {
 
   render() {
     return (
-        <View style={Styles.root}>
-          <RkText style={Styles.headerText} rkType='header2 hero'>
+        <View style={styles.root}>
+          <RkText style={styles.headerText} rkType='header2 hero'>
             {DaoLocation.gName(this._formApiEditLocationProfileInput())}
           </RkText>
-          <View style={Styles.avatar}>
+          <View style={styles.avatar}>
             <AvatarCircle
                 rkType='huge'
                 uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}/>
           </View>
-          <RkText style={Styles.contentText} rkType='primary3'>
+          <RkText style={styles.contentText} rkType='primary3'>
             {DaoLocation.gAddress(this._formApiEditLocationProfileInput())}
           </RkText>
           <GradientButton
               rkType='large'
-              style={Styles.saveButton}
+              style={styles.saveButton}
               onPress={this._onLocationSave}
               text='Save & Close'/>
         </View>
@@ -109,7 +109,7 @@ export default EditLocationSave;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   root: {
     flex: 1,
     alignItems: 'center',

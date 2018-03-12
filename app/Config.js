@@ -224,6 +224,16 @@ export const Const = {
 			GoToUserProfile: 'GoToUserProfile',
 		}
 	},
+
+
+	LocationMap: {
+		initialRegion: {
+			latitude: 37.78825,
+			longitude: -122.4324,
+			latitudeDelta: 0.02,
+			longitudeDelta: 0.02
+		}
+	}
 	
 };
 

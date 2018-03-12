@@ -9,15 +9,15 @@ type Props = {
   style: Object
 };
 
-
-export default ({name = ' ', style}: Props) => (
-    <View style={[Styles.row, style]}>
+const ListItemHeader = ({name = ' ', style}: Props) => (
+    <View style={[styles.row, style]}>
       <RkText rkType='primary header6'>{name.toUpperCase()}</RkText>
     </View>
 );
+export default ListItemHeader;
 
 
-const Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',

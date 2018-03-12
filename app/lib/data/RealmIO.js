@@ -138,14 +138,10 @@ class RealmIO {
 	}
 	
 	_prepareApiUserForDb(user: TUser) {
-		// todo: replace _.get() with Dao accessor
-		// todo: are we saving objects or ids in the two statements that are commented out?
-		
+
 		_.set(user, DaoUser.pLocationsFavorites, {value: JSON.stringify(_.get(user, DaoUser.pLocationsFavorites, []))});
-		// _.set(user, DaoUser.pLocationsFavorites, {value: JSON.stringify(DaoUser.gLocationsFavorites(user))});
 
 		_.set(user, DaoUser.pLocationsTop, {value: JSON.stringify(_.get(user, DaoUser.pLocationsTop, []))});
-		// _.set(user, DaoUser.pLocationsTop, {value: JSON.stringify(DaoUser.gLocationsTop(user))});
 
 		_.set(user, DaoUser.pLocationsUserLocationStatuses,
 			_.get(user, DaoUser.pLocationsUserLocationStatuses, []).map(this._prepareApiUserLocationStatusForDb));

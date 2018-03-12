@@ -6,50 +6,60 @@ import {View, StyleSheet, ScrollView} from 'react-native';
 import TimingListItem from './TimingListItem';
 
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-export default class WeekTimingsList extends React.Component {
-  static refTimingListItem = 'refTimingListItem';
+type Props = {
+	isEditable: Boolean,
+	size: number
+};
 
-  constructor(props, context) {
-    super(props, context);
-  }
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-  getTimings() {
-    const weekTimings = [];
-    const nDays = this._managerWeekTimings().getBoolWeekTimings().length;
-    for (let day = 0; day < nDays; day++)
-      weekTimings.push(this.refs[WeekTimingsList.refTimingListItem + day].getTimings())
-    return weekTimings;
-  }
+export default class WeekTimingsList extends React.Component<any, Props, any> {
 
-  _isEditable() {
-    return this.props.isEditable;
-  }
+	constructor(props, context) {
+		super(props, context);
+		this.refsTimingListItems = {};
+	}
 
-  _managerWeekTimings() {
-    return this.props.managerWeekTimings;
-  }
+	getTimings() {
+		const weekTimings = [];
+		const nDays = this._managerWeekTimings().getBoolWeekTimings().length;
+		for (let day = 0; day < nDays; day++)
+			weekTimings.push(this.refsTimingListItems[day].getTimings());
+		return weekTimings;
+	}
 
-  render() {
-    return (
-        <ScrollView
-            style={Styles.root}
-            showsVerticalScrollIndicator={false}>
+	_isEditable() {
+		return this.props.isEditable;
+	}
 
-          {this._managerWeekTimings()
-              .getBoolWeekTimings()
-              .map((dayTimings, key) => (
-                  <TimingListItem
-                      key={key}
-                      ref={WeekTimingsList.refTimingListItem + key}
-                      day={key}
-                      size={this.props.size}
-                      managerWeekTimings={this._managerWeekTimings()}
-                      isEditable={this._isEditable()}/>
-              ))}
-        </ScrollView>
-    );
-  }
+	_managerWeekTimings() {
+		return this.props.managerWeekTimings;
+	}
+
+	render() {
+		return (
+			<ScrollView
+				style={styles.root}
+				showsVerticalScrollIndicator={false}>
+
+				{this._managerWeekTimings()
+					.getBoolWeekTimings()
+					.map((dayTimings, key) => (
+						<TimingListItem
+							key={key}
+							ref={ref => this.refsTimingListItems[key] = ref}
+							day={key}
+							size={this.props.size}
+							managerWeekTimings={this._managerWeekTimings()}
+							isEditable={this._isEditable()}/>
+					))}
+			</ScrollView>
+		);
+	}
 
 
 }
@@ -57,11 +67,11 @@ export default class WeekTimingsList extends React.Component {
 WeekTimingsList.defaultProps = {};
 
 WeekTimingsList.propTypes = {
-  managerWeekTimings: PropTypes.object.isRequired,
-  onEdit: PropTypes.func
+	managerWeekTimings: PropTypes.object.isRequired,
+	onEdit: PropTypes.func
 };
 
 
-const Styles = StyleSheet.create({
-  // Nothing for now
+const styles = StyleSheet.create({
+	// Nothing for now
 });

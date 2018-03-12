@@ -11,7 +11,6 @@ export default class CameraWrapper extends React.Component {
 	
 	constructor(props, context) {
 		super(props, context);
-		
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this._onBarCodeRead = this._onBarCodeRead.bind(this);
 	}
@@ -44,10 +43,10 @@ export default class CameraWrapper extends React.Component {
 	
 	render() {
 		return (
-			<View style={Styles.container}>
+			<View style={styles.container}>
 				<Camera
 					ref={camera => this.camera = camera}
-					style={Styles.preview}
+					style={styles.preview}
 					
 					aspect={Camera.constants.Aspect.fill}
 					audio={true}
@@ -93,7 +92,7 @@ CameraWrapper.propTypes = {
 };
 
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'row',

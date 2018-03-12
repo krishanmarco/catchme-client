@@ -10,13 +10,13 @@ export default class Logger {
 	
 	// (Error) Used for normal error logging
 	static e(...strings) {
-		console.log(strings);
+		console.error(strings);
 	}
 	
 	// (What a terrible failure) Used for error
 	// logging in cases that should not occur
 	static wtf(...strings) {
-		console.log(strings);
+		console.error(strings);
 	}
 	
 }

@@ -5,101 +5,98 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 
 import {Colors} from '../../Config';
 
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import MapsTheme from '../../lib/maps/GoogleMapsTheme';
 import MapView from 'react-native-maps';
+import type {TFirebaseChatMessage, TGetFirebaseMessages} from "../../lib/data/Firebase";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import {Const} from "../../Config";
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-const Styles = StyleSheet.create({
-  map: {
-    height: '100%',
-    width: '100%'
-  }
-});
-
-
-const InitialRegion = {
-  latitude: 37.78825,
-  longitude: -122.4324,
-  latitudeDelta: 0.02,
-  longitudeDelta: 0.02
+export type TLocationMapRegion = {
+	latitude: number,
+	longitude: number,
+	latitudeDelta: number,
+	longitudeDelta: number
 };
 
+type Props = {
+	locations: Array<TLocation>
+};
 
-export default class LocationMap extends React.Component {
+type State = {
+	region: TLocationMapRegion
+};
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = {region: this._getInitialRegion(props)};
-  }
+// Component ********************************************************************************************
+// Component ********************************************************************************************
 
+export default class LocationMap extends React.Component<any, Props, State> {
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({region: this._getInitialRegion(nextProps)});
-  }
-
-
-  _getInitialRegion(props) {
-    if (props.locations.length <= 0)
-      return InitialRegion;
-
-    const firstLocationCoords = this._getCoordinates(props.locations[0]);
-    return {...InitialRegion, ...firstLocationCoords};
-  }
+	constructor(props, context) {
+		super(props, context);
+		this.state = {region: this._getInitialRegion(props)};
+	}
 
 
-  _getCoordinates(location) {
-    let latLng = DaoLocation.gLatLng(location);
-    return {latitude: latLng.lat, longitude: latLng.lng};
-  }
+	componentWillReceiveProps(nextProps) {
+		this.setState({region: this._getInitialRegion(nextProps)});
+	}
 
 
-  render() {
-    return (
-        <MapView
-            style={Styles.map}
-            customMapStyle={MapsTheme}
+	_getInitialRegion(props) {
+		const initialRegion = Const.LocationMap.initialRegion;
+
+		if (props.locations.length <= 0)
+			return initialRegion;
+
+		const firstLocationCoords = this._getCoordinates(props.locations[0]);
+		return {...initialRegion, ...firstLocationCoords};
+	}
 
 
-            region={this.state.region}
-            onRegionChange={region => this.setState({region})}
+	_getCoordinates(location) {
+		let latLng = DaoLocation.gLatLng(location);
+		return {latitude: latLng.lat, longitude: latLng.lng};
+	}
 
-            showsUserLocation={this.props.showUserLocation}
-            followsUserLocation={this.props.followsUserLocation}
-            showsMyLocationButton={this.props.showsMyLocationButton}
-            showsTraffic={this.props.showsTraffic}
-            zoomEnabled={this.props.zoomEnabled}
-            scrollEnabled={this.props.scrollEnabled}
 
-            loadingEnabled={this.props.loadingEnabled}
-            loadingIndicatorColor={Colors.primary}
-        >
+	render() {
+		const {locations, ...props} = this.props;
+		return (
+			<MapView
+				style={styles.map}
+				customMapStyle={MapsTheme}
 
-          {this.props.locations.map((location, key) => (
+				region={this.state.region}
+				onRegionChange={region => this.setState({region})}
+				loadingIndicatorColor={Colors.primary}
+				{...props}
+			>
 
-              <MapView.Marker
-                  key={key}
-                  pinColor={Colors.primary}
-                  coordinate={this._getCoordinates(location)}
-                  title={DaoLocation.gName(location)}/>
+				{locations.map((location, key) => (
+					<MapView.Marker
+						key={key}
+						pinColor={Colors.primary}
+						coordinate={this._getCoordinates(location)}
+						title={DaoLocation.gName(location)}/>
+				))}
 
-          ))}
-
-        </MapView>
-    );
-  }
+			</MapView>
+		);
+	}
 
 }
 
-LocationMap.defaultProps = {
-  locations: [],
 
-  showUserLocation: true,
-  followsUserLocation: false,
-  showsMyLocationButton: true,
-  showsTraffic: false,
-  zoomEnabled: true,
-  scrollEnabled: true,
-  loadingEnabled: true
-};
+
+const styles = StyleSheet.create({
+	map: {
+		height: '100%',
+		width: '100%'
+	}
+});

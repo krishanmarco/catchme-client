@@ -90,7 +90,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
         this._formApiEditUserProfile().apiInput,
         `${DaoUser.pSettingPrivacy}[${posIndex}]`,
         Maps.privacyDefault().value.toString()
-    ));
+    ), 10);
   }
 
   _onChangePasswordPress() {
@@ -129,7 +129,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
     return (
         <View>
           <ListItemHeader name='Profile'/>
-          <View style={Styles.content}>
+          <View style={styles.content}>
             <View style={{alignItems: 'center'}}>
               <AvatarCircle
                   badge={Icons.settingChangePassword}
@@ -174,7 +174,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
     return (
         <View>
           <ListItemHeader name='Privacy'/>
-          <View style={Styles.content}>
+          <View style={styles.content}>
             {[
               {title: 'My previous location', options: privacyAll},
               {title: 'My current location', options: privacySub},
@@ -198,7 +198,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
     return (
         <View>
           <ListItemHeader name='Security'/>
-          <View style={Styles.content}>
+          <View style={styles.content}>
             <ListItemInfo
                 title='Change Password'
                 icon={Icons.settingChangePassword}
@@ -213,7 +213,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
     return (
         <View>
           <ListItemHeader/>
-          <View style={Styles.content}>
+          <View style={styles.content}>
             <ListItemInfo
                 title='Add contacts'
                 icon={Icons.settingChangePassword}
@@ -255,7 +255,7 @@ export default SettingsUserAccount;
 // Styles ***********************************************************************************************
 // Styles ***********************************************************************************************
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 8,
   },
