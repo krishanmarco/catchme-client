@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {FlatList} from 'react-native';
 import FeaturedAdsListItem from "./FeaturedAdsListItem";
 
-import DefaultLoader from '../../comp/misc/DefaultLoader';
+import {DefaultLoader} from "../../comp/Misc";
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 
 

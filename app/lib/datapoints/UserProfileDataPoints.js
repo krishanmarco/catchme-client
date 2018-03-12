@@ -1,38 +1,38 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-// @flow
 import {Linking} from 'react-native';
-import {Icons, Const} from '../../Config';
-import type {TypeInfoItem} from '../types/TypeInfoItem';
+import {Icons} from '../../Config';
+import type {TUser} from "../daos/DaoUser";
 import DaoUser from "../daos/DaoUser";
 import Router from "../helpers/Router";
+import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 
 
-export default class UserProfileInfoItems {
+export default class UserProfileDataPoints {
 
-  static handleOnItemPress(pressedItemId, navigator) {
+  static handleOnItemPress(pressedItemId: string, userProfile: TUser, navigator) {
     switch (pressedItemId) {
-      case UserProfileInfoItems.infoItemIdPhone:
-      case UserProfileInfoItems.infoItemIdEmail:
+      case UserProfileDataPoints.infoItemIdPhone:
+      case UserProfileDataPoints.infoItemIdEmail:
         break;
-      case UserProfileInfoItems.infoItemIdAccount:
+      case UserProfileDataPoints.infoItemIdAccount:
         Router.toSettingsUserAccount(navigator);
         break;
-      case UserProfileInfoItems.infoItemIdAdminLocations:
+      case UserProfileDataPoints.infoItemIdAdminLocations:
         Router.toSettingsAdminLocations(navigator);
         break;
-      case UserProfileInfoItems.infoItemIdNotifications:
+      case UserProfileDataPoints.infoItemIdNotifications:
         Router.toSettingsUserNotifications(navigator);
         break;
-      case UserProfileInfoItems.infoItemIdHelpFAQ:
+      case UserProfileDataPoints.infoItemIdHelpFAQ:
         Linking.openURL('http://catchme.krishanmadan.website');
         break;
-      case UserProfileInfoItems.infoItemIdHelpContactUs:
+      case UserProfileDataPoints.infoItemIdHelpContactUs:
         Linking.openURL('http://catchme.krishanmadan.website');
         break;
-      case UserProfileInfoItems.infoItemIdHelpTermsOfService:
+      case UserProfileDataPoints.infoItemIdHelpTermsOfService:
         Linking.openURL('http://catchme.krishanmadan.website');
         break;
-      case UserProfileInfoItems.infoItemIdHelpAppInfo:
+      case UserProfileDataPoints.infoItemIdHelpAppInfo:
         Router.toScreenHelpAppInfo(navigator);
         break;
     }
@@ -51,21 +51,21 @@ export default class UserProfileInfoItems {
 
 
 
-  constructor(userProfile: Object) {
+  constructor(userProfile: TUser) {
     this.userProfile = userProfile;
   }
 
-  userProfile: Object;
+  userProfile: TUser;
   includeSettingsAndHelp: boolean = false;
 
 
-  includeSettingsAndHelpIf(include: boolean = true): UserProfileInfoItems {
+  includeSettingsAndHelpIf(include: boolean = true): UserProfileDataPoints {
     this.includeSettingsAndHelp = include;
     return this;
   }
 
 
-  build() {
+  build(): Array<TSectionListDataPointSections> {
     const userInfoSections = [];
 
     const userDataSectionData = this._buildUserDataSectionData();
@@ -82,19 +82,19 @@ export default class UserProfileInfoItems {
   }
 
 
-  _buildUserDataSectionData() {
+  _buildUserDataSectionData(): Array<TDataPoint> {
     const userDataSectionData = [];
-
-    if (DaoUser.hasEmail(this.userProfile))
-      userDataSectionData.push(this._infoItemUserEmail());
 
     if (DaoUser.hasPhone(this.userProfile))
       userDataSectionData.push(this._infoItemUserPhone());
 
+    if (DaoUser.hasEmail(this.userProfile))
+      userDataSectionData.push(this._infoItemUserEmail());
+
     return userDataSectionData;
   }
 
-  _buildUserSettingsSectionData() {
+  _buildUserSettingsSectionData(): Array<TDataPoint> {
     return [
         this._infoItemAccount(),
         this._infoItemNotifications(),
@@ -102,7 +102,7 @@ export default class UserProfileInfoItems {
     ];
   }
 
-  _buildUserHelpSectionData() {
+  _buildUserHelpSectionData(): Array<TDataPoint> {
     return [
         this._infoItemFAQ(),
         this._infoItemContactUs(),
@@ -114,70 +114,70 @@ export default class UserProfileInfoItems {
 
 
 
-  _infoItemUserEmail(): TypeInfoItem {
+  _infoItemUserPhone(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdEmail,
-      title: DaoUser.gEmail(this.userProfile),
-      icon: Icons.email
-    };
-  }
-
-  _infoItemUserPhone(): TypeInfoItem {
-    return {
-      id: UserProfileInfoItems.infoItemIdPhone,
+      id: UserProfileDataPoints.infoItemIdPhone,
       title: DaoUser.gPhone(this.userProfile),
-      icon: Icons.phone
+      icon: Icons.userPhone
     };
   }
 
-  _infoItemAccount(): TypeInfoItem {
+  _infoItemUserEmail(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdAccount,
+      id: UserProfileDataPoints.infoItemIdEmail,
+      title: DaoUser.gEmail(this.userProfile),
+      icon: Icons.userEmail
+    };
+  }
+
+  _infoItemAccount(): TDataPoint {
+    return {
+      id: UserProfileDataPoints.infoItemIdAccount,
       title: 'Account',
-      icon: Icons.settingAccount
+      icon: Icons.userAccountSettings
     };
   }
 
-  _infoItemNotifications(): TypeInfoItem {
+  _infoItemNotifications(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdNotifications,
+      id: UserProfileDataPoints.infoItemIdNotifications,
       title: 'Notifications',
-      icon: Icons.settingNotifications
+      icon: Icons.userNotificationSettings
     };
   }
 
-  _infoItemAdminLocations(): TypeInfoItem {
+  _infoItemAdminLocations(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdAdminLocations,
+      id: UserProfileDataPoints.infoItemIdAdminLocations,
       title: 'My locations',
-      icon: Icons.settingAdminLocations
+      icon: Icons.userAdminLocations
     };
   }
 
-  _infoItemFAQ(): TypeInfoItem {
+  _infoItemFAQ(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdHelpFAQ,
+      id: UserProfileDataPoints.infoItemIdHelpFAQ,
       title: 'FAQ'
     };
   }
 
-  _infoItemContactUs(): TypeInfoItem {
+  _infoItemContactUs(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdHelpContactUs,
+      id: UserProfileDataPoints.infoItemIdHelpContactUs,
       title: 'Contact us'
     };
   }
 
-  _infoItemTermsOfService(): TypeInfoItem {
+  _infoItemTermsOfService(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdHelpTermsOfService,
+      id: UserProfileDataPoints.infoItemIdHelpTermsOfService,
       title: 'Terms of service'
     };
   }
 
-  _infoItemAppInfo(): TypeInfoItem {
+  _infoItemAppInfo(): TDataPoint {
     return {
-      id: UserProfileInfoItems.infoItemIdHelpAppInfo,
+      id: UserProfileDataPoints.infoItemIdHelpAppInfo,
       title: 'App info.'
     };
   }

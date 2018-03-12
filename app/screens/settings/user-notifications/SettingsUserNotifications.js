@@ -2,39 +2,30 @@
 import React from 'react';
 
 import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
-import ApiClient from '../../../lib/data/ApiClient';
 import {boolToIntString, stringReplace, intStringToBool} from '../../../lib/HelperFunctions';
-
-import {Icons} from '../../../Config';
 
 import {View} from 'react-native';
 import {RkText, RkStyleSheet} from 'react-native-ui-kitten';
-import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
+import {ScreenInfo} from "../../../comp/Misc";
 import DaoUser from "../../../lib/daos/DaoUser";
 
 
 
 
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
 type Props = {
   navigator: Navigator,
   authenticatedUserProfile: Object,
 };
 
-type State = {
-  // Nothing for now
-};
-
 
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-class SettingsUserNotificationsPresentational extends React.Component<any, Props, State> {
+class SettingsUserNotificationsPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
@@ -107,11 +98,11 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
     return (
         <ScreenInfo
             imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Here you can tweak your notification settings'/>
+            imageContainerScale={550}
+            imageHeight={100}
+            imageWidth={150}
+            imageSource={require('../../../assets/images/splashBack.png')}
+            textText='Here you can tweak your notification settings'/>
     );
   }
 

@@ -4,21 +4,17 @@ import firebase from './data/Firebase';
 
 class Context {
 
+	isOnline() {
+		return NetInfo.isConnected.fetch();
+	}
 
-  isOnline() {
-    return NetInfo.isConnected.fetch();
-  }
+	isFirebaseAuthenticated() {
+		return firebase.auth().currentUser != null;
+	}
 
-
-  isFirebaseAuthenticated() {
-    return firebase.auth().currentUser != null;
-  }
-
-  getFirebaseUser() {
-    return firebase.auth().currentUser;
-  }
-
-
+	getFirebaseUser() {
+		return firebase.auth().currentUser;
+	}
 
 }
 

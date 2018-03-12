@@ -1,17 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import _ from 'lodash';
 import {Const} from '../../Config';
-
-
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import GoogleMapsDataDecoder from "../../lib/maps/GoogleMapsDataDecoder";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-// this.props.onSelect({
-// DaoLocation...
-// })
-export default class LocationGeocoderTextEdit extends React.Component {
+type Props = {
+	onSelect: (TLocation) => {}
+};
+
+export default class LocationGeocoderTextEdit extends React.Component<any, Props, any> {
 
   // Available options can be found at:
   // https://developers.google.com/places/web-service/autocomplete
@@ -32,7 +33,7 @@ export default class LocationGeocoderTextEdit extends React.Component {
 
   // Available options can be found at:
   // https://developers.google.com/maps/documentation/geocoding/intro
-  static GoogleReverseGeocodingQueryOptions = { };
+  static GoogleReverseGeocodingQueryOptions = {};
 
   // Filter the reverse geocoding results by types
   // Eg. ['locality', 'administrative_area_level_3'] to only display cities

@@ -1,13 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
-
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-
 import {ListItemLocation, ListItemLocationFollow} from './LocationListItems';
-
 
 
 
@@ -50,7 +46,7 @@ export default class LocationList extends React.PureComponent {
 
   _renderItem(location) {
     let {favoriteIds} = this.props;
-    let listItemProps = {location: location, onPress: this.props.onItemPress};
+    let listItemProps = {location, onPress: this.props.onItemPress};
 
     if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(location)))
       return <ListItemLocationFollow {...listItemProps}/>;

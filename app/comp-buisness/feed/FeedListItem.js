@@ -1,40 +1,57 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import {Colors} from '../../Config';
-
-import {Icon, Avatar} from 'react-native-elements'
 import {Col, Grid} from "react-native-easy-grid";
 
-import {AvatarCircle} from '../../comp/misc/Avatars';
+import {AvatarCircle} from "../../comp/Misc";
 
 import {View, TouchableNativeFeedback} from 'react-native';
 import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import HTMLView from 'react-native-htmlview';
 import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
-import FeedHandler from '../../lib/helpers/FeedHandler';
+import ActionHandler from '../../lib/helpers/ActionHandler';
+import type {TFeed} from "../../lib/daos/DaoFeed";
+import type {TNavigator} from "../../lib/types/Types";
 
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  navigator: TNavigator,
+  feed: TFeed
+};
+
+type State = {
+  // Nothing for now
+};
 
 
-export default class FeedListItem extends React.Component {
+// FeedListItem *****************************************************************************************
+// FeedListItem *****************************************************************************************
+
+export default class FeedListItem extends React.Component<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
     this._onItemPress = this._onItemPress.bind(this);
   }
 
-  _feed() { return this.props.feed; }
-  _navigator() { return this.props.navigator; }
+  _navigator(): TNavigator {
+    return this.props.navigator;
+  }
+
+  _feed(): TFeed {
+    return this.props.feed;
+  }
 
 
   _onItemPress() {
     const clickAction = DaoFeed.gClickAction(this._feed());
 
-    if (clickAction && FeedHandler.actionIsValid(this._feed(), clickAction))
-      FeedHandler.handleFeedAction(clickAction, this._feed(), this._navigator());
+    if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._feed()))
+      ActionHandler.handleAction(clickAction, this._feed(), this._navigator());
 
   }
 
@@ -42,13 +59,13 @@ export default class FeedListItem extends React.Component {
   render() {
     return (
         <TouchableNativeFeedback onPress={this._onItemPress}>
-          <Grid style={Styles.listItem}>
+          <Grid style={styles.listItem}>
             <Col size={100} style={{marginRight: 8}}>
-              <View style={Styles.listItemHeaderContent}>
+              <View style={styles.listItemHeaderContent}>
                 {this._renderLeftAvatar()}
-                <View style={Styles.listItemContent}>
+                <View style={styles.listItemContent}>
                   <HTMLView
-                      style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap'}}
+                      style={styles.htmlView}
                       value={DaoFeed.gContent(this._feed())}/>
                 </View>
               </View>
@@ -72,17 +89,16 @@ export default class FeedListItem extends React.Component {
   }
 
 
-  // todo: can be calculated from state
   _renderActions() {
     const actions = DaoFeed.gActions(this._feed())
-        .filter(action => FeedHandler.actionIsValid(this._feed(), action));
+        .filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._feed()));
 
-    return actions.map((action, key) => {
+    return actions.map((clickAction, key) => {
 
       const marginRight = key === actions.length ? 0 : 8;
       const actionProps = {
-        nameType: FeedHandler.mapActionToIcon(action),
-        onPress: () => FeedHandler.handleFeedAction(action, this._feed(), this._navigator())
+        icon: ActionHandler.mapActionToIcon(clickAction),
+        onPress: () => ActionHandler.handleAction(clickAction, this._feed(), this._navigator())
       };
 
       return (
@@ -104,7 +120,7 @@ export default class FeedListItem extends React.Component {
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-let Styles = RkStyleSheet.create(theme => ({
+let styles = RkStyleSheet.create(theme => ({
 
   listItem: {
     paddingLeft: 12,
@@ -134,5 +150,12 @@ let Styles = RkStyleSheet.create(theme => ({
   listItemContent: {
     marginLeft: 12,
     flex: 1
+  },
+
+  htmlView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap'
   }
 }));

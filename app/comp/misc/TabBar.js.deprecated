@@ -1,34 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-// @flow
 import React from 'react';
 
-import {Dimensions, View, Text, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {RkText} from 'react-native-ui-kitten';
-import {TabViewAnimated, TabViewPagerPan, TabBar, SceneMap} from 'react-native-tab-view';
+import {TabViewAnimated, TabBar} from 'react-native-tab-view';
 
 import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
-
-
-// Config *************************************************************************************************
-// Config *************************************************************************************************
-
-const Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    //paddingVertical: 5,
-  },
-  tabBar: {
-    backgroundColor: Colors.white,
-    elevation: 0,
-    shadowColor: 'transparent',
-    shadowOpacity: 0,
-    shadowRadius: 0,
-    shadowOffset: {height: 0},
-  }
-});
 
 
 // TabBar *************************************************************************************************
@@ -123,3 +101,24 @@ export default class TabBarView extends React.PureComponent {
 TabBarView.defaultProps = {
   footer: false
 };
+
+
+// Config *************************************************************************************************
+// Config *************************************************************************************************
+
+const Styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    //paddingVertical: 5,
+  },
+  tabBar: {
+    backgroundColor: Colors.white,
+    elevation: 0,
+    shadowColor: 'transparent',
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    shadowOffset: {height: 0},
+  }
+});

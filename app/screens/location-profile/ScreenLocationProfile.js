@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Screen} from "../../comp/Misc";
 import PropTypes from 'prop-types';
 import {poolConnect, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
 import ApiClient from '../../lib/data/ApiClient';
@@ -8,40 +9,58 @@ import LocationProfile from './LocationProfile';
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import Router from "../../lib/helpers/Router";
+import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TModalUserLocationStatusProps} from "../user-location-status/ScreenModalUserLocationStatus";
+import type {TNavigator} from "../../lib/types/Types";
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-class ScreenLocationProfilePresentational extends React.Component {
+type Props = {
+  navigator: TNavigator,
+  locationId: number,
 
+};
+
+type State = {
+  // Nothing for now
+};
+
+// ScreenLocationProfile ********************************************************************************
+// ScreenLocationProfile ********************************************************************************
+
+class ScreenLocationProfilePresentational extends React.Component<any, Props, State> {
+
+  // todo: these buttons should only be accessible once the locationProfile is not null any more!!
   static NAV_BUTTON_USER_LOCATION_STATUS = {
     id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
-    icon: require('../../assets/images/screenLoginBackground.png'),
-    buttonFontSize: 14,
-    buttonFontWeight: '600',
+    icon: require('../../assets/icons/timerSandFull.png'),
+    // buttonFontSize: 2,
+    // buttonFontWeight: '100',
   };
 
   static NAV_BUTTON_FOLLOW_LOCATION = {
     id: 'NAV_BUTTON_ID_FOLLOW_LOCATION',
-    icon: require('../../assets/images/screenLoginBackground.png'),
-    buttonFontSize: 14,
-    buttonFontWeight: '600',
+    icon: require('../../assets/icons/cocktailGlass.png'),
+    // buttonFontSize: 2,
+    // buttonFontWeight: '100',
   };
 
   constructor(props, context) {
     super(props, context);
     this._initializeNavigatorButtons();
-    this._navigator().setOnNavigatorEvent(this._onNavigatorEvent.bind(this));
+    this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
+    this._navigator().setOnNavigatorEvent(this._onNavigatorEvent);
   }
-
-
 
 
 
   _initializeNavigatorButtons() {
     const rightButtons = [];
 
-    const favoriteIds = DaoUser.gLocationFavoriteIds(this._authenticatedUserProfile());
+    const favoriteIds = DaoUser.gLocationsFavoriteIds(this._authenticatedUserProfile());
     if (!favoriteIds.includes(DaoLocation.gId(this._locationProfile())))
       rightButtons.push(ScreenLocationProfilePresentational.NAV_BUTTON_FOLLOW_LOCATION);
 
@@ -57,57 +76,82 @@ class ScreenLocationProfilePresentational extends React.Component {
     if (event.type !== 'NavBarButtonPress')
       return;
 
+    // A navigator button was pressed
+    const locationProfile = this._locationProfile();
+    if (locationProfile == null)
+      return;
+
     if (event.id === ScreenLocationProfilePresentational.NAV_BUTTON_USER_LOCATION_STATUS.id) {
-      Router.toModalUserLocationStatus(this._navigator(), {
-        location: this._locationProfile(),
-        onStatusConfirm: (status) => {console.log(status);},
-      });
+      this._onNavigatorUserLocationStatusPress(locationProfile);
       return;
     }
 
     if (event.id === ScreenLocationProfilePresentational.NAV_BUTTON_FOLLOW_LOCATION.id) {
-      ApiClient.userLocationsFavoritesAdd(DaoLocation.gId(this._locationProfile()));
-      DaoUser.addLocationToFavorites(this._authenticatedUserProfile(), this._locationProfile());
-      this._initializeNavigatorButtons();
+      this._onNavigatorFollowLocationPress(locationProfile);
       return;
     }
+  }
 
+  _onNavigatorUserLocationStatusPress(locationProfile: TLocation) {
+    const passProps = ({
+      // [navigator] is automatically added by the navigator that opens the modal
+    }: TModalUserLocationStatusProps);
+
+    passProps.locationId = DaoLocation.gId(locationProfile);
+    // passProps.postOnConfirm = true;
+    // passProps.onStatusConfirm, passProps.initialStatus not needed
+
+    Router.toModalUserLocationStatus(this._navigator(), passProps);
+  }
+
+  _onNavigatorFollowLocationPress(locationProfile: TLocation) {
+    ApiClient.userLocationsFavoritesAdd(DaoLocation.gId(locationProfile))
+        .catch((error) => {
+          // Operation failed, revert the UI back to it's original state
+          DaoUser.removeLocationFromFavorites(this._locationProfile());
+          this._initializeNavigatorButtons();
+        });
+
+    // Update the UI immediately without waiting for a positive response
+    DaoUser.addLocationToFavorites(this._authenticatedUserProfile(), locationProfile);
+    this._initializeNavigatorButtons();
   }
 
 
   componentWillMount() {
-
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
     this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-      .then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
+        .then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
 
   }
 
 
-  _navigator() {
+  _navigator(): TNavigator {
     return this.props.navigator;
   }
 
-  _authenticatedUserProfile() {
+  _authenticatedUserProfile(): TUser {
     return this.props[CACHE_ID_USER_PROFILE].data;
   }
 
-  _locationProfile() {
+  _locationProfile(): ?TLocation {
     return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(this.props.locationId);
   }
 
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._locationProfile(), this._authenticatedUserProfile()]}
-            renderChild={([locationProfile, authenticatedUserProfile]) => (
-                <LocationProfile
-                    navigator={this._navigator()}
-                    locationProfile={locationProfile}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._locationProfile(), this._authenticatedUserProfile()]}
+              renderChild={([locationProfile, authenticatedUserProfile]) => (
+                  <LocationProfile
+                      navigator={this._navigator()}
+                      locationProfile={locationProfile}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

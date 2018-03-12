@@ -2,226 +2,185 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Const} from '../../Config';
-
 import _ from 'lodash';
 import ApiClient from '../../lib/data/ApiClient';
 
-import {Icons, Colors} from '../../Config';
-
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
-import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
+import DaoUser from "../../lib/daos/DaoUser";
 
-import {Text, FlatList, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import AvatarDescription from '../../comp/misc/AvatarDescription';
-import TabBar from '../../comp/misc/TabBar';
-import ListDataPoints from '../../comp/misc/ListDataPoints';
-
-import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
-import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
-import {Row, Grid, Col} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
-import Gallery from '../../comp/misc/Gallery';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 
-import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
-
-import LocationMap from '../../comp-buisness/location/LocationMap';
-
-import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
-import DaoUser from "../../lib/daos/DaoUser";
-
-import LocationChat from '../../comp-buisness/location/LocationChat';
 import Router from '../../lib/helpers/Router';
+import {Colors} from "../../Config";
 
 
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
-const locationProfileInitState = {
-  usersSuggestSeed: 0,
-  usersStopSuggestLoop: false,
-  usersSuggestList: [],
+const listTypeUsers = 'users';
+const listTypeLocations = 'locations';
 
-  locationsSuggestSeed: 0,
-  locationsStopSuggestLoop: false,
-  locationsSuggestList: [],
-
-  usersSearchQuery: '',
-  usersSearchList: [],
-
-  locationsSearchQuery: '',
-  locationsSearchList: [],
-
-  usersLoading: false,
-  locationsLoading: false
+const SearchActionConfig = {
+  [listTypeUsers]: {
+    name: listTypeUsers,
+    suggestApiCall: (seed) => ApiClient.suggestSeedUsers(seed),
+    searchApiCall: (query) => ApiClient.searchQueryUsers(query),
+    uniqueFilter: DaoUser.gId
+  },
+  [listTypeLocations]: {
+    name: listTypeLocations,
+    suggestApiCall: (seed) => ApiClient.suggestSeedLocations(seed),
+    searchApiCall: (query) => ApiClient.searchQueryLocations(query),
+    uniqueFilter: DaoLocation.gId
+  },
 };
 
-const ACTION_CONCAT_USERS_SUGGEST_LIST = 'ACTION_SET_USERS_SUGGEST_LIST';
-const ACTION_CONCAT_LOCATIONS_SUGGEST_LIST = 'ACTION_CONCAT_LOCATIONS_SUGGEST_LIST';
 
-const ACTION_SET_USERS_SEARCH_QUERY = 'ACTION_SET_USERS_SEARCH_QUERY';
-const ACTION_SET_USERS_SEARCH_LIST = 'ACTION_SET_USERS_SEARCH_LIST';
-const ACTION_SET_LOCATIONS_SEARCH_QUERY = 'ACTION_SET_LOCATIONS_SEARCH_QUERY';
-const ACTION_SET_LOCATIONS_SEARCH_LIST = 'ACTION_SET_LOCATIONS_SEARCH_LIST';
+const SearchReducerSection = {
+  loading: false,
+  stopSuggestLoop: false,
+  searchQuery: '',
+  suggestSeed: 0,
+  list: [],
+  searchList: [],
+  suggestList: [],
+};
 
-const ACTION_SET_LOCATIONS_LOADING = 'ACTION_SET_LOCATIONS_LOADING';
-const ACTION_SET_USERS_LOADING = 'ACTION_SET_USERS_LOADING';
+const searchInitState = {
+  [listTypeUsers]: Object.assign(SearchReducerSection),
+  [listTypeLocations]: Object.assign(SearchReducerSection)
+};
 
-export function searchReducer(state = locationProfileInitState, action) {
+const ACTION_CONCAT_SUGGEST_LIST = 'ACTION_CONCAT_SUGGEST_LIST';
+const ACTION_SET_SEARCH_QUERY = 'ACTION_SET_SEARCH_QUERY';
+const ACTION_SET_SEARCH_LIST = 'ACTION_SET_SEARCH_LIST';
+const ACTION_SET_LOADING = 'ACTION_SET_LOADING';
+
+export function searchReducer(state = searchInitState, action) {
   switch (action.type) {
 
-    case ACTION_CONCAT_USERS_SUGGEST_LIST:
+    case ACTION_CONCAT_SUGGEST_LIST:
+      const oldState1 = state[action.listType];
+      const listTypeConfig1 = SearchActionConfig[action.listType];
+
+      // The suggestSeed should be incremented
+      const suggestSeed = oldState1.suggestSeed + 1;
+
+      // Stop the suggesting loop if no new data was received
+      const stopSuggestLoop = oldState1.suggestList.length === action.suggestList.length;
+
+      // The new suggest list is the old suggestList + the new received data
+      const suggestList = _.uniqBy(oldState1.suggestList.concat(action.suggestList), listTypeConfig1.uniqueFilter);
+
+      // The new display list is the old searchList + the new suggestList
+      const list = _.uniqBy(oldState1.searchList.concat(suggestList), listTypeConfig1.uniqueFilter);
+
       return Object.assign({}, state, {
-        usersSuggestSeed: state.usersSuggestSeed + 1,
-        usersStopSuggestLoop: action.usersStopSuggestLoop,
-        usersSuggestList: action.usersSuggestList,
-        usersLoading: false
+        [action.listType]: Object.assign({}, oldState1, {
+          loading: false,
+          suggestSeed: suggestSeed,
+          stopSuggestLoop: stopSuggestLoop,
+          suggestList: suggestList,
+          list: list
+        })
       });
 
-    case ACTION_CONCAT_LOCATIONS_SUGGEST_LIST:
+    case ACTION_SET_SEARCH_LIST:
+      const oldState2 = state[action.listType];
+      const listTypeConfig2 = SearchActionConfig[action.listType];
+
+      // The new search list is only what was returned as new data
+      const searchList = _.uniqBy(action.searchList, listTypeConfig2.uniqueFilter);
+
+      // The new display list is the new searchList + the old suggestList
+      const list2 = _.uniqBy(searchList.concat(oldState2.suggestList), listTypeConfig2.uniqueFilter);
+
       return Object.assign({}, state, {
-        locationsSuggestSeed: state.locationsSuggestSeed + 1,
-        locationsStopSuggestLoop: action.locationsStopSuggestLoop,
-        locationsSuggestList: action.locationsSuggestList,
-        locationsLoading: false
+        [action.listType]: Object.assign({}, oldState2, {
+          loading: false,
+          searchList: searchList,
+          list: list2
+        })
       });
 
-
-    case ACTION_SET_USERS_SEARCH_QUERY:
+    case ACTION_SET_SEARCH_QUERY:
       return Object.assign({}, state, {
-        usersSearchQuery: action.usersSearchQuery
+        [action.listType]: Object.assign({}, state[action.listType], {
+          searchQuery: action.searchQuery
+        })
       });
 
-    case ACTION_SET_USERS_SEARCH_LIST:
+    case ACTION_SET_LOADING:
       return Object.assign({}, state, {
-        usersSearchList: action.usersSearchList,
-        usersLoading: false
+        [action.listType]: Object.assign({}, state[action.listType], {
+          loading: true
+        })
       });
-
-    case ACTION_SET_LOCATIONS_SEARCH_QUERY:
-      return Object.assign({}, state, {
-        locationsSearchQuery: action.locationsSearchQuery
-      });
-
-    case ACTION_SET_LOCATIONS_SEARCH_LIST:
-      return Object.assign({}, state, {
-        locationsSearchList: action.locationsSearchList,
-        locationsLoading: false
-      });
-
-
-    case ACTION_SET_LOCATIONS_LOADING:
-      return Object.assign({}, state, {
-        locationsLoading: true
-      });
-
-    case ACTION_SET_USERS_LOADING:
-      return Object.assign({}, state, {
-        usersLoading: true
-      });
-
   }
 
   return state;
 }
 
-
-function searchSuggestUsers() {
+function searchSuggest(listType: string) {
   return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_USERS_LOADING});
+    const actionConfig = SearchActionConfig[listType];
+    const currentState = getState().searchReducer[listType];
 
-    let currentSeed = getState().searchReducer.usersSuggestSeed;
+    if (currentState.loading)
+      return;
+
+    dispatch({
+      type: ACTION_SET_LOADING,
+      listType: listType
+    });
 
     // Run the suggestion api call
-    ApiClient.suggestSeedUsers(currentSeed)
-        .then(users => {
-          let previousData = getState().searchReducer.usersSuggestList;
-          users = _.uniqBy(previousData.concat(users), DaoUser.pId);
-
-          dispatch({
-            type: ACTION_CONCAT_USERS_SUGGEST_LIST,
-            usersSuggestList: users,
-            usersStopSuggestLoop: previousData.length === users.length
-          });
-        });
-  };
-}
-
-
-function searchSuggestLocations() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_LOCATIONS_LOADING});
-
-    let currentSeed = getState().searchReducer.locationsSuggestSeed;
-
-    // Run the suggestion api call
-    ApiClient.suggestSeedLocations(currentSeed)
-        .then(locations => {
-          let previousData = getState().searchReducer.locationsSuggestList;
-          locations = _.uniqBy(previousData.concat(locations), DaoLocation.pId);
-
-          dispatch({
-            type: ACTION_CONCAT_LOCATIONS_SUGGEST_LIST,
-            locationsSuggestList: locations,
-            locationsStopSuggestLoop: previousData.length === locations.length
-          });
-        });
-  };
-}
-
-
-function searchSearchUsers() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_USERS_LOADING});
-
-    let query = getState().searchReducer.usersSearchQuery;
-
-    // Run the suggestion api call
-    ApiClient.searchQueryUsers(query)
-        .then(users => dispatch({
-          type: ACTION_SET_USERS_SEARCH_LIST,
-          usersSearchList: users
+    actionConfig.suggestApiCall(currentState.suggestSeed)
+        .then(items => dispatch({
+          type: ACTION_CONCAT_SUGGEST_LIST,
+          listType: listType,
+          suggestList: items,
         }));
   };
 }
 
-
-function searchSearchLocations() {
+function searchSearch(listType: string) {
   return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_LOCATIONS_LOADING});
+    const actionConfig = SearchActionConfig[listType];
+    const currentState = getState().searchReducer[listType];
+    const query = currentState.searchQuery;
 
-    let query = getState().searchReducer.locationsSearchQuery;
+    if (!query || query.length <= 0)
+      return;
 
-    // Run the suggestion api call
-    ApiClient.searchQueryLocations(query)
-        .then(locations => dispatch({
-          type: ACTION_SET_LOCATIONS_SEARCH_LIST,
-          locationsSearchList: locations
+    // Always search, even if something is already fetching
+    dispatch({
+      type: ACTION_SET_LOADING,
+      listType: listType
+    });
+
+    // Run the search api call
+    actionConfig.searchApiCall(query)
+        .then(items => dispatch({
+          type: ACTION_SET_SEARCH_LIST,
+          listType: listType,
+          searchList: items
         }));
   };
 }
 
-
-function searchSetLocationsSearchQuery(query) {
+function searchSetSearchQuery(listType: string, query) {
   return {
-    type: ACTION_SET_LOCATIONS_SEARCH_QUERY,
-    locationsSearchQuery: query
-  };
-}
-
-function searchSetUsersSearchQuery(query) {
-  return {
-    type: ACTION_SET_USERS_SEARCH_QUERY,
-    usersSearchQuery: query
+    type: ACTION_SET_SEARCH_QUERY,
+    listType: listType,
+    searchQuery: query
   };
 }
 
@@ -235,12 +194,22 @@ class SearchPresentational extends React.Component {
     super(props, context);
     this._onLocationPress = this._onLocationPress.bind(this);
     this._onUserPress = this._onUserPress.bind(this);
+    this._locationsOnEndReached = this._locationsOnEndReached.bind(this);
+    this._usersOnEndReached = this._usersOnEndReached.bind(this);
   }
 
 
   componentWillMount() {
     this.props.suggestLocations();
     this.props.suggestUsers();
+  }
+
+  _locationsState() {
+    return this.props[listTypeLocations];
+  }
+
+  _usersState() {
+    return this.props[listTypeUsers];
   }
 
 
@@ -256,20 +225,40 @@ class SearchPresentational extends React.Component {
     Router.toUserProfile(this.props.navigator, user);
   }
 
+  _locationsOnEndReached() {
+    if (this._locationsState().stopSuggestLoop)
+      return;
+
+    // Suggest new locations
+    this.props.suggestLocations();
+  }
+
+  _usersOnEndReached() {
+    if (this._usersState().stopSuggestLoop)
+      return;
+
+    // Suggest new users
+    this.props.suggestUsers();
+  }
+
 
   render() {
     return (
         <ScrollableTabView
             scrollWithoutAnimation={true}
-            prerenderingSiblingsNumber={Infinity}>
+            prerenderingSiblingsNumber={Infinity}
+            tabBarTextStyle={styles.tabBarTextStyle}
+            tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+            tabBarActiveTextColor={Colors.primary}
+            tabBarInactiveTextColor={Colors.black}>
           <View
               tabLabel='Locations'
-              style={{paddingVertical: 8, height: 440}}>
+              style={styles.tabRootUsers}>
             {this._renderTabSearchLocations()}
           </View>
           <View
               tabLabel='People'
-              style={{paddingVertical: 8, height: 440}}>
+              style={styles.tabRootLocations}>
             {this._renderTabSearchUsers()}
           </View>
         </ScrollableTabView>
@@ -279,36 +268,29 @@ class SearchPresentational extends React.Component {
 
 
   _renderTabSearchLocations() {
-    let userProfile = this._userProfile();
-
+    const userProfile = this._userProfile();
+    const {list, loading} = this._locationsState();
     return (
         <LocationList
-            locations={this.props.locationsSearchQuery.length <= 0
-                ? this.props.locationsSuggestList
-                : this.props.locationsSearchList
-            }
-
-            favoriteIds={DaoUser.gLocationFavoriteIds(userProfile)}
+            locations={list}
+            favoriteIds={DaoUser.gLocationsFavoriteIds(userProfile)}
 
             onItemPress={this._onLocationPress}
             onSearchPressed={this.props.searchLocations}
             onSearchChanged={this.props.setLocationsSearchQuery}
+            autoFilter={true}
 
-            loading={this.props.locationsLoading}
-            onEndReached={!this.props.locationsStopSuggestLoop ? this.props.suggestLocations : null}/>
+            loading={loading}
+            onEndReached={this._locationsOnEndReached}/>
     );
   }
 
   _renderTabSearchUsers() {
-    let userProfile = this._userProfile();
-
+    const userProfile = this._userProfile();
+    const {list, loading} = this._usersState();
     return (
         <UserList
-            users={this.props.usersSearchQuery.length <= 0
-                ? this.props.usersSuggestList
-                : this.props.usersSearchList
-            }
-
+            users={list}
             friendIds={DaoUser.gConnectionFriendIds(userProfile)}
             requestIds={DaoUser.gConnectionRequestIds(userProfile)}
             blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
@@ -316,9 +298,10 @@ class SearchPresentational extends React.Component {
             onItemPress={this._onUserPress}
             onSearchPressed={this.props.searchUsers}
             onSearchChanged={this.props.setUsersSearchQuery}
+            autoFilter={true}
 
-            loading={this.props.usersLoading}
-            onEndReached={!this.props.usersStopSuggestLoop ? this.props.suggestUsers : null}/>
+            loading={loading}
+            onEndReached={this._usersOnEndReached}/>
     );
   }
 
@@ -336,12 +319,14 @@ const Search = poolConnect(
 
     // mapDispatchToProps
     (dispatch) => ({
-      suggestUsers: () => dispatch(searchSuggestUsers()),
-      suggestLocations: () => dispatch(searchSuggestLocations()),
-      searchUsers: () => dispatch(searchSearchUsers()),
-      searchLocations: () => dispatch(searchSearchLocations()),
-      setLocationsSearchQuery: (query) => dispatch(searchSetLocationsSearchQuery(query)),
-      setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(query)),
+      suggestUsers: () => dispatch(searchSuggest(listTypeUsers)),
+      suggestLocations: () => dispatch(searchSuggest(listTypeLocations)),
+
+      searchUsers: () => dispatch(searchSearch(listTypeUsers)),
+      searchLocations: () => dispatch(searchSearch(listTypeLocations)),
+
+      setUsersSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeUsers, query)),
+      setLocationsSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeLocations, query)),
     }),
 
     // Array of pools to subscribe to
@@ -351,11 +336,28 @@ const Search = poolConnect(
 
 export default Search;
 
+// Style ************************************************************************************************
+// Style ************************************************************************************************
 
 Search.propTypes = {
   userProfile: PropTypes.object.isRequired,
   navigator: PropTypes.object.isRequired,
 };
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+const styles = StyleSheet.create({
+  tabBarTextStyle: {
+    marginBottom: -8
+  },
+  tabBarUnderlineStyle: {
+    height: 2,
+    backgroundColor: Colors.primary
+  },
+  tabRootUsers: {
+    flex: 1,
+    paddingTop: 8
+  },
+  tabRootLocations: {
+    flex: 1,
+    paddingTop: 8
+  },
+});

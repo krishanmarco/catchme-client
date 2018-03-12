@@ -2,51 +2,65 @@
 import React from 'react';
 import {poolConnect, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
 import Context from '../../lib/Context';
-import {NullableObjects} from "../../comp/Misc";
+import {Screen, NullableObjects} from "../../comp/Misc";
 import Feed from './Feed';
+import type {TNavigator} from "../../lib/types/Types";
 
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+const Props = {
+	navigator: TNavigator
+};
+
+const State = {
+	// Nothing for now
+};
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class ScreenFeedPresentational extends React.Component {
-
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
-  }
-
-  _userProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
-
-  render() {
-    return (
-        <NullableObjects
-            objects={[this._userProfile(), Context.getFirebaseUser()]}
-            renderChild={([userProfile]) => (
-                <Feed
-                    userProfile={userProfile}
-                    navigator={this.props.navigator}/>
-            )}/>
-    );
-  }
-
+class ScreenFeedPresentational extends React.Component<any, Props, State> {
+	
+	componentWillMount() {
+		this.props[CACHE_ID_USER_PROFILE].initialize();
+	}
+	
+	_userProfile() {
+		return this.props[CACHE_ID_USER_PROFILE].data;
+	}
+	
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._userProfile(), Context.getFirebaseUser()]}
+					renderChild={([userProfile]) => (
+						<Feed
+							userProfile={userProfile}
+							navigator={this.props.navigator}/>
+					)}/>
+			</Screen>
+		);
+	}
+	
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
 const ScreenFeed = poolConnect(
-    // Presentational Component
-    ScreenFeedPresentational,
-
-    // mapStateToProps
-    (state) => ({}),
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_ID_USER_PROFILE]
+	// Presentational Component
+	ScreenFeedPresentational,
+	
+	// mapStateToProps
+	(state) => ({}),
+	
+	// mapDispatchToProps
+	(dispatch) => ({}),
+	
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenFeed;

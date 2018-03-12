@@ -1,0 +1,30 @@
+import React from 'react';
+import {Image, View} from 'react-native';
+import {RkComponent} from 'react-native-ui-kitten';
+import {Icon} from 'react-native-elements';
+
+export class Avatar extends RkComponent {
+  componentName = 'Avatar';
+  typeMapping = {
+    listItemHeaderContent: {},
+    image: {},
+    badge: {}
+  };
+
+  render() {
+    const {container, ...imgStyle} = this.defineStyles();
+    const {image, badge} = imgStyle;
+    return (
+        <View style={[container, this.props.style]}>
+          <View>
+            <Image style={image} source={this.props.img}/>
+            {this.props.badge && (
+                <View style={badge}>
+                  <Icon {...this.props.badge} />
+                </View>
+            )}
+          </View>
+        </View>
+    )
+  }
+}

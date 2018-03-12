@@ -1,86 +1,134 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {Const, Icons} from '../../Config';
-import PropTypes from 'prop-types';
-import {poolConnect, FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../redux/ReduxPool';
+import {Colors, Const, Icons} from '../../Config';
+import {poolConnect} from '../../redux/ReduxPool';
 import {Row, Grid, Col} from "react-native-easy-grid";
 import {RkText, RkButton} from "react-native-ui-kitten";
 import {View, StyleSheet, Image, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import {seconds, compareTimeSmaller} from "../../lib/HelperFunctions";
+import {compareTimeSmaller} from "../../lib/HelperFunctions";
 import moment from 'moment';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoLocation from "../../lib/daos/DaoLocation";
 import {Icon} from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
 
-class ModalUserLocationStatusPresentational extends React.Component {
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  locationProfile: TLocation,
+  userLocationStatus: TUserLocationStatus,
+  onStatusConfirm: (TUserLocationStatus) => {},
+  onStatusChange: (TUserLocationStatus) => {},
+
+  dtDateVisible: boolean,
+  dtFromVisible: boolean,
+  dtUntilVisible: boolean
+};
+
+type State = {
+  // Nothing for now
+};
+
+
+// Redux ************************************************************************************************
+// Redux ************************************************************************************************
+
+const modalUserLocationStatusInitState = {
+  dtDateVisible: false,
+  dtFromVisible: false,
+  dtUntilVisible: false
+};
+
+const ACTION_SET_DATE_MODAL_VISIBILITY = 'ACTION_SET_DATE_MODAL_VISIBILITY';
+const ACTION_SET_FROM_MODAL_VISIBILITY = 'ACTION_SET_FROM_MODAL_VISIBILITY';
+const ACTION_SET_UNTIL_MODAL_VISIBILITY = 'ACTION_SET_UNTIL_MODAL_VISIBILITY';
+
+export function modalUserLocationStatusReducer(state = modalUserLocationStatusInitState, action) {
+  switch (action.type) {
+
+    case ACTION_SET_DATE_MODAL_VISIBILITY:
+      return Object.assign({}, state, {
+        dtDateVisible: action.visible
+      });
+
+    case ACTION_SET_FROM_MODAL_VISIBILITY:
+      return Object.assign({}, state, {
+        dtFromVisible: action.visible
+      });
+
+    case ACTION_SET_UNTIL_MODAL_VISIBILITY:
+      return Object.assign({}, state, {
+        dtUntilVisible: action.visible
+      });
+
+  }
+
+  return state;
+}
+
+function modalUserLocationStatusSetDateModalVisibility(visible) {
+  return {
+    type: ACTION_SET_DATE_MODAL_VISIBILITY,
+    visible: visible
+  };
+}
+
+function modalUserLocationStatusSetFromModalVisibility(visible) {
+  return {
+    type: ACTION_SET_FROM_MODAL_VISIBILITY,
+    visible: visible
+  };
+}
+
+function modalUserLocationStatusSetUntilModalVisibility(visible) {
+  return {
+    type: ACTION_SET_UNTIL_MODAL_VISIBILITY,
+    visible: visible
+  };
+}
+
+// ModalUserLocationStatus ******************************************************************************
+// ModalUserLocationStatus ******************************************************************************
+
+class ModalUserLocationStatusPresentational extends React.Component<any, Props, State> {
   static DATE_TIME_NOW = new Date();
 
   constructor(props, context) {
     super(props, context);
-    this._onDatePressed = this._onDatePressed.bind(this);
-    this._onFromPressed = this._onFromPressed.bind(this);
-    this._onUntilPressed = this._onUntilPressed.bind(this);
-    this._onDateCanceled = this._onDateCanceled.bind(this);
-    this._onFromCanceled = this._onFromCanceled.bind(this);
-    this._onUntilCanceled = this._onUntilCanceled.bind(this);
     this._onDatePicked = this._onDatePicked.bind(this);
     this._onFromPicked = this._onFromPicked.bind(this);
     this._onUntilPicked = this._onUntilPicked.bind(this);
-    this._onStatusConfirm = this._onStatusConfirm.bind(this);
     this._onHereNowPressed = this._onHereNowPressed.bind(this);
-    this._onHereTonightPressed = this._onHereTonightPressed.bind(this);
-
-    this.state = {
-      dtDateVisible: false,
-      dtFromVisible: false,
-      dtUntilVisible: false
-    };
-
+    this._onHereLaterPressed = this._onHereLaterPressed.bind(this);
   }
 
 
-  componentWillMount() {
-    let initialStatus = this._initialStatus();
-
-    if (!initialStatus)
-      initialStatus = DaoUserLocationStatus.createInitialStatus(DaoLocation.gId(this._location()));
-    
-    this._formApiEditUserLocationStatus().change(initialStatus);
+  _locationProfile(): TLocation {
+    return this.props.locationProfile;
   }
-
-
-  _formApiEditUserLocationStatus() { return this.props[FORM_API_ID_EDIT_USER_LOCATION_STATUS]; }
-  _formApiEditUserLocationStatusInput() { return this.props[FORM_API_ID_EDIT_USER_LOCATION_STATUS].apiInput; }
-
-  _initialStatus() { return this.props.initialStatus; }
-  _location() { return this.props.location; }
-  _onStatusConfirm() { this.props.onStatusConfirm(this._formApiEditUserLocationStatusInput()); }
-
-
-  _onDatePressed() { this.setState({dtDateVisible: true}); }
-  _onFromPressed() { this.setState({dtFromVisible: true}); }
-  _onUntilPressed() { this.setState({dtUntilVisible: true}); }
-
-  _onDateCanceled() { this.setState({dtDateVisible: false}); }
-  _onFromCanceled() { this.setState({dtFromVisible: false}); }
-  _onUntilCanceled() { this.setState({dtUntilVisible: false}); }
-
+  
+  _userLocationStatus(): TUserLocationStatus {
+    return this.props.userLocationStatus;
+  }
+  
+  _onStatusChange(objectToMerge) {
+    this.props.onStatusChange(objectToMerge);
+  }
 
   _onDatePicked(date: Date) {
     const currentFrom = this._getFromDate();
 
     currentFrom.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
 
-    this._formApiEditUserLocationStatus().change({
-      [DaoUserLocationStatus.pFromTs]: moment(currentFrom).unix(),
-    });
-    this.setState({dtDateVisible: false});
+    this._onStatusChange({[DaoUserLocationStatus.pFromTs]: moment(currentFrom).unix()});
+    this.props.setDateModalVisibility(false);
   }
 
   _onFromPicked(date) {
@@ -88,10 +136,8 @@ class ModalUserLocationStatusPresentational extends React.Component {
 
     currentFrom.setHours(date.getHours(), date.getMinutes(), 0, 0);
 
-    this._formApiEditUserLocationStatus().change({
-      [DaoUserLocationStatus.pFromTs]: moment(currentFrom).unix()
-    });
-    this.setState({dtFromVisible: false});
+    this._onStatusChange({[DaoUserLocationStatus.pFromTs]: moment(currentFrom).unix()});
+    this.props.setFromModalVisibility(false);
   }
 
   _onUntilPicked(date) {
@@ -103,12 +149,10 @@ class ModalUserLocationStatusPresentational extends React.Component {
     const dateIncr = compareTimeSmaller(until, from) ? 1 : 0;
     until.setFullYear(from.getFullYear(), from.getMonth(), from.getDate() + dateIncr);
 
-
-    this._formApiEditUserLocationStatus().change({
-      [DaoUserLocationStatus.pUntilTs]: moment(until).unix()
-    });
-    this.setState({dtUntilVisible: false});
+    this._onStatusChange({[DaoUserLocationStatus.pUntilTs]: moment(until).unix()});
+    this.props.setUntilModalVisibility(false);
   }
+
 
 
   _onHereNowPressed() {
@@ -117,18 +161,18 @@ class ModalUserLocationStatusPresentational extends React.Component {
 
     until.setHours(until.getHours() + Const.UserLocationStatus.defaultStayHrs);
 
-    this._formApiEditUserLocationStatus().change({
+    this._onStatusChange({
       [DaoUserLocationStatus.pFromTs]: moment(from).unix(),
       [DaoUserLocationStatus.pUntilTs]: moment(until).unix(),
     });
     this.forceUpdate();
   }
 
-  _onHereTonightPressed() {
+  _onHereLaterPressed() {
     const from = new Date();
     const until = new Date();
 
-    const startHrs = Const.UserLocationStatus.defaultTonightStartHrs;
+    const startHrs = Const.UserLocationStatus.defaultLaterStartHrs;
     const stayHrs = Const.UserLocationStatus.defaultStayHrs;
 
     if (from.getHours() < startHrs)
@@ -137,7 +181,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
 
     until.setHours(startHrs + stayHrs, 0, 0, 0);
 
-    this._formApiEditUserLocationStatus().change({
+    this._onStatusChange({
       [DaoUserLocationStatus.pFromTs]: moment(from).unix(),
       [DaoUserLocationStatus.pUntilTs]: moment(until).unix(),
     });
@@ -157,54 +201,68 @@ class ModalUserLocationStatusPresentational extends React.Component {
   }
 
   _getFromDate() {
-    const fromSec = DaoUserLocationStatus.gFromTs(this._formApiEditUserLocationStatusInput());
+    const fromSec = DaoUserLocationStatus.gFromTs(this._userLocationStatus());
     return new Date(fromSec * 1000);
   }
 
   _getUntilDate() {
-    const untilSec = DaoUserLocationStatus.gUntilTs(this._formApiEditUserLocationStatusInput());
+    const untilSec = DaoUserLocationStatus.gUntilTs(this._userLocationStatus());
     return new Date(untilSec * 1000);
   }
 
   _getFromMoment() {
-    const fromSec = DaoUserLocationStatus.gFromTs(this._formApiEditUserLocationStatusInput());
+    const fromSec = DaoUserLocationStatus.gFromTs(this._userLocationStatus());
     return moment(fromSec * 1000);
   }
 
   _getUntilMoment() {
-    const untilSec = DaoUserLocationStatus.gUntilTs(this._formApiEditUserLocationStatusInput());
+    const untilSec = DaoUserLocationStatus.gUntilTs(this._userLocationStatus());
     return moment(untilSec * 1000);
+  }
+
+  _getHereNowColor() {
+    if (moment().isBetween(this._getFromMoment(), this._getUntilMoment()))
+      return Colors.primary;
+
+    return Colors.black;
+  }
+
+  _getHereLaterColor() {
+    if (moment().isBefore(this._getFromMoment()))
+      return Colors.primary;
+
+    return Colors.black;
   }
 
 
   render() {
     return (
         <View style={{flex: 1}}>
-          <Grid style={Styles.mainGrid}>
-            <Row size={30} style={Styles.imageRow}>{this._renderHeaderImage()}</Row>
-            <Row size={25} style={Styles.contentRow}>{this._renderContent()}</Row>
-            <Row size={35} style={Styles.timeActionRow}>{this._renderTimeActionButtons()}</Row>
-            <Row size={20} style={Styles.actionRow}>{this._renderActionButtons()}</Row>
+          <Grid style={styles.mainGrid}>
+            <Row size={30} style={styles.imageRow}>{this._renderHeaderImage()}</Row>
+            <Row size={25} style={styles.contentRow}>{this._renderContent()}</Row>
+            <Row size={35} style={styles.timeActionRow}>{this._renderTimeActionButtons()}</Row>
+            <Row size={20} style={styles.actionRow}>{this._renderActionButtons()}</Row>
           </Grid>
           <DateTimePicker
               mode='date'
               minimumDate={ModalUserLocationStatusPresentational.DATE_TIME_NOW}
-              isVisible={this.state.dtDateVisible}
+              isVisible={this.props.dtDateVisible}
               date={this._getFromDate()}
               onConfirm={this._onDatePicked}
-              onCancel={this._onDateCanceled}/>
+              onCancel={() => this.props.setDateModalVisibility(false)}/>
           <DateTimePicker
               mode='time'
-              isVisible={this.state.dtFromVisible}
+              isVisible={this.props.dtFromVisible}
               date={this._getFromDate()}
               onConfirm={this._onFromPicked}
-              onCancel={this._onFromCanceled}/>
+              onCancel={() => this.props.setFromModalVisibility(false)}/>
           <DateTimePicker
               mode='time'
-              isVisible={this.state.dtUntilVisible}
+              isVisible={this.props.dtUntilVisible}
               date={this._getUntilDate()}
               onConfirm={this._onUntilPicked}
-              onCancel={this._onUntilCanceled}/>
+              onCancel={() => this.props.setUntilModalVisibility(false)}/>
         </View>
     );
   }
@@ -214,7 +272,7 @@ class ModalUserLocationStatusPresentational extends React.Component {
     return (
         <Image
             style={{width: '100%', height: 'auto'}}
-            source={ImageURISourceAuth.fromUrl(DaoLocation.gPictureUrl(this._location()))}/>
+            source={ImageURISourceAuth.fromUrl(DaoLocation.gPictureUrl(this._locationProfile()))}/>
     );
   }
 
@@ -222,29 +280,29 @@ class ModalUserLocationStatusPresentational extends React.Component {
   _renderContent() {
     return (
         <Grid>
-          <Row size={30}>
-            <RkText rkType='primary header3'>
-              {DaoLocation.gName(this._location())}
+          <Row size={30} style={{width: '100%'}}>
+            <RkText rkType='secondary3'>
+              {DaoLocation.gAddress(this._locationProfile())}
             </RkText>
           </Row>
           <Row size={30} style={{marginTop: 24}}>
-            <Col style={Styles.center}>
-              <TouchableNativeFeedback onPress={this._onDatePressed}>
+            <Col style={styles.center}>
+              <TouchableNativeFeedback onPress={() => this.props.setDateModalVisibility(true)}>
                 <RkText>{this._getStatusDateString()}</RkText>
               </TouchableNativeFeedback>
             </Col>
           </Row>
           <Row size={30}>
-            <Col size={10} style={Styles.right}>
-              <TouchableNativeFeedback onPress={this._onFromPressed}>
+            <Col size={10} style={styles.right}>
+              <TouchableNativeFeedback onPress={() => this.props.setFromModalVisibility(true)}>
                 <RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
               </TouchableNativeFeedback>
             </Col>
-            <Col size={2} style={Styles.center}>
+            <Col size={2} style={styles.center}>
               <RkText rkType='header1'>-</RkText>
             </Col>
-            <Col size={10} style={Styles.left}>
-              <TouchableNativeFeedback onPress={this._onUntilPressed}>
+            <Col size={10} style={styles.left}>
+              <TouchableNativeFeedback onPress={() => this.props.setUntilModalVisibility(true)}>
                 <RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
               </TouchableNativeFeedback>
             </Col>
@@ -257,23 +315,23 @@ class ModalUserLocationStatusPresentational extends React.Component {
   _renderTimeActionButtons() {
     return (
         <Grid>
-          <Col style={Styles.center}>
+          <Col style={styles.center}>
             <View>
               <TouchableOpacity onPress={this._onHereNowPressed}>
                 <Icon
                     size={55}
-                    {...Icons.userLocationStatusNow}/>
+                    {...{...Icons.locationPersonFuture, color: this._getHereNowColor()}}/>
                 <RkText rkType='secondary2'>I am here now</RkText>
               </TouchableOpacity>
             </View>
           </Col>
-          <Col style={Styles.center}>
+          <Col style={styles.center}>
             <View>
-              <TouchableOpacity onPress={this._onHereTonightPressed}>
+              <TouchableOpacity onPress={this._onHereLaterPressed}>
                 <Icon
                     size={55}
-                    {...Icons.userLocationStatusLater}/>
-                <RkText rkType='secondary2'>I will be here tonight</RkText>
+                    {...{...Icons.locationPersonFuture, color: this._getHereLaterColor()}}/>
+                <RkText rkType='secondary2'>I will be here later</RkText>
               </TouchableOpacity>
             </View>
           </Col>
@@ -285,8 +343,8 @@ class ModalUserLocationStatusPresentational extends React.Component {
   _renderActionButtons() {
     return (
         <Grid>
-          <Col style={Styles.center}>
-            <RkButton style={Styles.buttonPositive} onPress={this._onStatusConfirm}>Confirm</RkButton>
+          <Col style={styles.center}>
+            <RkButton style={styles.buttonPositive} onPress={this.props.onStatusConfirm}>Confirm</RkButton>
           </Col>
         </Grid>
     );
@@ -294,35 +352,31 @@ class ModalUserLocationStatusPresentational extends React.Component {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ModalUserLocationStatus = poolConnect(
     // Presentational Component
     ModalUserLocationStatusPresentational,
 
     // mapStateToProps
-    (state) => ({}),
+    (state) => state.modalUserLocationStatusReducer,
 
     // mapDispatchToProps
-    (dispatch) => ({}),
+    (dispatch) => ({
+      setDateModalVisibility: (visible) => dispatch(modalUserLocationStatusSetDateModalVisibility(visible)),
+      setFromModalVisibility: (visible) => dispatch(modalUserLocationStatusSetFromModalVisibility(visible)),
+      setUntilModalVisibility: (visible) => dispatch(modalUserLocationStatusSetUntilModalVisibility(visible))
+    }),
 
     // Array of pools to subscribe to
-    [FORM_API_ID_EDIT_USER_LOCATION_STATUS]
+    []
 );
 export default ModalUserLocationStatus;
 
-ModalUserLocationStatus.defaultProps = {
-  navigator: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  onStatusConfirm: PropTypes.func.isRequired,
-  initialStatus: PropTypes.object
-};
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   mainGrid: {
     flex: 1,
     flexDirection: 'column'

@@ -1,13 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {Icon, Avatar} from 'react-native-elements'
+import {Icon} from 'react-native-elements'
 
 import {View, TouchableNativeFeedback, Image} from 'react-native';
 import {RkStyleSheet, RkText, RkButton, RkCard} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
-import FeedHandler from '../../lib/helpers/FeedHandler';
+import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
+import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
+import type {TNavigator} from "../../lib/types/Types";
 
 
 
@@ -16,15 +18,15 @@ export default class FeaturedAdsListItem extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this._handleAction = this._handleAction.bind(this);
+    this._handleClickAction = this._handleClickAction.bind(this);
     this._onItemPress = this._onItemPress.bind(this);
   }
 
-  _featuredAd() {
+  _featuredAd(): TFeaturedAd {
     return this.props.featuredAd;
   }
 
-  _navigator() {
+  _navigator(): TNavigator {
     return this.props.navigator;
   }
 
@@ -32,13 +34,13 @@ export default class FeaturedAdsListItem extends React.Component {
   _onItemPress() {
     const clickAction = DaoFeed.gClickAction(this._featuredAd());
 
-    if (clickAction && FeedHandler.actionIsValid(this._featuredAd(), clickAction))
-      this._handleAction(clickAction);
+    if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._featuredAd()))
+      this._handleClickAction(clickAction);
   }
 
 
-  _handleAction(action) {
-    FeedHandler.handleFeedAction(action, this._featuredAd(), this._navigator())
+  _handleClickAction(clickAction: string) {
+    ActionHandler.handleAction(clickAction, this._featuredAd(), this._navigator())
   }
 
 
@@ -62,14 +64,14 @@ export default class FeaturedAdsListItem extends React.Component {
 
   _renderActionBar() {
     const actions = DaoFeaturedAd.gActions(this._featuredAd())
-        .filter(action => FeedHandler.actionIsValid(this._featuredAd(), action));
+        .filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._featuredAd()));
 
     return (
         <View style={Styles.actionBarContainer}>
-          {actions.map((action, key) => (
+          {actions.map((clickAction, key) => (
               <View key={key} style={Styles.actionBarSection}>
-                <RkButton rkType='clear' onPress={() => this._handleAction(action)}>
-                  <Icon color='#fff' size={30} {...FeedHandler.mapActionToIcon(action)}/>
+                <RkButton rkType='clear' onPress={() => this._handleClickAction(clickAction)}>
+                  <Icon color='#fff' size={30} {...ActionHandler.mapActionToIcon(clickAction)}/>
                 </RkButton>
               </View>
           ))}

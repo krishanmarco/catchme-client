@@ -8,7 +8,7 @@ import ApiClient from '../../lib/data/ApiClient';
 
 import DaoUser from '../../lib/daos/DaoUser';
 
-import ListItemWithAction from '../../comp/misc/ListItemsWithActions';
+import {ListItemWithActions} from "../../comp/Misc";
 
 
 
@@ -19,24 +19,25 @@ export class ListItemUser extends React.Component {
     this._defaultOnPress = this._defaultOnPress.bind(this);
   }
 
-  _getUser() { return this.props.user; }
+  _getUser() {
+    return this.props.user;
+  }
 
 
   _defaultOnPress() {
-    if (this.props.onPress) {
+    if (this.props.onPress)
       this.props.onPress(this._getUser());
-      return;
-    }
 
+    // Add more on-press actions here
   }
 
 
   render() {
     return (
-        <ListItemWithAction
+        <ListItemWithActions
             header={DaoUser.gName(this._getUser())}
             content={DaoUser.gPublicMessage(this._getUser())}
-            avatar={DaoUser.gPictureUrl(this._getUser())}
+            avatarUri={DaoUser.gPictureUrl(this._getUser())}
             actions={this.props.actions}
             image={this.props.image}
             onPress={this._defaultOnPress}/>
@@ -45,9 +46,7 @@ export class ListItemUser extends React.Component {
 
 }
 
-ListItemUser.defaultProps = {
-
-};
+ListItemUser.defaultProps = {};
 
 ListItemUser.propTypes = {
   user: PropTypes.object.isRequired
@@ -61,8 +60,7 @@ export const ListItemUserRequestSend = ({user, onPress}) => (
         user={user}
         onPress={onPress}
         actions={[{
-          nameType: Icons.friendRequestAccept,
-          color: Colors.primary,
+          icon: Icons.userFollow,
           onPress: () => ApiClient.userConnectionsAddUid(DaoUser.gId(user))
         }]}/>
 );
@@ -73,12 +71,10 @@ export const ListItemUserRequestReceived = ({user, onPress}) => (
         user={user}
         onPress={onPress}
         actions={[{
-          nameType: Icons.friendRequestAccept,
-          color: Colors.primary,
+          icon: Icons.userFollow,
           onPress: () => ApiClient.userConnectionsAcceptUid(DaoUser.gId(user))
         }, {
-          nameType: Icons.friendRequestAccept,
-          color: Colors.secondary,
+          icon: Icons.userBlock,
           onPress: () => ApiClient.userConnectionsBlockUid(DaoUser.gId(user))
         }]}/>
 );

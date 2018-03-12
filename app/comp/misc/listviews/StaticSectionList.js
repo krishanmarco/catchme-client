@@ -1,11 +1,26 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {StyleSheet, View, SectionList} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import type {TSectionListDataPointSections} from "../../../lib/types/Types";
+import {ListItemHeader} from "../../Misc";
 
-export default class StaticSectionList extends React.PureComponent {
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  sections: Array<TSectionListDataPointSections>,
+  keyExtractor?: (TSectionListDataPointSections, number) => number
+};
+
+
+
+
+// StaticSectionList ************************************************************************************
+// StaticSectionList ************************************************************************************
+
+export default class StaticSectionList extends React.PureComponent<any, Props, void> {
 
   constructor(props, context) {
     super(props, context);
@@ -33,28 +48,18 @@ export default class StaticSectionList extends React.PureComponent {
     );
   }
 
-
   _renderHeader({section}) {
-    return (
-        <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>{section.title.toUpperCase()}</RkText>
-        </View>
-    );
+    return (<ListItemHeader name={section.title}/>)
   }
 
 }
 
 
-let styles = RkStyleSheet.create(theme => ({
-  heading: {
-    paddingBottom: 6
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center'
-  },
+
+
+// Config **********************************************************************************************
+// Config **********************************************************************************************
+
+const styles = RkStyleSheet.create(theme => ({
+  // Nothing for now
 }));

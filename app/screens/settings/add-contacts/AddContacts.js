@@ -15,6 +15,7 @@ import DaoUser from "../../../lib/daos/DaoUser";
 import Router from '../../../lib/helpers/Router';
 
 import Contacts from 'react-native-contacts';
+import Logger from "../../../lib/Logger";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -61,34 +62,34 @@ function mapContactsToUsers(currentUserId, contacts) {
 
       // Join all this users email addresses
       const emailAddresses = _.get(contact, 'emailAddresses', []);
-      const emailSearchString = emailAddresses
-          .map(e => _.get(e, 'email', '').replace(/\s+/g, ''))
-          .join(' ');
+      const emailSearchString = emailAddresses.
+          map(e => _.get(e, 'email', '').replace(/\s+/g, '')).
+          join(' ');
 
       // Join all this users phone numbers
       const phoneNumbers = _.get(contact, 'phoneNumbers', []);
-      const phoneSearchString = phoneNumbers
-          .map(p => _.get(p, 'number', '').replace(/[^0-9]/g, ''))
-          .join(' ');
+      const phoneSearchString = phoneNumbers.
+          map(p => _.get(p, 'number', '').replace(/[^0-9]/g, '')).
+          join(' ');
 
       return (emailSearchString + ' ' + phoneSearchString).trim();
 
     }).filter(s => s.length > 0);
 
-    
+
     // Query the WS for all the users in the searchString
-    ApiClient.searchUsers(searchStrings)
-        .then(users => {
+    ApiClient.searchUsers(searchStrings).
+        then(users => {
 
           // Search for and remove the current user
-          const filteredUsers = users
-              .filter(u => DaoUser.gId(u) != currentUserId);
+          const filteredUsers = users.
+              filter(u => DaoUser.gId(u) != currentUserId);
 
 
           dispatch({
             type: ACTION_SET_USERS_SEARCH_LIST,
             usersList: filteredUsers
-          })
+          });
         });
   };
 }
@@ -106,7 +107,7 @@ function addContactsInitialize(currentUserId) {
     const initialized = getState().addContactsReducer.initialized;
 
     if (initialized) {
-      console.log('AddContacts addContactsInitialize: Already initialized.');
+      Logger.v('AddContacts addContactsInitialize: Already initialized.');
       return;
     }
 
@@ -157,8 +158,7 @@ class SearchPresentational extends React.Component {
   render() {
     const userProfile = this._userProfile();
     return (
-        <View style={Styles.root}>
-          <View style={{height: 480}}>
+        <View style={styles.root}>
           <UserList
               users={this.props.usersList}
 
@@ -170,7 +170,6 @@ class SearchPresentational extends React.Component {
               onSearchChanged={this.props.setUsersSearchQuery}
 
               loading={!this.props.initialized}/>
-          </View>
         </View>
     );
   }
@@ -209,7 +208,7 @@ AddContacts.propTypes = {
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
     paddingTop: 8

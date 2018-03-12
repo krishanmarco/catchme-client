@@ -1,30 +1,37 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {StyleSheet} from 'react-native';
+import {Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import WeekTimingsList from '../../comp-buisness/timing/TimingList';
-import {View} from 'react-native';
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+	managerWeekTimings: TMana
+}
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class ModalTimingPresentational extends React.Component {
+class ModalTimingPresentational extends React.Component<any, Props, any> {
 
-  _managerWeekTimings() {
-    return this.props.managerWeekTimings;
-  }
+	_managerWeekTimings() {
+		return this.props.managerWeekTimings;
+	}
 
-  render() {
-    return (
-        <View style={{flex: 1, paddingLeft: 24, paddingRight: 24}}>
-          <WeekTimingsList
-              ref={ModalTimingPresentational.refWeekTimingsList}
-              managerWeekTimings={this._managerWeekTimings()}
-              isEditable={false}
-              size={200}/>
-        </View>
-    );
-  }
+	render() {
+		return (
+			<Screen style={styles.root}>
+				<WeekTimingsList
+					ref={ModalTimingPresentational.refWeekTimingsList}
+					managerWeekTimings={this._managerWeekTimings()}
+					isEditable={false}
+					size={200}/>
+			</Screen>
+		);
+	}
 
 }
 
@@ -32,18 +39,28 @@ class ModalTimingPresentational extends React.Component {
 // ContainerComponent ***********************************************************************************
 
 const ModalTiming = poolConnect(
-    // Presentational Component
-    ModalTimingPresentational,
+	// Presentational Component
+	ModalTimingPresentational,
 
-    // mapStateToProps
-    (state) => ({}),
+	// mapStateToProps
+	(state) => ({}),
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
 export default ModalTiming;
 
 ModalTiming.defaultProps = {};
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	root: {
+		paddingHorizontal: 24,
+		paddingVertical: 8,
+	}
+});

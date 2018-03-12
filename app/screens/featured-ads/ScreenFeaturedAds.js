@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {poolConnect, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
-import {NullableObjects} from "../../comp/Misc";
+import {Screen, NullableObjects} from "../../comp/Misc";
 import FeaturedAds from './FeaturedAds';
 
 
@@ -20,13 +20,15 @@ class ScreenFeaturedAdsPresentational extends React.Component {
 
   render() {
     return (
-        <NullableObjects
-            objects={[this._authenticatedUserProfile()]}
-            renderChild={([authenticatedUserProfile]) => (
-                <FeaturedAds
-                    navigator={this.props.navigator}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
+        <Screen>
+          <NullableObjects
+              objects={[this._authenticatedUserProfile()]}
+              renderChild={([authenticatedUserProfile]) => (
+                  <FeaturedAds
+                      navigator={this.props.navigator}
+                      authenticatedUserProfile={authenticatedUserProfile}/>
+              )}/>
+        </Screen>
     );
   }
 

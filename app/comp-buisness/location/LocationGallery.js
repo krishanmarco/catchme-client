@@ -13,9 +13,22 @@ import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import {RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 import Router from "../../lib/helpers/Router";
+import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
+import type {TNavigator} from "../../lib/types/Types";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 
-export default class LocationGallery extends React.Component {
+type Props = {
+  navigator: TNavigator,
+  locationProfile: TLocation
+};
+
+type State = {
+  imageSources: Array<TImageURISourceAuth>
+};
+
+
+export default class LocationGallery extends React.Component<any, Props, State> {
 
   constructor(props, context) {
     super(props, context);
@@ -52,7 +65,7 @@ export default class LocationGallery extends React.Component {
         .then(addedUrl => {
 
           // Update only location images
-          let newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
+          const newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
           this.setState({imageSources: newImages});
 
         });
@@ -96,11 +109,6 @@ export default class LocationGallery extends React.Component {
   }
 
 }
-
-
-LocationGallery.defaultProps = {
-
-};
 
 LocationGallery.propTypes = {
   locationProfile: PropTypes.object.isRequired,

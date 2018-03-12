@@ -1,0 +1,8 @@
+###
+catchme-client
+
+___
+Production Build: 
+
+1. [From react-native]: react-native run-android --variant=release
+2. [From android-studio (Production)]: https://facebook.github.io/react-native/docs/signed-apk-android.html

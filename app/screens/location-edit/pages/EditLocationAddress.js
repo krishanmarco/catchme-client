@@ -1,22 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
-import {denormObj} from '../../../lib/HelperFunctions';
 
 import {View, ScrollView, Dimensions, Keyboard, Text, StyleSheet} from 'react-native';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
-import {AvatarCircle} from "../../../comp/misc/Avatars";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
 import Router from "../../../lib/helpers/Router";
-import ScreenInfo from '../../../comp/misc/ScreenInfo';
+import {ScreenInfo} from "../../../comp/Misc";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -35,24 +30,20 @@ export function editLocationAddressReducer(state = editLocationAddressInitState,
 }
 
 
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
 type Props = {
   navigator: Navigator,
   locationProfile: Object,
 };
 
-type State = {
-  // Nothing for now
-}
-
 
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class EditLocationTimingsPresentational extends React.Component<any, Props, State> {
+class EditLocationTimingsPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
@@ -75,12 +66,12 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
         <ScrollView style={{flex: 1}}>
           <ScreenInfo
               imageContainerStyle={{marginTop: 8}}
-              onPress={this._onGoogleMapsSelectorPress}
-              scale={575}
-              height={80}
-              width={80}
-              image={require('../../../assets/images/splashBack.png')}
-              text='Press the image above to select a location'/>
+              imageContainerScale={575}
+              imageContainerOnPress={this._onGoogleMapsSelectorPress}
+              imageHeight={80}
+              imageWidth={80}
+              imageSource={require('../../../assets/images/splashBack.png')}
+              textText='Press the image above to select a location'/>
           <View style={Styles.content}>
             {[
               {field: DaoLocation.pAddressCountry, label: 'Country'},

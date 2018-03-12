@@ -1,26 +1,36 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Colors, Icons} from '../../Config';
-
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
-import {Grid, Row, Col} from 'react-native-easy-grid';
+import {Grid, Col} from 'react-native-easy-grid';
+import type {TDataPoint} from "../../lib/types/Types";
 
 
-export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}) => (
-    <TouchableOpacity style={Styles.root} onPress={onPress}>
-      <Grid style={Styles.grid}>
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = TDataPoint & {
+  subTitle?: string,
+  onPress?: Function,
+  itemRight?: Node,
+  textRkType?: string,
+};
+
+// PresentationalComponent ******************************************************************************
+// PresentationalComponent ******************************************************************************
+
+export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}: Props) => (
+    <TouchableOpacity onPress={onPress} style={styles.root}>
+      <Grid style={styles.grid}>
 
         {icon && (
-            <Col style={{marginRight: -16}} size={10}>
-              <Icon size={30} {...icon} />
+            <Col size={10} style={styles.icon}>
+              <Icon size={24} {...icon} />
             </Col>
         )}
 
-        <Col style={{marginLeft: 24}} size={100}>
+        <Col size={100} style={styles.text}>
           <RkText rkType={textRkType}>{title}</RkText>
           {subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
         </Col>
@@ -37,16 +47,10 @@ ListItemInfo.defaultProps = {
   textRkType: 'secondary1'
 };
 
-ListItemInfo.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string,
-  icon: PropTypes.object,
-  onPress: PropTypes.func,
-  itemRight: PropTypes.node,
-};
+export default ListItemInfo;
 
 
-let Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   root: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: theme.colors.border.base,
@@ -55,5 +59,11 @@ let Styles = RkStyleSheet.create(theme => ({
   },
   grid: {
     alignItems: 'center'
-  }
+  },
+  icon: {
+    marginRight: -12
+  },
+  text: {
+    marginLeft: 24
+  },
 }));

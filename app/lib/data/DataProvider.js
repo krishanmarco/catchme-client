@@ -4,7 +4,7 @@ import {Const} from '../../Config';
 import ApiClient from './ApiClient';
 import Context from '../Context';
 import {seconds} from '../HelperFunctions';
-
+import Logger from "../Logger";
 
 
 class DataProvider {
@@ -25,8 +25,6 @@ class DataProvider {
   }
 
 
-
-
   locationsGetLidProfile(lid) {
     return this._getCachedObjectById(
 
@@ -42,11 +40,6 @@ class DataProvider {
   }
 
 
-
-
-
-
-
   _getCachedObjectById(realmObject, apiRequest, saveToRealm) {
 
     return Context.isOnline().then(online => {
@@ -58,13 +51,13 @@ class DataProvider {
           return this._cacheException(`valid=${realmObject} online=${online}`);
 
         // No cache and device online, generate miss
-        return this._cacheMiss(apiRequest, saveToRealm, `valid=${realmObject} online=${online}`)
+        return this._cacheMiss(apiRequest, saveToRealm, `valid=${realmObject} online=${online}`);
       }
 
 
       // There is a cached element with this pId, extract the insert time
-      let {insertTs, ...cache} = realmObject;
-      let cacheIsValid = this._cacheValid(insertTs);
+      const {insertTs, ...cache} = realmObject;
+			const cacheIsValid = this._cacheValid(insertTs);
 
       if (!cacheIsValid) {
 
@@ -82,31 +75,29 @@ class DataProvider {
   }
 
 
-
   _cacheValid(insertTs) {
     return seconds() - insertTs < Const.DataProvider.cacheTTLSec;
   }
 
   _cacheException(reason) {
-    console.log(`DataProvider _cacheException: EXCEPTION => ${reason}`);
+    Logger.v(`DataProvider _cacheException: EXCEPTION => ${reason}`);
     return Promise.reject(0);
   }
 
   _cacheMiss(apiRequest, saveToRealm, reason) {
-    console.log(`DataProvider _cacheMiss: MISS => ${reason}`);
+    Logger.v(`DataProvider _cacheMiss: MISS => ${reason}`);
     return this._runApiRequest(apiRequest, saveToRealm);
   }
 
   _cacheHit(cache, reason) {
-    console.log(`DataProvider _cacheHit: HIT => ${reason}`);
+    Logger.v(`DataProvider _cacheHit: HIT => ${reason}`);
     return Promise.resolve(cache);
   }
 
 
-
   _runApiRequest(apiRequest, saveToRealm) {
-    return apiRequest()
-        .then(object => {
+    return apiRequest().
+        then(object => {
           saveToRealm({insertTs: seconds(), ...object});
           return object;
         });

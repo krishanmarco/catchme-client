@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Screen} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import HelpAppInfo from './HelpAppInfo';
 
@@ -10,8 +11,10 @@ class ScreenHelpAppInfoPresentational extends React.Component {
 
   render() {
     return (
-        <HelpAppInfo
-            navigator={this.props.navigator}/>
+        <Screen>
+          <HelpAppInfo
+              navigator={this.props.navigator}/>
+        </Screen>
     );
   }
 
@@ -35,6 +38,4 @@ const ScreenHelpAppInfo = poolConnect(
 );
 export default ScreenHelpAppInfo;
 
-ScreenHelpAppInfo.propTypes = {
-
-};
+ScreenHelpAppInfo.propTypes = {};

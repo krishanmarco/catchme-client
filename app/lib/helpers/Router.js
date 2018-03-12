@@ -2,6 +2,7 @@
 import {Const, Colors} from '../../Config';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
+import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
 
 export default class Router {
   static NAV_BUTTON_SET_USER_LOCATION_STATUS = 'NAV_BUTTON_SET_USER_LOCATION_STATUS';
@@ -72,13 +73,12 @@ export default class Router {
   }
 
 
-  static toModalUserLocationStatus(navigator, props) {
+  static toModalUserLocationStatus(navigator, props: TModalUserLocationStatusProps) {
     navigator.showModal({
       screen: Const.NavigationComponents.ModalUserLocationStatus,
       passProps: props,
       animated: true,
-      animationType: 'slide-up',
-      navigatorStyle: {}
+      animationType: 'slide-up'
     });
   }
 
@@ -126,14 +126,14 @@ export default class Router {
   }
 
 
-  static toScreen(navigator, screenName) {
-    navigator.push({
-      screen: screenName,
-      navigatorStyle: {
-        navBarBackgroundColor: Colors.primary
-      }
-    });
-  }
+  // static toScreen(navigator, screenName) {
+  //   navigator.push({
+  //     screen: screenName,
+  //     navigatorStyle: {
+  //       navBarBackgroundColor: Colors.primary
+  //     }
+  //   });
+  // }
 
 
   static toAddContactsScreen(navigator) {
@@ -183,6 +183,17 @@ export default class Router {
     navigator.push({
       screen: Const.NavigationComponents.ScreenSettingsUserNotifications,
       title: 'Notifications',
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+
+  static toSettingsChangePassword(navigator, screenName) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenSettingsChangePassword,
+      title: 'Change password',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
       }

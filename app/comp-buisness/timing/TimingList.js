@@ -32,26 +32,22 @@ export default class WeekTimingsList extends React.Component {
 
   render() {
     return (
-        <View style={{flex: 1}}>
-          <View style={{height: 560}}>
-            <ScrollView
-                style={Styles.root}
-                showsVerticalScrollIndicator={false}>
+        <ScrollView
+            style={Styles.root}
+            showsVerticalScrollIndicator={false}>
 
-              {this._managerWeekTimings()
-                  .getBoolWeekTimings()
-                  .map((dayTimings, key) => (
-                      <TimingListItem
-                          key={key}
-                          ref={WeekTimingsList.refTimingListItem + key}
-                          day={key}
-                          size={this.props.size}
-                          managerWeekTimings={this._managerWeekTimings()}
-                          isEditable={this._isEditable()}/>
-                  ))}
-            </ScrollView>
-          </View>
-        </View>
+          {this._managerWeekTimings()
+              .getBoolWeekTimings()
+              .map((dayTimings, key) => (
+                  <TimingListItem
+                      key={key}
+                      ref={WeekTimingsList.refTimingListItem + key}
+                      day={key}
+                      size={this.props.size}
+                      managerWeekTimings={this._managerWeekTimings()}
+                      isEditable={this._isEditable()}/>
+              ))}
+        </ScrollView>
     );
   }
 
@@ -67,8 +63,5 @@ WeekTimingsList.propTypes = {
 
 
 const Styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    padding: 4
-  }
+  // Nothing for now
 });

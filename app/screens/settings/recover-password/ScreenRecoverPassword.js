@@ -1,4 +1,5 @@
 import React from 'react';
+import {Screen} from "../../../comp/Misc";
 import {
   View,
   Image,
@@ -10,7 +11,7 @@ import {
   RkTextInput,
   RkTheme
 } from 'react-native-ui-kitten';
-import GradientButton from '../../../comp/misc/GradientButton';
+import {GradientButton} from "../../../comp/Misc";
 import {scale, scaleModerate, scaleVertical} from '../../../lib/utils/scale';
 
 
@@ -32,24 +33,26 @@ export default class PasswordRecovery extends React.Component {
     };
 
     return (
-        <View behavior='position'
-              style={styles.screen}
-              onStartShouldSetResponder={ (e) => true}
-              onResponderRelease={ (e) => Keyboard.dismiss()}>
-          <View style={styles.header}>
-            {renderIcon()}
-            <RkText rkType='h1'>Password Recovery</RkText>
+        <Screen>
+          <View behavior='position'
+                style={styles.screen}
+                onStartShouldSetResponder={(e) => true}
+                onResponderRelease={(e) => Keyboard.dismiss()}>
+            <View style={styles.header}>
+              {renderIcon()}
+              <RkText rkType='h1'>Password Recovery</RkText>
+            </View>
+            <View style={styles.listItemContent}>
+              <RkTextInput rkType='rounded' placeholder='Email'/>
+              <RkText rkType='secondary5 secondaryColor center'>
+                Enter your email below to receive your password reset instructions
+              </RkText>
+            </View>
+            <GradientButton style={styles.save} rkType='large' text='SEND' onPress={() => {
+              this.props.navigation.goBack()
+            }}/>
           </View>
-          <View style={styles.listItemContent}>
-            <RkTextInput rkType='rounded' placeholder='Email'/>
-            <RkText rkType='secondary5 secondaryColor center'>
-              Enter your email below to receive your password reset instructions
-            </RkText>
-          </View>
-          <GradientButton style={styles.save} rkType='large' text='SEND' onPress={() => {
-            this.props.navigation.goBack()
-          }}/>
-        </View>
+        </Screen>
     )
   }
 }

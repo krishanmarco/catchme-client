@@ -6,48 +6,92 @@ import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {RkText} from 'react-native-ui-kitten';
 
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
-const ScreenInfoImage = ({style, scale, image, height, width, onPress}) => {
-  const contentHeight = scaleModerate(scale, 1);
-  const cHeight = Dimensions.get('window').height - contentHeight;
-  const cWidth = Dimensions.get('window').width;
-  const cStyle = {height: cHeight, width: cWidth, alignItems: 'center'};
-  return (
-      <View style={[cStyle, style]}>
-        <TouchableNativeFeedback onPress={onPress}>
-          <Image
-              style={[{resizeMode: 'cover', marginBottom: scaleVertical(16)}, {height, width}]}
-              source={image}/>
-        </TouchableNativeFeedback>
-      </View>
-  );
-};
-
-ScreenInfoImage.defaultProps = {
-  scale: 550,
-  height: 100,
-  width: 150
+type Props = {
+  imageContainerStyle: Object,
+  imageContainerScale: number,
+  imageContainerOnPress: ?Function,
+  imageHeight: number,
+  imageWidth: number,
+  imageSource: Object,
+  textText: string
 };
 
 
-const ScreenInfoText = ({text}) => (
-    <View style={{alignItems: 'center', width: '100%'}}>
-      <RkText rkType='secondary6'>{text}</RkText>
-    </View>
-);
+// PresentationalComponent ******************************************************************************
+// PresentationalComponent ******************************************************************************
+
+export default class ScreenInfo extends React.Component<any, Props, any> {
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = this._mapPropsToState(props);
+  }
 
 
-const ScreenInfo = ({imageContainerStyle, image, scale, height, width, text, onPress}) => (
-    <View>
-      <ScreenInfoImage
-          style={imageContainerStyle}
-          onPress={onPress}
-          scale={scale}
-          height={height}
-          width={width}
-          image={image}/>
-      <ScreenInfoText text={text}/>
-    </View>
-);
+  componentWillReceiveProps(nextProps) {
+    this.setState(this._mapPropsToState(nextProps));
+  }
 
-export default ScreenInfo;
+  _mapPropsToState(props) {
+    return {
+      imageContainerStyle: this._mapPropsToImageContainerStyle(props),
+      imageStyle: this._mapPropsToImageStyle(props)
+    };
+  }
+
+  _mapPropsToImageContainerStyle(props) {
+    const {imageContainerStyle, imageContainerScale} = props;
+    const contentHeight = scaleModerate(imageContainerScale, 1);
+    const cHeight = Dimensions.get('window').height - contentHeight;
+    const cWidth = Dimensions.get('window').width;
+    return {
+      height: cHeight,
+      width: cWidth,
+      alignItems: 'center',
+      ...imageContainerStyle
+    };
+  }
+
+  _mapPropsToImageStyle(props) {
+    const {imageHeight, imageWidth} = props;
+    return {
+      resizeMode: 'cover',
+      marginBottom: scaleVertical(16),
+      height: imageHeight,
+      width: imageWidth
+    };
+  }
+
+
+  render() {
+    const {imageContainerOnPress, imageSource, textText} = this.props;
+    return (
+        <View>
+
+          <View style={this.state.imageContainerStyle}>
+            <TouchableNativeFeedback onPress={imageContainerOnPress}>
+              <Image
+                  style={this.state.imageStyle}
+                  source={imageSource}/>
+            </TouchableNativeFeedback>
+          </View>
+
+          <View style={{alignItems: 'center', width: '100%'}}>
+            <RkText rkType='secondary6'>{textText}</RkText>
+          </View>
+
+        </View>
+    );
+  }
+
+}
+
+
+ScreenInfo.defaultProps = {
+  imageContainerScale: 550,
+  imageHeight: 100,
+  imageWidth: 150
+};
