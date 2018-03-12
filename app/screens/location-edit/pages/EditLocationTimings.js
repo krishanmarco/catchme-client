@@ -103,7 +103,7 @@ export default EditLocationTimings;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   content: {
     paddingHorizontal: 4,
   },

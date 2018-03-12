@@ -137,12 +137,12 @@ class RealmIO {
 		return user;
 	}
 	
-	_prepareApiUserForDb(user: TUser) { // todo: replace _.get() with Dao accessor
-		
+	_prepareApiUserForDb(user: TUser) {
+
 		_.set(user, DaoUser.pLocationsFavorites, {value: JSON.stringify(_.get(user, DaoUser.pLocationsFavorites, []))});
-		
+
 		_.set(user, DaoUser.pLocationsTop, {value: JSON.stringify(_.get(user, DaoUser.pLocationsTop, []))});
-		
+
 		_.set(user, DaoUser.pLocationsUserLocationStatuses,
 			_.get(user, DaoUser.pLocationsUserLocationStatuses, []).map(this._prepareApiUserLocationStatusForDb));
 		

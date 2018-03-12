@@ -13,7 +13,8 @@ import {RkStyleSheet, RkTextInput} from 'react-native-ui-kitten';
 type Props = {
   placeholder: ?string,
   onChange: Function,
-  onSearchPressed: Function
+  onSearchPressed: Function,
+	style: Object
 };
 
 

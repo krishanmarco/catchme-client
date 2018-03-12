@@ -3,7 +3,7 @@ import React from 'react';
 
 import {Colors, Icons} from '../../Config';
 
-import {Icon, Avatar} from 'react-native-elements'
+import {Icon, Avatar} from 'react-native-elements';
 import {Col, Grid} from "react-native-easy-grid";
 
 import {AvatarCircle} from "../Misc";
@@ -35,7 +35,7 @@ export const ListItemActionIcon = ({icon, size, onPress}: ListItemActionIconProp
 ListItemActionIcon.defaultProps = {
   icon: Icons.defaultIcon,
   size: 30,
-  onPress: new Function()
+  onPress: () => {}
 };
 
 
@@ -63,7 +63,7 @@ const ListItemImage = ({src, onPress}: ListItemImageProps) => (
 );
 
 ListItemImage.defaultProps = {
-  onPress: new Function()
+  onPress: () => {}
 };
 
 const listItemImageStyles = StyleSheet.create({

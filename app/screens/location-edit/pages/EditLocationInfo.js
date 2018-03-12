@@ -60,7 +60,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
   render() {
     return (
         <ScrollView style={{flex: 1}}>
-          <View style={Styles.content}>
+          <View style={styles.content}>
             <View style={{alignItems: 'center'}}>
               <AvatarCircle
                   badge={Icons.settingChangePassword}
@@ -137,7 +137,7 @@ export default EditLocationInfo;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   content: {
     paddingHorizontal: 4,
   },

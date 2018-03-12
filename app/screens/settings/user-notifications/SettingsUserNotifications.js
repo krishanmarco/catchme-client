@@ -166,7 +166,7 @@ export default SettingsUserNotifications;
 // Styles ***********************************************************************************************
 // Styles ***********************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   content: {
     paddingHorizontal: 4,
   },

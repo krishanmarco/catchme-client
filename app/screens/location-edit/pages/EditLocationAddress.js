@@ -72,7 +72,7 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, any>
               imageWidth={80}
               imageSource={require('../../../assets/images/splashBack.png')}
               textText='Press the image above to select a location'/>
-          <View style={Styles.content}>
+          <View style={styles.content}>
             {[
               {field: DaoLocation.pAddressCountry, label: 'Country'},
               {field: DaoLocation.pAddressState, label: 'State'},
@@ -127,7 +127,7 @@ export default EditLocationTimings;
 // Styles ***********************************************************************************************
 // Styles ***********************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   content: {
     paddingHorizontal: 4,
     marginTop: 12
