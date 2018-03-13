@@ -12,7 +12,7 @@ export default class Router {
     Router.toLocationProfileById(navigator, DaoLocation.gId(location), DaoLocation.gName(location));
   }
 
-  static toLocationProfileById(navigator, locationId, title = undefined) {
+  static toLocationProfileById(navigator, locationId, title = null) {
     navigator.showModal({
       screen: Const.NavigationComponents.ScreenLocationProfile,
       title,
@@ -31,7 +31,7 @@ export default class Router {
     Router.toUserProfileById(navigator, DaoUser.gId(user), DaoUser.gName(user));
   }
 
-  static toUserProfileById(navigator, userId, title = undefined) {
+  static toUserProfileById(navigator, userId, title = null) {
 
     navigator.showModal({
       screen: Const.NavigationComponents.ScreenUserProfile,

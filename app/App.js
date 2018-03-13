@@ -29,7 +29,7 @@ export function initializeApplication() {
 }
 
 
-export function startApplication(userProfile: TUser = undefined) {
+export function startApplication(userProfile: ?TUser = null) {
 	userProfile = userProfile || RealmIO.getLocalUserData();
 	
 	// Try get the logged in user from realm

@@ -12,7 +12,7 @@ export default class GoogleMapsDataDecoder {
     this.geocodeResult = geocodeResult;
   }
 
-  geocodeResult: undefined;
+  geocodeResult: null;
 
 
   getGooglePlaceId() {
@@ -24,11 +24,11 @@ export default class GoogleMapsDataDecoder {
         .find(ac => _.intersection(ac.types, expectedTypes).length > 0);
   }
 
-  getAddressComponentShortValue(expectedTypes, defaultValue = undefined) {
+  getAddressComponentShortValue(expectedTypes, defaultValue = null) {
     return _.get(this.getAddressComponent(expectedTypes), 'short_name', defaultValue);
   }
 
-  getAddressComponentLongValue(expectedTypes, defaultValue = undefined) {
+  getAddressComponentLongValue(expectedTypes, defaultValue = null) {
     return _.get(this.getAddressComponent(expectedTypes), 'long_name', defaultValue);
   }
 
