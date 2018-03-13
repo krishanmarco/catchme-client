@@ -26,8 +26,8 @@ export default class ImageURISourceAuth {
 		this.cache = Const.ImageURISource.cachingPolicy;
 	}
 	
-	uri: undefined;
-	headers: undefined;
-	cache: undefined;
+	uri: null;
+	headers: null;
+	cache: null;
 	
 }

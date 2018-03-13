@@ -83,7 +83,7 @@ export default class LocationGallery extends React.Component<any, Props, State> 
   render() {
     return (
         <Gallery
-            onAddImage={this._onAddImagePress}
+            onAddImagePress={this._onAddImagePress}
             imageSources={this.state.imageSources}
             ListEmptyComponent={this._renderEmptyListComponent}/>
     );

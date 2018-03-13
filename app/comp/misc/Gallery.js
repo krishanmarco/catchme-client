@@ -1,31 +1,37 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {Colors, Icons} from '../../Config';
-
-import {
-	View,
-	FlatList,
-	Dimensions,
-	StyleSheet
-} from 'react-native';
-
-import {
-	RkButton,
-	RkModalImg,
-	RkText
-} from 'react-native-ui-kitten';
-
+import {StyleSheet, View, FlatList, Dimensions} from 'react-native';
+import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 
+import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
 
+type Props = {
+	ListEmptyComponent: Node,
+	onAddImagePress: () => {},
+	imageSources: TImageURISourceAuth
+};
 
-export default class Gallery extends React.Component {
+type State = {
+	imageSize: number,
+	itemsToRender: TImageURISourceAuth
+};
+
+const DefaultProps = {
+	imageSources: []
+};
+
+// Component ********************************************************************************************
+// Component ********************************************************************************************
+
+export default class Gallery extends React.Component<DefaultProps, Props, State> {
 	static ADD_IMAGE_URI = 'ADD_IMAGE';
-
-
+	
 	constructor(props, context) {
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
@@ -42,9 +48,9 @@ export default class Gallery extends React.Component {
 
 	_buildImageSources(props) {
 
-		// If onAddImage is null return the original array
+		// If onAddImagePress is null return the original array
 		// as [itemsToRender] because nothing needs to be added
-		if (props.onAddImage == null)
+		if (props.onAddImagePress == null)
 			return props.imageSources;
 
 		// Clone the input prop array, add the 'add image' item
@@ -53,13 +59,13 @@ export default class Gallery extends React.Component {
 	}
 
 
-
-
 	render() {
+		const {itemsToRender} = this.state;
+		const {ListEmptyComponent} = this.props;
 		return (
 			<View style={styles.images}>
 				<FlatList
-					data={this.state.itemsToRender}
+					data={itemsToRender}
 					keyExtractor={(item, index) => item.uri}
 
 					renderItem={this._renderItem}
@@ -68,7 +74,7 @@ export default class Gallery extends React.Component {
 					horizontal={false}
 					numColumns={4}
 
-					ListEmptyComponent={this.props.ListEmptyComponent}
+					ListEmptyComponent={ListEmptyComponent}
 				/>
 			</View>
 		);
@@ -76,8 +82,7 @@ export default class Gallery extends React.Component {
 
 
 	_renderItem({item, index}) {
-
-		// If props.onAddImage not null when you reach the ADD_IMAGE_URI
+		// If props.onAddImagePress not null when you reach the ADD_IMAGE_URI
 		// use the addImageButton rather than the usual rendering
 		if (item.uri === Gallery.ADD_IMAGE_URI)
 			return this._renderAddImageButton();
@@ -86,10 +91,12 @@ export default class Gallery extends React.Component {
 	}
 
 	_renderImage(index) {
+		const {imageSize} = this.state;
+		const {imageSources} = this.props;
 		return (
 			<RkModalImg
-				style={{width: this.state.imageSize, height: this.state.imageSize}}
-				source={this.props.imageSources}
+				style={{width: imageSize, height: imageSize}}
+				source={imageSources}
 				index={index}
 				renderHeader={(options) => (
 					<View style={styles.header}>
@@ -102,14 +109,15 @@ export default class Gallery extends React.Component {
 	}
 
 	_renderAddImageButton() {
-		// The padding: 1 is needed to balance the other images
+		const {imageSize} = this.state;
+		const {onAddImagePress} = this.props;
 		return (
-			<View style={{padding: 1}}>
+			<View style={styles.addImageButton}>
 				<RkButton
-					style={{width: this.state.imageSize, height: this.state.imageSize, backgroundColor: Colors.greyFade}}
+					style={{width: imageSize, height: imageSize, backgroundColor: Colors.greyFade}}
 					rkType='clear contrast'
-					onPress={this.props.onAddImage}>
-					<Icon size={this.state.imageSize / 1.5} {...Icons.addImage} color={Colors.black}/>
+					onPress={onAddImagePress}>
+					<Icon size={imageSize / 1.5} {...Icons.addImage} color={Colors.black}/>
 				</RkButton>
 			</View>
 		);
@@ -118,15 +126,8 @@ export default class Gallery extends React.Component {
 }
 
 
-Gallery.defaultProps = {
-	imageSources: []
-};
-
-Gallery.propTypes = {
-	imageSources: PropTypes.array.isRequired,
-	onAddImage: PropTypes.func,
-};
-
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
 	images: {
@@ -136,5 +137,9 @@ const styles = StyleSheet.create({
 	header: {
 		flexDirection: 'row',
 		justifyContent: 'space-between'
+	},
+	addImageButton: {
+		// The padding: 1 is needed to balance the other images
+		padding: 1
 	}
 });
