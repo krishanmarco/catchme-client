@@ -7,11 +7,11 @@ import {Colors} from '../../Config';
 import {connect} from 'react-redux';
 
 import DaoUser from '../../lib/daos/DaoUser';
-import {GiftedChat, Bubble} from 'react-native-gifted-chat';
-import {initialize, chatMessagesSendMessage, chatMessagesLoadMore} from './ReducerChat';
+import {Bubble, GiftedChat} from 'react-native-gifted-chat';
+import {chatMessagesLoadMore, chatMessagesSendMessage, initialize} from './ReducerChat';
 
 import {DefaultLoader} from "../Misc";
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {RkText} from 'react-native-ui-kitten';
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";

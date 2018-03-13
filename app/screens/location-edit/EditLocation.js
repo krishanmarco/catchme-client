@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 import {Icons} from '../../Config';
 
-import {poolConnect, FORM_API_ID_EDIT_LOCATION_PROFILE} from '../../redux/ReduxPool';
+import {FORM_API_ID_EDIT_LOCATION_PROFILE, poolConnect} from '../../redux/ReduxPool';
 
-import {Row, Grid} from "react-native-easy-grid";
+import {Grid, Row} from "react-native-easy-grid";
 
 import {View} from 'react-native';
 import EditLocationInfo from './pages/EditLocationInfo';

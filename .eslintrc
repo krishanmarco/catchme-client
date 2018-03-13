@@ -2,7 +2,9 @@
   "parser": "babel-eslint",
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -10,7 +12,8 @@
     }
   },
   "plugins": [
-    "flowtype"
+    "flowtype",
+    "import"
   ],
   "settings": {
     "flowtype": {
@@ -66,7 +69,7 @@
     "id-match": 0,
     "sort-vars": 0,
     "sort-imports": ["error", {
-      "ignoreCase": false,
+      "ignoreCase": true,
       "ignoreMemberSort": false,
       "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
     }],

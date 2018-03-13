@@ -3,11 +3,11 @@ import React from 'react';
 
 import Router from "../../lib/helpers/Router";
 
-import {poolConnect, FORM_API_ID_REGISTER} from '../../redux/ReduxPool';
+import {FORM_API_ID_REGISTER, poolConnect} from '../../redux/ReduxPool';
 
-import {View, Image, Keyboard} from 'react-native';
+import {Image, Keyboard, View} from 'react-native';
 
-import {RkButton, RkText, RkStyleSheet, RkAvoidKeyboard} from 'react-native-ui-kitten';
+import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
 import {scaleVertical} from '../../lib/utils/scale';
 

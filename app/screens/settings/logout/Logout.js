@@ -6,8 +6,8 @@ import RealmIO from '../../../lib/data/RealmIO';
 import {startApplication} from "../../../App";
 
 import {View} from 'react-native';
-import {RkText, RkButton, RkStyleSheet} from 'react-native-ui-kitten';
-import {ScreenInfo, GradientButton} from "../../../comp/Misc";
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {GradientButton, ScreenInfo} from "../../../comp/Misc";
 
 
 
@@ -61,7 +61,6 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
   }
 
 }
-
 
 
 

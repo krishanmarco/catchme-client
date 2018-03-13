@@ -3,8 +3,8 @@ import React from 'react';
 
 import {Colors, Icons} from "../../Config";
 
-import {StyleSheet, FlatList} from 'react-native';
-import {Row, Grid, Col} from "react-native-easy-grid";
+import {FlatList, StyleSheet} from 'react-native';
+import {Col, Grid, Row} from "react-native-easy-grid";
 import {View} from 'react-native';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import Clock from './Clock';

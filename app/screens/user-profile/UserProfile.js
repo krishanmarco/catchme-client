@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {Icons, Colors} from '../../Config';
+import {Colors, Icons} from '../../Config';
 
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoUser from "../../lib/daos/DaoUser";
 
-import {StyleSheet, Image, Text, FlatList, View, Dimensions} from 'react-native';
+import {Dimensions, FlatList, Image, StyleSheet, Text, View} from 'react-native';
 
-import {Row, Grid, Col} from "react-native-easy-grid";
+import {Col, Grid, Row} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 
 import {RkText} from 'react-native-ui-kitten';
@@ -21,7 +21,7 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TSectionListDataPointSections, TNavigator} from "../../lib/types/Types";
+import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Redux ************************************************************************************************

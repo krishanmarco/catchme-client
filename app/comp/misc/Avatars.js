@@ -31,7 +31,7 @@ class Avatar extends RkComponent {
             )}
           </View>
         </View>
-    )
+    );
   }
 }
 
@@ -47,6 +47,6 @@ type Props = {
 };
 
 export const AvatarCircle = ({uri, badge, rkType}: Props) => (
-    <Avatar rkType={`circle ${rkType}`} badge={badge} img={{uri: uri}}/>
+    <Avatar rkType={`circle ${rkType}`} badge={badge} img={{uri}}/>
 );
 

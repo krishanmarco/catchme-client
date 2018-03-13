@@ -2,9 +2,9 @@
 import React from 'react';
 import {Colors, Const, Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
-import {Row, Grid, Col} from "react-native-easy-grid";
-import {RkText, RkButton} from "react-native-ui-kitten";
-import {View, StyleSheet, Image, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
+import {Col, Grid, Row} from "react-native-easy-grid";
+import {RkButton, RkText} from "react-native-ui-kitten";
+import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import {compareTimeSmaller} from "../../lib/HelperFunctions";
 import moment from 'moment';
@@ -76,21 +76,21 @@ export function modalUserLocationStatusReducer(state = modalUserLocationStatusIn
 function modalUserLocationStatusSetDateModalVisibility(visible) {
   return {
     type: ACTION_SET_DATE_MODAL_VISIBILITY,
-    visible: visible
+    visible
   };
 }
 
 function modalUserLocationStatusSetFromModalVisibility(visible) {
   return {
     type: ACTION_SET_FROM_MODAL_VISIBILITY,
-    visible: visible
+    visible
   };
 }
 
 function modalUserLocationStatusSetUntilModalVisibility(visible) {
   return {
     type: ACTION_SET_UNTIL_MODAL_VISIBILITY,
-    visible: visible
+    visible
   };
 }
 

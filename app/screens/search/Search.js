@@ -85,10 +85,10 @@ export function searchReducer(state = searchInitState, action) {
       return Object.assign({}, state, {
         [action.listType]: Object.assign({}, oldState1, {
           loading: false,
-          suggestSeed: suggestSeed,
-          stopSuggestLoop: stopSuggestLoop,
-          suggestList: suggestList,
-          list: list
+          suggestSeed,
+          stopSuggestLoop,
+          suggestList,
+          list
         })
       });
 
@@ -105,7 +105,7 @@ export function searchReducer(state = searchInitState, action) {
       return Object.assign({}, state, {
         [action.listType]: Object.assign({}, oldState2, {
           loading: false,
-          searchList: searchList,
+          searchList,
           list: list2
         })
       });
@@ -138,14 +138,14 @@ function searchSuggest(listType: string) {
 
     dispatch({
       type: ACTION_SET_LOADING,
-      listType: listType
+      listType
     });
 
     // Run the suggestion api call
     actionConfig.suggestApiCall(currentState.suggestSeed)
         .then(items => dispatch({
           type: ACTION_CONCAT_SUGGEST_LIST,
-          listType: listType,
+          listType,
           suggestList: items,
         }));
   };
@@ -163,14 +163,14 @@ function searchSearch(listType: string) {
     // Always search, even if something is already fetching
     dispatch({
       type: ACTION_SET_LOADING,
-      listType: listType
+      listType
     });
 
     // Run the search api call
     actionConfig.searchApiCall(query)
         .then(items => dispatch({
           type: ACTION_SET_SEARCH_LIST,
-          listType: listType,
+          listType,
           searchList: items
         }));
   };
@@ -179,7 +179,7 @@ function searchSearch(listType: string) {
 function searchSetSearchQuery(listType: string, query) {
   return {
     type: ACTION_SET_SEARCH_QUERY,
-    listType: listType,
+    listType,
     searchQuery: query
   };
 }

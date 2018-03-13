@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {View} from 'react-native';
-import {poolConnect, FIREBASE_DATA_ID_FEED} from '../../redux/ReduxPool';
+import {FIREBASE_DATA_ID_FEED, poolConnect} from '../../redux/ReduxPool';
 import FeedList from '../../comp-buisness/feed/FeedList';
 import DaoUser from "../../lib/daos/DaoUser";
 import type {TNavigator} from "../../lib/types/Types";

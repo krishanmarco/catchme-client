@@ -142,7 +142,7 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
     const {favoriteIds} = this.props;
 
     const listItemProps = {
-      location: location,
+      location,
       onPress: this.props.onLocationPress
     };
 

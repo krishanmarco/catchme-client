@@ -5,8 +5,8 @@ import {Col, Grid} from "react-native-easy-grid";
 
 import {AvatarCircle} from "../../comp/Misc";
 
-import {View, TouchableNativeFeedback} from 'react-native';
-import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
+import {TouchableNativeFeedback, View} from 'react-native';
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import HTMLView from 'react-native-htmlview';
 import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
@@ -80,7 +80,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
   _renderLeftAvatar() {
     const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
-    return leftAvatar && <AvatarCircle uri={leftAvatar}/>
+    return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
   }
 
   _renderRightAvatar() {
@@ -112,7 +112,6 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 
 }
-
 
 
 

@@ -2,12 +2,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
+import {Const, Icons} from '../../../Config';
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {AvatarCircle} from "../../../comp/Misc";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 

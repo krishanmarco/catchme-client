@@ -2,7 +2,7 @@
 import React from 'react';
 import {Screen} from "../../comp/Misc";
 import PropTypes from 'prop-types';
-import {poolConnect, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
+import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
 import ApiClient from '../../lib/data/ApiClient';
 import {NullableObjects} from '../../comp/Misc';
 import LocationProfile from './LocationProfile';
@@ -66,7 +66,7 @@ class ScreenLocationProfilePresentational extends React.Component<any, Props, St
 
     rightButtons.push(ScreenLocationProfilePresentational.NAV_BUTTON_USER_LOCATION_STATUS);
 
-    this._navigator().setButtons({rightButtons: rightButtons});
+    this._navigator().setButtons({rightButtons});
   }
 
 

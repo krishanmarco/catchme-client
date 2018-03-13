@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import ApiClient from '../../lib/data/ApiClient';
 
-import {Icons, Colors} from '../../Config';
+import {Colors, Icons} from '../../Config';
 
 import {View} from 'react-native';
 import Gallery from '../../comp/misc/Gallery';

@@ -96,8 +96,8 @@ class DataProvider {
 
 
   _runApiRequest(apiRequest, saveToRealm) {
-    return apiRequest().
-        then(object => {
+    return apiRequest()
+        .then(object => {
           saveToRealm({insertTs: seconds(), ...object});
           return object;
         });

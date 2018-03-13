@@ -3,7 +3,7 @@ import React from 'react';
 
 import {Colors} from '../../../Config';
 
-import {StyleSheet, FlatList} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
 import {DefaultLoader, SearchBar} from "../../Misc";
 

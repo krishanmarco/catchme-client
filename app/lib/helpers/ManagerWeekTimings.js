@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import moment from 'moment';
-import {intStringToBool, boolToIntString} from '../HelperFunctions';
+import {boolToIntString, intStringToBool} from '../HelperFunctions';
 import DaoLocation from "../daos/DaoLocation";
 import ObjectCache from "./ObjectCache";
 import type {TLocation} from "../daos/DaoLocation";

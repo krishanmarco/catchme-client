@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import PropTypes from 'prop-types';
-import {poolConnect, CACHE_MAP_ID_USER_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
-import {Screen, NullableObjects} from "../../comp/Misc";
+import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../redux/ReduxPool';
+import {NullableObjects, Screen} from "../../comp/Misc";
 import UserProfile from './UserProfile';
 import DaoUser from "../../lib/daos/DaoUser";
 
@@ -23,7 +23,7 @@ class ScreenUserProfilePresentational extends React.Component {
 
     // Initialize the profile of the user that is being viewed
     this.props[CACHE_MAP_ID_USER_PROFILES].initializeItem(this.props.userId)
-        .then(userProfile => this.props.navigator.setTitle({title: DaoUser.gName(userProfile)}))
+        .then(userProfile => this.props.navigator.setTitle({title: DaoUser.gName(userProfile)}));
 
   }
 

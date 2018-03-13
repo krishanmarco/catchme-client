@@ -4,7 +4,7 @@ import {Navigation} from 'react-native-navigation';
 
 import {Colors, Const} from './Config';
 
-import {createStore, applyMiddleware} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import {Provider} from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';

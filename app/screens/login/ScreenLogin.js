@@ -3,20 +3,20 @@ import React from 'react';
 
 import Router from "../../lib/helpers/Router";
 
-import {poolConnect, FORM_API_ID_LOGIN} from '../../redux/ReduxPool';
+import {FORM_API_ID_LOGIN, poolConnect} from '../../redux/ReduxPool';
 
 import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 
-import {View, Image, Dimensions, Keyboard} from 'react-native';
+import {Dimensions, Image, Keyboard, View} from 'react-native';
 
-import {RkButton, RkText, RkAvoidKeyboard, RkStyleSheet} from 'react-native-ui-kitten';
+import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 
 import {startApplication} from "../../App";
 import {FontAwesome} from '../../assets/Icons';
-import {Screen, GradientButton} from "../../comp/Misc";
+import {GradientButton, Screen} from "../../comp/Misc";
 
 import Logger from "../../lib/Logger";
 import ApiClient from '../../lib/data/ApiClient';

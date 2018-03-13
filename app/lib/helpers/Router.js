@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Const, Colors} from '../../Config';
+import {Colors, Const} from '../../Config';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
 import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
@@ -15,8 +15,8 @@ export default class Router {
   static toLocationProfileById(navigator, locationId, title = undefined) {
     navigator.showModal({
       screen: Const.NavigationComponents.ScreenLocationProfile,
-      title: title,
-      passProps: {locationId: locationId},
+      title,
+      passProps: {locationId},
       animated: true,
       animationType: 'fade',
       navigatorStyle: {
@@ -35,8 +35,8 @@ export default class Router {
 
     navigator.showModal({
       screen: Const.NavigationComponents.ScreenUserProfile,
-      title: title,
-      passProps: {userId: userId},
+      title,
+      passProps: {userId},
       animated: true,
       animationType: 'fade',
       navigatorStyle: {
@@ -64,7 +64,7 @@ export default class Router {
   static toTimingModal(navigator, title, props) {
     navigator.showModal({
       screen: Const.NavigationComponents.ModalTiming,
-      title: title,
+      title,
       passProps: props,
       animated: true,
       animationType: 'slide-up',
@@ -204,7 +204,7 @@ export default class Router {
     navigator.push({
       screen: Const.NavigationComponents.ScreenEditLocation,
       title: 'My Locations',
-      passProps: {locationId: locationId},
+      passProps: {locationId},
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
       }

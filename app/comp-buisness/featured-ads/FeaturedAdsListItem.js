@@ -3,8 +3,8 @@ import React from 'react';
 
 import {Icon} from 'react-native-elements';
 
-import {View, TouchableNativeFeedback, Image} from 'react-native';
-import {RkStyleSheet, RkText, RkButton, RkCard} from 'react-native-ui-kitten';
+import {Image, TouchableNativeFeedback, View} from 'react-native';
+import {RkButton, RkCard, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";

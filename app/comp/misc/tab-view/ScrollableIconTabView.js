@@ -74,4 +74,3 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
 
 }
 
-

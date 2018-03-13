@@ -2,7 +2,7 @@
 import React from 'react';
 import {poolConnect} from '../../../redux/ReduxPool';
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {GradientButton} from "../../../comp/Misc";

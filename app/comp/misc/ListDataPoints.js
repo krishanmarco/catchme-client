@@ -2,7 +2,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {Row, Grid} from "react-native-easy-grid";
+import {Grid, Row} from "react-native-easy-grid";
 
 
 export default ({listDataPoints = [], style}) => (

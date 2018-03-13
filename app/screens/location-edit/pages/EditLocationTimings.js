@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {poolConnect} from '../../../redux/ReduxPool';
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import WeekTimingsList from '../../../comp-buisness/timing/TimingList';

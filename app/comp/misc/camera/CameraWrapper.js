@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Camera from 'react-native-camera';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
 import Logger from "../../../lib/Logger";
 

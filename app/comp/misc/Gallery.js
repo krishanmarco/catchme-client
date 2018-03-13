@@ -2,7 +2,7 @@
 import React from 'react';
 
 import {Colors, Icons} from '../../Config';
-import {StyleSheet, View, FlatList, Dimensions} from 'react-native';
+import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
 

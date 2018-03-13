@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View, TouchableNativeFeedback, Dimensions, Image} from 'react-native';
+import {Dimensions, Image, TouchableNativeFeedback, View} from 'react-native';
 
 import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {RkText} from 'react-native-ui-kitten';

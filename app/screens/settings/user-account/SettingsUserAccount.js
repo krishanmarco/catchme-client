@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import _ from 'lodash';
-import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
+import {FORM_API_ID_EDIT_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
+import {Const, Icons} from '../../../Config';
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
 import Router from "../../../lib/helpers/Router";
 import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";

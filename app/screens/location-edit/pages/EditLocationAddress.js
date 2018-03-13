@@ -3,10 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {poolConnect} from '../../../redux/ReduxPool';
 
-import {View, ScrollView, Dimensions, Keyboard, Text, StyleSheet} from 'react-native';
+import {Dimensions, Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 

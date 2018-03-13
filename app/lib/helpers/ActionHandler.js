@@ -118,8 +118,8 @@ class ActionHandler {
     }
 
     // The action exists, check if valid
-    const clickActionIsValid = _ClickActionHandlers[clickAction].
-        isValid(action);
+    const clickActionIsValid = _ClickActionHandlers[clickAction]
+        .isValid(action);
 
     if (!clickActionIsValid) {
       Logger.e('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
@@ -143,5 +143,4 @@ class ActionHandler {
 
 const actionHandler = new ActionHandler();
 export default actionHandler;
-
 

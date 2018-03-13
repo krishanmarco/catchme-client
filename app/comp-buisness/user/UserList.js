@@ -8,8 +8,8 @@ import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 
 import {
   ListItemUser,
-  ListItemUserRequestSend,
-  ListItemUserRequestReceived
+  ListItemUserRequestReceived,
+  ListItemUserRequestSend
 } from '../../comp-buisness/user/UserListItems';
 
 

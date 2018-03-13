@@ -123,7 +123,7 @@ export function initialize(getFirebaseMessages: TGetFirebaseMessages, user) {
 function addUser(user: TFirebaseChatUser) {
   return {
     type: ACTION_LOCATION_CHAT_ADD_USER,
-    user: user
+    user
   };
 }
 
@@ -216,7 +216,7 @@ export function chatReceiveMessages(messages) {
     dispatch({
       type: ACTION_LOCATION_CHAT_START_ON_MESSAGES_RECEIVED,
       receivedAt: Date.now(),
-      messages: messages
+      messages
     });
 
   };
@@ -240,5 +240,5 @@ export function chatMessagesSendMessage(getFirebaseMessages, message) {
 
     // Send the message to firebase
     newMsgRef.set(message);
-  }
+  };
 }

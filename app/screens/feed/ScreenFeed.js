@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {poolConnect, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
+import {CACHE_ID_USER_PROFILE, poolConnect} from '../../redux/ReduxPool';
 import Context from '../../lib/Context';
-import {Screen, NullableObjects} from "../../comp/Misc";
+import {NullableObjects, Screen} from "../../comp/Misc";
 import Feed from './Feed';
 import type {TNavigator} from "../../lib/types/Types";
 

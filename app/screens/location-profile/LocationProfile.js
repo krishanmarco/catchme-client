@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {Icons, Colors} from '../../Config';
+import {Colors, Icons} from '../../Config';
 
 import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import Context from '../../lib/Context';
 
-import {StyleSheet, View, Image} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 
 // import TabBar from '../../comp/misc/TabBar';
 import {ListDataPoints} from "../../comp/Misc";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 
-import {Row, Grid} from "react-native-easy-grid";
+import {Grid, Row} from "react-native-easy-grid";
 import UserList from '../../comp-buisness/user/UserList';
 
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
@@ -29,7 +29,7 @@ import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataP
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TSectionListDataPointSections, TNavigator} from "../../lib/types/Types";
+import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 
 
 

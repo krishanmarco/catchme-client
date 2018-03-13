@@ -2,8 +2,8 @@
 import React from 'react';
 import _ from 'lodash';
 import {denormObj} from '../../../lib/HelperFunctions';
-import {View, StyleSheet, Picker, Switch} from 'react-native';
-import {RkStyleSheet, RkText, RkTextInput as _RkTextInput} from 'react-native-ui-kitten';
+import {Picker, StyleSheet, Switch, View} from 'react-native';
+import {RkTextInput as _RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 // todo: refactor with Flow after having flow-typed ReduxPool
 
 export const RkTextInput = ({rkType, style, ...props}) => {

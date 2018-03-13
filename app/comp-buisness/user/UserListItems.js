@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {Icons, Colors} from '../../Config';
+import {Colors, Icons} from '../../Config';
 
 import ApiClient from '../../lib/data/ApiClient';
 

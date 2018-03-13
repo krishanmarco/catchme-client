@@ -70,4 +70,3 @@ export default class FeedList extends React.Component<Props> {
 
 }
 
-
