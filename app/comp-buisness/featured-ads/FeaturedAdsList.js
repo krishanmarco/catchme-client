@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {FlatList} from 'react-native';
+import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 import FeaturedAdsListItem from "./FeaturedAdsListItem";
 
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import {DefaultLoader} from "../../comp/Misc";
-import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
+import {FlatList} from 'react-native';
 
 
 // PresentationalComponent ******************************************************************************

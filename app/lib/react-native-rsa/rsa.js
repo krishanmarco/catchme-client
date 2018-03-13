@@ -21,8 +21,7 @@ function linebrk(s,n) {
 function byte2Hex(b) {
   if(b < 0x10)
     return "0" + b.toString(16);
-  else
-    return b.toString(16);
+  return b.toString(16);
 }
 
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
@@ -129,7 +128,7 @@ function RSAEncrypt(text) {
   var c = this.doPublic(m);
   if(c == null) return null;
   var h = c.toString(16);
-  if((h.length & 1) == 0) return h; else return "0" + h;
+  if((h.length & 1) == 0) return h; return "0" + h;
 }
 
 // Return the PKCS#1 RSA encryption of "text" as a Base64-encoded string

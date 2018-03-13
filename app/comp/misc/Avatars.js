@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Icon} from 'react-native-elements';
 import {Image, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
 
 
 // Avatar *********************************************************************************
@@ -31,7 +31,7 @@ class Avatar extends RkComponent {
             )}
           </View>
         </View>
-    )
+    );
   }
 }
 
@@ -47,6 +47,6 @@ type Props = {
 };
 
 export const AvatarCircle = ({uri, badge, rkType}: Props) => (
-    <Avatar rkType={`circle ${rkType}`} badge={badge} img={{uri: uri}}/>
+    <Avatar rkType={`circle ${rkType}`} badge={badge} img={{uri}}/>
 );
 

@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import moment from 'moment';
 import _ from 'lodash';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from '../../lib/daos/DaoUser';
 
+import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+import moment from 'moment';
+
+import React from 'react';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemLocation, ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 
 type Props = {
   allowEdit: boolean,
@@ -142,7 +142,7 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
     const {favoriteIds} = this.props;
 
     const listItemProps = {
-      location: location,
+      location,
       onPress: this.props.onLocationPress
     };
 

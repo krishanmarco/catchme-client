@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View} from 'react-native';
+import {Grid, Row} from "react-native-easy-grid";
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {Row, Grid} from "react-native-easy-grid";
+import {View} from 'react-native';
 
 
 export default ({listDataPoints = [], style}) => (

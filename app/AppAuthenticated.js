@@ -1,42 +1,42 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {Navigation} from 'react-native-navigation';
-
-import {Colors, Const} from './Config';
-
-import {createStore, applyMiddleware} from 'redux';
-import {Provider} from 'react-redux';
-import ReduxThunk from 'redux-thunk';
-import promiseMiddleware from 'redux-promise-middleware';
-import ReduxReducer from './redux/Reducers';
-
-import DaoUser from "./lib/daos/DaoUser";
-import ApiClient from './lib/data/ApiClient';
 import ApiAuthentication from './lib/data/ApiAuthentication';
-import firebase from './lib/data/Firebase';
-
-import ScreenLocationProfile from './screens/location-profile/ScreenLocationProfile';
-import ScreenEditLocation from './screens/location-edit/ScreenEditLocation';
-import ScreenUserProfile from './screens/user-profile/ScreenUserProfile';
-import ScreenFeed from './screens/feed/ScreenFeed';
-import ScreenFeaturedAds from './screens/featured-ads/ScreenFeaturedAds';
-import ScreenSearch from './screens/search/ScreenSearch';
-
-import ScreenSettingsUserAccount from './screens/settings/user-account/ScreenSettingsUserAccount';
-import ScreenSettingsAdminLocations from './screens/settings/user-admin-locations/ScreenSettingsAdminLocations';
-import ScreenSettingsUserNotifications from './screens/settings/user-notifications/ScreenSettingsUserNotifications';
-import ScreenSettingsChangePassword from './screens/settings/change-password/ScreenSettingsChangePassword';
-import ScreenHelpAppInfo from './screens/help/app-info/ScreenHelpAppInfo';
-import ScreenLogout from './screens/settings/logout/ScreenLogout';
-import ScreenAddContacts from './screens/settings/add-contacts/ScreenAddContacts';
-
-import ModalTiming from './screens/timing/ModalTiming';
-import ModalAddressPicker from './screens/address-picker/ModalAddressPicker';
-import ScreenModalUserLocationStatus from './screens/user-location-status/ScreenModalUserLocationStatus';
+import ApiClient from './lib/data/ApiClient';
 
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
-import type {TUser} from "./lib/daos/DaoUser";
+
+import DaoUser from "./lib/daos/DaoUser";
+import firebase from './lib/data/Firebase';
 import Logger from "./lib/Logger";
+import ModalAddressPicker from './screens/address-picker/ModalAddressPicker';
+import ModalTiming from './screens/timing/ModalTiming';
+
+import promiseMiddleware from 'redux-promise-middleware';
+import React from 'react';
+import ReduxReducer from './redux/Reducers';
+import ReduxThunk from 'redux-thunk';
+
+import ScreenAddContacts from './screens/settings/add-contacts/ScreenAddContacts';
+import ScreenEditLocation from './screens/location-edit/ScreenEditLocation';
+import ScreenFeaturedAds from './screens/featured-ads/ScreenFeaturedAds';
+import ScreenFeed from './screens/feed/ScreenFeed';
+import ScreenHelpAppInfo from './screens/help/app-info/ScreenHelpAppInfo';
+import ScreenLocationProfile from './screens/location-profile/ScreenLocationProfile';
+
+import ScreenLogout from './screens/settings/logout/ScreenLogout';
+import ScreenModalUserLocationStatus from './screens/user-location-status/ScreenModalUserLocationStatus';
+import ScreenSearch from './screens/search/ScreenSearch';
+import ScreenSettingsAdminLocations from './screens/settings/user-admin-locations/ScreenSettingsAdminLocations';
+import ScreenSettingsChangePassword from './screens/settings/change-password/ScreenSettingsChangePassword';
+import ScreenSettingsUserAccount from './screens/settings/user-account/ScreenSettingsUserAccount';
+import ScreenSettingsUserNotifications from './screens/settings/user-notifications/ScreenSettingsUserNotifications';
+
+import ScreenUserProfile from './screens/user-profile/ScreenUserProfile';
+import {applyMiddleware, createStore} from 'redux';
+import {Colors, Const} from './Config';
+
+import {Navigation} from 'react-native-navigation';
+import {Provider} from 'react-redux';
+import type {TUser} from "./lib/daos/DaoUser";
 
 
 export default function run(authenticatedUser: TUser) {

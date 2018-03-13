@@ -93,7 +93,6 @@ export function mergeWithoutExtend(a, b) {
 
 
 
-
 export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
   // For each word in the searchWords check if
   // the matchString contains that word

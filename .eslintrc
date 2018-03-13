@@ -2,15 +2,21 @@
   "parser": "babel-eslint",
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
   ],
   "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
   "plugins": [
-    "flowtype"
+    "sort-imports-es6-autofix",
+    "flowtype",
+    "import"
   ],
   "settings": {
     "flowtype": {
@@ -65,6 +71,11 @@
     "quotes": 0,
     "id-match": 0,
     "sort-vars": 0,
+    "sort-imports-es6-autofix/sort-imports-es6": [2, {
+      "ignoreCase": true,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": ["all", "none", "single", "multiple"]
+    }],
     "space-after-keywords": 0,
     "space-before-function-paren": 0,
     "space-infix-ops": 0,
@@ -107,7 +118,7 @@
     "no-sparse-arrays": 2,
     "no-unreachable": 2,
     "use-isnan": 2,
-    "valid-jsdoc": 2,
+//    "valid-jsdoc": 2,
     "valid-typeof": 2,
     "consistent-return": 2,
 //    "default-case": 2,

@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {seconds} from '../HelperFunctions';
-import realm from './RealmSchema';
 import ApiAuthentication from './ApiAuthentication';
-import DaoUser from '../daos/DaoUser';
 import DaoLocation from "../daos/DaoLocation";
-import type {TUser} from "../daos/DaoUser";
-import type {TLocation} from "../daos/DaoLocation";
-import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import DaoUser from '../daos/DaoUser';
 import DaoUserLocationStatus from "../daos/DaoUserLocationStatus";
 import Logger from "../Logger";
+import realm from './RealmSchema';
+import {seconds} from '../HelperFunctions';
+import type {TLocation} from "../daos/DaoLocation";
+import type {TUser} from "../daos/DaoUser";
+import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 
 class RealmIO {
 	

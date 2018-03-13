@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
+import DaoUser from '../../lib/daos/DaoUser';
 import PropTypes from 'prop-types';
 
-import DaoUser from '../../lib/daos/DaoUser';
+import React from 'react';
 
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 
 import {
   ListItemUser,
-  ListItemUserRequestSend,
-  ListItemUserRequestReceived
+  ListItemUserRequestReceived,
+  ListItemUserRequestSend
 } from '../../comp-buisness/user/UserListItems';
 
 

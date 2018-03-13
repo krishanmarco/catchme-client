@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import _ from 'lodash';
 import ApiClient from '../../../lib/data/ApiClient';
 
-import {poolConnect} from '../../../redux/ReduxPool';
-
-import {View, StyleSheet} from 'react-native';
-
-import UserList from '../../../comp-buisness/user/UserList';
+import Contacts from 'react-native-contacts';
 import DaoUser from "../../../lib/daos/DaoUser";
 
+import Logger from "../../../lib/Logger";
+
+import PropTypes from 'prop-types';
+
+import React from 'react';
 import Router from '../../../lib/helpers/Router';
 
-import Contacts from 'react-native-contacts';
-import Logger from "../../../lib/Logger";
+import UserList from '../../../comp-buisness/user/UserList';
+
+import {poolConnect} from '../../../redux/ReduxPool';
+import {StyleSheet, View} from 'react-native';
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -62,15 +62,15 @@ function mapContactsToUsers(currentUserId, contacts) {
 
       // Join all this users email addresses
       const emailAddresses = _.get(contact, 'emailAddresses', []);
-      const emailSearchString = emailAddresses.
-          map(e => _.get(e, 'email', '').replace(/\s+/g, '')).
-          join(' ');
+      const emailSearchString = emailAddresses
+          .map(e => _.get(e, 'email', '').replace(/\s+/g, ''))
+          .join(' ');
 
       // Join all this users phone numbers
       const phoneNumbers = _.get(contact, 'phoneNumbers', []);
-      const phoneSearchString = phoneNumbers.
-          map(p => _.get(p, 'number', '').replace(/[^0-9]/g, '')).
-          join(' ');
+      const phoneSearchString = phoneNumbers
+          .map(p => _.get(p, 'number', '').replace(/[^0-9]/g, ''))
+          .join(' ');
 
       return (emailSearchString + ' ' + phoneSearchString).trim();
 
@@ -78,12 +78,12 @@ function mapContactsToUsers(currentUserId, contacts) {
 
 
     // Query the WS for all the users in the searchString
-    ApiClient.searchUsers(searchStrings).
-        then(users => {
+    ApiClient.searchUsers(searchStrings)
+        .then(users => {
 
           // Search for and remove the current user
-          const filteredUsers = users.
-              filter(u => DaoUser.gId(u) != currentUserId);
+          const filteredUsers = users
+              .filter(u => DaoUser.gId(u) != currentUserId);
 
 
           dispatch({

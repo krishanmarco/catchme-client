@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/09/2017 © */
-import {FBLoginManager} from 'react-native-facebook-login';
 import _ from 'lodash';
+import {FBLoginManager} from 'react-native-facebook-login';
 
 
 // {

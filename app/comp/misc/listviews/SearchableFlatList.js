@@ -1,12 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {Colors} from '../../../Config';
 
-import {StyleSheet, FlatList} from 'react-native';
-
 import {DefaultLoader, SearchBar} from "../../Misc";
+
+import {FlatList, StyleSheet} from 'react-native';
 
 
 

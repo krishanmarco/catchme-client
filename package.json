@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "flow": "flow",
-    "flow-stop": "flow stop"
+    "flow-stop": "flow stop",
+    "eslint-fix": "node node_modules/eslint/bin/eslint.js -c .eslintrc --fix ."
   },
   "dependencies": {
     "color": "^2.0.1",
@@ -51,7 +52,9 @@
     "babel-preset-react-native": "^4.0.0",
     "eslint": "^3.19.0",
     "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.2.2",
     "flow-bin": "0.49.1",
     "jest": "^21.2.1",
     "react-test-renderer": "^16.2.0"

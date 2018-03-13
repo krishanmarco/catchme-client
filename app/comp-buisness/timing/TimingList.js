@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 
-import {View, StyleSheet, ScrollView} from 'react-native';
 import TimingListItem from './TimingListItem';
+import {ScrollView, StyleSheet, View} from 'react-native';
 
 
 // Flow *************************************************************************************************

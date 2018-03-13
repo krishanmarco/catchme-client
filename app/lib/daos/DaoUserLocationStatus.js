@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {denormObj, seconds} from "../HelperFunctions";
 import {Const} from "../../Config";
+import {denormObj, seconds} from "../HelperFunctions";
 
 
 export type TUserLocationStatus = {

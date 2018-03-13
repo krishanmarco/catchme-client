@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoUser from "../../../lib/daos/DaoUser";
+
 import React from 'react';
+import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
 
-import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
-import {boolToIntString, stringReplace, intStringToBool} from '../../../lib/HelperFunctions';
-
-import {View} from 'react-native';
-import {RkText, RkStyleSheet} from 'react-native-ui-kitten';
+import {FORM_API_ID_EDIT_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
+import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
-import DaoUser from "../../../lib/daos/DaoUser";
+import {View} from 'react-native';
 
 
 

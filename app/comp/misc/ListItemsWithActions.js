@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {Colors, Icons} from '../../Config';
-
-import {Icon, Avatar} from 'react-native-elements';
-import {Col, Grid} from "react-native-easy-grid";
+import {Avatar, Icon} from 'react-native-elements';
 
 import {AvatarCircle} from "../Misc";
+import {Col, Grid} from "react-native-easy-grid";
 
-import {StyleSheet, View, TouchableNativeFeedback} from 'react-native';
-import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
+import {Colors, Icons} from '../../Config';
+
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {StyleSheet, TouchableNativeFeedback, View} from 'react-native';
 
 import type {TIcon} from "../../lib/types/Types";
 

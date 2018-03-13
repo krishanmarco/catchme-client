@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import type {TAction} from "./DaoAction";
 import DaoAction from "./DaoAction";
+import type {TAction} from "./DaoAction";
 
 export type TFeaturedAd = TAction & {
 	// id: number,                  // 1                                INHERITED Unique feed item identifier

@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
-
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
-import {AvatarCircle} from "../../../comp/Misc";
 import DaoLocation from "../../../lib/daos/DaoLocation";
+import PropTypes from 'prop-types';
+import React from 'react';
+import {AvatarCircle} from "../../../comp/Misc";
+
+import {Const, Icons} from '../../../Config';
+
+import {poolConnect} from '../../../redux/ReduxPool';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {RkStyleSheet} from 'react-native-ui-kitten';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 
 // Redux ************************************************************************************************

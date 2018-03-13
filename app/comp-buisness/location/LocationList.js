@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
 import DaoLocation from '../../lib/daos/DaoLocation';
+import PropTypes from 'prop-types';
+import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 import {ListItemLocation, ListItemLocationFollow} from './LocationListItems';
 

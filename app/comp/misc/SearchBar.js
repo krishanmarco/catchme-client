@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Colors, Icons} from '../../Config';
-import {View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RkStyleSheet, RkTextInput} from 'react-native-ui-kitten';
+import {View} from 'react-native';
 
 
 

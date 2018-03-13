@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
+import ApiClient from '../../lib/data/ApiClient';
+import DaoUser from '../../lib/daos/DaoUser';
+
 import PropTypes from 'prop-types';
 
-import {Icons, Colors} from '../../Config';
+import React from 'react';
 
-import ApiClient from '../../lib/data/ApiClient';
-
-import DaoUser from '../../lib/daos/DaoUser';
+import {Colors, Icons} from '../../Config';
 
 import {ListItemWithActions} from "../../comp/Misc";
 

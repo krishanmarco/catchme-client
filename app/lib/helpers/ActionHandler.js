@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Const, Icons} from '../../Config';
 import ApiClient from '../data/ApiClient';
 import DaoAction from "../daos/DaoAction";
-import Router from "./Router";
-import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
-import type {TActionHandler, TNavigator} from "../types/Types";
-import type {TAction} from "../daos/DaoAction";
 import Logger from "../Logger";
+import Router from "./Router";
+import {Const, Icons} from '../../Config';
+import type {TAction} from "../daos/DaoAction";
+import type {TActionHandler, TNavigator} from "../types/Types";
+import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
 
 
 const _ClickActionHandlers = ({
@@ -118,8 +118,8 @@ class ActionHandler {
     }
 
     // The action exists, check if valid
-    const clickActionIsValid = _ClickActionHandlers[clickAction].
-        isValid(action);
+    const clickActionIsValid = _ClickActionHandlers[clickAction]
+        .isValid(action);
 
     if (!clickActionIsValid) {
       Logger.e('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
@@ -143,5 +143,4 @@ class ActionHandler {
 
 const actionHandler = new ActionHandler();
 export default actionHandler;
-
 

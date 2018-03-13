@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {Screen} from "../../comp/Misc";
-import PropTypes from 'prop-types';
-import {poolConnect, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
 import ApiClient from '../../lib/data/ApiClient';
-import {NullableObjects} from '../../comp/Misc';
-import LocationProfile from './LocationProfile';
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
+import LocationProfile from './LocationProfile';
+import PropTypes from 'prop-types';
+import React from 'react';
 import Router from "../../lib/helpers/Router";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
+import {NullableObjects} from '../../comp/Misc';
+import {Screen} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TUser} from "../../lib/daos/DaoUser";
 import type {TModalUserLocationStatusProps} from "../user-location-status/ScreenModalUserLocationStatus";
 import type {TNavigator} from "../../lib/types/Types";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
@@ -66,7 +66,7 @@ class ScreenLocationProfilePresentational extends React.Component<any, Props, St
 
     rightButtons.push(ScreenLocationProfilePresentational.NAV_BUTTON_USER_LOCATION_STATUS);
 
-    this._navigator().setButtons({rightButtons: rightButtons});
+    this._navigator().setButtons({rightButtons});
   }
 
 

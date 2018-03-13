@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import RealmIO from './RealmIO';
-import {Const} from '../../Config';
 import ApiClient from './ApiClient';
 import Context from '../Context';
-import {seconds} from '../HelperFunctions';
 import Logger from "../Logger";
+import RealmIO from './RealmIO';
+import {Const} from '../../Config';
+import {seconds} from '../HelperFunctions';
 
 
 class DataProvider {
@@ -96,8 +96,8 @@ class DataProvider {
 
 
   _runApiRequest(apiRequest, saveToRealm) {
-    return apiRequest().
-        then(object => {
+    return apiRequest()
+        .then(object => {
           saveToRealm({insertTs: seconds(), ...object});
           return object;
         });

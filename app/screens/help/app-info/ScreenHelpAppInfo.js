@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {Screen} from "../../../comp/Misc";
-import {poolConnect} from '../../../redux/ReduxPool';
 import HelpAppInfo from './HelpAppInfo';
+import React from 'react';
+import {poolConnect} from '../../../redux/ReduxPool';
+import {Screen} from "../../../comp/Misc";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

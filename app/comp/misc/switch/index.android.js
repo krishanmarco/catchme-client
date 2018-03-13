@@ -4,13 +4,13 @@
  * Copyright (c) 2016 PoberWong
  *
  */
-import React from 'react'
+import React from 'react';
 import {
   Animated,
   Easing,
   PanResponder,
 } from 'react-native';
-import {RkComponent} from 'react-native-ui-kitten'
+import {RkComponent} from 'react-native-ui-kitten';
 
 let width = 52;
 let height = 32;
@@ -38,23 +38,23 @@ export class RkSwitch extends RkComponent {
     let value = props.value;
     this.state = {
       name: this.props.name,
-      value: value,
+      value,
       toggleable: true,
       alignItems: value ? 'flex-end' : 'flex-start',
       left: value ? onLeftValue : offLeftValue,
       handlerAnimation: new Animated.Value(this.handlerSize),
       switchAnimation: new Animated.Value(value ? -1 : 1)
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     let {value} = this.state;
     if (nextProps === this.props) {
-      return
+      return;
     }
 
     if (typeof nextProps.value !== 'undefined' && nextProps.value !== value) {
-      this.toggleSwitch(true)
+      this.toggleSwitch(true);
     }
   }
 
@@ -68,11 +68,11 @@ export class RkSwitch extends RkComponent {
       onPanResponderGrant: this._onPanResponderGrant,
       onPanResponderMove: this._onPanResponderMove,
       onPanResponderRelease: this._onPanResponderRelease
-    })
+    });
   }
 
   _onPanResponderGrant = (evt, gestureState) => {
-    this.animateHandler(height * 0.9)
+    this.animateHandler(height * 0.9);
   };
 
   _onPanResponderMove = (evt, gestureState) => {
@@ -80,7 +80,7 @@ export class RkSwitch extends RkComponent {
 
     this.setState({
       toggleable: value ? (gestureState.dx < 10) : (gestureState.dx > -10)
-    })
+    });
   };
 
   _onPanResponderRelease = (evt, gestureState) => {
@@ -89,7 +89,7 @@ export class RkSwitch extends RkComponent {
 
     if (toggleable && !disabled) {
       if (onValueChange) {
-        this.toggleSwitch(onValueChange)
+        this.toggleSwitch(onValueChange);
       }
     }
   };
@@ -106,8 +106,8 @@ export class RkSwitch extends RkComponent {
         value: toValue,
         left: toValue ? onLeftValue : offLeftValue
       });
-     switchAnimation.setValue(toValue ? -1 : 1)
-    })
+     switchAnimation.setValue(toValue ? -1 : 1);
+    });
 
   };
 
@@ -120,7 +120,7 @@ export class RkSwitch extends RkComponent {
         duration: animationDuration,
         easing: Easing.linear
       }
-    ).start(callback)
+    ).start(callback);
   };
 
   animateHandler = (value, callback = () => null) => {
@@ -132,7 +132,7 @@ export class RkSwitch extends RkComponent {
         duration: animationDuration,
         easing: Easing.linear
       }
-    ).start(callback)
+    ).start(callback);
   };
 
   render() {
@@ -166,6 +166,6 @@ export class RkSwitch extends RkComponent {
           transform: [{translateX: switchAnimation}]
         }]}/>
       </Animated.View>
-    )
+    );
   }
 }

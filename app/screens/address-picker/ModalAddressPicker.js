@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Screen} from "../../comp/Misc";
-import {poolConnect} from '../../redux/ReduxPool';
-import {ScrollView} from 'react-native';
 import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeocoderTextEdit';
+import PropTypes from 'prop-types';
+import React from 'react';
 import {Navigation} from 'react-native-navigation';
+import {poolConnect} from '../../redux/ReduxPool';
+import {Screen} from "../../comp/Misc";
+import {ScrollView} from 'react-native';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Flow *************************************************************************************************

@@ -1,20 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Icons, Colors, Const} from '../../Config';
-
 import ApiClient from '../../lib/data/ApiClient';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
 
+import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+
+import PropTypes from 'prop-types';
+
+import React from 'react';
+
+import Router from "../../lib/helpers/Router";
+import {Colors, Const, Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import Router from "../../lib/helpers/Router";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import type {TUser} from "../../lib/daos/DaoUser";
 import type {TNavigator} from "../../lib/types/Types";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 
 

@@ -3,11 +3,11 @@
 
 // Initialize the application, checks if the user is logged in
 // If he is then ./AppAuthenticated is run, else ./AppUnauthenticated
-import {bootstrapRkTheme} from './lib/theme/RkTheme';
-import RealmIO from './lib/data/RealmIO';
 import DaoUser from "./lib/daos/DaoUser";
-import runAppUnuth from './AppUnauthenticated';
+import RealmIO from './lib/data/RealmIO';
 import runAppAuth from './AppAuthenticated';
+import runAppUnuth from './AppUnauthenticated';
+import {bootstrapRkTheme} from './lib/theme/RkTheme';
 import type {TUser} from "./lib/daos/DaoUser";
 
 
@@ -29,7 +29,7 @@ export function initializeApplication() {
 }
 
 
-export function startApplication(userProfile: TUser = undefined) {
+export function startApplication(userProfile: ?TUser = null) {
 	userProfile = userProfile || RealmIO.getLocalUserData();
 	
 	// Try get the logged in user from realm

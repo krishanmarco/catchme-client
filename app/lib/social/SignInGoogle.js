@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/09/2017 © */
-import {GoogleSignin} from 'react-native-google-signin';
 import _ from 'lodash';
+import {GoogleSignin} from 'react-native-google-signin';
 
 
 // {

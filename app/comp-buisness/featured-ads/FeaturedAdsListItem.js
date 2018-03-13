@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
-import {Icon} from 'react-native-elements';
-
-import {View, TouchableNativeFeedback, Image} from 'react-native';
-import {RkStyleSheet, RkText, RkButton, RkCard} from 'react-native-ui-kitten';
-import DaoFeed from "../../lib/daos/DaoFeed";
 import ActionHandler from '../../lib/helpers/ActionHandler';
+
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
+
+import DaoFeed from "../../lib/daos/DaoFeed";
+import React from 'react';
+import {Icon} from 'react-native-elements';
+import {Image, TouchableNativeFeedback, View} from 'react-native';
+import {RkButton, RkCard, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
 import type {TNavigator} from "../../lib/types/Types";
 

@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {Const} from '../../Config';
-import ObjectCache from "../helpers/ObjectCache";
 import DaoLocation from "./DaoLocation";
 import Maps from "../data/Maps";
+import ObjectCache from "../helpers/ObjectCache";
+import {Const} from '../../Config';
+import {mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
-import {mapIdsToObjects} from "../HelperFunctions";
 
 
 export type TUser = {

@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoFeed from "../../lib/daos/DaoFeed";
+
+import FeedListItem from "./FeedListItem";
 import React from 'react';
+import {DefaultLoader} from "../../comp/Misc";
 
 import {FlatList} from 'react-native';
-import DaoFeed from "../../lib/daos/DaoFeed";
-import FeedListItem from "./FeedListItem";
-
-import {DefaultLoader} from "../../comp/Misc";
-import type {TUser} from "../../lib/daos/DaoUser";
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TNavigator} from "../../lib/types/Types";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 // Flow *************************************************************************************************
@@ -69,5 +69,4 @@ export default class FeedList extends React.Component<Props> {
   }
 
 }
-
 

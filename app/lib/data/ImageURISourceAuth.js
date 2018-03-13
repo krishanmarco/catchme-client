@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Const} from '../../Config';
 import ApiAuthentication from './ApiAuthentication';
+import {Const} from '../../Config';
 
 
 export type TImageURISourceAuth = {
@@ -26,8 +26,8 @@ export default class ImageURISourceAuth {
 		this.cache = Const.ImageURISource.cachingPolicy;
 	}
 	
-	uri: undefined;
-	headers: undefined;
-	cache: undefined;
+	uri: null;
+	headers: null;
+	cache: null;
 	
 }

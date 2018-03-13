@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {TouchableOpacity, StyleSheet} from 'react-native';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {Col, Grid} from 'react-native-easy-grid';
 import {Icon} from 'react-native-elements';
-import {Grid, Col} from 'react-native-easy-grid';
+import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import type {TDataPoint} from "../../lib/types/Types";
 
 

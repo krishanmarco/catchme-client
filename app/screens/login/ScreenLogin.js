@@ -1,30 +1,30 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ApiClient from '../../lib/data/ApiClient';
+
+import DaoUser from "../../lib/daos/DaoUser";
+
+import Logger from "../../lib/Logger";
+
 import React from 'react';
 
 import Router from "../../lib/helpers/Router";
 
-import {poolConnect, FORM_API_ID_LOGIN} from '../../redux/ReduxPool';
+import {Dimensions, Image, Keyboard, View} from 'react-native';
 
-import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
+import {FontAwesome} from '../../assets/Icons';
+import {FORM_API_ID_LOGIN, poolConnect} from '../../redux/ReduxPool';
 
-import {View, Image, Dimensions, Keyboard} from 'react-native';
-
-import {RkButton, RkText, RkAvoidKeyboard, RkStyleSheet} from 'react-native-ui-kitten';
+import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
+import {GradientButton, Screen} from "../../comp/Misc";
+import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-
-import {startApplication} from "../../App";
-import {FontAwesome} from '../../assets/Icons';
-import {Screen, GradientButton} from "../../comp/Misc";
-
-import Logger from "../../lib/Logger";
-import ApiClient from '../../lib/data/ApiClient';
-import {SignInGoogle} from '../../lib/social/SignInGoogle';
+import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
-import DaoUser from "../../lib/daos/DaoUser";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {SignInGoogle} from '../../lib/social/SignInGoogle';
+import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 // Flow *************************************************************************************************

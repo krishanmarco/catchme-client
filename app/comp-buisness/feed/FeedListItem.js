@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
-import {Col, Grid} from "react-native-easy-grid";
-
-import {AvatarCircle} from "../../comp/Misc";
-
-import {View, TouchableNativeFeedback} from 'react-native';
-import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
-import DaoFeed from "../../lib/daos/DaoFeed";
-import HTMLView from 'react-native-htmlview';
-import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
 import ActionHandler from '../../lib/helpers/ActionHandler';
+
+import DaoFeed from "../../lib/daos/DaoFeed";
+
+import HTMLView from 'react-native-htmlview';
+
+import React from 'react';
+import {AvatarCircle} from "../../comp/Misc";
+import {Col, Grid} from "react-native-easy-grid";
+import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {TouchableNativeFeedback, View} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TNavigator} from "../../lib/types/Types";
 
@@ -80,7 +80,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
   _renderLeftAvatar() {
     const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
-    return leftAvatar && <AvatarCircle uri={leftAvatar}/>
+    return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
   }
 
   _renderRightAvatar() {
@@ -116,11 +116,10 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 
 
-
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
 
   listItem: {
     paddingLeft: 12,

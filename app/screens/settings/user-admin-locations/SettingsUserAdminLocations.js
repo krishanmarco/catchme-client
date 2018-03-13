@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
+import DaoLocation from "../../../lib/daos/DaoLocation";
 
+import DaoUser from "../../../lib/daos/DaoUser";
+
+import React from 'react';
+import Router from "../../../lib/helpers/Router";
+import {FlatList} from 'react-native';
 import {Icons} from '../../../Config';
 
-import {View} from 'react-native';
 import {ListItemInfo} from "../../../comp/Misc";
-import {ScreenInfo} from "../../../comp/Misc";
-import {FlatList} from 'react-native';
-
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import DaoUser from "../../../lib/daos/DaoUser";
-import Router from "../../../lib/helpers/Router";
+import {ScreenInfo} from "../../../comp/Misc";
+import {View} from 'react-native';
 
 
 

@@ -1,9 +1,9 @@
 import React from 'react';
-import {Screen} from "../../../comp/Misc";
+import {GradientButton} from "../../../comp/Misc";
 import {
-  View,
   Image,
-  Keyboard
+  Keyboard,
+  View
 } from 'react-native';
 import {
   RkStyleSheet,
@@ -11,8 +11,8 @@ import {
   RkTextInput,
   RkTheme
 } from 'react-native-ui-kitten';
-import {GradientButton} from "../../../comp/Misc";
 import {scale, scaleModerate, scaleVertical} from '../../../lib/utils/scale';
+import {Screen} from "../../../comp/Misc";
 
 
 // todo: refactor...
@@ -29,7 +29,7 @@ export default class PasswordRecovery extends React.Component {
     let renderIcon = () => {
       if (RkTheme.current.name === 'light')
         return <Image style={styles.image} source={require('../../../assets/images/logo.png')}/>;
-      return <Image style={styles.image} source={require('../../../assets/images/logoDark.png')}/>
+      return <Image style={styles.image} source={require('../../../assets/images/logoDark.png')}/>;
     };
 
     return (
@@ -49,15 +49,15 @@ export default class PasswordRecovery extends React.Component {
               </RkText>
             </View>
             <GradientButton style={styles.save} rkType='large' text='SEND' onPress={() => {
-              this.props.navigation.goBack()
+              this.props.navigation.goBack();
             }}/>
           </View>
         </Screen>
-    )
+    );
   }
 }
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   screen: {
     flex: 1,
     paddingHorizontal: 16,

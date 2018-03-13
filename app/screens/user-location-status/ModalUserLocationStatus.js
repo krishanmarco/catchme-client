@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {Colors, Const, Icons} from '../../Config';
-import {poolConnect} from '../../redux/ReduxPool';
-import {Row, Grid, Col} from "react-native-easy-grid";
-import {RkText, RkButton} from "react-native-ui-kitten";
-import {View, StyleSheet, Image, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import {compareTimeSmaller} from "../../lib/HelperFunctions";
-import moment from 'moment';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoLocation from "../../lib/daos/DaoLocation";
-import {Icon} from 'react-native-elements';
+import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
+import moment from 'moment';
+import React from 'react';
+import {Col, Grid, Row} from "react-native-easy-grid";
+import {Colors, Const, Icons} from '../../Config';
+import {compareTimeSmaller} from "../../lib/HelperFunctions";
+import {Icon} from 'react-native-elements';
+import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
+import {poolConnect} from '../../redux/ReduxPool';
+import {RkButton, RkText} from "react-native-ui-kitten";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
@@ -76,21 +76,21 @@ export function modalUserLocationStatusReducer(state = modalUserLocationStatusIn
 function modalUserLocationStatusSetDateModalVisibility(visible) {
   return {
     type: ACTION_SET_DATE_MODAL_VISIBILITY,
-    visible: visible
+    visible
   };
 }
 
 function modalUserLocationStatusSetFromModalVisibility(visible) {
   return {
     type: ACTION_SET_FROM_MODAL_VISIBILITY,
-    visible: visible
+    visible
   };
 }
 
 function modalUserLocationStatusSetUntilModalVisibility(visible) {
   return {
     type: ACTION_SET_UNTIL_MODAL_VISIBILITY,
-    visible: visible
+    visible
   };
 }
 

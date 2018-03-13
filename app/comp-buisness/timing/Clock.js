@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {VictoryPie, VictoryLabel} from 'victory-native';
 import Svg from 'react-native-svg';
 import {Colors} from '../../Config';
+import {VictoryLabel, VictoryPie} from 'victory-native';
 
 
 
@@ -31,7 +31,7 @@ export default class Clock extends React.Component {
 
     const timings = this.state.timings;
     timings[clockIndex] = !timings[clockIndex];
-    this.setState(this._mapPropsToState({timings: timings, ...this.props}));
+    this.setState(this._mapPropsToState({timings, ...this.props}));
   }
 
   _mapPropsToState(props) {
@@ -81,4 +81,4 @@ export default class Clock extends React.Component {
     );
   }
 
-};
+}

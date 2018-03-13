@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Const, Colors} from '../../Config';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
+import {Colors, Const} from '../../Config';
 import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
 
 export default class Router {
@@ -12,11 +12,11 @@ export default class Router {
     Router.toLocationProfileById(navigator, DaoLocation.gId(location), DaoLocation.gName(location));
   }
 
-  static toLocationProfileById(navigator, locationId, title = undefined) {
+  static toLocationProfileById(navigator, locationId, title = null) {
     navigator.showModal({
       screen: Const.NavigationComponents.ScreenLocationProfile,
-      title: title,
-      passProps: {locationId: locationId},
+      title,
+      passProps: {locationId},
       animated: true,
       animationType: 'fade',
       navigatorStyle: {
@@ -31,12 +31,12 @@ export default class Router {
     Router.toUserProfileById(navigator, DaoUser.gId(user), DaoUser.gName(user));
   }
 
-  static toUserProfileById(navigator, userId, title = undefined) {
+  static toUserProfileById(navigator, userId, title = null) {
 
     navigator.showModal({
       screen: Const.NavigationComponents.ScreenUserProfile,
-      title: title,
-      passProps: {userId: userId},
+      title,
+      passProps: {userId},
       animated: true,
       animationType: 'fade',
       navigatorStyle: {
@@ -64,7 +64,7 @@ export default class Router {
   static toTimingModal(navigator, title, props) {
     navigator.showModal({
       screen: Const.NavigationComponents.ModalTiming,
-      title: title,
+      title,
       passProps: props,
       animated: true,
       animationType: 'slide-up',
@@ -204,7 +204,7 @@ export default class Router {
     navigator.push({
       screen: Const.NavigationComponents.ScreenEditLocation,
       title: 'My Locations',
-      passProps: {locationId: locationId},
+      passProps: {locationId},
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
       }
