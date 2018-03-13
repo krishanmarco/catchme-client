@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js eslint-fix
+  C:\Program Files\nodejs\node.exe C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
 
 PATH: 
   C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Users\krish\AppData\Local\Microsoft\WindowsApps;C:\Program Files\php\php7.2;C:\Users\krish\AppData\Roaming\Composer\vendor\bin;C:\Users\krish\AppData\Roaming\npm;C:\Users\krish\AppData\Local\Android\Sdk\platform-tools
@@ -70,6 +70,7 @@ npm manifest:
       "eslint-plugin-flowtype": "^2.46.1",
       "eslint-plugin-import": "^2.9.0",
       "eslint-plugin-react": "^7.7.0",
+      "eslint-plugin-sort-imports-es6-autofix": "^0.2.2",
       "flow-bin": "0.49.1",
       "jest": "^21.2.1",
       "react-test-renderer": "^16.2.0"
@@ -7440,7 +7441,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: C:\Windows\system32\cmd.exe
-  Arguments: /d /s /c node node_modules/eslint/bin/eslint.js -c .eslintrc --fix .
+  Arguments: /d /s /c node node_modules/react-native/local-cli/cli.js start
   Directory: C:\Users\krish\projects\catchme-client
   Output:
   
