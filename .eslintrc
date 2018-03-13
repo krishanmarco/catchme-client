@@ -65,6 +65,11 @@
     "quotes": 0,
     "id-match": 0,
     "sort-vars": 0,
+    "sort-imports": ["error", {
+      "ignoreCase": false,
+      "ignoreMemberSort": false,
+      "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
+    }],
     "space-after-keywords": 0,
     "space-before-function-paren": 0,
     "space-infix-ops": 0,

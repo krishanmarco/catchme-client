@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {poolConnect, FORM_API_ID_CHANGE_PASSWORD} from '../../../redux/ReduxPool';
+import {FORM_API_ID_CHANGE_PASSWORD, poolConnect} from '../../../redux/ReduxPool';
 
 import {scaleVertical} from '../../../lib/utils/scale';
 
@@ -47,7 +47,7 @@ class ScreenSettingsChangePasswordPresentational extends React.Component<any, Pr
 				// Set error to the redux pool
 			});
 	}
-	
+
 	render() {
 		return (
 			<Screen>
