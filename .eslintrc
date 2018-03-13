@@ -7,11 +7,14 @@
     "plugin:import/warnings"
   ],
   "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
   "plugins": [
+    "sort-imports-es6-autofix",
     "flowtype",
     "import"
   ],
@@ -68,7 +71,7 @@
     "quotes": 0,
     "id-match": 0,
     "sort-vars": 0,
-    "sort-imports": ["error", {
+    "sort-imports-es6-autofix/sort-imports-es6": [2, {
       "ignoreCase": true,
       "ignoreMemberSort": false,
       "memberSyntaxSortOrder": ["none", "all", "single", "multiple"]
