@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
 import {RkButton, RkComponent, RkText} from 'react-native-ui-kitten';
 
 // Flow *************************************************************************************************

@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 
-import {connect} from 'react-redux';
-import ApiClient from '../lib/data/ApiClient';
-import DataProvider from '../lib/data/DataProvider';
-import DaoUser from "../lib/daos/DaoUser";
-import DaoLocation from "../lib/daos/DaoLocation";
-import ManagerWeekTimings from "../lib/helpers/ManagerWeekTimings";
 import _ from 'lodash';
-import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
-import {Const} from "../Config";
+import ApiClient from '../lib/data/ApiClient';
+import DaoLocation from "../lib/daos/DaoLocation";
+import DaoUser from "../lib/daos/DaoUser";
 import DaoUserLocationStatus from "../lib/daos/DaoUserLocationStatus";
-import {FirebaseData} from "../lib/data/Firebase";
+import DataProvider from '../lib/data/DataProvider';
 import Logger from "../lib/Logger";
+import ManagerWeekTimings from "../lib/helpers/ManagerWeekTimings";
+import {connect} from 'react-redux';
+import {Const} from "../Config";
+import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
+import {FirebaseData} from "../lib/data/Firebase";
 
 
 // Top Level Ids ******************************************************************************************************

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Screen} from "../../../comp/Misc";
+import {GradientButton} from "../../../comp/Misc";
 import {
   Image,
   Keyboard,
@@ -11,8 +11,8 @@ import {
   RkTextInput,
   RkTheme
 } from 'react-native-ui-kitten';
-import {GradientButton} from "../../../comp/Misc";
 import {scale, scaleModerate, scaleVertical} from '../../../lib/utils/scale';
+import {Screen} from "../../../comp/Misc";
 
 
 // todo: refactor...

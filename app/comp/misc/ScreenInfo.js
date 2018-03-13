@@ -2,8 +2,8 @@
 import React from 'react';
 import {Dimensions, Image, TouchableNativeFeedback, View} from 'react-native';
 
-import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {RkText} from 'react-native-ui-kitten';
+import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 
 
 // Flow *************************************************************************************************

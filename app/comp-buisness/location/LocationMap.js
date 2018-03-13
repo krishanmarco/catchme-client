@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
 
-import {Colors} from '../../Config';
-
-import {StyleSheet} from 'react-native';
-
 import MapsTheme from '../../lib/maps/GoogleMapsTheme';
+
 import MapView from 'react-native-maps';
-import type {TFirebaseChatMessage, TGetFirebaseMessages} from "../../lib/data/Firebase";
-import type {TUser} from "../../lib/daos/DaoUser";
-import type {TLocation} from "../../lib/daos/DaoLocation";
+
+import React from 'react';
+
+import {Colors} from '../../Config';
 import {Const} from "../../Config";
+import {StyleSheet} from 'react-native';
+import type {TFirebaseChatMessage, TGetFirebaseMessages} from "../../lib/data/Firebase";
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************

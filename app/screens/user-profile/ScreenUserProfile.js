@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
+import DaoUser from "../../lib/daos/DaoUser";
 import PropTypes from 'prop-types';
+import React from 'react';
+import UserProfile from './UserProfile';
 import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../comp/Misc";
-import UserProfile from './UserProfile';
-import DaoUser from "../../lib/daos/DaoUser";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

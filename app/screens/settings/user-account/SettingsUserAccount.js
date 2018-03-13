@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
 import _ from 'lodash';
-import {FORM_API_ID_EDIT_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
-import {Const, Icons} from '../../../Config';
-
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-
-import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import DaoUser from "../../../lib/daos/DaoUser";
-import Router from "../../../lib/helpers/Router";
-import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import Maps from "../../../lib/data/Maps";
+import React from 'react';
+
+import Router from "../../../lib/helpers/Router";
+
+import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
+import {Const, Icons} from '../../../Config';
+import {FORM_API_ID_EDIT_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 
 

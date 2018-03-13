@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import _ from 'lodash';
 import ApiClient from '../../../lib/data/ApiClient';
 
-import {poolConnect} from '../../../redux/ReduxPool';
-
-import {StyleSheet, View} from 'react-native';
-
-import UserList from '../../../comp-buisness/user/UserList';
+import Contacts from 'react-native-contacts';
 import DaoUser from "../../../lib/daos/DaoUser";
 
+import Logger from "../../../lib/Logger";
+
+import PropTypes from 'prop-types';
+
+import React from 'react';
 import Router from '../../../lib/helpers/Router';
 
-import Contacts from 'react-native-contacts';
-import Logger from "../../../lib/Logger";
+import UserList from '../../../comp-buisness/user/UserList';
+
+import {poolConnect} from '../../../redux/ReduxPool';
+import {StyleSheet, View} from 'react-native';
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************

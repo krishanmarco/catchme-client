@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {Navigation} from 'react-native-navigation';
-
-import {Colors, Const} from './Config';
-
-import {applyMiddleware, createStore} from 'redux';
-import {Provider} from 'react-redux';
-import ReduxThunk from 'redux-thunk';
 import promiseMiddleware from 'redux-promise-middleware';
+import React from 'react';
+
 import ReduxReducer from './redux/Reducers';
 
+import ReduxThunk from 'redux-thunk';
 import ScreenLogin from './screens/login/ScreenLogin';
-import ScreenRegister from './screens/register/ScreenRegister';
 import ScreenRecoverPassword from './screens/settings/recover-password/ScreenRecoverPassword';
+import ScreenRegister from './screens/register/ScreenRegister';
+import {applyMiddleware, createStore} from 'redux';
+
+import {Colors, Const} from './Config';
+import {Navigation} from 'react-native-navigation';
+import {Provider} from 'react-redux';
 
 
 export default function run() {

@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
+import DaoLocation from "../../lib/daos/DaoLocation";
+import EditLocation from './EditLocation';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from '../../comp/Misc';
-import EditLocation from './EditLocation';
-import DaoLocation from "../../lib/daos/DaoLocation";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

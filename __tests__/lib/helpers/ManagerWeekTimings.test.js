@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 17/12/17 © **/
-import React from 'react';
 import 'react-native';
 import ManagerWeekTimings from "../../../app/lib/helpers/ManagerWeekTimings";
+import React from 'react';
 
 describe('lib/helpers/ManagerWeekTimings.js', () => {
 

@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Icons} from '../../Config';
-
-import {FORM_API_ID_EDIT_LOCATION_PROFILE, poolConnect} from '../../redux/ReduxPool';
-
-import {Grid, Row} from "react-native-easy-grid";
-
-import {View} from 'react-native';
-import EditLocationInfo from './pages/EditLocationInfo';
-import EditLocationTimings from './pages/EditLocationTimings';
-import EditLocationAddress from './pages/EditLocationAddress';
-import EditLocationRecap from './pages/EditLocationSave';
-import {denormObj} from '../../lib/HelperFunctions';
 import DaoLocation from "../../lib/daos/DaoLocation";
+import EditLocationAddress from './pages/EditLocationAddress';
+
+import EditLocationInfo from './pages/EditLocationInfo';
+
+import EditLocationRecap from './pages/EditLocationSave';
+
+import EditLocationTimings from './pages/EditLocationTimings';
+
+import PropTypes from 'prop-types';
+import React from 'react';
+import {denormObj} from '../../lib/HelperFunctions';
+import {FORM_API_ID_EDIT_LOCATION_PROFILE, poolConnect} from '../../redux/ReduxPool';
+import {Grid, Row} from "react-native-easy-grid";
+import {Icons} from '../../Config';
 import {ScrollableIconTabView} from "../../comp/Misc";
+import {View} from 'react-native';
 
 
 // Redux ************************************************************************************************

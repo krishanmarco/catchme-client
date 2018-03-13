@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {Colors, Const, Icons} from '../../Config';
-import {poolConnect} from '../../redux/ReduxPool';
-import {Col, Grid, Row} from "react-native-easy-grid";
-import {RkButton, RkText} from "react-native-ui-kitten";
-import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import {compareTimeSmaller} from "../../lib/HelperFunctions";
-import moment from 'moment';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import DaoLocation from "../../lib/daos/DaoLocation";
-import {Icon} from 'react-native-elements';
+import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
+import moment from 'moment';
+import React from 'react';
+import {Col, Grid, Row} from "react-native-easy-grid";
+import {Colors, Const, Icons} from '../../Config';
+import {compareTimeSmaller} from "../../lib/HelperFunctions";
+import {Icon} from 'react-native-elements';
+import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
+import {poolConnect} from '../../redux/ReduxPool';
+import {RkButton, RkText} from "react-native-ui-kitten";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 

@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {poolConnect} from '../../../redux/ReduxPool';
-
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {GradientButton} from "../../../comp/Misc";
-import {AvatarCircle} from "../../../comp/Misc";
 import DaoLocation from "../../../lib/daos/DaoLocation";
+import React from 'react';
+
+import {AvatarCircle} from "../../../comp/Misc";
+
+import {GradientButton} from "../../../comp/Misc";
+import {poolConnect} from '../../../redux/ReduxPool';
+import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 
 
 // Redux ************************************************************************************************

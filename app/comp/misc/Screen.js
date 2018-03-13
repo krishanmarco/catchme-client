@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
-import React from 'react';
-import {View} from 'react-native';
 import _ from 'lodash';
-import {Colors} from "../../Config";
 import Logger from "../../lib/Logger";
+import React from 'react';
+import {Colors} from "../../Config";
+import {View} from 'react-native';
 
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************

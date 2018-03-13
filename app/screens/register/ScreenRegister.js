@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoUser from "../../lib/daos/DaoUser";
+
 import React from 'react';
 
 import Router from "../../lib/helpers/Router";
 
 import {FORM_API_ID_REGISTER, poolConnect} from '../../redux/ReduxPool';
 
+import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
+
 import {Image, Keyboard, View} from 'react-native';
 
 import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
-import {scaleVertical} from '../../lib/utils/scale';
-
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-
+import {scaleVertical} from '../../lib/utils/scale';
 import {Screen} from "../../comp/Misc";
-import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import DaoUser from "../../lib/daos/DaoUser";
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 

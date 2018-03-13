@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
 import _ from 'lodash';
+import DaoUser from '../../lib/daos/DaoUser';
 
+import React from 'react';
+
+import {Bubble, GiftedChat} from 'react-native-gifted-chat';
+
+import {chatMessagesLoadMore, chatMessagesSendMessage, initialize} from './ReducerChat';
 import {Colors} from '../../Config';
-
 import {connect} from 'react-redux';
 
-import DaoUser from '../../lib/daos/DaoUser';
-import {Bubble, GiftedChat} from 'react-native-gifted-chat';
-import {chatMessagesLoadMore, chatMessagesSendMessage, initialize} from './ReducerChat';
-
 import {DefaultLoader} from "../Misc";
-import {StyleSheet, View} from 'react-native';
 import {RkText} from 'react-native-ui-kitten';
-import type {TUser} from "../../lib/daos/DaoUser";
+import {StyleSheet, View} from 'react-native';
 import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
 import type {TReducerChatState} from "./ReducerChat";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************

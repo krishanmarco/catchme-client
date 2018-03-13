@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-import {View} from 'react-native';
-import {FIREBASE_DATA_ID_FEATURED_ADS, poolConnect} from '../../redux/ReduxPool';
-import FeaturedAdsList from '../../comp-buisness/featured-ads/FeaturedAdsList';
 import DaoUser from "../../lib/daos/DaoUser";
+import FeaturedAdsList from '../../comp-buisness/featured-ads/FeaturedAdsList';
+import PropTypes from 'prop-types';
+import React from 'react';
+import {FIREBASE_DATA_ID_FEATURED_ADS, poolConnect} from '../../redux/ReduxPool';
+import {View} from 'react-native';
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************

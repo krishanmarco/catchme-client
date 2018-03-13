@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {StatusBar, StyleSheet} from 'react-native';
 import {RkTheme} from 'react-native-ui-kitten';
 import {scale, scaleVertical} from '../utils/scale';
+import {StatusBar, StyleSheet} from 'react-native';
 
 
 

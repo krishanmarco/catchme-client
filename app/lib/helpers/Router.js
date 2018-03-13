@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Colors, Const} from '../../Config';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
+import {Colors, Const} from '../../Config';
 import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
 
 export default class Router {

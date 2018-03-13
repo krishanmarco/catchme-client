@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Icons} from '../../Config';
+import DaoLocation from "../daos/DaoLocation";
 import ManagerWeekTimings from '../helpers/ManagerWeekTimings';
 import Router from "../helpers/Router";
+import {Icons} from '../../Config';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 import type {TLocation} from "../daos/DaoLocation";
-import DaoLocation from "../daos/DaoLocation";
 
 
 export default class LocationProfileDataPoints {

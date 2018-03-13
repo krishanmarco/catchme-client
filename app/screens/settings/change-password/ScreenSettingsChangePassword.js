@@ -3,15 +3,15 @@ import React from 'react';
 
 import {FORM_API_ID_CHANGE_PASSWORD, poolConnect} from '../../../redux/ReduxPool';
 
-import {scaleVertical} from '../../../lib/utils/scale';
-
-import {View} from 'react-native';
+import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 
-import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
+import {scaleVertical} from '../../../lib/utils/scale';
+
+import {View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 
 

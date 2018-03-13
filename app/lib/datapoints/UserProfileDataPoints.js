@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Linking} from 'react-native';
-import {Icons} from '../../Config';
-import type {TUser} from "../daos/DaoUser";
 import DaoUser from "../daos/DaoUser";
 import Router from "../helpers/Router";
+import {Icons} from '../../Config';
+import {Linking} from 'react-native';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
+import type {TUser} from "../daos/DaoUser";
 
 
 export default class UserProfileDataPoints {

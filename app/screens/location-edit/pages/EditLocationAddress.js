@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-import {poolConnect} from '../../../redux/ReduxPool';
-
-import {Dimensions, Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
+import PropTypes from 'prop-types';
+
+import React from 'react';
 
 import Router from "../../../lib/helpers/Router";
+import {Dimensions, Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {poolConnect} from '../../../redux/ReduxPool';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+
+import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
 
 // Redux ************************************************************************************************

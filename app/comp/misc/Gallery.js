@@ -3,8 +3,8 @@ import React from 'react';
 
 import {Colors, Icons} from '../../Config';
 import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
-import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 import {Icon} from 'react-native-elements';
+import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 

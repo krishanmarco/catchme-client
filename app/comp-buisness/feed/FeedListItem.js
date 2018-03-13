@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
-import {Col, Grid} from "react-native-easy-grid";
-
-import {AvatarCircle} from "../../comp/Misc";
-
-import {TouchableNativeFeedback, View} from 'react-native';
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import DaoFeed from "../../lib/daos/DaoFeed";
-import HTMLView from 'react-native-htmlview';
-import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
 import ActionHandler from '../../lib/helpers/ActionHandler';
+
+import DaoFeed from "../../lib/daos/DaoFeed";
+
+import HTMLView from 'react-native-htmlview';
+
+import React from 'react';
+import {AvatarCircle} from "../../comp/Misc";
+import {Col, Grid} from "react-native-easy-grid";
+import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {TouchableNativeFeedback, View} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TNavigator} from "../../lib/types/Types";
 

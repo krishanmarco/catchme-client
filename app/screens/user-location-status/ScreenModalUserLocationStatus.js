@@ -1,6 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
+import ApiClient from '../../lib/data/ApiClient';
 
+import DaoLocation from "../../lib/daos/DaoLocation";
+
+import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+import ModalUserLocationStatus from './ModalUserLocationStatus';
+import React from 'react';
 import {
   CACHE_ID_USER_LOCATION_STATUS,
   CACHE_MAP_ID_LOCATION_PROFILES,
@@ -8,14 +13,9 @@ import {
   poolConnect
 } from '../../redux/ReduxPool';
 
-import ApiClient from '../../lib/data/ApiClient';
-import DaoLocation from "../../lib/daos/DaoLocation";
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-
 import {NullableObjects, Screen} from "../../comp/Misc";
-import ModalUserLocationStatus from './ModalUserLocationStatus';
 import type {TNavigator} from "../../lib/types/Types";
+import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 
 // Flow *************************************************************************************************

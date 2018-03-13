@@ -1,35 +1,35 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
-import {Colors, Icons} from '../../Config';
-
-import {poolConnect} from '../../redux/ReduxPool';
-import DaoLocation from '../../lib/daos/DaoLocation';
 import Context from '../../lib/Context';
 
-import {Image, StyleSheet, View} from 'react-native';
+import DaoLocation from '../../lib/daos/DaoLocation';
 
-// import TabBar from '../../comp/misc/TabBar';
-import {ListDataPoints} from "../../comp/Misc";
-import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
-import {Grid, Row} from "react-native-easy-grid";
-import UserList from '../../comp-buisness/user/UserList';
-
-import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import DaoUser from "../../lib/daos/DaoUser";
+import LocationChat from '../../comp-buisness/location/LocationChat';
+import LocationGallery from "../../comp-buisness/location/LocationGallery";
 
 import LocationMap from '../../comp-buisness/location/LocationMap';
 
-import {RkText} from 'react-native-ui-kitten';
-import DaoUser from "../../lib/daos/DaoUser";
-
-import LocationChat from '../../comp-buisness/location/LocationChat';
-import Router from '../../lib/helpers/Router';
+// import TabBar from '../../comp/misc/TabBar';
 import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataPoints';
-import LocationGallery from "../../comp-buisness/location/LocationGallery";
+import React from 'react';
+
+import Router from '../../lib/helpers/Router';
+import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
+
+import UserList from '../../comp-buisness/user/UserList';
+
+import {Colors, Icons} from '../../Config';
+
+import {Grid, Row} from "react-native-easy-grid";
+import {Image, StyleSheet, View} from 'react-native';
+
+import {ListDataPoints} from "../../comp/Misc";
+import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {poolConnect} from '../../redux/ReduxPool';
+import {RkText} from 'react-native-ui-kitten';
+import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 
 
 

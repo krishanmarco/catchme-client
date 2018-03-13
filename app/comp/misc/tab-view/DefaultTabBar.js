@@ -11,8 +11,8 @@ const {
 } = ReactNative;
 const Button = require('./button/Button');
 
-import {Icon} from 'react-native-elements';
 import {Colors} from "../../../Config";
+import {Icon} from 'react-native-elements';
 
 
 

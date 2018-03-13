@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {denormObj} from '../HelperFunctions';
 import DaoLocation from '../daos/DaoLocation';
+import {denormObj} from '../HelperFunctions';
 
 
 export default class GoogleMapsDataDecoder {

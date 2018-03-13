@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Const} from '../../Config';
 import ApiAuthentication from './ApiAuthentication';
+import {Const} from '../../Config';
 
 
 export type TImageURISourceAuth = {

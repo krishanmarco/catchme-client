@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/01/18 © **/
+import DefaultTabBar from './DefaultTabBar';
 import React from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import DefaultTabBar from './DefaultTabBar';
 import {Colors} from "../../../Config";
 
 

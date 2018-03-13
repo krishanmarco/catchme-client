@@ -3,9 +3,9 @@ import React from 'react';
 
 import {Colors} from '../../../Config';
 
-import {FlatList, StyleSheet} from 'react-native';
-
 import {DefaultLoader, SearchBar} from "../../Misc";
+
+import {FlatList, StyleSheet} from 'react-native';
 
 
 

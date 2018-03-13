@@ -1,23 +1,23 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import _ from 'lodash';
 import ApiClient from '../../lib/data/ApiClient';
 
-import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
 
-import {StyleSheet, View} from 'react-native';
-
-import UserList from '../../comp-buisness/user/UserList';
 import LocationList from '../../comp-buisness/location/LocationList';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
-
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import Router from '../../lib/helpers/Router';
+
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import UserList from '../../comp-buisness/user/UserList';
 import {Colors} from "../../Config";
+
+
+import {poolConnect} from '../../redux/ReduxPool';
+import {StyleSheet, View} from 'react-native';
 
 
 

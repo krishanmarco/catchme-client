@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View} from 'react-native';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
+import {View} from 'react-native';
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************

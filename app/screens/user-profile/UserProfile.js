@@ -1,28 +1,28 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
-import {Colors, Icons} from '../../Config';
-
-import {poolConnect} from '../../redux/ReduxPool';
 import DaoUser from "../../lib/daos/DaoUser";
 
-import {Dimensions, FlatList, Image, StyleSheet, Text, View} from 'react-native';
-
-import {Col, Grid, Row} from "react-native-easy-grid";
-import UserList from '../../comp-buisness/user/UserList';
-
-import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-
-import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
-import Router from "../../lib/helpers/Router";
-import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
-import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import Maps from "../../lib/data/Maps";
-import type {TUser} from "../../lib/daos/DaoUser";
+
+import React from 'react';
+import Router from "../../lib/helpers/Router";
+
+import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
+
+import UserList from '../../comp-buisness/user/UserList';
+import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
+
+import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
+import {Col, Grid, Row} from "react-native-easy-grid";
+
+import {Colors, Icons} from '../../Config';
+import {Dimensions, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {Icon} from 'react-native-elements';
+import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {poolConnect} from '../../redux/ReduxPool';
+import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************

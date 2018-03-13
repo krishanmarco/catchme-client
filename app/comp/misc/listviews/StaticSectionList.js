@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {SectionList, StyleSheet, View} from 'react-native';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import type {TSectionListDataPointSections} from "../../../lib/types/Types";
 import {ListItemHeader} from "../../Misc";
+import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {SectionList, StyleSheet, View} from 'react-native';
+import type {TSectionListDataPointSections} from "../../../lib/types/Types";
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************

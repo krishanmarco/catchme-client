@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import Realm from 'realm';
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
+import Realm from 'realm';
 
 
 

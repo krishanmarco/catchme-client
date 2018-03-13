@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import {Const, Urls} from '../../Config';
-import {seconds} from "../HelperFunctions";
 import ApiAuthentication from './ApiAuthentication';
-import RealmIO from './RealmIO';
-import RNFetchBlob from 'react-native-fetch-blob';
 import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
+import Logger from "../Logger";
+import RealmIO from './RealmIO';
+import RNFetchBlob from 'react-native-fetch-blob';
+import {Const, Urls} from '../../Config';
+import {seconds} from "../HelperFunctions";
 import type {TUser} from "../daos/DaoUser";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
-import Logger from "../Logger";
 
 
 class ApiClient {

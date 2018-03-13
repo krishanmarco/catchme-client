@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View} from 'react-native';
 import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText, RkTextInput} from 'react-native-ui-kitten';
+import {View} from 'react-native';
 
 type FormFooterLinkProps = {
   text: string,

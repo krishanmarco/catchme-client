@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Bubbles} from 'react-native-loader';
 import {Colors} from '../../Config';
 import {StyleSheet, View} from 'react-native';
-import {Bubbles} from 'react-native-loader';
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
