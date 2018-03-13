@@ -456,10 +456,10 @@ const ReduxPoolBuilder = {
 
 
 					// Check if the data is set, if it is return
-					let cacheMapData = getState().reduxPoolReducer[POOL_TYPE_CACHE_MAP][poolId].data;
+					const cacheMapData = getState().reduxPoolReducer[POOL_TYPE_CACHE_MAP][poolId].data;
 
 					if (itemId in cacheMapData) {
-						let cacheMapItem = cacheMapData[itemId];
+						const cacheMapItem = cacheMapData[itemId];
 
 						if (cacheMapItem.loadingPromise != null) {
 							Logger.v(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
@@ -576,7 +576,7 @@ const ReduxPoolBuilder = {
 
 				post: (extraParams) => dispatch((dispatch, getState) => {
 
-					let formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
+					const formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
 					dispatch({
 						poolType: POOL_TYPE_API_FORMS,
 						poolId,
@@ -871,7 +871,7 @@ const ReduxPoolBuilder = {
 					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
 
 					pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad).once('value', (snapshot) => {
-						let firebaseId = snapshot.val();
+						const firebaseId = snapshot.val();
 
 						if (firebaseId == null) {
 							// There are no items in this firebase list
@@ -888,8 +888,8 @@ const ReduxPoolBuilder = {
 						// Get the current state
 						const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
 
-						let receivedIds = Object.values(firebaseId);
-						let stateReceivedObjs = reduxFirebasePool.data;
+						const receivedIds = Object.values(firebaseId);
+						const stateReceivedObjs = reduxFirebasePool.data;
 
 						if (receivedIds.length === stateReceivedObjs.length) {
 							// All items have been fetched
@@ -1037,7 +1037,7 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 
 			// Initialize the merge result with the props
 			// that were passed in from the component
-			let mergeResult = Object.assign({}, stateProps, dispatchProps, ownProps);
+			const mergeResult = Object.assign({}, stateProps, dispatchProps, ownProps);
 
 			poolIterator(
 				// Pool declaration to iterate over
@@ -1087,7 +1087,7 @@ function subscribeStateToPools(mapStateToProps, poolIds) {
 			// Function to apply to each pool
 			(poolType, poolId) => {
 
-				let poolState = state.reduxPoolReducer[poolType][poolId];
+				const poolState = state.reduxPoolReducer[poolType][poolId];
 
 				// Merge the current result with the found pool
 				mapStateToPropsResult = Object.assign({}, mapStateToPropsResult, {[poolId]: poolState});
@@ -1119,7 +1119,7 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 			// Function to apply to each pool
 			(poolType, poolId) => {
 
-				let poolDispatch = ReduxPoolBuilder[poolType].poolConnect.mergeMapDispatchToProps(
+				const poolDispatch = ReduxPoolBuilder[poolType].poolConnect.mergeMapDispatchToProps(
 					// Pass the pool pId (needed dispatch pool specific actions)
 					poolId,
 

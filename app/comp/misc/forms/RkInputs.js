@@ -73,7 +73,7 @@ export const RkMultiChoiceFromPool = ({pool, field, title, textProps, options, s
         {...props}/>
 );
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -69,7 +69,7 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   logout: {
     marginTop: 64
   }

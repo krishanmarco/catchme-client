@@ -53,11 +53,11 @@ export default class PasswordRecovery extends React.Component {
             }}/>
           </View>
         </Screen>
-    )
+    );
   }
 }
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
   screen: {
     flex: 1,
     paddingHorizontal: 16,

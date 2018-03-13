@@ -120,7 +120,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
 
   listItem: {
     paddingLeft: 12,

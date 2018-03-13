@@ -40,7 +40,7 @@ export default class HelpAppInfo extends React.Component<any, Props, any> {
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-let styles = RkStyleSheet.create(theme => ({
+const styles = RkStyleSheet.create(theme => ({
 	imageContainer: {
 		marginTop: 64
 	}
