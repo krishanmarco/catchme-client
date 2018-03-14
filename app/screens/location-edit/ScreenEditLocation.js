@@ -5,11 +5,20 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from '../../comp/Misc';
+import type {TNavigator} from "../../lib/types/Types";
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  navigator: TNavigator,
+  locationId: number
+};
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class ScreenEditLocationPresentational extends React.Component {
+class ScreenEditLocationPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
@@ -20,8 +29,7 @@ class ScreenEditLocationPresentational extends React.Component {
     this.props[CACHE_ID_USER_PROFILE].initialize();
 
     this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-        .then(({value}) => this.props.navigator.setTitle({title: DaoLocation.gName(value)}));
-
+        .then(location => this.props.navigator.setTitle({title: DaoLocation.gName(location)}));
   }
 
   _locationProfile() {

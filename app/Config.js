@@ -148,7 +148,8 @@ export const Const = {
 		ScreenLogout: `${Globals.packageName}.ScreenLogout`,
 		
 		ScreenEditLocation: `${Globals.packageName}.ScreenEditLocation`,
-		
+		ScreenNewLocation: `${Globals.packageName}.ScreenNewLocation`,
+
 		
 		ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
 		ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,

@@ -5,13 +5,12 @@ import DaoUser from "../../../lib/daos/DaoUser";
 
 import React from 'react';
 import Router from "../../../lib/helpers/Router";
-import {FlatList} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {Icons} from '../../../Config';
 
-import {ListItemInfo} from "../../../comp/Misc";
+import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
-import {ScreenInfo} from "../../../comp/Misc";
-import {View} from 'react-native';
+import type {TUser} from "../../../lib/daos/DaoUser";
 
 
 
@@ -20,7 +19,8 @@ import {View} from 'react-native';
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Navigator
+  navigator: Navigator,
+  userProfile: TUser
 };
 
 
@@ -45,7 +45,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
   }
 
   _onLocationAdd() {
-    Router.toScreenEditLocation(this.props.navigator);
+    Router.toScreenNewLocation(this.props.navigator);
   }
 
 

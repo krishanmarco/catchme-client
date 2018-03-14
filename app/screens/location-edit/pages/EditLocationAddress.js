@@ -36,6 +36,7 @@ export function editLocationAddressReducer(state = editLocationAddressInitState,
 type Props = {
   navigator: Navigator,
   locationProfile: Object,
+	formApiEditLocationProfile: Object
 };
 
 
@@ -43,7 +44,7 @@ type Props = {
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class EditLocationTimingsPresentational extends React.Component<any, Props, any> {
+class EditLocationAddressPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
@@ -106,9 +107,9 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, any>
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const EditLocationTimings = poolConnect(
+const EditLocationAddress = poolConnect(
     // Presentational Component
-    EditLocationTimingsPresentational,
+    EditLocationAddressPresentational,
 
     // mapStateToProps
     (state) => state.editLocationAddressReducer,
@@ -120,7 +121,7 @@ const EditLocationTimings = poolConnect(
     []
 );
 
-export default EditLocationTimings;
+export default EditLocationAddress;
 
 
 
@@ -135,6 +136,6 @@ const styles = RkStyleSheet.create(theme => ({
 }));
 
 
-EditLocationTimings.propTypes = {
+EditLocationAddress.propTypes = {
   formApiEditLocationProfile: PropTypes.object.isRequired
 };

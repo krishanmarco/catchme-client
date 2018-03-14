@@ -32,7 +32,8 @@ export function editLocationSaveReducer(state = editLocationSaveInitState, actio
 
 type Props = {
   formApiEditLocationProfile: Object,
-  onSaveComplete: Function
+  onSaveComplete: Function,
+	formApiEditLocationProfile: Object
 };
 
 

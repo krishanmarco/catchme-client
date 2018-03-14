@@ -40,6 +40,7 @@ import type {TLocation} from "../daos/DaoLocation";
 //   [ [0, 3], [5, 8] ]                       // idx(5) -> Sunday
 // ]
 export default class ManagerWeekTimings {
+  static strWeekDefault = new Array(24 * 7).fill().map(i => 0).join('');
   static intDayDefault = new Array(24).fill().map(i => 0);
   static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => intStringToBool(i));
 
@@ -138,8 +139,8 @@ export default class ManagerWeekTimings {
 
 
 
-  constructor(weekTimings) {
-    this.boolWeekTimings = ManagerWeekTimings.mapStrTimingsToBoolTimings(weekTimings);
+  constructor(strWeekTimings) {
+    this.boolWeekTimings = ManagerWeekTimings.mapStrTimingsToBoolTimings(strWeekTimings);
     this.rangeWeekTimings = ManagerWeekTimings._mapBoolTimingsToRangeTimings(this.boolWeekTimings);
   }
 

@@ -35,6 +35,7 @@ export function editLocationInfoReducer(state = editLocationInfoInitState, actio
 type Props = {
   navigator: Navigator,
   locationProfile: Object,
+	formApiEditLocationProfile: Object
 };
 
 

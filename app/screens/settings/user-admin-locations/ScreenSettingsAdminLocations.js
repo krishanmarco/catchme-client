@@ -3,11 +3,19 @@ import React from 'react';
 import SettingsUserAdminLocations from './SettingsUserAdminLocations';
 import {CACHE_ID_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../../comp/Misc";
+import type {TNavigator} from "../../../lib/types/Types";
+
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  navigator: TNavigator
+}
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class ScreenSettingsAdminLocationsPresentational extends React.Component {
+class ScreenSettingsAdminLocationsPresentational extends React.Component<any, Props, any> {
 
   componentWillMount() {
     this.props[CACHE_ID_USER_PROFILE].initialize();

@@ -33,6 +33,7 @@ export function editLocationTimingsReducer(state = editLocationTimingsInitState,
 type Props = {
   navigator: Navigator,
   locationProfile: Object,
+	formApiEditLocationProfile: Object
 };
 
 type State = {
@@ -45,10 +46,10 @@ type State = {
 // PresentationalComponent ******************************************************************************
 
 class EditLocationTimingsPresentational extends React.Component<any, Props, State> {
-  static refWeekTimingsList = 'refWeekTimingsList';
 
   constructor(props, context) {
     super(props, context);
+    console.log("PROPSSSSSSSSS", props);
     this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfileInput())};
   }
 
@@ -57,7 +58,7 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
   _managerWeekTimings() { return this.state.managerWeekTimings; }
 
   _onSaveTimings() {
-    const weekBoolTimings = this.refs[EditLocationTimingsPresentational.refWeekTimingsList].getTimings();
+    const weekBoolTimings = this.refWeekTimingsList.getTimings();
     const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
   }
 
@@ -67,7 +68,7 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 
         <View style={{flex: 1, paddingLeft: 24, paddingRight: 24}}>
           <WeekTimingsList
-              ref={EditLocationTimingsPresentational.refWeekTimingsList}
+              ref={ref => this.refWeekTimingsList = ref}
               managerWeekTimings={this._managerWeekTimings()}
               isEditable={true}
               size={246}/>

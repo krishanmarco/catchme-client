@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 import type {TUser} from "./DaoUser";
+import {denormObj} from "../HelperFunctions";
 
 
 export type TLocation = {
@@ -98,6 +99,25 @@ export default class DaoLocation {
 		_.set(newLocation, DaoLocation.pConnectionsNow, DaoLocation.gFriendsNow(location));
 		_.set(newLocation, DaoLocation.pConnectionsFuture, DaoLocation.gFriendsFuture(location));
 		return newLocation;
+	}
+
+
+	static newInstance(): TLocation {
+		return denormObj({
+			[DaoLocation.pName]: '',
+			[DaoLocation.pPictureUrl]: '',
+			[DaoLocation.pDescription]: '',
+			[DaoLocation.pEmail]: '',
+			[DaoLocation.pPhone]: '',
+			[DaoLocation.pCapacity]: 0,
+			[DaoLocation.pTimings]: ManagerWeekTimings.strWeekDefault,
+			[DaoLocation.pAddressCountry]: '',
+			[DaoLocation.pAddressState]: '',
+			[DaoLocation.pAddressCity]: '',
+			[DaoLocation.pAddressPostcode]: '',
+			[DaoLocation.pAddressAddress]: '',
+			[DaoLocation.pAddressLatLng]: {lat: 37.78825, lng: -122.4324,}
+		});
 	}
 	
 	

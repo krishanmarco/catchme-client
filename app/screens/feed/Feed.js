@@ -11,12 +11,12 @@ import type {TUser} from "../../lib/daos/DaoUser";
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
-const Props = {
+type Props = {
 	navigator: TNavigator,
 	userProfile: TUser
 };
 
-const State = {
+type State = {
 	// Nothing for now
 };
 

@@ -12,10 +12,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {denormObj} from '../../lib/HelperFunctions';
 import {FORM_API_ID_EDIT_LOCATION_PROFILE, poolConnect} from '../../redux/ReduxPool';
-import {Grid, Row} from "react-native-easy-grid";
 import {Icons} from '../../Config';
 import {ScrollableIconTabView} from "../../comp/Misc";
 import {View} from 'react-native';
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Redux ************************************************************************************************
@@ -34,14 +36,22 @@ export function editLocationReducer(state = editLocationInitState, action) {
   return state;
 }
 
+// Flow *************************************************************************************************
+// Flow *************************************************************************************************
+
+type Props = {
+  navigator: TNavigator,
+  locationProfile: TLocation,
+  authenticatedUserProfile: TUser
+};
+
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
 
-class EditLocationPresentational extends React.Component {
+class EditLocationPresentational extends React.Component<any, Props, any> {
 
   constructor(props, context) {
     super(props, context);
-    this._onTabChange = this._onTabChange.bind(this);
     this._allowIndexChange = this._allowIndexChange.bind(this);
     this._onSaveComplete = this._onSaveComplete.bind(this);
   }
@@ -174,12 +184,3 @@ const EditLocation = poolConnect(
 
 export default EditLocation;
 
-
-EditLocation.propTypes = {
-  locationProfile: PropTypes.object.isRequired,
-  authenticatedUserProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-};
-
-// Style ************************************************************************************************
-// Style ************************************************************************************************

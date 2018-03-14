@@ -723,21 +723,7 @@ const ReduxPoolBuilder = {
 			},
 			[FORM_API_ID_EDIT_LOCATION_PROFILE]: {
 				post: (i) => ApiClient.userLocationsAdminEditLid(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, denormObj({
-					[DaoLocation.pName]: '',
-					[DaoLocation.pPictureUrl]: '',
-					[DaoLocation.pDescription]: '',
-					[DaoLocation.pEmail]: '',
-					[DaoLocation.pPhone]: '',
-					[DaoLocation.pCapacity]: 0,
-					[DaoLocation.pTimings]: ManagerWeekTimings.boolDayDefault,
-					[DaoLocation.pAddressCountry]: '',
-					[DaoLocation.pAddressState]: '',
-					[DaoLocation.pAddressCity]: '',
-					[DaoLocation.pAddressPostcode]: '',
-					[DaoLocation.pAddressAddress]: '',
-					[DaoLocation.pAddressLatLng]: {lat: 37.78825, lng: -122.4324,},
-				}))
+				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, DaoLocation.newInstance())
 			},
 		}
 

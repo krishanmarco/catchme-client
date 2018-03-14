@@ -200,11 +200,22 @@ export default class Router {
     });
   }
 
-  static toScreenEditLocation(navigator, locationId = -1) {
+  static toScreenEditLocation(navigator, locationId) {
     navigator.push({
       screen: Const.NavigationComponents.ScreenEditLocation,
       title: 'My Locations',
       passProps: {locationId},
+      navigatorStyle: {
+        navBarBackgroundColor: Colors.primary
+      }
+    });
+  }
+
+  static toScreenNewLocation(navigator) {
+    navigator.push({
+      screen: Const.NavigationComponents.ScreenNewLocation,
+      title: 'New Location',
+      passProps: {},
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
       }
