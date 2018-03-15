@@ -8,6 +8,8 @@ import {GradientButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 
 // Redux ************************************************************************************************
@@ -48,8 +50,13 @@ class EditLocationSavePresentational extends React.Component<any, Props, any> {
     this._onLocationSave = this._onLocationSave.bind(this);
   }
 
-  _formApiEditLocationProfile() { return this.props.formApiEditLocationProfile; }
-  _formApiEditLocationProfileInput() { return this._formApiEditLocationProfile().apiInput; }
+  _formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+    return this.props.formApiEditLocationProfile;
+  }
+
+  _formApiEditLocationProfileInput(): ?TLocation {
+    return this._formApiEditLocationProfile().apiInput;
+  }
 
 
   _onLocationSave() {

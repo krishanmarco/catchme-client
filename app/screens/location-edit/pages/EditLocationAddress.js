@@ -12,21 +12,23 @@ import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInp
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
 const editLocationAddressInitState = {
-  // Nothing for now
+	// Nothing for now
 };
 
 
 export function editLocationAddressReducer(state = editLocationAddressInitState, action) {
-  switch (action.type) {
-      // Nothing for now
-  }
+	switch (action.type) {
+		// Nothing for now
+	}
 
-  return state;
+	return state;
 }
 
 
@@ -34,8 +36,8 @@ export function editLocationAddressReducer(state = editLocationAddressInitState,
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Navigator,
-  locationProfile: Object,
+	navigator: Navigator,
+	locationProfile: Object,
 	formApiEditLocationProfile: Object
 };
 
@@ -46,59 +48,63 @@ type Props = {
 
 class EditLocationAddressPresentational extends React.Component<any, Props, any> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onGoogleMapsSelectorPress = this._onGoogleMapsSelectorPress.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onGoogleMapsSelectorPress = this._onGoogleMapsSelectorPress.bind(this);
+	}
 
-  _onGoogleMapsSelectorPress() {
-    Router.toAddressPickerModal(
-        this._navigator(),
-        {onSelect: location => this._formApiEditLocationProfile().change(location)}
-    );
-  }
+	_onGoogleMapsSelectorPress() {
+		Router.toAddressPickerModal(
+			this.props.navigator,
+			{onSelect: location => this._formApiEditLocationProfile().change(location)}
+		);
+	}
 
-  _navigator() { return this.props.navigator; }
-  _formApiEditLocationProfile() { return this.props.formApiEditLocationProfile; }
-  _formApiEditLocationProfileInput() { return this._formApiEditLocationProfile().apiInput; }
+	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+		return this.props.formApiEditLocationProfile;
+	}
 
-  render() {
-    return (
-        <ScrollView style={{flex: 1}}>
-          <ScreenInfo
-              imageContainerStyle={{marginTop: 8}}
-              imageContainerScale={575}
-              imageContainerOnPress={this._onGoogleMapsSelectorPress}
-              imageHeight={80}
-              imageWidth={80}
-              imageSource={require('../../../assets/images/splashBack.png')}
-              textText='Press the image above to select a location'/>
-          <View style={styles.content}>
-            {[
-              {field: DaoLocation.pAddressCountry, label: 'Country'},
-              {field: DaoLocation.pAddressState, label: 'State'},
-              {field: DaoLocation.pAddressCity, label: 'City'},
-              {field: DaoLocation.pAddressPostcode, label: 'Postcode'},
-              {field: DaoLocation.pAddressAddress, label: 'Address'},
-            ].map((addressComponent, key) => (
-                <RkTextInputFromPool
-                    key={key}
-                    rkType='row'
-                    pool={this._formApiEditLocationProfile()}
-                    editable={false}
-                    field={addressComponent.field}
-                    label={addressComponent.label}/>
-            ))}
-          </View>
-          <View style={{width: '100%', height: Dimensions.get('window').height - 190}}>
-            <LocationMap
-                showsMyLocationButton={true}
-                scrollEnabled={false}
-                locations={[this._formApiEditLocationProfileInput()]}/>
-          </View>
-        </ScrollView>
-    );
-  }
+	_formApiEditLocationProfileInput(): ?TLocation {
+		return this._formApiEditLocationProfile().apiInput;
+	}
+
+	render() {
+		return (
+			<ScrollView style={styles.scrollView}>
+				<ScreenInfo
+					imageContainerStyle={styles.imageContainer}
+					imageContainerScale={575}
+					imageContainerOnPress={this._onGoogleMapsSelectorPress}
+					imageHeight={80}
+					imageWidth={80}
+					imageSource={require('../../../assets/images/splashBack.png')}
+					textText='Press the image above to select a location'/>
+				<View style={styles.content}>
+					{[
+						{field: DaoLocation.pAddressCountry, label: 'Country'},
+						{field: DaoLocation.pAddressState, label: 'State'},
+						{field: DaoLocation.pAddressCity, label: 'City'},
+						{field: DaoLocation.pAddressPostcode, label: 'Postcode'},
+						{field: DaoLocation.pAddressAddress, label: 'Address'},
+					].map((addressComponent, key) => (
+						<RkTextInputFromPool
+							key={key}
+							rkType='row'
+							pool={this._formApiEditLocationProfile()}
+							editable={false}
+							field={addressComponent.field}
+							label={addressComponent.label}/>
+					))}
+				</View>
+				<View style={{width: '100%', height: Dimensions.get('window').height - 190}}>
+					<LocationMap
+						showsMyLocationButton={true}
+						scrollEnabled={false}
+						locations={[this._formApiEditLocationProfileInput()]}/>
+				</View>
+			</ScrollView>
+		);
+	}
 
 }
 
@@ -108,17 +114,17 @@ class EditLocationAddressPresentational extends React.Component<any, Props, any>
 // ContainerComponent ***********************************************************************************
 
 const EditLocationAddress = poolConnect(
-    // Presentational Component
-    EditLocationAddressPresentational,
+	// Presentational Component
+	EditLocationAddressPresentational,
 
-    // mapStateToProps
-    (state) => state.editLocationAddressReducer,
+	// mapStateToProps
+	(state) => state.editLocationAddressReducer,
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
 
 export default EditLocationAddress;
@@ -129,13 +135,19 @@ export default EditLocationAddress;
 // Styles ***********************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-  content: {
-    paddingHorizontal: 4,
-    marginTop: 12
-  },
+	scrollView: {
+		flex: 1
+	},
+	imageContainer: {
+		marginTop: 8
+	},
+	content: {
+		paddingHorizontal: 4,
+		marginTop: 12
+	},
 }));
 
 
 EditLocationAddress.propTypes = {
-  formApiEditLocationProfile: PropTypes.object.isRequired
+	formApiEditLocationProfile: PropTypes.object.isRequired
 };
