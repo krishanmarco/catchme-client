@@ -6,9 +6,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import Router from "../../../lib/helpers/Router";
-import {Dimensions, Keyboard, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, ScrollView, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 import type {TUser} from "./DaoUser";
 import {denormObj} from "../HelperFunctions";
+import {Const} from "../../Config";
 
 
 export type TLocation = {
@@ -105,7 +106,7 @@ export default class DaoLocation {
 	static newInstance(): TLocation {
 		return denormObj({
 			[DaoLocation.pName]: '',
-			[DaoLocation.pPictureUrl]: '',
+			[DaoLocation.pPictureUrl]: Const.DaoLocation.defaultAvatar,
 			[DaoLocation.pDescription]: '',
 			[DaoLocation.pEmail]: '',
 			[DaoLocation.pPhone]: '',

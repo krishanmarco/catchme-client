@@ -58,29 +58,9 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 	}
 
 	componentWillMount() {
-		const {locationProfile} = this.props.locationProfile;
 		// We now have access to a location profile
 		// Initialize the redux pool form by setting all its values
-		this._formApiEditLocationProfile().change(denormObj({
-			// EditLocationInfo
-			[DaoLocation.pName]: DaoLocation.gName(locationProfile),
-			[DaoLocation.pPictureUrl]: DaoLocation.gPictureUrl(locationProfile),
-			[DaoLocation.pDescription]: DaoLocation.gDescription(locationProfile),
-			[DaoLocation.pEmail]: DaoLocation.gEmail(locationProfile),
-			[DaoLocation.pPhone]: DaoLocation.gPhone(locationProfile),
-			[DaoLocation.pCapacity]: DaoLocation.gCapacity(locationProfile),
-
-			// EditLocationTimings
-			[DaoLocation.pTimings]: DaoLocation.gTimings(locationProfile),
-
-			// EditLocationAddress
-			[DaoLocation.pAddressCountry]: DaoLocation.gCountry(locationProfile),
-			[DaoLocation.pAddressState]: DaoLocation.gState(locationProfile),
-			[DaoLocation.pAddressCity]: DaoLocation.gCity(locationProfile),
-			[DaoLocation.pAddressPostcode]: DaoLocation.gPostcode(locationProfile),
-			[DaoLocation.pAddressAddress]: DaoLocation.gAddress(locationProfile),
-			[DaoLocation.pAddressLatLng]: DaoLocation.gLatLng(locationProfile),
-		}));
+		this._formApiEditLocationProfile().change(this.props.locationProfile);
 	}
 
 	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {

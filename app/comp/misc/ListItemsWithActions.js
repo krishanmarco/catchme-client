@@ -20,29 +20,30 @@ import type {TIcon} from "../../lib/types/Types";
 // ListItemActionIcon *************************************************************************************
 
 type ListItemActionIconProps = {
-  icon: TIcon,
-  color?: string,
-  size?: number,
-  onPress?: () => void
+	icon: TIcon,
+	color?: string,
+	size?: number,
+	onPress?: () => void
 };
 
 export const ListItemActionIcon = ({icon, size, onPress}: ListItemActionIconProps) => (
-    <RkButton rkType='clear' style={listItemActionIconStyles.root} onPress={onPress}>
-      <Icon {...icon} size={size}/>
-    </RkButton>
+	<RkButton rkType='clear' style={listItemActionIconStyles.root} onPress={onPress}>
+		<Icon {...icon} size={size}/>
+	</RkButton>
 );
 
 ListItemActionIcon.defaultProps = {
-  icon: Icons.defaultIcon,
-  size: 30,
-  onPress: () => {}
+	icon: Icons.defaultIcon,
+	size: 30,
+	onPress: () => {
+	}
 };
 
 
 const listItemActionIconStyles = StyleSheet.create({
-  root: {
-    height: '100%'
-  }
+	root: {
+		height: '100%'
+	}
 });
 
 
@@ -52,25 +53,26 @@ const listItemActionIconStyles = StyleSheet.create({
 // ListItemImage *****************************************************************************************
 
 type ListItemImageProps = {
-  src: string,
-  onPress?: () => void
+	src: string,
+	onPress?: () => void
 };
 
 const ListItemImage = ({src, onPress}: ListItemImageProps) => (
-    <View style={listItemImageStyles.root}>
-      <Avatar medium source={{uri: src}} onPress={onPress}/>
-    </View>
+	<View style={listItemImageStyles.root}>
+		<Avatar medium source={{uri: src}} onPress={onPress}/>
+	</View>
 );
 
 ListItemImage.defaultProps = {
-  onPress: () => {}
+	onPress: () => {
+	}
 };
 
 const listItemImageStyles = StyleSheet.create({
-  root: {
-    justifyContent: 'center',
-    alignItems: 'center'
-  }
+	root: {
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
 });
 
 
@@ -80,82 +82,80 @@ const listItemImageStyles = StyleSheet.create({
 // ListItemWithActions ************************************************************************************
 
 type ListItemWithActionProps = {
-  header: Node,
-  subContent?: Node,
-  content?: Node,
-  avatarUri?: string,
-  onPress?: () => void,
-  actions?: Array<ListItemActionIconProps>,
-  image?: ListItemImageProps
+	header: Node,
+	subContent?: Node,
+	content?: Node,
+	avatarUri?: string,
+	onPress?: () => void,
+	actions?: Array<ListItemActionIconProps>,
+	image?: ListItemImageProps
 };
 
 const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, actions, image}: ListItemWithActionProps) => (
-    <TouchableNativeFeedback onPress={onPress}>
+	<TouchableNativeFeedback onPress={onPress}>
 
-      <Grid style={listItemWithActionStyles.root}>
+		<Grid style={listItemWithActionStyles.root}>
 
-        <Col size={100} style={{marginRight: 8}}>
-          <View style={listItemWithActionStyles.headerContent}>
-            {avatarUri && <AvatarCircle uri={avatarUri}/>}
+			<Col size={100} style={{marginRight: 8}}>
+				<View style={listItemWithActionStyles.headerContent}>
+					{avatarUri && <AvatarCircle uri={avatarUri}/>}
 
-            <View style={listItemWithActionStyles.content}>
-              <RkText style={listItemWithActionStyles.contentText}>{header}</RkText>
-              {content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
-              {subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
-            </View>
+					<View style={listItemWithActionStyles.content}>
+						<RkText style={listItemWithActionStyles.contentText}>{header}</RkText>
+						{content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
+						{subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
+					</View>
 
-          </View>
-        </Col>
+				</View>
+			</Col>
 
-        {actions.map((action, key) => (
-            <Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
-              <ListItemActionIcon {...action}/>
-            </Col>
-        ))}
+			{actions.map((action, key) => (
+				<Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
+					<ListItemActionIcon {...action}/>
+				</Col>
+			))}
 
-        {image && (
-            <Col size={20}>
-              <ListItemImage {...image}/>
-            </Col>
-        )}
+			{image && (
+				<Col size={20}>
+					<ListItemImage {...image}/>
+				</Col>
+			)}
 
-      </Grid>
-    </TouchableNativeFeedback>
+		</Grid>
+	</TouchableNativeFeedback>
 );
 
 ListItemWithActions.defaultProps = {
-  actions: [],
+	actions: [],
 };
 
 const listItemWithActionStyles = RkStyleSheet.create(theme => ({
 
-  root: {
-    paddingLeft: 12,
-    paddingRight: 12,
+	root: {
+		paddingHorizontal: 12,
 
-    display: 'flex',
-    alignItems: 'center',
+		display: 'flex',
+		alignItems: 'center',
 
-    borderBottomWidth: 0,
-    borderColor: theme.colors.border.base,
-  },
+		borderBottomWidth: 0,
+		borderColor: theme.colors.border.base,
+	},
 
-  headerContent: {
-    paddingTop: 12,
-    paddingBottom: 12,
+	headerContent: {
+		paddingVertical: 12,
 
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+		flexDirection: 'row',
+		alignItems: 'center',
+	},
 
-  content: {
-    marginLeft: 12,
-    flex: 1
-  },
+	content: {
+		marginLeft: 12,
+		flex: 1
+	},
 
-  contentText: {
-    marginBottom: 2
-  }
+	contentText: {
+		marginBottom: 2
+	}
 
 }));
 

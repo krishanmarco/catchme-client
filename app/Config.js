@@ -196,7 +196,11 @@ export const Const = {
 		defaultPrivacySettings: '22222',
 		defaultNotificationSettings: '111'
 	},
-	
+
+	DaoLocation: {
+		// todo: add to server + change to location
+		defaultAvatar: 'http://fuuse.net/wp-content/uploads/2016/02/avatar-placeholder.png'
+	},
 	
 	FirebaseDataPool: {
 		loadMoreItems: 10,

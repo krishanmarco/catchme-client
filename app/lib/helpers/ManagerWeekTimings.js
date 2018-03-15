@@ -40,189 +40,189 @@ import type {TLocation} from "../daos/DaoLocation";
 //   [ [0, 3], [5, 8] ]                       // idx(5) -> Sunday
 // ]
 export default class ManagerWeekTimings {
-  static strWeekDefault = new Array(24 * 7).fill().map(i => 0).join('');
-  static intDayDefault = new Array(24).fill().map(i => 0);
-  static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => intStringToBool(i));
+	static strWeekDefault = new Array(24 * 7).fill().map(i => 0).join('');
+	static intDayDefault = new Array(24).fill().map(i => 0);
+	static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => intStringToBool(i));
 
-  static buildFromLocation(location: TLocation) {
-    return ObjectCache.get(location, 'ManagerWeekTimings',
-        () => new ManagerWeekTimings(DaoLocation.gTimings(location))
-    );
-  }
-
-
-  // '0001011101...' => [[false, false, ...], [true, false, true...], ...]
-  static mapStrTimingsToBoolTimings(strWeekTimings) {
-    strWeekTimings = _.chunk(strWeekTimings.split(''), 24);
-    return strWeekTimings.map(day => day.map(intStringToBool));
-  }
-
-  // [[false, false, ...], [true, false, true...], ...] => '0001011101...'
-  static mapBoolTimingsToStr(boolWeekTimings) {
-    return boolWeekTimings
-        .map(boolDayTimings => boolDayTimings.map(boolToIntString).join(''))
-        .join('');
-  }
+	static buildFromLocation(location: TLocation) {
+		return ObjectCache.get(location, 'ManagerWeekTimings',
+			() => new ManagerWeekTimings(DaoLocation.gTimings(location))
+		);
+	}
 
 
-  // [[false, false, ...], [true, false, true...], ...] => [[3, 3], [5, 7], [8, 8]]
-  static _mapBoolTimingsToRangeTimings(boolWeekTimings) {
-    const rangeResult = [];
+	// '0001011101...' => [[false, false, ...], [true, false, true...], ...]
+	static mapStrTimingsToBoolTimings(strWeekTimings: string = '') {
+		strWeekTimings = _.chunk(strWeekTimings.split(''), 24);
+		return strWeekTimings.map(day => day.map(intStringToBool));
+	}
 
-    for (let day = 0; day < boolWeekTimings.length; day++) {
-      const dayRangeArr = [];
-      const dayBoolArr = boolWeekTimings[day];
-
-      let timeRange = [];
-      for (let hour = 1; hour < dayBoolArr.length; hour++) {
-        const lastHour = hour - 1;
-        const thisHour = hour;
-        const lastHourTrue = dayBoolArr[lastHour];
-        const thisHourTrue = dayBoolArr[thisHour];
-        const timeRange0SetTrue = timeRange.length > 0;
-        const thisHourIsLastTrue = thisHour === dayBoolArr.length - 1;
-
-        if (!lastHourTrue && !thisHourTrue && !timeRange0SetTrue) {
-          continue;
-        }
-
-        if (lastHourTrue && thisHourTrue && timeRange0SetTrue) {
-          if (thisHourIsLastTrue) {
-            timeRange.push(thisHour + 1);
-            dayRangeArr.push(timeRange);
-            timeRange = [];
-          }
-
-          continue;
-        }
-
-        if (!lastHourTrue && timeRange0SetTrue)
-          throw new Error('ManagerWeekTimings _mapBoolTimingsToRangeTimings: Case should not occur');
-
-        if (lastHourTrue && thisHourTrue && !timeRange0SetTrue) {
-          timeRange.push(lastHour);
-          continue;
-        }
-
-        if (lastHourTrue && !thisHourTrue && timeRange0SetTrue) {
-          timeRange.push(thisHour);
-          dayRangeArr.push(timeRange);
-          timeRange = [];
-          continue;
-        }
-
-        if (lastHourTrue && !thisHourTrue && !timeRange0SetTrue) {
-          dayRangeArr.push([lastHour, thisHour]);
-          timeRange = [];
-          continue;
-        }
-
-        if (!lastHourTrue && thisHourTrue && !timeRange0SetTrue) {
-          timeRange.push(thisHour);
-
-          if (thisHourIsLastTrue) {
-            timeRange.push(thisHour + 1);
-            dayRangeArr.push(timeRange);
-            timeRange = [];
-          }
-
-          continue;
-        }
-      }
-
-      rangeResult.push(dayRangeArr);
-    }
-
-    return rangeResult;
-  }
+	// [[false, false, ...], [true, false, true...], ...] => '0001011101...'
+	static mapBoolTimingsToStr(boolWeekTimings) {
+		return boolWeekTimings
+			.map(boolDayTimings => boolDayTimings.map(boolToIntString).join(''))
+			.join('');
+	}
 
 
+	// [[false, false, ...], [true, false, true...], ...] => [[3, 3], [5, 7], [8, 8]]
+	static _mapBoolTimingsToRangeTimings(boolWeekTimings) {
+		const rangeResult = [];
 
+		for (let day = 0; day < boolWeekTimings.length; day++) {
+			const dayRangeArr = [];
+			const dayBoolArr = boolWeekTimings[day];
 
-  constructor(strWeekTimings) {
-    this.boolWeekTimings = ManagerWeekTimings.mapStrTimingsToBoolTimings(strWeekTimings);
-    this.rangeWeekTimings = ManagerWeekTimings._mapBoolTimingsToRangeTimings(this.boolWeekTimings);
-  }
+			let timeRange = [];
+			for (let hour = 1; hour < dayBoolArr.length; hour++) {
+				const lastHour = hour - 1;
+				const thisHour = hour;
+				const lastHourTrue = dayBoolArr[lastHour];
+				const thisHourTrue = dayBoolArr[thisHour];
+				const timeRange0SetTrue = timeRange.length > 0;
+				const thisHourIsLastTrue = thisHour === dayBoolArr.length - 1;
 
-  boolWeekTimings: null;
-  rangeWeekTimings: null;
+				if (!lastHourTrue && !thisHourTrue && !timeRange0SetTrue) {
+					continue;
+				}
 
+				if (lastHourTrue && thisHourTrue && timeRange0SetTrue) {
+					if (thisHourIsLastTrue) {
+						timeRange.push(thisHour + 1);
+						dayRangeArr.push(timeRange);
+						timeRange = [];
+					}
 
-  _currentTimeIndex() {
-    let date = new Date();
-    return date.getHours();
-  }
+					continue;
+				}
 
-  _rangeCurrentDayArray() {
-    // Important, using (new Date()).getDay() the first day of
-    // the week is sunday so sunday will be index 0 so +6 % 7
-    // to shift to the right by one, now monday == 0
-    return this.rangeTimingsInDay((new Date().getDay() + 6) % 7);
-  }
+				if (!lastHourTrue && timeRange0SetTrue)
+					throw new Error('ManagerWeekTimings _mapBoolTimingsToRangeTimings: Case should not occur');
 
-  // Maps a timing int 8 to a string '08:00'
-  _toStringRangeTimeInt(float) {
-    let m = moment(0);
-    m.hour(Math.floor(float));
-    m.minute(Math.trunc((float % 1) * 100));
-    return m.format('HH:mm');
-  }
+				if (lastHourTrue && thisHourTrue && !timeRange0SetTrue) {
+					timeRange.push(lastHour);
+					continue;
+				}
 
-  // Maps a timing range [8, 17] to a string '08:00 - 17.00'
-  _toStringRangeTime(rangeTime) {
-    // Index 0 and 1 of rangeTime always have to be defined
-    return `${this._toStringRangeTimeInt(rangeTime[0])} - ${this._toStringRangeTimeInt(rangeTime[1])}`;
-  }
+				if (lastHourTrue && !thisHourTrue && timeRange0SetTrue) {
+					timeRange.push(thisHour);
+					dayRangeArr.push(timeRange);
+					timeRange = [];
+					continue;
+				}
+
+				if (lastHourTrue && !thisHourTrue && !timeRange0SetTrue) {
+					dayRangeArr.push([lastHour, thisHour]);
+					timeRange = [];
+					continue;
+				}
+
+				if (!lastHourTrue && thisHourTrue && !timeRange0SetTrue) {
+					timeRange.push(thisHour);
+
+					if (thisHourIsLastTrue) {
+						timeRange.push(thisHour + 1);
+						dayRangeArr.push(timeRange);
+						timeRange = [];
+					}
+
+					continue;
+				}
+			}
+
+			rangeResult.push(dayRangeArr);
+		}
+
+		return rangeResult;
+	}
 
 
 
-  getBoolWeekTimings() {
-    return this.boolWeekTimings;
-  }
 
-  boolTimingsInDay(day) {
-    return _.get(this.boolWeekTimings, `[${day}]`, ManagerWeekTimings.boolDayDefault);
-  }
+	constructor(strWeekTimings) {
+		this.boolWeekTimings = ManagerWeekTimings.mapStrTimingsToBoolTimings(strWeekTimings);
+		this.rangeWeekTimings = ManagerWeekTimings._mapBoolTimingsToRangeTimings(this.boolWeekTimings);
+	}
 
-  rangeTimingsInDay(day) {
-    return _.get(this.rangeWeekTimings, `[${day}]`, []);
-  }
-
-  isOpen() {
-    return this._rangeCurrentDayArray()[this._currentTimeIndex()];
-  }
-
-  setTimingInDay(dayIndex, timeIndex, boolValue) {
-    this.getBoolWeekTimings()[dayIndex][timeIndex] = boolValue;
-  }
+	boolWeekTimings: null;
+	rangeWeekTimings: null;
 
 
-  // Maps the boolWeekTimings [[false, true, false, ...], ...] to the string-timing format
-  toString() {
-    return ManagerWeekTimings.mapBoolTimingsToStr(this.getBoolWeekTimings());
-  }
+	_currentTimeIndex() {
+		let date = new Date();
+		return date.getHours();
+	}
 
-  toStringIsOpen() {
-    return this.isOpen() ? 'Aperto ora!' : 'Chiuso!';
-  }
+	_rangeCurrentDayArray() {
+		// Important, using (new Date()).getDay() the first day of
+		// the week is sunday so sunday will be index 0 so +6 % 7
+		// to shift to the right by one, now monday == 0
+		return this.rangeTimingsInDay((new Date().getDay() + 6) % 7);
+	}
 
-  toStringRangeCurrentDay() {
-    return this._rangeCurrentDayArray()
-        .map(this._toStringRangeTime.bind(this))
-        .join(', ');
-  }
+	// Maps a timing int 8 to a string '08:00'
+	_toStringRangeTimeInt(float) {
+		let m = moment(0);
+		m.hour(Math.floor(float));
+		m.minute(Math.trunc((float % 1) * 100));
+		return m.format('HH:mm');
+	}
 
-  toStringRangeStatusAndCurrentDay() {
-    let str = [];
+	// Maps a timing range [8, 17] to a string '08:00 - 17.00'
+	_toStringRangeTime(rangeTime) {
+		// Index 0 and 1 of rangeTime always have to be defined
+		return `${this._toStringRangeTimeInt(rangeTime[0])} - ${this._toStringRangeTimeInt(rangeTime[1])}`;
+	}
 
-    let currentDay = this.toStringRangeCurrentDay();
-    if (currentDay && currentDay.length > 0)
-      str.push(currentDay);
 
-    str.push(this.toStringIsOpen());
 
-    return str.join('\n');
-  }
+	getBoolWeekTimings() {
+		return this.boolWeekTimings;
+	}
+
+	boolTimingsInDay(day) {
+		return _.get(this.boolWeekTimings, `[${day}]`, ManagerWeekTimings.boolDayDefault);
+	}
+
+	rangeTimingsInDay(day) {
+		return _.get(this.rangeWeekTimings, `[${day}]`, []);
+	}
+
+	isOpen() {
+		return this._rangeCurrentDayArray()[this._currentTimeIndex()];
+	}
+
+	setTimingInDay(dayIndex, timeIndex, boolValue) {
+		this.getBoolWeekTimings()[dayIndex][timeIndex] = boolValue;
+	}
+
+
+	// Maps the boolWeekTimings [[false, true, false, ...], ...] to the string-timing format
+	toString() {
+		return ManagerWeekTimings.mapBoolTimingsToStr(this.getBoolWeekTimings());
+	}
+
+	toStringIsOpen() {
+		return this.isOpen() ? 'Aperto ora!' : 'Chiuso!';
+	}
+
+	toStringRangeCurrentDay() {
+		return this._rangeCurrentDayArray()
+			.map(this._toStringRangeTime.bind(this))
+			.join(', ');
+	}
+
+	toStringRangeStatusAndCurrentDay() {
+		let str = [];
+
+		let currentDay = this.toStringRangeCurrentDay();
+		if (currentDay && currentDay.length > 0)
+			str.push(currentDay);
+
+		str.push(this.toStringIsOpen());
+
+		return str.join('\n');
+	}
 
 }
 

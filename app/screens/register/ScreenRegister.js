@@ -9,9 +9,9 @@ import {FORM_API_ID_REGISTER, poolConnect} from '../../redux/ReduxPool';
 
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 
-import {Image, Keyboard, View} from 'react-native';
+import {Image, View} from 'react-native';
 
-import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {scaleVertical} from '../../lib/utils/scale';
@@ -66,10 +66,6 @@ class ScreenRegisterPresentational extends React.Component<any, Props, any> {
 	render() {
 		return (
 			<Screen>
-				<RkAvoidKeyboard
-					style={styles.screen}
-					onStartShouldSetResponder={(e) => true}
-					onResponderRelease={(e) => Keyboard.dismiss()}>
 
 					<View style={{alignItems: 'center'}}>
 						<Image style={styles.image} source={require('../../assets/images/logo.png')}/>
@@ -119,7 +115,6 @@ class ScreenRegisterPresentational extends React.Component<any, Props, any> {
 						</View>
 					</View>
 
-				</RkAvoidKeyboard>
 			</Screen>
 		);
 	}

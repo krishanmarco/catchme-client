@@ -27,7 +27,6 @@ export default class StaticSectionList extends React.PureComponent<any, Props, v
     this._keyExtractor = this._keyExtractor.bind(this);
   }
 
-
   _keyExtractor(item, index) {
     if (this.props.keyExtractor)
       return this.props.keyExtractor(item, index);
@@ -35,9 +34,7 @@ export default class StaticSectionList extends React.PureComponent<any, Props, v
     return index;
   }
 
-
   render() {
-
     return (
           <SectionList
               sections={this.props.sections}

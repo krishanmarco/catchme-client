@@ -19,12 +19,12 @@ import type {TNavigator} from "../../lib/types/Types";
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: TNavigator,
-  feed: TFeed
+	navigator: TNavigator,
+	feed: TFeed
 };
 
 type State = {
-  // Nothing for now
+	// Nothing for now
 };
 
 
@@ -33,82 +33,82 @@ type State = {
 
 export default class FeedListItem extends React.Component<any, Props, State> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onItemPress = this._onItemPress.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onItemPress = this._onItemPress.bind(this);
+	}
 
-  _navigator(): TNavigator {
-    return this.props.navigator;
-  }
+	_navigator(): TNavigator {
+		return this.props.navigator;
+	}
 
-  _feed(): TFeed {
-    return this.props.feed;
-  }
-
-
-  _onItemPress() {
-    const clickAction = DaoFeed.gClickAction(this._feed());
-
-    if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._feed()))
-      ActionHandler.handleAction(clickAction, this._feed(), this._navigator());
-
-  }
+	_feed(): TFeed {
+		return this.props.feed;
+	}
 
 
-  render() {
-    return (
-        <TouchableNativeFeedback onPress={this._onItemPress}>
-          <Grid style={styles.listItem}>
-            <Col size={100} style={{marginRight: 8}}>
-              <View style={styles.listItemHeaderContent}>
-                {this._renderLeftAvatar()}
-                <View style={styles.listItemContent}>
-                  <HTMLView
-                      style={styles.htmlView}
-                      value={DaoFeed.gContent(this._feed())}/>
-                </View>
-              </View>
-            </Col>
-            {this._renderActions()}
-            {this._renderRightAvatar()}
-          </Grid>
-        </TouchableNativeFeedback>
-    );
-  }
+	_onItemPress() {
+		const clickAction = DaoFeed.gClickAction(this._feed());
+
+		if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._feed()))
+			ActionHandler.handleAction(clickAction, this._feed(), this._navigator());
+
+	}
 
 
-  _renderLeftAvatar() {
-    const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
-    return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
-  }
+	render() {
+		return (
+			<TouchableNativeFeedback onPress={this._onItemPress}>
+				<Grid style={styles.listItem}>
+					<Col size={100} style={{marginRight: 8}}>
+						<View style={styles.listItemHeaderContent}>
+							{this._renderLeftAvatar()}
+							<View style={styles.listItemContent}>
+								<HTMLView
+									style={styles.htmlView}
+									value={DaoFeed.gContent(this._feed())}/>
+							</View>
+						</View>
+					</Col>
+					{this._renderActions()}
+					{this._renderRightAvatar()}
+				</Grid>
+			</TouchableNativeFeedback>
+		);
+	}
 
-  _renderRightAvatar() {
-    const rightAvatar = DaoFeed.gRightAvatar(this._feed());
-    return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
-  }
+
+	_renderLeftAvatar() {
+		const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
+		return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
+	}
+
+	_renderRightAvatar() {
+		const rightAvatar = DaoFeed.gRightAvatar(this._feed());
+		return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
+	}
 
 
-  _renderActions() {
-    const actions = DaoFeed.gActions(this._feed())
-        .filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._feed()));
+	_renderActions() {
+		const actions = DaoFeed.gActions(this._feed())
+			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._feed()));
 
-    return actions.map((clickAction, key) => {
+		return actions.map((clickAction, key) => {
 
-      const marginRight = key === actions.length ? 0 : 8;
-      const actionProps = {
-        icon: ActionHandler.mapActionToIcon(clickAction),
-        onPress: () => ActionHandler.handleAction(clickAction, this._feed(), this._navigator())
-      };
+			const marginRight = key === actions.length ? 0 : 8;
+			const actionProps = {
+				icon: ActionHandler.mapActionToIcon(clickAction),
+				onPress: () => ActionHandler.handleAction(clickAction, this._feed(), this._navigator())
+			};
 
-      return (
-          <Col key={key} size={15} style={{marginRight}}>
-            <ListItemActionIcon {...actionProps}/>
-          </Col>
-      );
+			return (
+				<Col key={key} size={15} style={{marginRight}}>
+					<ListItemActionIcon {...actionProps}/>
+				</Col>
+			);
 
-    });
-  }
+		});
+	}
 
 
 }
@@ -121,40 +121,38 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 const styles = RkStyleSheet.create(theme => ({
 
-  listItem: {
-    paddingLeft: 12,
-    paddingRight: 12,
+	listItem: {
+		paddingHorizontal: 12,
 
-    display: 'flex',
-    alignItems: 'center',
+		display: 'flex',
+		alignItems: 'center',
 
-    borderBottomWidth: 0,
-    borderColor: theme.colors.border.base,
-  },
+		borderBottomWidth: 0,
+		borderColor: theme.colors.border.base,
+	},
 
-  listItemHeaderContent: {
-    paddingTop: 12,
-    paddingBottom: 12,
+	listItemHeaderContent: {
+		paddingVertical: 12,
 
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
 
 
-  listItemContentText: {
-    marginBottom: 3
-  },
+	listItemContentText: {
+		marginBottom: 3
+	},
 
-  listItemContent: {
-    marginLeft: 12,
-    flex: 1
-  },
+	listItemContent: {
+		marginLeft: 12,
+		flex: 1
+	},
 
-  htmlView: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    flexWrap: 'wrap'
-  }
+	htmlView: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'flex-start',
+		flexWrap: 'wrap'
+	}
 }));

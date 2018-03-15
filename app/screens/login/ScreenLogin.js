@@ -9,14 +9,14 @@ import React from 'react';
 
 import Router from "../../lib/helpers/Router";
 
-import {Dimensions, Image, Keyboard, View} from 'react-native';
+import {Dimensions, Image, View} from 'react-native';
 
 import {FontAwesome} from '../../assets/Icons';
 import {FORM_API_ID_LOGIN, poolConnect} from '../../redux/ReduxPool';
 
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {GradientButton, Screen} from "../../comp/Misc";
-import {RkAvoidKeyboard, RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
@@ -97,52 +97,46 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 	render() {
 
 		return (
-			<Screen>
-				<RkAvoidKeyboard
-					onStartShouldSetResponder={(e) => true}
-					onResponderRelease={e => Keyboard.dismiss()}
-					style={styles.screen}>
+			<Screen style={styles.screen}>
+				{this._renderImage()}
 
-					{this._renderImage()}
-
-					<View style={styles.listItemHeaderContent}>
-						<View style={styles.buttons}>
-							{[
-								{icon: FontAwesome.google, onPress: this._onGoogleLogin},
-								{icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
-							].map(this._renderSocialIcon)}
-						</View>
-
-						<RkTextInputFromPool
-							pool={this._getFormApiLogin()}
-							field='email'
-							placeholder='Email'/>
-
-						<RkTextInputFromPool
-							pool={this._getFormApiLogin()}
-							field='email'
-							placeholder='Password'
-							secureTextEntry/>
-
-						<GradientButton
-							style={styles.save}
-							rkType='large stretch accentColor'
-							text={'Login'.toUpperCase()}
-							onPress={this._onLoginPress}/>
-
-
-						<View style={styles.footer}>
-							<FormFooterLink
-								text='Don’t have an account?'
-								clickableText='Sign up now!'
-								onPress={this._onGoToSignupPress}/>
-							<FormFooterLink
-								text='Forgot your password?'
-								clickableText='Recover it!'
-								onPress={this._onGoToRecoverPasswordPress}/>
-						</View>
+				<View style={styles.listItemHeaderContent}>
+					<View style={styles.buttons}>
+						{[
+							{icon: FontAwesome.google, onPress: this._onGoogleLogin},
+							{icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
+						].map(this._renderSocialIcon)}
 					</View>
-				</RkAvoidKeyboard>
+
+					<RkTextInputFromPool
+						pool={this._getFormApiLogin()}
+						field='email'
+						placeholder='Email'/>
+
+					<RkTextInputFromPool
+						pool={this._getFormApiLogin()}
+						field='email'
+						placeholder='Password'
+						secureTextEntry/>
+
+					<GradientButton
+						style={styles.save}
+						rkType='large stretch accentColor'
+						text={'Login'.toUpperCase()}
+						onPress={this._onLoginPress}/>
+
+
+					<View style={styles.footer}>
+						<FormFooterLink
+							text='Don’t have an account?'
+							clickableText='Sign up now!'
+							onPress={this._onGoToSignupPress}/>
+						<FormFooterLink
+							text='Forgot your password?'
+							clickableText='Recover it!'
+							onPress={this._onGoToRecoverPasswordPress}/>
+					</View>
+				</View>
 			</Screen>
 		);
 	}
@@ -193,9 +187,7 @@ export default ScreenLogin;
 
 const styles = RkStyleSheet.create(theme => ({
 	screen: {
-		flex: 1,
 		alignItems: 'center',
-		backgroundColor: theme.colors.screen.base
 	},
 	image: {
 		resizeMode: 'cover',

@@ -70,13 +70,12 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 
 	render() {
 		return (
-
-			<View style={{flex: 1, paddingLeft: 24, paddingRight: 24}}>
+			<View style={styles.view}>
 				<WeekTimingsList
 					ref={ref => this.refWeekTimingsList = ref}
 					managerWeekTimings={this.state.managerWeekTimings}
 					isEditable={true}
-					size={246}/>
+					size={200}/>
 			</View>
 		);
 	}
@@ -110,6 +109,10 @@ export default EditLocationTimings;
 // Const ************************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
+	view: {
+		flex: 1,
+		paddingHorizontal: 24
+	},
 	content: {
 		paddingHorizontal: 4,
 	},
