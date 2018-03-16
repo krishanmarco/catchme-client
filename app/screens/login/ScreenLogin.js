@@ -95,7 +95,6 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 
 
 	render() {
-
 		return (
 			<Screen style={styles.screen}>
 				{this._renderImage()}
@@ -201,7 +200,8 @@ const styles = RkStyleSheet.create(theme => ({
 	},
 	footer: {
 		justifyContent: 'flex-end',
-		flex: 1
+		flex: 1,
+		backgroundColor: '#000'
 	},
 	buttons: {
 		flexDirection: 'row',
