@@ -7,7 +7,6 @@ import DaoUser from "../lib/daos/DaoUser";
 import DaoUserLocationStatus from "../lib/daos/DaoUserLocationStatus";
 import DataProvider from '../lib/data/DataProvider';
 import Logger from "../lib/Logger";
-import ManagerWeekTimings from "../lib/helpers/ManagerWeekTimings";
 import {connect} from 'react-redux';
 import {Const} from "../Config";
 import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
@@ -700,6 +699,7 @@ const ReduxPoolBuilder = {
 					// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
 					const userProfileActions = poolTypeCache
 						.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
+
 					const userProfileFormActions = poolTypeApiForms
 						.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
 
