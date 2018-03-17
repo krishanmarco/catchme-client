@@ -698,12 +698,17 @@ const ReduxPoolBuilder = {
 					const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
 
 					// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
-					const userProfileActions = poolTypeCache.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
-					const userProfileFormActions = poolTypeApiForms.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
+					const userProfileActions = poolTypeCache
+						.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
+					const userProfileFormActions = poolTypeApiForms
+						.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
 
 
 					// Post and invalidate CACHE_ID_USER_PROFILE
-					return ApiClient.userProfileEdit(i).then(() => userProfileActions.invalidate()).then(() => userProfileActions.initialize()).then(({value}) => userProfileFormActions.change(value));
+					return ApiClient.userProfileEdit(i)
+						.then(() => userProfileActions.invalidate())
+						.then(() => userProfileActions.initialize())
+						.then(({value}) => userProfileFormActions.change(value));
 
 				},
 				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
@@ -889,7 +894,8 @@ const ReduxPoolBuilder = {
 						}
 
 						// Get the _saveReceivedData method from the ReduxPoolBuilder
-						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
+						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+							.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
 
 						// New items have come in, reverse and save the list
 						_saveReceivedData(receivedIds);
@@ -907,7 +913,8 @@ const ReduxPoolBuilder = {
 
 
 					// Get the _saveReceivedData method from the ReduxPoolBuilder
-					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
+					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+						.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
 
 					// Initialization, run the bulk request
 					_getUserObjectIds(userId);
@@ -932,13 +939,15 @@ const ReduxPoolBuilder = {
 							return;
 
 						// Get the _saveReceivedData method from the ReduxPoolBuilder
-						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
+						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+							.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
 
 						_saveReceivedData([snapshot.key]);
 					});
 
 					// Get the _saveReceivedData method from the ReduxPoolBuilder
-					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
+					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+						.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
 
 					// Initialization, run the bulk request
 					_getUserObjectIds(userId);
