@@ -98,12 +98,12 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 
 			<Col size={100} style={{marginRight: 8}}>
 				<View style={listItemWithActionStyles.headerContent}>
-					{avatarUri && <AvatarCircle uri={avatarUri}/>}
+					{!!avatarUri && <AvatarCircle uri={avatarUri}/>}
 
 					<View style={listItemWithActionStyles.content}>
 						<RkText style={listItemWithActionStyles.contentText}>{header}</RkText>
-						{content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
-						{subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
+						{!!content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
+						{!!subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
 					</View>
 
 				</View>
@@ -115,7 +115,7 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 				</Col>
 			))}
 
-			{image && (
+			{!!image && (
 				<Col size={20}>
 					<ListItemImage {...image}/>
 				</Col>

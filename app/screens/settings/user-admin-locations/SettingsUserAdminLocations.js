@@ -33,6 +33,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		super(props, context);
 		this._onLocationPress = this._onLocationPress.bind(this);
 		this._onLocationAdd = this._onLocationAdd.bind(this);
+		this._renderLocationItem = this._renderLocationItem.bind(this);
 	}
 
 	_onLocationPress(location) {
@@ -67,25 +68,32 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 	_renderAdminLocationList() {
 		const {userProfile} = this.props;
-		const locations = DaoUser.gAdminLocations(userProfile);
 
 		return (
 			<FlatList
-				data={locations}
+				data={DaoUser.gAdminLocations(userProfile)}
 				keyExtractor={DaoLocation.gId}
-				ListHeaderComponent={
-					<ListItemInfo
-						title='Add a new Location'
-						textRkType='header4'
-						icon={Icons.locationAdminAdd}
-						onPress={this._onLocationAdd}/>
-				}
-				renderItem={({item}) => (
-					<ListItemLocation
-						location={item}
-						onPress={() => this._onLocationPress(item)}/>
-				)}
+				ListHeaderComponent={this._renderLocationsHeader()}
+				renderItem={this._renderLocationItem}
 			/>
+		);
+	}
+
+	_renderLocationsHeader() {
+		return (
+			<ListItemInfo
+				title='Add a new Location'
+				textRkType='header4'
+				icon={Icons.locationAdminAdd}
+				onPress={this._onLocationAdd}/>
+		);
+	}
+
+	_renderLocationItem({item}) {
+		return (
+			<ListItemLocation
+				location={item}
+				onPress={() => this._onLocationPress(item)}/>
 		);
 	}
 

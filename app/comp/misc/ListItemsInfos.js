@@ -24,7 +24,7 @@ export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkT
     <TouchableOpacity onPress={onPress} style={styles.root}>
       <Grid style={styles.grid}>
 
-        {icon && (
+        {!!icon && (
             <Col size={10} style={styles.icon}>
               <Icon size={24} {...icon} />
             </Col>
@@ -32,10 +32,10 @@ export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkT
 
         <Col size={100} style={styles.text}>
           <RkText rkType={textRkType}>{title}</RkText>
-          {subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
+          {!!subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
         </Col>
 
-        {itemRight && (
+        {!!itemRight && (
             <Col size={24}>{itemRight}</Col>
         )}
 
