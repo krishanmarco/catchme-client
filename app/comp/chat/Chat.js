@@ -181,10 +181,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary
   },
   bubbleHeader: {
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingTop: 4,
-    paddingBottom: 4
+    paddingHorizontal: 8,
+    paddingVertical: 4
   },
   bubbleHeaderText: {
     fontSize: 10

@@ -54,8 +54,8 @@ class ScreenSettingsChangePasswordPresentational extends React.Component<any, Pr
 				<View>
 					<ScreenInfo
 						imageContainerStyle={styles.imageContainer}
-						imageContainerScale={550}
-						imageHeight={100}
+						imageContainerScale={575}
+						imageHeight={80}
 						imageWidth={150}
 						imageSource={require('../../../assets/images/splashBack.png')}
 						textText='Change password...'/>

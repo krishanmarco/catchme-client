@@ -37,6 +37,7 @@ import {Colors, Const} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 import type {TUser} from "./lib/daos/DaoUser";
+import ScreenNewLocation from "./screens/location-edit/ScreenNewLocation";
 
 
 export default function run(authenticatedUser: TUser) {
@@ -67,6 +68,7 @@ export default function run(authenticatedUser: TUser) {
     {name: Const.NavigationComponents.ScreenFeaturedAds, getComponent: () => ScreenFeaturedAds},
 
     {name: Const.NavigationComponents.ScreenEditLocation, getComponent: () => ScreenEditLocation},
+    {name: Const.NavigationComponents.ScreenNewLocation, getComponent: () => ScreenNewLocation},
 
     {name: Const.NavigationComponents.ModalCamera, getComponent: () => CameraWrapper},
     {name: Const.NavigationComponents.ModalTiming, getComponent: () => ModalTiming},

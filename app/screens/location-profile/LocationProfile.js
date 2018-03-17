@@ -23,8 +23,7 @@ import {Colors, Icons} from '../../Config';
 import {Grid, Row} from "react-native-easy-grid";
 import {Image, StyleSheet, View} from 'react-native';
 
-import {ListDataPoints} from "../../comp/Misc";
-import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
@@ -37,15 +36,15 @@ import type {TUser} from "../../lib/daos/DaoUser";
 // Redux ************************************************************************************************
 
 const locationProfileInitState = {
-  // Nothing for now
+	// Nothing for now
 };
 
 export function locationProfileReducer(state = locationProfileInitState, action) {
-  switch (action.type) {
-    // Nothing for now
-  }
+	switch (action.type) {
+		// Nothing for now
+	}
 
-  return state;
+	return state;
 }
 
 
@@ -55,13 +54,13 @@ export function locationProfileReducer(state = locationProfileInitState, action)
 // Flow *************************************************************************************************
 
 type Props = {
-  locationProfile: TLocation,
-  authenticatedUserProfile: TUser,
-  navigator: TNavigator
+	locationProfile: TLocation,
+	authenticatedUserProfile: TUser,
+	navigator: TNavigator
 };
 
 type State = {
-  locationInfoSections: Array<TSectionListDataPointSections>
+	locationInfoSections: Array<TSectionListDataPointSections>
 };
 
 
@@ -71,183 +70,171 @@ type State = {
 
 class LocationProfilePresentational extends React.Component<any, Props, State> {
 
-  constructor(props: Props, context) {
-    super(props, context);
-    this._onUserPress = this._onUserPress.bind(this);
-    this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
-    this.state = this._calculateState(props);
-  }
+	constructor(props: Props, context) {
+		super(props, context);
+		this._onUserPress = this._onUserPress.bind(this);
+		this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
+		this.state = this._calculateState(props);
+	}
 
-  componentWillReceiveProps(nextProps) {
-    this.setState(this._calculateState(nextProps));
-  }
+	componentWillReceiveProps(nextProps) {
+		this.setState(this._calculateState(nextProps));
+	}
 
-  _calculateState(props: Props = this.props) {
-    // Calculate the location info section value only once
-    return {
-      locationInfoSections: new LocationProfileDataPoints(this._locationProfile(props))
-          .build()
-    };
-  }
-  
-  _navigator(): TNavigator {
-    return this.props.navigator;
-  }
+	_calculateState(props: Props = this.props) {
+		const {locationProfile} = props;
+		// Calculate the location info section value only once
+		return {
+			locationInfoSections: new LocationProfileDataPoints(locationProfile).build()
+		};
+	}
 
-  _locationProfile(props: Props = this.props) {
-    return props.locationProfile;
-  }
-
-  _authenticatedUserProfile(props: Props = this.props) {
-    return props.authenticatedUserProfile;
-  }
-
-  _onUserPress(user: TUser) {
-    Router.toUserProfile(this._navigator(), user);
-  }
+	_onUserPress(user: TUser) {
+		const {navigator} = this.props;
+		Router.toUserProfile(navigator, user);
+	}
 
 
-  render() {
-    const tabs = [];
+	render() {
+		const tabs = [];
 
-    tabs.push(this._renderTab('0', this._renderTabHome()));
-    tabs.push(this._renderTab('1', this._renderTabImages()));
-    tabs.push(this._renderTab('2', this._renderTabFriendsNow()));
-    tabs.push(this._renderTab('3', this._renderTabFriendsFuture()));
+		tabs.push(this._renderTab('0', this._renderTabHome()));
+		tabs.push(this._renderTab('1', this._renderTabImages()));
+		tabs.push(this._renderTab('2', this._renderTabFriendsNow()));
+		tabs.push(this._renderTab('3', this._renderTabFriendsFuture()));
 
-    if (Context.isFirebaseAuthenticated())
-      tabs.push(this._renderTab('4', this._renderTabChat()));
+		if (Context.isFirebaseAuthenticated())
+			tabs.push(this._renderTab('4', this._renderTabChat()));
 
-    tabs.push(this._renderTab('5', this._renderTabInfo()));
+		tabs.push(this._renderTab('5', this._renderTabInfo()));
 
-    return (
-        <ScrollableIconTabView
-            icons={[
-              Icons.locationProfile,
-              Icons.locationImages,
-              Icons.locationPersonNow,
-              Icons.locationPersonFuture,
-              Icons.locationChat,      // todo: what if the chat is not added?, thenn renderTabInfo would have this icon!
-              Icons.locationInfo,
-            ]}>
-          {tabs}
-        </ScrollableIconTabView>
-    );
-  }
+		return (
+			<ScrollableIconTabView
+				icons={[
+					Icons.locationProfile,
+					Icons.locationImages,
+					Icons.locationPersonNow,
+					Icons.locationPersonFuture,
+					Icons.locationChat,      // todo: what if the chat is not added?, thenn renderTabInfo would have this icon!
+					Icons.locationInfo,
+				]}>
+				{tabs}
+			</ScrollableIconTabView>
+		);
+	}
 
 
-  _renderTab(tabLabel, jsx) {
-    return (
-        <View
-            key={tabLabel}
-            tabLabel={tabLabel}
-            style={{height: 510}}>
-          {jsx}
-        </View>
-    );
-  }
+	_renderTab(tabLabel, jsx) {
+		return (
+			<View
+				key={tabLabel}
+				tabLabel={tabLabel}
+				style={{height: 510}}>
+				{jsx}
+			</View>
+		);
+	}
 
-  _renderTabHome() {
-    let locationProfile = this._locationProfile();
+	_renderTabHome() {
+		const {locationProfile} = this.props;
 
-    return (
-        <Grid style={styles.tabRootHome}>
-          <Row size={-1}>
-            <Image
-                style={{width: '100%', height: 200}}
-                resizeMode='cover'
-                source={{uri: DaoLocation.gPictureUrl(locationProfile)}} />
-          </Row>
+		return (
+			<Grid style={styles.tabRootHome}>
+				<Row size={-1}>
+					<Image
+						style={{width: '100%', height: 200}}
+						resizeMode='cover'
+						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
+				</Row>
 
-          <Row size={-1} style={styles.publicMessage}>
-            <RkText rkType='primary1 hint'>{DaoLocation.gDescription(locationProfile)}</RkText>
-          </Row>
+				<Row size={-1} style={styles.publicMessage}>
+					<RkText rkType='primary1 hint'>{DaoLocation.gDescription(locationProfile)}</RkText>
+				</Row>
 
-          <Row size={-1} style={styles.badges}>
-            <ListDataPoints listDataPoints={[
-              {name: 'Capacity', value: DaoLocation.gCapacity(locationProfile)},
-              {name: 'Male', value: DaoLocation.gMen(locationProfile)},
-              {name: 'Female', value: DaoLocation.gWomen(locationProfile)},
-              {name: 'Total', value: DaoLocation.gTotal(locationProfile)},
-            ]}/>
-          </Row>
-        </Grid>
-    );
-  }
+				<Row size={-1} style={styles.badges}>
+					<ListDataPoints listDataPoints={[
+						{name: 'Capacity', value: DaoLocation.gCapacity(locationProfile)},
+						{name: 'Male', value: DaoLocation.gMen(locationProfile)},
+						{name: 'Female', value: DaoLocation.gWomen(locationProfile)},
+						{name: 'Total', value: DaoLocation.gTotal(locationProfile)},
+					]}/>
+				</Row>
+			</Grid>
+		);
+	}
 
-  _renderTabImages() {
-    return (
-        <View style={styles.tabRootImages}>
-          <LocationGallery
-              navigator={this._navigator()}
-              locationProfile={this._locationProfile()}/>
-        </View>
-    );
-  }
+	_renderTabImages() {
+		const {locationProfile, navigator} = this.props;
+		return (
+			<View style={styles.tabRootImages}>
+				<LocationGallery
+					navigator={navigator}
+					locationProfile={locationProfile}/>
+			</View>
+		);
+	}
 
-  _renderTabFriendsNow() {
-    let locationProfile = this._locationProfile();
-    let authUserProfile = this._authenticatedUserProfile();
+	_renderTabFriendsNow() {
+		const {locationProfile, authenticatedUserProfile} = this.props;
 
-    return (
-        <View style={styles.tabRootFriendsNow}>
-          <UserList
-              users={DaoLocation.gFriendsNow(locationProfile)}
-              requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
-              onItemPress={this._onUserPress}/>
-        </View>
-    );
-  }
+		return (
+			<View style={styles.tabRootFriendsNow}>
+				<UserList
+					users={DaoLocation.gFriendsNow(locationProfile)}
+					requestIds={DaoUser.gConnectionRequestIds(authenticatedUserProfile)}
+					onItemPress={this._onUserPress}/>
+			</View>
+		);
+	}
 
-  _renderTabFriendsFuture() {
-    let locationProfile = this._locationProfile();
-    let authUserProfile = this._authenticatedUserProfile();
+	_renderTabFriendsFuture() {
+		const {locationProfile, authenticatedUserProfile} = this.props;
 
-    return (
-        <View style={styles.tabRootFriendsFuture}>
-          <UserList
-              users={DaoLocation.gFriendsFuture(locationProfile)}
-              requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
-              onItemPress={this._onUserPress}/>
-        </View>
-    );
-  }
+		return (
+			<View style={styles.tabRootFriendsFuture}>
+				<UserList
+					users={DaoLocation.gFriendsFuture(locationProfile)}
+					requestIds={DaoUser.gConnectionRequestIds(authenticatedUserProfile)}
+					onItemPress={this._onUserPress}/>
+			</View>
+		);
+	}
 
-  _renderTabChat() {
-    let locationProfile = this._locationProfile();
-    let authUserProfile = this._authenticatedUserProfile();
+	_renderTabChat() {
+		const {locationProfile, authenticatedUserProfile} = this.props;
 
-    return (
-        <View style={styles.tabRootChat}>
-          <LocationChat location={locationProfile} user={authUserProfile}/>
-        </View>
-    );
-  }
+		return (
+			<View style={styles.tabRootChat}>
+				<LocationChat location={locationProfile} user={authenticatedUserProfile}/>
+			</View>
+		);
+	}
 
-  _renderTabInfo() {
-    let locationProfile = this._locationProfile();
+	_renderTabInfo() {
+		const {locationProfile} = this.props;
 
-    return (
-        <Grid style={styles.tabRootInfo}>
-          <Row size={-1}>
-            <StaticSectionList
-                sections={this.state.locationInfoSections}
-                renderItem={this._renderTabLocationInfoItem}/>
-          </Row>
-          <Row size={100} style={{marginTop: 16}}>
-            <LocationMap locations={[locationProfile]}/>
-          </Row>
-        </Grid>
-    );
-  }
+		return (
+			<Grid style={styles.tabRootInfo}>
+				<Row size={-1}>
+					<StaticSectionList
+						sections={this.state.locationInfoSections}
+						renderItem={this._renderTabLocationInfoItem}/>
+				</Row>
+				<Row size={100} style={{marginTop: 16}}>
+					<LocationMap locations={[locationProfile]}/>
+				</Row>
+			</Grid>
+		);
+	}
 
-  _renderTabLocationInfoItem({item}: {item: TDataPoint}) {
-    return (
-        <ListItemInfo
-            onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, this._locationProfile(), this._navigator())}
-            {...item}/>
-    );
-  }
+	_renderTabLocationInfoItem({item}: { item: TDataPoint }) {
+		const {locationProfile, navigator} = this.props;
+		return (
+			<ListItemInfo
+				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
+				{...item}/>
+		);
+	}
 
 
 }
@@ -256,17 +243,17 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 // ContainerComponent ***********************************************************************************
 
 const LocationProfile = poolConnect(
-    // Presentational Component
-    LocationProfilePresentational,
+	// Presentational Component
+	LocationProfilePresentational,
 
-    // mapStateToProps
-    (state) => state.locationProfileReducer,
+	// mapStateToProps
+	(state) => state.locationProfileReducer,
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
 
 
@@ -277,34 +264,34 @@ export default LocationProfile;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-  tabRootHome: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  tabRootImages: {
-    flex: 1,
-  },
-  tabRootFriendsNow: {
-    flex: 1,
-    paddingTop: 8
-  },
-  tabRootFriendsFuture: {
-    flex: 1,
-    paddingTop: 8
-  },
-  tabRootChat: {
-    flex: 1,
-  },
-  tabRootInfo: {
-    flex: 1,
-    paddingTop: 8
-  },
+	tabRootHome: {
+		flex: 1,
+		alignItems: 'center'
+	},
+	tabRootImages: {
+		flex: 1,
+	},
+	tabRootFriendsNow: {
+		flex: 1,
+		paddingTop: 8
+	},
+	tabRootFriendsFuture: {
+		flex: 1,
+		paddingTop: 8
+	},
+	tabRootChat: {
+		flex: 1,
+	},
+	tabRootInfo: {
+		flex: 1,
+		paddingTop: 8
+	},
 
-  publicMessage: {
-    marginTop: 12,
-    paddingHorizontal: 16
-  },
-  badges: {
-    marginTop: 24
-  }
+	publicMessage: {
+		marginTop: 12,
+		paddingHorizontal: 16
+	},
+	badges: {
+		marginTop: 24
+	}
 });

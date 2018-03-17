@@ -17,7 +17,12 @@ export type TReduxPoolApiForms<TFormRequest, TFormResponse> = {
 	apiInput: TFormRequest,
 	validationError: ?string,
 	apiResponse: TFormResponse,
-	loading: boolean
+	loading: boolean,
+
+	change: (TFormRequest, ?string) => {},
+	reset: () => {},
+	dismissError: () => {},
+	post: (Object) => Promise<TFormResponse>
 };
 
 export type TReduxPoolLocalForms<TForm> = {

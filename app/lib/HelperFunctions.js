@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import flatten from 'flat';
 
 /**
  * Returns '1' if true, else '0'.
@@ -8,7 +9,7 @@ import _ from 'lodash';
  * @returns {string}
  */
 export function boolToIntString(bool) {
-  return bool ? '1' : '0';
+	return bool ? '1' : '0';
 }
 
 
@@ -19,7 +20,7 @@ export function boolToIntString(bool) {
  * @returns {boolean}
  */
 export function intStringToBool(str) {
-  return str == '1';
+	return str == '1';
 }
 
 
@@ -31,7 +32,7 @@ export function intStringToBool(str) {
  * @returns {string}
  */
 export function stringReplace(string, index, replacement) {
-  return string.substr(0, index) + replacement+ string.substr(index + replacement.length);
+	return string.substr(0, index) + replacement + string.substr(index + replacement.length);
 }
 
 
@@ -43,13 +44,24 @@ export function stringReplace(string, index, replacement) {
  * @returns {{}}
  */
 export function denormObj(object) {
-  const mappedApiInput = {};
+	const mappedApiInput = {};
 
-  const keys = Object.keys(object);
-  for (let i = 0; i < keys.length; i++)
-    _.set(mappedApiInput, keys[i], object[keys[i]]);
+	const keys = Object.keys(object);
+	for (let i = 0; i < keys.length; i++)
+		_.set(mappedApiInput, keys[i], object[keys[i]]);
 
-  return mappedApiInput;
+	return mappedApiInput;
+}
+
+
+/**
+ * Maps an object to the data-structure expected from RnFetchBlob
+ * @param object
+ * @returns {{}}
+ */
+export function prepareForMultipart(object) {
+	return Object.keys(flatten(object))
+		.map(key => ({name: key, data: String(_.get(object, key, ''))}));
 }
 
 
@@ -58,7 +70,7 @@ export function denormObj(object) {
  * @returns {number}
  */
 export function seconds() {
-  return Math.floor(Date.now() / 1000);
+	return Math.floor(Date.now() / 1000);
 }
 
 
@@ -70,13 +82,13 @@ export function seconds() {
  * @returns {boolean}
  */
 export function compareTimeSmaller(date1, date2) {
-  const normalizedDate1 = new Date(date1);
-  normalizedDate1.setFullYear(0, 0, 0);
+	const normalizedDate1 = new Date(date1);
+	normalizedDate1.setFullYear(0, 0, 0);
 
-  const normalizedDate2 = new Date(date2);
-  normalizedDate2.setFullYear(0, 0, 0);
+	const normalizedDate2 = new Date(date2);
+	normalizedDate2.setFullYear(0, 0, 0);
 
-  return normalizedDate1 < normalizedDate2;
+	return normalizedDate1 < normalizedDate2;
 }
 
 
@@ -87,112 +99,106 @@ export function compareTimeSmaller(date1, date2) {
  * @param {object} b
  */
 export function mergeWithoutExtend(a, b) {
-  return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
+	return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
 }
 
 
 
 
 export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
-  // For each word in the searchWords check if
-  // the matchString contains that word
-  // Eg: 'BENCH PRESS' will match 'PRESS BENCH'
-  for (let p = 0; p < ucSearchWords.length; p++) {
-    // if matchString doesn't contain the [p]th word
-    if (ucMatchString.indexOf(ucSearchWords[p]) == -1) {
-      // The filter is not successful
-      return false;
-    }
-  }
+	// For each word in the searchWords check if
+	// the matchString contains that word
+	// Eg: 'BENCH PRESS' will match 'PRESS BENCH'
+	for (let p = 0; p < ucSearchWords.length; p++) {
+		// if matchString doesn't contain the [p]th word
+		if (ucMatchString.indexOf(ucSearchWords[p]) == -1) {
+			// The filter is not successful
+			return false;
+		}
+	}
 
-  // ucMatchString contained all
-  // words in searchString
-  return true;
+	// ucMatchString contained all
+	// words in searchString
+	return true;
 }
 
 
 export function filterByUnOrderedTextMatch(elements, searchString, getTextFromElementFunction) {
-  // initialize result array
-  const result = [];
+	// initialize result array
+	const result = [];
 
-  // Set the search string to uppercase and get all its words
-  const searchWords = searchString.toUpperCase().split(" ");
+	// Set the search string to uppercase and get all its words
+	const searchWords = searchString.toUpperCase().split(" ");
 
-  // Iterate each element and filter accordingly
-  for (let i = 0; i < elements.length; i++) {
-    const element = elements[i];
+	// Iterate each element and filter accordingly
+	for (let i = 0; i < elements.length; i++) {
+		const element = elements[i];
 
-    // get and prepare the second text string
-    // for the text search process
-    const matchString = getTextFromElementFunction(element).toUpperCase();
+		// get and prepare the second text string
+		// for the text search process
+		const matchString = getTextFromElementFunction(element).toUpperCase();
 
-    // If the i[th] element passes the filter
-    // then push it onto the result
-    if (unOrderedTextMatch(searchWords, matchString))
-      result.push(element);
-  }
+		// If the i[th] element passes the filter
+		// then push it onto the result
+		if (unOrderedTextMatch(searchWords, matchString))
+			result.push(element);
+	}
 
-  return result;
+	return result;
 }
 
 
 export function arrayFind(elements, finderFunction) {
-  for (let i = 0; i < elements.length; i++) {
-    if (finderFunction(elements[i]))
-      return elements[i];
-  }
-  return null;
+	for (let i = 0; i < elements.length; i++) {
+		if (finderFunction(elements[i]))
+			return elements[i];
+	}
+	return null;
 }
 
 
 export function arrayClean(elements, deleteValue) {
-  for (let i = 0; i < elements.length; i++) {
-    if (elements[i] == deleteValue) {
-      elements.splice(i, 1);
-      i--;
-    }
-  }
-  return elements;
+	for (let i = 0; i < elements.length; i++) {
+		if (elements[i] == deleteValue) {
+			elements.splice(i, 1);
+			i--;
+		}
+	}
+	return elements;
 }
 
 
 export function arrayRemove(elements, index) {
-  if (index > -1)
-    elements.splice(index, 1);
-  return elements;
+	if (index > -1)
+		elements.splice(index, 1);
+	return elements;
 }
 
 
 
 export function strtr(string, replacePairs) {
-  let str = string, key, re;
-  for (key in replacePairs) {
-    if (replacePairs.hasOwnProperty(key)) {
-      re = new RegExp(key, "g");
-      str = str.replace(re, replacePairs[key]);
-    }
-  }
-  return str;
-}
-
-
-export function isFunction(functionToCheck) {
-  let getType = {};
-  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+	let str = string, key, re;
+	for (key in replacePairs) {
+		if (replacePairs.hasOwnProperty(key)) {
+			re = new RegExp(key, "g");
+			str = str.replace(re, replacePairs[key]);
+		}
+	}
+	return str;
 }
 
 
 export function mapIdsToObjects(idList, objectList, getIdFromObject) {
-  const result = [];
+	const result = [];
 
-  for (let i = 0; i < objectList.length; i++) {
-    const object = objectList[i];
-    const objectId = getIdFromObject(object);
+	for (let i = 0; i < objectList.length; i++) {
+		const object = objectList[i];
+		const objectId = getIdFromObject(object);
 
-    const indexOf = idList.indexOf(objectId);
-    if (indexOf !== -1)
-      result[indexOf] = object;
-  }
+		const indexOf = idList.indexOf(objectId);
+		if (indexOf !== -1)
+			result[indexOf] = object;
+	}
 
-  return result;
+	return result;
 }

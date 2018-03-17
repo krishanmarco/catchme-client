@@ -66,12 +66,12 @@ export default class DaoUser {
 	static pGender = 'gender';
 	static pSettingPrivacy = 'settingPrivacy';
 	static pSettingNotifications = 'settingNotifications';
-	static pAdminLocations = 'adminLocations';
 	static pConnections = 'connections';
 	static pLocations = 'locations';
 	static pConnectionFriends = `${DaoUser.pConnections}.friends`;
 	static pConnectionRequests = `${DaoUser.pConnections}.requests`;
 	static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
+	static pAdminLocations = 'adminLocations';
 	static pLocationsFavorites = `${DaoUser.pLocations}.favorites`;
 	static pLocationsTop = `${DaoUser.pLocations}.top`;
 	static pLocationsUserLocationStatuses = `${DaoUser.pLocations}.userLocationStatuses`;
@@ -163,35 +163,37 @@ export default class DaoUser {
 		return _.get(user, DaoUser.pLocations);
 	}
 	
-	static gAdminLocations(user: TUser) {
-		return _.get(user, DaoUser.pAdminLocations, []);
+	static gAdminLocations(user: TUser): Array<TLocation> {
+		const a=  _.get(user, DaoUser.pAdminLocations, []);
+		console.log("ADMIN LOCATIONS", a);
+		return a;
 	}
 	
-	static gConnectionsFriends(user: TUser) {
+	static gConnectionsFriends(user: TUser): Array<TUser> {
 		return _.get(user, DaoUser.pConnectionFriends, []);
 	}
 	
-	static gConnectionsRequests(user: TUser) {
+	static gConnectionsRequests(user: TUser): Array<TUser> {
 		return _.get(user, DaoUser.pConnectionRequests, []);
 	}
 	
-	static gConnectionsBlocked(user: TUser) {
+	static gConnectionsBlocked(user: TUser): Array<TUser> {
 		return _.get(user, DaoUser.pConnectionBlocked, []);
 	}
 	
-	static gLocationsFavoriteIds(user: TUser) {
+	static gLocationsFavoriteIds(user: TUser): Array<number> {
 		return _.get(user, DaoUser.pLocationsFavorites, []);
 	}
 	
-	static gLocationsTopIds(user: TUser) {
+	static gLocationsTopIds(user: TUser): Array<number> {
 		return _.get(user, DaoUser.pLocationsTop, []);
 	}
 	
-	static gLocationsUserLocationStatuses(user: TUser) {
+	static gLocationsUserLocationStatuses(user: TUser): Array<TUserLocationStatus> {
 		return _.get(user, DaoUser.pLocationsUserLocationStatuses, []);
 	}
 	
-	static gLocationsLocations(user: TUser) {
+	static gLocationsLocations(user: TUser): Array<TLocation> {
 		return _.get(user, DaoUser.pLocationsLocations, []);
 	}
 

@@ -7,7 +7,6 @@ import DaoUser from "../lib/daos/DaoUser";
 import DaoUserLocationStatus from "../lib/daos/DaoUserLocationStatus";
 import DataProvider from '../lib/data/DataProvider';
 import Logger from "../lib/Logger";
-import ManagerWeekTimings from "../lib/helpers/ManagerWeekTimings";
 import {connect} from 'react-redux';
 import {Const} from "../Config";
 import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
@@ -698,12 +697,18 @@ const ReduxPoolBuilder = {
 					const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
 
 					// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
-					const userProfileActions = poolTypeCache.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
-					const userProfileFormActions = poolTypeApiForms.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
+					const userProfileActions = poolTypeCache
+						.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
+
+					const userProfileFormActions = poolTypeApiForms
+						.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
 
 
 					// Post and invalidate CACHE_ID_USER_PROFILE
-					return ApiClient.userProfileEdit(i).then(() => userProfileActions.invalidate()).then(() => userProfileActions.initialize()).then(({value}) => userProfileFormActions.change(value));
+					return ApiClient.userProfileEdit(i)
+						.then(() => userProfileActions.invalidate())
+						.then(() => userProfileActions.initialize())
+						.then(({value}) => userProfileFormActions.change(value));
 
 				},
 				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
@@ -723,21 +728,7 @@ const ReduxPoolBuilder = {
 			},
 			[FORM_API_ID_EDIT_LOCATION_PROFILE]: {
 				post: (i) => ApiClient.userLocationsAdminEditLid(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, denormObj({
-					[DaoLocation.pName]: '',
-					[DaoLocation.pPictureUrl]: '',
-					[DaoLocation.pDescription]: '',
-					[DaoLocation.pEmail]: '',
-					[DaoLocation.pPhone]: '',
-					[DaoLocation.pCapacity]: 0,
-					[DaoLocation.pTimings]: ManagerWeekTimings.boolDayDefault,
-					[DaoLocation.pAddressCountry]: '',
-					[DaoLocation.pAddressState]: '',
-					[DaoLocation.pAddressCity]: '',
-					[DaoLocation.pAddressPostcode]: '',
-					[DaoLocation.pAddressAddress]: '',
-					[DaoLocation.pAddressLatLng]: {lat: 37.78825, lng: -122.4324,},
-				}))
+				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, DaoLocation.newInstance())
 			},
 		}
 
@@ -903,7 +894,8 @@ const ReduxPoolBuilder = {
 						}
 
 						// Get the _saveReceivedData method from the ReduxPoolBuilder
-						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
+						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+							.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
 
 						// New items have come in, reverse and save the list
 						_saveReceivedData(receivedIds);
@@ -921,7 +913,8 @@ const ReduxPoolBuilder = {
 
 
 					// Get the _saveReceivedData method from the ReduxPoolBuilder
-					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
+					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+						.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
 
 					// Initialization, run the bulk request
 					_getUserObjectIds(userId);
@@ -946,13 +939,15 @@ const ReduxPoolBuilder = {
 							return;
 
 						// Get the _saveReceivedData method from the ReduxPoolBuilder
-						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
+						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+							.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._saveReceivedData;
 
 						_saveReceivedData([snapshot.key]);
 					});
 
 					// Get the _saveReceivedData method from the ReduxPoolBuilder
-					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA].poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
+					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+						.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch)._getUserObjectIds;
 
 					// Initialization, run the bulk request
 					_getUserObjectIds(userId);

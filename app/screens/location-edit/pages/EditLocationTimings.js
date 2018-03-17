@@ -8,22 +8,24 @@ import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
 const editLocationTimingsInitState = {
-  // Nothing for now
+	// Nothing for now
 };
 
 
 export function editLocationTimingsReducer(state = editLocationTimingsInitState, action) {
-  switch (action.type) {
-      // Nothing for now
-  }
+	switch (action.type) {
+		// Nothing for now
+	}
 
-  return state;
+	return state;
 }
 
 
@@ -31,12 +33,13 @@ export function editLocationTimingsReducer(state = editLocationTimingsInitState,
 // Flow *************************************************************************************************
 
 type Props = {
-  navigator: Navigator,
-  locationProfile: Object,
+	navigator: Navigator,
+	locationProfile: Object,
+	formApiEditLocationProfile: Object
 };
 
 type State = {
-  // Nothing for now
+	// Nothing for now
 }
 
 
@@ -45,35 +48,37 @@ type State = {
 // PresentationalComponent ******************************************************************************
 
 class EditLocationTimingsPresentational extends React.Component<any, Props, State> {
-  static refWeekTimingsList = 'refWeekTimingsList';
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfileInput())};
-  }
+	constructor(props, context) {
+		super(props, context);
+		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfileInput())};
+	}
 
-  _formApiEditLocationProfile() { return this.props.formApiEditLocationProfile; }
-  _formApiEditLocationProfileInput() { return this._formApiEditLocationProfile().apiInput; }
-  _managerWeekTimings() { return this.state.managerWeekTimings; }
+	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+		return this.props.formApiEditLocationProfile;
+	}
 
-  _onSaveTimings() {
-    const weekBoolTimings = this.refs[EditLocationTimingsPresentational.refWeekTimingsList].getTimings();
-    const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
-  }
+	_formApiEditLocationProfileInput(): ?TLocation {
+		return this._formApiEditLocationProfile().apiInput;
+	}
+
+	_onSaveTimings() {
+		const weekBoolTimings = this.refWeekTimingsList.getTimings();
+		const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
+	}
 
 
-  render() {
-    return (
-
-        <View style={{flex: 1, paddingLeft: 24, paddingRight: 24}}>
-          <WeekTimingsList
-              ref={EditLocationTimingsPresentational.refWeekTimingsList}
-              managerWeekTimings={this._managerWeekTimings()}
-              isEditable={true}
-              size={246}/>
-        </View>
-    );
-  }
+	render() {
+		return (
+			<View style={styles.view}>
+				<WeekTimingsList
+					ref={ref => this.refWeekTimingsList = ref}
+					managerWeekTimings={this.state.managerWeekTimings}
+					isEditable={true}
+					size={200}/>
+			</View>
+		);
+	}
 
 }
 
@@ -83,17 +88,17 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 // ContainerComponent ***********************************************************************************
 
 const EditLocationTimings = poolConnect(
-    // Presentational Component
-    EditLocationTimingsPresentational,
+	// Presentational Component
+	EditLocationTimingsPresentational,
 
-    // mapStateToProps
-    (state) => state.editLocationTimingsReducer,
+	// mapStateToProps
+	(state) => state.editLocationTimingsReducer,
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
 
 export default EditLocationTimings;
@@ -104,12 +109,16 @@ export default EditLocationTimings;
 // Const ************************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-  content: {
-    paddingHorizontal: 4,
-  },
+	view: {
+		flex: 1,
+		paddingHorizontal: 24
+	},
+	content: {
+		paddingHorizontal: 4,
+	},
 }));
 
 
 EditLocationTimings.propTypes = {
-  formApiEditLocationProfile: PropTypes.object.isRequired
+	formApiEditLocationProfile: PropTypes.object.isRequired
 };

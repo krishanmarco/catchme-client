@@ -43,7 +43,7 @@ export const RkMultiChoice = ({title, textProps, options = [], style, ...props})
 
 export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}) => (
     <RkTextInput
-        value={_.get(pool, `apiInput.${field}`, '').toString()}
+        value={String(_.get(pool, `apiInput.${field}`, false) || '')}
         onChangeText={text => pool.change(denormObj({[field]: text}))}
         rkType={rkType}
         style={style}

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {Image, View} from 'react-native';
+import {TouchableOpacity, Image, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
 
 
@@ -9,30 +9,30 @@ import {RkComponent} from 'react-native-ui-kitten';
 // Avatar *********************************************************************************
 
 class Avatar extends RkComponent {
-  componentName = 'Avatar';
-  typeMapping = {
-    listItemHeaderContent: {},
-    image: {},
-    badge: {}
-  };
+	componentName = 'Avatar';
+	typeMapping = {
+		listItemHeaderContent: {},
+		image: {},
+		badge: {}
+	};
 
-  render() {
-    const {container, ...imgStyle} = this.defineStyles();
-    const {image, badge} = imgStyle;
+	render() {
+		const {container, ...imgStyle} = this.defineStyles();
+		const {style, uri, badge, onPress} = this.props;
 
-    return (
-        <View style={[container, this.props.style]}>
-          <View>
-            <Image style={image} source={this.props.img}/>
-            {this.props.badge && (
-                <View style={badge}>
-                  <Icon {...this.props.badge} />
-                </View>
-            )}
-          </View>
-        </View>
-    );
-  }
+		return (
+			<View style={[container, style]}>
+				<TouchableOpacity onPress={onPress}>
+					<Image style={imgStyle.image} source={{uri}}/>
+					{badge && (
+						<View style={imgStyle.badge}>
+							<Icon {...badge} />
+						</View>
+					)}
+				</TouchableOpacity>
+			</View>
+		);
+	}
 }
 
 
@@ -41,12 +41,12 @@ class Avatar extends RkComponent {
 // AvatarCircle *****************************************************************************************
 
 type Props = {
-  uri: string,
-  badge?: Object,
-  rkType?: string
+	uri: string,
+	badge?: Object,
+	rkType?: string
 };
 
-export const AvatarCircle = ({uri, badge, rkType}: Props) => (
-    <Avatar rkType={`circle ${rkType}`} badge={badge} img={{uri}}/>
+export const AvatarCircle = ({rkType, ...props}: Props) => (
+	<Avatar rkType={`circle ${rkType}`} {...props}/>
 );
 

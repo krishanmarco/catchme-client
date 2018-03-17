@@ -10,7 +10,8 @@ import {StyleSheet, View} from 'react-native';
 type Props = {
 	size: number,
 	height: number,
-	style: Object
+	color: string,
+	style: Object,
 };
 
 const DefaultProps = {
@@ -23,7 +24,7 @@ const DefaultProps = {
 // DefaultLoader ****************************************************************************************
 // DefaultLoader ****************************************************************************************
 
-const DefaultLoader = ({size, height, color, style}: Props = DefaultProps) => (
+const DefaultLoader = ({size, height, color, style}: Props) => (
 	<View style={[styles.view, {height}, style]}>
 		<Bubbles size={size} color={color}/>
 	</View>
