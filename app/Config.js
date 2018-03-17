@@ -38,6 +38,7 @@ const _Icons = {
 	chat: {name: 'ios-chatbubbles', type: 'ionicon', color: Colors.primary},
 	timings: {name: 'calendar-clock', type: 'material-community', color: Colors.primary},
 	mapSigns: {name: 'map-signs', type: 'font-awesome', color: Colors.primary},
+	pen: {name: 'pencil', type: 'material-community', color: Colors.primary},
 	penEdit: {name: 'edit', type: 'material-icons', color: Colors.neutralOrange},
 	bin: {name: 'delete', type: 'material-icons', color: Colors.alertRed},
 };
@@ -55,6 +56,7 @@ export const Icons = {
 	userEmail: _Icons.email,
 	userAccountSettings: _Icons.personSettings,
 	userNotificationSettings: _Icons.bell,
+	userEditAvatar: _Icons.bell,
 	locationFollow: _Icons.cup,
 	userFollow: {..._Icons.hand, color: Colors.primary},
 	userBlock: {..._Icons.hand, color: Colors.alertRed},
@@ -69,9 +71,10 @@ export const Icons = {
 	locationEmail: _Icons.email,
 	locationTimings: _Icons.timings,
 	locationMap: _Icons.mapSigns,
+	locationEditAvatar: _Icons.pen,
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,
-	
+
 	
 	friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},
 	friendRequestDeny: {name: 'md-hand', type: 'ionicon', color: Colors.secondary},

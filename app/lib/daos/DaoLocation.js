@@ -105,12 +105,15 @@ export default class DaoLocation {
 
 	static newInstance(): TLocation {
 		return denormObj({
+			// To allow a new location to be saved to the server
+			// through the 'edit' entry-point the id has to be -1
+			[DaoLocation.pId]: -1,
 			[DaoLocation.pName]: '',
 			[DaoLocation.pPictureUrl]: Const.DaoLocation.defaultAvatar,
 			[DaoLocation.pDescription]: '',
 			[DaoLocation.pEmail]: '',
 			[DaoLocation.pPhone]: '',
-			[DaoLocation.pCapacity]: 0,
+			[DaoLocation.pCapacity]: '',
 			[DaoLocation.pTimings]: ManagerWeekTimings.strWeekDefault,
 			[DaoLocation.pAddressCountry]: '',
 			[DaoLocation.pAddressState]: '',
@@ -119,6 +122,27 @@ export default class DaoLocation {
 			[DaoLocation.pAddressAddress]: '',
 			[DaoLocation.pAddressLatLng]: {lat: 37.78825, lng: -122.4324,}
 		});
+	}
+
+	static apiClean(location: TLocation): TLocation {
+		const newLocation = {};
+		_.set(newLocation, DaoLocation.pId, DaoLocation.gId(location));
+		_.set(newLocation, DaoLocation.pName, DaoLocation.gName(location));
+		_.set(newLocation, DaoLocation.pDescription, DaoLocation.gDescription(location));
+		_.set(newLocation, DaoLocation.pCapacity, DaoLocation.gCapacity(location));
+		_.set(newLocation, DaoLocation.pPictureUrl, DaoLocation.gPictureUrl(location));
+		_.set(newLocation, DaoLocation.pPhone, DaoLocation.gPhone(location));
+		_.set(newLocation, DaoLocation.pEmail, DaoLocation.gEmail(location));
+		_.set(newLocation, DaoLocation.pTimings, DaoLocation.gTimings(location));
+		_.set(newLocation, DaoLocation.pImageUrls, DaoLocation.gImageUrls(location));
+		_.set(newLocation, DaoLocation.pGooglePlaceId, DaoLocation.gGooglePlaceId(location));
+		_.set(newLocation, DaoLocation.pAddressCountry, DaoLocation.gCountry(location));
+		_.set(newLocation, DaoLocation.pAddressState, DaoLocation.gState(location));
+		_.set(newLocation, DaoLocation.pAddressCity, DaoLocation.gCity(location));
+		_.set(newLocation, DaoLocation.pAddressPostcode, DaoLocation.gPostcode(location));
+		_.set(newLocation, DaoLocation.pAddressAddress, DaoLocation.gAddress(location));
+		_.set(newLocation, DaoLocation.pAddressLatLng, DaoLocation.gLatLng(location));
+		return newLocation;
 	}
 	
 	

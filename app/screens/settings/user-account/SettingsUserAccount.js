@@ -132,7 +132,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
           <View style={styles.content}>
             <View style={{alignItems: 'center'}}>
               <AvatarCircle
-                  badge={Icons.settingChangePassword}
+								badge={Icons.userEditAvatar}
                   rkType='big'
                   uri={DaoUser.gPictureUrl(this._userProfile())}
                   onPress={this._onUserPicturePress}/>

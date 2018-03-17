@@ -33,7 +33,7 @@ export default class GoogleMapsDataDecoder {
   }
 
   getCountry() {
-    return this.getAddressComponentLongValue(['country']);
+    return this.getAddressComponentShortValue(['country']);
   }
 
   getState() {

@@ -1,13 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from "../../../lib/daos/DaoLocation";
+import ImagePicker from '../../../lib/helpers/ImagePicker';
 import PropTypes from 'prop-types';
 import React from 'react';
+
 import {AvatarCircle} from "../../../comp/Misc";
 
-import {Const, Icons} from '../../../Config';
-
+import {Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
@@ -61,7 +62,15 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 	}
 
 	_onLocationPicturePress() {
-		// todo: open picker and upload then update
+		ImagePicker.pickImage()
+			.then((response) => {
+				this._formApiEditLocationProfile().change({
+					[DaoLocation.pPictureUrl]: response.uri
+				});
+
+			}).catch((error) => {
+				// User canceled or error
+			});
 	}
 
 
@@ -71,7 +80,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 				<View style={styles.content}>
 					<View style={styles.avatarContainer}>
 						<AvatarCircle
-							badge={Icons.settingChangePassword}
+							badge={Icons.locationEditAvatar}
 							rkType='large'
 							uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}
 							onPress={this._onLocationPicturePress}/>

@@ -10,13 +10,13 @@ import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 // Flow *************************************************************************************************
 
 type Props = {
-  imageContainerStyle: Object,
-  imageContainerScale: number,
-  imageContainerOnPress: ?Function,
-  imageHeight: number,
-  imageWidth: number,
-  imageSource: Object,
-  textText: string
+	imageContainerStyle: Object,
+	imageContainerScale: number,
+	imageContainerOnPress: ?Function,
+	imageHeight: number,
+	imageWidth: number,
+	imageSource: Object,
+	textText: string
 };
 
 
@@ -25,73 +25,75 @@ type Props = {
 
 export default class ScreenInfo extends React.Component<any, Props, any> {
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = this._mapPropsToState(props);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this.state = this._mapPropsToState(props);
+	}
 
 
-  componentWillReceiveProps(nextProps) {
-    this.setState(this._mapPropsToState(nextProps));
-  }
+	componentWillReceiveProps(nextProps) {
+		this.setState(this._mapPropsToState(nextProps));
+	}
 
-  _mapPropsToState(props) {
-    return {
-      imageContainerStyle: this._mapPropsToImageContainerStyle(props),
-      imageStyle: this._mapPropsToImageStyle(props)
-    };
-  }
+	_mapPropsToState(props) {
+		return {
+			imageContainerStyle: this._mapPropsToImageContainerStyle(props),
+			imageStyle: this._mapPropsToImageStyle(props)
+		};
+	}
 
-  _mapPropsToImageContainerStyle(props) {
-    const {imageContainerStyle, imageContainerScale} = props;
-    const contentHeight = scaleModerate(imageContainerScale, 1);
-    const cHeight = Dimensions.get('window').height - contentHeight;
-    const cWidth = Dimensions.get('window').width;
-    return {
-      height: cHeight,
-      width: cWidth,
-      alignItems: 'center',
-      ...imageContainerStyle
-    };
-  }
+	_mapPropsToImageContainerStyle(props) {
+		const {imageContainerStyle, imageContainerScale} = props;
+		const contentHeight = scaleModerate(imageContainerScale, 1);
+		const cHeight = Dimensions.get('window').height - contentHeight;
+		const cWidth = Dimensions.get('window').width;
+		return {
+			height: cHeight,
+			width: cWidth,
+			alignItems: 'center',
+			...imageContainerStyle
+		};
+	}
 
-  _mapPropsToImageStyle(props) {
-    const {imageHeight, imageWidth} = props;
-    return {
-      resizeMode: 'cover',
-      marginBottom: scaleVertical(16),
-      height: imageHeight,
-      width: imageWidth
-    };
-  }
+	_mapPropsToImageStyle(props) {
+		const {imageHeight, imageWidth} = props;
+		return {
+			resizeMode: 'cover',
+			marginBottom: scaleVertical(16),
+			height: imageHeight,
+			width: imageWidth
+		};
+	}
 
 
-  render() {
-    const {imageContainerOnPress, imageSource, textText} = this.props;
-    return (
-        <View>
+	render() {
+		const {imageContainerOnPress, imageSource, textText} = this.props;
+		const {imageContainerStyle, imageStyle} = this.state;
 
-          <View style={this.state.imageContainerStyle}>
-            <TouchableNativeFeedback onPress={imageContainerOnPress}>
-              <Image
-                  style={this.state.imageStyle}
-                  source={imageSource}/>
-            </TouchableNativeFeedback>
-          </View>
+		return (
+			<View>
 
-          <View style={{alignItems: 'center', width: '100%'}}>
-            <RkText rkType='secondary6'>{textText}</RkText>
-          </View>
+				<View style={imageContainerStyle}>
+					<TouchableNativeFeedback onPress={imageContainerOnPress}>
+						<Image
+							style={imageStyle}
+							source={imageSource}/>
+					</TouchableNativeFeedback>
+				</View>
 
-        </View>
-    );
-  }
+				<View style={{alignItems: 'center', width: '100%'}}>
+					<RkText rkType='secondary6'>{textText}</RkText>
+				</View>
+
+			</View>
+		);
+	}
 
 }
 
 
 ScreenInfo.defaultProps = {
-  imageContainerScale: 550,
-  imageHeight: 100,
-  imageWidth: 150
+	imageContainerScale: 550,
+	imageHeight: 100,
+	imageWidth: 150
 };

@@ -22,23 +22,33 @@ type State = {
 // Screen ***********************************************************************************************
 
 export default class Screen extends React.Component<any, Props, State> {
-	static ScreenInitialHeight = 0;
+	static screenInitialHeight = 0;
+	static screenLastRegisteredHeight = 0;
 
 	constructor(props, context) {
 		super(props, context);
 		this._onLayout = this._onLayout.bind(this);
-		this.state = {height: 0};
+		this.state = {height: Screen.screenLastRegisteredHeight};
 	}
 
 	_onLayout(layout) {
-		const {height} = this.state;
-
 		// layout: {nativeEvent: { layout: {x, y, width, height}}}
 		const measuredHeight = _.get(layout, 'nativeEvent.layout.height');
-		if (height === Screen.ScreenInitialHeight) {
-			Logger.v("Screen _onLayout: Updating for new height: " + measuredHeight);
-			this.setState({height: measuredHeight});
-		}
+		const currentHeight = this.state.height;
+
+		// Check if the height of this screen has changed
+		if (currentHeight !== Screen.screenInitialHeight)
+			return;
+
+		if (currentHeight === measuredHeight)
+			return;
+
+		// The height has changed, save it to the screenLastRegisteredHeight so the
+		// next component might save a re-render
+		Logger.v("Screen _onLayout: Updating for new height: " + measuredHeight);
+
+		Screen.screenLastRegisteredHeight = measuredHeight;
+		this.setState({height: measuredHeight});
 	}
 
 	render() {
