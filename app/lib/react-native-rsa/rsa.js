@@ -1,4 +1,6 @@
 // Depends on jsbn.js and rng.js
+import Logger from "../Logger";
+
 var BigInteger = require('./jsbn');
 var SecureRandom = require('./rng');
 // Version 1.1: support utf-8 encoding in pkcs1pad2
@@ -27,7 +29,7 @@ function byte2Hex(b) {
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
 function pkcs1pad2(s,n) {
   if(n < s.length + 11) {
-    console.log("Message too long for RSA");
+		Logger.e("rsa", "Message too long for RSA");
     return null;
   }
   var ba = new Array();
@@ -108,7 +110,7 @@ function RSASetPublic(N,E) {
     this.e = parseInt(E,16);
   }
   else
-    console.log("Invalid RSA public key");
+		Logger.e("rsa", "Invalid RSA public key");
 }
 
 function RSASetPublicString(publicStr) {
@@ -186,7 +188,7 @@ function RSASetPrivate(N,E,D) {
     this.d = parseBigInt(D,16);
   }
   else
-    console.log("Invalid RSA private key");
+		Logger.e("rsa", "Invalid RSA private key");
 }
 
 // Set the private key fields N, e, d and CRT params from hex strings
@@ -215,7 +217,7 @@ function RSASetPrivateEx(N,E,D,P,Q,DP,DQ,C) {
     this.coeff = parseBigInt(params.coeff,16);
   }
   else
-    console.log("Invalid RSA private key");
+    Logger.e("rsa", "Invalid RSA private key");
 }
 
 // Generate a new random private key B bits long, using public expt E

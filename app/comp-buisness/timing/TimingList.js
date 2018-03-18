@@ -21,41 +21,45 @@ export default class WeekTimingsList extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._onTimingsChanged = this._onTimingsChanged.bind(this);
 		this.refsTimingListItems = {};
 	}
 
 	getTimings() {
+		const {managerWeekTimings} = this.props;
+
 		const weekTimings = [];
-		const nDays = this._managerWeekTimings().getBoolWeekTimings().length;
+		const nDays = managerWeekTimings.getBoolWeekTimings().length;
+
 		for (let day = 0; day < nDays; day++)
 			weekTimings.push(this.refsTimingListItems[day].getTimings());
+
 		return weekTimings;
 	}
 
-	_isEditable() {
-		return this.props.isEditable;
+	_onTimingsChanged() {
+		const {managerWeekTimings} = this.props;
+		managerWeekTimings.setBoolWeekTimings(this.getTimings());
 	}
 
-	_managerWeekTimings() {
-		return this.props.managerWeekTimings;
-	}
 
 	render() {
+		const {managerWeekTimings, size, isEditable} = this.props;
 		return (
 			<ScrollView
 				style={styles.root}
 				showsVerticalScrollIndicator={false}>
 
-				{this._managerWeekTimings()
-					.getBoolWeekTimings()
+				{managerWeekTimings.getBoolWeekTimings()
 					.map((dayTimings, key) => (
 						<TimingListItem
 							key={key}
 							ref={ref => this.refsTimingListItems[key] = ref}
 							day={key}
-							size={this.props.size}
-							managerWeekTimings={this._managerWeekTimings()}
-							isEditable={this._isEditable()}/>
+							size={size}
+							managerWeekTimings={managerWeekTimings}
+							isEditable={isEditable}
+							onTimingsChanged={this._onTimingsChanged}/>
 					))}
 			</ScrollView>
 		);

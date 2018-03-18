@@ -10,7 +10,8 @@ type Props = {
 	onPreTabChange?: Function,
 	onTabChanged?: Function,
 	icons: Array<Object>,
-	children: Array<Node>
+	children: Array<Node>,
+	locked: boolean
 };
 
 type State = {
@@ -60,15 +61,19 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
 
 
 	render() {
+		const {children, locked} = this.props;
+		const {selectedTab} = this.state;
+
 		return (
 			<ScrollableTabView
-				initialPage={this.state.selectedTab}
+				initialPage={selectedTab}
 				onChangeTab={this._onTabChanged}
 				renderTabBar={this._renderCustomTabBar}
+				locked={locked}
 
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={2}>
-				{this.props.children}
+				{children}
 			</ScrollableTabView>
 		);
 	}

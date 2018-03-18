@@ -33,21 +33,9 @@ export default class TimingListItem extends React.Component<any, Props, any> {
 		return amTimings.concat(pmTimings);
 	}
 
-
-	_managerWeekTimings() {
-		return this.props.managerWeekTimings;
-	}
-
-	_dayIndex() {
-		return this.props.day;
-	}
-
-	_isEditable() {
-		return this.props.isEditable;
-	}
-
 	_timingsInDay() {
-		return this._managerWeekTimings().boolTimingsInDay(this._dayIndex());
+		const {managerWeekTimings, day} = this.props;
+		return managerWeekTimings.boolTimingsInDay(day);
 	}
 
 	render() {
@@ -60,17 +48,20 @@ export default class TimingListItem extends React.Component<any, Props, any> {
 	}
 
 	_renderTimingHeader() {
+		const {day} = this.props;
+
 		return (
 			<View style={styles.headerLine}>
 				<RkText style={styles.headerSpan} rkType='accentColor'>
-					{Maps.daysOfWeek()[this._dayIndex()]}
+					{Maps.daysOfWeek()[day]}
 				</RkText>
 			</View>
 		);
 	}
 
 	_renderTimingContent() {
-		const {size} = this.props;
+		const {size, isEditable, onTimingsChanged} = this.props;
+		const timingsInDay = this._timingsInDay();
 
 		return (
 			<Grid style={{height: size * 0.55}}>
@@ -78,20 +69,22 @@ export default class TimingListItem extends React.Component<any, Props, any> {
 					<Clock
 						size={size}
 						ref={ref => this.refClockAm = ref}
-						isEditable={this._isEditable()}
+						isEditable={isEditable}
 						getLabel={index => index + 1}
 						centerLabel='am'
-						timings={this._timingsInDay().slice(0, 12)}/>
+						timings={timingsInDay.slice(0, 12)}
+						onTimingsChanged={onTimingsChanged}/>
 				</Col>
 				<Col size={4}></Col>
 				<Col size={50} style={styles.content}>
 					<Clock
 						size={size}
 						ref={ref => this.refClockPm = ref}
-						isEditable={this._isEditable()}
+						isEditable={isEditable}
 						getLabel={index => index + 13}
 						centerLabel='pm'
-						timings={this._timingsInDay().slice(12, 24)}/>
+						timings={timingsInDay.slice(12, 24)}
+						onTimingsChanged={onTimingsChanged}/>
 				</Col>
 			</Grid>
 		);

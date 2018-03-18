@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
 
 PATH: 
-  C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Users\krish\AppData\Local\Microsoft\WindowsApps;C:\Program Files\php\php7.2;C:\Users\krish\AppData\Roaming\Composer\vendor\bin;C:\Users\krish\AppData\Roaming\npm;C:\Users\krish\AppData\Local\Android\Sdk\platform-tools
+  C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Users\krish\AppData\Local\Microsoft\WindowsApps;C:\Program Files\php\php7.2;C:\Users\krish\AppData\Roaming\Composer\vendor\bin;C:\Users\krish\AppData\Roaming\npm;C:\Users\krish\AppData\Local\Android\Sdk\platform-tools;
 
 Yarn version: 
   1.5.1
@@ -7593,7 +7593,7 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 3221225786
+  Exit code: 11
   Command: C:\Windows\system32\cmd.exe
   Arguments: /d /s /c node node_modules/react-native/local-cli/cli.js start
   Directory: C:\Users\krish\projects\catchme-client

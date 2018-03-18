@@ -167,7 +167,7 @@ export default class DaoLocation {
 	}
 	
 	static gTimings(location: TLocation) {
-		return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.intDayDefault);
+		return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.strWeekDefault);
 	}
 	
 	static gPhone(location: TLocation) {

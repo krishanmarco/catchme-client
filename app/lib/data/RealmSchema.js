@@ -99,7 +99,7 @@ class Location {
 			reputation: {type: 'int', default: 0},
 			email: {type: 'string', optional: true},
 			phone: {type: 'string', optional: true},
-			timings: {type: 'string', optional: true, default: ManagerWeekTimings.intDayDefault},
+			timings: {type: 'string', optional: true, default: ManagerWeekTimings.strWeekDefault},
 			imageUrls: {type: 'GenericObject', optional: true},
 			people: {type: 'GenericObject', optional: true},
 			address: {type: 'GenericObject', optional: true},

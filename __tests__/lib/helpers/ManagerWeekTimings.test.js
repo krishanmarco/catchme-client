@@ -37,15 +37,6 @@ describe('lib/helpers/ManagerWeekTimings.js', () => {
 
   const managerWeekTimings = new ManagerWeekTimings(weekStr);
 
-  test("intDayDefault", () => {
-    expect(ManagerWeekTimings.intDayDefault)
-        .toEqual([
-          0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-        ]);
-  });
-
   test("boolDayDefault", () => {
     expect(ManagerWeekTimings.boolDayDefault)
         .toEqual([

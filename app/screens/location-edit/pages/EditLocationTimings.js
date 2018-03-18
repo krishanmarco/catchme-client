@@ -75,6 +75,7 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 
 	render() {
 		const {managerWeekTimings} = this.state;
+
 		return (
 			<View style={styles.view}>
 				<WeekTimingsList
@@ -104,7 +105,9 @@ const EditLocationTimings = poolConnect(
 	(dispatch) => ({}),
 
 	// Array of pools to subscribe to
-	[]
+	[],
+
+	{withRef: true}
 );
 
 export default EditLocationTimings;

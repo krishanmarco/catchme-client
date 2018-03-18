@@ -58,7 +58,7 @@ export default class Screen extends React.Component<any, Props, State> {
 		return (
 			<View style={[styles.view, style]} onLayout={this._onLayout}>
 				<View style={{height}}>
-					<RkAvoidKeyboard style={styles.view} onResponderRelease={event => Keyboard.dismiss()}>
+					<RkAvoidKeyboard style={styles.view}>
 						{children}
 					</RkAvoidKeyboard>
 				</View>

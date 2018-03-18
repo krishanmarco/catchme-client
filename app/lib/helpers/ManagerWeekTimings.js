@@ -41,8 +41,7 @@ import type {TLocation} from "../daos/DaoLocation";
 // ]
 export default class ManagerWeekTimings {
 	static strWeekDefault = new Array(24 * 7).fill().map(i => 0).join('');
-	static intDayDefault = new Array(24).fill().map(i => 0);
-	static boolDayDefault = ManagerWeekTimings.intDayDefault.map(i => intStringToBool(i));
+	static boolDayDefault = new Array(24).fill().map(i => 0).map(i => intStringToBool(i));
 
 	static buildFromLocation(location: TLocation) {
 		return ObjectCache.get(location, 'ManagerWeekTimings',
@@ -141,16 +140,31 @@ export default class ManagerWeekTimings {
 
 	constructor(strWeekTimings) {
 		this.boolWeekTimings = ManagerWeekTimings.mapStrTimingsToBoolTimings(strWeekTimings);
-		this.rangeWeekTimings = ManagerWeekTimings._mapBoolTimingsToRangeTimings(this.boolWeekTimings);
 	}
 
 	boolWeekTimings: null;
 	rangeWeekTimings: null;
 
 
+	getBoolWeekTimings() {
+		return this.boolWeekTimings;
+	}
+
+	setBoolWeekTimings(newBoolWeekTimings: Array<Boolean>) {
+		this.boolWeekTimings = newBoolWeekTimings;
+		this.rangeWeekTimings = null;
+	}
+
+	getLazyRangeWeekTimings() {
+		if (this.rangeWeekTimings == null)
+			this.rangeWeekTimings = ManagerWeekTimings._mapBoolTimingsToRangeTimings(this.boolWeekTimings);
+
+		return this.rangeWeekTimings;
+	}
+
+
 	_currentTimeIndex() {
-		let date = new Date();
-		return date.getHours();
+		return new Date().getHours();
 	}
 
 	_rangeCurrentDayArray() {
@@ -176,24 +190,16 @@ export default class ManagerWeekTimings {
 
 
 
-	getBoolWeekTimings() {
-		return this.boolWeekTimings;
-	}
-
 	boolTimingsInDay(day) {
 		return _.get(this.boolWeekTimings, `[${day}]`, ManagerWeekTimings.boolDayDefault);
 	}
 
 	rangeTimingsInDay(day) {
-		return _.get(this.rangeWeekTimings, `[${day}]`, []);
+		return _.get(this.getLazyRangeWeekTimings(), `[${day}]`, []);
 	}
 
 	isOpen() {
 		return this._rangeCurrentDayArray()[this._currentTimeIndex()];
-	}
-
-	setTimingInDay(dayIndex, timeIndex, boolValue) {
-		this.getBoolWeekTimings()[dayIndex][timeIndex] = boolValue;
 	}
 
 

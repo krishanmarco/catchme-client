@@ -9,7 +9,8 @@
     "flow-stop": "flow stop",
     "eslint-fix": "node node_modules/eslint/bin/eslint.js -c .eslintrc --fix .",
     "force-load-bash": "curl \"http://localhost:8081/index.android.bundle?platform=android\" -o \"android/app/src/main/assets/index.android.bundle\"",
-    "force-load-cmd": "wget \"http://localhost:8081/index.android.bundle?platform=android\" -OutFile \"android/app/src/main/assets/index.android.bundle\""
+    "force-load-cmd": "wget \"http://localhost:8081/index.android.bundle?platform=android\" -OutFile \"android/app/src/main/assets/index.android.bundle\"",
+    "assemble-release": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "color": "^2.0.1",

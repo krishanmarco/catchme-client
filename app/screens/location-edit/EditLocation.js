@@ -84,9 +84,7 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 
 	_onPreTabChange(currentIndex, nextIndex) {
 		if (currentIndex == EditLocation.indexOfTimingsTab) {
-			this._formApiEditLocationProfile().change({
-				[DaoLocation.pTimings]: this.refEditLocationTimings.saveTimingsToLocation()
-			});
+			this.refEditLocationTimings.getWrappedInstance().saveTimingsToLocation();
 		}
 	}
 
@@ -96,6 +94,7 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 			<ScrollableIconTabView
 				allowIndexChange={this._allowIndexChange}
 				onPreTabChange={this._onPreTabChange}
+				locked={true}
 				icons={[
 					Icons.friendRequestAccept,
 					Icons.friendRequestAccept,
