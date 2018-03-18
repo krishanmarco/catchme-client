@@ -7593,7 +7593,7 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit code: 11
+  Exit code: 3221225786
   Command: C:\Windows\system32\cmd.exe
   Arguments: /d /s /c node node_modules/react-native/local-cli/cli.js start
   Directory: C:\Users\krish\projects\catchme-client

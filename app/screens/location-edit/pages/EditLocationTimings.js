@@ -10,6 +10,7 @@ import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
+import DaoLocation from "../../../lib/daos/DaoLocation";
 
 
 // Redux ************************************************************************************************
@@ -62,18 +63,23 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 		return this._formApiEditLocationProfile().apiInput;
 	}
 
-	_onSaveTimings() {
+	saveTimingsToLocation() {
 		const weekBoolTimings = this.refWeekTimingsList.getTimings();
 		const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
+
+		this._formApiEditLocationProfile().change({
+			[DaoLocation.pTimings]: weekStrTimings
+		});
 	}
 
 
 	render() {
+		const {managerWeekTimings} = this.state;
 		return (
 			<View style={styles.view}>
 				<WeekTimingsList
 					ref={ref => this.refWeekTimingsList = ref}
-					managerWeekTimings={this.state.managerWeekTimings}
+					managerWeekTimings={managerWeekTimings}
 					isEditable={true}
 					size={200}/>
 			</View>
