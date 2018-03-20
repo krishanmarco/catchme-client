@@ -4,9 +4,10 @@ import React from 'react';
 import {RkTextInput as _RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
+import {Validate} from "../../../lib/helpers/Validator";
 // todo: refactor with Flow after having flow-typed ReduxPool
 
-export const RkTextInput = ({rkType, style, ...props}) => {
+export const RkTextInput = ({rkType, style, errorCode, ...props}) => {
 
   let rowOverride = {};
   if (rkType === 'row')
@@ -15,6 +16,7 @@ export const RkTextInput = ({rkType, style, ...props}) => {
   return (
       <View style={[styles.row, rowOverride, style]}>
         <_RkTextInput {...props} rkType={rkType}/>
+        {errorCode !== 0 && (<RkText rkType='danger  small'>{Validate.mapErrorCodeToMessage(errorCode)}</RkText>)}
       </View>
   );
 };
@@ -44,6 +46,7 @@ export const RkMultiChoice = ({title, textProps, options = [], style, ...props})
 export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}) => (
     <RkTextInput
         value={String(_.get(pool, `apiInput.${field}`, false) || '')}
+        errorCode={_.get(pool, `apiResponse.${field}`, 0)}
         onChangeText={text => pool.change(denormObj({[field]: text}))}
         rkType={rkType}
         style={style}

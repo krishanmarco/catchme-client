@@ -9,7 +9,7 @@ import DataProvider from '../lib/data/DataProvider';
 import Logger from "../lib/Logger";
 import {connect} from 'react-redux';
 import {Const} from "../Config";
-import {denormObj, mergeWithoutExtend, seconds} from '../lib/HelperFunctions';
+import {denormObj, mergeWithoutExtend} from '../lib/HelperFunctions';
 import {FirebaseData} from "../lib/data/Firebase";
 
 
@@ -43,10 +43,6 @@ const POOL_ACTION_API_FORMS_ON_API_EXCEPTION = 'POOL_ACTION_API_FORMS_ON_API_EXC
 const POOL_ACTION_API_FORMS_ON_ERROR_DISMISS = 'POOL_ACTION_API_FORMS_ON_ERROR_DISMISS';
 
 
-const POOL_ACTION_LOCAL_FORMS_ON_CHANGE = 'POOL_ACTION_LOCAL_FORMS_ON_CHANGE';
-const POOL_ACTION_LOCAL_FORMS_ON_RESET = 'POOL_ACTION_LOCAL_FORMS_ON_RESET';
-
-
 const POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH = 'POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH';
 const POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA = 'POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA';
 const POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS = 'POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS';
@@ -72,9 +68,6 @@ export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 export const FORM_API_ID_EDIT_USER_PROFILE = 'FORM_API_ID_EDIT_USER_PROFILE';
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
-
-// ReduxPoolLocalForms Ids
-// export const FORM_LOCAL_ID_PARTIAL_WORKOUT_CREATE = "formLocalWorkoutCreate";
 
 // ReduxPoolModals Ids
 // export const MODAL_ID_SELECT_USERS = 'modalSelectUsers';
@@ -129,7 +122,7 @@ class ReduxPoolCacheMap {
 }
 
 
-class ReduxPoolApiForms {
+export class ReduxPoolApiForms {
 
 	constructor(formId, apiInput) {
 
@@ -147,27 +140,6 @@ class ReduxPoolApiForms {
 
 		this.apiResponse = null;
 		this.loading = false;
-	}
-
-}
-
-
-class ReduxPoolLocalForms {
-
-	constructor(formId, input) {
-
-		// Unique pId that identifies this form out of all the
-		// possible objects in objectPoolReducerInitState.forms
-		this.formId = formId;
-
-		// An object of default value for
-		// each field of this form object
-		this.input = input;
-
-		// ?String when the form is validated
-		// this string should be set (see FormHandlerApi)
-		this.validationError = null;
-
 	}
 
 }
@@ -613,9 +585,9 @@ const ReduxPoolBuilder = {
 							if (apiResponse.formError !== 0)
 								return Promise.reject(apiResponse);
 
-
 						// Request has completed successfully
 						return apiResponse;
+
 					}).catch(apiExceptionResponse => {
 						// Note: the api has already handled the exception
 						// here you should only do form specific actions
@@ -732,57 +704,6 @@ const ReduxPoolBuilder = {
 			},
 		}
 
-	},
-
-
-	[POOL_TYPE_LOCAL_FORMS]: {
-
-		poolConnect: {
-
-			extraProps: (poolId, pool, stateProps, dispatchProps) => ({
-				// No extra props for now
-			}),
-
-			mergeMapDispatchToProps: (poolId, pool, dispatch) => ({
-
-				change: (input, validationError) => dispatch({
-					poolType: POOL_TYPE_LOCAL_FORMS,
-					poolId,
-					type: POOL_ACTION_LOCAL_FORMS_ON_CHANGE,
-					input,
-					validationError
-				}),
-
-				reset: () => dispatch({
-					poolType: POOL_TYPE_LOCAL_FORMS,
-					poolId,
-					type: POOL_ACTION_LOCAL_FORMS_ON_RESET,
-					newState: pool.initState()
-				}),
-
-			})
-
-		},
-
-		poolActions: {
-			[POOL_ACTION_LOCAL_FORMS_ON_CHANGE]: (action, subState) => ({
-				input: mergeWithoutExtend(subState.input, action.input),
-				validationError: action.validationError
-			}),
-			[POOL_ACTION_LOCAL_FORMS_ON_RESET]: (action, subState) =>
-				action.newState
-
-		},
-
-		pools: {
-			/*[FORM_LOCAL_ID_PARTIAL_WORKOUT_CREATE]: {
-			 initState: () => new ReduxPoolLocalForms(FORM_LOCAL_ID_PARTIAL_WORKOUT_CREATE, {
-			 pName: "",
-			 description: "",
-			 difficulty: 50
-			 })
-			 },*/
-		},
 	},
 
 
