@@ -24,7 +24,7 @@ class Avatar extends RkComponent {
 			<View style={[container, style]}>
 				<TouchableOpacity onPress={onPress}>
 					<Image style={imgStyle.image} source={{uri}}/>
-					{badge && (
+					{!!badge && (
 						<View style={imgStyle.badge}>
 							<Icon {...badge} />
 						</View>

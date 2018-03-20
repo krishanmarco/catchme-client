@@ -134,7 +134,6 @@ export default class DaoLocation {
 		_.set(newLocation, DaoLocation.pPhone, DaoLocation.gPhone(location));
 		_.set(newLocation, DaoLocation.pEmail, DaoLocation.gEmail(location));
 		_.set(newLocation, DaoLocation.pTimings, DaoLocation.gTimings(location));
-		_.set(newLocation, DaoLocation.pImageUrls, DaoLocation.gImageUrls(location));
 		_.set(newLocation, DaoLocation.pGooglePlaceId, DaoLocation.gGooglePlaceId(location));
 		_.set(newLocation, DaoLocation.pAddressCountry, DaoLocation.gCountry(location));
 		_.set(newLocation, DaoLocation.pAddressState, DaoLocation.gState(location));
@@ -163,11 +162,12 @@ export default class DaoLocation {
 	}
 	
 	static gPictureUrl(location: TLocation) {
-		return _.get(location, DaoLocation.pPictureUrl);
+		const pictureUri = _.trim(_.get(location, DaoLocation.pPictureUrl));
+		return _.isEmpty(pictureUri) ? Const.DaoLocation.defaultAvatar : pictureUri;
 	}
 	
 	static gTimings(location: TLocation) {
-		return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.intDayDefault);
+		return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.strWeekDefault);
 	}
 	
 	static gPhone(location: TLocation) {

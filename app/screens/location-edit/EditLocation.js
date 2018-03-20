@@ -50,11 +50,13 @@ type Props = {
 // PresentationalComponent ******************************************************************************
 
 class EditLocationPresentational extends React.Component<any, Props, any> {
+	static indexOfTimingsTab = 1;
 
 	constructor(props, context) {
 		super(props, context);
 		this._allowIndexChange = this._allowIndexChange.bind(this);
 		this._onSaveComplete = this._onSaveComplete.bind(this);
+		this._onPreTabChange = this._onPreTabChange.bind(this);
 	}
 
 	componentWillMount() {
@@ -76,8 +78,14 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 
 
 	_allowIndexChange(currentIndex, nextIndex) {
-		// Todo only allow submit if the current tab is completed
+		// Todo only allow next tab if the current tab is completed
 		return true;
+	}
+
+	_onPreTabChange(currentIndex, nextIndex) {
+		if (currentIndex == EditLocation.indexOfTimingsTab) {
+			this.refEditLocationTimings.getWrappedInstance().saveTimingsToLocation();
+		}
 	}
 
 
@@ -85,6 +93,8 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 		return (
 			<ScrollableIconTabView
 				allowIndexChange={this._allowIndexChange}
+				onPreTabChange={this._onPreTabChange}
+				locked={true}
 				icons={[
 					Icons.friendRequestAccept,
 					Icons.friendRequestAccept,
@@ -123,6 +133,7 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 	_renderTabLocationEditTimings() {
 		return (
 			<EditLocationTimings
+				ref={ref => this.refEditLocationTimings = ref}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}

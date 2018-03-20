@@ -170,7 +170,7 @@ class RealmIO {
 	_normalizeLocationFromDb(dbLocation, maxDepth = 1, currentDepth = 0) {
 		const editableLocation = {...dbLocation};
 		
-		_.set(editableLocation, DaoLocation.pImageUrls, JSON.parse(_.get(dbLocation, `${DaoLocation.pImageUrls}.value`)));
+		_.set(editableLocation, DaoLocation.pImageUrls, JSON.parse(_.get(dbLocation, `${DaoLocation.pImageUrls}.value`, [])));
 		
 		_.set(editableLocation, DaoLocation.pPeople, JSON.parse(_.get(dbLocation, `${DaoLocation.pPeople}.value`)));
 		

@@ -123,6 +123,10 @@ export const Urls = {
 export const Const = {
 	
 	packageName: Globals.packageName,
+
+	Development: {
+		devMode: false
+	},
 	
 	
 	NavigationComponents: {

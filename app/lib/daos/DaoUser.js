@@ -164,9 +164,7 @@ export default class DaoUser {
 	}
 	
 	static gAdminLocations(user: TUser): Array<TLocation> {
-		const a=  _.get(user, DaoUser.pAdminLocations, []);
-		console.log("ADMIN LOCATIONS", a);
-		return a;
+		return _.get(user, DaoUser.pAdminLocations, []);
 	}
 	
 	static gConnectionsFriends(user: TUser): Array<TUser> {
