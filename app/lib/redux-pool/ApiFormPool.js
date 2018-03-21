@@ -3,5 +3,5 @@
 export type TApiFormPool<TApiFormObject> = {
 	post: () => {},
 	initState: () => {},
-	validator: () => {}
+	validate: () => {}
 };

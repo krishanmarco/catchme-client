@@ -125,7 +125,7 @@ export const Const = {
 	packageName: Globals.packageName,
 
 	Development: {
-		devMode: false
+		devMode: true
 	},
 	
 	

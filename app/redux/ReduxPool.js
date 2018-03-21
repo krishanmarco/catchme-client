@@ -12,6 +12,7 @@ import {Const} from "../Config";
 import {denormObj, mergeWithoutExtend} from '../lib/HelperFunctions';
 import {FirebaseData} from "../lib/data/Firebase";
 
+import ApiFormEditLocationProfile from '../lib/redux-pool/ApiFormEditLocationProfile';
 
 // Top Level Ids ******************************************************************************************************
 // Top Level Ids ******************************************************************************************************
@@ -134,11 +135,9 @@ export class ReduxPoolApiForms {
 		// each field of this form object
 		this.apiInput = apiInput;
 
-		// ?String when the form is validated
-		// this string should be set (see FormHandlerApi)
-		this.validationError = null;
-
+		this.errors = null;
 		this.apiResponse = null;
+
 		this.loading = false;
 	}
 
@@ -524,12 +523,26 @@ const ReduxPoolBuilder = {
 
 			mergeMapDispatchToProps: (poolId, pool, dispatch) => ({
 
-				change: (apiInput, validationError) => dispatch({
-					poolType: POOL_TYPE_API_FORMS,
-					poolId,
-					type: POOL_ACTION_API_FORMS_ON_CHANGE,
-					apiInput,
-					validationError
+				change: (apiInput, validationError) => dispatch((dispatch, getState) => {
+
+					let errors = {};
+					if (pool.validateOnChange) {
+						const formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
+						errors = pool.validator.validate({...formInput, ...apiInput});
+					}
+
+
+					// validateOnChange: true,
+					// 	validator: ApiFormEditLocationProfile
+
+					dispatch({
+						poolType: POOL_TYPE_API_FORMS,
+						poolId,
+						type: POOL_ACTION_API_FORMS_ON_CHANGE,
+						apiInput,
+						errors
+					});
+
 				}),
 
 				reset: () => dispatch({
@@ -579,16 +592,10 @@ const ReduxPoolBuilder = {
 							apiResponse
 						});
 
-
-						// todo: replace 0 with R::return_ok
-						if (typeof apiResponse === 'object' && 'formError' in apiResponse)
-							if (apiResponse.formError !== 0)
-								return Promise.reject(apiResponse);
-
 						// Request has completed successfully
 						return apiResponse;
 
-					}).catch(apiExceptionResponse => {
+					}).catch(api400 => {
 						// Note: the api has already handled the exception
 						// here you should only do form specific actions
 						// for example set the button out of its loading state
@@ -597,10 +604,11 @@ const ReduxPoolBuilder = {
 						dispatch({
 							poolType: POOL_TYPE_API_FORMS,
 							poolId,
-							type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION
+							type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
+							errors: _.get(JSON.parse(api400), 'errors', {})
 						});
 
-						return apiExceptionResponse;
+						return api400;
 					});
 
 				})
@@ -612,7 +620,8 @@ const ReduxPoolBuilder = {
 		poolActions: {
 			[POOL_ACTION_API_FORMS_ON_CHANGE]: (action, subState) => ({
 				apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
-				validationError: action.validationError
+				validationError: action.validationError,
+				errors: action.errors
 			}),
 			[POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) =>
 				action.newState,
@@ -626,10 +635,10 @@ const ReduxPoolBuilder = {
 			}),
 			[POOL_ACTION_API_FORMS_ON_API_EXCEPTION]: (action, subState) => ({
 				loading: false,
-				apiException: null
+				errors: action.errors
 			}),
 			[POOL_ACTION_API_FORMS_ON_ERROR_DISMISS]: (action, subState) => ({
-				apiResponse: Object.assign({}, subState.apiResponse, {formError: null})
+				errors: null
 			})
 		},
 
@@ -700,7 +709,9 @@ const ReduxPoolBuilder = {
 			},
 			[FORM_API_ID_EDIT_LOCATION_PROFILE]: {
 				post: (i) => ApiClient.userLocationsAdminEditLid(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, DaoLocation.newInstance())
+				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, DaoLocation.newInstance()),
+				validateOnChange: true,
+				validator: ApiFormEditLocationProfile
 			},
 		}
 
@@ -984,7 +995,6 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 
 		// Extra options
 		extraOptions
-
 	)(presentationalComponent);
 }
 

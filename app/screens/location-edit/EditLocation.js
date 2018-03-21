@@ -62,6 +62,7 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 	componentWillMount() {
 		// We now have access to a location profile
 		// Initialize the redux pool form by setting all its values
+		this._formApiEditLocationProfile().reset();
 		this._formApiEditLocationProfile().change(this.props.locationProfile);
 	}
 

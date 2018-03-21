@@ -97,10 +97,12 @@ class EditLocationAddressPresentational extends React.Component<any, Props, any>
 					))}
 				</View>
 				<View style={{width: '100%', height: Dimensions.get('window').height - 190}}>
-					<LocationMap
+					{DaoLocation.hasLatLng(this._formApiEditLocationProfileInput()) && (
+						<LocationMap
 						showsMyLocationButton={true}
 						scrollEnabled={false}
 						locations={[this._formApiEditLocationProfileInput()]}/>
+					)}
 				</View>
 			</ScrollView>
 		);

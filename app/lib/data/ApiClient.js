@@ -38,6 +38,19 @@ class ApiClient {
 				});
 		}
 
+		// CASE 2, status == 400
+		if (response.status === 400) {
+
+			// Request is successful, reset the failed counter
+			this.api401Attempts = 0;
+
+			return response.text()
+				.then(text => {
+					Logger.v(`ApiClient _handleResponse: status(400) for ${url}`, text);
+					return Promise.reject(text);
+				});
+		}
+
 
 
 		// CASE 3, status == 401
@@ -63,7 +76,7 @@ class ApiClient {
 
 
 
-		// CASE 2, status == 500
+		// CASE 4, status == 500
 		if (response.status === 500) {
 			Logger.v(`ApiClient _handleResponse: status(500) for ${url}`);
 
@@ -72,11 +85,13 @@ class ApiClient {
 					const apiException = JSON.parse(json);
 					Logger.v('ApiClient _handleResponse: ', apiException);
 					return Promise.reject(apiException);
+				}).catch(apiException => {
+					// Do nothing on server internal error
 				});
 		}
 
 
-		// CASE 2, status UNKNOWN
+		// CASE 5, status UNKNOWN
 		Logger.v(`ApiClient _handleResponse: status(${response.status}) for ${url}`);
 		return Promise.reject(0);
 	}

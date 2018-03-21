@@ -267,6 +267,11 @@ export default class DaoLocation {
 	static hasPeople(location: TLocation): boolean {
 		return DaoLocation.pPeople in location;
 	}
+
+	static hasLatLng(location: TLocation): boolean {
+		const {lat, lng} = DaoLocation.gLatLng(location);
+		return _.isFinite(lat) && _.isFinite(lng);
+	}
 	
 	
 }
