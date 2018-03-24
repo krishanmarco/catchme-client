@@ -12,41 +12,47 @@ import {Const} from "../Config";
 import {denormObj, mergeWithoutExtend} from '../lib/HelperFunctions';
 import {FirebaseData} from "../lib/data/Firebase";
 
-import ApiFormEditLocationProfile from '../lib/redux-pool/ApiFormEditLocationProfile';
+import ApiFormDefLocationProfile from '../lib/redux-pool/api-forms/ApiFormDefLocationProfile';
+import ApiFormDefUserLocationStatus from '../lib/redux-pool/api-forms/ApiFormDefUserLocationStatus';
+import ApiFormDefUserProfile from '../lib/redux-pool/api-forms/ApiFormDefUserProfile';
+import ApiFormDefChangePassword from '../lib/redux-pool/api-forms/ApiFormDefChangePassword';
+import ApiFormDefRegister from '../lib/redux-pool/api-forms/ApiFormDefRegister';
+import ApiFormDefLogin from '../lib/redux-pool/api-forms/ApiFormDefLogin';
+import ApiFormDef from "../lib/redux-pool/api-forms/ApiFormDef";
 
 // Top Level Ids ******************************************************************************************************
 // Top Level Ids ******************************************************************************************************
 
 // ReduxPool Top Level Type Ids
-const POOL_TYPE_CACHE = 'POOL_TYPE_CACHE';
-const POOL_TYPE_CACHE_MAP = 'POOL_TYPE_CACHE_MAP';
-const POOL_TYPE_API_FORMS = 'POOL_TYPE_API_FORMS';
-const POOL_TYPE_LOCAL_FORMS = 'POOL_TYPE_LOCAL_FORMS';
-const POOL_TYPE_FIREBASE_DATA = 'POOL_TYPE_LOCAL_FORMS';
+export const POOL_TYPE_CACHE = 'POOL_TYPE_CACHE';
+export const POOL_TYPE_CACHE_MAP = 'POOL_TYPE_CACHE_MAP';
+export const POOL_TYPE_API_FORMS = 'POOL_TYPE_API_FORMS';
+export const POOL_TYPE_LOCAL_FORMS = 'POOL_TYPE_LOCAL_FORMS';
+export const POOL_TYPE_FIREBASE_DATA = 'POOL_TYPE_LOCAL_FORMS';
 
 
-const POOL_ACTION_CACHE_INIT_DATA = 'POOL_ACTION_CACHE_INIT_DATA';
-const POOL_ACTION_CACHE_SET_DATA = 'POOL_ACTION_CACHE_SET_DATA';
-const POOL_ACTION_CACHE_INVALIDATE_DATA = 'POOL_ACTION_CACHE_INVALIDATE_DATA';
+export const POOL_ACTION_CACHE_INIT_DATA = 'POOL_ACTION_CACHE_INIT_DATA';
+export const POOL_ACTION_CACHE_SET_DATA = 'POOL_ACTION_CACHE_SET_DATA';
+export const POOL_ACTION_CACHE_INVALIDATE_DATA = 'POOL_ACTION_CACHE_INVALIDATE_DATA';
 
 
-const POOL_ACTION_CACHE_MAP_INIT_DATA = 'POOL_ACTION_CACHE_MAP_INIT_DATA';
-const POOL_ACTION_CACHE_MAP_SET_DATA = 'POOL_ACTION_CACHE_MAP_SET_DATA';
-const POOL_ACTION_CACHE_MAP_INVALIDATE_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
-const POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
+export const POOL_ACTION_CACHE_MAP_INIT_DATA = 'POOL_ACTION_CACHE_MAP_INIT_DATA';
+export const POOL_ACTION_CACHE_MAP_SET_DATA = 'POOL_ACTION_CACHE_MAP_SET_DATA';
+export const POOL_ACTION_CACHE_MAP_INVALIDATE_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
+export const POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
 
 
-const POOL_ACTION_API_FORMS_ON_CHANGE = 'POOL_ACTION_API_FORMS_ON_CHANGE';
-const POOL_ACTION_API_FORMS_ON_RESET = 'POOL_ACTION_API_FORMS_ON_RESET';
-const POOL_ACTION_API_FORMS_ON_POST = 'POOL_ACTION_API_FORMS_ON_POST';
-const POOL_ACTION_API_FORMS_ON_FINISH = 'POOL_ACTION_API_FORMS_ON_FINISH';
-const POOL_ACTION_API_FORMS_ON_API_EXCEPTION = 'POOL_ACTION_API_FORMS_ON_API_EXCEPTION';
-const POOL_ACTION_API_FORMS_ON_ERROR_DISMISS = 'POOL_ACTION_API_FORMS_ON_ERROR_DISMISS';
+export const POOL_ACTION_API_FORMS_ON_CHANGE = 'POOL_ACTION_API_FORMS_ON_CHANGE';
+export const POOL_ACTION_API_FORMS_ON_RESET = 'POOL_ACTION_API_FORMS_ON_RESET';
+export const POOL_ACTION_API_FORMS_ON_POST = 'POOL_ACTION_API_FORMS_ON_POST';
+export const POOL_ACTION_API_FORMS_ON_FINISH = 'POOL_ACTION_API_FORMS_ON_FINISH';
+export const POOL_ACTION_API_FORMS_ON_API_EXCEPTION = 'POOL_ACTION_API_FORMS_ON_API_EXCEPTION';
+export const POOL_ACTION_API_FORMS_ON_ERROR_DISMISS = 'POOL_ACTION_API_FORMS_ON_ERROR_DISMISS';
 
 
-const POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH = 'POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH';
-const POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA = 'POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA';
-const POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS = 'POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS';
+export const POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH = 'POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH';
+export const POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA = 'POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA';
+export const POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS = 'POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS';
 
 
 // Bottom Level Pool Ids **********************************************************************************************
@@ -125,7 +131,7 @@ class ReduxPoolCacheMap {
 
 export class ReduxPoolApiForms {
 
-	constructor(formId, apiInput) {
+	constructor(formId, apiInput, errors = {}) {
 
 		// Unique pId that identifies this form out of all the
 		// possible objects in objectPoolReducerInitState.forms
@@ -135,7 +141,7 @@ export class ReduxPoolApiForms {
 		// each field of this form object
 		this.apiInput = apiInput;
 
-		this.errors = null;
+		this.errors = errors;
 		this.apiResponse = null;
 
 		this.loading = false;
@@ -165,7 +171,7 @@ class ReduxFirebaseData {
 		// Defines how many items to fetch on each loadMore() call
 		this.itemsToLoad = Const.FirebaseDataPool.loadMoreItems;
 
-		// The recieved data
+		// The received data
 		this.data = [];
 
 	}
@@ -232,7 +238,7 @@ function poolIterator(poolDeclaration, poolIds, apply) {
 // ReduxPool Top Level Builders ***************************************************************************************
 
 // The object below declares how the reduxPoolInitState state is built
-const ReduxPoolBuilder = {
+export const ReduxPoolBuilder = {
 
 	// Declare all Top Level Pools (each of the POOL_TYPES)
 	[POOL_TYPE_CACHE]: {
@@ -527,13 +533,9 @@ const ReduxPoolBuilder = {
 
 					let errors = {};
 					if (pool.validateOnChange) {
-						const formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
-						errors = pool.validator.validate({...formInput, ...apiInput});
+						const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
+						errors = pool.validate(apiInput, previousErrors);
 					}
-
-
-					// validateOnChange: true,
-					// 	validator: ApiFormEditLocationProfile
 
 					dispatch({
 						poolType: POOL_TYPE_API_FORMS,
@@ -559,8 +561,22 @@ const ReduxPoolBuilder = {
 				}),
 
 				post: (extraParams) => dispatch((dispatch, getState) => {
+					pool.bindAction(dispatch, getState);	// todo: unbind
 
-					const formInput = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].apiInput;
+					const form = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId];
+					const apiInput = form.apiInput;
+					let errors = form.errors;
+
+					// todo: this code is duplicate, see change function
+					if (pool.validateOnChange) {
+						const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
+						errors = pool.validate(apiInput, previousErrors, true);
+					}
+
+					if (ApiFormDef.hasErrors(errors))
+						return Promise.reject(errors);
+
+
 					dispatch({
 						poolType: POOL_TYPE_API_FORMS,
 						poolId,
@@ -570,7 +586,7 @@ const ReduxPoolBuilder = {
 
 					return pool.post(
 						// data
-						formInput,
+						apiInput,
 
 						// Some post methods like ApiClient.resetPassword
 						// require extra parameters that are passed in through
@@ -599,16 +615,17 @@ const ReduxPoolBuilder = {
 						// Note: the api has already handled the exception
 						// here you should only do form specific actions
 						// for example set the button out of its loading state
+						const errors = _.get(JSON.parse(api400), 'errors', {});
 
 						// Handle the state change
 						dispatch({
 							poolType: POOL_TYPE_API_FORMS,
 							poolId,
 							type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
-							errors: _.get(JSON.parse(api400), 'errors', {})
+							errors
 						});
 
-						return api400;
+						return errors;
 					});
 
 				})
@@ -638,81 +655,17 @@ const ReduxPoolBuilder = {
 				errors: action.errors
 			}),
 			[POOL_ACTION_API_FORMS_ON_ERROR_DISMISS]: (action, subState) => ({
-				errors: null
+				errors: {}
 			})
 		},
 
 		pools: {
-			[FORM_API_ID_LOGIN]: {
-				post: (i, e, d, s) => ApiClient.accountsLogin(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_LOGIN, {
-					email: 'krishanmarco@outlook.com',  // todo remove
-					password: 'MomrpdrbrM93'
-				})
-			},
-			[FORM_API_ID_REGISTER]: {
-				post: (i) => ApiClient.accountsRegister(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_REGISTER, {
-					name: '',
-					email: '',
-					password: '',
-					passwordConfirm: ''
-				})
-			},
-			[FORM_API_ID_CHANGE_PASSWORD]: {
-				post: (i) => ApiClient.accountsChangePassword(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_CHANGE_PASSWORD, {
-					passwordPrevious: '',
-					passwordNext: '',
-					passwordConfirmNext: ''
-				})
-			},
-			[FORM_API_ID_EDIT_USER_PROFILE]: {
-				post: (i, e, dispatch) => {
-					// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
-					const poolTypeCache = ReduxPoolBuilder[POOL_TYPE_CACHE];
-					const poolTypeApiForms = ReduxPoolBuilder[POOL_TYPE_API_FORMS];
-
-					// Get CACHE_ID_USER_PROFILE and FORM_API_ID_EDIT_USER_PROFILE pool
-					const cacheUserProfile = poolTypeCache.pools[CACHE_ID_USER_PROFILE];
-					const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
-
-					// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
-					const userProfileActions = poolTypeCache
-						.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, dispatch);
-
-					const userProfileFormActions = poolTypeApiForms
-						.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, dispatch);
-
-
-					// Post and invalidate CACHE_ID_USER_PROFILE
-					return ApiClient.userProfileEdit(i)
-						.then(() => userProfileActions.invalidate())
-						.then(() => userProfileActions.initialize())
-						.then(({value}) => userProfileFormActions.change(value));
-
-				},
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_PROFILE, denormObj({
-					[DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
-					[DaoUser.pSettingNotifications]: Const.DaoUser.defaultNotificationSettings,
-					[DaoUser.pPictureUrl]: '',
-					[DaoUser.pPhone]: '',
-					[DaoUser.pEmail]: '',
-					[DaoUser.pPublicMessage]: ''
-				}))
-			},
-			[FORM_API_ID_EDIT_USER_LOCATION_STATUS]: {
-				post: (i) => ApiClient.userStatusAdd(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_USER_LOCATION_STATUS, denormObj(
-					DaoUserLocationStatus.createInitialStatus()
-				))
-			},
-			[FORM_API_ID_EDIT_LOCATION_PROFILE]: {
-				post: (i) => ApiClient.userLocationsAdminEditLid(i),
-				initState: () => new ReduxPoolApiForms(FORM_API_ID_EDIT_LOCATION_PROFILE, DaoLocation.newInstance()),
-				validateOnChange: true,
-				validator: ApiFormEditLocationProfile
-			},
+			[FORM_API_ID_LOGIN]: ApiFormDefLogin,
+			[FORM_API_ID_REGISTER]: ApiFormDefRegister,
+			[FORM_API_ID_CHANGE_PASSWORD]: ApiFormDefChangePassword,
+			[FORM_API_ID_EDIT_USER_PROFILE]: ApiFormDefUserProfile,
+			[FORM_API_ID_EDIT_USER_LOCATION_STATUS]: ApiFormDefUserLocationStatus,
+			[FORM_API_ID_EDIT_LOCATION_PROFILE]: ApiFormDefLocationProfile,
 		}
 
 	},

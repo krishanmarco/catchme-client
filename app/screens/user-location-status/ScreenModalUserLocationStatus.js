@@ -83,7 +83,7 @@ class ScreenModalUserLocationStatusPresentational extends React.Component<any, P
 
 
     // Create new initialStatus fallback from redux pool
-    return DaoUserLocationStatus.createInitialStatus(this.props.locationId);
+    return DaoUserLocationStatus.newInstance(this.props.locationId);
   }
 
 

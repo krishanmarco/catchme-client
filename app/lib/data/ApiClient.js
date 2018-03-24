@@ -9,6 +9,9 @@ import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from "../HelperFunctions";
 import type {TUser} from "../daos/DaoUser";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
+import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
+import type {TLocation} from "../daos/DaoLocation";
 
 
 class ApiClient {
@@ -197,7 +200,7 @@ class ApiClient {
 			});
 	}
 
-	accountsRegister(formUserRegister) {
+	accountsRegister(formUserRegister: TApiFormRegister) {
 		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
 			.then(this._onReceiveAuthenticatedUserProfile);
 	}
@@ -217,7 +220,7 @@ class ApiClient {
 			.then(this._onReceiveAuthenticatedUserProfile);
 	}
 
-	accountsChangePassword(formChangePassword) {
+	accountsChangePassword(formChangePassword: TApiFormChangePassword) {
 		return this._post(`${Urls.api}/accounts/password/change`, formChangePassword);
 	}
 
@@ -232,7 +235,7 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/firebase-jwt`);
 	}
 
-	userProfileEdit(userData, filePath = null) {
+	userProfileEdit(userData: TUser, filePath = null) {
 		const formData = Object.keys(userData)
 			.map(key => ({name: key, data: String(userData[key])}));
 
@@ -278,7 +281,7 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/locations/favorites/del/${locationId}`);
 	}
 
-	userLocationsAdminEditLid(location) {
+	userLocationsAdminEditLid(location: TLocation) {
 		location = DaoLocation.apiClean(location);
 
 		// If the locationId == -1 then this is a new location
@@ -288,8 +291,8 @@ class ApiClient {
 		const formData = prepareForMultipart(location);
 
 		if (pictureUri != null && pictureUri != Const.DaoLocation.defaultAvatar) {
-			const n = seconds().toString();
-			formData.push({name: n, filename: n, data: RNFetchBlob.wrap(pictureUri)});
+			const n = seconds().toString();		// todo: rename pictureUrl to avatar (without the URL part)
+			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
 		}
 
 		const url = `${Urls.api}/user/locations/administrating/edit/${locationId}`;

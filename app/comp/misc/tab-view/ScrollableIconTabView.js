@@ -11,17 +11,24 @@ type Props = {
 	onTabChanged?: Function,
 	icons: Array<Object>,
 	children: Array<Node>,
-	locked: boolean
+	locked: boolean,
+	activeColor: ?string,
+	inactiveColor: ?string
 };
 
 type State = {
 	selectedTab: number
 };
 
+const DefaultProps = {
+	// activeColor: Colors.primary,
+	// inactiveColor: Colors.black
+};
+
 // ScrollableIconTabView ******************************************************************
 // ScrollableIconTabView ******************************************************************
 
-export default class ScrollableIconTabView extends React.Component<any, Props, State> {
+export default class ScrollableIconTabView extends React.Component<DefaultProps, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -79,14 +86,15 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
 	}
 
 	_renderCustomTabBar(props) {
+		const {activeColor, inactiveColor, icons} = this.props;
 		return (
 			<DefaultTabBar
 				{...props}
 				onPreTabChange={this._onPreTabChange}
 				allowTabChange={this._allowTabChange}
-				activeColor={Colors.primary}
-				inactiveColor={Colors.black}
-				icons={this.props.icons}/>
+				activeColor={activeColor}
+				inactiveColor={inactiveColor}
+				icons={icons}/>
 		);
 	}
 

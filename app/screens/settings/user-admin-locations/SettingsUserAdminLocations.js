@@ -57,11 +57,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderScreenHeader() {
 		return (
 			<ScreenInfo
-				imageContainerStyle={{marginTop: 64}}
-				imageContainerScale={550}
-				imageHeight={100}
-				imageWidth={150}
-				imageSource={require('../../../assets/images/splashBack.png')}
+				imageSource={require('../../../assets/images/adminLocations.png')}
 				textText='These are the locations you manage'/>
 		);
 	}
@@ -71,6 +67,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 		return (
 			<FlatList
+				style={styles.locationList}
 				data={DaoUser.gAdminLocations(userProfile)}
 				keyExtractor={DaoLocation.gId}
 				ListHeaderComponent={this._renderLocationsHeader()}
@@ -99,3 +96,13 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 }
 
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	locationList: {
+		height: 350,
+		marginTop: 32
+	}
+});

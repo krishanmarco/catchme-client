@@ -3,7 +3,7 @@ import React from 'react';
 
 import {Avatar, Icon} from 'react-native-elements';
 
-import {AvatarCircle} from "../Misc";
+import {AvatarCircle, Touchable} from "../Misc";
 import {Col, Grid} from "react-native-easy-grid";
 
 import {Colors, Icons} from '../../Config';
@@ -92,7 +92,7 @@ type ListItemWithActionProps = {
 };
 
 const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, actions, image}: ListItemWithActionProps) => (
-	<TouchableNativeFeedback onPress={onPress}>
+	<Touchable onPress={onPress}>
 
 		<Grid style={listItemWithActionStyles.root}>
 
@@ -122,7 +122,7 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 			)}
 
 		</Grid>
-	</TouchableNativeFeedback>
+	</Touchable>
 );
 
 ListItemWithActions.defaultProps = {

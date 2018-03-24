@@ -12,13 +12,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {denormObj} from '../../lib/HelperFunctions';
 import {FORM_API_ID_EDIT_LOCATION_PROFILE, poolConnect} from '../../redux/ReduxPool';
-import {Icons} from '../../Config';
+import {Colors, Icons} from '../../Config';
 import {ScrollableIconTabView} from "../../comp/Misc";
 import {View} from 'react-native';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TNavigator} from "../../lib/types/Types";
+import type {TIcon, TNavigator} from "../../lib/types/Types";
 import {TReduxPoolApiForms} from "../../lib/types/ReduxPoolTypes";
+import ApiFormDef from "../../lib/redux-pool/api-forms/ApiFormDef";
 
 
 // Redux ************************************************************************************************
@@ -50,10 +51,14 @@ type Props = {
 // PresentationalComponent ******************************************************************************
 
 class EditLocationPresentational extends React.Component<any, Props, any> {
+	static indexOfInfoTab = 0;
 	static indexOfTimingsTab = 1;
+	static indexOfAddressTab = 2;
+	static indexOfRecapTab = 3;
 
 	constructor(props, context) {
 		super(props, context);
+		this.refTabs = [];
 		this._allowIndexChange = this._allowIndexChange.bind(this);
 		this._onSaveComplete = this._onSaveComplete.bind(this);
 		this._onPreTabChange = this._onPreTabChange.bind(this);
@@ -79,14 +84,26 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 
 
 	_allowIndexChange(currentIndex, nextIndex) {
-		// Todo only allow next tab if the current tab is completed
-		return true;
+		return !this.refTabs[currentIndex].getWrappedInstance().hasErrors();
 	}
 
 	_onPreTabChange(currentIndex, nextIndex) {
 		if (currentIndex == EditLocation.indexOfTimingsTab) {
-			this.refEditLocationTimings.getWrappedInstance().saveTimingsToLocation();
+			this.refTabs[EditLocation.indexOfTimingsTab].getWrappedInstance().saveTimingsToLocation();
 		}
+	}
+
+	_overrideIconColor(icon: TIcon, tabIndex: number) {
+		const wrapperRef = this.refTabs[tabIndex];
+
+		if (wrapperRef) {
+			const ref = wrapperRef.getWrappedInstance();
+
+			if (ref.hasErrors())
+				return {...icon, color: Colors.alertRed};
+		}
+
+		return icon;
 	}
 
 
@@ -96,17 +113,18 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 				allowIndexChange={this._allowIndexChange}
 				onPreTabChange={this._onPreTabChange}
 				locked={true}
+				activeColor={null}
 				icons={[
-					Icons.friendRequestAccept,
-					Icons.friendRequestAccept,
-					Icons.friendRequestAccept,
-					Icons.friendRequestAccept
+					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfInfoTab),
+					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfTimingsTab),
+					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfAddressTab),
+					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfRecapTab)
 				]}>
 				{[
-					this._renderTabLocationEditInfo(),
-					this._renderTabLocationEditTimings(),
-					this._renderTabLocationEditAddress(),
-					this._renderTabLocationEditRecap()
+					this._renderTabEditLocationInfo(),
+					this._renderTabEditLocationTimings(),
+					this._renderTabEditLocationAddress(),
+					this._renderTabEditLocationRecap()
 				].map((jsx, index) => this._renderTab(index.toString(), jsx))}
 			</ScrollableIconTabView>
 		);
@@ -117,39 +135,42 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{height: 440}}>
+				style={{height: 460}}>
 				{jsx}
 			</View>
 		);
 	}
 
 
-	_renderTabLocationEditInfo() {
+	_renderTabEditLocationInfo() {
 		return (
 			<EditLocationInfo
+				ref={ref => this.refTabs[EditLocation.indexOfInfoTab] = ref}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
 
-	_renderTabLocationEditTimings() {
+	_renderTabEditLocationTimings() {
 		return (
 			<EditLocationTimings
-				ref={ref => this.refEditLocationTimings = ref}
+				ref={ref => this.refTabs[EditLocation.indexOfTimingsTab] = ref}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
 
-	_renderTabLocationEditAddress() {
+	_renderTabEditLocationAddress() {
 		return (
 			<EditLocationAddress
+				ref={ref => this.refTabs[EditLocation.indexOfAddressTab] = ref}
 				navigator={this.props.navigator}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
 
-	_renderTabLocationEditRecap() {
+	_renderTabEditLocationRecap() {
 		return (
 			<EditLocationRecap
+				ref={ref => this.refTabs[EditLocation.indexOfRecapTab] = ref}
 				onSaveComplete={this._onSaveComplete}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);

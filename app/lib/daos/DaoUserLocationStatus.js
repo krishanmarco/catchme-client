@@ -31,7 +31,7 @@ export default class DaoUserLocationStatus {
 	}
 	
 	
-	static createInitialStatus(locationId = -1) {
+	static newInstance(locationId = -1) {
 		return denormObj({
 			[DaoUserLocationStatus.pId]: -1,
 			[DaoUserLocationStatus.pLocationId]: locationId,

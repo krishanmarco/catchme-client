@@ -1,89 +1,53 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {Dimensions, Image, TouchableNativeFeedback, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, TouchableNativeFeedback, View} from 'react-native';
 
 import {RkText} from 'react-native-ui-kitten';
 import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
+import {Touchable} from "../Misc";
 
 
 // Flow *************************************************************************************************
 // Flow *************************************************************************************************
 
 type Props = {
-	imageContainerStyle: Object,
-	imageContainerScale: number,
-	imageContainerOnPress: ?Function,
-	imageHeight: number,
-	imageWidth: number,
 	imageSource: Object,
-	textText: string
+	textText?: string,
+	height?: number,
+	marginTop?: number,
+	onPress?: () => {}
 };
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Component *******************************************************************************************
+// Component *******************************************************************************************
 
 export default class ScreenInfo extends React.Component<any, Props, any> {
 
-	constructor(props, context) {
-		super(props, context);
-		this.state = this._mapPropsToState(props);
-	}
-
-
-	componentWillReceiveProps(nextProps) {
-		this.setState(this._mapPropsToState(nextProps));
-	}
-
-	_mapPropsToState(props) {
-		return {
-			imageContainerStyle: this._mapPropsToImageContainerStyle(props),
-			imageStyle: this._mapPropsToImageStyle(props)
-		};
-	}
-
-	_mapPropsToImageContainerStyle(props) {
-		const {imageContainerStyle, imageContainerScale} = props;
-		const contentHeight = scaleModerate(imageContainerScale, 1);
-		const cHeight = Dimensions.get('window').height - contentHeight;
-		const cWidth = Dimensions.get('window').width;
-		return {
-			height: cHeight,
-			width: cWidth,
-			alignItems: 'center',
-			...imageContainerStyle
-		};
-	}
-
-	_mapPropsToImageStyle(props) {
-		const {imageHeight, imageWidth} = props;
-		return {
-			resizeMode: 'cover',
-			marginBottom: scaleVertical(16),
-			height: imageHeight,
-			width: imageWidth
-		};
-	}
-
+	static defaultProps = {
+		height: 150,
+		marginTop: 8,
+	};
 
 	render() {
-		const {imageContainerOnPress, imageSource, textText} = this.props;
-		const {imageContainerStyle, imageStyle} = this.state;
+		const {height, marginTop, imageSource, textText, onPress} = this.props;
 
 		return (
-			<View>
+			<View style={[{height, marginTop}, styles.root]}>
 
-				<View style={imageContainerStyle}>
-					<TouchableNativeFeedback onPress={imageContainerOnPress}>
-						<Image
-							style={imageStyle}
-							source={imageSource}/>
-					</TouchableNativeFeedback>
-				</View>
+				<Touchable
+					style={styles.imageRoot}
+					onPress={onPress}>
+					<Image
+						style={styles.image}
+						source={imageSource}/>
+				</Touchable>
 
-				<View style={{alignItems: 'center', width: '100%'}}>
-					<RkText rkType='secondary6'>{textText}</RkText>
-				</View>
+				{!!textText && (
+					<View style={styles.textRoot}>
+						<RkText style={styles.text} rkType='header6'>{textText}</RkText>
+					</View>
+				)}
 
 			</View>
 		);
@@ -92,8 +56,31 @@ export default class ScreenInfo extends React.Component<any, Props, any> {
 }
 
 
-ScreenInfo.defaultProps = {
-	imageContainerScale: 550,
-	imageHeight: 100,
-	imageWidth: 150
-};
+// Config *********************************************************************************************
+// Config *********************************************************************************************
+
+const styles = StyleSheet.create({
+	root: {
+		width: '100%',
+		alignItems: 'center',
+		paddingVertical: 8
+	},
+	imageRoot: {
+		width: '100%',
+		height: '50%',
+		alignItems: 'center',
+		marginVertical: 16,
+	},
+	image: {
+		resizeMode: 'contain',
+		height: 88
+	},
+	textRoot: {
+		alignItems: 'center',
+		width: '70%',
+		marginVertical: 16
+	},
+	text: {
+		textAlign: 'center'
+	}
+});

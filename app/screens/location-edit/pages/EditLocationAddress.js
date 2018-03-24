@@ -14,6 +14,8 @@ import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
+import ApiFormDef from "../../../lib/redux-pool/api-forms/ApiFormDef";
+import {Validate} from "../../../lib/helpers/Validator";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -53,6 +55,17 @@ class EditLocationAddressPresentational extends React.Component<any, Props, any>
 		this._onGoogleMapsSelectorPress = this._onGoogleMapsSelectorPress.bind(this);
 	}
 
+	hasErrors() {
+		const formErrors = this._formApiEditLocationProfile().errors;
+		return ApiFormDef.hasErrors(formErrors, [
+			DaoLocation.pAddressCountry,
+			DaoLocation.pAddressState,
+			DaoLocation.pAddressCity,
+			DaoLocation.pAddressPostcode,
+			DaoLocation.pAddressAddress
+		]);
+	}
+
 	_onGoogleMapsSelectorPress() {
 		Router.toAddressPickerModal(
 			this.props.navigator,
@@ -72,13 +85,9 @@ class EditLocationAddressPresentational extends React.Component<any, Props, any>
 		return (
 			<ScrollView style={styles.scrollView}>
 				<ScreenInfo
-					imageContainerStyle={styles.imageContainer}
-					imageContainerScale={575}
-					imageContainerOnPress={this._onGoogleMapsSelectorPress}
-					imageHeight={80}
-					imageWidth={80}
-					imageSource={require('../../../assets/images/splashBack.png')}
-					textText='Press the image above to select a location'/>
+					imageSource={require('../../../assets/images/address.png')}
+					textText='Press the image above to select a location'
+					onPress={this._onGoogleMapsSelectorPress}/>
 				<View style={styles.content}>
 					{[
 						{field: DaoLocation.pAddressCountry, label: 'Country'},
@@ -126,7 +135,9 @@ const EditLocationAddress = poolConnect(
 	(dispatch) => ({}),
 
 	// Array of pools to subscribe to
-	[]
+	[],
+
+	{withRef: true}
 );
 
 export default EditLocationAddress;
@@ -139,9 +150,6 @@ export default EditLocationAddress;
 const styles = RkStyleSheet.create(theme => ({
 	scrollView: {
 		flex: 1
-	},
-	imageContainer: {
-		marginTop: 8
 	},
 	content: {
 		paddingHorizontal: 4,

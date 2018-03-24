@@ -14,7 +14,7 @@ const errorStrings = [
 	/** -8  return_error_file_upload_failed **/               'The file upload failed',
 	/** -9  return_error_invalid_social_token **/             'Something wen\'t wrong',
 	/** -10  return_error_field_invalid **/                   'This field was not valid',
-	/** -11 return_error_field_not_set**/                     'You have to fill this field',
+	/** -11 return_error_field_not_set**/                     'Please fill this field',
 	/** -12 return_error_field_length **/                     'The length of this field is invalid',
 	/** -13 return_error_field_length_short **/               'This field is too short',
 	/** -14 return_error_field_length_long **/                'This field is too long',
@@ -22,6 +22,7 @@ const errorStrings = [
 	/** -16 return_error_field_email **/                      'Please insert a valid email',
 	/** -17 return_error_field_url **/                        'That URL was not valid',
 	/** -18 return_error_field_country **/                    'Please insert a valid country',
+	/** -19 return_error_passwords_not_equal **/              'The two passwords do not match',
 ];
 
 const errorIds = {
@@ -44,6 +45,7 @@ const errorIds = {
 	return_error_field_email: -16,
 	return_error_field_url: -17,
 	return_error_field_country: -18,
+	return_error_passwords_not_equal: -19,
 };
 
 
@@ -63,6 +65,22 @@ export class Validate {
 
 		if (max && value.length > max)
 			return errorIds.return_error_field_length_long;
+
+		return errorIds.return_ok;
+	}
+
+	static phone(value: string) {
+		return Validate.string(value, 5, 15);
+	}
+
+	static password(value: string) {
+		return Validate.string(value, 3, 100);
+	}
+
+
+	static passwordsEqual(password1: string, password2: string) {
+		if (password1 != password2)
+			return errorIds.return_error_passwords_not_equal;
 
 		return errorIds.return_ok;
 	}
