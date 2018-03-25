@@ -30,7 +30,8 @@ export class SignInGoogle {
 	}
 	
 	static signInAndGetAccessToken() {
-		return SignInGoogle.signIn().then(SignInGoogle.gAccessToken);
+		return SignInGoogle.signIn()
+			.then(SignInGoogle.gAccessToken);
 	}
 	
 	

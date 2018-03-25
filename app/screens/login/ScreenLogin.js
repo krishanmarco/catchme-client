@@ -61,11 +61,12 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 	_handleSignInSuccess(userProfile: TUser) {
 		if (DaoUser.gApiKey(userProfile) == null) {
 			this._handleSignInError();
-			return;
+			return null;
 		}
 
 		// Login was successful, start app
 		startApplication(userProfile);
+		return userProfile;
 	}
 
 	_getFormApiLogin() {
@@ -73,15 +74,23 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 	}
 
 	_onLoginPress() {
-		this._getFormApiLogin().post().then(this._handleSignInSuccess);
+		this._getFormApiLogin().post()
+			.then(this._handleSignInSuccess)
+			.catch(this._handleSignInError);
 	}
 
 	_onFacebookLogin() {
-		SignInFacebook.signInAndGetAccessToken().then(accessToken => ApiClient.accountsLoginFacebook(accessToken)).then(this._handleSignInSuccess).catch(this._handleSignInError);
+		SignInFacebook.signInAndGetAccessToken()
+			.then(accessToken => ApiClient.accountsLoginFacebook(accessToken))
+			.then(this._handleSignInSuccess)
+			.catch(this._handleSignInError);
 	}
 
 	_onGoogleLogin() {
-		SignInGoogle.signInAndGetAccessToken().then(accessToken => ApiClient.accountsLoginGoogle(accessToken)).then(this._handleSignInSuccess).catch(this._handleSignInError);
+		SignInGoogle.signInAndGetAccessToken()
+			.then(accessToken => ApiClient.accountsLoginGoogle(accessToken))
+			.then(this._handleSignInSuccess)
+			.catch(this._handleSignInError);
 	}
 
 	_onGoToSignupPress() {
@@ -119,6 +128,7 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 
 					<GradientButton
 						style={styles.save}
+						loading={this._getFormApiLogin().loading}
 						rkType='large stretch accentColor'
 						text={'Login'.toUpperCase()}
 						onPress={this._onLoginPress}/>

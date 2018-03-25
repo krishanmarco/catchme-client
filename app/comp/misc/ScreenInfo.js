@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 	},
 	image: {
 		resizeMode: 'contain',
-		height: 88
+		height: '75%'
 	},
 	textRoot: {
 		alignItems: 'center',

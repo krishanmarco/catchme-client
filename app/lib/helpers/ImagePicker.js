@@ -13,7 +13,8 @@ class _ImagePicker {
 				}
 
 				if (response.customButton) {
-					this._handleCustomButtonPress().then(resolve);
+					this._handleCustomButtonPress()
+						.then(resolve);
 					return;
 				}
 

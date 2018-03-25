@@ -81,7 +81,10 @@ function screenSetHeight(layout: Object) {
 }
 
 function screenSetDisablePointerEvents(disablePointerEvents: boolean) {
-	return {type: ACTION_SET_DISABLE_POINTER_EVENTS, disablePointerEvents};
+	return (dispatch) => {
+		Logger.v(`Screen screenSetDisablePointerEvents: disablePointerEvents ${disablePointerEvents}`);
+		dispatch({type: ACTION_SET_DISABLE_POINTER_EVENTS, disablePointerEvents});
+	};
 }
 
 export function screenDisablePointerEvents() {

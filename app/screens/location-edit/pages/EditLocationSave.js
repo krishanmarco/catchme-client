@@ -86,6 +86,7 @@ class EditLocationSavePresentational extends React.Component<any, Props, any> {
 					{DaoLocation.gAddress(this._formApiEditLocationProfileInput())}
 				</RkText>
 				<GradientButton
+					loading={this._formApiEditLocationProfile().loading}
 					rkType='large'
 					style={styles.saveButton}
 					onPress={this._onLocationSave}

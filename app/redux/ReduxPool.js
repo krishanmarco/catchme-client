@@ -19,6 +19,7 @@ import ApiFormDefChangePassword from '../lib/redux-pool/api-forms/ApiFormDefChan
 import ApiFormDefRegister from '../lib/redux-pool/api-forms/ApiFormDefRegister';
 import ApiFormDefLogin from '../lib/redux-pool/api-forms/ApiFormDefLogin';
 import ApiFormDef from "../lib/redux-pool/api-forms/ApiFormDef";
+import {screenDisablePointerEvents, screenEnablePointerEvents} from "../comp/misc/Screen";
 
 // Top Level Ids ******************************************************************************************************
 // Top Level Ids ******************************************************************************************************
@@ -45,6 +46,7 @@ export const POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA = 'POOL_ACTION_CACHE_MAP_
 export const POOL_ACTION_API_FORMS_ON_CHANGE = 'POOL_ACTION_API_FORMS_ON_CHANGE';
 export const POOL_ACTION_API_FORMS_ON_RESET = 'POOL_ACTION_API_FORMS_ON_RESET';
 export const POOL_ACTION_API_FORMS_ON_POST = 'POOL_ACTION_API_FORMS_ON_POST';
+export const POOL_ACTION_API_FORMS_ON_SUCCESS = 'POOL_ACTION_API_FORMS_ON_SUCCESS';
 export const POOL_ACTION_API_FORMS_ON_FINISH = 'POOL_ACTION_API_FORMS_ON_FINISH';
 export const POOL_ACTION_API_FORMS_ON_API_EXCEPTION = 'POOL_ACTION_API_FORMS_ON_API_EXCEPTION';
 export const POOL_ACTION_API_FORMS_ON_ERROR_DISMISS = 'POOL_ACTION_API_FORMS_ON_ERROR_DISMISS';
@@ -554,6 +556,13 @@ export const ReduxPoolBuilder = {
 					newState: pool.initState()
 				}),
 
+				setErrors: (errors) => dispatch({
+					poolType: POOL_TYPE_API_FORMS,
+					poolId,
+					type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
+					errors
+				}),
+
 				dismissError: () => dispatch({
 					poolType: POOL_TYPE_API_FORMS,
 					poolId,
@@ -561,7 +570,7 @@ export const ReduxPoolBuilder = {
 				}),
 
 				post: (extraParams) => dispatch((dispatch, getState) => {
-					pool.bindAction(dispatch, getState);	// todo: unbind
+					pool.bindAction(dispatch, getState);	// todo: unbind at the end
 
 					const form = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId];
 					const apiInput = form.apiInput;
@@ -573,9 +582,17 @@ export const ReduxPoolBuilder = {
 						errors = pool.validate(apiInput, previousErrors, true);
 					}
 
-					if (ApiFormDef.hasErrors(errors))
+					if (ApiFormDef.hasErrors(errors)) {
+						const setErrors = ReduxPoolBuilder[POOL_TYPE_API_FORMS]
+							.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch).setErrors;
+						setErrors(errors);
 						return Promise.reject(errors);
+					}
 
+
+					// Disable screen
+					if (pool.disableScreenOnLoading)
+						dispatch(screenDisablePointerEvents());
 
 					dispatch({
 						poolType: POOL_TYPE_API_FORMS,
@@ -604,7 +621,7 @@ export const ReduxPoolBuilder = {
 						dispatch({
 							poolType: POOL_TYPE_API_FORMS,
 							poolId,
-							type: POOL_ACTION_API_FORMS_ON_FINISH,
+							type: POOL_ACTION_API_FORMS_ON_SUCCESS,
 							apiResponse
 						});
 
@@ -616,16 +633,23 @@ export const ReduxPoolBuilder = {
 						// here you should only do form specific actions
 						// for example set the button out of its loading state
 						const errors = _.get(JSON.parse(api400), 'errors', {});
+						const setErrors = ReduxPoolBuilder[POOL_TYPE_API_FORMS]
+							.poolConnect.mergeMapDispatchToProps(poolId, pool, dispatch).setErrors;
+						setErrors(errors);
+						return errors;
+					}).finally(userProfile => {
 
-						// Handle the state change
 						dispatch({
 							poolType: POOL_TYPE_API_FORMS,
 							poolId,
-							type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
-							errors
+							type: POOL_ACTION_API_FORMS_ON_FINISH,
 						});
 
-						return errors;
+						// Enable screen
+						if (pool.disableScreenOnLoading)
+							dispatch(screenEnablePointerEvents());
+
+						return userProfile;
 					});
 
 				})
@@ -646,13 +670,14 @@ export const ReduxPoolBuilder = {
 				loading: true,
 				apiResponse: null
 			}),
-			[POOL_ACTION_API_FORMS_ON_FINISH]: (action, subState) => ({
-				loading: false,
+			[POOL_ACTION_API_FORMS_ON_SUCCESS]: (action, subState) => ({
 				apiResponse: action.apiResponse
 			}),
 			[POOL_ACTION_API_FORMS_ON_API_EXCEPTION]: (action, subState) => ({
-				loading: false,
 				errors: action.errors
+			}),
+			[POOL_ACTION_API_FORMS_ON_FINISH]: (action, subState) => ({
+				loading: false,
 			}),
 			[POOL_ACTION_API_FORMS_ON_ERROR_DISMISS]: (action, subState) => ({
 				errors: {}
