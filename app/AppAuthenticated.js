@@ -40,94 +40,112 @@ import type {TUser} from "./lib/daos/DaoUser";
 import ScreenNewLocation from "./screens/location-edit/ScreenNewLocation";
 
 
-export default function run(authenticatedUser: TUser) {
+export default function initializeAuthenticatedApp(authUser: TUser) {
 
-  const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk, promiseMiddleware()));
+	// Set the api keys before starting the app
+	// Make sure update is called before authenticateFirebase
+	ApiAuthentication.update(DaoUser.gId(authUser), DaoUser.gApiKey(authUser));
 
-  [
-    {name: Const.NavigationComponents.ScreenUserProfile, getComponent: () => ScreenUserProfile},
-    {name: Const.NavigationComponents.ScreenLocationProfile, getComponent: () => ScreenLocationProfile},
-    {name: Const.NavigationComponents.ScreenSearch, getComponent: () => ScreenSearch},
-    {name: Const.NavigationComponents.ScreenFeed, getComponent: () => ScreenFeed},
-    {name: Const.NavigationComponents.ScreenFeaturedAds, getComponent: () => ScreenFeaturedAds},
+	return ApiClient.authenticateFirebase()
+		.then(() => start(authUser))
+		.catch(error => {
+			// todo: handle error
+		});
 
-    {name: Const.NavigationComponents.ScreenEditLocation, getComponent: () => ScreenEditLocation},
-    {name: Const.NavigationComponents.ScreenNewLocation, getComponent: () => ScreenNewLocation},
-
-    {name: Const.NavigationComponents.ModalCamera, getComponent: () => CameraWrapper},
-    {name: Const.NavigationComponents.ModalTiming, getComponent: () => ModalTiming},
-    {name: Const.NavigationComponents.ModalAddressPicker, getComponent: () => ModalAddressPicker},
-    {name: Const.NavigationComponents.ModalUserLocationStatus, getComponent: () => ScreenModalUserLocationStatus},
-
-    {name: Const.NavigationComponents.ScreenSettingsUserAccount, getComponent: () => ScreenSettingsUserAccount},
-    {name: Const.NavigationComponents.ScreenSettingsAdminLocations, getComponent: () => ScreenSettingsAdminLocations},
-    {name: Const.NavigationComponents.ScreenSettingsUserNotifications, getComponent: () => ScreenSettingsUserNotifications},
-    {name: Const.NavigationComponents.ScreenSettingsChangePassword, getComponent: () => ScreenSettingsChangePassword},
-    {name: Const.NavigationComponents.ScreenLogout, getComponent: () => ScreenLogout},
-    {name: Const.NavigationComponents.ScreenAddContacts, getComponent: () => ScreenAddContacts},
-    {name: Const.NavigationComponents.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
-
-  ].map(route => Navigation.registerComponent(route.name, route.getComponent, store, Provider));
+}
 
 
-  Navigation.startTabBasedApp({
-    tabs: [
-      {
-        icon: require('./assets/icons/iosPerson.png'),
-        selectedIcon: require('./assets/icons/iosPerson.png'),
-        screen: Const.NavigationComponents.ScreenUserProfile,
-        passProps: {userId: DaoUser.gId(authenticatedUser)},
-        title: 'Catchme',
-        navigatorStyle: {},
-        /*navigatorButtons: {
-          leftButtons: [
-            {
-              id: 'NAV_BUTTON_ID_CATCHME_LOGO',
-              icon: require('./assets/images/screenLoginBackground.png'),
-            }
-          ]
-        }*/
-      },
-      {
-        icon: require('./assets/icons/search.png'),
-        selectedIcon: require('./assets/icons/search.png'),
-        screen: Const.NavigationComponents.ScreenSearch,
-        title: 'Search',
-        navigatorStyle: {}
-      },
-      {
-        icon: require('./assets/icons/feed.png'),
-        selectedIcon: require('./assets/icons/feed.png'),
-        screen: Const.NavigationComponents.ScreenFeed,
-        title: 'Feed',
-        navigatorStyle: {}
-      },
-      {
-        icon: require('./assets/icons/spotlight.png'),
-        selectedIcon: require('./assets/icons/spotlight.png'),
-        screen: Const.NavigationComponents.ScreenFeaturedAds,
-        title: 'Featured',
-        navigatorStyle: {}
-      }
-    ],
-    tabsStyle: {
-      initialTabIndex: 0,
-      tabBarButtonColor: Colors.black,
-      tabBarSelectedButtonColor: Colors.primary,
-    },
-    appStyle: {
-      initialTabIndex: 0,
-      tabBarButtonColor: Colors.black,
-      tabBarSelectedButtonColor: Colors.primary,
+function start(authenticatedUser: TUser) {
 
-      statusBarColor: Colors.primary,
-      screenBackgroundColor: Colors.background,
+	const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk, promiseMiddleware()));
 
-      navBarBackgroundColor: Colors.primary,
-      navBarButtonColor: Colors.white,
-      navBarTextColor: Colors.white,
-    },
-  });
+	[
+		{name: Const.NavigationComponents.ScreenUserProfile, getComponent: () => ScreenUserProfile},
+		{name: Const.NavigationComponents.ScreenLocationProfile, getComponent: () => ScreenLocationProfile},
+		{name: Const.NavigationComponents.ScreenSearch, getComponent: () => ScreenSearch},
+		{name: Const.NavigationComponents.ScreenFeed, getComponent: () => ScreenFeed},
+		{name: Const.NavigationComponents.ScreenFeaturedAds, getComponent: () => ScreenFeaturedAds},
+
+		{name: Const.NavigationComponents.ScreenEditLocation, getComponent: () => ScreenEditLocation},
+		{name: Const.NavigationComponents.ScreenNewLocation, getComponent: () => ScreenNewLocation},
+
+		{name: Const.NavigationComponents.ModalCamera, getComponent: () => CameraWrapper},
+		{name: Const.NavigationComponents.ModalTiming, getComponent: () => ModalTiming},
+		{name: Const.NavigationComponents.ModalAddressPicker, getComponent: () => ModalAddressPicker},
+		{name: Const.NavigationComponents.ModalUserLocationStatus, getComponent: () => ScreenModalUserLocationStatus},
+
+		{name: Const.NavigationComponents.ScreenSettingsUserAccount, getComponent: () => ScreenSettingsUserAccount},
+		{name: Const.NavigationComponents.ScreenSettingsAdminLocations, getComponent: () => ScreenSettingsAdminLocations},
+		{
+			name: Const.NavigationComponents.ScreenSettingsUserNotifications,
+			getComponent: () => ScreenSettingsUserNotifications
+		},
+		{name: Const.NavigationComponents.ScreenSettingsChangePassword, getComponent: () => ScreenSettingsChangePassword},
+		{name: Const.NavigationComponents.ScreenLogout, getComponent: () => ScreenLogout},
+		{name: Const.NavigationComponents.ScreenAddContacts, getComponent: () => ScreenAddContacts},
+		{name: Const.NavigationComponents.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
+
+	].map(route => Navigation.registerComponent(route.name, route.getComponent, store, Provider));
+
+
+	Navigation.startTabBasedApp({
+		tabs: [
+			{
+				icon: require('./assets/icons/iosPerson.png'),
+				selectedIcon: require('./assets/icons/iosPerson.png'),
+				screen: Const.NavigationComponents.ScreenUserProfile,
+				passProps: {userId: DaoUser.gId(authenticatedUser)},
+				title: 'Catchme',
+				navigatorStyle: {},
+				/*navigatorButtons: {
+					leftButtons: [
+						{
+							id: 'NAV_BUTTON_ID_CATCHME_LOGO',
+							icon: require('./assets/images/screenLoginBackground.png'),
+						}
+					]
+				}*/
+			},
+			{
+				icon: require('./assets/icons/search.png'),
+				selectedIcon: require('./assets/icons/search.png'),
+				screen: Const.NavigationComponents.ScreenSearch,
+				title: 'Search',
+				navigatorStyle: {}
+			},
+			{
+				icon: require('./assets/icons/feed.png'),
+				selectedIcon: require('./assets/icons/feed.png'),
+				screen: Const.NavigationComponents.ScreenFeed,
+				title: 'Feed',
+				navigatorStyle: {}
+			},
+			{
+				icon: require('./assets/icons/spotlight.png'),
+				selectedIcon: require('./assets/icons/spotlight.png'),
+				screen: Const.NavigationComponents.ScreenFeaturedAds,
+				title: 'Featured',
+				navigatorStyle: {}
+			}
+		],
+		tabsStyle: {
+			initialTabIndex: 0,
+			tabBarButtonColor: Colors.black,
+			tabBarSelectedButtonColor: Colors.primary,
+		},
+		appStyle: {
+			initialTabIndex: 0,
+			tabBarButtonColor: Colors.black,
+			tabBarSelectedButtonColor: Colors.primary,
+
+			statusBarColor: Colors.primary,
+			screenBackgroundColor: Colors.background,
+
+			navBarBackgroundColor: Colors.primary,
+			navBarButtonColor: Colors.white,
+			navBarTextColor: Colors.white,
+		},
+	});
 
 
 }

@@ -194,13 +194,11 @@ class ApiClient {
 	_onUserLoginSuccess(userProfileJson): Promise<TUser> {
 		const userForRealm: TUser = JSON.parse(userProfileJson);
 		const userForReturn: TUser = JSON.parse(userProfileJson);
-		RealmIO.setLocalUser(userForRealm);
 
-		// Make sure update is called before authenticateFirebase
+		RealmIO.setLocalUser(userForRealm);
 		ApiAuthentication.update(DaoUser.gId(userForReturn), DaoUser.gApiKey(userForReturn));
 
-		return this.authenticateFirebase()
-			.then(() => userForReturn);  // todo: return RealmIO.getLocalUserData();
+		return userForReturn;
 	}
 
 	accountsRegister(formUserRegister: TApiFormRegister) {

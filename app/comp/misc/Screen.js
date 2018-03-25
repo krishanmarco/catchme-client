@@ -1,43 +1,67 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
 import _ from 'lodash';
+import {connect} from 'react-redux';
 import Logger from "../../lib/Logger";
 import React from 'react';
 import {Colors} from "../../Config";
 import {Keyboard, StyleSheet, View} from 'react-native';
 import {RkAvoidKeyboard} from 'react-native-ui-kitten';
 
-// Flow ***********************************************************************************************
-// Flow ***********************************************************************************************
+
+// Const **********************************************************************************************
+// Const **********************************************************************************************
 
 type Props = {
 	style: ?Object,
-	children: Node
+	children: Node,
+	height: number,
+	disablePointerEvents: boolean,
+	setHeight: (Object) => {}
 };
 
 type State = {
-	height: number
+	// Nothing for now
 };
 
-// Screen ***********************************************************************************************
-// Screen ***********************************************************************************************
+const ScreenConst = {
+	lastRegisteredHeight: 0,
+	initialHeight: 0
+};
 
-export default class Screen extends React.Component<any, Props, State> {
-	static screenInitialHeight = 0;
-	static screenLastRegisteredHeight = 0;
+// Redux ************************************************************************************************
+// Redux ************************************************************************************************
 
-	constructor(props, context) {
-		super(props, context);
-		this._onLayout = this._onLayout.bind(this);
-		this.state = {height: Screen.screenLastRegisteredHeight};
+const ACTION_SET_HEIGHT = 'ACTION_SET_HEIGHT';
+const ACTION_SET_DISABLE_POINTER_EVENTS = 'ACTION_SET_DISABLE_POINTER_EVENTS';
+
+const screenInitState = {
+	height: ScreenConst.lastRegisteredHeight,
+	disablePointerEvents: false
+};
+
+export function screenReducer(state = screenInitState, action) {
+	switch (action.type) {
+		case ACTION_SET_HEIGHT:
+			return Object.assign({}, state, {
+				height: action.height
+			});
+
+		case ACTION_SET_DISABLE_POINTER_EVENTS:
+			return Object.assign({}, state, {
+				disablePointerEvents: action.disablePointerEvents
+			});
 	}
+	return state;
+}
 
-	_onLayout(layout) {
+function screenSetHeight(layout: Object) {
+	return (dispatch, getState) => {
 		// layout: {nativeEvent: { layout: {x, y, width, height}}}
 		const measuredHeight = _.get(layout, 'nativeEvent.layout.height');
-		const currentHeight = this.state.height;
+		const currentHeight = getState().screenReducer.height;
 
 		// Check if the height of this screen has changed
-		if (currentHeight !== Screen.screenInitialHeight)
+		if (currentHeight !== ScreenConst.initialHeight)
 			return;
 
 		if (currentHeight === measuredHeight)
@@ -45,18 +69,41 @@ export default class Screen extends React.Component<any, Props, State> {
 
 		// The height has changed, save it to the screenLastRegisteredHeight so the
 		// next component might save a re-render
-		Logger.v("Screen _onLayout: Updating for new height: " + measuredHeight);
+		Logger.v("Screen screenSetHeight: Updating for new height: " + measuredHeight);
 
-		Screen.screenLastRegisteredHeight = measuredHeight;
-		this.setState({height: measuredHeight});
-	}
+		ScreenConst.lastRegisteredHeight = measuredHeight;
+		dispatch({
+			type: ACTION_SET_HEIGHT,
+			height: measuredHeight
+		});
+
+	};
+}
+
+function screenSetDisablePointerEvents(disablePointerEvents: boolean) {
+	return {type: ACTION_SET_DISABLE_POINTER_EVENTS, disablePointerEvents};
+}
+
+export function screenDisablePointerEvents() {
+	return screenSetDisablePointerEvents(true);
+}
+
+export function screenEnablePointerEvents() {
+	return screenSetDisablePointerEvents(false);
+}
+
+// Screen ***********************************************************************************************
+// Screen ***********************************************************************************************
+
+class Screen extends React.Component<any, Props, State> {
 
 	render() {
-		const {children, style} = this.props;
-		const {height} = this.state;
-
+		const {children, style, height, disablePointerEvents, setHeight} = this.props;
 		return (
-			<View style={[styles.view, style]} onLayout={this._onLayout}>
+			<View
+				style={[styles.view, style]}
+				onLayout={setHeight}
+				pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
 				<View style={{height}}>
 					<RkAvoidKeyboard style={styles.view}>
 						{children}
@@ -68,12 +115,23 @@ export default class Screen extends React.Component<any, Props, State> {
 
 }
 
-// Screen ***********************************************************************************************
-// Screen ***********************************************************************************************
+export default connect(
+	// mapStateToProps
+	state => state.screenReducer,
+
+	// mapDispatchToProps
+	dispatch => ({
+		setHeight: (layout) => dispatch(screenSetHeight(layout))
+	})
+)(Screen);
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
 	view: {
 		flex: 1,
 		backgroundColor: Colors.background
-	}
+	},
 });
