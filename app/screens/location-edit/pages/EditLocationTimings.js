@@ -11,6 +11,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import DaoLocation from "../../../lib/daos/DaoLocation";
+import ApiFormDef from "../../../lib/redux-pool/api-forms/ApiFormDef";
 
 
 // Redux ************************************************************************************************
@@ -30,8 +31,8 @@ export function editLocationTimingsReducer(state = editLocationTimingsInitState,
 }
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: Navigator,
@@ -53,6 +54,11 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 	constructor(props, context) {
 		super(props, context);
 		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfileInput())};
+	}
+
+	hasErrors() {
+		const formErrors = this._formApiEditLocationProfile().errors;
+		return ApiFormDef.hasErrors(formErrors, [DaoLocation.pTimings]);
 	}
 
 	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {

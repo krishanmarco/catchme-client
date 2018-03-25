@@ -6,7 +6,7 @@ import DaoFeed from "../../lib/daos/DaoFeed";
 import HTMLView from 'react-native-htmlview';
 
 import React from 'react';
-import {AvatarCircle} from "../../comp/Misc";
+import {AvatarCircle, Touchable} from "../../comp/Misc";
 import {Col, Grid} from "react-native-easy-grid";
 import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
@@ -15,8 +15,8 @@ import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TNavigator} from "../../lib/types/Types";
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: TNavigator,
@@ -58,7 +58,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 	render() {
 		return (
-			<TouchableNativeFeedback onPress={this._onItemPress}>
+			<Touchable onPress={this._onItemPress}>
 				<Grid style={styles.listItem}>
 					<Col size={100} style={{marginRight: 8}}>
 						<View style={styles.listItemHeaderContent}>
@@ -73,7 +73,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 					{this._renderActions()}
 					{this._renderRightAvatar()}
 				</Grid>
-			</TouchableNativeFeedback>
+			</Touchable>
 		);
 	}
 

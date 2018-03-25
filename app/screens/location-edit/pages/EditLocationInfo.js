@@ -13,6 +13,8 @@ import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import EditLocation from "../EditLocation";
+import ApiFormDef from "../../../lib/redux-pool/api-forms/ApiFormDef";
 
 
 // Redux ************************************************************************************************
@@ -32,8 +34,8 @@ export function editLocationInfoReducer(state = editLocationInfoInitState, actio
 }
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: Navigator,
@@ -53,6 +55,17 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 		this._onLocationPicturePress = this._onLocationPicturePress.bind(this);
 	}
 
+	hasErrors() {
+		const formErrors = this._formApiEditLocationProfile().errors;
+		return ApiFormDef.hasErrors(formErrors, [
+			DaoLocation.pName,
+			DaoLocation.pEmail,
+			DaoLocation.pPhone,
+			DaoLocation.pCapacity,
+			DaoLocation.pDescription
+		]);
+	}
+
 	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
 		return this.props.formApiEditLocationProfile;
 	}
@@ -69,8 +82,8 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 				});
 
 			}).catch((error) => {
-				// User canceled or error
-			});
+			// User canceled or error
+		});
 	}
 
 
@@ -144,7 +157,9 @@ const EditLocationInfo = poolConnect(
 	(dispatch) => ({}),
 
 	// Array of pools to subscribe to
-	[]
+	[],
+
+	{withRef: true}
 );
 
 export default EditLocationInfo;

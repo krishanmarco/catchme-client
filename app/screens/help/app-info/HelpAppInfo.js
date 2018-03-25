@@ -4,8 +4,8 @@ import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
 import {View} from 'react-native';
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: Navigator
@@ -25,11 +25,7 @@ export default class HelpAppInfo extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ScreenInfo
-					imageContainerStyle={styles.imageContainer}
-					imageContainerScale={550}
-					imageHeight={100}
-					imageWidth={150}
-					imageSource={require('../../../assets/images/splashBack.png')}
+					imageSource={require('../../../assets/images/meLogo.png')}
 					textText='Catchme info...'/>
 			</View>
 		);
@@ -41,7 +37,5 @@ export default class HelpAppInfo extends React.Component<any, Props, any> {
 // Style ************************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-	imageContainer: {
-		marginTop: 64
-	}
+
 }));

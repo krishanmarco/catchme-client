@@ -5,10 +5,11 @@ import {Icon} from 'react-native-elements';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import type {TDataPoint} from "../../lib/types/Types";
+import {Touchable} from "../Misc";
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = TDataPoint & {
   subTitle?: string,
@@ -21,7 +22,7 @@ type Props = TDataPoint & {
 // PresentationalComponent ******************************************************************************
 
 export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}: Props) => (
-    <TouchableOpacity onPress={onPress} style={styles.root}>
+    <Touchable onPress={onPress} style={styles.root}>
       <Grid style={styles.grid}>
 
         {!!icon && (
@@ -40,7 +41,7 @@ export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkT
         )}
 
       </Grid>
-    </TouchableOpacity>
+    </Touchable>
 );
 
 ListItemInfo.defaultProps = {

@@ -15,8 +15,8 @@ import {View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: TNavigator
@@ -53,11 +53,7 @@ class ScreenSettingsChangePasswordPresentational extends React.Component<any, Pr
 			<Screen>
 				<View>
 					<ScreenInfo
-						imageContainerStyle={styles.imageContainer}
-						imageContainerScale={575}
-						imageHeight={80}
-						imageWidth={150}
-						imageSource={require('../../../assets/images/splashBack.png')}
+						imageSource={require('../../../assets/images/lock.png')}
 						textText='Change password...'/>
 					<View>
 						<RkTextInputFromPool
@@ -111,9 +107,6 @@ export default ScreenSettingsChangePassword;
 // Config ***********************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-	imageContainer: {
-		marginTop: 64
-	},
 	confirm: {
 		marginVertical: 9,
 	}

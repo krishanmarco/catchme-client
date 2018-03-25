@@ -9,6 +9,11 @@ import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from "../HelperFunctions";
 import type {TUser} from "../daos/DaoUser";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
+import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
+import type {TLocation} from "../daos/DaoLocation";
+import {startApplication} from "../../App";
+import firebase from "./Firebase";
 
 
 class ApiClient {
@@ -19,7 +24,7 @@ class ApiClient {
 		this._get = this._get.bind(this);
 		this._post = this._post.bind(this);
 		this._postMultipart = this._postMultipart.bind(this);
-		this._onReceiveAuthenticatedUserProfile = this._onReceiveAuthenticatedUserProfile.bind(this);
+		this._onUserLoginSuccess = this._onUserLoginSuccess.bind(this);
 	}
 
 
@@ -35,6 +40,19 @@ class ApiClient {
 				.then(text => {
 					Logger.v(`ApiClient _handleResponse: status(200) for ${url}`, text);
 					return text;
+				});
+		}
+
+		// CASE 2, status == 400
+		if (response.status === 400) {
+
+			// Request is successful, reset the failed counter
+			this.api401Attempts = 0;
+
+			return response.text()
+				.then(text => {
+					Logger.v(`ApiClient _handleResponse: status(400) for ${url}`, text);
+					return Promise.reject(text);
 				});
 		}
 
@@ -63,7 +81,7 @@ class ApiClient {
 
 
 
-		// CASE 2, status == 500
+		// CASE 4, status == 500
 		if (response.status === 500) {
 			Logger.v(`ApiClient _handleResponse: status(500) for ${url}`);
 
@@ -72,11 +90,13 @@ class ApiClient {
 					const apiException = JSON.parse(json);
 					Logger.v('ApiClient _handleResponse: ', apiException);
 					return Promise.reject(apiException);
+				}).catch(apiException => {
+					// Do nothing on server internal error
 				});
 		}
 
 
-		// CASE 2, status UNKNOWN
+		// CASE 5, status UNKNOWN
 		Logger.v(`ApiClient _handleResponse: status(${response.status}) for ${url}`);
 		return Promise.reject(0);
 	}
@@ -171,38 +191,37 @@ class ApiClient {
 
 
 
-	_onReceiveAuthenticatedUserProfile(userProfileJson) {
-		return Promise.resolve(userProfileJson)
-			.then(userDataJSON => {
-				const instanceForDb = JSON.parse(userDataJSON);
-				const instanceForReturn = JSON.parse(userDataJSON);
-				RealmIO.setLocalUser(instanceForDb);
-				ApiAuthentication.update(DaoUser.gId(instanceForReturn), DaoUser.gApiKey(instanceForReturn));
-				return instanceForReturn;// todo: return RealmIO.getLocalUserData();
-			});
+	_onUserLoginSuccess(userProfileJson): Promise<TUser> {
+		const userForRealm: TUser = JSON.parse(userProfileJson);
+		const userForReturn: TUser = JSON.parse(userProfileJson);
+
+		RealmIO.setLocalUser(userForRealm);
+		ApiAuthentication.update(DaoUser.gId(userForReturn), DaoUser.gApiKey(userForReturn));
+
+		return userForReturn;
 	}
 
-	accountsRegister(formUserRegister) {
+	accountsRegister(formUserRegister: TApiFormRegister) {
 		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
-			.then(this._onReceiveAuthenticatedUserProfile);
+			.then(this._onUserLoginSuccess);
 	}
 
 	accountsLogin(formUserLogin) {
 		return this._post(`${Urls.api}/accounts/login`, formUserLogin)
-			.then(this._onReceiveAuthenticatedUserProfile);
+			.then(this._onUserLoginSuccess);
 	}
 
 	accountsLoginFacebook(accessToken) {
 		return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
-			.then(this._onReceiveAuthenticatedUserProfile);
+			.then(this._onUserLoginSuccess);
 	}
 
 	accountsLoginGoogle(accessToken) {
 		return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
-			.then(this._onReceiveAuthenticatedUserProfile);
+			.then(this._onUserLoginSuccess);
 	}
 
-	accountsChangePassword(formChangePassword) {
+	accountsChangePassword(formChangePassword: TApiFormChangePassword) {
 		return this._post(`${Urls.api}/accounts/password/change`, formChangePassword);
 	}
 
@@ -210,14 +229,21 @@ class ApiClient {
 
 	userProfile() {
 		return this._get(Urls.api + '/user/profile')
-			.then(this._onReceiveAuthenticatedUserProfile);
+			.then(this._onUserLoginSuccess);
 	}
 
-	userFirebaseJwt() {
-		return this._get(`${Urls.api}/user/firebase-jwt`);
+	authenticateFirebase() {
+		return this._get(`${Urls.api}/user/firebase-jwt`)
+			.then(jwt => {
+				Logger.v(`ApiClient userFirebaseJwt: Received firebase jwt ${jwt}`);
+				return firebase.auth().signInWithCustomToken(jwt);
+			})
+			.catch(exception => {
+				Logger.e("ApiClient authenticateFirebase: Failed to login to firebase: ", exception);
+			});
 	}
 
-	userProfileEdit(userData, filePath = null) {
+	userProfileEdit(userData: TUser, filePath = null) {
 		const formData = Object.keys(userData)
 			.map(key => ({name: key, data: String(userData[key])}));
 
@@ -263,7 +289,7 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/locations/favorites/del/${locationId}`);
 	}
 
-	userLocationsAdminEditLid(location) {
+	userLocationsAdminEditLid(location: TLocation) {
 		location = DaoLocation.apiClean(location);
 
 		// If the locationId == -1 then this is a new location
@@ -273,8 +299,8 @@ class ApiClient {
 		const formData = prepareForMultipart(location);
 
 		if (pictureUri != null && pictureUri != Const.DaoLocation.defaultAvatar) {
-			const n = seconds().toString();
-			formData.push({name: n, filename: n, data: RNFetchBlob.wrap(pictureUri)});
+			const n = seconds().toString();		// todo: rename pictureUrl to avatar (without the URL part)
+			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
 		}
 
 		const url = `${Urls.api}/user/locations/administrating/edit/${locationId}`;

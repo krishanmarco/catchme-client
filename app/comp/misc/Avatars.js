@@ -3,6 +3,7 @@ import React from 'react';
 import {Icon} from 'react-native-elements';
 import {TouchableOpacity, Image, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
+import {Touchable} from "../Misc";
 
 
 // Avatar *********************************************************************************
@@ -22,14 +23,14 @@ class Avatar extends RkComponent {
 
 		return (
 			<View style={[container, style]}>
-				<TouchableOpacity onPress={onPress}>
+				<Touchable onPress={onPress}>
 					<Image style={imgStyle.image} source={{uri}}/>
 					{!!badge && (
 						<View style={imgStyle.badge}>
 							<Icon {...badge} />
 						</View>
 					)}
-				</TouchableOpacity>
+				</Touchable>
 			</View>
 		);
 	}

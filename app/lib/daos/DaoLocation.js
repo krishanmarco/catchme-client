@@ -108,19 +108,19 @@ export default class DaoLocation {
 			// To allow a new location to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
 			[DaoLocation.pId]: -1,
-			[DaoLocation.pName]: '',
+			[DaoLocation.pName]: null,
 			[DaoLocation.pPictureUrl]: Const.DaoLocation.defaultAvatar,
-			[DaoLocation.pDescription]: '',
-			[DaoLocation.pEmail]: '',
-			[DaoLocation.pPhone]: '',
-			[DaoLocation.pCapacity]: '',
+			[DaoLocation.pDescription]: null,
+			[DaoLocation.pEmail]: null,
+			[DaoLocation.pPhone]: null,
+			[DaoLocation.pCapacity]: null,
 			[DaoLocation.pTimings]: ManagerWeekTimings.strWeekDefault,
-			[DaoLocation.pAddressCountry]: '',
-			[DaoLocation.pAddressState]: '',
-			[DaoLocation.pAddressCity]: '',
-			[DaoLocation.pAddressPostcode]: '',
-			[DaoLocation.pAddressAddress]: '',
-			[DaoLocation.pAddressLatLng]: {lat: 37.78825, lng: -122.4324,}
+			[DaoLocation.pAddressCountry]: null,
+			[DaoLocation.pAddressState]: null,
+			[DaoLocation.pAddressCity]: null,
+			[DaoLocation.pAddressPostcode]: null,
+			[DaoLocation.pAddressAddress]: null,
+			[DaoLocation.pAddressLatLng]: {lat: null, lng: null,}
 		});
 	}
 
@@ -266,6 +266,11 @@ export default class DaoLocation {
 	
 	static hasPeople(location: TLocation): boolean {
 		return DaoLocation.pPeople in location;
+	}
+
+	static hasLatLng(location: TLocation): boolean {
+		const {lat, lng} = DaoLocation.gLatLng(location);
+		return _.isFinite(lat) && _.isFinite(lng);
 	}
 	
 	

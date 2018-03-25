@@ -4,9 +4,10 @@ import DaoLocation from "./DaoLocation";
 import Maps from "../data/Maps";
 import ObjectCache from "../helpers/ObjectCache";
 import {Const} from '../../Config';
-import {mapIdsToObjects} from "../HelperFunctions";
+import {denormObj, mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
+import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 
 
 export type TUser = {
@@ -105,6 +106,20 @@ export default class DaoUser {
 		
 		// Private fields (_) will have to be recalculated...
 		return newUser;
+	}
+
+
+	static newInstance(): TUser {
+		return denormObj({
+			// To allow a new user to be saved to the server
+			// through the 'edit' entry-point the id has to be -1
+			[DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
+			[DaoUser.pSettingNotifications]: Const.DaoUser.defaultNotificationSettings,
+			[DaoUser.pPictureUrl]: '',
+			[DaoUser.pPhone]: '',
+			[DaoUser.pEmail]: '',
+			[DaoUser.pPublicMessage]: ''
+		});
 	}
 
 

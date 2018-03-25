@@ -18,8 +18,8 @@ import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
   navigator: TNavigator,
@@ -83,7 +83,7 @@ class ScreenModalUserLocationStatusPresentational extends React.Component<any, P
 
 
     // Create new initialStatus fallback from redux pool
-    return DaoUserLocationStatus.createInitialStatus(this.props.locationId);
+    return DaoUserLocationStatus.newInstance(this.props.locationId);
   }
 
 

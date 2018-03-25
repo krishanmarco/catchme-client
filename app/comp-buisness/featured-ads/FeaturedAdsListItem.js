@@ -10,9 +10,10 @@ import {Image, TouchableNativeFeedback, View} from 'react-native';
 import {RkButton, RkCard, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
 import type {TNavigator} from "../../lib/types/Types";
+import {Touchable} from "../../comp/Misc";
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: TNavigator,
@@ -55,7 +56,7 @@ export default class FeaturedAdsListItem extends React.Component<any, Props, any
 
 	render() {
 		return (
-			<TouchableNativeFeedback onPress={this._onItemPress}>
+			<Touchable onPress={this._onItemPress}>
 				<RkCard rkType='backImg'>
 					<Image rkCardImg source={{uri: DaoFeaturedAd.gImage(this._featuredAd())}}/>
 					<View rkCardImgOverlay rkCardContent style={styles.overlay}>
@@ -66,7 +67,7 @@ export default class FeaturedAdsListItem extends React.Component<any, Props, any
 						</View>
 					</View>
 				</RkCard>
-			</TouchableNativeFeedback>
+			</Touchable>
 		);
 	}
 

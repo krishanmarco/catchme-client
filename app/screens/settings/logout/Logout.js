@@ -12,12 +12,12 @@ import {View} from 'react-native';
 
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  authenticatedUserProfile: Object,
-  navigator: Navigator
+	authenticatedUserProfile: Object,
+	navigator: Navigator
 };
 
 
@@ -26,39 +26,35 @@ type Props = {
 
 export default class SettingsUserNotifications extends React.Component<any, Props, any> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onLogoutPress = this._onLogoutPress.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onLogoutPress = this._onLogoutPress.bind(this);
+	}
 
-  _userProfile() {
-    return this.props.authenticatedUserProfile;
-  }
+	_userProfile() {
+		return this.props.authenticatedUserProfile;
+	}
 
-  _onLogoutPress() {
-    RealmIO.removeLocalUser();
-    startApplication();
-  }
+	_onLogoutPress() {
+		RealmIO.removeLocalUser();
+		startApplication();
+	}
 
-  render() {
-    return (
-        <View>
-          <ScreenInfo
-              imageContainerStyle={{marginTop: 64}}
-              imageContainerScale={550}
-              imageHeight={100}
-              imageWidth={150}
-              imageSource={require('../../../assets/images/splashBack.png')}
-              textText='Are you sure you want to log out?'/>
-          
-          <GradientButton
-              style={styles.logout}
-              rkType='large stretch accentColor'
-              text={'Logout'.toUpperCase()}
-              onPress={this._onLogoutPress}/>
-        </View>
-    );
-  }
+	render() {
+		return (
+			<View>
+				<ScreenInfo
+					imageSource={require('../../../assets/images/logout.png')}
+					textText='Are you sure you want to log out?'/>
+
+				<GradientButton
+					style={styles.logout}
+					rkType='large stretch accentColor'
+					text={'Logout'.toUpperCase()}
+					onPress={this._onLogoutPress}/>
+			</View>
+		);
+	}
 
 }
 
@@ -69,7 +65,7 @@ export default class SettingsUserNotifications extends React.Component<any, Prop
 // Style ************************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-  logout: {
-    marginTop: 64
-  }
+	logout: {
+		marginTop: 64
+	}
 }));
