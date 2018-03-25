@@ -27,8 +27,8 @@ import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
 	navigator: TNavigator
@@ -54,8 +54,8 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 	}
 
 	_handleSignInError(error = null) {
-		Logger.e("_handleSignInError!: ", error);
 		// todo
+		Logger.e("ScreenLogin _handleSignInError: ", error);
 	}
 
 	_handleSignInSuccess(userProfile: TUser) {
@@ -64,9 +64,8 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 			return;
 		}
 
-		// todo: before release pass userProfile into startApplication()
 		// Login was successful, start app
-		startApplication();
+		startApplication(userProfile);
 	}
 
 	_getFormApiLogin() {

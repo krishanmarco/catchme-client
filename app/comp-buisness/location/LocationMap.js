@@ -14,8 +14,8 @@ import type {TFirebaseChatMessage, TGetFirebaseMessages} from "../../lib/data/Fi
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 export type TLocationMapRegion = {
 	latitude: number,

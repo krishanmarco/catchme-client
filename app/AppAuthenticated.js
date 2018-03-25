@@ -42,25 +42,9 @@ import ScreenNewLocation from "./screens/location-edit/ScreenNewLocation";
 
 export default function run(authenticatedUser: TUser) {
 
-  // Must be the first statement
-  // The user is logged in and cannot be null
-  ApiAuthentication.update(DaoUser.gId(authenticatedUser), DaoUser.gApiKey(authenticatedUser));
-
-
-  ApiClient.userFirebaseJwt()
-    .then(jwt => {
-        Logger.v(`AppAuthenticated _: Received firebase jwt ${jwt}`);
-        return firebase.auth().signInWithCustomToken(jwt);
-      })
-    .catch(exception => {
-        Logger.e("AppAuthenticated _: Failed to login to firebase: ", exception);
-      });
-
-
   const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk, promiseMiddleware()));
 
   [
-
     {name: Const.NavigationComponents.ScreenUserProfile, getComponent: () => ScreenUserProfile},
     {name: Const.NavigationComponents.ScreenLocationProfile, getComponent: () => ScreenLocationProfile},
     {name: Const.NavigationComponents.ScreenSearch, getComponent: () => ScreenSearch},

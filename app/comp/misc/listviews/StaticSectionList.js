@@ -6,8 +6,8 @@ import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {SectionList, StyleSheet, View} from 'react-native';
 import type {TSectionListDataPointSections} from "../../../lib/types/Types";
 
-// Flow *************************************************************************************************
-// Flow *************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
   sections: Array<TSectionListDataPointSections>,
