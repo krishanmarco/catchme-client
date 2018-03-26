@@ -32,7 +32,7 @@ const DefaultProps = {
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
-export default class GradientButton extends RkComponent<DefaultProps, Props> {
+export default class GradientButton extends RkComponent<any, Props> {
 	static defaultProps = DefaultProps;
 
 	// Needed for this.defineStyles()

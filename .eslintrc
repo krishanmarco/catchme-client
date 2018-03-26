@@ -204,6 +204,7 @@
     "object-shorthand": 2,
     "max-depth": 2,
 
+    "react/no-direct-mutation-state": 0,
 
     "flowtype/boolean-style": [
       2,
