@@ -24,7 +24,7 @@ const DefaultProps = {
 // DefaultLoader ****************************************************************************************
 // DefaultLoader ****************************************************************************************
 
-const DefaultLoader = ({size, height, color, style}: Props) => (
+const DefaultLoader = ({size, height, color, style}: Props = DefaultProps) => (
 	<View style={[styles.view, {height}, style]}>
 		<Bubbles size={size} color={color}/>
 	</View>

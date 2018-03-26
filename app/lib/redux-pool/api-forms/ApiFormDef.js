@@ -30,7 +30,11 @@ export type TApiFormDef<TApiFormObject> = {
 
 	// Function that return the redux state,
 	// set on bindAction
-	getState?: TGetState
+	getState?: TGetState,
+
+	// If true the <Screen /> component disables all touches while
+	// this form is loading. Default false
+	disableScreenOnLoading: boolean
 
 };
 
@@ -50,9 +54,10 @@ export default class ApiFormDef {
 
 
 
-	constructor(formId, validateOnChange = true) {
+	constructor(formId, validateOnChange = true, disableScreenOnLoading = false) {
 		this.formId = formId;
 		this.validateOnChange = validateOnChange;
+		this.disableScreenOnLoading = disableScreenOnLoading;
 	}
 
 

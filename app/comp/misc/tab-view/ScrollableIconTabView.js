@@ -6,14 +6,14 @@ import {Colors} from "../../../Config";
 
 
 type Props = {
+	icons: Array<Object>,
+	children: Array<Node>,
 	allowIndexChange?: Function,
 	onPreTabChange?: Function,
 	onTabChanged?: Function,
-	icons: Array<Object>,
-	children: Array<Node>,
-	locked: boolean,
-	activeColor: ?string,
-	inactiveColor: ?string
+	locked?: boolean,
+	activeColor?: ?string,
+	inactiveColor?: ?string
 };
 
 type State = {
@@ -21,14 +21,16 @@ type State = {
 };
 
 const DefaultProps = {
-	// activeColor: Colors.primary,
-	// inactiveColor: Colors.black
+	activeColor: Colors.primary,
+	inactiveColor: Colors.black,
+	locked: false
 };
 
 // ScrollableIconTabView ******************************************************************
 // ScrollableIconTabView ******************************************************************
 
-export default class ScrollableIconTabView extends React.Component<DefaultProps, Props, State> {
+export default class ScrollableIconTabView extends React.Component<any, Props, State> {
+	static defaultProps = DefaultProps;
 
 	constructor(props, context) {
 		super(props, context);

@@ -12,7 +12,7 @@ import type {TApiFormDef} from "./ApiFormDef";
 class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 
 	constructor() {
-		super(FORM_API_ID_EDIT_LOCATION_PROFILE, true);
+		super(FORM_API_ID_EDIT_LOCATION_PROFILE, true, true);
 	}
 
 	initState() {
@@ -23,7 +23,7 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 
 	post(locationProfile: TLocation): Promise<TLocation> {
 		return ApiClient.userLocationsAdminEditLid(locationProfile);
-		// todo then set the response objet back into this form (tod set id)
+		// todo then set the response object back into this form (tod set id)
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {

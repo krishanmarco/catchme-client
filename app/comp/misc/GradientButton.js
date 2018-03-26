@@ -2,6 +2,8 @@
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
 import {RkButton, RkComponent, RkText} from 'react-native-ui-kitten';
+import {DefaultLoader} from "../Misc";
+import {Colors} from "../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -15,20 +17,23 @@ type Props = {
 	colors: Array<number>,
 	text: string,
 	children: Node,
-	gradientStart: TGradient,
-	gradientEnd: TGradient
+	gradientStart?: TGradient,
+	gradientEnd?: TGradient,
+	loading?: boolean
 }
 
 const DefaultProps = {
 	gradientStart: {x: 0.0, y: 0.5},
-	gradientEnd: {x: 1, y: 0.5}
+	gradientEnd: {x: 1, y: 0.5},
+	loading: false
 };
 
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
-export default class GradientButton extends RkComponent<DefaultProps, Props> {
+export default class GradientButton extends RkComponent<any, Props> {
+	static defaultProps = DefaultProps;
 
 	// Needed for this.defineStyles()
 	componentName = 'GradientButton';
@@ -40,7 +45,7 @@ export default class GradientButton extends RkComponent<DefaultProps, Props> {
 
 	render() {
 		const {button, gradient, text: textStyle} = this.defineStyles();
-		const {style, gradientStart, gradientEnd, children, text, colors, ...otherProps} = this.props;
+		const {style, gradientStart, gradientEnd, children, text, colors, loading, ...otherProps} = this.props;
 
 		return (
 			<RkButton
@@ -54,9 +59,11 @@ export default class GradientButton extends RkComponent<DefaultProps, Props> {
 					end={gradientEnd}
 					style={gradient}>
 
-					{!text
-						? children
-						: <RkText style={textStyle}>{text}</RkText>}
+					{!!loading && <DefaultLoader size={8} color={Colors.white}/>}
+
+					{!loading && (
+						!text ? children : <RkText style={textStyle}>{text}</RkText>
+					)}
 
 				</LinearGradient>
 

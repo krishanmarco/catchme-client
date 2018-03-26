@@ -29,8 +29,9 @@ const DefaultProps = {
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-export default class Gallery extends React.Component<DefaultProps, Props, State> {
+export default class Gallery extends React.Component<any, Props, State> {
 	static ADD_IMAGE_URI = 'ADD_IMAGE';
+	static defaultProps = DefaultProps;
 	
 	constructor(props, context) {
 		super(props, context);

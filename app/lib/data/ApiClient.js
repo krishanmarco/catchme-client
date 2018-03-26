@@ -184,7 +184,8 @@ class ApiClient {
 
 	time(callback) {
 		return fetch(Urls.api + '/meta/time')
-			.then(response => response.text().then(callback))
+			.then(response => response.text())
+			.then(callback)
 			.catch(error => Logger.error(error));
 	}
 

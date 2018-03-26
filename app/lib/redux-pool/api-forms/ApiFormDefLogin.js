@@ -11,7 +11,7 @@ import type {TApiFormDef} from "./ApiFormDef";
 class ApiFormDefLogin extends ApiFormDef<TApiFormLogin> {
 
 	constructor() {
-		super(FORM_API_ID_LOGIN, true);
+		super(FORM_API_ID_LOGIN, true, true);
 	}
 
 	initState() {
