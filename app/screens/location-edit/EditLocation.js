@@ -65,10 +65,12 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 	}
 
 	componentWillMount() {
+		const {locationProfile} = this.props;
+
 		// We now have access to a location profile
 		// Initialize the redux pool form by setting all its values
 		this._formApiEditLocationProfile().reset();
-		this._formApiEditLocationProfile().change(this.props.locationProfile);
+		this._formApiEditLocationProfile().change(locationProfile);
 	}
 
 	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
@@ -84,6 +86,9 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 
 
 	_allowIndexChange(currentIndex, nextIndex) {
+		if (nextIndex < currentIndex)
+			return true;
+
 		return !this.refTabs[currentIndex].getWrappedInstance().hasErrors();
 	}
 
@@ -113,12 +118,12 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 				allowIndexChange={this._allowIndexChange}
 				onPreTabChange={this._onPreTabChange}
 				locked={true}
-				activeColor={null}
+				activeColor={false}
 				icons={[
-					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfInfoTab),
-					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfTimingsTab),
-					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfAddressTab),
-					this._overrideIconColor(Icons.friendRequestAccept, EditLocation.indexOfRecapTab)
+					this._overrideIconColor(Icons.locationInfo, EditLocation.indexOfInfoTab),
+					this._overrideIconColor(Icons.locationTimings, EditLocation.indexOfTimingsTab),
+					this._overrideIconColor(Icons.locationMap, EditLocation.indexOfAddressTab),
+					this._overrideIconColor(Icons.locationSave, EditLocation.indexOfRecapTab)
 				]}>
 				{[
 					this._renderTabEditLocationInfo(),

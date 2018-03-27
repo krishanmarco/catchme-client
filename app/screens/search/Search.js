@@ -248,7 +248,6 @@ class SearchPresentational extends React.Component {
             scrollWithoutAnimation={true}
             prerenderingSiblingsNumber={Infinity}
             tabBarTextStyle={styles.tabBarTextStyle}
-            tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
             tabBarActiveTextColor={Colors.primary}
             tabBarInactiveTextColor={Colors.black}>
           <View
@@ -347,10 +346,6 @@ Search.propTypes = {
 const styles = StyleSheet.create({
   tabBarTextStyle: {
     marginBottom: -8
-  },
-  tabBarUnderlineStyle: {
-    height: 2,
-    backgroundColor: Colors.primary
   },
   tabRootUsers: {
     flex: 1,

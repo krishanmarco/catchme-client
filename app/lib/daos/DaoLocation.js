@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 import type {TUser} from "./DaoUser";
-import {denormObj} from "../HelperFunctions";
+import {denormObj, isValidUrl} from "../HelperFunctions";
 import {Const} from "../../Config";
 
 
@@ -107,7 +107,7 @@ export default class DaoLocation {
 		return denormObj({
 			// To allow a new location to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
-			[DaoLocation.pId]: -1,
+			[DaoLocation.pId]: Const.DaoLocation.newLocationId,
 			[DaoLocation.pName]: null,
 			[DaoLocation.pPictureUrl]: Const.DaoLocation.defaultAvatar,
 			[DaoLocation.pDescription]: null,
@@ -271,6 +271,13 @@ export default class DaoLocation {
 	static hasLatLng(location: TLocation): boolean {
 		const {lat, lng} = DaoLocation.gLatLng(location);
 		return _.isFinite(lat) && _.isFinite(lng);
+	}
+
+	static hasNewImage(location: TLocation): boolean {
+		const image = DaoLocation.gPictureUrl(location);
+		return image != null
+			&& image != Const.DaoLocation.defaultAvatar
+			&& !isValidUrl(image);
 	}
 	
 	

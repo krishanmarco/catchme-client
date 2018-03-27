@@ -37,35 +37,38 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
 		this._onPreTabChange = this._onPreTabChange.bind(this);
 		this._allowTabChange = this._allowTabChange.bind(this);
 		this._onTabChanged = this._onTabChanged.bind(this);
-		this._renderCustomTabBar = this._renderCustomTabBar.bind(this);
+		this._renderDefaultTabBar = this._renderDefaultTabBar.bind(this);
 		this.state = {selectedTab: 0};
 	}
 
 	_allowTabChange(nextIndex) {
+		const {allowIndexChange} = this.props;
 		const {selectedTab} = this.state;
 
-		if (this.props.allowIndexChange)
-			return this.props.allowIndexChange(selectedTab, nextIndex);
+		if (allowIndexChange)
+			return allowIndexChange(selectedTab, nextIndex);
 
 		return true;
 	}
 
 	_onPreTabChange(nextIndex) {
-		const {selectedTab} = this.state;
+		const {onPreTabChange} = this.props;
+		const currentTab = this.state.selectedTab;
 
-		if (this.props.onPreTabChange)
-			this.props.onPreTabChange(selectedTab, nextIndex);
+		if (onPreTabChange)
+			onPreTabChange(currentTab, nextIndex);
+
+		// Important: Do not use setState because if you
+		// trigger an update you will get indirect recursion
+		this.state.selectedTab = nextIndex;
 	}
 
 	_onTabChanged({i, ref}) {
 		const changedToIndex = i;
+		const {onTabChanged} = this.props;
 
-		// Important: Do not use setState because if you
-		// trigger an update you will get indirect recursion
-		this.state.selectedTab = changedToIndex;
-
-		if (this.props.onTabChanged)
-			this.props.onTabChanged(changedToIndex, ref);
+		if (onTabChanged)
+			onTabChanged(changedToIndex, changedToIndex, ref);
 	}
 
 
@@ -75,9 +78,8 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
 
 		return (
 			<ScrollableTabView
-				initialPage={selectedTab}
 				onChangeTab={this._onTabChanged}
-				renderTabBar={this._renderCustomTabBar}
+				renderTabBar={this._renderDefaultTabBar}
 				locked={locked}
 
 				scrollWithoutAnimation={true}
@@ -87,7 +89,7 @@ export default class ScrollableIconTabView extends React.Component<any, Props, S
 		);
 	}
 
-	_renderCustomTabBar(props) {
+	_renderDefaultTabBar(props) {
 		const {activeColor, inactiveColor, icons} = this.props;
 		return (
 			<DefaultTabBar

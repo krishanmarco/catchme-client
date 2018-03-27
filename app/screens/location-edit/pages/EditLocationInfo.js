@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import _ from 'lodash';
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import ImagePicker from '../../../lib/helpers/ImagePicker';
 import PropTypes from 'prop-types';
@@ -6,7 +7,7 @@ import React from 'react';
 
 import {AvatarCircle} from "../../../comp/Misc";
 
-import {Icons} from '../../../Config';
+import {Const, Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {RkStyleSheet} from 'react-native-ui-kitten';
@@ -66,6 +67,12 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 		]);
 	}
 
+	_isNewLocation() {
+		const newLocationid = Const.DaoLocation.newLocationId;
+		const id = _.get(this._formApiEditLocationProfileInput(), DaoLocation.pId, newLocationid);
+		return newLocationid == id;
+	}
+
 	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
 		return this.props.formApiEditLocationProfile;
 	}
@@ -101,6 +108,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 					<RkTextInputFromPool
 						pool={this._formApiEditLocationProfile()}
 						field={DaoLocation.pName}
+						editable={this._isNewLocation()}
 						rkType='row'
 						label='Name'
 						icon={Icons.settingChangePassword}/>
@@ -129,7 +137,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 						pool={this._formApiEditLocationProfile()}
 						field={DaoLocation.pDescription}
 						rkType='row'
-						multline
+						multiline
 						numberOfLines={3}
 						label='Description'
 						returnKeyType='next'

@@ -41,6 +41,7 @@ const _Icons = {
 	pen: {name: 'pencil', type: 'material-community', color: Colors.primary},
 	penEdit: {name: 'edit', type: 'material-icons', color: Colors.neutralOrange},
 	bin: {name: 'delete', type: 'material-icons', color: Colors.alertRed},
+	save: {name: 'save', type: 'fontawesome', color: Colors.alertRed},
 };
 
 export const Icons = {
@@ -72,6 +73,7 @@ export const Icons = {
 	locationTimings: _Icons.timings,
 	locationMap: _Icons.mapSigns,
 	locationEditAvatar: _Icons.pen,
+	locationSave: _Icons.save,
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,
 
@@ -101,6 +103,7 @@ export const Icons = {
 	addImage: {name: 'logo-apple', type: 'ionicon'},
 	addTiming: {name: 'plus', type: 'evilicon', color: Colors.primary},
 	removeTiming: {name: 'minus', type: 'evilicon', color: Colors.alertRed},
+	save: {name: 'save', type: 'fontawesome', color: Colors.alertRed},
 };
 
 
@@ -206,6 +209,7 @@ export const Const = {
 
 	DaoLocation: {
 		// todo: add to server + change to location
+		newLocationId: -1,
 		defaultAvatar: 'http://fuuse.net/wp-content/uploads/2016/02/avatar-placeholder.png'
 	},
 	

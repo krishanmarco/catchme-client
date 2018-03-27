@@ -73,9 +73,9 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 		const weekBoolTimings = this.refWeekTimingsList.getTimings();
 		const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
 
-		this._formApiEditLocationProfile().change({
-			[DaoLocation.pTimings]: weekStrTimings
-		});
+		// this._formApiEditLocationProfile().change({
+		// 	[DaoLocation.pTimings]: weekStrTimings
+		// });
 	}
 
 

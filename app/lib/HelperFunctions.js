@@ -59,7 +59,7 @@ export function denormObj(object) {
  * @param object
  * @returns {{}}
  */
-export function prepareForMultipart(object) {
+export function prepareForMultipart(object = {}) {
 	return Object.keys(flatten(object))
 		.map(key => ({name: key, data: String(_.get(object, key, ''))}));
 }
@@ -201,4 +201,12 @@ export function mapIdsToObjects(idList, objectList, getIdFromObject) {
 	}
 
 	return result;
+}
+
+export function isValidUrl(url) {
+	if (!url)
+		return false;
+
+	const urlUpper = url.toUpperCase();
+	return urlUpper.startsWith("HTTPS://") || urlUpper.startsWith("HTTP://");
 }

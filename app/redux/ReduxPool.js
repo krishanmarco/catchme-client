@@ -531,7 +531,7 @@ export const ReduxPoolBuilder = {
 
 			mergeMapDispatchToProps: (poolId, pool, dispatch) => ({
 
-				change: (apiInput, validationError) => dispatch((dispatch, getState) => {
+				change: (apiInput) => dispatch((dispatch, getState) => {
 
 					let errors = {};
 					if (pool.validateOnChange) {

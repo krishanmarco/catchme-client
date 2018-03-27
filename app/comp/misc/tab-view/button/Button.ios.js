@@ -1,15 +1,14 @@
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/Button.ios.js
-const React = require('react');
-const ReactNative = require('react-native');
-const {
-  TouchableOpacity,
-  View,
-} = ReactNative;
+import React from 'react';
+import {TouchableOpacity} from 'react-native';
 
-const Button = (props) => {
-  return <TouchableOpacity {...props}>
-    {props.children}
-  </TouchableOpacity>;
+type Props = {
+	children: Node
 };
 
-module.exports = Button;
+const Button = ({children, ...props}: Props) => (
+	<TouchableOpacity {...props}>
+		{children}
+	</TouchableOpacity>
+);
+export default Button;
