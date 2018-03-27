@@ -295,11 +295,11 @@ class ApiClient {
 
 		// If the locationId == -1 then this is a new location
 		const locationId = DaoLocation.gId(location);
-		const pictureUri = DaoLocation.gPictureUrl(location);
 
 		const formData = prepareForMultipart(location);
 
-		if (pictureUri != null && pictureUri != Const.DaoLocation.defaultAvatar) {
+		if (DaoLocation.hasNewImage(location)) {
+			const pictureUri = DaoLocation.gPictureUrl(location);
 			const n = seconds().toString();		// todo: rename pictureUrl to avatar (without the URL part)
 			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
 		}

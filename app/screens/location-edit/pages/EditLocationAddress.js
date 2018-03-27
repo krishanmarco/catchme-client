@@ -105,7 +105,7 @@ class EditLocationAddressPresentational extends React.Component<any, Props, any>
 							label={addressComponent.label}/>
 					))}
 				</View>
-				<View style={{width: '100%', height: Dimensions.get('window').height - 190}}>
+				<View style={[styles.locationMap, {height: Dimensions.get('window').height - 190}]}>
 					{DaoLocation.hasLatLng(this._formApiEditLocationProfileInput()) && (
 						<LocationMap
 						showsMyLocationButton={true}
@@ -155,6 +155,9 @@ const styles = RkStyleSheet.create(theme => ({
 		paddingHorizontal: 4,
 		marginTop: 12
 	},
+	locationMap: {
+		width: '100%'
+	}
 }));
 
 

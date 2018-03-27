@@ -1,19 +1,17 @@
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/Button.android.js
-const React = require('react');
-const ReactNative = require('react-native');
-const {
-  TouchableNativeFeedback,
-  View,
-} = ReactNative;
+import React from 'react';
+import {TouchableNativeFeedback} from 'react-native';
 
-const Button = (props) => {
-  return <TouchableNativeFeedback
-      delayPressIn={0}
-      background={TouchableNativeFeedback.SelectableBackground()} // eslint-disable-line new-cap
-      {...props}
-  >
-    {props.children}
-  </TouchableNativeFeedback>;
+type Props = {
+	children: Node
 };
 
-module.exports = Button;
+const Button = ({children, ...props}: Props) => (
+	<TouchableNativeFeedback
+		delayPressIn={0}
+		background={TouchableNativeFeedback.SelectableBackground()}
+		{...props}>
+		{children}
+	</TouchableNativeFeedback>
+);
+export default Button;

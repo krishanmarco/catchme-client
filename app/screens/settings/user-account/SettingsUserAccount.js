@@ -155,7 +155,7 @@ class SettingsUserAccountPresentational extends React.Component<any, Props, any>
                 pool={this._formApiEditUserProfile()}
                 field={DaoUser.pPublicMessage}
                 rkType='row'
-                multline={true}
+                multiline={true}
                 numberOfLines={3}
                 label='Status'
                 returnKeyType='next'

@@ -1,121 +1,49 @@
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/DefaultTabBar.js
-const React = require('react');
-const {ViewPropTypes} = ReactNative = require('react-native');
-const PropTypes = require('prop-types');
-const createReactClass = require('create-react-class');
-const {
-	StyleSheet,
-	Text,
-	View,
-	Animated,
-} = ReactNative;
-const Button = require('./button/Button');
-
+import React from 'react';
+import {StyleSheet, Text, View, Animated} from 'react-native';
+import Button from './button/Button';
 import {Colors} from "../../../Config";
 import {Icon} from 'react-native-elements';
+import type {TIcon} from "../../../lib/types/Types";
 
 
+type Props = {
+	allowTabChange?: (number) => boolean,
+	onPreTabChange?: (number) => {},
+
+	activeColor?: string,
+	inactiveColor?: string,
+
+	tabs: Array<Node>,
+	icons: Array<TIcon>,
+
+	tabStyle?: Object,
+	style?: Object,
+
+	// Props coming from ScrollableIconTabView
+	goToPage: (number) => {},
+	activeTab: number,
+	containerWidth: number,
+	scrollValue: Object,
+}
+
+const DefaultProps = {
+	activeColor: 'navy',
+	inactiveColor: 'black',
+};
 
 
-const DefaultTabBar = createReactClass({
-	propTypes: {
-		goToPage: PropTypes.func,
-		activeTab: PropTypes.number,
-		tabs: PropTypes.array,
-		backgroundColor: PropTypes.string,
-		activeColor: PropTypes.string,
-		inactiveColor: PropTypes.string,
-		textStyle: Text.propTypes.style,
-		tabStyle: ViewPropTypes.style,
-		renderTab: PropTypes.func,
-		underlineStyle: ViewPropTypes.style,
-	},
+export default class DefaultTabBar extends React.Component<any, Props, any> {
+	static defaultProps = DefaultProps;
 
-	getDefaultProps() {
-		return {
-			activeColor: 'navy',
-			inactiveColor: 'black',
-			backgroundColor: null,
-		};
-	},
-
-	render() {
-		const containerWidth = this.props.containerWidth;
-		const numberOfTabs = this.props.tabs.length;
-		const tabUnderlineStyle = {
-			position: 'absolute',
-			width: containerWidth / numberOfTabs,
-			height: 2,
-			backgroundColor: Colors.primary,
-			bottom: 0,
-		};
-
-		const translateX = this.props.scrollValue.interpolate({
-			inputRange: [0, 1],
-			outputRange: [0, containerWidth / numberOfTabs],
-		});
-		return (
-			<View style={[styles.tabs, {backgroundColor: this.props.backgroundColor,}, this.props.style,]}>
-				{this.props.tabs.map((name, page) => {
-					const isTabActive = this.props.activeTab === page;
-					const renderTab = this.renderTab;
-					return renderTab(name, page, isTabActive, this.props.goToPage);
-				})}
-				<Animated.View
-					style={[
-						tabUnderlineStyle,
-						{
-							transform: [
-								{translateX},
-							]
-						},
-						this.props.underlineStyle,
-					]}
-				/>
-			</View>
-		);
-	},
-
-	renderTabOption(name, page) {
-	},
-
-	renderTab(name, page, isTabActive, onPressHandler) {
-		const icon = this.props.icons[parseInt(name, 10)];
-
-		return (
-			<Button
-				style={{flex: 1}}
-				key={name}
-				accessible={true}
-				accessibilityLabel={name}
-				accessibilityTraits='button'
-				onPress={() => this._onTabChange(onPressHandler, page, name)}>
-				<View style={[styles.tab, this.props.tabStyle]}>
-					<Icon
-						{...icon}
-						color={this._getTextColor(icon, isTabActive)}
-						size={24}/>
-				</View>
-			</Button>
-		);
-	},
-	
-	
-	_onTabChange(onPressHandler, page, name) {
-		const {allowTabChange, onPreTabChange} = this.props;
-		const index = parseInt(name, 10);
-
-		if (allowTabChange && !allowTabChange(index))
-			return;
-		
-		if (onPreTabChange)
-			onPreTabChange(index);
-		
-		onPressHandler(index);
-	},
+	constructor(props, context) {
+		super(props, context);
+		this._onTabChange = this._onTabChange.bind(this);
+		this._renderTab = this._renderTab.bind(this);
+	}
 
 
-	_getTextColor(icon, isTabActive) {
+	_getForegroundColor(icon, isTabActive) {
 		const {activeColor, inactiveColor} = this.props;
 
 		if (isTabActive) {
@@ -138,7 +66,74 @@ const DefaultTabBar = createReactClass({
 	}
 
 
-});
+	_onTabChange(page, name) {
+		const {goToPage, allowTabChange, onPreTabChange} = this.props;
+
+		const index = parseInt(name, 10);
+
+		if (allowTabChange && !allowTabChange(index))
+			return;
+
+		if (onPreTabChange)
+			onPreTabChange(index);
+
+		goToPage(index);
+	}
+
+
+
+	render() {
+		const {containerWidth, tabs, style, scrollValue} = this.props;
+
+		const tabWidth = containerWidth / tabs.length;
+
+		const translateX = scrollValue.interpolate({
+			inputRange: [0, 1],
+			outputRange: [0, tabWidth],
+		});
+
+		return (
+			<View style={[styles.tabs, style]}>
+
+				{tabs.map(this._renderTab)}
+
+				<Animated.View style={[styles.tabUnderline, {
+					width: tabWidth,
+					transform: [{translateX}]
+				}]}/>
+
+			</View>
+		);
+	}
+
+
+
+	_renderTab(name, page) {
+		const {activeTab, icons, tabStyle} = this.props;
+
+		const isTabActive = activeTab === page;
+		const icon = icons[parseInt(name, 10)];
+
+		return (
+			<Button
+				style={styles.button}
+				key={name}
+				accessible={true}
+				accessibilityLabel={name}
+				accessibilityTraits='button'
+				onPress={() => this._onTabChange(page, name)}>
+				<View style={[styles.tab, tabStyle]}>
+					<Icon
+						{...icon}
+						color={this._getForegroundColor(icon, isTabActive)}
+						size={24}/>
+				</View>
+			</Button>
+		);
+	}
+
+}
+
 
 const styles = StyleSheet.create({
 	tab: {
@@ -157,7 +152,17 @@ const styles = StyleSheet.create({
 		borderLeftWidth: 0,
 		borderRightWidth: 0,
 		borderColor: '#ccc',
+		backgroundColor: Colors.background
 	},
+	tabUnderline: {
+		position: 'absolute',
+		width: '100%',
+		height: 2,
+		backgroundColor: Colors.primary,
+		bottom: 0,
+	},
+	button: {
+		flex: 1
+	}
 });
 
-export default DefaultTabBar;

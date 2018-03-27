@@ -14,7 +14,9 @@ export const RkTextInput = ({rkType, style, errorCode, ...props}) => {
 		rowOverride = {paddingVertical: 0, marginVertical: 0};
 
 	return (
-		<View style={style}>
+		<View
+			style={style}
+			pointerEvents={(props.editable != null && !props.editable) ? 'none' : 'auto'}>
 			<View style={[styles.row, rowOverride]}>
 				<_RkTextInput {...props} rkType={rkType}/>
 			</View>
