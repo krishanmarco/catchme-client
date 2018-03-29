@@ -15,7 +15,7 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import EditLocation from "../EditLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-forms/ApiFormDef";
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 
 
 // Redux ************************************************************************************************

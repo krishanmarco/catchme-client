@@ -11,10 +11,6 @@ class FirebaseDataDefFeed extends FirebaseDataDef<Object> {
 		super(FIREBASE_DATA_ID_FEED);
 	}
 
-	initState(): ReduxFirebaseData {
-		return new ReduxFirebaseData(FIREBASE_DATA_ID_FEED);
-	}
-
 	getObjectByFirebaseId(feedId: number): Object {
 		return FirebaseData.dbFeedById(feedId);
 	}
@@ -27,10 +23,7 @@ class FirebaseDataDefFeed extends FirebaseDataDef<Object> {
 		return feedItem.id;
 	}
 
-	mapFirebaseItemToLocalItem(feedItem) {
-		return feedItem;
-	}
-
+	// Overrides parent
 	onReceiveLocalItem(feedItem) {
 		// todo: if consumeOnView === true then delete this feed-item from firebase
 	}

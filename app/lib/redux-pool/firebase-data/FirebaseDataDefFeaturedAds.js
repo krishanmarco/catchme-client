@@ -11,10 +11,6 @@ class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {
 		super(FIREBASE_DATA_ID_FEATURED_ADS);
 	}
 
-	initState(): ReduxFirebaseData<Object> {
-		return new ReduxFirebaseData(FIREBASE_DATA_ID_FEATURED_ADS);
-	}
-
 	getObjectByFirebaseId(featuredAdId: number): Object {
 		return FirebaseData.dbFeaturedAdById(featuredAdId);
 	}
@@ -25,14 +21,6 @@ class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {
 
 	keyExtractor(featuredAdItem): string {
 		return featuredAdItem.id;
-	}
-
-	mapFirebaseItemToLocalItem(featuredAdItem) {
-		return featuredAdItem;
-	}
-
-	onReceiveLocalItem(featuredAdItem) {
-		// Nothing for now
 	}
 
 }

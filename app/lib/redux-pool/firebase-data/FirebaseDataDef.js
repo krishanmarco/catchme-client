@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {ReduxFirebaseData} from "../../../redux/ReduxPool";
+import {FIREBASE_DATA_ID_FEATURED_ADS, ReduxFirebaseData} from "../../../redux/ReduxPool";
 import type {TDispatch, TGetState} from "../../types/Types";
 
 
@@ -33,6 +33,18 @@ export default class FirebaseDataDef {
 
 	constructor(firebaseDataId) {
 		this.firebaseDataId = firebaseDataId;
+	}
+
+	initState(): ReduxFirebaseData {
+		return new ReduxFirebaseData(this.firebaseDataId);
+	}
+
+	mapFirebaseItemToLocalItem(firebaseItem) {
+		return firebaseItem;
+	}
+
+	onReceiveLocalItem(firebaseItem) {
+		// Nothing for now
 	}
 
 	bindAction(dispatch: TDispatch, getState: TGetState) {

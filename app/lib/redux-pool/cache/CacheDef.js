@@ -23,6 +23,10 @@ export default class CacheDef {
 		this.cacheId = cacheId;
 	}
 
+	initState(): ReduxPoolCache {
+		return new ReduxPoolCache(this.cacheId);
+	}
+
 	bindAction(dispatch: TDispatch, getState: TGetState) {
 		this.dispatch = dispatch;
 		this.getState = getState;
