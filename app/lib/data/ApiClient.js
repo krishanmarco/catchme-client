@@ -311,12 +311,12 @@ class ApiClient {
 
 
 
-	usersGetUidProfile(uid) {
+	usersGetUidProfile(uid: number) {
 		return this._get(Urls.api + '/users/' + uid + '/profile')
 			.then(json => JSON.parse(json));
 	}
 
-	locationsGetLidProfile(lid) {
+	locationsGetLidProfile(lid: number) {
 		return this._get(Urls.api + '/locations/' + lid + '/profile')
 			.then(json => JSON.parse(json));
 	}
