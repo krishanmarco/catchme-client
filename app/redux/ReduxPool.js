@@ -21,6 +21,10 @@ import ApiFormDefLogin from '../lib/redux-pool/api-forms/ApiFormDefLogin';
 import ApiFormDef from "../lib/redux-pool/api-forms/ApiFormDef";
 import CacheDefUserProfile from "../lib/redux-pool/cache/CacheDefUserProfile";
 import CacheDefUserLocationStatus from "../lib/redux-pool/cache/CacheDefUserLocationStatus";
+import CacheMapDefLocationProfiles from "../lib/redux-pool/cache-map/CacheMapDefLocationProfiles";
+import CacheMapDefUserProfiles from "../lib/redux-pool/cache-map/CacheMapDefUserProfiles";
+import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/FirebaseDataDefFeed";
+import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/FirebaseDataDefFeaturedAds";
 import {screenDisablePointerEvents, screenEnablePointerEvents} from "../comp/misc/Screen";
 
 // Top Level Ids ******************************************************************************************************
@@ -68,7 +72,6 @@ export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';
 
 
 // ReduxPoolCacheMap Ids
-export const CACHE_MAP_ID_USERS = 'CACHE_ID_USERS_LIST';
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
 
@@ -119,7 +122,7 @@ export class ReduxPoolCache {
 }
 
 
-class ReduxPoolCacheMap {
+export class ReduxPoolCacheMap {
 
 	constructor(cacheId) {
 
@@ -154,7 +157,7 @@ export class ReduxPoolApiForms {
 }
 
 
-class ReduxFirebaseData {
+export class ReduxFirebaseData {
 
 	constructor(cacheId) {
 
@@ -448,7 +451,7 @@ export const ReduxPoolBuilder = {
 
 
 					// Run request or data builder
-					const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
+					const loadingPromise = pool.buildDataSet(itemId, extraParams)
 						.then(buildResultData => {
 
 							// Save the result data into the pool
@@ -498,18 +501,8 @@ export const ReduxPoolBuilder = {
 		},
 
 		pools: {
-			[CACHE_MAP_ID_USERS]: {
-				initState: () => new ReduxPoolCacheMap(CACHE_MAP_ID_USERS),
-				buildDataSet: (d, userId) => DataProvider.usersGetUidProfile(userId)
-			},
-			[CACHE_MAP_ID_LOCATION_PROFILES]: {
-				initState: () => new ReduxPoolCacheMap(CACHE_MAP_ID_LOCATION_PROFILES),
-				buildDataSet: (d, locationId) => DataProvider.locationsGetLidProfile(locationId)
-			},
-			[CACHE_MAP_ID_USER_PROFILES]: {
-				initState: () => new ReduxPoolCacheMap(CACHE_MAP_ID_USER_PROFILES),
-				buildDataSet: (d, userId) => DataProvider.usersGetUidProfile(userId)
-			},
+			[CACHE_MAP_ID_LOCATION_PROFILES]: CacheMapDefLocationProfiles,
+			[CACHE_MAP_ID_USER_PROFILES]: CacheMapDefUserProfiles,
 
 		}
 
@@ -865,25 +858,8 @@ export const ReduxPoolBuilder = {
 		},
 
 		pools: {
-			[FIREBASE_DATA_ID_FEED]: {
-				initState: () => new ReduxFirebaseData(FIREBASE_DATA_ID_FEED),
-				getObjectByFirebaseId: FirebaseData.dbFeedById,
-				getUserObjectIds: FirebaseData.dbUserFeedIds,
-				keyExtractor: feedItem => feedItem.id,
-				mapFirebaseItemToLocalItem: item => item,
-				onReceiveLocalItem: item => {
-					// todo: if consumeOnView === true then delete this feed-item from firebase
-				},
-			},
-			[FIREBASE_DATA_ID_FEATURED_ADS]: {
-				initState: () => new ReduxFirebaseData(FIREBASE_DATA_ID_FEATURED_ADS),
-				getObjectByFirebaseId: FirebaseData.dbFeaturedAdById,
-				getUserObjectIds: FirebaseData.dbUserFeaturedAdIds,
-				keyExtractor: featuredAdItem => featuredAdItem.id,
-				mapFirebaseItemToLocalItem: item => item,
-				onReceiveLocalItem: item => {
-				},
-			},
+			[FIREBASE_DATA_ID_FEED]: FirebaseDataDefFeed,
+			[FIREBASE_DATA_ID_FEATURED_ADS]: FirebaseDataDefFeaturedAds,
 
 		}
 
