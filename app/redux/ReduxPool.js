@@ -511,6 +511,32 @@ export const ReduxPoolBuilder = {
 
 	[POOL_TYPE_API_FORMS]: {
 
+		poolActions: {
+			[POOL_ACTION_API_FORMS_ON_CHANGE]: (action, subState) => ({
+				apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
+				validationError: action.validationError,
+				errors: action.errors
+			}),
+			[POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) =>
+				action.newState,
+			[POOL_ACTION_API_FORMS_ON_POST]: (action, subState) => ({
+				loading: true,
+				apiResponse: null
+			}),
+			[POOL_ACTION_API_FORMS_ON_SUCCESS]: (action, subState) => ({
+				apiResponse: action.apiResponse
+			}),
+			[POOL_ACTION_API_FORMS_ON_API_EXCEPTION]: (action, subState) => ({
+				errors: action.errors
+			}),
+			[POOL_ACTION_API_FORMS_ON_FINISH]: (action, subState) => ({
+				loading: false,
+			}),
+			[POOL_ACTION_API_FORMS_ON_ERROR_DISMISS]: (action, subState) => ({
+				errors: {}
+			})
+		},
+
 		poolConnect: {
 
 			extraProps: (poolId, pool, stateProps, dispatchProps) => ({
@@ -645,32 +671,6 @@ export const ReduxPoolBuilder = {
 
 			})
 
-		},
-
-		poolActions: {
-			[POOL_ACTION_API_FORMS_ON_CHANGE]: (action, subState) => ({
-				apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
-				validationError: action.validationError,
-				errors: action.errors
-			}),
-			[POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) =>
-				action.newState,
-			[POOL_ACTION_API_FORMS_ON_POST]: (action, subState) => ({
-				loading: true,
-				apiResponse: null
-			}),
-			[POOL_ACTION_API_FORMS_ON_SUCCESS]: (action, subState) => ({
-				apiResponse: action.apiResponse
-			}),
-			[POOL_ACTION_API_FORMS_ON_API_EXCEPTION]: (action, subState) => ({
-				errors: action.errors
-			}),
-			[POOL_ACTION_API_FORMS_ON_FINISH]: (action, subState) => ({
-				loading: false,
-			}),
-			[POOL_ACTION_API_FORMS_ON_ERROR_DISMISS]: (action, subState) => ({
-				errors: {}
-			})
 		},
 
 		pools: {
