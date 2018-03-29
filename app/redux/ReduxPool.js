@@ -19,6 +19,8 @@ import ApiFormDefChangePassword from '../lib/redux-pool/api-forms/ApiFormDefChan
 import ApiFormDefRegister from '../lib/redux-pool/api-forms/ApiFormDefRegister';
 import ApiFormDefLogin from '../lib/redux-pool/api-forms/ApiFormDefLogin';
 import ApiFormDef from "../lib/redux-pool/api-forms/ApiFormDef";
+import CacheDefUserProfile from "../lib/redux-pool/cache/CacheDefUserProfile";
+import CacheDefUserLocationStatus from "../lib/redux-pool/cache/CacheDefUserLocationStatus";
 import {screenDisablePointerEvents, screenEnablePointerEvents} from "../comp/misc/Screen";
 
 // Top Level Ids ******************************************************************************************************
@@ -110,7 +112,7 @@ export class ReduxPoolCache {
 		// yet then this object will be set to the promise returned by the API request.
 		// If another request for this same cache then comes through, rather than sending out
 		// a duplicate API request, this promise is returned, when the first request is completed
-		// even the second request will be fullfilled
+		// even the second request will be fulfilled
 		this.loadingPromise = null;
 	}
 
@@ -349,14 +351,8 @@ export const ReduxPoolBuilder = {
 		},
 
 		pools: {
-			[CACHE_ID_USER_PROFILE]: {
-				initState: () => new ReduxPoolCache(CACHE_ID_USER_PROFILE),
-				buildDataSet: (d) => ApiClient.userProfile(d)
-			},
-			[CACHE_ID_USER_LOCATION_STATUS]: {
-				initState: () => new ReduxPoolCache(CACHE_ID_USER_LOCATION_STATUS),
-				buildDataSet: (d) => ApiClient.userStatusGet(d)
-			},
+			[CACHE_ID_USER_PROFILE]: CacheDefUserProfile,
+			[CACHE_ID_USER_LOCATION_STATUS]: CacheDefUserLocationStatus,
 		}
 
 	},

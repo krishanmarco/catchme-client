@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import type {TDispatch, TGetState} from "../../types/Types";
 import _ from 'lodash';
+import {ReduxPoolApiForms} from "../../../redux/ReduxPool";
 
 export type TApiFormDef<TApiFormObject> = {
 
@@ -14,11 +15,15 @@ export type TApiFormDef<TApiFormObject> = {
 	post: (TApiFormObject) => Promise<TApiFormObject>,
 
 	// Initial state of this form
-	initState: () => TApiFormObject,
+	initState: () => ReduxPoolApiForms,
 
 	// Function to validate the input, it must return an
 	// TApiFormObject where the values are error codes
-	validate: () => TApiFormDef<TApiFormObject>,
+	validate: () => TApiFormObject,
+
+	// If true the <Screen /> component disables all touches while
+	// this form is loading. Default false
+	disableScreenOnLoading: boolean,
 
 	// Function to set the dispatch and getState
 	// values for each action call
@@ -30,11 +35,7 @@ export type TApiFormDef<TApiFormObject> = {
 
 	// Function that return the redux state,
 	// set on bindAction
-	getState?: TGetState,
-
-	// If true the <Screen /> component disables all touches while
-	// this form is loading. Default false
-	disableScreenOnLoading: boolean
+	getState?: TGetState
 
 };
 
