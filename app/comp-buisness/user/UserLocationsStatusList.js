@@ -57,12 +57,11 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
 
     // Calculate the top, past, now, later fields with only one iteration of locations
 
-    // Initialize the raw stategLocationId
+    // Initialize the raw state
     state.top = DaoUser.gLocationsTopIds(user);   // Array of ids
     state.past = [];                              // Array of TUserLocationStatus
     state.now = [];                               // Array of TUserLocationStatus
     state.future = [];                            // Array of TUserLocationStatus
-
 
     // Iterate the UserLocationStatuses and populate past, now, later accordingly
     const userLocationStatuses = DaoUser.gLocationsUserLocationStatuses(user);

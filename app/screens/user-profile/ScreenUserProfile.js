@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import _ from 'lodash';
 import DaoUser from "../../lib/daos/DaoUser";
 import PropTypes from 'prop-types';
 import React from 'react';

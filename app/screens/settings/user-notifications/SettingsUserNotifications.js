@@ -25,7 +25,7 @@ type Props = {
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-class SettingsUserNotificationsPresentational extends React.Component<any, Props, any> {
+class _SettingsUserNotifications extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -41,6 +41,11 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
 		this._formApiEditUserProfile().change(this._userProfile());
 	}
 
+	componentWillUnmount() {
+		// Post the updated form
+		this._formApiEditUserProfile().post();
+	}
+
 	_formApiEditUserProfile() {
 		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
 	}
@@ -50,39 +55,36 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
 		return this.props.authenticatedUserProfile;
 	}
 
-	post(newSettings) {
+	_saveSettingValue(newSettings) {
 		// Change the value in the form handler
 		this._formApiEditUserProfile().change({
 			[DaoUser.pSettingNotifications]: newSettings
 		});
-
-		// Post the updated form
-		this._formApiEditUserProfile().post();
 	}
 
 
-	_changeSettingValue(settingStr, index, newBoolVal) {
+	_getNewSettingValue(settingStr, index, newBoolVal) {
 		return stringReplace(settingStr, index, boolToIntString(newBoolVal));
 	}
 
 	_onDisableAllValueChange(value) {
 		let settingStr = DaoUser.gSettingNotifications(this._userProfile());
-		settingStr = this._changeSettingValue(settingStr, 0, !value);
-		settingStr = this._changeSettingValue(settingStr, 1, !value);
-		settingStr = this._changeSettingValue(settingStr, 2, !value);
-		this.post(settingStr);
+		settingStr = this._getNewSettingValue(settingStr, 0, !value);
+		settingStr = this._getNewSettingValue(settingStr, 1, !value);
+		settingStr = this._getNewSettingValue(settingStr, 2, !value);
+		this._saveSettingValue(settingStr);
 	}
 
 	_onFriendshipRequestValueChange(value) {
-		this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 0, value));
+		this._saveSettingValue(this._getNewSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 0, value));
 	}
 
 	_onFriendActionsValueChange(value) {
-		this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 1, value));
+		this._saveSettingValue(this._getNewSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 1, value));
 	}
 
 	_onCatchmeSuggestionsValueChange(value) {
-		this.post(this._changeSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 2, value));
+		this._saveSettingValue(this._getNewSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 2, value));
 	}
 
 	render() {
@@ -143,7 +145,7 @@ class SettingsUserNotificationsPresentational extends React.Component<any, Props
 
 const SettingsUserNotifications = poolConnect(
 	// Presentational Component
-	SettingsUserNotificationsPresentational,
+	_SettingsUserNotifications,
 
 	// mapStateToProps
 	(state) => state.settingsUserAccountReducer,
