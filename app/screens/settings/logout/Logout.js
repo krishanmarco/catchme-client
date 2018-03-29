@@ -24,7 +24,7 @@ type Props = {
 // Component ********************************************************************************************
 // Component ********************************************************************************************
 
-export default class SettingsUserNotifications extends React.Component<any, Props, any> {
+export default class Logout extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);

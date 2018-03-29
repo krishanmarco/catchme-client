@@ -97,8 +97,9 @@ class DataProvider {
 	_runApiRequest(apiRequest, saveToRealm) {
 		return apiRequest()
 			.then(object => {
+				const userForReturn = JSON.parse(JSON.stringify(object));
 				saveToRealm({insertTs: seconds(), ...object});
-				return object;
+				return userForReturn;
 			});
 	}
 

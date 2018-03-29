@@ -401,7 +401,6 @@ export const ReduxPoolBuilder = {
 						dispatchProps.initializeItem(itemId, extraParams);
 						return null;
 					}
-
 					return stateProps.data[itemId].data;
 				},
 
@@ -453,33 +452,34 @@ export const ReduxPoolBuilder = {
 
 
 					// Run request or data builder
-					const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams).then(buildResultData => {
+					const loadingPromise = pool.buildDataSet(dispatch, itemId, extraParams)
+						.then(buildResultData => {
 
-						// Save the result data into the pool
-						dispatch({
-							poolType: POOL_TYPE_CACHE_MAP,
-							poolId,
-							type: POOL_ACTION_CACHE_MAP_SET_DATA,
-							itemId,
-							data: buildResultData
+							// Save the result data into the pool
+							dispatch({
+								poolType: POOL_TYPE_CACHE_MAP,
+								poolId,
+								type: POOL_ACTION_CACHE_MAP_SET_DATA,
+								itemId,
+								data: buildResultData
+							});
+
+							// Continue the promise chain
+							return buildResultData;
+						}).catch(apiExceptionResponse => {
+							Logger.v("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
+
+							dispatch({
+								poolType: POOL_TYPE_CACHE_MAP,
+								poolId,
+								type: POOL_ACTION_CACHE_MAP_SET_DATA,
+								itemId,
+								data: null,
+							});
+
+							// Continue the promise chain
+							return apiExceptionResponse;
 						});
-
-						// Continue the promise chain
-						return buildResultData;
-					}).catch(apiExceptionResponse => {
-						Logger.v("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
-
-						dispatch({
-							poolType: POOL_TYPE_CACHE_MAP,
-							poolId,
-							type: POOL_ACTION_CACHE_MAP_SET_DATA,
-							itemId,
-							data: null,
-						});
-
-						// Continue the promise chain
-						return apiExceptionResponse;
-					});
 
 
 					// If the promise hasn't resolved immediately then
