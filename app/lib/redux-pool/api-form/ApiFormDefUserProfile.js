@@ -32,15 +32,15 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 		const poolTypeApiForms = ReduxPoolBuilder[POOL_TYPE_API_FORMS];
 
 		// Get CACHE_ID_USER_PROFILE and FORM_API_ID_EDIT_USER_PROFILE pool
-		const cacheUserProfile = poolTypeCache.pools[CACHE_ID_USER_PROFILE];
-		const formApiEditUserProfile = poolTypeApiForms.pools[FORM_API_ID_EDIT_USER_PROFILE];
+		const cacheUserProfile = poolTypeCache.defs[CACHE_ID_USER_PROFILE];
+		const formApiEditUserProfile = poolTypeApiForms.defs[FORM_API_ID_EDIT_USER_PROFILE];
 
 		// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
 		const userProfileActions = poolTypeCache
-			.poolConnect.mergeMapDispatchToProps(CACHE_ID_USER_PROFILE, cacheUserProfile, this.dispatch);
+			.connectHelpers.getActions(CACHE_ID_USER_PROFILE, cacheUserProfile, this.dispatch);
 
 		const userProfileFormActions = poolTypeApiForms
-			.poolConnect.mergeMapDispatchToProps(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, this.dispatch);
+			.connectHelpers.getActions(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, this.dispatch);
 
 
 		// Post and invalidate CACHE_ID_USER_PROFILE
