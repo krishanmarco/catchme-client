@@ -1,9 +1,9 @@
+import Logger from "../../Logger";
+import PoolActions from "../PoolActions";
 import {
 	POOL_ACTION_CACHE_INIT_DATA, POOL_ACTION_CACHE_INVALIDATE_DATA,
 	POOL_ACTION_CACHE_SET_DATA, POOL_TYPE_CACHE
 } from "../../../redux/ReduxPool";
-import Logger from "../../Logger";
-import PoolActions from "../PoolActions";
 
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 
@@ -11,27 +11,20 @@ import PoolActions from "../PoolActions";
 export default class CachePoolActions extends PoolActions {
 
 	constructor(poolId, pool, dispatch) {
-		super(poolId, pool, dispatch);
+		super(POOL_TYPE_CACHE, poolId, pool, dispatch);
 	}
 
 
 	// Action to invalidate a cache
 	invalidate() {
-		const {poolId, pool, dispatch} = this;
-
-		dispatch({
-			poolType: POOL_TYPE_CACHE,
-			poolId,
-			type: POOL_ACTION_CACHE_INVALIDATE_DATA
-		});
-
+		const {dispatchAction} = this;
+		return dispatchAction({type: POOL_ACTION_CACHE_INVALIDATE_DATA});
 	}
 
 
 	initialize(extraParams) {
-		const {poolId, pool, dispatch} = this;
-
-		dispatch((dispatch, getState) => {
+		const {poolId, pool, dispatch, dispatchAction} = this;
+		return dispatch((dispatch, getState) => {
 			// If the data is already set (or is about to be set [loadingPromise != null]) there is
 			// no need to run the request again.
 
@@ -56,9 +49,7 @@ export default class CachePoolActions extends PoolActions {
 			const loadingPromise = pool.buildDataSet(dispatch, extraParams).then(buildResultData => {
 
 				// Save the result data into the pool
-				dispatch({
-					poolType: POOL_TYPE_CACHE,
-					poolId,
+				dispatchAction({
 					type: POOL_ACTION_CACHE_SET_DATA,
 					data: buildResultData
 				});
@@ -86,9 +77,7 @@ export default class CachePoolActions extends PoolActions {
 			// Save loadingPromise to the state, this way, even if [data] is
 			// null the next request will not be processed because we know
 			// that one has already been sent out
-			return dispatch({
-				poolType: POOL_TYPE_CACHE,
-				poolId,
+			return dispatchAction({
 				type: POOL_ACTION_CACHE_INIT_DATA,
 				payload: loadingPromise,
 				loadingPromise
