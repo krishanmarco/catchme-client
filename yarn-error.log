@@ -1,11 +1,11 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js start
+  C:\Program Files\nodejs\node.exe C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\ProgramData\ComposerSetup\bin;C:\Program Files\nodejs\;C:\Users\krish\AppData\Local\Microsoft\WindowsApps;C:\Program Files\php\php7.2;C:\Users\krish\AppData\Roaming\Composer\vendor\bin;C:\Users\krish\AppData\Roaming\npm;C:\Users\krish\AppData\Local\Android\Sdk\platform-tools
+  C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\ComposerSetup\bin;C:\Users\krish\AppData\Local\Microsoft\WindowsApps;C:\Users\krish\AppData\Roaming\npm;C:\Program Files\php\php-7.2;C:\Users\krish\AppData\Roaming\Composer\vendor\bin;C:\Program Files\Java\jdk1.8.0_161\bin;C:\Users\krish\AppData\Local\Android\Sdk\platform-tools
 
 Yarn version: 
-  1.5.1
+  1.3.2
 
 Node version: 
   8.9.4
@@ -64,7 +64,8 @@ npm manifest:
       "redux": "^3.7.2",
       "redux-promise-middleware": "^5.0.0",
       "redux-thunk": "^2.2.0",
-      "victory-native": "^0.16.0"
+      "victory-native": "^0.16.0",
+      "flat": "4.0.0"
     },
     "devDependencies": {
       "babel-eslint": "^7.2.3",
@@ -7593,17 +7594,4 @@ Lockfile:
       fd-slicer "~1.0.1"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 11
-  Command: C:\Windows\system32\cmd.exe
-  Arguments: /d /s /c node node_modules/react-native/local-cli/cli.js start
-  Directory: C:\Users\krish\projects\catchme-client
-  Output:
-  
-      at ProcessTermError.MessageError (C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:186:110)
-      at new ProcessTermError (C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:226:113)
-      at ChildProcess.<anonymous> (C:\Users\krish\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:30281:17)
-      at emitTwo (events.js:126:13)
-      at ChildProcess.emit (events.js:214:7)
-      at maybeClose (internal/child_process.js:925:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)
+  Error: EPERM: operation not permitted, lstat 'C:\Users\krish\Projects\catchme-client\node_modules\acorn-jsx\node_modules'

@@ -1,9 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import SettingsUserAccount from './SettingsUserAccount';
-import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../../redux/ReduxPool';
+import {CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects} from "../../../comp/Misc";
 import {Screen} from "../../../comp/Misc";
+import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CacheReduxPool";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

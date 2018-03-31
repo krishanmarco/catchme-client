@@ -3,10 +3,11 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 import EditLocation from './EditLocation';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
+import {CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from '../../comp/Misc';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
+import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/CacheReduxPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

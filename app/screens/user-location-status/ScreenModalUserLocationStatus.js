@@ -7,7 +7,6 @@ import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import ModalUserLocationStatus from './ModalUserLocationStatus';
 import React from 'react';
 import {
-  CACHE_ID_USER_LOCATION_STATUS,
   CACHE_MAP_ID_LOCATION_PROFILES,
   FORM_API_ID_EDIT_USER_LOCATION_STATUS,
   poolConnect
@@ -16,6 +15,7 @@ import {
 import {NullableObjects, Screen} from "../../comp/Misc";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {CACHE_ID_USER_LOCATION_STATUS} from "../../lib/redux-pool/cache/CacheReduxPool";
 
 
 // Const *************************************************************************************************

@@ -1,29 +1,34 @@
-import Logger from "../../Logger";
-import PoolActions from "../PoolActions";
-import {
-	POOL_ACTION_CACHE_INIT_DATA, POOL_ACTION_CACHE_INVALIDATE_DATA,
-	POOL_ACTION_CACHE_SET_DATA, POOL_TYPE_CACHE
-} from "../../../redux/ReduxPool";
-
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
+import Logger from "../../Logger";
+import PoolActions from "../PoolActionCreators";
+import {
+	POOL_ACTION_CACHE_INIT_DATA,
+	POOL_ACTION_CACHE_INVALIDATE_DATA,
+	POOL_ACTION_CACHE_SET_DATA
+} from "./CacheReduxPool";
+import {POOL_TYPE_CACHE} from "../../../redux/ReduxPool";
+import type {TDispatch} from "../../types/Types";
 
 
-export default class CachePoolActions extends PoolActions {
+export default class CacheActionCreators extends PoolActions {
 
-	constructor(poolId, pool, dispatch) {
-		super(POOL_TYPE_CACHE, poolId, pool, dispatch);
+	constructor(poolId: string, dispatch: TDispatch) {
+		super(POOL_TYPE_CACHE, poolId, dispatch);
 	}
 
 
 	// Action to invalidate a cache
 	invalidate() {
 		const {dispatchAction} = this;
+		
 		return dispatchAction({type: POOL_ACTION_CACHE_INVALIDATE_DATA});
 	}
 
 
 	initialize(extraParams) {
-		const {poolId, pool, dispatch, dispatchAction} = this;
+		const {poolId, dispatch, dispatchAction} = this;
+		const pool = this.getDef();
+		
 		return dispatch((dispatch, getState) => {
 			// If the data is already set (or is about to be set [loadingPromise != null]) there is
 			// no need to run the request again.

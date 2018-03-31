@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {ReduxPoolCache} from "../../../redux/ReduxPool";
+import {CacheState} from "./CacheModel";
 import type {TDispatch, TGetState} from "../../types/Types";
 
 
@@ -9,7 +9,7 @@ export type TCacheDef<TCacheObject> = {
 	cacheId: string,
 
 	// Initial state of this cache
-	initState: () => ReduxPoolCache,
+	initState: () => CacheState,
 
 	// Refresh or get data associated to this cache
 	buildDataSet: () => TCacheObject
@@ -23,8 +23,8 @@ export default class CacheDef {
 		this.cacheId = cacheId;
 	}
 
-	initState(): ReduxPoolCache {
-		return new ReduxPoolCache(this.cacheId);
+	initState(): CacheState {
+		return new CacheState(this.cacheId);
 	}
 
 	bindAction(dispatch: TDispatch, getState: TGetState) {

@@ -2,7 +2,6 @@
 import ApiClient from "../../data/ApiClient";
 import ApiFormDef from "./ApiFormDef";
 import {
-	CACHE_ID_USER_PROFILE,
 	FORM_API_ID_EDIT_USER_PROFILE,
 	POOL_TYPE_API_FORMS,
 	POOL_TYPE_CACHE,
@@ -13,6 +12,7 @@ import {Validate} from "../../helpers/Validator";
 import type {TUser} from "../../daos/DaoUser";
 import DaoUser from "../../daos/DaoUser";
 import type {TApiFormDef} from "./ApiFormDef";
+import {CACHE_ID_USER_PROFILE} from "../cache/CacheReduxPool";
 
 
 // Declare form definition
@@ -37,10 +37,10 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 
 		// Get POOL_TYPE_CACHE and POOL_TYPE_API_FORMS actions
 		const userProfileActions = poolTypeCache
-			.connectHelpers.getActions(CACHE_ID_USER_PROFILE, cacheUserProfile, this.dispatch);
+			.connectParams.getActionCreators(CACHE_ID_USER_PROFILE, cacheUserProfile, this.dispatch);
 
 		const userProfileFormActions = poolTypeApiForms
-			.connectHelpers.getActions(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, this.dispatch);
+			.connectParams.getActionCreators(FORM_API_ID_EDIT_USER_PROFILE, formApiEditUserProfile, this.dispatch);
 
 
 		// Post and invalidate CACHE_ID_USER_PROFILE

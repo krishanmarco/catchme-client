@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../data/ApiClient";
-import CacheDef from "./CacheDef";
-import {CACHE_ID_USER_LOCATION_STATUS} from "../../../redux/ReduxPool";
-import type {TCacheDef} from "./CacheDef";
-import type {TUserLocationStatus} from "../../daos/DaoUserLocationStatus";
+import ApiClient from "../../../data/ApiClient";
+import CacheDef from "../CacheDef";
+import {CACHE_ID_USER_LOCATION_STATUS} from "../CacheReduxPool";
+import type {TCacheDef} from "../CacheDef";
+import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 // Declare cache definition
 class CacheDefUserLocationStatus extends CacheDef<Array<TUserLocationStatus>> {
