@@ -6,7 +6,7 @@ import React from 'react';
 import UserProfile from './UserProfile';
 import {CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../comp/Misc";
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/CacheReduxPool";
+import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/CachePool";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

@@ -19,7 +19,7 @@ import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/FirebaseDataDef
 import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/FirebaseDataDefFeaturedAds";
 import {screenDisablePointerEvents, screenEnablePointerEvents} from "../comp/misc/Screen";
 import {CacheState} from "../lib/redux-pool/cache/CacheModel";
-import CacheReduxPool from "../lib/redux-pool/cache/CacheReduxPool";
+import CachePool from "../lib/redux-pool/cache/CachePool";
 
 // Top Level Ids ******************************************************************************************************
 // Top Level Ids ******************************************************************************************************
@@ -205,7 +205,7 @@ function poolIterator(poolDeclaration, poolIds, apply) {
 export const ReduxPoolBuilder = {
 
 	// Declare all Top Level Pools (each of the POOL_TYPES)
-	[POOL_TYPE_CACHE]: CacheReduxPool,
+	[POOL_TYPE_CACHE]: CachePool,
 
 
 	[POOL_TYPE_CACHE_MAP]: {

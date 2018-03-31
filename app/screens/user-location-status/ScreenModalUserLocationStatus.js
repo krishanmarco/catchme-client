@@ -15,7 +15,7 @@ import {
 import {NullableObjects, Screen} from "../../comp/Misc";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {CACHE_ID_USER_LOCATION_STATUS} from "../../lib/redux-pool/cache/CacheReduxPool";
+import {CACHE_ID_USER_LOCATION_STATUS} from "../../lib/redux-pool/cache/CachePool";
 
 
 // Const *************************************************************************************************

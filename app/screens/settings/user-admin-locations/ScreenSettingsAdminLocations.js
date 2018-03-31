@@ -4,7 +4,7 @@ import SettingsUserAdminLocations from './SettingsUserAdminLocations';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../../comp/Misc";
 import type {TNavigator} from "../../../lib/types/Types";
-import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CacheReduxPool";
+import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CachePool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

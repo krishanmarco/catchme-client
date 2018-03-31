@@ -12,7 +12,7 @@ import {Validate} from "../../helpers/Validator";
 import type {TUser} from "../../daos/DaoUser";
 import DaoUser from "../../daos/DaoUser";
 import type {TApiFormDef} from "./ApiFormDef";
-import {CACHE_ID_USER_PROFILE} from "../cache/CacheReduxPool";
+import {CACHE_ID_USER_PROFILE} from "../cache/CachePool";
 
 
 // Declare form definition

@@ -5,15 +5,17 @@ import {
 	POOL_ACTION_CACHE_INIT_DATA,
 	POOL_ACTION_CACHE_INVALIDATE_DATA,
 	POOL_ACTION_CACHE_SET_DATA
-} from "./CacheReduxPool";
+} from "./CachePool";
 import {POOL_TYPE_CACHE} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
 
 
 export default class CacheActionCreators extends PoolActions {
 
-	constructor(poolId: string, dispatch: TDispatch) {
-		super(POOL_TYPE_CACHE, poolId, dispatch);
+	constructor(poolDefId: string, dispatch: TDispatch) {
+		super(POOL_TYPE_CACHE, poolDefId, dispatch);
+		this.invalidate = this.invalidate.bind(this);
+		this.initialize = this.initialize.bind(this);
 	}
 
 
@@ -27,7 +29,7 @@ export default class CacheActionCreators extends PoolActions {
 
 	initialize(extraParams) {
 		const {poolId, dispatch, dispatchAction} = this;
-		const pool = this.getDef();
+		const pool = this.getPoolDef();
 		
 		return dispatch((dispatch, getState) => {
 			// If the data is already set (or is about to be set [loadingPromise != null]) there is
@@ -41,7 +43,7 @@ export default class CacheActionCreators extends PoolActions {
 			let reduxPoolCache = getState().reduxPoolReducer[POOL_TYPE_CACHE][poolId];
 
 			if (reduxPoolCache.loadingPromise != null) {
-				Logger.v(`ReduxPool initialize: Requested ${poolId} initialization but already loading.`);
+				Logger.v(`CacheActionCreators initialize: Requested ${poolId} initialization but already loading.`);
 				return reduxPoolCache.loadingPromise;
 			}
 
@@ -63,7 +65,7 @@ export default class CacheActionCreators extends PoolActions {
 				return buildResultData;
 
 			}).catch(apiExceptionResponse => {
-				Logger.v("ReduxPool POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
+				Logger.v("CacheActionCreators POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
 
 				/* todo: remove comment after development
 				dispatch({

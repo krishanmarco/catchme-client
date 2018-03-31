@@ -4,7 +4,7 @@ import SettingsUserAccount from './SettingsUserAccount';
 import {CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects} from "../../../comp/Misc";
 import {Screen} from "../../../comp/Misc";
-import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CacheReduxPool";
+import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CachePool";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

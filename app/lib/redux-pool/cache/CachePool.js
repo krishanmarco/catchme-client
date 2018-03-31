@@ -5,7 +5,7 @@ import CachePoolActionCreators from "./CacheActionCreators";
 import {mutatorCacheModelInitializeData, mutatorCacheModelInvalidateData, mutatorCacheModelSetData} from "./CacheModel";
 import type {TCacheDef} from "./CacheDef";
 import type {TDispatch} from "../../types/Types";
-import type {TReduxPool} from "../ReduxPool";
+import type {TPool} from "../Pool";
 
 
 // Define all Actions (There should for each ACTION)
@@ -18,7 +18,7 @@ export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';
 
 
-const CacheReduxPool: TReduxPool = {
+const CacheReduxPool: TPool = {
 	
 	mutators: {
 		[POOL_ACTION_CACHE_INIT_DATA]: mutatorCacheModelInitializeData,

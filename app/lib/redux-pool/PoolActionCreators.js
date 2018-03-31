@@ -9,22 +9,18 @@ type TPoolActionDispatchObj = {
 
 export default class PoolActionCreators {
 
-	constructor(poolType: string, poolId: string, dispatch: TDispatch) {
+	constructor(poolType: string, poolDefId: string, dispatch: TDispatch) {
 		this.poolType = poolType;
-
-		this.poolId = poolId;
-		this.dispatch = dispatch;
-
-		this.invalidate = this.invalidate.bind(this);
-		this.initialize = this.initialize.bind(this);
-		this.dispatch = this.dispatch.bind(this);
-
+		this.poolId = poolDefId;
+		
+		this.dispatch = dispatch.bind(this);
+		
 		this.dispatchAction = this.dispatchAction.bind(this);
-		this.getDef = this.getDef.bind(this);
+		this.getPoolDef = this.getPoolDef.bind(this);
 	}
 	
 	
-	getDef() {
+	getPoolDef() {
 		return ReduxPoolBuilder[this.poolType].defs[this.poolId];
 	}
 
