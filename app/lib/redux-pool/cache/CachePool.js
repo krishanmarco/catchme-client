@@ -18,7 +18,7 @@ export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';
 
 
-const CacheReduxPool: TPool = {
+const CachePool: TPool = {
 	
 	mutators: {
 		[POOL_ACTION_CACHE_INIT_DATA]: mutatorCacheModelInitializeData,
@@ -29,7 +29,7 @@ const CacheReduxPool: TPool = {
 	
 	connectParams: {
 		// todo the pool parameter can be removed once all definitions have been migrated
-		getActionCreators: (poolId: string, pool: TCacheDef, dispatch: TDispatch) => new CachePoolActionCreators(poolId, dispatch)
+		getActionCreators: (poolDefId: string, pool: TCacheDef, dispatch: TDispatch) => new CachePoolActionCreators(poolDefId, dispatch)
 	},
 
 	
@@ -39,4 +39,4 @@ const CacheReduxPool: TPool = {
 	}
 	
 };
-export default CacheReduxPool;
+export default CachePool;
