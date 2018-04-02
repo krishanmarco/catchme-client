@@ -1,12 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
+import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
 import {Validate} from "../../../helpers/Validator";
-import DaoApiFormLogin from "../../../daos/DaoApiFormLogin";
 import type {TApiFormLogin} from "../../../daos/DaoApiFormLogin";
-import type {TApiFormDef} from "../ApiFormDef";
-import {FORM_API_ID_LOGIN} from "../ApiFormPool";
+import DaoApiFormLogin from "../../../daos/DaoApiFormLogin";
 import {ApiFormState} from "../ApiFormModel";
+
+export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
 
 // Declare form definition
 class ApiFormDefLogin extends ApiFormDef<TApiFormLogin> {

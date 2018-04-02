@@ -3,7 +3,7 @@ import AddContacts from './AddContacts';
 import React from 'react';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects, Screen} from '../../../comp/Misc';
-import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CachePool";
+import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

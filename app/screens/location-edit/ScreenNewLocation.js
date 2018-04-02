@@ -7,7 +7,7 @@ import {poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from '../../comp/Misc';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/CachePool";
+import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 
 // Const *************************************************************************************************

@@ -20,7 +20,7 @@ import type {TUser} from "../../lib/daos/DaoUser";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import {TReduxPoolApiForms} from "../../lib/types/ReduxPoolTypes";
 import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
-import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/ApiFormPool";
+import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
 
 
 // Redux ************************************************************************************************

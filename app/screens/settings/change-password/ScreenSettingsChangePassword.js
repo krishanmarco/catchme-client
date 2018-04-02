@@ -13,7 +13,7 @@ import {scaleVertical} from '../../../lib/utils/scale';
 
 import {View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
-import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
 
 
 // Const *************************************************************************************************

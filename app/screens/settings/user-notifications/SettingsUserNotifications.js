@@ -9,7 +9,7 @@ import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {View} from 'react-native';
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 
 
 

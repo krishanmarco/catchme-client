@@ -18,7 +18,7 @@ import {scaleVertical} from '../../lib/utils/scale';
 import {Screen} from "../../comp/Misc";
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
-import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/ApiFormPool";
+import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 
 
 // Const *************************************************************************************************

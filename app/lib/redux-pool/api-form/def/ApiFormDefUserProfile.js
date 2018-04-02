@@ -1,16 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
 import ApiFormActionCreator from "../ApiFormActionCreator";
+import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
 import CacheActionCreator from "../../cache/CacheActionCreator";
-import DaoUser from "../../../daos/DaoUser";
-import {CACHE_ID_USER_PROFILE} from "../../cache/CachePool";
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../ApiFormPool";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormDef} from "../ApiFormDef";
 import type {TUser} from "../../../daos/DaoUser";
+import DaoUser from "../../../daos/DaoUser";
+import {CACHE_ID_USER_PROFILE} from "../../cache/def/CacheDefUserProfile";
+import {Validate} from "../../../helpers/Validator";
 import {ApiFormState} from "../ApiFormModel";
 
+
+export const FORM_API_ID_EDIT_USER_PROFILE = 'FORM_API_ID_EDIT_USER_PROFILE';
 
 // Declare form definition
 class ApiFormDefUserProfile extends ApiFormDef<TUser> {

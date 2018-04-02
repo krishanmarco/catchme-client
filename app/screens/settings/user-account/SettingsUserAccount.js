@@ -13,7 +13,7 @@ import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInp
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 import ImagePicker from "../../../lib/helpers/ImagePicker";
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 
 
 // Redux ************************************************************************************************

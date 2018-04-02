@@ -1,13 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
+import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
 import {Validate} from "../../../helpers/Validator";
 import type {TLocation} from "../../../daos/DaoLocation";
 import DaoLocation from "../../../daos/DaoLocation";
-import type {TApiFormDef} from "../ApiFormDef";
-import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../ApiFormPool";
 import {ApiFormState} from "../ApiFormModel";
 
+
+export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
 
 // Declare form definition
 class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {

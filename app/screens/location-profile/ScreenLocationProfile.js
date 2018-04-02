@@ -14,7 +14,7 @@ import type {TModalUserLocationStatusProps} from "../user-location-status/Screen
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/CachePool";
+import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 
 // Const *************************************************************************************************

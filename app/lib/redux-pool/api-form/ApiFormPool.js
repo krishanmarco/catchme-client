@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 import ApiFormActionCreator from "./ApiFormActionCreator";
-import ApiFormDefChangePassword from './def/ApiFormDefChangePassword';
-import ApiFormDefLocationProfile from './def/ApiFormDefLocationProfile';
-import ApiFormDefLogin from './def/ApiFormDefLogin';
-import ApiFormDefRegister from './def/ApiFormDefRegister';
-import ApiFormDefUserLocationStatus from './def/ApiFormDefUserLocationStatus';
-import ApiFormDefUserProfile from './def/ApiFormDefUserProfile';
+import ApiFormDefChangePassword, {FORM_API_ID_CHANGE_PASSWORD} from './def/ApiFormDefChangePassword';
+import ApiFormDefLocationProfile, {FORM_API_ID_EDIT_LOCATION_PROFILE} from './def/ApiFormDefLocationProfile';
+import ApiFormDefLogin, {FORM_API_ID_LOGIN} from './def/ApiFormDefLogin';
+import ApiFormDefRegister, {FORM_API_ID_REGISTER} from './def/ApiFormDefRegister';
+import ApiFormDefUserLocationStatus, {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from './def/ApiFormDefUserLocationStatus';
+import ApiFormDefUserProfile, {FORM_API_ID_EDIT_USER_PROFILE} from './def/ApiFormDefUserProfile';
 import {
 	mutatorApiFormsOnApiException,
 	mutatorApiFormsOnChange,
@@ -29,15 +29,6 @@ export const POOL_ACTION_API_FORMS_ON_SUCCESS = 'POOL_ACTION_API_FORMS_ON_SUCCES
 export const POOL_ACTION_API_FORMS_ON_FINISH = 'POOL_ACTION_API_FORMS_ON_FINISH';
 export const POOL_ACTION_API_FORMS_ON_API_EXCEPTION = 'POOL_ACTION_API_FORMS_ON_API_EXCEPTION';
 export const POOL_ACTION_API_FORMS_ON_ERROR_DISMISS = 'POOL_ACTION_API_FORMS_ON_ERROR_DISMISS';
-
-
-// Define all {defs} pools
-export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
-export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';
-export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
-export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
-export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
-export const FORM_API_ID_EDIT_USER_PROFILE = 'FORM_API_ID_EDIT_USER_PROFILE';
 
 
 const ApiFormPool: TPool = {

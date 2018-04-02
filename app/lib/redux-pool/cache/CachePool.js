@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import CacheDefUserLocationStatus from "./def/CacheDefUserLocationStatus";
-import CacheDefUserProfile from "./def/CacheDefUserProfile";
+import CacheDefUserLocationStatus, {CACHE_ID_USER_LOCATION_STATUS} from "./def/CacheDefUserLocationStatus";
+import CacheDefUserProfile, {CACHE_ID_USER_PROFILE} from "./def/CacheDefUserProfile";
 import CachePoolActionCreator from "./CacheActionCreator";
 import {mutatorCacheModelInitializeData, mutatorCacheModelInvalidateData, mutatorCacheModelSetData} from "./CacheModel";
 import type {TCacheDef} from "./CacheDef";
@@ -12,10 +12,6 @@ import type {TPool} from "../Pool";
 export const POOL_ACTION_CACHE_INIT_DATA = 'POOL_ACTION_CACHE_INIT_DATA';
 export const POOL_ACTION_CACHE_SET_DATA = 'POOL_ACTION_CACHE_SET_DATA';
 export const POOL_ACTION_CACHE_INVALIDATE_DATA = 'POOL_ACTION_CACHE_INVALIDATE_DATA';
-
-// Define all {defs} pools
-export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
-export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';
 
 
 const CachePool: TPool = {

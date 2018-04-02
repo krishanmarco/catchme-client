@@ -1,12 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import ApiFormDef from "../ApiFormDef";
-import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
-import {FORM_API_ID_CHANGE_PASSWORD} from "../ApiFormPool";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
 import type {TApiFormDef} from "../ApiFormDef";
+import ApiFormDef from "../ApiFormDef";
+import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
+import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
+import {Validate} from "../../../helpers/Validator";
 import {ApiFormState} from "../ApiFormModel";
+
+export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 
 // Declare form definition
 class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {

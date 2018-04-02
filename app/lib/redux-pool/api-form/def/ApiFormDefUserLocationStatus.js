@@ -1,13 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import ApiFormDef from "../ApiFormDef";
-import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
 import type {TApiFormDef} from "../ApiFormDef";
-import type {TLocation} from "../../../daos/DaoLocation";
+import ApiFormDef from "../ApiFormDef";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
-import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from "../ApiFormPool";
+import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
+import type {TLocation} from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
 
+
+export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
 
 // Declare form definition
 class FormDefUserLocationStatus extends ApiFormDef<TLocation> {

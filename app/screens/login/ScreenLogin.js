@@ -25,7 +25,7 @@ import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/ApiFormPool";
+import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 
 // Const *************************************************************************************************
