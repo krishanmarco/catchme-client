@@ -5,11 +5,12 @@ import {connect} from 'react-redux';
 import {Const} from "../Config";
 import CacheMapDefLocationProfiles from "../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 import CacheMapDefUserProfiles from "../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
-import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/FirebaseDataDefFeed";
-import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/FirebaseDataDefFeaturedAds";
+import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
+import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds";
 import {CacheState} from "../lib/redux-pool/cache/CacheModel";
 import CachePool from "../lib/redux-pool/cache/CachePool";
 import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
+import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
 import CacheMapActionCreator from "../lib/redux-pool/cache-map/CacheMapActionCreator";
 import {
 	CACHE_MAP_ID_LOCATION_PROFILES,
@@ -19,6 +20,12 @@ import {
 	POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
 	POOL_ACTION_CACHE_MAP_SET_DATA
 } from "../lib/redux-pool/cache-map/CacheMapPool";
+import CacheMapExtraProps from "../lib/redux-pool/cache-map/CacheMapExtraProps";
+import {
+	mutatorCacheMapModelInitData,
+	mutatorCacheMapModelInvalidateAllData, mutatorCacheMapModelInvalidateData,
+	mutatorCacheMapModelSetData
+} from "../lib/redux-pool/cache-map/CacheMapModel";
 
 
 // Top Level Ids ******************************************************************************************************
@@ -104,7 +111,9 @@ function build(poolDeclaration) {
 				if (poolTypeDeclaration.defs.hasOwnProperty(poolId)) {
 
 					const poolDeclaration = poolTypeDeclaration.defs[poolId];
-
+					console.log("P", poolTypeDeclaration);
+console.log("POOL", poolDeclaration);
+console.log("POOLID", poolId);
 					// Add the pool to the result
 					result[typeId][poolId] = poolDeclaration.initState();
 
@@ -150,63 +159,31 @@ export const ReduxPoolBuilder = {
 	[POOL_TYPE_API_FORMS]: ApiFormPool,
 
 
-	[POOL_TYPE_CACHE_MAP]: {
-
-		mutators: {
-			[POOL_ACTION_CACHE_MAP_INIT_DATA]: (action, state) =>
-				Object.assign(state.data, {
-					[action.itemId]: Object.assign(new CacheState(action.itemId), {
-						data: null,
-						loading: true,
-						loadingPromise: action.loadingPromise
-					})
-				}),
-			[POOL_ACTION_CACHE_MAP_SET_DATA]: (action, state) =>
-				Object.assign(state.data, {
-					[action.itemId]: Object.assign(new CacheState(action.itemId), {
-						data: action.data,
-						loading: false,
-						loadingPromise: null
-					})
-				}),
-			[POOL_ACTION_CACHE_MAP_INVALIDATE_DATA]: (action, state) => {
-				delete state.data[action.itemId];
-				return state;
-			},
-
-			[POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA]: (action) => ({
-				data: {},
-			})
-		},
-
-		connectParams: {
-
-			getExtraProps: (poolId, pool, stateProps, dispatchProps) => ({
-
-				get: (itemId, extraParams) => {
-
-					if (!(itemId in stateProps.data)) {
-						dispatchProps.initializeItem(itemId, extraParams);
-						return null;
-					}
-					return stateProps.data[itemId].data;
-				},
-
-
-			}),
-
-
-			getActionCreators: (poolId, pool, dispatch) => new CacheMapActionCreator(poolId, dispatch)
-
-		},
-
-		defs: {
-			[CACHE_MAP_ID_LOCATION_PROFILES]: CacheMapDefLocationProfiles,
-			[CACHE_MAP_ID_USER_PROFILES]: CacheMapDefUserProfiles,
-
-		}
-
-	},
+	[POOL_TYPE_CACHE_MAP]: CacheMapPool,
+	// 	{
+	//
+	// 	mutators: {
+	// 		[POOL_ACTION_CACHE_MAP_INIT_DATA]: mutatorCacheMapModelInitData,
+	// 		[POOL_ACTION_CACHE_MAP_SET_DATA]: mutatorCacheMapModelSetData,
+	// 		[POOL_ACTION_CACHE_MAP_INVALIDATE_DATA]: mutatorCacheMapModelInvalidateData,
+	// 		[POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA]: mutatorCacheMapModelInvalidateAllData
+	// 	},
+	//
+	// 	connectParams: {
+	//
+	// 		getExtraProps: (poolId, pool, stateProps, dispatchProps) => new CacheMapExtraProps(poolId, pool, stateProps, dispatchProps),
+	//
+	// 		getActionCreators: (poolId, pool, dispatch) => new CacheMapActionCreator(poolId, dispatch)
+	//
+	// 	},
+	//
+	// 	defs: {
+	// 		[CACHE_MAP_ID_LOCATION_PROFILES]: CacheMapDefLocationProfiles,
+	// 		[CACHE_MAP_ID_USER_PROFILES]: CacheMapDefUserProfiles,
+	//
+	// 	}
+	//
+	// },
 
 
 

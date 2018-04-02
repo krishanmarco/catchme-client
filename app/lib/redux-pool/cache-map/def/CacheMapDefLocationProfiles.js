@@ -6,7 +6,7 @@ import type {TCacheMapDef} from "../CacheMapDef";
 import type {TLocation} from "../../../daos/DaoLocation";
 
 // Declare cache-map definition
-class CacheMapDefLocationProfiles extends CacheMapDef<TLocation> {
+class CacheMapDefLocationProfiles extends CacheMapDef {
 
 	constructor() {
 		super(CACHE_MAP_ID_LOCATION_PROFILES);

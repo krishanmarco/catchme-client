@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import FirebaseDataDef from "./FirebaseDataDef";
-import {FIREBASE_DATA_ID_FEATURED_ADS, ReduxFirebaseData} from "../../../redux/ReduxPool";
-import {FirebaseData} from "../../data/Firebase";
-import type {TFirebaseDataDef} from "./FirebaseDataDef";
+import FirebaseDataDef from "../FirebaseDataDef";
+import {FIREBASE_DATA_ID_FEATURED_ADS, ReduxFirebaseData} from "../../../../redux/ReduxPool";
+import {FirebaseData} from "../../../data/Firebase";
+import type {TFirebaseDataDef} from "../FirebaseDataDef";
 
 // Declare firebase-data definition
 class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {

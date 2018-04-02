@@ -6,7 +6,7 @@ import type {TCacheMapDef} from "../CacheMapDef";
 import type {TUser} from "../../../daos/DaoUser";
 
 // Declare cache-map definition
-class CacheMapDefUserProfiles extends CacheMapDef<TUser> {
+class CacheMapDefUserProfiles extends CacheMapDef {
 
 	constructor() {
 		super(CACHE_MAP_ID_USER_PROFILES);

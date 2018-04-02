@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import type {TDispatch, TGetState} from "../../types/Types";
-import type {TReduxPoolCacheMap} from "../../types/ReduxPoolTypes";
 import {CacheMapState} from "./CacheMapModel";
 
 
@@ -10,7 +9,7 @@ export type TCacheMapDef<TCacheMapObject> = {
 	cacheMapId: string,
 
 	// Initial state of this cache-map
-	initState: () => TReduxPoolCacheMap,
+	initState: () => CacheMapState,
 
 	// Refresh or get data associated to this cache-map
 	buildDataSet: () => TCacheMapObject
