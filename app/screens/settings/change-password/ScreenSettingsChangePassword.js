@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 
-import {FORM_API_ID_CHANGE_PASSWORD, poolConnect} from '../../../redux/ReduxPool';
+import {poolConnect} from '../../../redux/ReduxPool';
 
 import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
 
@@ -13,6 +13,7 @@ import {scaleVertical} from '../../../lib/utils/scale';
 
 import {View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
+import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 
 // Const *************************************************************************************************

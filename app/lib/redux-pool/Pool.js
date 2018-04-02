@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import PoolActions from "./PoolActionCreators";
+import PoolActionCreator from "./PoolActionCreator";
 import {TPoolDef} from "./PoolDef";
 
 
@@ -21,7 +21,7 @@ export type TPool = {
 		
 		getExtraProps?: (string, Object, Object, Object) => {},
 		
-		getActionCreators: (string, Object, Function) => PoolActions
+		getActionCreators: (string, Object, Function) => PoolActionCreator
 		
 	},
 	

@@ -21,12 +21,14 @@ export default class CacheDef {
 
 	constructor(cacheId) {
 		this.cacheId = cacheId;
+		this.initState = this.initState.bind(this);
+		this.bindAction = this.bindAction.bind(this);
 	}
 
 	initState(): CacheState {
 		return new CacheState(this.cacheId);
 	}
-
+	
 	bindAction(dispatch: TDispatch, getState: TGetState) {
 		this.dispatch = dispatch;
 		this.getState = getState;

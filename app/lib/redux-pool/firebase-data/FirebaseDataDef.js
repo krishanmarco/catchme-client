@@ -33,6 +33,10 @@ export default class FirebaseDataDef {
 
 	constructor(firebaseDataId) {
 		this.firebaseDataId = firebaseDataId;
+		this.initState = this.initState.bind(this);
+		this.mapFirebaseItemToLocalItem = this.mapFirebaseItemToLocalItem.bind(this);
+		this.onReceiveLocalItem = this.onReceiveLocalItem.bind(this);
+		this.bindAction = this.bindAction.bind(this);
 	}
 
 	initState(): ReduxFirebaseData {

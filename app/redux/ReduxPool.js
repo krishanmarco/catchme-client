@@ -1,25 +1,25 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 
 import _ from 'lodash';
-import Logger from "../lib/Logger";
 import {connect} from 'react-redux';
 import {Const} from "../Config";
-import {mergeWithoutExtend} from '../lib/HelperFunctions';
-
-import ApiFormDefLocationProfile from '../lib/redux-pool/api-form/ApiFormDefLocationProfile';
-import ApiFormDefUserLocationStatus from '../lib/redux-pool/api-form/ApiFormDefUserLocationStatus';
-import ApiFormDefUserProfile from '../lib/redux-pool/api-form/ApiFormDefUserProfile';
-import ApiFormDefChangePassword from '../lib/redux-pool/api-form/ApiFormDefChangePassword';
-import ApiFormDefRegister from '../lib/redux-pool/api-form/ApiFormDefRegister';
-import ApiFormDefLogin from '../lib/redux-pool/api-form/ApiFormDefLogin';
-import ApiFormDef from "../lib/redux-pool/api-form/ApiFormDef";
-import CacheMapDefLocationProfiles from "../lib/redux-pool/cache-map/CacheMapDefLocationProfiles";
-import CacheMapDefUserProfiles from "../lib/redux-pool/cache-map/CacheMapDefUserProfiles";
+import CacheMapDefLocationProfiles from "../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
+import CacheMapDefUserProfiles from "../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/FirebaseDataDefFeed";
 import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/FirebaseDataDefFeaturedAds";
-import {screenDisablePointerEvents, screenEnablePointerEvents} from "../comp/misc/Screen";
 import {CacheState} from "../lib/redux-pool/cache/CacheModel";
 import CachePool from "../lib/redux-pool/cache/CachePool";
+import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
+import CacheMapActionCreator from "../lib/redux-pool/cache-map/CacheMapActionCreator";
+import {
+	CACHE_MAP_ID_LOCATION_PROFILES,
+	CACHE_MAP_ID_USER_PROFILES,
+	POOL_ACTION_CACHE_MAP_INIT_DATA,
+	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
+	POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
+	POOL_ACTION_CACHE_MAP_SET_DATA
+} from "../lib/redux-pool/cache-map/CacheMapPool";
+
 
 // Top Level Ids ******************************************************************************************************
 // Top Level Ids ******************************************************************************************************
@@ -32,19 +32,6 @@ export const POOL_TYPE_LOCAL_FORMS = 'POOL_TYPE_LOCAL_FORMS';
 export const POOL_TYPE_FIREBASE_DATA = 'POOL_TYPE_LOCAL_FORMS';
 
 
-export const POOL_ACTION_CACHE_MAP_INIT_DATA = 'POOL_ACTION_CACHE_MAP_INIT_DATA';
-export const POOL_ACTION_CACHE_MAP_SET_DATA = 'POOL_ACTION_CACHE_MAP_SET_DATA';
-export const POOL_ACTION_CACHE_MAP_INVALIDATE_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
-export const POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
-
-
-export const POOL_ACTION_API_FORMS_ON_CHANGE = 'POOL_ACTION_API_FORMS_ON_CHANGE';
-export const POOL_ACTION_API_FORMS_ON_RESET = 'POOL_ACTION_API_FORMS_ON_RESET';
-export const POOL_ACTION_API_FORMS_ON_POST = 'POOL_ACTION_API_FORMS_ON_POST';
-export const POOL_ACTION_API_FORMS_ON_SUCCESS = 'POOL_ACTION_API_FORMS_ON_SUCCESS';
-export const POOL_ACTION_API_FORMS_ON_FINISH = 'POOL_ACTION_API_FORMS_ON_FINISH';
-export const POOL_ACTION_API_FORMS_ON_API_EXCEPTION = 'POOL_ACTION_API_FORMS_ON_API_EXCEPTION';
-export const POOL_ACTION_API_FORMS_ON_ERROR_DISMISS = 'POOL_ACTION_API_FORMS_ON_ERROR_DISMISS';
 
 
 export const POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH = 'POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH';
@@ -55,20 +42,10 @@ export const POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS = 'POOL_ACTION_FIRE
 // Bottom Level Pool Ids **********************************************************************************************
 // Bottom Level Pool Ids **********************************************************************************************
 
-// ReduxPoolCacheMap Ids
-export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
-export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
+// CacheMapState Ids
 
-// ReduxPoolApiForms Ids
-export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
-export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';
-export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
-export const FORM_API_ID_EDIT_USER_PROFILE = 'FORM_API_ID_EDIT_USER_PROFILE';
-export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
-export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
 
-// ReduxPoolModals Ids
-// export const MODAL_ID_SELECT_USERS = 'modalSelectUsers';
+
 
 // ReduxPoolFirebaseData Ids
 export const FIREBASE_DATA_ID_FEED = 'firebaseDataIdFeed';
@@ -77,41 +54,6 @@ export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
 
 // ObjectWrappers *****************************************************************************************************
 // ObjectWrappers *****************************************************************************************************
-
-
-export class ReduxPoolCacheMap {
-
-	constructor(cacheId) {
-
-		// Unique pId that identifies this cache out of all the
-		// possible objects in objectPoolReducerInitState.cache
-		this.cacheId = cacheId;
-
-		this.data = {};
-	}
-
-}
-
-
-export class ReduxPoolApiForms {
-
-	constructor(formId, apiInput, errors = {}) {
-
-		// Unique pId that identifies this form out of all the
-		// possible objects in objectPoolReducerInitState.forms
-		this.formId = formId;
-
-		// An object of default value for
-		// each field of this form object
-		this.apiInput = apiInput;
-
-		this.errors = errors;
-		this.apiResponse = null;
-
-		this.loading = false;
-	}
-
-}
 
 
 export class ReduxFirebaseData {
@@ -204,8 +146,8 @@ function poolIterator(poolDeclaration, poolIds, apply) {
 // The object below declares how the reduxPoolInitState state is built
 export const ReduxPoolBuilder = {
 
-	// Declare all Top Level Pools (each of the POOL_TYPES)
 	[POOL_TYPE_CACHE]: CachePool,
+	[POOL_TYPE_API_FORMS]: ApiFormPool,
 
 
 	[POOL_TYPE_CACHE_MAP]: {
@@ -254,96 +196,7 @@ export const ReduxPoolBuilder = {
 			}),
 
 
-			getActionCreators: (poolId, pool, dispatch) => ({
-
-				invalidateItem: (itemId) => dispatch({
-					poolType: POOL_TYPE_CACHE_MAP,
-					poolId,
-					type: POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
-					itemId
-				}),
-
-				invalidateAll: () => dispatch({
-					poolType: POOL_TYPE_CACHE_MAP,
-					poolId,
-					type: POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA
-				}),
-
-				initializeItem: (itemId, extraParams) => dispatch((dispatch, getState) => {
-
-					// If the data is already set (or is about to be set [loadingPromise != null]) there is
-					// no need to run the request again.
-
-					// If the data has been updated and needs to be requested again, you must
-					// use invalidateItem() and then initializeItem()
-
-
-					// Check if the data is set, if it is return
-					const cacheMapData = getState().reduxPoolReducer[POOL_TYPE_CACHE_MAP][poolId].data;
-
-					if (itemId in cacheMapData) {
-						const cacheMapItem = cacheMapData[itemId];
-
-						if (cacheMapItem.loadingPromise != null) {
-							Logger.v(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
-							return cacheMapItem.loadingPromise;
-						}
-
-
-						if (cacheMapItem.data !== null) {
-							return Promise.resolve(cacheMapItem.data);
-						}
-
-					}
-
-
-					// Run request or data builder
-					const loadingPromise = pool.buildDataSet(itemId, extraParams)
-						.then(buildResultData => {
-
-							// Save the result data into the pool
-							dispatch({
-								poolType: POOL_TYPE_CACHE_MAP,
-								poolId,
-								type: POOL_ACTION_CACHE_MAP_SET_DATA,
-								itemId,
-								data: buildResultData
-							});
-
-							// Continue the promise chain
-							return buildResultData;
-						}).catch(apiExceptionResponse => {
-							Logger.v("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
-
-							dispatch({
-								poolType: POOL_TYPE_CACHE_MAP,
-								poolId,
-								type: POOL_ACTION_CACHE_MAP_SET_DATA,
-								itemId,
-								data: null,
-							});
-
-							// Continue the promise chain
-							return apiExceptionResponse;
-						});
-
-
-					// If the promise hasn't resolved immediately then
-					// Save loadingPromise to th state, this way, even if [data] is
-					// null the next request will not be processed because we know
-					// that one has already been sent out
-					return dispatch({
-						poolType: POOL_TYPE_CACHE_MAP,
-						poolId,
-						type: POOL_ACTION_CACHE_MAP_INIT_DATA,
-						itemId,
-						payload: loadingPromise,
-						loadingPromise
-					}).then(({value}) => value);
-
-				})
-
-			})
+			getActionCreators: (poolId, pool, dispatch) => new CacheMapActionCreator(poolId, dispatch)
 
 		},
 
@@ -356,175 +209,6 @@ export const ReduxPoolBuilder = {
 	},
 
 
-	[POOL_TYPE_API_FORMS]: {
-
-		mutators: {
-			[POOL_ACTION_API_FORMS_ON_CHANGE]: (action, subState) => ({
-				apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
-				validationError: action.validationError,
-				errors: action.errors
-			}),
-			[POOL_ACTION_API_FORMS_ON_RESET]: (action, subState) =>
-				action.newState,
-			[POOL_ACTION_API_FORMS_ON_POST]: (action, subState) => ({
-				loading: true,
-				apiResponse: null
-			}),
-			[POOL_ACTION_API_FORMS_ON_SUCCESS]: (action, subState) => ({
-				apiResponse: action.apiResponse
-			}),
-			[POOL_ACTION_API_FORMS_ON_API_EXCEPTION]: (action, subState) => ({
-				errors: action.errors
-			}),
-			[POOL_ACTION_API_FORMS_ON_FINISH]: (action, subState) => ({
-				loading: false,
-			}),
-			[POOL_ACTION_API_FORMS_ON_ERROR_DISMISS]: (action, subState) => ({
-				errors: {}
-			})
-		},
-
-		connectParams: {
-
-			getActionCreators: (poolId, pool, dispatch) => ({
-
-				change: (apiInput) => dispatch((dispatch, getState) => {
-
-					let errors = {};
-					if (pool.validateOnChange) {
-						const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
-						errors = pool.validate(apiInput, previousErrors);
-					}
-
-					dispatch({
-						poolType: POOL_TYPE_API_FORMS,
-						poolId,
-						type: POOL_ACTION_API_FORMS_ON_CHANGE,
-						apiInput,
-						errors
-					});
-
-				}),
-
-				reset: () => dispatch({
-					poolType: POOL_TYPE_API_FORMS,
-					poolId,
-					type: POOL_ACTION_API_FORMS_ON_RESET,
-					newState: pool.initState()
-				}),
-
-				setErrors: (errors) => dispatch({
-					poolType: POOL_TYPE_API_FORMS,
-					poolId,
-					type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
-					errors
-				}),
-
-				dismissError: () => dispatch({
-					poolType: POOL_TYPE_API_FORMS,
-					poolId,
-					type: POOL_ACTION_API_FORMS_ON_ERROR_DISMISS
-				}),
-
-				post: (extraParams) => dispatch((dispatch, getState) => {
-					pool.bindAction(dispatch, getState);	// todo: unbind at the end
-
-					const form = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId];
-					const apiInput = form.apiInput;
-					let errors = form.errors;
-
-					// todo: this code is duplicate, see change function
-					if (pool.validateOnChange) {
-						const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
-						errors = pool.validate(apiInput, previousErrors, true);
-					}
-
-					if (ApiFormDef.hasErrors(errors)) {
-						const setErrors = ReduxPoolBuilder[POOL_TYPE_API_FORMS]
-							.connectParams.getActionCreators(poolId, pool, dispatch).setErrors;
-						setErrors(errors);
-						return Promise.reject(errors);
-					}
-
-
-					// Disable screen
-					if (pool.disableScreenOnLoading)
-						dispatch(screenDisablePointerEvents());
-
-					dispatch({
-						poolType: POOL_TYPE_API_FORMS,
-						poolId,
-						type: POOL_ACTION_API_FORMS_ON_POST
-					});
-
-
-					return pool.post(
-						// data
-						apiInput,
-
-						// Some post methods like ApiClient.resetPassword
-						// require extra parameters that are passed in through
-						// this extra nullable object
-						extraParams,
-
-						// Redux Dispatch Function
-						dispatch,
-
-						// Redux state Function
-						getState
-					).then(apiResponse => {
-
-						// Handle the state change
-						dispatch({
-							poolType: POOL_TYPE_API_FORMS,
-							poolId,
-							type: POOL_ACTION_API_FORMS_ON_SUCCESS,
-							apiResponse
-						});
-
-						// Request has completed successfully
-						return apiResponse;
-
-					}).catch(api400 => {
-						// Note: the api has already handled the exception
-						// here you should only do form specific actions
-						// for example set the button out of its loading state
-						const errors = _.get(JSON.parse(api400), 'errors', {});
-						const setErrors = ReduxPoolBuilder[POOL_TYPE_API_FORMS]
-							.connectParams.getActionCreators(poolId, pool, dispatch).setErrors;
-						setErrors(errors);
-						return errors;
-					}).finally(userProfile => {
-
-						dispatch({
-							poolType: POOL_TYPE_API_FORMS,
-							poolId,
-							type: POOL_ACTION_API_FORMS_ON_FINISH,
-						});
-
-						// Enable screen
-						if (pool.disableScreenOnLoading)
-							dispatch(screenEnablePointerEvents());
-
-						return userProfile;
-					});
-
-				})
-
-			})
-
-		},
-
-		defs: {
-			[FORM_API_ID_LOGIN]: ApiFormDefLogin,
-			[FORM_API_ID_REGISTER]: ApiFormDefRegister,
-			[FORM_API_ID_CHANGE_PASSWORD]: ApiFormDefChangePassword,
-			[FORM_API_ID_EDIT_USER_PROFILE]: ApiFormDefUserProfile,
-			[FORM_API_ID_EDIT_USER_LOCATION_STATUS]: ApiFormDefUserLocationStatus,
-			[FORM_API_ID_EDIT_LOCATION_PROFILE]: ApiFormDefLocationProfile,
-		}
-
-	},
 
 
 	[POOL_TYPE_FIREBASE_DATA]: {

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 import CacheDefUserLocationStatus from "./def/CacheDefUserLocationStatus";
 import CacheDefUserProfile from "./def/CacheDefUserProfile";
-import CachePoolActionCreator from "./CacheActionCreator";
+import CachePoolActionCreators from "./CacheActionCreators";
 import {mutatorCacheModelInitializeData, mutatorCacheModelInvalidateData, mutatorCacheModelSetData} from "./CacheModel";
 import type {TCacheDef} from "./CacheDef";
 import type {TDispatch} from "../../types/Types";
@@ -29,7 +29,7 @@ const CachePool: TPool = {
 	
 	connectParams: {
 		// todo the pool parameter can be removed once all definitions have been migrated
-		getActionCreators: (poolDefId: string, pool: TCacheDef, dispatch: TDispatch) => new CachePoolActionCreator(poolDefId, dispatch)
+		getActionCreators: (poolDefId: string, pool: TCacheDef, dispatch: TDispatch) => new CachePoolActionCreators(poolDefId, dispatch)
 	},
 
 	

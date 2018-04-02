@@ -9,6 +9,10 @@ class FirebaseDataDefFeed extends FirebaseDataDef<Object> {
 
 	constructor() {
 		super(FIREBASE_DATA_ID_FEED);
+		this.getObjectByFirebaseId = this.getObjectByFirebaseId.bind(this);
+		this.getUserObjectIds = this.getUserObjectIds.bind(this);
+		this.keyExtractor = this.keyExtractor.bind(this);
+		this.onReceiveLocalItem = this.onReceiveLocalItem.bind(this);
 	}
 
 	getObjectByFirebaseId(feedId: number): Object {

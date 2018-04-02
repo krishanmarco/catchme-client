@@ -9,6 +9,9 @@ class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {
 
 	constructor() {
 		super(FIREBASE_DATA_ID_FEATURED_ADS);
+		this.getObjectByFirebaseId = this.getObjectByFirebaseId.bind(this);
+		this.getUserObjectIds = this.getUserObjectIds.bind(this);
+		this.keyExtractor = this.keyExtractor.bind(this);
 	}
 
 	getObjectByFirebaseId(featuredAdId: number): Object {

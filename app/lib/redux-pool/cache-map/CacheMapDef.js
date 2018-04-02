@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import type {TDispatch, TGetState} from "../../types/Types";
 import type {TReduxPoolCacheMap} from "../../types/ReduxPoolTypes";
-import {ReduxPoolCacheMap} from "../../../redux/ReduxPool";
+import {CacheMapState} from "./CacheMapModel";
 
 
 export type TCacheMapDef<TCacheMapObject> = {
@@ -22,10 +22,12 @@ export default class CacheMapDef {
 
 	constructor(cacheMapId) {
 		this.cacheMapId = cacheMapId;
+		this.initState = this.initState.bind(this);
+		this.bindAction = this.bindAction.bind(this);
 	}
 
-	initState(): ReduxPoolCacheMap {
-		return new ReduxPoolCacheMap(this.cacheMapId);
+	initState(): CacheMapState {
+		return new CacheMapState(this.cacheMapId);
 	}
 
 	bindAction(dispatch: TDispatch, getState: TGetState) {

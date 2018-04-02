@@ -17,6 +17,12 @@ export default class CacheActionCreators extends PoolActions {
 		this.invalidate = this.invalidate.bind(this);
 		this.initialize = this.initialize.bind(this);
 	}
+	
+	
+	reinitialize(extraParams) {
+		this.invalidate();
+		return this.initialize(extraParams);
+	}
 
 
 	// Action to invalidate a cache

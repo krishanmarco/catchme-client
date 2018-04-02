@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import type {TDispatch, TGetState} from "../../types/Types";
 import _ from 'lodash';
-import {ReduxPoolApiForms} from "../../../redux/ReduxPool";
+import {ApiFormState} from "./ApiFormModel";
 
 export type TApiFormDef<TApiFormObject> = {
 
@@ -15,7 +15,7 @@ export type TApiFormDef<TApiFormObject> = {
 	post: (TApiFormObject) => Promise<TApiFormObject>,
 
 	// Initial state of this form
-	initState: () => ReduxPoolApiForms,
+	initState: () => ApiFormState,
 
 	// Function to validate the input, it must return an
 	// TApiFormObject where the values are error codes

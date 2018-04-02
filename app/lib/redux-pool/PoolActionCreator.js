@@ -7,7 +7,7 @@ type TPoolActionDispatchObj = {
 	type: string
 };
 
-export default class PoolActionCreators {
+export default class PoolActionCreator {
 
 	constructor(poolType: string, poolDefId: string, dispatch: TDispatch) {
 		this.poolType = poolType;
