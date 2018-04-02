@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import Logger from "../../Logger";
-import PoolActions from "../PoolActionCreators";
+import PoolActionCreator from "../PoolActionCreator";
 import {
 	POOL_ACTION_CACHE_INIT_DATA,
 	POOL_ACTION_CACHE_INVALIDATE_DATA,
@@ -10,7 +10,7 @@ import {POOL_TYPE_CACHE} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
 
 
-export default class CacheActionCreators extends PoolActions {
+export default class CacheActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_CACHE, poolDefId, dispatch);
@@ -49,7 +49,7 @@ export default class CacheActionCreators extends PoolActions {
 			let reduxPoolCache = getState().reduxPoolReducer[POOL_TYPE_CACHE][poolId];
 
 			if (reduxPoolCache.loadingPromise != null) {
-				Logger.v(`CacheActionCreators initialize: Requested ${poolId} initialization but already loading.`);
+				Logger.v(`CacheActionCreator initialize: Requested ${poolId} initialization but already loading.`);
 				return reduxPoolCache.loadingPromise;
 			}
 
@@ -71,7 +71,7 @@ export default class CacheActionCreators extends PoolActions {
 				return buildResultData;
 
 			}).catch(apiExceptionResponse => {
-				Logger.v("CacheActionCreators POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
+				Logger.v("CacheActionCreator POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
 
 				/* todo: remove comment after development
 				dispatch({

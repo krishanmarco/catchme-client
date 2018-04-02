@@ -1,11 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../data/ApiClient";
-import ApiFormDef from "./ApiFormDef";
-import {FORM_API_ID_EDIT_LOCATION_PROFILE, ReduxPoolApiForms} from "../../../redux/ReduxPool";
-import {Validate} from "../../helpers/Validator";
-import type {TLocation} from "../../daos/DaoLocation";
-import DaoLocation from "../../daos/DaoLocation";
-import type {TApiFormDef} from "./ApiFormDef";
+import ApiClient from "../../../data/ApiClient";
+import ApiFormDef from "../ApiFormDef";
+import {Validate} from "../../../helpers/Validator";
+import type {TLocation} from "../../../daos/DaoLocation";
+import DaoLocation from "../../../daos/DaoLocation";
+import type {TApiFormDef} from "../ApiFormDef";
+import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../ApiFormPool";
+import {ApiFormState} from "../ApiFormModel";
 
 
 // Declare form definition
@@ -13,12 +14,13 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 
 	constructor() {
 		super(FORM_API_ID_EDIT_LOCATION_PROFILE, true, true);
+		this.initState = this.initState.bind(this);
 	}
 
 	initState() {
 		const location = DaoLocation.newInstance();
 		const errors = this.validate(location, {}, true);
-		return new ReduxPoolApiForms(this.formId, location, errors);
+		return new ApiFormState(this.formId, location, errors);
 	}
 
 	post(locationProfile: TLocation): Promise<TLocation> {

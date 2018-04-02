@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import ApiFormDef from "./ApiFormDef";
-import PoolActions from "../PoolActionCreators";
+import PoolActionCreator from "../PoolActionCreator";
 import {
 	POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
 	POOL_ACTION_API_FORMS_ON_CHANGE,
@@ -15,7 +15,7 @@ import {screenDisablePointerEvents, screenEnablePointerEvents} from "../../../co
 import type {TDispatch} from "../../types/Types";
 
 
-export default class ApiFormActionCreators extends PoolActions {
+export default class ApiFormActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_API_FORMS, poolDefId, dispatch);

@@ -1,53 +1,68 @@
+import {mergeWithoutExtend} from "../../HelperFunctions";
+
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 
-export class CacheState {
+export class ApiFormState {
 	
-	constructor(cacheId) {
+	constructor(formId, apiInput, errors = {}) {
 		
-		// Unique pId that identifies this cache out of all the
-		// possible objects in objectPoolReducerInitState.cache
-		this.cacheId = cacheId;
+		// Unique pId that identifies this form out of all the
+		// possible objects in objectPoolReducerInitState.forms
+		this.formId = formId;
 		
-		// @Nullable
-		// The actual data that this cache caches. If null the cache should request/build
-		// the data again, else it should return it without requesting it again
-		this.data = null;
+		// An object of default value for
+		// each field of this form object
+		this.apiInput = apiInput;
 		
-		// This should be true only when an data is being requsted/built/...
-		// and should be set to false right after
+		this.errors = errors;
+		this.apiResponse = null;
+		
 		this.loading = false;
-		
-		// If one API request for this cache has already been sent out but has not finished
-		// yet then this object will be set to the promise returned by the API request.
-		// If another request for this same cache then comes through, rather than sending out
-		// a duplicate API request, this promise is returned, when the first request is completed
-		// even the second request will be fulfilled
-		this.loadingPromise = null;
 	}
 	
 }
 
-// CacheModel state-mutators (Reducer cases)
-export function mutatorCacheModelInitializeData(action, subState: CacheState): CacheState {
+
+// ApiFormModel state-mutators (Reducer cases)
+export function mutatorApiFormsOnChange(action, subState: ApiFormState): ApiFormState {
 	return {
-		data: null,
+		apiInput: mergeWithoutExtend(subState.apiInput, action.apiInput),
+		validationError: action.validationError,
+		errors: action.errors
+	};
+}
+
+export function mutatorApiFormsOnReset(action, subState: ApiFormState): ApiFormState {
+	return action.newState;
+}
+
+export function mutatorApiFormsOnPost(action, subState: ApiFormState): ApiFormState {
+	return {
 		loading: true,
-		loadingPromise: action.loadingPromise
+		apiResponse: null
 	};
 }
 
-export function mutatorCacheModelSetData(action, subState: CacheState): CacheState {
+export function mutatorApiFormsOnSuccess(action, subState: ApiFormState): ApiFormState {
 	return {
-		data: action.data,
-		loading: false,
-		loadingPromise: null
+		apiResponse: action.apiResponse
 	};
 }
 
-export function mutatorCacheModelInvalidateData(action, subState: CacheState): CacheState {
+export function mutatorApiFormsOnApiException(action, subState: ApiFormState): ApiFormState {
 	return {
-		data: null,
-		loading: false,
-		loadingPromise: null
+		errors: action.errors
+	};
+}
+
+export function mutatorApiFormsOnFinish(action, subState: ApiFormState): ApiFormState {
+	return {
+		loading: false
+	};
+}
+
+export function mutatorApiFormsOnErrorDismiss(action, subState: ApiFormState): ApiFormState {
+	return {
+		errors: {}
 	};
 }
