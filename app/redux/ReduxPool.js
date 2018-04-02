@@ -1,29 +1,14 @@
+/* eslint-disable max-depth */
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 
 import _ from 'lodash';
 import {connect} from 'react-redux';
 import {Const} from "../Config";
-import CacheMapDefLocationProfiles, {CACHE_MAP_ID_LOCATION_PROFILES} from "../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
-import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from "../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
 import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds";
-import {CacheState} from "../lib/redux-pool/cache/CacheModel";
 import CachePool from "../lib/redux-pool/cache/CachePool";
 import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
 import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
-import CacheMapActionCreator from "../lib/redux-pool/cache-map/CacheMapActionCreator";
-import {
-	POOL_ACTION_CACHE_MAP_INIT_DATA,
-	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
-	POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
-	POOL_ACTION_CACHE_MAP_SET_DATA
-} from "../lib/redux-pool/cache-map/CacheMapPool";
-import CacheMapExtraProps from "../lib/redux-pool/cache-map/CacheMapExtraProps";
-import {
-	mutatorCacheMapModelInitData,
-	mutatorCacheMapModelInvalidateAllData, mutatorCacheMapModelInvalidateData,
-	mutatorCacheMapModelSetData
-} from "../lib/redux-pool/cache-map/CacheMapModel";
 
 
 // Top Level Ids ******************************************************************************************************
@@ -62,88 +47,86 @@ export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
 
 
 export class ReduxFirebaseData {
-
+	
 	constructor(cacheId) {
-
+		
 		// Unique pId that identifies this pool out of all the
 		// possible objects in objectPoolReducerInitState.firebaseData
 		this.cacheId = cacheId;
-
+		
 		// If all items have been fetched (recieved.length === saved.length)
 		// then this flag is set to true to stop future requests
 		this.fetchedAllItems = false;
-
+		
 		// When the first data request is being run
 		// (limitToLast(...).once('value')) this flag is true
 		// Once this flag has been set to false the only way to recieve
 		// new data will be though the on('child_added') subscriber
 		this.runningBulkFetch = true;
-
+		
 		// Defines how many items to fetch on each loadMore() call
 		this.itemsToLoad = Const.FirebaseDataPool.loadMoreItems;
-
+		
 		// The received data
 		this.data = [];
-
+		
 	}
-
+	
 }
 
 
 function build(poolDeclaration) {
-
+	
 	const result = {};
-
+	
 	// for each pool type, add it and its sub pools to the result
 	for (let typeId in poolDeclaration) {
 		if (poolDeclaration.hasOwnProperty(typeId)) {
-
+			
 			const poolTypeDeclaration = poolDeclaration[typeId];
-
-
+			
+			
 			// Add the pool type to the result
 			result[typeId] = {};
-
-
+			
+			
 			for (let poolId in poolTypeDeclaration.defs) {
 				if (poolTypeDeclaration.defs.hasOwnProperty(poolId)) {
-
+					
 					const poolDeclaration = poolTypeDeclaration.defs[poolId];
-					console.log("P", poolTypeDeclaration);
-console.log("POOL", poolDeclaration);
-console.log("POOLID", poolId);
+					
 					// Add the pool to the result
 					result[typeId][poolId] = poolDeclaration.initState();
-
+					
 				}
 			}
-
+			
 		}
 	}
-
+	
 	return result;
 }
 
 function poolIterator(poolDeclaration, poolIds, apply) {
-
+	
 	for (let poolType in poolDeclaration) {
 		if (poolDeclaration.hasOwnProperty(poolType)) {
-
+			
 			// Get the whole pool declaration object
 			const poolTypeObj = poolDeclaration[poolType];
-
+			
 			for (let poolId in poolTypeObj.defs) {
 				if (poolTypeObj.defs.hasOwnProperty(poolId)) {
-
+					
 					if (poolIds.includes(poolId))
 						apply(poolType, poolId, poolDeclaration[poolType].defs[poolId]);
-
+					
 				}
 			}
-
+			
 		}
 	}
-
+	
 }
 
 
@@ -152,11 +135,11 @@ function poolIterator(poolDeclaration, poolIds, apply) {
 
 // The object below declares how the reduxPoolInitState state is built
 export const ReduxPoolBuilder = {
-
+	
 	[POOL_TYPE_CACHE]: CachePool,
 	[POOL_TYPE_API_FORMS]: ApiFormPool,
-
-
+	
+	
 	[POOL_TYPE_CACHE_MAP]: CacheMapPool,
 	// 	{
 	//
@@ -182,12 +165,12 @@ export const ReduxPoolBuilder = {
 	// 	}
 	//
 	// },
-
-
-
-
+	
+	
+	
+	
 	[POOL_TYPE_FIREBASE_DATA]: {
-
+		
 		mutators: {
 			[POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH]: (action, state) => ({
 				runningBulkFetch: true,
@@ -202,166 +185,167 @@ export const ReduxPoolBuilder = {
 				runningBulkFetch: false,
 			})
 		},
-
+		
 		connectParams: {
-
+			
 			getActionCreators: (poolId, pool, dispatch) => ({
-
+				
 				_saveReceivedData: (receivedObjIdArr) => dispatch((dispatch, getState) => {
 					// Get the current state
 					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-
+					
 					// Merge with state and make sure the array doesn't have duplicate objects
 					let stateObjIdsArr = reduxFirebasePool.data.map(pool.keyExtractor);
 					stateObjIdsArr = _.difference(receivedObjIdArr, stateObjIdsArr);
 					stateObjIdsArr = _.chunk(stateObjIdsArr, 7);
-
+					
 					const _getObjectByFirebaseId = (firebaseObjId) => {
 						return pool.getObjectByFirebaseId(firebaseObjId).once('value').then(f => f.val());
 					};
-
-
+					
+					
 					stateObjIdsArr.forEach(chunkOfObjects => {
-
+						
 						Promise.all(chunkOfObjects.map(_getObjectByFirebaseId)).then(objArr => {
 							// Get the current state
 							const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-
+							
 							// Apply post receive specific pool functions to each item
 							const mappedData = objArr.map(pool.mapFirebaseItemToLocalItem);
-
+							
 							dispatch({
 								poolType: POOL_TYPE_FIREBASE_DATA,
 								poolId,
 								type: POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
 								data: mappedData.reverse().concat(reduxFirebasePool.data)
 							});
-
+							
 							// Run all post receive specific pool side-effect functions to each item
 							objArr.forEach(pool.onReceiveLocalItem);
 						});
 					});
-
+					
 				}),
-
+				
 				_getUserObjectIds: (userId) => dispatch((dispatch, getState) => {
-
+					
 					// Notify of start fetch
 					dispatch({
 						poolType: POOL_TYPE_FIREBASE_DATA,
 						poolId,
 						type: POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
 					});
-
+					
 					// Get the current state
 					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-
-					pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad).once('value', (snapshot) => {
-						const firebaseId = snapshot.val();
-
-						if (firebaseId == null) {
-							// There are no items in this firebase list
-							// the initialization is complete
-							dispatch({
-								poolType: POOL_TYPE_FIREBASE_DATA,
-								poolId,
-								type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
-							});
-							return;
+					
+					pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad)
+						.once('value', (snapshot) => {
+							const firebaseId = snapshot.val();
 							
-						}
-
-
-						// Get the current state
-						const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-
-						const receivedIds = Object.values(firebaseId);
-						const stateReceivedObjs = reduxFirebasePool.data;
-
-						if (receivedIds.length === stateReceivedObjs.length) {
-							// All items have been fetched
-							// the initialization is complete
-							dispatch({
-								poolType: POOL_TYPE_FIREBASE_DATA,
-								poolId,
-								type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
-							});
-							return;
-						}
-
-						// Get the _saveReceivedData method from the ReduxPoolBuilder
-						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-							.connectParams.getActionCreators(poolId, pool, dispatch)._saveReceivedData;
-
-						// New items have come in, reverse and save the list
-						_saveReceivedData(receivedIds);
-					});
-
+							if (firebaseId == null) {
+								// There are no items in this firebase list
+								// the initialization is complete
+								dispatch({
+									poolType: POOL_TYPE_FIREBASE_DATA,
+									poolId,
+									type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
+								});
+								return;
+								
+							}
+							
+							
+							// Get the current state
+							const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
+							
+							const receivedIds = Object.values(firebaseId);
+							const stateReceivedObjs = reduxFirebasePool.data;
+							
+							if (receivedIds.length === stateReceivedObjs.length) {
+								// All items have been fetched
+								// the initialization is complete
+								dispatch({
+									poolType: POOL_TYPE_FIREBASE_DATA,
+									poolId,
+									type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
+								});
+								return;
+							}
+							
+							// Get the _saveReceivedData method from the ReduxPoolBuilder
+							const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
+								.connectParams.getActionCreators(poolId, pool, dispatch)._saveReceivedData;
+							
+							// New items have come in, reverse and save the list
+							_saveReceivedData(receivedIds);
+						});
+					
 				}),
-
-
+				
+				
 				loadMore: (userId) => dispatch((dispatch, getState) => {
-
+					
 					// Get state and check if fetchedAllItems is true
 					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
 					if (reduxFirebasePool.fetchedAllItems)
 						return;
-
-
+					
+					
 					// Get the _saveReceivedData method from the ReduxPoolBuilder
 					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
 						.connectParams.getActionCreators(poolId, pool, dispatch)._getUserObjectIds;
-
+					
 					// Initialization, run the bulk request
 					_getUserObjectIds(userId);
-
+					
 				}),
-
-
+				
+				
 				initialize: (userId) => dispatch((dispatch, getState) => {
-
+					
 					pool.getUserObjectIds(userId).on('child_added', (snapshot) => {
 						// Get the current state
 						const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-
+						
 						if (reduxFirebasePool.runningBulkFetch) {
 							// This value will come back in the .once('value')
 							// ignoring...
 							return;
 						}
-
+						
 						// The initial data has already been loaded, this is new data
 						if (snapshot.key == null)
 							return;
-
+						
 						// Get the _saveReceivedData method from the ReduxPoolBuilder
 						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
 							.connectParams.getActionCreators(poolId, pool, dispatch)._saveReceivedData;
-
+						
 						_saveReceivedData([snapshot.key]);
 					});
-
+					
 					// Get the _saveReceivedData method from the ReduxPoolBuilder
 					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
 						.connectParams.getActionCreators(poolId, pool, dispatch)._getUserObjectIds;
-
+					
 					// Initialization, run the bulk request
 					_getUserObjectIds(userId);
-
+					
 				})
-
+				
 			})
-
+			
 		},
-
+		
 		defs: {
 			[FIREBASE_DATA_ID_FEED]: FirebaseDataDefFeed,
 			[FIREBASE_DATA_ID_FEATURED_ADS]: FirebaseDataDefFeaturedAds,
-
+			
 		}
-
+		
 	}
-
+	
 };
 
 
@@ -375,10 +359,10 @@ const reduxPoolInitState = build(ReduxPoolBuilder);
 
 
 export function reduxPoolReducer(state = reduxPoolInitState, action) {
-
-
+	
+	
 	if ('poolType' in action && 'poolId' in action) {
-
+		
 		return Object.assign({}, state, {
 			[action.poolType]: Object.assign({}, state[action.poolType], {
 				[action.poolId]: Object.assign({}, state[action.poolType][action.poolId],
@@ -386,12 +370,12 @@ export function reduxPoolReducer(state = reduxPoolInitState, action) {
 				)
 			})
 		});
-
+		
 	}
-
-
+	
+	
 	return state;
-
+	
 }
 
 
@@ -402,24 +386,24 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 	return connect(
 		// mapStateToProps
 		subscribeStateToPools(mapStateToProps, poolIds),
-
+		
 		// mapDispatchToProps
 		subscribeDispatchToPools(mapDispatchToProps, poolIds),
-
+		
 		// mergeProps
 		(stateProps, dispatchProps, ownProps) => {
-
+			
 			// Initialize the merge result with the props
 			// that were passed in from the component
 			const mergeResult = Object.assign({}, stateProps, dispatchProps, ownProps);
-
+			
 			poolIterator(
 				// Pool declaration to iterate over
 				ReduxPoolBuilder,
-
+				
 				// Pool ids to call the 3rd param function on
 				poolIds,
-
+				
 				// Callback function to apply to each pool Id
 				(poolType, poolId, pool) => {
 					
@@ -428,25 +412,25 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 					
 					if (getExtraProps != null)
 						extraProps = getExtraProps(poolId, pool, stateProps[poolId], dispatchProps[poolId]);
-
+					
 					
 					mergeResult[poolId] = Object.assign(
 						// Merge the sub-pool state props
 						stateProps[poolId],
-
+						
 						// Merge the sub-pool dispatch props
 						dispatchProps[poolId],
-
+						
 						// Merge the sub-pool extra props (If set)
 						extraProps
 					);
-
+					
 				}
 			);
-
+			
 			return mergeResult;
 		},
-
+		
 		// Extra options
 		extraOptions
 	)(presentationalComponent);
@@ -455,74 +439,74 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 
 function subscribeStateToPools(mapStateToProps, poolIds) {
 	return (state) => {
-
+		
 		// initialize the result with the default input mapDispatchToProps
 		let mapStateToPropsResult = mapStateToProps(state);
-
-
+		
+		
 		poolIterator(
 			// Pool Builder
 			ReduxPoolBuilder,
-
+			
 			// Pool ids to call the 3rd param function on
 			poolIds,
-
+			
 			// Function to apply to each pool
 			(poolType, poolId) => {
-
+				
 				const poolState = state.reduxPoolReducer[poolType][poolId];
-
+				
 				// Merge the current result with the found pool
 				mapStateToPropsResult = Object.assign({}, mapStateToPropsResult, {[poolId]: poolState});
-
+				
 			}
 		);
-
-
+		
+		
 		return mapStateToPropsResult;
-
+		
 	};
 }
 
 
 function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 	return (dispatch) => {
-
+		
 		// initialize the result with the default input mapDispatchToProps
 		let mapDispatchToPropsResult = mapDispatchToProps(dispatch);
-
-
+		
+		
 		poolIterator(
 			// Pool Builder
 			ReduxPoolBuilder,
-
+			
 			// Pool ids to call the 3rd param function on
 			poolIds,
-
+			
 			// Function to apply to each pool
 			(poolType, poolId) => {
-
+				
 				const poolDispatch = ReduxPoolBuilder[poolType].connectParams.getActionCreators(
 					// Pass the pool pId (needed dispatch pool specific actions)
 					poolId,
-
+					
 					// Pass the pool object, (needed so the function can access)
 					// properties in its child pools
 					ReduxPoolBuilder[poolType].defs[poolId],
-
-
+					
+					
 					// Pass in a the dispatch function
 					dispatch
 				);
-
-
+				
+				
 				// Merge the current result with all the indicated pools
 				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch});
-
+				
 			}
 		);
-
-
+		
+		
 		return mapDispatchToPropsResult;
 	};
 }
