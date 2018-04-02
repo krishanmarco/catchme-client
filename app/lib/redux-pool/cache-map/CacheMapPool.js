@@ -1,7 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 import CacheMapActionCreator from "./CacheMapActionCreator";
-import CacheMapDefLocationProfiles from "./def/CacheMapDefLocationProfiles";
-import CacheMapDefUserProfiles from "./def/CacheMapDefUserProfiles";
+import CacheMapDefLocationProfiles, {CACHE_MAP_ID_LOCATION_PROFILES} from "./def/CacheMapDefLocationProfiles";
+import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from "./def/CacheMapDefUserProfiles";
+import CacheMapExtraProps from "./CacheMapExtraProps";
 import {
 	mutatorCacheMapModelInitData,
 	mutatorCacheMapModelInvalidateAllData,
@@ -11,7 +12,6 @@ import {
 import type {TCacheMapDef} from "./CacheMapDef";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
-import CacheMapExtraProps from "./CacheMapExtraProps";
 
 
 // Define all Actions (There should for each ACTION)
@@ -19,11 +19,6 @@ export const POOL_ACTION_CACHE_MAP_INIT_DATA = 'POOL_ACTION_CACHE_MAP_INIT_DATA'
 export const POOL_ACTION_CACHE_MAP_SET_DATA = 'POOL_ACTION_CACHE_MAP_SET_DATA';
 export const POOL_ACTION_CACHE_MAP_INVALIDATE_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
 export const POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA = 'POOL_ACTION_CACHE_MAP_INVALIDATE_DATA';
-
-
-// Define all {defs} pools
-export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
-export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
 
 
 const CacheMapPool: TPool = {

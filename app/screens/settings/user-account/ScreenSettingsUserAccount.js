@@ -5,7 +5,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects} from "../../../comp/Misc";
 import {Screen} from "../../../comp/Misc";
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/CachePool";
-import {CACHE_MAP_ID_USER_PROFILES} from "../../../lib/redux-pool/cache-map/CacheMapPool";
+import {CACHE_MAP_ID_USER_PROFILES} from "../../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

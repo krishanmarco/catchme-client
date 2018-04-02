@@ -3,8 +3,8 @@
 import _ from 'lodash';
 import {connect} from 'react-redux';
 import {Const} from "../Config";
-import CacheMapDefLocationProfiles from "../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
-import CacheMapDefUserProfiles from "../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
+import CacheMapDefLocationProfiles, {CACHE_MAP_ID_LOCATION_PROFILES} from "../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
+import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from "../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
 import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds";
 import {CacheState} from "../lib/redux-pool/cache/CacheModel";
@@ -13,8 +13,6 @@ import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
 import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
 import CacheMapActionCreator from "../lib/redux-pool/cache-map/CacheMapActionCreator";
 import {
-	CACHE_MAP_ID_LOCATION_PROFILES,
-	CACHE_MAP_ID_USER_PROFILES,
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,

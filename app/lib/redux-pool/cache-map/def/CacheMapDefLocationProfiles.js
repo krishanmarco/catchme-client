@@ -1,9 +1,10 @@
+import type {TCacheMapDef} from "../CacheMapDef";
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import CacheMapDef from "../CacheMapDef";
 import DataProvider from "../../../data/DataProvider";
-import {CACHE_MAP_ID_LOCATION_PROFILES} from "../CacheMapPool";
-import type {TCacheMapDef} from "../CacheMapDef";
 import type {TLocation} from "../../../daos/DaoLocation";
+
+export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 
 // Declare cache-map definition
 class CacheMapDefLocationProfiles extends CacheMapDef {
