@@ -17,8 +17,8 @@ export default class CacheActionCreator extends PoolActionCreator {
 		this.invalidate = this.invalidate.bind(this);
 		this.initialize = this.initialize.bind(this);
 	}
-	
-	
+
+
 	reinitialize(extraParams) {
 		this.invalidate();
 		return this.initialize(extraParams);
@@ -28,7 +28,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 	// Action to invalidate a cache
 	invalidate() {
 		const {dispatchAction} = this;
-		
+
 		return dispatchAction({type: POOL_ACTION_CACHE_INVALIDATE_DATA});
 	}
 
@@ -36,7 +36,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 	initialize(extraParams) {
 		const {poolId, dispatch, dispatchAction} = this;
 		const pool = this.getPoolDef();
-		
+
 		return dispatch((dispatch, getState) => {
 			// If the data is already set (or is about to be set [loadingPromise != null]) there is
 			// no need to run the request again.

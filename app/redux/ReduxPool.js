@@ -1,14 +1,12 @@
-/* eslint-disable max-depth */
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-
-import _ from 'lodash';
-import {connect} from 'react-redux';
-import {Const} from "../Config";
-import FirebaseDataDefFeed from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
-import FirebaseDataDefFeaturedAds from "../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds";
-import CachePool from "../lib/redux-pool/cache/CachePool";
+/* eslint-disable max-depth */
 import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
 import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
+import CachePool from "../lib/redux-pool/cache/CachePool";
+import FirebaseDataPool from "../lib/redux-pool/firebase-data/FirebaseDataPool";
+import {connect} from 'react-redux';
+
+
 
 
 // Top Level Ids ******************************************************************************************************
@@ -22,58 +20,8 @@ export const POOL_TYPE_LOCAL_FORMS = 'POOL_TYPE_LOCAL_FORMS';
 export const POOL_TYPE_FIREBASE_DATA = 'POOL_TYPE_LOCAL_FORMS';
 
 
-
-
-export const POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH = 'POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH';
-export const POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA = 'POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA';
-export const POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS = 'POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS';
-
-
-// Bottom Level Pool Ids **********************************************************************************************
-// Bottom Level Pool Ids **********************************************************************************************
-
-// CacheMapState Ids
-
-
-
-
-// ReduxPoolFirebaseData Ids
-export const FIREBASE_DATA_ID_FEED = 'firebaseDataIdFeed';
-export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
-
-
 // ObjectWrappers *****************************************************************************************************
 // ObjectWrappers *****************************************************************************************************
-
-
-export class ReduxFirebaseData {
-	
-	constructor(cacheId) {
-		
-		// Unique pId that identifies this pool out of all the
-		// possible objects in objectPoolReducerInitState.firebaseData
-		this.cacheId = cacheId;
-		
-		// If all items have been fetched (recieved.length === saved.length)
-		// then this flag is set to true to stop future requests
-		this.fetchedAllItems = false;
-		
-		// When the first data request is being run
-		// (limitToLast(...).once('value')) this flag is true
-		// Once this flag has been set to false the only way to recieve
-		// new data will be though the on('child_added') subscriber
-		this.runningBulkFetch = true;
-		
-		// Defines how many items to fetch on each loadMore() call
-		this.itemsToLoad = Const.FirebaseDataPool.loadMoreItems;
-		
-		// The received data
-		this.data = [];
-		
-	}
-	
-}
-
 
 function build(poolDeclaration) {
 	
@@ -135,12 +83,13 @@ function poolIterator(poolDeclaration, poolIds, apply) {
 
 // The object below declares how the reduxPoolInitState state is built
 export const ReduxPoolBuilder = {
-	
 	[POOL_TYPE_CACHE]: CachePool,
 	[POOL_TYPE_API_FORMS]: ApiFormPool,
-	
-	
 	[POOL_TYPE_CACHE_MAP]: CacheMapPool,
+	[POOL_TYPE_FIREBASE_DATA]: FirebaseDataPool
+
+
+
 	// 	{
 	//
 	// 	mutators: {
@@ -165,186 +114,27 @@ export const ReduxPoolBuilder = {
 	// 	}
 	//
 	// },
-	
-	
-	
-	
-	[POOL_TYPE_FIREBASE_DATA]: {
-		
-		mutators: {
-			[POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH]: (action, state) => ({
-				runningBulkFetch: true,
-				itemsToLoad: state.itemsToLoad + Const.FirebaseDataPool.loadMoreItems
-			}),
-			[POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA]: (action) => ({
-				runningBulkFetch: false,
-				data: action.data
-			}),
-			[POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS]: (action) => ({
-				fetchedAllItems: true,
-				runningBulkFetch: false,
-			})
-		},
-		
-		connectParams: {
-			
-			getActionCreators: (poolId, pool, dispatch) => ({
-				
-				_saveReceivedData: (receivedObjIdArr) => dispatch((dispatch, getState) => {
-					// Get the current state
-					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-					
-					// Merge with state and make sure the array doesn't have duplicate objects
-					let stateObjIdsArr = reduxFirebasePool.data.map(pool.keyExtractor);
-					stateObjIdsArr = _.difference(receivedObjIdArr, stateObjIdsArr);
-					stateObjIdsArr = _.chunk(stateObjIdsArr, 7);
-					
-					const _getObjectByFirebaseId = (firebaseObjId) => {
-						return pool.getObjectByFirebaseId(firebaseObjId).once('value').then(f => f.val());
-					};
-					
-					
-					stateObjIdsArr.forEach(chunkOfObjects => {
-						
-						Promise.all(chunkOfObjects.map(_getObjectByFirebaseId)).then(objArr => {
-							// Get the current state
-							const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-							
-							// Apply post receive specific pool functions to each item
-							const mappedData = objArr.map(pool.mapFirebaseItemToLocalItem);
-							
-							dispatch({
-								poolType: POOL_TYPE_FIREBASE_DATA,
-								poolId,
-								type: POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
-								data: mappedData.reverse().concat(reduxFirebasePool.data)
-							});
-							
-							// Run all post receive specific pool side-effect functions to each item
-							objArr.forEach(pool.onReceiveLocalItem);
-						});
-					});
-					
-				}),
-				
-				_getUserObjectIds: (userId) => dispatch((dispatch, getState) => {
-					
-					// Notify of start fetch
-					dispatch({
-						poolType: POOL_TYPE_FIREBASE_DATA,
-						poolId,
-						type: POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
-					});
-					
-					// Get the current state
-					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-					
-					pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad)
-						.once('value', (snapshot) => {
-							const firebaseId = snapshot.val();
-							
-							if (firebaseId == null) {
-								// There are no items in this firebase list
-								// the initialization is complete
-								dispatch({
-									poolType: POOL_TYPE_FIREBASE_DATA,
-									poolId,
-									type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
-								});
-								return;
-								
-							}
-							
-							
-							// Get the current state
-							const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-							
-							const receivedIds = Object.values(firebaseId);
-							const stateReceivedObjs = reduxFirebasePool.data;
-							
-							if (receivedIds.length === stateReceivedObjs.length) {
-								// All items have been fetched
-								// the initialization is complete
-								dispatch({
-									poolType: POOL_TYPE_FIREBASE_DATA,
-									poolId,
-									type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS,
-								});
-								return;
-							}
-							
-							// Get the _saveReceivedData method from the ReduxPoolBuilder
-							const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-								.connectParams.getActionCreators(poolId, pool, dispatch)._saveReceivedData;
-							
-							// New items have come in, reverse and save the list
-							_saveReceivedData(receivedIds);
-						});
-					
-				}),
-				
-				
-				loadMore: (userId) => dispatch((dispatch, getState) => {
-					
-					// Get state and check if fetchedAllItems is true
-					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-					if (reduxFirebasePool.fetchedAllItems)
-						return;
-					
-					
-					// Get the _saveReceivedData method from the ReduxPoolBuilder
-					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-						.connectParams.getActionCreators(poolId, pool, dispatch)._getUserObjectIds;
-					
-					// Initialization, run the bulk request
-					_getUserObjectIds(userId);
-					
-				}),
-				
-				
-				initialize: (userId) => dispatch((dispatch, getState) => {
-					
-					pool.getUserObjectIds(userId).on('child_added', (snapshot) => {
-						// Get the current state
-						const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
-						
-						if (reduxFirebasePool.runningBulkFetch) {
-							// This value will come back in the .once('value')
-							// ignoring...
-							return;
-						}
-						
-						// The initial data has already been loaded, this is new data
-						if (snapshot.key == null)
-							return;
-						
-						// Get the _saveReceivedData method from the ReduxPoolBuilder
-						const _saveReceivedData = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-							.connectParams.getActionCreators(poolId, pool, dispatch)._saveReceivedData;
-						
-						_saveReceivedData([snapshot.key]);
-					});
-					
-					// Get the _saveReceivedData method from the ReduxPoolBuilder
-					const _getUserObjectIds = ReduxPoolBuilder[POOL_TYPE_FIREBASE_DATA]
-						.connectParams.getActionCreators(poolId, pool, dispatch)._getUserObjectIds;
-					
-					// Initialization, run the bulk request
-					_getUserObjectIds(userId);
-					
-				})
-				
-			})
-			
-		},
-		
-		defs: {
-			[FIREBASE_DATA_ID_FEED]: FirebaseDataDefFeed,
-			[FIREBASE_DATA_ID_FEATURED_ADS]: FirebaseDataDefFeaturedAds,
-			
-		}
-		
-	}
+	// 	{
+	//
+	// 	mutators: {
+	// 		[POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH]: mutatorFirebaseDataOnPreBulkFetch,
+	// 		[POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA]: mutatorFirebaseDataSaveReceivedData,
+	// 		[POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS]: mutatorFirebaseDataSetFetchedAllItems
+	// 	},
+	//
+	// 	connectParams: {
+	//
+	// 		getActionCreators: (poolId, pool, dispatch) => new FirebaseDataActionCreator(poolId, dispatch)
+	//
+	// 	},
+	//
+	// 	defs: {
+	// 		[FIREBASE_DATA_ID_FEED]: FirebaseDataDefFeed,
+	// 		[FIREBASE_DATA_ID_FEATURED_ADS]: FirebaseDataDefFeaturedAds,
+	//
+	// 	}
+	//
+	// }
 	
 };
 

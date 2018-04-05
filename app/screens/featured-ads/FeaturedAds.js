@@ -3,8 +3,9 @@ import DaoUser from "../../lib/daos/DaoUser";
 import FeaturedAdsList from '../../comp-buisness/featured-ads/FeaturedAdsList';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {FIREBASE_DATA_ID_FEATURED_ADS, poolConnect} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
 import {View} from 'react-native';
+import {FIREBASE_DATA_ID_FEATURED_ADS} from "../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************

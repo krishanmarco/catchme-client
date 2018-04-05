@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {FIREBASE_DATA_ID_FEATURED_ADS, ReduxFirebaseData} from "../../../redux/ReduxPool";
+import {FIREBASE_DATA_ID_FEATURED_ADS} from "./def/FirebaseDataDefFeaturedAds";
 import type {TDispatch, TGetState} from "../../types/Types";
+import {FirebaseDataState} from "./FirebaseDataModel";
 
 
 export type TFirebaseDataDef<TFirebaseDataObject> = {
@@ -9,7 +10,7 @@ export type TFirebaseDataDef<TFirebaseDataObject> = {
 	firebaseDataId: string,
 
 	// Initial state of this firebase-data
-	initState: () => ReduxFirebaseData,
+	initState: () => FirebaseDataState,
 
 	// Function to get the data associated to a firebase-id
 	getObjectByFirebaseId: (number) => TFirebaseDataObject,
@@ -39,8 +40,8 @@ export default class FirebaseDataDef {
 		this.bindAction = this.bindAction.bind(this);
 	}
 
-	initState(): ReduxFirebaseData {
-		return new ReduxFirebaseData(this.firebaseDataId);
+	initState(): FirebaseDataState {
+		return new FirebaseDataState(this.firebaseDataId);
 	}
 
 	mapFirebaseItemToLocalItem(firebaseItem) {

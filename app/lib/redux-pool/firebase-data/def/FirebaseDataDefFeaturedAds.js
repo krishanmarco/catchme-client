@@ -1,8 +1,9 @@
+import type {TFirebaseDataDef} from "../FirebaseDataDef";
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import FirebaseDataDef from "../FirebaseDataDef";
-import {FIREBASE_DATA_ID_FEATURED_ADS, ReduxFirebaseData} from "../../../../redux/ReduxPool";
 import {FirebaseData} from "../../../data/Firebase";
-import type {TFirebaseDataDef} from "../FirebaseDataDef";
+
+export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
 
 // Declare firebase-data definition
 class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {
@@ -33,3 +34,4 @@ export type TFirebaseDataDefFeaturedAds = TFirebaseDataDef<Object>;
 
 const firebaseDataDefFeaturedAds: TFirebaseDataDefFeaturedAds = new FirebaseDataDefFeaturedAds();
 export default firebaseDataDefFeaturedAds;
+

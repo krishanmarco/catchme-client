@@ -2,10 +2,11 @@
 import DaoUser from "../../lib/daos/DaoUser";
 import FeedList from '../../comp-buisness/feed/FeedList';
 import React from 'react';
-import {FIREBASE_DATA_ID_FEED, poolConnect} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
 import {View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {FIREBASE_DATA_ID_FEED} from "../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
 
 
 // Const *************************************************************************************************

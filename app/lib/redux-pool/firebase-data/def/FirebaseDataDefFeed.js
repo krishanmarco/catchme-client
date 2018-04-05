@@ -1,11 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import FirebaseDataDef from "../FirebaseDataDef";
-import {FIREBASE_DATA_ID_FEED, ReduxFirebaseData} from "../../../../redux/ReduxPool";
 import {FirebaseData} from "../../../data/Firebase";
+import {TFeed} from "../../../daos/DaoFeed";
 import type {TFirebaseDataDef} from "../FirebaseDataDef";
+import DaoFeed from "../../../daos/DaoFeed";
+
+export const FIREBASE_DATA_ID_FEED = 'firebaseDataIdFeed';
 
 // Declare firebase-data definition
-class FirebaseDataDefFeed extends FirebaseDataDef<Object> {
+class FirebaseDataDefFeed extends FirebaseDataDef<TFeed> {
 
 	constructor() {
 		super(FIREBASE_DATA_ID_FEED);
@@ -15,11 +18,11 @@ class FirebaseDataDefFeed extends FirebaseDataDef<Object> {
 		this.onReceiveLocalItem = this.onReceiveLocalItem.bind(this);
 	}
 
-	getObjectByFirebaseId(feedId: number): Object {
+	getObjectByFirebaseId(feedId: number): TFeed {
 		return FirebaseData.dbFeedById(feedId);
 	}
 
-	getUserObjectIds(userId: number): Object {
+	getUserObjectIds(userId: number): TFeed {
 		return FirebaseData.dbUserFeedIds(userId);
 	}
 
@@ -28,14 +31,18 @@ class FirebaseDataDefFeed extends FirebaseDataDef<Object> {
 	}
 
 	// Overrides parent
-	onReceiveLocalItem(feedItem) {
-		// todo: if consumeOnView === true then delete this feed-item from firebase
+	onReceiveLocalItem(feedItem: TFeed) {
+		if (!DaoFeed.gConsumeOnView(feedItem))
+			return;
+
+		// Delete this feed-item from the fetched state
+
 	}
 
 }
 
 // Declare firebase-data sub-type
-export type TFirebaseDataDefFeed = TFirebaseDataDef<Object>;
+export type TFirebaseDataDefFeed = TFirebaseDataDef<TFeed>;
 
 const firebaseDataDefFeed: TFirebaseDataDefFeed = new FirebaseDataDefFeed();
 export default firebaseDataDefFeed;
