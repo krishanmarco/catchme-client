@@ -32,11 +32,8 @@ const CacheMapPool: TPool = {
 	
 	
 	connectParams: {
-		
 		getExtraProps: (poolId, pool, stateProps, dispatchProps) => new CacheMapExtraProps(poolId, pool, stateProps, dispatchProps),
-		
-		// todo the pool parameter can be removed once all definitions have been migrated
-		getActionCreators: (poolDefId: string, pool: TCacheMapDef, dispatch: TDispatch) => new CacheMapActionCreator(poolDefId, dispatch)
+		getActionCreator: (poolDefId: string, dispatch: TDispatch) => new CacheMapActionCreator(poolDefId, dispatch)
 	},
 
 	

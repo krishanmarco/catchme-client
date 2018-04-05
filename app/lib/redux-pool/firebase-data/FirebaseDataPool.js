@@ -26,10 +26,7 @@ const FirebaseDataPool: TPool = {
 	},
 
 	connectParams: {
-
-		// todo the pool parameter can be removed once all definitions have been migrated
-		getActionCreators: (poolId, pool, dispatch) => new FirebaseDataActionCreator(poolId, dispatch)
-
+		getActionCreator: (poolId, dispatch) => new FirebaseDataActionCreator(poolId, dispatch)
 	},
 
 	defs: {

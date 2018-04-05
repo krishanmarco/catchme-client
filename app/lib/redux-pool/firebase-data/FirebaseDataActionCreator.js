@@ -6,9 +6,7 @@ import {
 	POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
 	POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS
 } from "./FirebaseDataPool";
-import {
-	POOL_TYPE_FIREBASE_DATA,
-} from "../../../redux/ReduxPool";
+import {POOL_TYPE_FIREBASE_DATA} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
 
 

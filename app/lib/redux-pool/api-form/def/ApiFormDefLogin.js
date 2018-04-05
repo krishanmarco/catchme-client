@@ -15,6 +15,8 @@ class ApiFormDefLogin extends ApiFormDef<TApiFormLogin> {
 	constructor() {
 		super(FORM_API_ID_LOGIN, true, true);
 		this.initState = this.initState.bind(this);
+		this.post = this.post.bind(this);
+		this.validate = this.validate.bind(this);
 	}
 
 	initState() {

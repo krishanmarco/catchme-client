@@ -45,8 +45,7 @@ const ApiFormPool: TPool = {
 	
 	
 	connectParams: {
-		// todo the pool parameter can be removed once all definitions have been migrated
-		getActionCreators: (poolDefId: string, pool: TApiFormDef, dispatch: TDispatch) => new ApiFormActionCreator(poolDefId, dispatch)
+		getActionCreator: (poolDefId: string, dispatch: TDispatch) => new ApiFormActionCreator(poolDefId, dispatch)
 	},
 	
 	

@@ -16,6 +16,8 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 	constructor() {
 		super(FORM_API_ID_EDIT_LOCATION_PROFILE, true, true);
 		this.initState = this.initState.bind(this);
+		this.post = this.post.bind(this);
+		this.validate = this.validate.bind(this);
 	}
 
 	initState() {

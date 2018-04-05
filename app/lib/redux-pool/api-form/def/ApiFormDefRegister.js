@@ -15,6 +15,8 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormRegister> {
 	constructor() {
 		super(FORM_API_ID_REGISTER, true);
 		this.initState = this.initState.bind(this);
+		this.post = this.post.bind(this);
+		this.validate = this.validate.bind(this);
 	}
 
 	initState() {

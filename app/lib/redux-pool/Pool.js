@@ -18,11 +18,8 @@ export type TPool = {
 	mutators: {[string]: TMutator},
 	
 	connectParams: {
-		
-		getExtraProps?: (string, Object, Object, Object) => {},
-		
-		getActionCreators: (string, Object, Function) => PoolActionCreator
-		
+		getExtraProps?: (string, Object, Object, Object) => { },
+		getActionCreator: (string, Function) => PoolActionCreator
 	},
 	
 	defs: {[string]: TPoolDef}

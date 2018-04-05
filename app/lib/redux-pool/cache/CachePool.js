@@ -24,8 +24,7 @@ const CachePool: TPool = {
 	
 	
 	connectParams: {
-		// todo the pool parameter can be removed once all definitions have been migrated
-		getActionCreators: (poolDefId: string, pool: TCacheDef, dispatch: TDispatch) => new CachePoolActionCreator(poolDefId, dispatch)
+		getActionCreator: (poolDefId: string, dispatch: TDispatch) => new CachePoolActionCreator(poolDefId, dispatch)
 	},
 
 	

@@ -87,55 +87,6 @@ export const ReduxPoolBuilder = {
 	[POOL_TYPE_API_FORMS]: ApiFormPool,
 	[POOL_TYPE_CACHE_MAP]: CacheMapPool,
 	[POOL_TYPE_FIREBASE_DATA]: FirebaseDataPool
-
-
-
-	// 	{
-	//
-	// 	mutators: {
-	// 		[POOL_ACTION_CACHE_MAP_INIT_DATA]: mutatorCacheMapModelInitData,
-	// 		[POOL_ACTION_CACHE_MAP_SET_DATA]: mutatorCacheMapModelSetData,
-	// 		[POOL_ACTION_CACHE_MAP_INVALIDATE_DATA]: mutatorCacheMapModelInvalidateData,
-	// 		[POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA]: mutatorCacheMapModelInvalidateAllData
-	// 	},
-	//
-	// 	connectParams: {
-	//
-	// 		getExtraProps: (poolId, pool, stateProps, dispatchProps) => new CacheMapExtraProps(poolId, pool, stateProps, dispatchProps),
-	//
-	// 		getActionCreators: (poolId, pool, dispatch) => new CacheMapActionCreator(poolId, dispatch)
-	//
-	// 	},
-	//
-	// 	defs: {
-	// 		[CACHE_MAP_ID_LOCATION_PROFILES]: CacheMapDefLocationProfiles,
-	// 		[CACHE_MAP_ID_USER_PROFILES]: CacheMapDefUserProfiles,
-	//
-	// 	}
-	//
-	// },
-	// 	{
-	//
-	// 	mutators: {
-	// 		[POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH]: mutatorFirebaseDataOnPreBulkFetch,
-	// 		[POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA]: mutatorFirebaseDataSaveReceivedData,
-	// 		[POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS]: mutatorFirebaseDataSetFetchedAllItems
-	// 	},
-	//
-	// 	connectParams: {
-	//
-	// 		getActionCreators: (poolId, pool, dispatch) => new FirebaseDataActionCreator(poolId, dispatch)
-	//
-	// 	},
-	//
-	// 	defs: {
-	// 		[FIREBASE_DATA_ID_FEED]: FirebaseDataDefFeed,
-	// 		[FIREBASE_DATA_ID_FEATURED_ADS]: FirebaseDataDefFeaturedAds,
-	//
-	// 	}
-	//
-	// }
-	
 };
 
 
@@ -276,14 +227,9 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 			// Function to apply to each pool
 			(poolType, poolId) => {
 				
-				const poolDispatch = ReduxPoolBuilder[poolType].connectParams.getActionCreators(
+				const poolDispatch = ReduxPoolBuilder[poolType].connectParams.getActionCreator(
 					// Pass the pool pId (needed dispatch pool specific actions)
 					poolId,
-					
-					// Pass the pool object, (needed so the function can access)
-					// properties in its child pools
-					ReduxPoolBuilder[poolType].defs[poolId],
-					
 					
 					// Pass in a the dispatch function
 					dispatch

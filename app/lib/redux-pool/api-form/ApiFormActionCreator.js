@@ -19,32 +19,34 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_API_FORMS, poolDefId, dispatch);
+		this._validate = this._validate.bind(this);
 		this.change = this.change.bind(this);
 		this.reset = this.reset.bind(this);
 		this.setErrors = this.setErrors.bind(this);
 		this.dismissErrors = this.dismissErrors.bind(this);
 		this.post = this.post.bind(this);
 	}
+
+
+	_validate(apiInput, inclusive = false) {
+		const {poolId, dispatch} = this;
+		const pool = this.getPoolDef();
+
+		return dispatch((dispatch, getState) => {
+			const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
+			return pool.validate(apiInput, previousErrors, inclusive);
+		});
+	}
 	
 	
 	change(apiInput) {
-		const {dispatch, dispatchAction, poolId} = this;
+		const {dispatchAction} = this;
 		const pool = this.getPoolDef();
 		
-		return dispatch((dispatch, getState) => {
-			
-			let errors = {};
-			if (pool.validateOnChange) {
-				const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
-				errors = pool.validate(apiInput, previousErrors);
-			}
-			
-			return dispatchAction({
-				type: POOL_ACTION_API_FORMS_ON_CHANGE,
-				apiInput,
-				errors
-			});
-			
+		return dispatchAction({
+			type: POOL_ACTION_API_FORMS_ON_CHANGE,
+			errors: pool.validateOnChange ? this._validate(apiInput) : {},
+			apiInput,
 		});
 	}
 	
@@ -87,19 +89,10 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 			pool.bindAction(dispatch, getState);	// todo: unbind at the end
 			
 			const form = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId];
-			const apiInput = form.apiInput;
-			let errors = form.errors;
-			
-			// todo: this code is duplicate, see change function
-			if (pool.validateOnChange) {
-				const previousErrors = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId].errors;
-				errors = pool.validate(apiInput, previousErrors, true);
-			}
-			
+
+			const errors = this._validate(form.apiInput, true);
 			if (ApiFormDef.hasErrors(errors)) {
-				const setErrors = ReduxPoolBuilder[POOL_TYPE_API_FORMS]
-					.connectParams.getActionCreators(poolId, pool, dispatch).setErrors;
-				setErrors(errors);
+				this.setErrors(errors);
 				return Promise.reject(errors);
 			}
 			
@@ -115,7 +108,7 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 			
 			return pool.post(
 				// data
-				apiInput,
+				form.apiInput,
 				
 				// Some post methods like ApiClient.resetPassword
 				// require extra parameters that are passed in through
@@ -143,15 +136,11 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 				// here you should only do form specific actions
 				// for example set the button out of its loading state
 				const errors = _.get(JSON.parse(api400), 'errors', {});
-				const setErrors = ReduxPoolBuilder[POOL_TYPE_API_FORMS]
-					.connectParams.getActionCreators(poolId, pool, dispatch).setErrors;
-				setErrors(errors);
+				this.setErrors(errors);
 				return errors;
 			}).finally(userProfile => {
 				
-				dispatchAction({
-					type: POOL_ACTION_API_FORMS_ON_FINISH,
-				});
+				dispatchAction({type: POOL_ACTION_API_FORMS_ON_FINISH});
 				
 				// Enable screen
 				if (pool.disableScreenOnLoading)

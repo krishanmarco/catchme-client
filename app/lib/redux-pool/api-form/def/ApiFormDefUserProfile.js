@@ -19,6 +19,8 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 	constructor() {
 		super(FORM_API_ID_EDIT_USER_PROFILE, true);
 		this.initState = this.initState.bind(this);
+		this.post = this.post.bind(this);
+		this.validate = this.validate.bind(this);
 	}
 
 	initState() {
