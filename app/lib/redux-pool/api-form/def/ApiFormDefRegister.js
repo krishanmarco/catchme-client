@@ -6,6 +6,7 @@ import {Validate} from "../../../helpers/Validator";
 import type {TApiFormRegister} from "../../../daos/DaoApiFormRegister";
 import DaoApiFormRegister from "../../../daos/DaoApiFormRegister";
 import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
 
 export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';
 
@@ -23,7 +24,7 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormRegister> {
 		return new ApiFormState(this.formId, DaoApiFormRegister.newInstance());
 	}
 
-	post(apiFormRegister: TApiFormRegister): Promise<TApiFormRegister> {
+	post(thunk: TThunk, apiFormRegister: TApiFormRegister): Promise<TApiFormRegister> {
 		return ApiClient.accountsRegister(apiFormRegister);
 	}
 

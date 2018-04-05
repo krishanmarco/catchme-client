@@ -32,3 +32,8 @@ export type TNavigator = Object & {
 
 export type TDispatch = (Object) => ?Object;
 export type TGetState = () => Object;
+
+export type TThunk = {
+	dispatch: TDispatch,
+	getState: TGetState
+};

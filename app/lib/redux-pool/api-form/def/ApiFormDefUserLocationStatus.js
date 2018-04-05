@@ -6,6 +6,7 @@ import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
 import type {TLocation} from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
 
 
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
@@ -24,7 +25,7 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 		return new ApiFormState(this.formId, DaoUserLocationStatus.newInstance());
 	}
 
-	post(userLocationStatus: TUserLocationStatus): Promise<TUserLocationStatus> {
+	post(thunk: TThunk, userLocationStatus: TUserLocationStatus): Promise<TUserLocationStatus> {
 		return ApiClient.userStatusAdd(userLocationStatus);
 	}
 

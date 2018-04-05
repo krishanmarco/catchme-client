@@ -6,6 +6,7 @@ import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePasswor
 import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
 import {Validate} from "../../../helpers/Validator";
 import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
 
 export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 
@@ -23,7 +24,7 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {
 		return new ApiFormState(this.formId, DaoApiFormChangePassword.newInstance());
 	}
 
-	post(apiFormChangePassword: TApiFormChangePassword): Promise<TApiFormChangePassword> {
+	post(thunk: TThunk, apiFormChangePassword: TApiFormChangePassword): Promise<TApiFormChangePassword> {
 		return ApiClient.accountsChangePassword(apiFormChangePassword);
 	}
 

@@ -3,7 +3,6 @@ import CacheDefUserLocationStatus, {CACHE_ID_USER_LOCATION_STATUS} from "./def/C
 import CacheDefUserProfile, {CACHE_ID_USER_PROFILE} from "./def/CacheDefUserProfile";
 import CachePoolActionCreator from "./CacheActionCreator";
 import {mutatorCacheModelInitializeData, mutatorCacheModelInvalidateData, mutatorCacheModelSetData} from "./CacheModel";
-import type {TCacheDef} from "./CacheDef";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
 

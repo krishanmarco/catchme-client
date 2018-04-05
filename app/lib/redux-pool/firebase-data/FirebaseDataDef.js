@@ -1,6 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {FIREBASE_DATA_ID_FEATURED_ADS} from "./def/FirebaseDataDefFeaturedAds";
-import type {TDispatch, TGetState} from "../../types/Types";
 import {FirebaseDataState} from "./FirebaseDataModel";
 
 
@@ -37,7 +35,6 @@ export default class FirebaseDataDef {
 		this.initState = this.initState.bind(this);
 		this.mapFirebaseItemToLocalItem = this.mapFirebaseItemToLocalItem.bind(this);
 		this.onReceiveLocalItem = this.onReceiveLocalItem.bind(this);
-		this.bindAction = this.bindAction.bind(this);
 	}
 
 	initState(): FirebaseDataState {
@@ -50,16 +47,6 @@ export default class FirebaseDataDef {
 
 	onReceiveLocalItem(firebaseItem) {
 		// Nothing for now
-	}
-
-	bindAction(dispatch: TDispatch, getState: TGetState) {
-		this.dispatch = dispatch;
-		this.getState = getState;
-	}
-
-	unBindAction() {
-		this.dispatch = null;
-		this.getState = null;
 	}
 
 }

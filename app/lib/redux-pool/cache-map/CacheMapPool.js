@@ -9,7 +9,6 @@ import {
 	mutatorCacheMapModelInvalidateData,
 	mutatorCacheMapModelSetData
 } from "./CacheMapModel";
-import type {TCacheMapDef} from "./CacheMapDef";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
 

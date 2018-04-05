@@ -6,6 +6,7 @@ import {Validate} from "../../../helpers/Validator";
 import type {TApiFormLogin} from "../../../daos/DaoApiFormLogin";
 import DaoApiFormLogin from "../../../daos/DaoApiFormLogin";
 import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
 
 export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
 
@@ -23,7 +24,7 @@ class ApiFormDefLogin extends ApiFormDef<TApiFormLogin> {
 		return new ApiFormState(this.formId, DaoApiFormLogin.newInstance());
 	}
 
-	post(apiFormLogin: TApiFormLogin): Promise<TApiFormLogin> {
+	post(thunk: TThunk, apiFormLogin: TApiFormLogin): Promise<TApiFormLogin> {
 		return ApiClient.accountsLogin(apiFormLogin);
 	}
 

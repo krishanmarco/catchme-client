@@ -37,57 +37,53 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 			return pool.validate(apiInput, previousErrors, inclusive);
 		});
 	}
-	
-	
+
+
 	change(apiInput) {
 		const {dispatchAction} = this;
 		const pool = this.getPoolDef();
-		
+
 		return dispatchAction({
 			type: POOL_ACTION_API_FORMS_ON_CHANGE,
 			errors: pool.validateOnChange ? this._validate(apiInput) : {},
 			apiInput,
 		});
 	}
-	
-	
+
+
 	reset() {
 		const {dispatchAction} = this;
 		const pool = this.getPoolDef();
-		
+
 		return dispatchAction({
 			type: POOL_ACTION_API_FORMS_ON_RESET,
 			newState: pool.initState()
 		});
 	}
-	
-	
+
+
 	setErrors(errors) {
 		const {dispatchAction} = this;
-		
+
 		return dispatchAction({
 			type: POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
 			errors
 		});
 	}
-	
-	
+
+
 	dismissErrors() {
 		const {dispatchAction} = this;
-		
-		return dispatchAction({
-			type: POOL_ACTION_API_FORMS_ON_ERROR_DISMISS
-		});
+
+		return dispatchAction({type: POOL_ACTION_API_FORMS_ON_ERROR_DISMISS});
 	}
-	
-	
-	post(extraParams) {
+
+
+	post(extraParams: Object) {
 		const {dispatchAction, dispatch, poolId} = this;
 		const pool = this.getPoolDef();
-		
+
 		return dispatch((dispatch, getState) => {
-			pool.bindAction(dispatch, getState);	// todo: unbind at the end
-			
 			const form = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId];
 
 			const errors = this._validate(form.apiInput, true);
@@ -95,42 +91,39 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 				this.setErrors(errors);
 				return Promise.reject(errors);
 			}
-			
-			
+
+
 			// Disable screen
 			if (pool.disableScreenOnLoading)
 				dispatch(screenDisablePointerEvents());
-			
-			dispatchAction({
-				type: POOL_ACTION_API_FORMS_ON_POST
-			});
-			
-			
+
+			dispatchAction({type: POOL_ACTION_API_FORMS_ON_POST});
+
+
 			return pool.post(
+
+				// TThunk
+				{dispatch, getState},
+
 				// data
 				form.apiInput,
-				
+
 				// Some post methods like ApiClient.resetPassword
 				// require extra parameters that are passed in through
 				// this extra nullable object
-				extraParams,
-				
-				// Redux Dispatch Function
-				dispatch,
-				
-				// Redux state Function
-				getState
+				extraParams
+
 			).then(apiResponse => {
-				
+
 				// Handle the state change
 				this.dispatchAction({
 					type: POOL_ACTION_API_FORMS_ON_SUCCESS,
 					apiResponse
 				});
-				
+
 				// Request has completed successfully
 				return apiResponse;
-				
+
 			}).catch(api400 => {
 				// Note: the api has already handled the exception
 				// here you should only do form specific actions
@@ -139,16 +132,16 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 				this.setErrors(errors);
 				return errors;
 			}).finally(userProfile => {
-				
+
 				dispatchAction({type: POOL_ACTION_API_FORMS_ON_FINISH});
-				
+
 				// Enable screen
 				if (pool.disableScreenOnLoading)
 					dispatch(screenEnablePointerEvents());
-				
+
 				return userProfile;
 			});
-			
+
 		});
 	}
 

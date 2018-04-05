@@ -15,7 +15,6 @@ import {
 	mutatorApiFormsOnReset,
 	mutatorApiFormsOnSuccess
 } from "./ApiFormModel";
-import type {TApiFormDef} from "./ApiFormDef";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
 

@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import {CacheState} from "./CacheModel";
-import type {TDispatch, TGetState} from "../../types/Types";
 
 
 export type TCacheDef<TCacheObject> = {
@@ -22,21 +21,10 @@ export default class CacheDef {
 	constructor(cacheId) {
 		this.cacheId = cacheId;
 		this.initState = this.initState.bind(this);
-		this.bindAction = this.bindAction.bind(this);
 	}
 
 	initState(): CacheState {
 		return new CacheState(this.cacheId);
-	}
-	
-	bindAction(dispatch: TDispatch, getState: TGetState) {
-		this.dispatch = dispatch;
-		this.getState = getState;
-	}
-
-	unBindAction() {
-		this.dispatch = null;
-		this.getState = null;
 	}
 
 }

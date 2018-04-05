@@ -6,6 +6,7 @@ import {Validate} from "../../../helpers/Validator";
 import type {TLocation} from "../../../daos/DaoLocation";
 import DaoLocation from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
 
 
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
@@ -26,7 +27,7 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 		return new ApiFormState(this.formId, location, errors);
 	}
 
-	post(locationProfile: TLocation): Promise<TLocation> {
+	post(thunk: TThunk, locationProfile: TLocation): Promise<TLocation> {
 		return ApiClient.userLocationsAdminEditLid(locationProfile);
 		// todo then set the response object back into this form (tod set id)
 	}
