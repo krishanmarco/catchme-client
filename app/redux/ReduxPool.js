@@ -5,6 +5,8 @@ import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
 import CachePool from "../lib/redux-pool/cache/CachePool";
 import FirebaseDataPool from "../lib/redux-pool/firebase-data/FirebaseDataPool";
 import {connect} from 'react-redux';
+import type {TDispatch} from "../lib/types/Types";
+import {TState} from "../lib/types/Types";
 
 
 
@@ -55,6 +57,8 @@ function build(poolDeclaration) {
 	return result;
 }
 
+// Function that applies a function (apply)
+// to each pool in the ReduxPoolBuilder
 function poolIterator(poolDeclaration, poolIds, apply) {
 	
 	for (let poolType in poolDeclaration) {
@@ -179,7 +183,7 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 
 
 function subscribeStateToPools(mapStateToProps, poolIds) {
-	return (state) => {
+	return (state: TState) => {
 		
 		// initialize the result with the default input mapDispatchToProps
 		let mapStateToPropsResult = mapStateToProps(state);
@@ -211,12 +215,11 @@ function subscribeStateToPools(mapStateToProps, poolIds) {
 
 
 function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
-	return (dispatch) => {
-		
+	return (dispatch: TDispatch) => {
+
 		// initialize the result with the default input mapDispatchToProps
 		let mapDispatchToPropsResult = mapDispatchToProps(dispatch);
-		
-		
+
 		poolIterator(
 			// Pool Builder
 			ReduxPoolBuilder,
@@ -234,8 +237,8 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 					// Pass in a the dispatch function
 					dispatch
 				);
-				
-				
+
+
 				// Merge the current result with all the indicated pools
 				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch});
 				

@@ -8,6 +8,7 @@ import {
 } from "./CachePool";
 import {POOL_TYPE_CACHE} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
+import {CacheState} from "./CacheModel";
 
 
 export default class CacheActionCreator extends PoolActionCreator {
@@ -34,7 +35,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 
 
 	initialize(extraParams) {
-		const {poolId, dispatch, dispatchAction} = this;
+		const {poolId, dispatch, dispatchAction, dispatchPromiseAction} = this;
 		const pool = this.getPoolDef();
 
 		return dispatch((dispatch, getState) => {
@@ -44,22 +45,23 @@ export default class CacheActionCreator extends PoolActionCreator {
 			// If the data has been updated and needs to be requested again, you must
 			// use invalidate() and then initialize()
 
-
 			// Check if the data is set, if it is return
-			let reduxPoolCache = getState().reduxPoolReducer[POOL_TYPE_CACHE][poolId];
+			const {loadingPromise, data}: CacheState = this.getPoolState(getState);
 
-			if (reduxPoolCache.loadingPromise != null) {
+			// If already loading return the promise
+			if (loadingPromise != null) {
 				Logger.v(`CacheActionCreator initialize: Requested ${poolId} initialization but already loading.`);
-				return reduxPoolCache.loadingPromise;
+				return loadingPromise;
 			}
 
-			if (reduxPoolCache.data !== null) {
-				return Promise.resolve(reduxPoolCache.data);
+			// If already loaded return the data
+			if (data !== null) {
+				return Promise.resolve(data);
 			}
 
 
 			// Run request or data builder
-			const loadingPromise = pool.buildDataSet(dispatch, extraParams).then(buildResultData => {
+			const nextPromise = pool.buildDataSet(dispatch, extraParams).then(buildResultData => {
 
 				// Save the result data into the pool
 				dispatchAction({
@@ -87,14 +89,13 @@ export default class CacheActionCreator extends PoolActionCreator {
 
 
 			// If the promise hasn't resolved immediately then
-			// Save loadingPromise to the state, this way, even if [data] is
+			// Save nextPromise to the state, this way, even if [data] is
 			// null the next request will not be processed because we know
 			// that one has already been sent out
-			return dispatchAction({
+			return dispatchPromiseAction({
 				type: POOL_ACTION_CACHE_INIT_DATA,
-				payload: loadingPromise,
-				loadingPromise
-			}).then(({value}) => value);
+				loadingPromise: nextPromise
+			}, nextPromise);
 
 		});
 	}

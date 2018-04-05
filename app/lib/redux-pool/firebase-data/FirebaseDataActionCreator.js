@@ -112,7 +112,7 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 
 
 	loadMore(userId: number) {
-		const {poolId, dispatch, dispatchAction} = this;
+		const {poolId, dispatch} = this;
 		const pool = this.getPoolDef();
 
 		return dispatch((dispatch, getState) => {
@@ -130,7 +130,7 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 
 
 	initialize(userId: number) {
-		const {poolId, dispatch, dispatchAction} = this;
+		const {poolId, dispatch} = this;
 		const pool = this.getPoolDef();
 
 		return dispatch((dispatch, getState) => {

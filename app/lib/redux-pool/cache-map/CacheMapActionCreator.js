@@ -9,6 +9,7 @@ import {
 } from "./CacheMapPool";
 import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
+import {CacheState} from "../cache/CacheModel";
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
@@ -39,12 +40,12 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 	}
 
 	initializeItem(itemId, extraParams) {
-		const {dispatchAction, dispatch, poolId} = this;
+		const {dispatchAction, dispatch, dispatchPromiseAction, poolId} = this;
 		const pool = this.getPoolDef();
 		
 		return dispatch((dispatch, getState) => {
 			
-			// If the data is already set (or is about to be set [loadingPromise != null]) there is
+			// If the data is already set (or is about to be set [nextPromise != null]) there is
 			// no need to run the request again.
 			
 			// If the data has been updated and needs to be requested again, you must
@@ -52,26 +53,27 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 			
 			
 			// Check if the data is set, if it is return
-			const cacheMapData = getState().reduxPoolReducer[POOL_TYPE_CACHE_MAP][poolId].data;
+			const {data}: CacheState = this.getPoolState(getState);
 			
-			if (itemId in cacheMapData) {
-				const cacheMapItem = cacheMapData[itemId];
-				
-				if (cacheMapItem.loadingPromise != null) {
+			if (itemId in data) {
+				const {loadingPromise, data} = data[itemId];
+
+				// If already loading return the promise
+				if (loadingPromise != null) {
 					Logger.v(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
-					return cacheMapItem.loadingPromise;
+					return loadingPromise;
 				}
-				
-				
-				if (cacheMapItem.data !== null) {
-					return Promise.resolve(cacheMapItem.data);
+
+				// If already loaded return the data
+				if (data !== null) {
+					return Promise.resolve(data);
 				}
 				
 			}
 			
 			
 			// Run request or data builder
-			const loadingPromise = pool.buildDataSet(itemId, extraParams)
+			const nextPromise = pool.buildDataSet(itemId, extraParams)
 				.then(buildResultData => {
 					
 					// Save the result data into the pool
@@ -88,8 +90,8 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 					
 					dispatchAction({
 						type: POOL_ACTION_CACHE_MAP_SET_DATA,
-						itemId,
 						data: null,
+						itemId,
 					});
 					
 					// Continue the promise chain
@@ -98,15 +100,14 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 			
 			
 			// If the promise hasn't resolved immediately then
-			// Save loadingPromise to th state, this way, even if [data] is
+			// Save nextPromise to th state, this way, even if [data] is
 			// null the next request will not be processed because we know
 			// that one has already been sent out
-			return dispatchAction({
+			return dispatchPromiseAction({
 				type: POOL_ACTION_CACHE_MAP_INIT_DATA,
+				loadingPromise: nextPromise,
 				itemId,
-				payload: loadingPromise,
-				loadingPromise
-			}).then(({value}) => value);
+			}, nextPromise);
 			
 		});
 	}
