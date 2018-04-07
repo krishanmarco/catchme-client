@@ -1,6 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import _ from "lodash";
+import ActionHandler, {TActionHandlerParams} from "../../helpers/ActionHandler";
+import DaoAction from "../../daos/DaoAction";
 import PoolActionCreator from "../PoolActionCreator";
+import {arrayRemove} from "../../HelperFunctions";
 import {
 	POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
 	POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
@@ -12,11 +15,29 @@ import type {TDispatch} from "../../types/Types";
 
 export default class FirebaseDataActionCreator extends PoolActionCreator {
 
+	static handleClickAction(actionHandlerParams: TActionHandlerParams, poolDefId: string): Promise {
+		return ActionHandler.handleAction(actionHandlerParams)
+			.then(res => {
+
+				// The item has been interacted
+				if (DaoAction.gConsumeOnView(action)) {
+					// Delete this item using the FirebaseDataActionCreator
+					new FirebaseDataActionCreator(poolDefId, actionHandlerParams.thunk.dispatch)
+						.deleteItem(DaoAction.gId(action));
+				}
+
+				return res;
+			});
+	}
+
+
+
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_FIREBASE_DATA, poolDefId, dispatch);
 		this._saveReceivedData = this._saveReceivedData.bind(this);
 		this._getUserObjectIds = this._getUserObjectIds.bind(this);
 		this.loadMore = this.loadMore.bind(this);
+		this.deleteItem = this.deleteItem.bind(this);
 		this.initialize = this.initialize.bind(this);
 	}
 
@@ -105,6 +126,29 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 					// New items have come in, reverse and save the list
 					this._saveReceivedData(receivedIds);
 				});
+
+		});
+	}
+
+
+
+	deleteItem(firebaseItemId: string) {
+		const {dispatch, dispatchAction} = this;
+		const pool = this.getPoolDef();
+
+		return dispatch((dispatch, getState) => {
+			const {data} = this.getPoolState(getState);
+
+			// Delete the item from the data list
+			dispatchAction({
+				type: POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
+				data: arrayRemove(data, firebaseItemId)
+			});
+
+			// Get and delete the item from the firebase database
+			const item = pool.getObjectByFirebaseId(firebaseItemId);
+			if (item != null)
+				item.remove();
 
 		});
 	}

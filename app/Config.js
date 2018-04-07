@@ -145,7 +145,7 @@ export const Const = {
 		
 		ModalCamera: `${Globals.packageName}.ModalCamera`,
 		ModalTiming: `${Globals.packageName}.ModalTiming`,
-		ModalAddressPicker: `${Globals.packageName}.ModalAddressPicker`,
+		ScreenAddressPicker: `${Globals.packageName}.ScreenAddressPicker`,
 		ModalUserLocationStatus: `${Globals.packageName}.ModalUserLocationStatus`,
 		
 		

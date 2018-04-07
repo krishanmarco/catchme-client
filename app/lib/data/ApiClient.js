@@ -14,6 +14,7 @@ import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
 import type {TLocation} from "../daos/DaoLocation";
 import {startApplication} from "../../App";
 import firebase from "./Firebase";
+import Context from "../Context";
 
 
 class ApiClient {
@@ -186,7 +187,7 @@ class ApiClient {
 		return fetch(Urls.api + '/meta/time')
 			.then(response => response.text())
 			.then(callback)
-			.catch(error => Logger.error(error));
+			.catch(error => Logger.v(error));
 	}
 
 
@@ -237,12 +238,14 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/firebase-jwt`)
 			.then(jwt => {
 				Logger.v(`ApiClient userFirebaseJwt: Received firebase jwt ${jwt}`);
+				Context.setFirebaseEnabled(true);
 				return firebase.auth().signInWithCustomToken(jwt);
 			})
 			.catch(exception => {
-				Logger.e("ApiClient authenticateFirebase: Failed to login to firebase: ", exception);
+				Context.setFirebaseEnabled(false);
+				Logger.v("ApiClient authenticateFirebase: Failed to login to firebase: ", exception);
 			});
-	}
+		}
 
 	userProfileEdit(userData: TUser, filePath = null) {
 		const formData = Object.keys(userData)

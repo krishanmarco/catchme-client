@@ -4,6 +4,10 @@ import {NetInfo} from 'react-native';
 
 class Context {
 
+	constructor() {
+		this.firebaseEnabled = false;
+	}
+
 	isOnline() {
 		return NetInfo.isConnected.fetch();
 	}
@@ -14,6 +18,14 @@ class Context {
 
 	getFirebaseUser() {
 		return firebase.auth().currentUser;
+	}
+
+	setFirebaseEnabled(enabled: boolean) {
+		this.firebaseEnabled = enabled;
+	}
+
+	isFirebaseEnabled() {
+		return this.firebaseEnabled;
 	}
 
 }

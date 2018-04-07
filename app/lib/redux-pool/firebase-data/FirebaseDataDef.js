@@ -30,7 +30,7 @@ export type TFirebaseDataDef<TFirebaseDataObject> = {
 
 export default class FirebaseDataDef {
 
-	constructor(firebaseDataId) {
+	constructor(firebaseDataId: string) {
 		this.firebaseDataId = firebaseDataId;
 		this.initState = this.initState.bind(this);
 		this.mapFirebaseItemToLocalItem = this.mapFirebaseItemToLocalItem.bind(this);
@@ -41,11 +41,11 @@ export default class FirebaseDataDef {
 		return new FirebaseDataState(this.firebaseDataId);
 	}
 
-	mapFirebaseItemToLocalItem(firebaseItem) {
+	mapFirebaseItemToLocalItem(firebaseItem: Object): Object {
 		return firebaseItem;
 	}
 
-	onReceiveLocalItem(firebaseItem) {
+	onReceiveLocalItem(firebaseItem: Object) {
 		// Nothing for now
 	}
 

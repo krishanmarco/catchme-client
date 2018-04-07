@@ -85,7 +85,7 @@ export default class Router {
 
   static toAddressPickerModal(navigator, props) {
     navigator.showModal({
-      screen: Const.NavigationComponents.ModalAddressPicker,
+      screen: Const.NavigationComponents.ScreenAddressPicker,
       passProps: props,
       animated: true,
       animationType: 'slide-up',

@@ -36,7 +36,7 @@ export default class CameraWrapper extends React.Component {
 			return data;
 		}).catch(err => {
 			// todo
-			Logger.e(err);
+			Logger.v(err);
 		});
 	}
 	

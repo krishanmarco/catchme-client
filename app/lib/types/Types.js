@@ -2,6 +2,8 @@
 
 import type {TAction} from "../daos/DaoAction";
 
+export type TActionHandlers = {[string]: TActionHandler};
+
 export type TActionHandler = {
 	icon: TIcon,
 	isValid: (TAction) => boolean,

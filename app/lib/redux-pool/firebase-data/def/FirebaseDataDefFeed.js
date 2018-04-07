@@ -1,14 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
+import FirebaseDataActionCreator from "../FirebaseDataActionCreator";
 import FirebaseDataDef from "../FirebaseDataDef";
 import {FirebaseData} from "../../../data/Firebase";
+import {TActionHandlerParams} from "../../../helpers/ActionHandler";
 import {TFeed} from "../../../daos/DaoFeed";
 import type {TFirebaseDataDef} from "../FirebaseDataDef";
-import DaoFeed from "../../../daos/DaoFeed";
 
 export const FIREBASE_DATA_ID_FEED = 'firebaseDataIdFeed';
 
 // Declare firebase-data definition
 class FirebaseDataDefFeed extends FirebaseDataDef<TFeed> {
+
+	static handleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
+		return FirebaseDataActionCreator.handleClickAction(actionHandlerParams, FIREBASE_DATA_ID_FEED);
+	}
 
 	constructor() {
 		super(FIREBASE_DATA_ID_FEED);
@@ -28,15 +33,6 @@ class FirebaseDataDefFeed extends FirebaseDataDef<TFeed> {
 
 	keyExtractor(feedItem): string {
 		return feedItem.id;
-	}
-
-	// Overrides parent
-	onReceiveLocalItem(feedItem: TFeed) {
-		if (!DaoFeed.gConsumeOnView(feedItem))
-			return;
-
-		// Delete this feed-item from the fetched state
-
 	}
 
 }

@@ -27,7 +27,7 @@ class ScreenFeaturedAdsPresentational extends React.Component {
               renderChild={([authenticatedUserProfile]) => (
                   <FeaturedAds
                       navigator={this.props.navigator}
-                      authenticatedUserProfile={authenticatedUserProfile}/>
+                      userProfile={authenticatedUserProfile}/>
               )}/>
         </Screen>
     );

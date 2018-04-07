@@ -1,12 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../lib/daos/DaoUser";
 import FeedList from '../../comp-buisness/feed/FeedList';
+import FirebaseDataDefFeed, {FIREBASE_DATA_ID_FEED} from "../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
 import React from 'react';
+import {bindActionCreators} from 'redux';
 import {poolConnect} from '../../redux/ReduxPool';
+import {TActionHandlerParams} from "../../lib/helpers/ActionHandler";
 import {View} from 'react-native';
-import type {TNavigator} from "../../lib/types/Types";
+import type {TAction} from "../../lib/daos/DaoAction";
+import type {TNavigator, TThunk} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {FIREBASE_DATA_ID_FEED} from "../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed";
 
 
 // Const *************************************************************************************************
@@ -14,7 +17,8 @@ import {FIREBASE_DATA_ID_FEED} from "../../lib/redux-pool/firebase-data/def/Fire
 
 type Props = {
 	navigator: TNavigator,
-	userProfile: TUser
+	userProfile: TUser,
+	handleClickAction: Function
 };
 
 type State = {
@@ -38,6 +42,13 @@ export function feedReducer(state = feedInitState, action) {
 }
 
 
+function feedHandleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
+	return (dispatch, getState) => {
+		// ActionHandler.handleAction(string, TAction, TNavigator, TThunk): Promise
+		return FirebaseDataDefFeed.handleClickAction({...actionHandlerParams, thunk: {dispatch, getState}});
+	};
+}
+
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************
@@ -47,36 +58,38 @@ class FeedPresentational extends React.Component<any, Props, State> {
 	constructor(props, context) {
 		super(props, context);
 		this._loadMore = this._loadMore.bind(this);
+		this._handleClickAction = this._handleClickAction.bind(this);
 	}
 	
 	componentWillMount() {
-		this._firebaseDataFeed().initialize(DaoUser.gId(this._userProfile()));
+		const {userProfile} = this.props;
+		this._firebaseDataFeed().initialize(DaoUser.gId(userProfile));
 	}
 	
 	_firebaseDataFeed() {
 		return this.props[FIREBASE_DATA_ID_FEED];
 	}
-	
-	_userProfile() {
-		return this.props.userProfile;
+
+	_handleClickAction(clickAction: string, action: TAction): Promise {
+		const {handleClickAction, navigator} = this.props;
+		return handleClickAction({clickAction, action, navigator});
 	}
-	
-	_navigator() {
-		return this.props.navigator;
-	}
-	
+
 	_loadMore() {
-		this._firebaseDataFeed().loadMore(DaoUser.gId(this._userProfile()));
+		const {userProfile} = this.props;
+		this._firebaseDataFeed().loadMore(DaoUser.gId(userProfile));
 	}
 	
 	
 	render() {
+		const {userProfile} = this.props;
+
 		return (
 			<View>
 				<FeedList
-					userProfile={this._userProfile()}
-					navigator={this._navigator()}
-					
+					userProfile={userProfile}
+					handleClickAction={this._handleClickAction}
+
 					feedList={this._firebaseDataFeed().data}
 					loading={this._firebaseDataFeed().runningBulkFetch}
 					loadMore={this._loadMore}/>
@@ -94,7 +107,9 @@ const Feed = poolConnect(
 	(state) => state.feedReducer,
 	
 	// mapDispatchToProps
-	(dispatch) => ({}),
+	(dispatch) => ({
+		handleClickAction: bindActionCreators(feedHandleClickAction, dispatch)
+	}),
 	
 	// Array of pools to subscribe to
 	[FIREBASE_DATA_ID_FEED]

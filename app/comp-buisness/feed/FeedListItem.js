@@ -1,26 +1,23 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ActionHandler from '../../lib/helpers/ActionHandler';
-
 import DaoFeed from "../../lib/daos/DaoFeed";
-
 import HTMLView from 'react-native-htmlview';
-
 import React from 'react';
 import {AvatarCircle, Touchable} from "../../comp/Misc";
 import {Col, Grid} from "react-native-easy-grid";
 import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {TouchableNativeFeedback, View} from 'react-native';
+import {RkStyleSheet} from 'react-native-ui-kitten';
+import {View} from 'react-native';
+import type {TAction} from "../../lib/daos/DaoAction";
 import type {TFeed} from "../../lib/daos/DaoFeed";
-import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	navigator: TNavigator,
-	feed: TFeed
+	feed: TFeed,
+	handleClickAction: Function
 };
 
 type State = {
@@ -35,30 +32,29 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._onItemPress = this._onItemPress.bind(this);
-	}
-
-	_navigator(): TNavigator {
-		return this.props.navigator;
-	}
-
-	_feed(): TFeed {
-		return this.props.feed;
+		this._onFeedItemPress = this._onFeedItemPress.bind(this);
+		this._handleClickAction = this._handleClickAction.bind(this);
 	}
 
 
-	_onItemPress() {
-		const clickAction = DaoFeed.gClickAction(this._feed());
+	_onFeedItemPress(): Promise {
+		const {feed} = this.props;
 
-		if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._feed()))
-			ActionHandler.handleAction(clickAction, this._feed(), this._navigator());
+		// Note a feed is also a TAction type
+		return this._handleClickAction(DaoFeed.gClickAction(feed), feed);
+	}
 
+	_handleClickAction(clickAction: string, action: TAction): Promise {
+		const {handleClickAction} = this.props;
+		return handleClickAction(clickAction, action);
 	}
 
 
 	render() {
+		const {feed} = this.props;
+
 		return (
-			<Touchable onPress={this._onItemPress}>
+			<Touchable onPress={this._onFeedItemPress}>
 				<Grid style={styles.listItem}>
 					<Col size={100} style={{marginRight: 8}}>
 						<View style={styles.listItemHeaderContent}>
@@ -66,7 +62,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 							<View style={styles.listItemContent}>
 								<HTMLView
 									style={styles.htmlView}
-									value={DaoFeed.gContent(this._feed())}/>
+									value={DaoFeed.gContent(feed)}/>
 							</View>
 						</View>
 					</Col>
@@ -79,35 +75,33 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 
 	_renderLeftAvatar() {
-		const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
+		const {feed} = this.props;
+
+		const leftAvatar = DaoFeed.gLeftAvatar(feed);
 		return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
 	}
 
 	_renderRightAvatar() {
-		const rightAvatar = DaoFeed.gRightAvatar(this._feed());
+		const {feed} = this.props;
+
+		const rightAvatar = DaoFeed.gRightAvatar(feed);
 		return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
 	}
 
 
 	_renderActions() {
-		const actions = DaoFeed.gActions(this._feed())
-			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._feed()));
+		const {feed} = this.props;
 
-		return actions.map((clickAction, key) => {
+		const actions = DaoFeed.gActions(feed)
+			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, feed));
 
-			const marginRight = key === actions.length ? 0 : 8;
-			const actionProps = {
-				icon: ActionHandler.mapActionToIcon(clickAction),
-				onPress: () => ActionHandler.handleAction(clickAction, this._feed(), this._navigator())
-			};
-
-			return (
-				<Col key={key} size={15} style={{marginRight}}>
-					<ListItemActionIcon {...actionProps}/>
-				</Col>
-			);
-
-		});
+		return actions.map((clickAction, key) => (
+			<Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
+				<ListItemActionIcon
+					icon={ActionHandler.mapActionToIcon(clickAction)}
+					onPress={() => this._handleClickAction(clickAction, feed)}/>
+			</Col>
+		));
 	}
 
 
