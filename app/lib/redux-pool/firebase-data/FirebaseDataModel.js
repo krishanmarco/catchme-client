@@ -1,5 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
+import _ from 'lodash';
 import {Const} from "../../../Config";
+import {arrayClean, arrayCleanAndVerify} from "../../HelperFunctions";
+import DaoAction from "../../daos/DaoAction";
 
 export class FirebaseDataState {
 
@@ -40,7 +43,7 @@ export function mutatorFirebaseDataOnPreBulkFetch(action, subState: FirebaseData
 export function mutatorFirebaseDataSaveReceivedData(action, subState: FirebaseDataState): FirebaseDataState {
 	return {
 		runningBulkFetch: false,
-		data: action.data
+		data: arrayCleanAndVerify(action.data, DaoAction.pId)
 	};
 }
 

@@ -23,7 +23,10 @@ export type TFirebaseDataDef<TFirebaseDataObject> = {
 	// if there is no locally defined definition then return the item (item => item)
 
 	// Function that gets triggered for each TFirebaseDataObject that is received
-	onReceiveLocalItem: (TFirebaseDataObject) => {}
+	onReceiveLocalItem: (TFirebaseDataObject) => {},
+
+	// Function that gets triggered for each TFirebaseDataObject that is received
+	removeObjectByFirebaseId: (userId: number, firebaseDataId: string) => {}
 
 };
 

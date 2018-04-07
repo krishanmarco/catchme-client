@@ -3,7 +3,6 @@ import _ from "lodash";
 import ActionHandler, {TActionHandlerParams} from "../../helpers/ActionHandler";
 import DaoAction from "../../daos/DaoAction";
 import PoolActionCreator from "../PoolActionCreator";
-import {arrayRemove} from "../../HelperFunctions";
 import {
 	POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
 	POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
@@ -16,13 +15,15 @@ import type {TDispatch} from "../../types/Types";
 export default class FirebaseDataActionCreator extends PoolActionCreator {
 
 	static handleClickAction(actionHandlerParams: TActionHandlerParams, poolDefId: string): Promise {
+		const {action, thunk} = actionHandlerParams;
+
 		return ActionHandler.handleAction(actionHandlerParams)
 			.then(res => {
 
 				// The item has been interacted
-				if (DaoAction.gConsumeOnView(action)) {
+				if (DaoAction.gConsumeOnView(action) || true) {
 					// Delete this item using the FirebaseDataActionCreator
-					new FirebaseDataActionCreator(poolDefId, actionHandlerParams.thunk.dispatch)
+					new FirebaseDataActionCreator(poolDefId, thunk.dispatch)
 						.deleteItem(DaoAction.gId(action));
 				}
 
@@ -105,9 +106,7 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 						// the initialization is complete
 						dispatchAction({type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS});
 						return;
-
 					}
-
 
 					// Get the current state
 					const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
@@ -142,14 +141,12 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 			// Delete the item from the data list
 			dispatchAction({
 				type: POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
-				data: arrayRemove(data, firebaseItemId)
+				data: _.remove(data, item => item.id == firebaseItemId)
 			});
 
 			// Get and delete the item from the firebase database
-			const item = pool.getObjectByFirebaseId(firebaseItemId);
-			if (item != null)
-				item.remove();
-
+			// todo
+			pool.removeObjectByFirebaseId(TODO_USER_ID, firebaseItemId);
 		});
 	}
 

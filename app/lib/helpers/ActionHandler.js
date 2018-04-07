@@ -7,7 +7,6 @@ import {Const, Icons} from '../../Config';
 import {TActionHandlers} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
 import type {TActionHandler, TNavigator, TThunk} from "../types/Types";
-import FirebaseDataActionCreator from "../redux-pool/firebase-data/FirebaseDataActionCreator";
 
 
 const _ClickActionHandlers: TActionHandlers = ({

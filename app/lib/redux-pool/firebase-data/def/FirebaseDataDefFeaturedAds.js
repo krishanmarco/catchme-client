@@ -1,5 +1,5 @@
-import FirebaseDataActionCreator from "../FirebaseDataActionCreator";
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
+import FirebaseDataActionCreator from "../FirebaseDataActionCreator";
 import FirebaseDataDef from "../FirebaseDataDef";
 import {FirebaseData} from "../../../data/Firebase";
 import {TActionHandlerParams} from "../../../helpers/ActionHandler";
@@ -10,7 +10,7 @@ export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
 // Declare firebase-data definition
 class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {
 
-	static handleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
+	handleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
 		return FirebaseDataActionCreator.handleClickAction(actionHandlerParams, FIREBASE_DATA_ID_FEATURED_ADS);
 	}
 
@@ -21,14 +21,20 @@ class FirebaseDataDefFeaturedAds extends FirebaseDataDef<Object> {
 		this.getObjectByFirebaseId = this.getObjectByFirebaseId.bind(this);
 		this.getUserObjectIds = this.getUserObjectIds.bind(this);
 		this.keyExtractor = this.keyExtractor.bind(this);
+		this.removeObjectByFirebaseId = this.removeObjectByFirebaseId.bind(this);
 	}
 
-	getObjectByFirebaseId(featuredAdId: number): Object {
+	getObjectByFirebaseId(featuredAdId: string): Object {
 		return FirebaseData.dbFeaturedAdById(featuredAdId);
 	}
 
 	getUserObjectIds(userId: number): Object {
 		return FirebaseData.dbUserFeaturedAdIds(userId);
+	}
+
+	removeObjectByFirebaseId(userId: number, featuredAdId: string) {
+		this.getObjectByFirebaseId(featuredAdId).remove();
+		FirebaseData.dbUserFeaturedAdId(userId, featuredAdId).remove();
 	}
 
 	keyExtractor(featuredAdItem): string {
