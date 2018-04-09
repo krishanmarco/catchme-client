@@ -29,7 +29,7 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 
 	post(thunk: TThunk, locationProfile: TLocation): Promise<TLocation> {
 		return ApiClient.userLocationsAdminEditLid(locationProfile);
-		// todo then set the response object back into this form (tod set id)
+		// todo implement then (set response object back into form)
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {

@@ -105,7 +105,7 @@ export class ListItemUserLocationStatus extends React.Component<any, ListItemUse
 
 	_onPressLocationStatusDelete() {
 		ApiClient.userStatusDel(DaoUserLocationStatus.gId(this._userLocationStatus()));
-		// todo: then????
+		// todo implement then
 	}
 
 	_onPressLocationStatusEdit() {
@@ -116,7 +116,7 @@ export class ListItemUserLocationStatus extends React.Component<any, ListItemUse
 				locationId: DaoLocation.gId(this._location()),
 				initialStatus: this._userLocationStatus(),
 				onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
-					// todo: update this ui???!
+					// todo implement then (update ui)
 				}
 			}
 		);

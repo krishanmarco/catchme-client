@@ -55,7 +55,6 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 	}
 
 	_handleSignInError(error = null) {
-		// todo
 		Logger.v("ScreenLogin _handleSignInError: ", error);
 	}
 

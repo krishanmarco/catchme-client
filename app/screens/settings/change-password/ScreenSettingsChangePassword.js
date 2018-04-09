@@ -14,6 +14,7 @@ import {scaleVertical} from '../../../lib/utils/scale';
 import {View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
+import Logger from "../../../lib/Logger";
 
 
 // Const *************************************************************************************************
@@ -27,7 +28,7 @@ type Props = {
 // ReduxComponent ***************************************************************************************
 // ReduxComponent ***************************************************************************************
 
-class ScreenSettingsChangePasswordPresentational extends React.Component<any, Props, any> {
+class _ScreenSettingsChangePassword extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -42,10 +43,11 @@ class ScreenSettingsChangePasswordPresentational extends React.Component<any, Pr
 	_onConfirm() {
 		this._getFormChangePassword().post()
 			.then(success => {
-				// todo: back to previous screen
+				const {navigator} = this.props;
+				navigator.goBack();
 			})
 			.catch(error => {
-				// Set error to the redux pool
+				Logger.v('ScreenSettingsChangePassword _onConfirm', error);
 			});
 	}
 
@@ -90,7 +92,7 @@ class ScreenSettingsChangePasswordPresentational extends React.Component<any, Pr
 
 const ScreenSettingsChangePassword = poolConnect(
 	// Presentational Component
-	ScreenSettingsChangePasswordPresentational,
+	_ScreenSettingsChangePassword,
 
 	// mapStateToProps
 	(state) => ({}),

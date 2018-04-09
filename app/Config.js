@@ -114,7 +114,7 @@ export const Icons = {
 
 export const Urls = {
 	api: 'http://www.catchme.krishanmadan.website/api',
-	apiImages: 'http://www.catchme.krishanmadan.website/api/images'
+	apiImages: 'http://www.catchme.krishanmadan.website/img'
 };
 
 
@@ -208,9 +208,8 @@ export const Const = {
 	},
 
 	DaoLocation: {
-		// todo: add to server + change to location
 		newLocationId: -1,
-		defaultAvatar: 'http://fuuse.net/wp-content/uploads/2016/02/avatar-placeholder.png'
+		defaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`
 	},
 	
 	FirebaseDataPool: {

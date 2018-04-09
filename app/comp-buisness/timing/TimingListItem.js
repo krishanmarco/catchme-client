@@ -1,8 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Clock from './Clock';
 
-import Maps from "../../lib/data/Maps";
+import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 
+import Maps from "../../lib/data/Maps";
 import React from 'react';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Icons} from "../../Config";
@@ -15,7 +16,7 @@ import {View} from 'react-native';
 
 type Props = {
 	day: number,
-	managerWeekTimings: Object, // todo
+	managerWeekTimings: ManagerWeekTimings,
 	onEdit?: () => {},
 	isEditable?: boolean
 }

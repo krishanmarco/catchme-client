@@ -303,7 +303,7 @@ class ApiClient {
 
 		if (DaoLocation.hasNewImage(location)) {
 			const pictureUri = DaoLocation.gPictureUrl(location);
-			const n = seconds().toString();		// todo: rename pictureUrl to avatar (without the URL part)
+			const n = seconds().toString();
 			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
 		}
 

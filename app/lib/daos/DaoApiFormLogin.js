@@ -14,8 +14,9 @@ export default class DaoApiFormLogin {
 	static pPassword = 'password';
 
 	static newInstance(): TApiFormLogin {
+		// todo DEV remove
 		return denormObj({
-			[DaoApiFormLogin.pEmail]: 'krishanmarco@outlook.com',  // todo remove
+			[DaoApiFormLogin.pEmail]: 'krishanmarco@outlook.com',
 			[DaoApiFormLogin.pPassword]: 'MomrpdrbrM93'
 		});
 	}

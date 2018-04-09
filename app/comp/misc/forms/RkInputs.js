@@ -5,7 +5,7 @@ import {RkTextInput as _RkTextInput, RkStyleSheet, RkText} from 'react-native-ui
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
 import {Validate} from "../../../lib/helpers/Validator";
-// todo: refactor with Flow after having flow-typed ReduxPool
+// todo refactor
 
 export const RkTextInput = ({rkType, style, errorCode, ...props}) => {
 

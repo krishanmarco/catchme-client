@@ -47,7 +47,7 @@ export default class DaoAction {
   }
 
 	static gConsumeOnView(action: TAction) {
-		return true;// todo remove after testing _.get(action, DaoAction.pConsumeOnView, false);
+		return _.get(action, DaoAction.pConsumeOnView, false);
 	}
 
   static gPayloadConnectionId(action: TAction) {

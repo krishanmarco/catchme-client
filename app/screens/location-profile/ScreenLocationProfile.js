@@ -35,7 +35,7 @@ type State = {
 
 class ScreenLocationProfilePresentational extends React.Component<any, Props, State> {
 
-  // todo: these buttons should only be accessible once the locationProfile is not null any more!!
+  // todo fix, these buttons should only be accessible once the locationProfile is not null any more!!
   static NAV_BUTTON_USER_LOCATION_STATUS = {
     id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
     icon: require('../../assets/icons/timerSandFull.png'),

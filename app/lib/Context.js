@@ -12,10 +12,6 @@ class Context {
 		return NetInfo.isConnected.fetch();
 	}
 
-	isFirebaseAuthenticated() {
-		return firebase.auth().currentUser != null;
-	}
-
 	getFirebaseUser() {
 		return firebase.auth().currentUser;
 	}
@@ -25,6 +21,7 @@ class Context {
 	}
 
 	isFirebaseEnabled() {
+		// We could also use firebase.auth().currentUser != null
 		return this.firebaseEnabled;
 	}
 

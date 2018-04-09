@@ -103,11 +103,12 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 		tabs.push(this._renderTab('2', this._renderTabFriendsNow()));
 		tabs.push(this._renderTab('3', this._renderTabFriendsFuture()));
 
-		if (Context.isFirebaseAuthenticated())
+		if (Context.isFirebaseEnabled())
 			tabs.push(this._renderTab('4', this._renderTabChat()));
 
 		tabs.push(this._renderTab('5', this._renderTabInfo()));
 
+		// todo fix, what if <LocationChat is not added because firebase is disabled renderTabInfo would have the chats icon
 		return (
 			<ScrollableIconTabView
 				icons={[
@@ -115,7 +116,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 					Icons.locationImages,
 					Icons.locationPersonNow,
 					Icons.locationPersonFuture,
-					Icons.locationChat,      // todo: what if the chat is not added?, thenn renderTabInfo would have this icon!
+					Icons.locationChat,
 					Icons.locationInfo,
 				]}>
 				{tabs}
