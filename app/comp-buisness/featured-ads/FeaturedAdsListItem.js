@@ -30,14 +30,14 @@ export default class FeaturedAdsListItem extends React.Component<any, Props, any
 
 	_onFeaturedAdItemPress(): Promise {
 		const {featuredAd} = this.props;
-		return this._handleClickAction(DaoFeaturedAd.gClickAction(featuredAd));
+		return this._handleClickAction(DaoFeaturedAd.gClickAction(featuredAd), true);
 	}
 
-	_handleClickAction(clickAction: string): Promise {
+	_handleClickAction(clickAction: string, neverConsume = false): Promise {
 		const {featuredAd, handleClickAction} = this.props;
 
 		// Note a featuredAd is also a TAction type
-		return handleClickAction(clickAction, featuredAd);
+		return handleClickAction(clickAction, featuredAd, neverConsume);
 	}
 
 

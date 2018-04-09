@@ -106,10 +106,11 @@ const _ClickActionHandlers: TActionHandlers = ({
 
 
 export type TActionHandlerParams = {
-	clickAction: string,
-	action: TAction,
-	navigator: TNavigator,
-	thunk?: TThunk
+	clickAction: string,			// Id of clickAction that was executed
+	action: TAction,					// The complete action
+	navigator: TNavigator,		// react-native-navigation navigator
+	neverConsume?: boolean,		// If true then consumeOnView is ignored
+	thunk?: TThunk						// {dispatch, getState}
 };
 
 export default class ActionHandler {

@@ -1,8 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 import FirebaseDataActionCreator from "./FirebaseDataActionCreator";
-import FirebaseDataDefFeaturedAds from "./def/FirebaseDataDefFeaturedAds";
+import FirebaseDataDefFeaturedAds, {FIREBASE_DATA_ID_FEATURED_ADS} from "./def/FirebaseDataDefFeaturedAds";
 import FirebaseDataDefFeed, {FIREBASE_DATA_ID_FEED} from "./def/FirebaseDataDefFeed";
-import {FIREBASE_DATA_ID_FEATURED_ADS} from "./def/FirebaseDataDefFeaturedAds";
 import {
 	mutatorFirebaseDataOnPreBulkFetch,
 	mutatorFirebaseDataSaveReceivedData,

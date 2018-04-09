@@ -70,9 +70,9 @@ class FeedPresentational extends React.Component<any, Props, State> {
 		return this.props[FIREBASE_DATA_ID_FEED];
 	}
 
-	_handleClickAction(clickAction: string, action: TAction): Promise {
+	_handleClickAction(clickAction: string, action: TAction, neverConsume = false): Promise {
 		const {handleClickAction, navigator} = this.props;
-		return handleClickAction({clickAction, action, navigator});
+		return handleClickAction({clickAction, action, navigator, neverConsume});
 	}
 
 	_loadMore() {

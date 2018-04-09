@@ -10,18 +10,21 @@ import {
 } from "./FirebaseDataPool";
 import {POOL_TYPE_FIREBASE_DATA} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
+import CacheDefUserProfile from "../cache/def/CacheDefUserProfile";
+import type {TUser} from "../../daos/DaoUser";
+import DaoUser from "../../daos/DaoUser";
 
 
 export default class FirebaseDataActionCreator extends PoolActionCreator {
 
 	static handleClickAction(actionHandlerParams: TActionHandlerParams, poolDefId: string): Promise {
-		const {action, thunk} = actionHandlerParams;
+		const {action, thunk, neverConsume} = actionHandlerParams;
 
 		return ActionHandler.handleAction(actionHandlerParams)
 			.then(res => {
 
 				// The item has been interacted
-				if (DaoAction.gConsumeOnView(action) || true) {
+				if (!neverConsume && DaoAction.gConsumeOnView(action)) {
 					// Delete this item using the FirebaseDataActionCreator
 					new FirebaseDataActionCreator(poolDefId, thunk.dispatch)
 						.deleteItem(DaoAction.gId(action));
@@ -97,13 +100,18 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 			// Get the current state
 			const reduxFirebasePool = getState().reduxPoolReducer[POOL_TYPE_FIREBASE_DATA][poolId];
 
-			pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad)
-				.once('value', (snapshot) => {
-					const firebaseId = snapshot.val();
+			pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad).once('value')
+				.then(snapshot => {
 
+					if (!snapshot.exists()) {
+						// There are no items in this firebase list, initialization is complete
+						dispatchAction({type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS});
+						return;
+					}
+
+					const firebaseId = snapshot.val();
 					if (firebaseId == null) {
-						// There are no items in this firebase list
-						// the initialization is complete
+						// There are no items in this firebase list, initialization is complete
 						dispatchAction({type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS});
 						return;
 					}
@@ -138,15 +146,17 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 		return dispatch((dispatch, getState) => {
 			const {data} = this.getPoolState(getState);
 
+			_.remove(data, item => DaoAction.gId(item) == firebaseItemId);
+
 			// Delete the item from the data list
 			dispatchAction({
 				type: POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
-				data: _.remove(data, item => item.id == firebaseItemId)
+				data
 			});
 
 			// Get and delete the item from the firebase database
-			// todo
-			pool.removeObjectByFirebaseId(TODO_USER_ID, firebaseItemId);
+			const userProfile: TUser = CacheDefUserProfile.getUser({dispatch, getState});
+			pool.removeObjectByFirebaseId(DaoUser.gId(userProfile), firebaseItemId);
 		});
 	}
 

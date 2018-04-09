@@ -41,12 +41,12 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 		const {feed} = this.props;
 
 		// Note a feed is also a TAction type
-		return this._handleClickAction(DaoFeed.gClickAction(feed), feed);
+		return this._handleClickAction(DaoFeed.gClickAction(feed), true);
 	}
 
-	_handleClickAction(clickAction: string, action: TAction): Promise {
-		const {handleClickAction} = this.props;
-		return handleClickAction(clickAction, action);
+	_handleClickAction(clickAction: string, neverConsume = false): Promise {
+		const {handleClickAction, feed} = this.props;
+		return handleClickAction(clickAction, feed, neverConsume);
 	}
 
 
@@ -99,7 +99,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 			<Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
 				<ListItemActionIcon
 					icon={ActionHandler.mapActionToIcon(clickAction)}
-					onPress={() => this._handleClickAction(clickAction, feed)}/>
+					onPress={() => this._handleClickAction(clickAction)}/>
 			</Col>
 		));
 	}

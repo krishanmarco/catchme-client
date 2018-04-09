@@ -3,6 +3,8 @@ import ApiClient from "../../../data/ApiClient";
 import type {TCacheDef} from "../CacheDef";
 import CacheDef from "../CacheDef";
 import type {TUser} from "../../../daos/DaoUser";
+import type {TThunk} from "../../../types/Types";
+import CacheActionCreator from "../CacheActionCreator";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 
@@ -15,6 +17,12 @@ class CacheDefUserProfile extends CacheDef<TUser> {
 
 	buildDataSet(): Promise<TUser> {
 		return ApiClient.userProfile();
+	}
+
+	getUser(thunk: TThunk): ?TUser {
+		const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+		const cacheUserProfileState = cacheActionCreator.getPoolState(thunk.getState);
+		return cacheUserProfileState.data;
 	}
 
 }
