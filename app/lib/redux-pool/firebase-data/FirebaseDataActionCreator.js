@@ -103,6 +103,7 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 			pool.getUserObjectIds(userId).limitToLast(reduxFirebasePool.itemsToLoad).once('value')
 				.then(snapshot => {
 
+					// todo: if firebase has no data, the loader never stops
 					if (!snapshot.exists()) {
 						// There are no items in this firebase list, initialization is complete
 						dispatchAction({type: POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS});
