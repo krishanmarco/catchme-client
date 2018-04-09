@@ -12,9 +12,9 @@ import {Icon} from 'react-native-elements';
 import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from "react-native-ui-kitten";
+import {Touchable} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {Touchable} from "../../comp/Misc";
 
 
 

@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
 import _ from 'lodash';
-import {connect} from 'react-redux';
 import Logger from "../../lib/Logger";
 import React from 'react';
 import {Colors} from "../../Config";
+import {connect} from 'react-redux';
 import {Keyboard, StyleSheet, View} from 'react-native';
 import {RkAvoidKeyboard} from 'react-native-ui-kitten';
 

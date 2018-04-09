@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
+import EditLocation from "../EditLocation";
 import ImagePicker from '../../../lib/helpers/ImagePicker';
+
 import PropTypes from 'prop-types';
+
 import React from 'react';
-
 import {AvatarCircle} from "../../../comp/Misc";
-
 import {Const, Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {RkStyleSheet} from 'react-native-ui-kitten';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
-import EditLocation from "../EditLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 
 
 // Redux ************************************************************************************************

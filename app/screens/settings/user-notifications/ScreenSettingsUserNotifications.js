@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import SettingsUserNotifications from './SettingsUserNotifications';
-import {poolConnect} from '../../../redux/ReduxPool';
-import {NullableObjects, Screen} from "../../../comp/Misc";
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {NullableObjects, Screen} from "../../../comp/Misc";
+import {poolConnect} from '../../../redux/ReduxPool';
 
 // _ScreenSettingsUserNotifications *********************************************************************
 // _ScreenSettingsUserNotifications *********************************************************************

@@ -1,7 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import _ from "lodash";
 import ActionHandler, {TActionHandlerParams} from "../../helpers/ActionHandler";
+import CacheDefUserProfile from "../cache/def/CacheDefUserProfile";
 import DaoAction from "../../daos/DaoAction";
+import DaoUser from "../../daos/DaoUser";
 import PoolActionCreator from "../PoolActionCreator";
 import {
 	POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
@@ -10,9 +12,7 @@ import {
 } from "./FirebaseDataPool";
 import {POOL_TYPE_FIREBASE_DATA} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
-import CacheDefUserProfile from "../cache/def/CacheDefUserProfile";
 import type {TUser} from "../../daos/DaoUser";
-import DaoUser from "../../daos/DaoUser";
 
 
 export default class FirebaseDataActionCreator extends PoolActionCreator {

@@ -11,10 +11,10 @@ import React from 'react';
 import Router from "../../lib/helpers/Router";
 import {Colors, Const, Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
+import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import type {TAction} from "../../lib/daos/DaoAction";
 
 
 

@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
+
 import PropTypes from 'prop-types';
 
 import React from 'react';
-
 import Router from "../../../lib/helpers/Router";
 import {Dimensions, ScrollView, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import {Validate} from "../../../lib/helpers/Validator";
+import type {TLocation} from "../../../lib/daos/DaoLocation";
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************

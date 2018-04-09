@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
-import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
-import type {TLocation} from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
+import type {TApiFormDef} from "../ApiFormDef";
+import type {TLocation} from "../../../daos/DaoLocation";
 import type {TThunk} from "../../../types/Types";
+import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';

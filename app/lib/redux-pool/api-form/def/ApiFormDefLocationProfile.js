@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
-import {Validate} from "../../../helpers/Validator";
-import type {TLocation} from "../../../daos/DaoLocation";
 import DaoLocation from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
+import {Validate} from "../../../helpers/Validator";
+import type {TApiFormDef} from "../ApiFormDef";
+import type {TLocation} from "../../../daos/DaoLocation";
 import type {TThunk} from "../../../types/Types";
 
 

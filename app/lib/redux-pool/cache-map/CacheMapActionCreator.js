@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import Logger from "../../Logger";
 import PoolActionCreator from "../PoolActionCreator";
+import {CacheState} from "../cache/CacheModel";
 import {
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
@@ -9,7 +10,6 @@ import {
 } from "./CacheMapPool";
 import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
-import {CacheState} from "../cache/CacheModel";
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {

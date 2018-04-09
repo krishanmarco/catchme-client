@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
+import DaoLocation from "../../../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
+
 import PropTypes from 'prop-types';
+
 import React from 'react';
-
 import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
-
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 
 
 // Redux ************************************************************************************************

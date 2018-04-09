@@ -1,20 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import Logger from "../../../lib/Logger";
+
 import React from 'react';
 
-import {poolConnect} from '../../../redux/ReduxPool';
+import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
 
 import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
+
+import {poolConnect} from '../../../redux/ReduxPool';
 
 import {RkStyleSheet} from 'react-native-ui-kitten';
 
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-
 import {scaleVertical} from '../../../lib/utils/scale';
-
 import {View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
-import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
-import Logger from "../../../lib/Logger";
 
 
 // Const *************************************************************************************************

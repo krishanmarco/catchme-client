@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
+
 import React from 'react';
 
 import {AvatarCircle} from "../../../comp/Misc";
-
 import {GradientButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 
 
 // Redux ************************************************************************************************

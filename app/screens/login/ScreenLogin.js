@@ -12,12 +12,13 @@ import Router from "../../lib/helpers/Router";
 import {Dimensions, Image, View} from 'react-native';
 
 import {FontAwesome} from '../../assets/Icons';
-import {poolConnect} from '../../redux/ReduxPool';
+import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {GradientButton, Screen} from "../../comp/Misc";
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {poolConnect} from '../../redux/ReduxPool';
 
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
@@ -25,7 +26,6 @@ import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 
 // Const *************************************************************************************************
