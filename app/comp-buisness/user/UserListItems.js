@@ -1,15 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
 import DaoUser from '../../lib/daos/DaoUser';
-
 import PropTypes from 'prop-types';
-
 import React from 'react';
-
-import {Colors, Icons} from '../../Config';
-
+import {Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
-
+// todo proptypes
 
 
 export class ListItemUser extends React.Component {

@@ -3,7 +3,7 @@ import React from 'react';
 import Svg from 'react-native-svg';
 import {Colors} from '../../Config';
 import {VictoryLabel, VictoryPie} from 'victory-native';
-
+// todo proptypes
 
 
 // this.props.timings, this.props.isEditable this.props.getLabel(index) this.props.centerLabel

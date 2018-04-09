@@ -8,14 +8,13 @@ import React from 'react';
 import Router from "../../lib/helpers/Router";
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
-import {NullableObjects} from '../../comp/Misc';
+import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import {Screen} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TModalUserLocationStatusProps} from "../user-location-status/ScreenModalUserLocationStatus";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

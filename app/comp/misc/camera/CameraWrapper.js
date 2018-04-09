@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import Camera from 'react-native-camera';
+import Camera, {constants as CameraConstants} from 'react-native-camera';
 import Logger from "../../../lib/Logger";
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -46,12 +46,12 @@ export default class CameraWrapper extends React.Component {
 					ref={camera => this.camera = camera}
 					style={styles.preview}
 
-					aspect={Camera.constants.Aspect.fill}
+					aspect={CameraConstants.Aspect.fill}
 					audio={true}
 
 					captureMode={this.props.captureMode}
-					captureTarget={Camera.constants.CaptureTarget.temp}
-					captureQuality={Camera.constants.CaptureQuality.high}
+					captureTarget={CameraConstants.CaptureTarget.temp}
+					captureQuality={CameraConstants.CaptureQuality.high}
 
 					onBarCodeRead={this._onBarCodeRead}
 					barCodeTypes={["qr"]}
@@ -78,7 +78,7 @@ export default class CameraWrapper extends React.Component {
 
 
 CameraWrapper.defaultProps = {
-	captureMode: Camera.constants.CaptureMode.still,  // || .video,
+	captureMode: CameraConstants.CaptureMode.still,  // || .video,
 	onBarCodeRead: null
 };
 
