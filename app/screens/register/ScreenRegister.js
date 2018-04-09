@@ -29,10 +29,10 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _ScreenRegister **************************************************************************************
+// _ScreenRegister **************************************************************************************
 
-class ScreenRegisterPresentational extends React.Component<any, Props, any> {
+class _ScreenRegister extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -121,10 +121,7 @@ class ScreenRegisterPresentational extends React.Component<any, Props, any> {
 	}
 }
 
-const ScreenRegister = poolConnect(
-	// Presentational Component
-	ScreenRegisterPresentational,
-
+const ScreenRegister = poolConnect(_ScreenRegister,
 	// mapStateToProps
 	(state) => ({}),
 

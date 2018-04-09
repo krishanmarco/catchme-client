@@ -19,10 +19,10 @@ type State = {
 	// Nothing for now
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenFeed ******************************************************************************************
+// _ScreenFeed ******************************************************************************************
 
-class ScreenFeedPresentational extends React.Component<any, Props, State> {
+class _ScreenFeed extends React.Component<any, Props, State> {
 	
 	componentWillMount() {
 		this.props[CACHE_ID_USER_PROFILE].initialize();
@@ -51,10 +51,7 @@ class ScreenFeedPresentational extends React.Component<any, Props, State> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenFeed = poolConnect(
-	// Presentational Component
-	ScreenFeedPresentational,
-	
+const ScreenFeed = poolConnect(_ScreenFeed,
 	// mapStateToProps
 	(state) => ({}),
 	

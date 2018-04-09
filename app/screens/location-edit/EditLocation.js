@@ -48,10 +48,10 @@ type Props = {
 	authenticatedUserProfile: TUser
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _EditLocation ****************************************************************************************
+// _EditLocation ****************************************************************************************
 
-class EditLocationPresentational extends React.Component<any, Props, any> {
+class _EditLocation extends React.Component<any, Props, any> {
 	static indexOfInfoTab = 0;
 	static indexOfTimingsTab = 1;
 	static indexOfAddressTab = 2;
@@ -187,10 +187,7 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const EditLocation = poolConnect(
-	// Presentational Component
-	EditLocationPresentational,
-
+const EditLocation = poolConnect(_EditLocation,
 	// mapStateToProps
 	(state) => state.locationProfileReducer,
 

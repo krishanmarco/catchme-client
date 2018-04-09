@@ -15,8 +15,8 @@ type Props = {
 	onSelect: (TLocation) => {}
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenAddressPicker *********************************************************************************
+// _ScreenAddressPicker *********************************************************************************
 
 class _ScreenAddressPicker extends React.Component<any, Props, any> {
 
@@ -46,10 +46,7 @@ class _ScreenAddressPicker extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenAddressPicker = poolConnect(
-	// Presentational Component
-	_ScreenAddressPicker,
-
+const ScreenAddressPicker = poolConnect(_ScreenAddressPicker,
 	// mapStateToProps
 	(state) => ({}),
 

@@ -2,58 +2,53 @@
 import React from 'react';
 import SettingsUserAccount from './SettingsUserAccount';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {NullableObjects} from "../../../comp/Misc";
-import {Screen} from "../../../comp/Misc";
+import {NullableObjects, Screen} from "../../../comp/Misc";
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import {CACHE_MAP_ID_USER_PROFILES} from "../../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenSettingsUserAccount ***************************************************************************
+// _ScreenSettingsUserAccount ***************************************************************************
 
-class ScreenSettingsUserAccountPresentational extends React.Component {
+class _ScreenSettingsUserAccount extends React.Component {
 
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
-  }
+	componentWillMount() {
+		this.props[CACHE_ID_USER_PROFILE].initialize();
+	}
 
-  _authenticatedUserProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
+	_authenticatedUserProfile() {
+		return this.props[CACHE_ID_USER_PROFILE].data;
+	}
 
-  render() {
-    return (
-        <Screen>
-          <NullableObjects
-              objects={[this._authenticatedUserProfile()]}
-              renderChild={([authenticatedUserProfile]) => (
-                  <SettingsUserAccount
-                      navigator={this.props.navigator}
-                      authenticatedUserProfile={authenticatedUserProfile}/>
-              )}/>
-        </Screen>
-    );
-  }
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._authenticatedUserProfile()]}
+					renderChild={([authenticatedUserProfile]) => (
+						<SettingsUserAccount
+							navigator={this.props.navigator}
+							authenticatedUserProfile={authenticatedUserProfile}/>
+					)}/>
+			</Screen>
+		);
+	}
 
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenSettingsUserAccount = poolConnect(
-    // Presentational Component
-    ScreenSettingsUserAccountPresentational,
+const ScreenSettingsUserAccount = poolConnect(_ScreenSettingsUserAccount,
+	// mapStateToProps
+	(state) => ({}),
 
-    // mapStateToProps
-    (state) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_ID_USER_PROFILE]
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsUserAccount;
 
 ScreenSettingsUserAccount.propTypes = {
-  // Nothing for now
+	// Nothing for now
 };

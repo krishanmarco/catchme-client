@@ -21,17 +21,17 @@ type State = {
 	location: TLocation
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenNewLocation ***********************************************************************************
+// _ScreenNewLocation ***********************************************************************************
 
-class ScreenNewLocationPresentational extends React.Component<any, Props, State> {
+class _ScreenNewLocation extends React.Component<any, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
 
 		// Create a new location as pass it down as the location to edit
-		// Note: This object will never change because the EditLocation
-		// component will change the ReduxPool object rather than this one
+		// Note: This object will never change because EditLocation component
+		// will change the ReduxPool object rather than this one
 		this.state = {location: DaoLocation.newInstance()};
 	}
 
@@ -63,10 +63,7 @@ class ScreenNewLocationPresentational extends React.Component<any, Props, State>
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenNewLocation = poolConnect(
-	// Presentational Component
-	ScreenNewLocationPresentational,
-
+const ScreenNewLocation = poolConnect(_ScreenNewLocation,
 	// mapStateToProps
 	(state) => ({}),
 

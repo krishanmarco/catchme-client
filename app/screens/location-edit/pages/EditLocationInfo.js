@@ -46,10 +46,10 @@ type Props = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _EditLocationInfo ************************************************************************************
+// _EditLocationInfo ************************************************************************************
 
-class EditLocationInfoPresentational extends React.Component<any, Props, any> {
+class _EditLocationInfo extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -154,10 +154,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const EditLocationInfo = poolConnect(
-	// Presentational Component
-	EditLocationInfoPresentational,
-
+const EditLocationInfo = poolConnect(_EditLocationInfo,
 	// mapStateToProps
 	(state) => state.editLocationInfoReducer,
 

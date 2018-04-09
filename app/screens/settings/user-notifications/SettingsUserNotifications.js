@@ -23,8 +23,8 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _SettingsUserNotifications ***************************************************************************
+// _SettingsUserNotifications ***************************************************************************
 
 class _SettingsUserNotifications extends React.Component<any, Props, any> {
 
@@ -144,10 +144,7 @@ class _SettingsUserNotifications extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const SettingsUserNotifications = poolConnect(
-	// Presentational Component
-	_SettingsUserNotifications,
-
+const SettingsUserNotifications = poolConnect(_SettingsUserNotifications,
 	// mapStateToProps
 	(state) => state.settingsUserAccountReducer,
 

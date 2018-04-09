@@ -24,8 +24,8 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// SettingsUserAdministratingLocations ******************************************************************
+// SettingsUserAdministratingLocations ******************************************************************
 
 export default class SettingsUserAdministratingLocations extends React.Component<any, Props, any> {
 

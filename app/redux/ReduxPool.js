@@ -127,7 +127,7 @@ export function reduxPoolReducer(state = reduxPoolInitState, action) {
 // ReduxPoolSubscribers ***********************************************************************************************
 // ReduxPoolSubscribers ***********************************************************************************************
 
-export function poolConnect(presentationalComponent, mapStateToProps, mapDispatchToProps, poolIds, extraOptions = {}) {
+export function poolConnect(component, mapStateToProps, mapDispatchToProps, poolIds, extraOptions = {}) {
 	return connect(
 		// mapStateToProps
 		subscribeStateToPools(mapStateToProps, poolIds),
@@ -178,7 +178,7 @@ export function poolConnect(presentationalComponent, mapStateToProps, mapDispatc
 		
 		// Extra options
 		extraOptions
-	)(presentationalComponent);
+	)(component);
 }
 
 

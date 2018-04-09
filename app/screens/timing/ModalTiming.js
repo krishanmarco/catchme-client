@@ -4,18 +4,19 @@ import WeekTimingsList from '../../comp-buisness/timing/TimingList';
 import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from "../../comp/Misc";
 import {StyleSheet} from 'react-native';
+import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	managerWeekTimings: TMana
+	managerWeekTimings: ManagerWeekTimings
 }
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ModalTiming *****************************************************************************************
+// _ModalTiming *****************************************************************************************
 
-class ModalTimingPresentational extends React.Component<any, Props, any> {
+class _ModalTiming extends React.Component<any, Props, any> {
 
 	_managerWeekTimings() {
 		return this.props.managerWeekTimings;
@@ -25,7 +26,7 @@ class ModalTimingPresentational extends React.Component<any, Props, any> {
 		return (
 			<Screen style={styles.root}>
 				<WeekTimingsList
-					ref={ModalTimingPresentational.refWeekTimingsList}
+					ref={_ModalTiming.refWeekTimingsList}
 					managerWeekTimings={this._managerWeekTimings()}
 					isEditable={false}
 					size={200}/>
@@ -38,10 +39,7 @@ class ModalTimingPresentational extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ModalTiming = poolConnect(
-	// Presentational Component
-	ModalTimingPresentational,
-
+const ModalTiming = poolConnect(_ModalTiming,
 	// mapStateToProps
 	(state) => ({}),
 

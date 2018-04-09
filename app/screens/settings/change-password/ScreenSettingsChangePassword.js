@@ -90,10 +90,7 @@ class _ScreenSettingsChangePassword extends React.Component<any, Props, any> {
 
 }
 
-const ScreenSettingsChangePassword = poolConnect(
-	// Presentational Component
-	_ScreenSettingsChangePassword,
-
+const ScreenSettingsChangePassword = poolConnect(_ScreenSettingsChangePassword,
 	// mapStateToProps
 	(state) => ({}),
 

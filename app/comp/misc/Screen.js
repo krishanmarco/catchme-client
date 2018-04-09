@@ -120,10 +120,10 @@ class Screen extends React.Component<any, Props, State> {
 
 export default connect(
 	// mapStateToProps
-	state => state.screenReducer,
+	(state) => state.screenReducer,
 
 	// mapDispatchToProps
-	dispatch => ({
+	(dispatch) => ({
 		setHeight: (layout) => dispatch(screenSetHeight(layout))
 	})
 )(Screen);

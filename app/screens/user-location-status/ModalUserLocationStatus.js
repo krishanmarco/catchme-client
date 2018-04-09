@@ -95,10 +95,10 @@ function modalUserLocationStatusSetUntilModalVisibility(visible) {
 	};
 }
 
-// ModalUserLocationStatus ******************************************************************************
-// ModalUserLocationStatus ******************************************************************************
+// _ModalUserLocationStatus *****************************************************************************
+// _ModalUserLocationStatus *****************************************************************************
 
-class ModalUserLocationStatusPresentational extends React.Component<any, Props, State> {
+class _ModalUserLocationStatus extends React.Component<any, Props, State> {
 	static DATE_TIME_NOW = new Date();
 
 	constructor(props, context) {
@@ -247,7 +247,7 @@ class ModalUserLocationStatusPresentational extends React.Component<any, Props, 
 				</Grid>
 				<DateTimePicker
 					mode='date'
-					minimumDate={ModalUserLocationStatusPresentational.DATE_TIME_NOW}
+					minimumDate={_ModalUserLocationStatus.DATE_TIME_NOW}
 					isVisible={this.props.dtDateVisible}
 					date={this._getFromDate()}
 					onConfirm={this._onDatePicked}
@@ -354,10 +354,7 @@ class ModalUserLocationStatusPresentational extends React.Component<any, Props, 
 }
 
 
-const ModalUserLocationStatus = poolConnect(
-	// Presentational Component
-	ModalUserLocationStatusPresentational,
-
+const ModalUserLocationStatus = poolConnect(_ModalUserLocationStatus,
 	// mapStateToProps
 	(state) => state.modalUserLocationStatusReducer,
 

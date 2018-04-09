@@ -36,10 +36,10 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _ScreenLogin *****************************************************************************************
+// _ScreenLogin *****************************************************************************************
 
-class ScreenLoginPresentational extends React.Component<any, Props, any> {
+class _ScreenLogin extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -174,10 +174,7 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 
 }
 
-const ScreenLogin = poolConnect(
-	// Presentational Component
-	ScreenLoginPresentational,
-
+const ScreenLogin = poolConnect(_ScreenLogin,
 	// mapStateToProps
 	(state) => ({}),
 

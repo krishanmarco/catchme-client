@@ -13,71 +13,68 @@ import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def
 // Const *************************************************************************************************
 
 type Props = {
-  navigator: TNavigator,
-  locationId: number
+	navigator: TNavigator,
+	locationId: number
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenEditLocation **********************************************************************************
+// _ScreenEditLocation **********************************************************************************
 
-class ScreenEditLocationPresentational extends React.Component<any, Props, any> {
+class _ScreenEditLocation extends React.Component<any, Props, any> {
 
-  constructor(props, context) {
-    super(props, context);
-  }
+	constructor(props, context) {
+		super(props, context);
+	}
 
 
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
+	componentWillMount() {
+		this.props[CACHE_ID_USER_PROFILE].initialize();
 
-    this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-        .then(location => this.props.navigator.setTitle({title: DaoLocation.gName(location)}));
-  }
+		this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
+			.then(location => this.props.navigator.setTitle({title: DaoLocation.gName(location)}));
+	}
 
-  _locationProfile() {
-    return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(this.props.locationId);
-  }
+	_locationProfile() {
+		return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(this.props.locationId);
+	}
 
-  _authenticatedUserProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
+	_authenticatedUserProfile() {
+		return this.props[CACHE_ID_USER_PROFILE].data;
+	}
 
-  render() {
-    return (
-        <Screen>
-          <NullableObjects
-              objects={[this._locationProfile(), this._authenticatedUserProfile()]}
-              renderChild={([locationProfile, authenticatedUserProfile]) => (
-                  <EditLocation
-                      navigator={this.props.navigator}
-                      locationProfile={locationProfile}
-                      authenticatedUserProfile={authenticatedUserProfile}/>
-              )}/>
-        </Screen>
-    );
-  }
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._locationProfile(), this._authenticatedUserProfile()]}
+					renderChild={([locationProfile, authenticatedUserProfile]) => (
+						<EditLocation
+							navigator={this.props.navigator}
+							locationProfile={locationProfile}
+							authenticatedUserProfile={authenticatedUserProfile}/>
+					)}/>
+			</Screen>
+		);
+	}
 
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenEditLocation = poolConnect(
-    // Presentational Component
-    ScreenEditLocationPresentational,
+const ScreenEditLocation = poolConnect(_ScreenEditLocation,
+	// mapStateToProps
+	(state) => ({}),
 
-    // mapStateToProps
-    (state) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE]
+	// Array of pools to subscribe to
+	[CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE]
 );
 export default ScreenEditLocation;
 
 
 ScreenEditLocation.propTypes = {
-  locationId: PropTypes.number.isRequired
+	locationId: PropTypes.number.isRequired
 };

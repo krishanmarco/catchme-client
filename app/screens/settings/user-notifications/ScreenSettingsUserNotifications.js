@@ -5,61 +5,58 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../../comp/Misc";
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenSettingsUserNotifications *********************************************************************
+// _ScreenSettingsUserNotifications *********************************************************************
 
-class ScreenSettingsUserNotificationsPresentational extends React.Component {
+class _ScreenSettingsUserNotifications extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-  }
+	constructor(props, context) {
+		super(props, context);
+	}
 
-  componentWillMount() {
-    // Fetch the authenticated users profile and then set
-    // the users profile data into the user-profile form handler
-    return this.props[CACHE_ID_USER_PROFILE].initialize();
-  }
-
-
-  _authenticatedUserProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
+	componentWillMount() {
+		// Fetch the authenticated users profile and then set
+		// the users profile data into the user-profile form handler
+		return this.props[CACHE_ID_USER_PROFILE].initialize();
+	}
 
 
-  render() {
-    return (
-        <Screen>
-          <NullableObjects
-              objects={[this._authenticatedUserProfile()]}
-              renderChild={([authenticatedUserProfile]) => (
-                  <SettingsUserNotifications
-                      navigator={this.props.navigator}
-                      authenticatedUserProfile={authenticatedUserProfile}/>
-              )}/>
-        </Screen>
-    );
-  }
+	_authenticatedUserProfile() {
+		return this.props[CACHE_ID_USER_PROFILE].data;
+	}
+
+
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._authenticatedUserProfile()]}
+					renderChild={([authenticatedUserProfile]) => (
+						<SettingsUserNotifications
+							navigator={this.props.navigator}
+							authenticatedUserProfile={authenticatedUserProfile}/>
+					)}/>
+			</Screen>
+		);
+	}
 
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenSettingsUserNotifications = poolConnect(
-    // Presentational Component
-    ScreenSettingsUserNotificationsPresentational,
+const ScreenSettingsUserNotifications = poolConnect(_ScreenSettingsUserNotifications,
+	// mapStateToProps
+	(state) => ({}),
 
-    // mapStateToProps
-    (state) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_ID_USER_PROFILE]
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsUserNotifications;
 
 ScreenSettingsUserNotifications.propTypes = {
-  // Nothing for now
+	// Nothing for now
 };

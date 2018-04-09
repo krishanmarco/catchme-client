@@ -18,8 +18,8 @@ type Props = TDataPoint & {
   textRkType?: string,
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// ListItemInfo *****************************************************************************************
+// ListItemInfo *****************************************************************************************
 
 export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}: Props) => (
     <Touchable onPress={onPress} style={styles.root}>

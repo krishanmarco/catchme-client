@@ -44,8 +44,8 @@ type Props = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _SettingsUserAccount *********************************************************************************
+// _SettingsUserAccount *********************************************************************************
 
 class _SettingsUserAccount extends React.Component<any, Props, any> {
 
@@ -240,10 +240,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const SettingsUserAccount = poolConnect(
-	// Presentational Component
-	_SettingsUserAccount,
-
+const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// mapStateToProps
 	(state) => state.settingsUserAccountReducer,
 

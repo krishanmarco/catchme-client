@@ -56,10 +56,10 @@ type State = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _UserProfile *****************************************************************************************
+// _UserProfile *****************************************************************************************
 
-class UserProfilePresentational extends React.Component<any, Props, State> {
+class _UserProfile extends React.Component<any, Props, State> {
 
 
 	constructor(props: Props, context) {
@@ -221,10 +221,7 @@ class UserProfilePresentational extends React.Component<any, Props, State> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const UserProfile = poolConnect(
-	// Presentational Component
-	UserProfilePresentational,
-
+const UserProfile = poolConnect(_UserProfile,
 	// mapStateToProps
 	(state) => state.userProfileReducer,
 

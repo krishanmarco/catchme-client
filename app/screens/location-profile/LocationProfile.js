@@ -65,10 +65,10 @@ type State = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _LocationProfile *************************************************************************************
+// _LocationProfile *************************************************************************************
 
-class LocationProfilePresentational extends React.Component<any, Props, State> {
+class _LocationProfile extends React.Component<any, Props, State> {
 
 	constructor(props: Props, context) {
 		super(props, context);
@@ -243,10 +243,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const LocationProfile = poolConnect(
-	// Presentational Component
-	LocationProfilePresentational,
-
+const LocationProfile = poolConnect(_LocationProfile,
 	// mapStateToProps
 	(state) => state.locationProfileReducer,
 
