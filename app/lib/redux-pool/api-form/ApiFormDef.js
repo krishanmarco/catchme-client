@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import type {TDispatch, TGetState} from "../../types/Types";
+import type {TThunk} from "../../types/Types";
 import _ from 'lodash';
-import {ReduxPoolApiForms} from "../../../redux/ReduxPool";
+import {ApiFormState} from "./ApiFormModel";
 
 export type TApiFormDef<TApiFormObject> = {
 
@@ -12,10 +12,10 @@ export type TApiFormDef<TApiFormObject> = {
 	validateOnChange: boolean,
 
 	// Function that posts the api form
-	post: (TApiFormObject) => Promise<TApiFormObject>,
+	post: (TThunk, TApiFormObject) => Promise<TApiFormObject>,
 
 	// Initial state of this form
-	initState: () => ReduxPoolApiForms,
+	initState: () => ApiFormState,
 
 	// Function to validate the input, it must return an
 	// TApiFormObject where the values are error codes
@@ -24,18 +24,6 @@ export type TApiFormDef<TApiFormObject> = {
 	// If true the <Screen /> component disables all touches while
 	// this form is loading. Default false
 	disableScreenOnLoading: boolean,
-
-	// Function to set the dispatch and getState
-	// values for each action call
-	bindAction: (TDispatch, TGetState) => {},
-
-	// Function to dispatch redux state changes,
-	// set on bindAction
-	dispatch?: TDispatch,
-
-	// Function that return the redux state,
-	// set on bindAction
-	getState?: TGetState
 
 };
 
@@ -60,18 +48,6 @@ export default class ApiFormDef {
 		this.validateOnChange = validateOnChange;
 		this.disableScreenOnLoading = disableScreenOnLoading;
 	}
-
-
-	bindAction(dispatch: TDispatch, getState: TGetState) {
-		this.dispatch = dispatch;
-		this.getState = getState;
-	}
-
-	unBindAction() {
-		this.dispatch = null;
-		this.getState = null;
-	}
-
 
 	setError(errors, inclusive, objToValidate, propertyName, validator) {
 		const value = _.get(objToValidate, propertyName);

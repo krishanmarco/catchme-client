@@ -4,143 +4,153 @@ import DaoAction from "../daos/DaoAction";
 import Logger from "../Logger";
 import Router from "./Router";
 import {Const, Icons} from '../../Config';
+import {TActionHandlers} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
-import type {TActionHandler, TNavigator} from "../types/Types";
-import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import type {TActionHandler, TNavigator, TThunk} from "../types/Types";
 
 
-const _ClickActionHandlers = ({
+const _ClickActionHandlers: TActionHandlers = ({
 
-  [Const.ActionHandler.actions.FriendshipRequestAccept]: ({
-    icon: Icons.userFollow,
-    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
-    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
-      const connectionId = DaoAction.gPayloadConnectionId(action);
+	[Const.ActionHandler.actions.FriendshipRequestAccept]: {
+		icon: Icons.userFollow,
+		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
+		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
+			const connectionId = DaoAction.gPayloadConnectionId(action);
 
-      if (!connectionId)
-        return Promise.resolve(0);
+			if (!connectionId)
+				return Promise.resolve(0);
 
-      return ApiClient.userConnectionsAcceptUid(connectionId);
-    }
-  }: TActionHandler),
-
-
-  [Const.ActionHandler.actions.FriendshipRequestDeny]: ({
-    icon: Icons.userBlock,
-    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
-    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
-      const connectionId = DaoAction.gPayloadConnectionId(action);
-
-      if (!connectionId)
-        return Promise.resolve(0);
-
-      return ApiClient.userConnectionsBlockUid(connectionId);
-    }
-  }: TActionHandler),
+			return ApiClient.userConnectionsAcceptUid(connectionId);
+		}
+	},
 
 
-  [Const.ActionHandler.actions.AttendanceConfirm]: ({
-    icon: Icons.locationPersonFuture,
-    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
-    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
-      const locationId = DaoAction.gPayloadLocationId(action);
+	[Const.ActionHandler.actions.FriendshipRequestDeny]: {
+		icon: Icons.userBlock,
+		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
+		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
+			const connectionId = DaoAction.gPayloadConnectionId(action);
 
-      if (!locationId)
-        return Promise.resolve(0);
+			if (!connectionId)
+				return Promise.resolve(0);
 
-      Router.toModalUserLocationStatus(navigator, {
-        locationId,
-        postOnConfirm: true
-        // passProps.onStatusConfirm, passProps.initialStatus not needed
-      });
-
-      return Promise.resolve(0);
-    }
-  }: TActionHandler),
+			return ApiClient.userConnectionsBlockUid(connectionId);
+		}
+	},
 
 
-  [Const.ActionHandler.actions.LocationFollow]: ({
-    icon: Icons.locationFollow,
-    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
-    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
-      const locationId = DaoAction.gPayloadLocationId(action);
+	[Const.ActionHandler.actions.AttendanceConfirm]: {
+		icon: Icons.locationPersonFuture,
+		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
+		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
+			const locationId = DaoAction.gPayloadLocationId(action);
 
-      if (!locationId)
-        return Promise.resolve(0);
+			if (!locationId)
+				return Promise.resolve(0);
 
-      return ApiClient.userLocationsFavoritesAddLid(locationId);
-    }
-  }: TActionHandler),
+			Router.toModalUserLocationStatus(navigator, {
+				locationId,
+				postOnConfirm: true
+				// passProps.onStatusConfirm, passProps.initialStatus not needed
+			});
 
-
-  [Const.ActionHandler.actions.GoToUserProfile]: ({
-    icon: Icons.userProfile,
-    isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
-    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
-      const connectionId = DaoAction.gPayloadConnectionId(action);
-
-      if (!connectionId)
-        return Promise.resolve(0);
-
-      Router.toUserProfileById(navigator, connectionId);
-      return Promise.resolve(0);
-    }
-  }: TActionHandler),
+			return Promise.resolve(0);
+		}
+	},
 
 
-  [Const.ActionHandler.actions.GoToLocationProfile]: ({
-    icon: Icons.locationProfile,
-    isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
-    action: (action: TAction, navigator: TNavigator, dispatch: ?Function) => {
-      const locationId = DaoAction.gPayloadLocationId(action);
+	[Const.ActionHandler.actions.LocationFollow]: {
+		icon: Icons.locationFollow,
+		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
+		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
+			const locationId = DaoAction.gPayloadLocationId(action);
 
-      if (!locationId)
-        return Promise.resolve(0);
+			if (!locationId)
+				return Promise.resolve(0);
 
-      Router.toLocationProfileById(navigator, locationId);
-      return Promise.resolve(0);
-    }
-  }: TActionHandler),
+			return ApiClient.userLocationsFavoritesAddLid(locationId);
+		}
+	},
+
+
+	[Const.ActionHandler.actions.GoToUserProfile]: {
+		icon: Icons.userProfile,
+		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
+		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
+			const connectionId = DaoAction.gPayloadConnectionId(action);
+
+			if (!connectionId)
+				return Promise.resolve(0);
+
+			Router.toUserProfileById(navigator, connectionId);
+			return Promise.resolve(0);
+		}
+	},
+
+
+	[Const.ActionHandler.actions.GoToLocationProfile]: {
+		icon: Icons.locationProfile,
+		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
+		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
+			const locationId = DaoAction.gPayloadLocationId(action);
+
+			if (!locationId)
+				return Promise.resolve(0);
+
+			Router.toLocationProfileById(navigator, locationId);
+			return Promise.resolve(0);
+		}
+	},
 
 }: Array<TActionHandler>);
 
 
-class ActionHandler {
+export type TActionHandlerParams = {
+	clickAction: string,			// Id of clickAction that was executed
+	action: TAction,					// The complete action
+	navigator: TNavigator,		// react-native-navigation navigator
+	neverConsume?: boolean,		// If true then consumeOnView is ignored
+	thunk?: TThunk						// {dispatch, getState}
+};
 
-  clickActionIsValid(clickAction: string, action: TAction) {
+export default class ActionHandler {
 
-    // Check if the click action exists
-    const clickActionExists = !(clickAction in _ClickActionHandlers);
+	static clickActionIsValid(clickAction: string, action: TAction) {
 
-    if (clickActionExists) {
-      Logger.error('ActionHandler clickActionIsValid: ActionExists(false)');
-      return false;
-    }
+		// Check if the click action exists
+		const clickActionExists = !(clickAction in _ClickActionHandlers);
 
-    // The action exists, check if valid
-    const clickActionIsValid = _ClickActionHandlers[clickAction]
-        .isValid(action);
+		if (clickActionExists) {
+			Logger.v('ActionHandler clickActionIsValid: ActionExists(false)');
+			return false;
+		}
 
-    if (!clickActionIsValid) {
-      Logger.e('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
-      return false;
-    }
+		// The action exists, check if valid
+		const clickActionIsValid = _ClickActionHandlers[clickAction]
+			.isValid(action);
 
-    Logger.v('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(true)');
-    return true;
-  }
+		if (!clickActionIsValid) {
+			Logger.v('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(false)');
+			return false;
+		}
+
+		Logger.v('ActionHandler clickActionIsValid: ActionExists(true), ActionValid(true)');
+		return true;
+	}
 
 
-  mapActionToIcon(actionName: string) {
-    return _ClickActionHandlers[actionName].icon;
-  }
+	static mapActionToIcon(actionName: string) {
+		return _ClickActionHandlers[actionName].icon;
+	}
 
-  handleAction(clickAction: string, action: TAction, navigator: TNavigator, dispatch: ?Function) {
-    return _ClickActionHandlers[clickAction].action(action, navigator, dispatch);
-  }
+	static handleAction(actionHandlerParams: TActionHandlerParams): Promise {
+		const {clickAction, action, navigator, thunk} = actionHandlerParams;
+
+		// If action is not valid, reject
+		if (!ActionHandler.clickActionIsValid(clickAction, action))
+			return Promise.reject(0);
+
+		return _ClickActionHandlers[clickAction].action(action, navigator, thunk);
+	}
 
 }
-
-const actionHandler = new ActionHandler();
-export default actionHandler;
-

@@ -12,7 +12,7 @@ import Router from "../../lib/helpers/Router";
 import {Dimensions, Image, View} from 'react-native';
 
 import {FontAwesome} from '../../assets/Icons';
-import {FORM_API_ID_LOGIN, poolConnect} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
 
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {GradientButton, Screen} from "../../comp/Misc";
@@ -25,6 +25,7 @@ import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 
 // Const *************************************************************************************************
@@ -54,8 +55,7 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 	}
 
 	_handleSignInError(error = null) {
-		// todo
-		Logger.e("ScreenLogin _handleSignInError: ", error);
+		Logger.v("ScreenLogin _handleSignInError: ", error);
 	}
 
 	_handleSignInSuccess(userProfile: TUser) {

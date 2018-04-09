@@ -3,9 +3,9 @@ import {GradientButton, Screen} from "../../../comp/Misc";
 import {Image, View} from 'react-native';
 import {RkStyleSheet, RkText, RkTextInput, RkTheme} from 'react-native-ui-kitten';
 import {scaleVertical} from '../../../lib/utils/scale';
+// todo refactor
 
 
-// todo: refactor...
 export default class PasswordRecovery extends React.Component {
 	static navigationOptions = {
 		header: null

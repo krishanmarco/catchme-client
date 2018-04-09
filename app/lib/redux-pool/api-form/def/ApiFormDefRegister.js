@@ -1,24 +1,30 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../data/ApiClient";
-import ApiFormDef from "./ApiFormDef";
-import {FORM_API_ID_REGISTER, ReduxPoolApiForms} from "../../../redux/ReduxPool";
-import {Validate} from "../../helpers/Validator";
-import type {TApiFormRegister} from "../../daos/DaoApiFormRegister";
-import DaoApiFormRegister from "../../daos/DaoApiFormRegister";
-import type {TApiFormDef} from "./ApiFormDef";
+import ApiClient from "../../../data/ApiClient";
+import type {TApiFormDef} from "../ApiFormDef";
+import ApiFormDef from "../ApiFormDef";
+import {Validate} from "../../../helpers/Validator";
+import type {TApiFormRegister} from "../../../daos/DaoApiFormRegister";
+import DaoApiFormRegister from "../../../daos/DaoApiFormRegister";
+import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
+
+export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';
 
 // Declare form definition
 class ApiFormDefChangePassword extends ApiFormDef<TApiFormRegister> {
 
 	constructor() {
 		super(FORM_API_ID_REGISTER, true);
+		this.initState = this.initState.bind(this);
+		this.post = this.post.bind(this);
+		this.validate = this.validate.bind(this);
 	}
 
 	initState() {
-		return new ReduxPoolApiForms(this.formId, DaoApiFormRegister.newInstance());
+		return new ApiFormState(this.formId, DaoApiFormRegister.newInstance());
 	}
 
-	post(apiFormRegister: TApiFormRegister): Promise<TApiFormRegister> {
+	post(thunk: TThunk, apiFormRegister: TApiFormRegister): Promise<TApiFormRegister> {
 		return ApiClient.accountsRegister(apiFormRegister);
 	}
 

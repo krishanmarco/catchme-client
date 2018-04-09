@@ -7,7 +7,6 @@ import {DefaultLoader} from "../../comp/Misc";
 
 import {FlatList} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
-import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 
 
@@ -15,11 +14,11 @@ import type {TUser} from "../../lib/daos/DaoUser";
 // Const *************************************************************************************************
 
 type Props = {
-  userProfile: TUser,
-  navigator: TNavigator,
-  feedList: Array<TFeed>,
-  loading: boolean,
-  loadMore: boolean
+	userProfile: TUser,
+	handleClickAction: Function,
+	feedList: Array<TFeed>,
+	loading: boolean,
+	loadMore: boolean
 };
 
 
@@ -27,46 +26,47 @@ type Props = {
 // FeedList *********************************************************************************************
 // FeedList *********************************************************************************************
 
-export default class FeedList extends React.Component<Props> {
+export default class FeedList extends React.Component<any, Props, any> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._renderFooterLoader = this._renderFooterLoader.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._renderFooterLoader = this._renderFooterLoader.bind(this);
+		this._renderItem = this._renderItem.bind(this);
+	}
 
-  render() {
-    return (
-        <FlatList
-            data={this.props.feedList}
-            renderItem={({item}) => this._renderItem(item)}
-            keyExtractor={(item, index) => DaoFeed.gId(item)}
+	render() {
+		const {feedList, loadMore} = this.props;
 
-            ListEmptyComponent={() => null}
+		return (
+			<FlatList
+				data={feedList}
+				renderItem={this._renderItem}
+				keyExtractor={DaoFeed.gId}
 
-            onEndReached={this.props.loadMore}
-            onEndReachedThreshold={5}
+				ListEmptyComponent={null}
 
-            ListFooterComponent={this._renderFooterLoader}
+				onEndReached={loadMore}
+				onEndReachedThreshold={5}
 
-        />
-    );
-  }
+				ListFooterComponent={this._renderFooterLoader}/>
+		);
+	}
 
 
-  _renderItem(feed) {
-    return (
-        <FeedListItem
-            feed={feed}
-            navigator={this.props.navigator}/>
-    );
-  }
+	_renderItem({item}: {item: TFeed}) {
+		const {handleClickAction} = this.props;
+		return (
+			<FeedListItem
+				feed={item}
+				handleClickAction={handleClickAction}/>
+		);
+	}
 
-  _renderFooterLoader() {
-    if (!this.props.loading)
-      return null;
-
-    return (<DefaultLoader style={{marginVertical: 16}} size={8}/>);
-  }
+	_renderFooterLoader() {
+		return this.props.loading
+			? (<DefaultLoader size={8}/>)
+			: null;
+	}
 
 }
 

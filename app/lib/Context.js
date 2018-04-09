@@ -4,16 +4,25 @@ import {NetInfo} from 'react-native';
 
 class Context {
 
+	constructor() {
+		this.firebaseEnabled = false;
+	}
+
 	isOnline() {
 		return NetInfo.isConnected.fetch();
 	}
 
-	isFirebaseAuthenticated() {
-		return firebase.auth().currentUser != null;
-	}
-
 	getFirebaseUser() {
 		return firebase.auth().currentUser;
+	}
+
+	setFirebaseEnabled(enabled: boolean) {
+		this.firebaseEnabled = enabled;
+	}
+
+	isFirebaseEnabled() {
+		// We could also use firebase.auth().currentUser != null
+		return this.firebaseEnabled;
 	}
 
 }

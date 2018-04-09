@@ -2,6 +2,8 @@
 
 import type {TAction} from "../daos/DaoAction";
 
+export type TActionHandlers = {[string]: TActionHandler};
+
 export type TActionHandler = {
 	icon: TIcon,
 	isValid: (TAction) => boolean,
@@ -31,4 +33,10 @@ export type TNavigator = Object & {
 };
 
 export type TDispatch = (Object) => ?Object;
-export type TGetState = () => Object;
+export type TState = Object;
+export type TGetState = () => TState;
+
+export type TThunk = {
+	dispatch: TDispatch,
+	getState: TGetState
+};

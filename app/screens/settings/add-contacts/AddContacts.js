@@ -114,10 +114,8 @@ function addContactsInitialize(currentUserId) {
     // This is the first time mounting this component
     // Get all the users contacts
     Contacts.getAll((error, contacts) => {
-      if (error === 'denied') {
-        // todo handle errors
+      if (error === 'denied')
         return;
-      }
 
       dispatch(mapContactsToUsers(currentUserId, contacts));
     });

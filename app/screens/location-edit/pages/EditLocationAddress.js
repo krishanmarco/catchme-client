@@ -14,7 +14,7 @@ import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-forms/ApiFormDef";
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import {Validate} from "../../../lib/helpers/Validator";
 
 // Redux ************************************************************************************************

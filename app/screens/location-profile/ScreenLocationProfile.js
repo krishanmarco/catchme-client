@@ -6,7 +6,7 @@ import LocationProfile from './LocationProfile';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Router from "../../lib/helpers/Router";
-import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_LOCATION_PROFILES, poolConnect} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects} from '../../comp/Misc';
 import {Screen} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
@@ -14,6 +14,8 @@ import type {TModalUserLocationStatusProps} from "../user-location-status/Screen
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -33,7 +35,7 @@ type State = {
 
 class ScreenLocationProfilePresentational extends React.Component<any, Props, State> {
 
-  // todo: these buttons should only be accessible once the locationProfile is not null any more!!
+  // todo fix, these buttons should only be accessible once the locationProfile is not null any more!!
   static NAV_BUTTON_USER_LOCATION_STATUS = {
     id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
     icon: require('../../assets/icons/timerSandFull.png'),

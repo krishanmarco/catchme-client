@@ -11,7 +11,7 @@ import EditLocationTimings from './pages/EditLocationTimings';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {denormObj} from '../../lib/HelperFunctions';
-import {FORM_API_ID_EDIT_LOCATION_PROFILE, poolConnect} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
 import {Colors, Icons} from '../../Config';
 import {ScrollableIconTabView} from "../../comp/Misc";
 import {View} from 'react-native';
@@ -19,7 +19,8 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import {TReduxPoolApiForms} from "../../lib/types/ReduxPoolTypes";
-import ApiFormDef from "../../lib/redux-pool/api-forms/ApiFormDef";
+import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
+import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
 
 
 // Redux ************************************************************************************************

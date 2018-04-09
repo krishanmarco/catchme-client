@@ -156,22 +156,20 @@ export function arrayFind(elements, finderFunction) {
 	return null;
 }
 
-
-export function arrayClean(elements, deleteValue) {
-	for (let i = 0; i < elements.length; i++) {
-		if (elements[i] == deleteValue) {
-			elements.splice(i, 1);
-			i--;
-		}
-	}
-	return elements;
+export function arrayCleanAndVerify(array: ?array, dotField: string) {
+	if (!_.isArray(array))
+		return array;
+	return _.uniqBy(arrayClean(array, dotField), dotField);
 }
 
 
-export function arrayRemove(elements, index) {
-	if (index > -1)
-		elements.splice(index, 1);
-	return elements;
+// This function filters an array by removing all
+// items that null or undefined in a certain field
+export function arrayClean(array: ?Array, dotField: string) {
+	if (!_.isArray(array))
+		return array;
+
+	return array.filter(item => _.get(item, dotField, null) != null);
 }
 
 

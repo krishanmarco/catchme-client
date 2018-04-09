@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {ReduxFirebaseData} from "../../../redux/ReduxPool";
-import type {TDispatch, TGetState} from "../../types/Types";
+import {FirebaseDataState} from "./FirebaseDataModel";
 
 
 export type TFirebaseDataDef<TFirebaseDataObject> = {
@@ -9,7 +8,7 @@ export type TFirebaseDataDef<TFirebaseDataObject> = {
 	firebaseDataId: string,
 
 	// Initial state of this firebase-data
-	initState: () => ReduxFirebaseData,
+	initState: () => FirebaseDataState,
 
 	// Function to get the data associated to a firebase-id
 	getObjectByFirebaseId: (number) => TFirebaseDataObject,
@@ -24,25 +23,33 @@ export type TFirebaseDataDef<TFirebaseDataObject> = {
 	// if there is no locally defined definition then return the item (item => item)
 
 	// Function that gets triggered for each TFirebaseDataObject that is received
-	onReceiveLocalItem: (TFirebaseDataObject) => {}
+	onReceiveLocalItem: (TFirebaseDataObject) => {},
+
+	// Function that gets triggered for each TFirebaseDataObject that is received
+	removeObjectByFirebaseId: (userId: number, firebaseDataId: string) => {}
 
 };
 
 
 export default class FirebaseDataDef {
 
-	constructor(firebaseDataId) {
+	constructor(firebaseDataId: string) {
 		this.firebaseDataId = firebaseDataId;
+		this.initState = this.initState.bind(this);
+		this.mapFirebaseItemToLocalItem = this.mapFirebaseItemToLocalItem.bind(this);
+		this.onReceiveLocalItem = this.onReceiveLocalItem.bind(this);
 	}
 
-	bindAction(dispatch: TDispatch, getState: TGetState) {
-		this.dispatch = dispatch;
-		this.getState = getState;
+	initState(): FirebaseDataState {
+		return new FirebaseDataState(this.firebaseDataId);
 	}
 
-	unBindAction() {
-		this.dispatch = null;
-		this.getState = null;
+	mapFirebaseItemToLocalItem(firebaseItem: Object): Object {
+		return firebaseItem;
+	}
+
+	onReceiveLocalItem(firebaseItem: Object) {
+		// Nothing for now
 	}
 
 }

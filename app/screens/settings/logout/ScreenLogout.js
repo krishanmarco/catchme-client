@@ -1,8 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Logout from './Logout';
 import React from 'react';
-import {CACHE_ID_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
+import {poolConnect} from '../../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../../comp/Misc";
+import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

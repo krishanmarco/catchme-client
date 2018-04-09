@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import type {TDispatch, TGetState} from "../../types/Types";
-import type {TReduxPoolCacheMap} from "../../types/ReduxPoolTypes";
+import {CacheMapState} from "./CacheMapModel";
 
 
 export type TCacheMapDef<TCacheMapObject> = {
@@ -9,7 +8,7 @@ export type TCacheMapDef<TCacheMapObject> = {
 	cacheMapId: string,
 
 	// Initial state of this cache-map
-	initState: () => TReduxPoolCacheMap,
+	initState: () => CacheMapState,
 
 	// Refresh or get data associated to this cache-map
 	buildDataSet: () => TCacheMapObject
@@ -21,16 +20,11 @@ export default class CacheMapDef {
 
 	constructor(cacheMapId) {
 		this.cacheMapId = cacheMapId;
+		this.initState = this.initState.bind(this);
 	}
 
-	bindAction(dispatch: TDispatch, getState: TGetState) {
-		this.dispatch = dispatch;
-		this.getState = getState;
-	}
-
-	unBindAction() {
-		this.dispatch = null;
-		this.getState = null;
+	initState(): CacheMapState {
+		return new CacheMapState(this.cacheMapId);
 	}
 
 }

@@ -8,11 +8,12 @@ import Router from "../../../lib/helpers/Router";
 
 import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
-import {FORM_API_ID_EDIT_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
+import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 import ImagePicker from "../../../lib/helpers/ImagePicker";
+import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 
 
 // Redux ************************************************************************************************

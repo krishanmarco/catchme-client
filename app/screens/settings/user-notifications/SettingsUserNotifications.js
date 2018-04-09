@@ -4,11 +4,12 @@ import DaoUser from "../../../lib/daos/DaoUser";
 import React from 'react';
 import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
 
-import {FORM_API_ID_EDIT_USER_PROFILE, poolConnect} from '../../../redux/ReduxPool';
+import {poolConnect} from '../../../redux/ReduxPool';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {View} from 'react-native';
+import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 
 
 

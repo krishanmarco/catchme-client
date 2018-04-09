@@ -10,7 +10,7 @@ export type TFeed = TAction & {
   // clickAction?: string,     // 'LocationGoToProfile'        INHERITED Action to be triggered when the item is clicked
   // actions?: Array<string>,  // ['FriendshipRequestAccept']  INHERITED Actions that are allowed on this item
   // payload?: Object          // {connectionId: 1}            INHERITED Payload data for each action
-  consumeOnView: boolean,      // true|false                   If true the item is deleted from the realtime db once it has been viewed
+  // consumeOnView: boolean,   // true|false                   INHERITED If true item deleted on interacted
   content: string,             // '<b>Hi! </b>how are you?'    HTML middle text
   leftAvatar?: string,         // 'http://ctvh.com/left.png'   Left Avatar
   rightAvatar?: string,        // 'http://ctvh.com/right.png'  Right Avatar
@@ -25,14 +25,9 @@ export default class DaoFeed extends DaoAction {
   // static pPayload = 'payload';
   // static pPayloadConnectionId = `${DaoFeed.pPayload}.connectionId`;
   // static pPayloadLocationId = `${DaoFeed.pPayload}.locationId`;
-  static pConsumeOnView = 'consumeOnView';
   static pContent = 'content';
   static pLeftAvatar = 'leftAvatar';
   static pRightAvatar = 'rightAvatar';
-
-  static gConsumeOnView(feed: TFeed) {
-    return _.get(feed, DaoFeed.pConsumeOnView);
-  }
 
   static gContent(feed: TFeed) {
     return _.get(feed, DaoFeed.pContent);

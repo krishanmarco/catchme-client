@@ -3,65 +3,62 @@ import Camera from 'react-native-camera';
 import Logger from "../../../lib/Logger";
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
-
+// todo refactor
 
 export default class CameraWrapper extends React.Component {
-	
+
 	constructor(props, context) {
 		super(props, context);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this._onBarCodeRead = this._onBarCodeRead.bind(this);
 	}
-	
-	
+
+
 	_onBarCodeRead(data) {
-		
+
 		if (this.props.onBarCodeRead)
 			this.props.onBarCodeRead(data.data);
-		
+
 	}
-	
-	
+
+
 	_onCaptureImage() {
-		this.camera.capture({
-			metadata: {}
-			
-		}).then(data => {
-			
-			if (this.props.onCaptureImage)
-				this.props.onCaptureImage(data);
-			
-			return data;
-		}).catch(err => {
-			// todo
-			Logger.e(err);
+		this.camera.capture({metadata: {}})
+			.then(data => {
+				const {onCaptureImage} = this.props;
+
+				if (onCaptureImage)
+					onCaptureImage(data);
+
+				return data;
+			}).catch(err => {
+			Logger.v(err);
 		});
 	}
-	
-	
+
+
 	render() {
 		return (
 			<View style={styles.container}>
 				<Camera
 					ref={camera => this.camera = camera}
 					style={styles.preview}
-					
+
 					aspect={Camera.constants.Aspect.fill}
 					audio={true}
-					
+
 					captureMode={this.props.captureMode}
 					captureTarget={Camera.constants.CaptureTarget.temp}
 					captureQuality={Camera.constants.CaptureQuality.high}
-					
+
 					onBarCodeRead={this._onBarCodeRead}
 					barCodeTypes={["qr"]}
-					
-					keepAwake={true}
-				>
-					
-					
+
+					keepAwake={true}>
+
+
 					<RkButton
 						style={{width: 64, height: 64, marginBottom: 32}}
 						rkType='clear contrast'
@@ -75,8 +72,8 @@ export default class CameraWrapper extends React.Component {
 			</View>
 		);
 	}
-	
-	
+
+
 }
 
 

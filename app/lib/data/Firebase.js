@@ -34,7 +34,7 @@ export class FirebaseData {
 			.child('messages');
 	}
 	
-	static dbFeedById(feedId: number) {
+	static dbFeedById(feedId: string) {
 		return firebase.database()
 			.ref('usersFeed')
 			.child(feedId);
@@ -44,8 +44,13 @@ export class FirebaseData {
 		return firebase.database()
 			.ref(`users/${userId}/feed`);
 	}
+
+	static dbUserFeedId(userId: number, feedId: string) {
+		return firebase.database()
+			.ref(`users/${userId}/feed/${feedId}`);
+	}
 	
-	static dbFeaturedAdById(feedId: number) {
+	static dbFeaturedAdById(feedId: string) {
 		return firebase.database()
 			.ref('featuredAds')
 			.child(feedId);
@@ -54,6 +59,11 @@ export class FirebaseData {
 	static dbUserFeaturedAdIds(userId: number) {
 		return firebase.database()
 			.ref(`users/${userId}/featuredAds`);
+	}
+
+	static dbUserFeaturedAdId(userId: number, featuredAdId: string) {
+		return firebase.database()
+			.ref(`users/${userId}/featuredAds/${featuredAdId}`);
 	}
 	
 }

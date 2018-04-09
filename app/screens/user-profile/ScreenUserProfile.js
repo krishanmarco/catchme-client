@@ -4,8 +4,10 @@ import DaoUser from "../../lib/daos/DaoUser";
 import PropTypes from 'prop-types';
 import React from 'react';
 import UserProfile from './UserProfile';
-import {CACHE_ID_USER_PROFILE, CACHE_MAP_ID_USER_PROFILES, poolConnect} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
 import {NullableObjects, Screen} from "../../comp/Misc";
+import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 
 // PresentationalComponent ******************************************************************************
 // PresentationalComponent ******************************************************************************

@@ -1,24 +1,30 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../data/ApiClient";
-import ApiFormDef from "./ApiFormDef";
-import {FORM_API_ID_CHANGE_PASSWORD, ReduxPoolApiForms} from "../../../redux/ReduxPool";
-import {Validate} from "../../helpers/Validator";
-import type {TApiFormChangePassword} from "../../daos/DaoApiFormChangePassword";
-import DaoApiFormChangePassword from "../../daos/DaoApiFormChangePassword";
-import type {TApiFormDef} from "./ApiFormDef";
+import ApiClient from "../../../data/ApiClient";
+import type {TApiFormDef} from "../ApiFormDef";
+import ApiFormDef from "../ApiFormDef";
+import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
+import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
+import {Validate} from "../../../helpers/Validator";
+import {ApiFormState} from "../ApiFormModel";
+import type {TThunk} from "../../../types/Types";
+
+export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 
 // Declare form definition
 class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {
 
 	constructor() {
 		super(FORM_API_ID_CHANGE_PASSWORD, true);
+		this.initState = this.initState.bind(this);
+		this.post = this.post.bind(this);
+		this.validate = this.validate.bind(this);
 	}
 
 	initState() {
-		return new ReduxPoolApiForms(this.formId, DaoApiFormChangePassword.newInstance());
+		return new ApiFormState(this.formId, DaoApiFormChangePassword.newInstance());
 	}
 
-	post(apiFormChangePassword: TApiFormChangePassword): Promise<TApiFormChangePassword> {
+	post(thunk: TThunk, apiFormChangePassword: TApiFormChangePassword): Promise<TApiFormChangePassword> {
 		return ApiClient.accountsChangePassword(apiFormChangePassword);
 	}
 

@@ -7,7 +7,8 @@ export type TAction = {
   expiry: number,               // 1000000000|-1                Seconds of expiry, if expired the item is not displayed (-1 => never)
   clickAction?: string,         // 'LocationGoToProfile'        Action to be triggered when the item is clicked
   actions?: Array<string>,      // ['FriendshipRequestAccept']  Actions that are allowed on this item
-  payload?: Object              // {connectionId: 1}            Payload data for each action
+  payload?: Object,             // {connectionId: 1}            Payload data for each action
+	consumeOnView: boolean,       // true|false                   If true the item is deleted from state and firebase-db onInteracted
 };
 
 export default class DaoAction {
@@ -17,6 +18,7 @@ export default class DaoAction {
   static pActions = 'actions';
   static pClickAction = 'clickAction';
   static pPayload = 'payload';
+	static pConsumeOnView = 'consumeOnView';
   static pPayloadConnectionId = `${DaoAction.pPayload}.connectionId`;
   static pPayloadLocationId = `${DaoAction.pPayload}.locationId`;
 
@@ -43,6 +45,10 @@ export default class DaoAction {
   static gActions(action: TAction) {
     return _.get(action, DaoAction.pActions, []);
   }
+
+	static gConsumeOnView(action: TAction) {
+		return _.get(action, DaoAction.pConsumeOnView, false);
+	}
 
   static gPayloadConnectionId(action: TAction) {
     return _.get(action, DaoAction.pPayloadConnectionId);

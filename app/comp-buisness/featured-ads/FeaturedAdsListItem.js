@@ -1,24 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ActionHandler from '../../lib/helpers/ActionHandler';
-
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
-
-import DaoFeed from "../../lib/daos/DaoFeed";
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {Image, TouchableNativeFeedback, View} from 'react-native';
+import {Image, View} from 'react-native';
 import {RkButton, RkCard, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
-import type {TNavigator} from "../../lib/types/Types";
 import {Touchable} from "../../comp/Misc";
+import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
+
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	navigator: TNavigator,
 	featuredAd: TFeaturedAd,
-
+	handleClickAction: Function
 };
 
 // Component ********************************************************************************************
@@ -28,40 +24,33 @@ export default class FeaturedAdsListItem extends React.Component<any, Props, any
 
 	constructor(props, context) {
 		super(props, context);
+		this._onFeaturedAdItemPress = this._onFeaturedAdItemPress.bind(this);
 		this._handleClickAction = this._handleClickAction.bind(this);
-		this._onItemPress = this._onItemPress.bind(this);
 	}
 
-	_featuredAd(): TFeaturedAd {
-		return this.props.featuredAd;
+	_onFeaturedAdItemPress(): Promise {
+		const {featuredAd} = this.props;
+		return this._handleClickAction(DaoFeaturedAd.gClickAction(featuredAd), true);
 	}
 
-	_navigator(): TNavigator {
-		return this.props.navigator;
-	}
+	_handleClickAction(clickAction: string, neverConsume = false): Promise {
+		const {featuredAd, handleClickAction} = this.props;
 
-
-	_onItemPress() {
-		const clickAction = DaoFeed.gClickAction(this._featuredAd());
-
-		if (clickAction && ActionHandler.clickActionIsValid(clickAction, this._featuredAd()))
-			this._handleClickAction(clickAction);
-	}
-
-
-	_handleClickAction(clickAction: string) {
-		ActionHandler.handleAction(clickAction, this._featuredAd(), this._navigator());
+		// Note a featuredAd is also a TAction type
+		return handleClickAction(clickAction, featuredAd, neverConsume);
 	}
 
 
 	render() {
+		const {featuredAd} = this.props;
+
 		return (
-			<Touchable onPress={this._onItemPress}>
+			<Touchable onPress={this._onFeaturedAdItemPress}>
 				<RkCard rkType='backImg'>
-					<Image rkCardImg source={{uri: DaoFeaturedAd.gImage(this._featuredAd())}}/>
+					<Image rkCardImg source={{uri: DaoFeaturedAd.gImage(featuredAd)}}/>
 					<View rkCardImgOverlay rkCardContent style={styles.overlay}>
-						<RkText rkType='header2 inverseColor'>{DaoFeaturedAd.gTitle(this._featuredAd()).toUpperCase()}</RkText>
-						<RkText rkType='secondary2 inverseColor'>{DaoFeaturedAd.gSubTitle(this._featuredAd())}</RkText>
+						<RkText rkType='header2 inverseColor'>{DaoFeaturedAd.gTitle(featuredAd).toUpperCase()}</RkText>
+						<RkText rkType='secondary2 inverseColor'>{DaoFeaturedAd.gSubTitle(featuredAd)}</RkText>
 						<View rkCardFooter style={styles.footer}>
 							{this._renderActionBar()}
 						</View>
@@ -73,8 +62,10 @@ export default class FeaturedAdsListItem extends React.Component<any, Props, any
 
 
 	_renderActionBar() {
-		const actions = DaoFeaturedAd.gActions(this._featuredAd())
-			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, this._featuredAd()));
+		const {featuredAd} = this.props;
+
+		const actions = DaoFeaturedAd.gActions(featuredAd)
+			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, featuredAd));
 
 		return (
 			<View style={styles.actionBarContainer}>
