@@ -132,31 +132,31 @@ export default class UserLocationsStatusList extends React.Component<any, Props,
 		return (
 			<StaticSectionList
 				sections={this._getSections()}
-				renderItem={({item}) => this._renderItem(item)}/>
+				renderItem={this._renderItem}/>
 		);
 	}
 
 
 
-	_renderItem(location: TLocationWithUserLocationStatus) {
+	_renderItem({item}: {item: TLocationWithUserLocationStatus}) {
 		const {favoriteIds} = this.props;
 
 		const listItemProps = {
-			location,
+			location: item,
 			onPress: this.props.onLocationPress
 		};
 
 
-		if (location.status) {
+		if (item.status) {
 			return (
 				<ListItemUserLocationStatus
 					{...listItemProps}
 					allowEdit={this.props.allowEdit}
-					status={location.status}/>
+					status={item.status}/>
 			);
 		}
 
-		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(location)))
+		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(item)))
 			return <ListItemLocationFollow {...listItemProps}/>;
 
 		return <ListItemLocation {...listItemProps}/>;

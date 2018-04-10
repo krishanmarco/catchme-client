@@ -24,6 +24,7 @@ export default class LocationList extends React.PureComponent<any, Props, any> {
 	constructor(props, context) {
 		super(props, context);
 		this._filterExtractor = this._filterExtractor.bind(this);
+		this._renderItem = this._renderItem.bind(this);
 	}
 
 	_filterExtractor(location, regExp) {
@@ -45,7 +46,7 @@ export default class LocationList extends React.PureComponent<any, Props, any> {
 
 				data={locations}
 				keyExtractor={(item) => DaoLocation.gId(item)}
-				renderItem={({item}) => this._renderItem(item)}
+				renderItem={this._renderItem}
 
 				searchPlaceholder='Search by name, email, phone or address'
 				filterExtractor={this._filterExtractor}
@@ -59,7 +60,7 @@ export default class LocationList extends React.PureComponent<any, Props, any> {
 
 		const listItemProps = {location: item, onPress: onItemPress};
 
-		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(location)))
+		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(item)))
 			return <ListItemLocationFollow {...listItemProps}/>;
 
 		return <ListItemLocation {...listItemProps}/>;

@@ -13,6 +13,7 @@ import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 
 // Const *************************************************************************************************
@@ -86,7 +87,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		);
 	}
 
-	_renderLocationItem({item}) {
+	_renderLocationItem({item}: {item: TLocation}) {
 		return (
 			<ListItemLocation
 				location={item}

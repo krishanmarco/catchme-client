@@ -5,7 +5,7 @@ import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
 import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {StyleSheet, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
