@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import DaoUser from "../../../lib/daos/DaoUser";
+import ImagePicker from "../../../lib/helpers/ImagePicker";
 import Maps from "../../../lib/data/Maps";
+
 import React from 'react';
 
 import Router from "../../../lib/helpers/Router";
-
 import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
+import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
-import ImagePicker from "../../../lib/helpers/ImagePicker";
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 
 
 // Redux ************************************************************************************************
@@ -44,8 +44,8 @@ type Props = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _SettingsUserAccount *********************************************************************************
+// _SettingsUserAccount *********************************************************************************
 
 class _SettingsUserAccount extends React.Component<any, Props, any> {
 
@@ -135,7 +135,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader name='Profile'/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<View style={{alignItems: 'center'}}>
 						<AvatarCircle
 							badge={Icons.userEditAvatar}
@@ -180,7 +180,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader name='Privacy'/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					{[
 						{title: 'My previous location', options: privacyAll},
 						{title: 'My current location', options: privacySub},
@@ -204,7 +204,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader name='Security'/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<ListItemInfo
 						title='Change Password'
 						icon={Icons.settingChangePassword}
@@ -219,7 +219,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<ListItemInfo
 						title='Add contacts'
 						icon={Icons.settingChangePassword}
@@ -240,10 +240,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const SettingsUserAccount = poolConnect(
-	// Presentational Component
-	_SettingsUserAccount,
-
+const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// mapStateToProps
 	(state) => state.settingsUserAccountReducer,
 
@@ -258,11 +255,11 @@ export default SettingsUserAccount;
 
 
 
-// Styles ***********************************************************************************************
-// Styles ***********************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	content: {
+	listItemWithActionsContent: {
 		paddingHorizontal: 8,
 	},
 });

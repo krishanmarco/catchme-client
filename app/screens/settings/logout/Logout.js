@@ -1,15 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-
 import RealmIO from '../../../lib/data/RealmIO';
-
 import {GradientButton, ScreenInfo} from "../../../comp/Misc";
-
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {startApplication} from "../../../App";
-import {View} from 'react-native';
-
-
+import {StyleSheet, View} from 'react-native';
 
 
 // Const *************************************************************************************************
@@ -21,18 +15,14 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// Logout ***********************************************************************************************
+// Logout ***********************************************************************************************
 
 export default class Logout extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._onLogoutPress = this._onLogoutPress.bind(this);
-	}
-
-	_userProfile() {
-		return this.props.authenticatedUserProfile;
 	}
 
 	_onLogoutPress() {
@@ -55,17 +45,14 @@ export default class Logout extends React.Component<any, Props, any> {
 			</View>
 		);
 	}
-
 }
 
 
-
-
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	logout: {
 		marginTop: 64
 	}
-}));
+});

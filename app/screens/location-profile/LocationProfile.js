@@ -65,10 +65,10 @@ type State = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _LocationProfile *************************************************************************************
+// _LocationProfile *************************************************************************************
 
-class LocationProfilePresentational extends React.Component<any, Props, State> {
+class _LocationProfile extends React.Component<any, Props, State> {
 
 	constructor(props: Props, context) {
 		super(props, context);
@@ -140,10 +140,10 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 		const {locationProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabRootHome}>
+			<Grid style={styles.tabHomeRoot}>
 				<Row size={-1}>
 					<Image
-						style={{width: '100%', height: 200}}
+						style={styles.tabHomeAvatar}
 						resizeMode='cover'
 						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
 				</Row>
@@ -243,10 +243,7 @@ class LocationProfilePresentational extends React.Component<any, Props, State> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const LocationProfile = poolConnect(
-	// Presentational Component
-	LocationProfilePresentational,
-
+const LocationProfile = poolConnect(_LocationProfile,
 	// mapStateToProps
 	(state) => state.locationProfileReducer,
 
@@ -265,9 +262,13 @@ export default LocationProfile;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	tabRootHome: {
+	tabHomeRoot: {
 		flex: 1,
 		alignItems: 'center'
+	},
+	tabHomeAvatar: {
+		width: '100%',
+		height: 200
 	},
 	tabRootImages: {
 		flex: 1,

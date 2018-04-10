@@ -9,12 +9,12 @@ import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Const, Icons} from '../../Config';
 import {compareTimeSmaller} from "../../lib/HelperFunctions";
 import {Icon} from 'react-native-elements';
-import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from "react-native-ui-kitten";
+import {Touchable} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {Touchable} from "../../comp/Misc";
 
 
 
@@ -25,8 +25,8 @@ import {Touchable} from "../../comp/Misc";
 type Props = {
 	locationProfile: TLocation,
 	userLocationStatus: TUserLocationStatus,
-	onStatusConfirm: (TUserLocationStatus) => {},
-	onStatusChange: (TUserLocationStatus) => {},
+	onStatusConfirm: (TUserLocationStatus) => void,
+	onStatusChange: (TUserLocationStatus) => void,
 
 	dtDateVisible: boolean,
 	dtFromVisible: boolean,
@@ -95,10 +95,10 @@ function modalUserLocationStatusSetUntilModalVisibility(visible) {
 	};
 }
 
-// ModalUserLocationStatus ******************************************************************************
-// ModalUserLocationStatus ******************************************************************************
+// _ModalUserLocationStatus *****************************************************************************
+// _ModalUserLocationStatus *****************************************************************************
 
-class ModalUserLocationStatusPresentational extends React.Component<any, Props, State> {
+class _ModalUserLocationStatus extends React.Component<any, Props, State> {
 	static DATE_TIME_NOW = new Date();
 
 	constructor(props, context) {
@@ -247,7 +247,7 @@ class ModalUserLocationStatusPresentational extends React.Component<any, Props, 
 				</Grid>
 				<DateTimePicker
 					mode='date'
-					minimumDate={ModalUserLocationStatusPresentational.DATE_TIME_NOW}
+					minimumDate={_ModalUserLocationStatus.DATE_TIME_NOW}
 					isVisible={this.props.dtDateVisible}
 					date={this._getFromDate()}
 					onConfirm={this._onDatePicked}
@@ -354,10 +354,7 @@ class ModalUserLocationStatusPresentational extends React.Component<any, Props, 
 }
 
 
-const ModalUserLocationStatus = poolConnect(
-	// Presentational Component
-	ModalUserLocationStatusPresentational,
-
+const ModalUserLocationStatus = poolConnect(_ModalUserLocationStatus,
 	// mapStateToProps
 	(state) => state.modalUserLocationStatusReducer,
 

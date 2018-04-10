@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
-import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
 import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
-import {Validate} from "../../../helpers/Validator";
 import {ApiFormState} from "../ApiFormModel";
+import {Validate} from "../../../helpers/Validator";
+import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
+import type {TApiFormDef} from "../ApiFormDef";
 import type {TThunk} from "../../../types/Types";
 
 export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';

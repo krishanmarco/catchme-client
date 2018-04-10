@@ -1,15 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Clock from './Clock';
-
 import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
-
 import Maps from "../../lib/data/Maps";
 import React from 'react';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Icons} from "../../Config";
-import {FlatList, StyleSheet} from 'react-native';
-import {RkButton, RkText} from 'react-native-ui-kitten';
-import {View} from 'react-native';
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+// todo proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -17,16 +15,12 @@ import {View} from 'react-native';
 type Props = {
 	day: number,
 	managerWeekTimings: ManagerWeekTimings,
-	onEdit?: () => {},
+	onEdit?: () => void,
 	isEditable?: boolean
-}
+};
 
 
 export default class TimingListItem extends React.Component<any, Props, any> {
-
-	constructor(props, context) {
-		super(props, context);
-	}
 
 	getTimings() {
 		const amTimings = this.refClockAm.getTimings();
@@ -66,7 +60,7 @@ export default class TimingListItem extends React.Component<any, Props, any> {
 
 		return (
 			<Grid style={{height: size * 0.55}}>
-				<Col size={50} style={[styles.content]}>
+				<Col size={50} style={[styles.listItemWithActionsContent]}>
 					<Clock
 						size={size}
 						ref={ref => this.refClockAm = ref}
@@ -77,7 +71,7 @@ export default class TimingListItem extends React.Component<any, Props, any> {
 						onTimingsChanged={onTimingsChanged}/>
 				</Col>
 				<Col size={4}></Col>
-				<Col size={50} style={styles.content}>
+				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
 						size={size}
 						ref={ref => this.refClockPm = ref}
@@ -98,7 +92,7 @@ const styles = StyleSheet.create({
 	root: {
 		marginTop: 4,
 	},
-	content: {
+	listItemWithActionsContent: {
 		marginTop: 4,
 		alignItems: 'center',
 		justifyContent: 'center'

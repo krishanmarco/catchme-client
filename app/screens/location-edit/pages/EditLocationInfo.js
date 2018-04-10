@@ -1,21 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import ImagePicker from '../../../lib/helpers/ImagePicker';
-import PropTypes from 'prop-types';
 import React from 'react';
-
 import {AvatarCircle} from "../../../comp/Misc";
-
 import {Const, Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
-import EditLocation from "../EditLocation";
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 
 
 // Redux ************************************************************************************************
@@ -41,15 +37,15 @@ export function editLocationInfoReducer(state = editLocationInfoInitState, actio
 type Props = {
 	navigator: Navigator,
 	locationProfile: Object,
-	formApiEditLocationProfile: Object
+	formApiEditLocationProfile: ApiFormState
 };
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _EditLocationInfo ************************************************************************************
+// _EditLocationInfo ************************************************************************************
 
-class EditLocationInfoPresentational extends React.Component<any, Props, any> {
+class _EditLocationInfo extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -97,7 +93,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 	render() {
 		return (
 			<ScrollView style={styles.scrollView}>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<View style={styles.avatarContainer}>
 						<AvatarCircle
 							badge={Icons.locationEditAvatar}
@@ -154,10 +150,7 @@ class EditLocationInfoPresentational extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const EditLocationInfo = poolConnect(
-	// Presentational Component
-	EditLocationInfoPresentational,
-
+const EditLocationInfo = poolConnect(_EditLocationInfo,
 	// mapStateToProps
 	(state) => state.editLocationInfoReducer,
 
@@ -177,19 +170,15 @@ export default EditLocationInfo;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	scrollView: {
 		flex: 1
 	},
 	avatarContainer: {
 		alignItems: 'center'
 	},
-	content: {
+	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 	},
-}));
+});
 
-
-EditLocationInfo.propTypes = {
-	formApiEditLocationProfile: PropTypes.object.isRequired
-};

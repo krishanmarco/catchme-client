@@ -20,7 +20,7 @@ export type TDataPoint = {
 	id: string;
 	title: string;
 	subtitle?: string;
-	icon?: Object;
+	icon?: TIcon;
 }
 
 export type TSectionListDataPointSections = {
@@ -40,3 +40,5 @@ export type TThunk = {
 	dispatch: TDispatch,
 	getState: TGetState
 };
+
+export type TStyle = Object;

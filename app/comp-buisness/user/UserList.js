@@ -11,7 +11,7 @@ import {
   ListItemUserRequestReceived,
   ListItemUserRequestSend
 } from '../../comp-buisness/user/UserListItems';
-
+// todo refactor proptypes
 
 
 

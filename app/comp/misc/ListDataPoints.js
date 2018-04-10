@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Grid, Row} from "react-native-easy-grid";
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {View} from 'react-native';
-
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+// todo refactor proptypes
 
 export default ({listDataPoints = [], style}) => (
     <Grid style={[styles.header, style]}>
@@ -19,7 +19,7 @@ export default ({listDataPoints = [], style}) => (
 );
 
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 12,
     marginBottom: 16,
@@ -31,4 +31,4 @@ const styles = RkStyleSheet.create(theme => ({
   space: {
     marginBottom: 3
   },
-}));
+});

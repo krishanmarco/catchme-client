@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
-import type {TUser} from "./DaoUser";
-import {denormObj, isValidUrl} from "../HelperFunctions";
 import {Const} from "../../Config";
+import {denormObj, isValidUrl} from "../HelperFunctions";
+import type {TUser} from "./DaoUser";
 
 
 export type TLocation = {

@@ -1,20 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-
-import {poolConnect} from '../../../redux/ReduxPool';
-
-import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
-
-import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-
-import {scaleVertical} from '../../../lib/utils/scale';
-
-import {View} from 'react-native';
-import type {TNavigator} from "../../../lib/types/Types";
-import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
 import Logger from "../../../lib/Logger";
+import React from 'react';
+import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
+import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
+import {poolConnect} from '../../../redux/ReduxPool';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {StyleSheet, View} from 'react-native';
+import type {TNavigator} from "../../../lib/types/Types";
 
 
 // Const *************************************************************************************************
@@ -25,8 +17,8 @@ type Props = {
 };
 
 
-// ReduxComponent ***************************************************************************************
-// ReduxComponent ***************************************************************************************
+// _ScreenSettingsChangePassword ************************************************************************
+// _ScreenSettingsChangePassword ************************************************************************
 
 class _ScreenSettingsChangePassword extends React.Component<any, Props, any> {
 
@@ -90,10 +82,7 @@ class _ScreenSettingsChangePassword extends React.Component<any, Props, any> {
 
 }
 
-const ScreenSettingsChangePassword = poolConnect(
-	// Presentational Component
-	_ScreenSettingsChangePassword,
-
+const ScreenSettingsChangePassword = poolConnect(_ScreenSettingsChangePassword,
 	// mapStateToProps
 	(state) => ({}),
 
@@ -109,8 +98,8 @@ export default ScreenSettingsChangePassword;
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	confirm: {
 		marginVertical: 9,
 	}
-}));
+});

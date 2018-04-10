@@ -1,20 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from '../../lib/daos/DaoLocation';
-
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-
-import PropTypes from 'prop-types';
-
 import React from 'react';
-
 import Router from "../../lib/helpers/Router";
 import {Colors, Const, Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
+import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import type {TAction} from "../../lib/daos/DaoAction";
 
 
 
@@ -23,7 +18,7 @@ import type {TAction} from "../../lib/daos/DaoAction";
 
 type ListItemLocationProps = {
 	location: TLocation,
-	onPress?: (TLocation) => {},
+	onPress?: (TLocation) => void,
 	content: ?string,
 	image: ?string,
 	actions: Array<TAction>
@@ -37,10 +32,10 @@ export class ListItemLocation extends React.Component<any, ListItemLocationProps
 	}
 
 	_defaultOnPress() {
-		const {location} = this.props;
+		const {location, onPress} = this.props;
 
-		if (this.props.onPress)
-			this.props.onPress(location);
+		if (onPress)
+			onPress(location);
 	}
 
 
@@ -59,14 +54,6 @@ export class ListItemLocation extends React.Component<any, ListItemLocationProps
 	}
 
 }
-
-ListItemLocation.defaultProps = {};
-
-ListItemLocation.propTypes = {
-	location: PropTypes.object.isRequired
-};
-
-
 
 
 // ListItemLocationFollow *******************************************************************************

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import type {TCacheDef} from "../CacheDef";
 import CacheDef from "../CacheDef";
+import type {TCacheDef} from "../CacheDef";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';

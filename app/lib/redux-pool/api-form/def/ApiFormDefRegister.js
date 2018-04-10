@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import type {TApiFormDef} from "../ApiFormDef";
 import ApiFormDef from "../ApiFormDef";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormRegister} from "../../../daos/DaoApiFormRegister";
 import DaoApiFormRegister from "../../../daos/DaoApiFormRegister";
 import {ApiFormState} from "../ApiFormModel";
+import {Validate} from "../../../helpers/Validator";
+import type {TApiFormDef} from "../ApiFormDef";
+import type {TApiFormRegister} from "../../../daos/DaoApiFormRegister";
 import type {TThunk} from "../../../types/Types";
 
 export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';

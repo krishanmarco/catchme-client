@@ -19,9 +19,9 @@ export type TReduxPoolApiForms<TFormRequest, TFormResponse> = {
 	apiResponse: TFormResponse,
 	loading: boolean,
 
-	change: (TFormRequest, ?string) => {},
-	reset: () => {},
-	dismissError: () => {},
+	change: (TFormRequest, ?string) => void,
+	reset: () => void,
+	dismissError: () => void,
 	post: (Object) => Promise<TFormResponse>
 };
 

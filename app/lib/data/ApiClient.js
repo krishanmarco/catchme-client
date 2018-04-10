@@ -1,20 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiAuthentication from './ApiAuthentication';
+import Context from "../Context";
 import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
+import firebase from "./Firebase";
 import Logger from "../Logger";
 import RealmIO from './RealmIO';
 import RNFetchBlob from 'react-native-fetch-blob';
 import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from "../HelperFunctions";
+import {startApplication} from "../../App";
+import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
+import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
+import type {TLocation} from "../daos/DaoLocation";
 import type {TUser} from "../daos/DaoUser";
 import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
-import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
-import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
-import type {TLocation} from "../daos/DaoLocation";
-import {startApplication} from "../../App";
-import firebase from "./Firebase";
-import Context from "../Context";
 
 
 class ApiClient {

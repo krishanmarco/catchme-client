@@ -3,6 +3,7 @@ import _ from 'lodash';
 import DaoUser from '../../lib/daos/DaoUser';
 
 import React from 'react';
+import {bindActionCreators} from 'redux';
 
 import {Bubble, GiftedChat} from 'react-native-gifted-chat';
 
@@ -21,151 +22,153 @@ import type {TUser} from "../../lib/daos/DaoUser";
 // Const *************************************************************************************************
 
 type Props = {
-  chatId: string,
-  user: TUser,
-  getFirebaseMessages: TGetFirebaseMessages,
-  placeholder: ?string,
+	chatId: string,
+	user: TUser,
+	getFirebaseMessages: TGetFirebaseMessages,
+	placeholder: ?string,
 
-  messages: Array<TFirebaseChatMessage>,
-  fetchedAllItems: boolean,
-  loadMore: (TGetFirebaseMessages) => {},
-  runningBulkFetch: boolean
+	messages: Array<TFirebaseChatMessage>,
+	fetchedAllItems: boolean,
+	loadMore: (TGetFirebaseMessages) => void,
+	runningBulkFetch: boolean
 };
 
 
 type State = TReducerChatState & {
-  initialize: (TGetFirebaseMessages, TUser) => {},
-  sendMessage: (TGetFirebaseMessages, TFirebaseChatMessage) => {},
-  loadMore: (TGetFirebaseMessages) => {}
+	initialize: (TGetFirebaseMessages, TUser) => void,
+	sendMessage: (TGetFirebaseMessages, TFirebaseChatMessage) => void,
+	loadMore: (TGetFirebaseMessages) => void
 };
 
 
-// ChatPresentational ***********************************************************************************
-// ChatPresentational ***********************************************************************************
+// _Chat ************************************************************************************************
+// _Chat ************************************************************************************************
 
-class ChatPresentational extends React.Component<any, Props, State> {
+class _Chat extends React.Component<any, Props, State> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onSend = this._onSend.bind(this);
-    this._onPressAvatar = this._onPressAvatar.bind(this);
-    this._renderBubble = this._renderBubble.bind(this);
-    this._renderBubbleHeader = this._renderBubbleHeader.bind(this);
-  }
-
-
-  _getChatUser(): TFirebaseChatUser {
-    return {
-      _id: DaoUser.gId(this.props.user),
-      name: DaoUser.gName(this.props.user),
-      avatar: DaoUser.gPictureUrl(this.props.user),
-    };
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onSend = this._onSend.bind(this);
+		this._onPressAvatar = this._onPressAvatar.bind(this);
+		this._renderBubble = this._renderBubble.bind(this);
+		this._renderBubbleHeader = this._renderBubbleHeader.bind(this);
+	}
 
 
-  componentWillMount() {
-    this.props.initialize(this.props.getFirebaseMessages, this._getChatUser());
-  }
-
-  componentDidMount() {
-    // Workaround for keyboard overlaps messages on android
-    this.giftedChat.getKeyboardHeight = () => this.giftedChat._keyboardHeight;
-  }
-
-
-  _onPressAvatar(user: TUser) {
-
-  }
+	_getChatUser(): TFirebaseChatUser {
+		return {
+			_id: DaoUser.gId(this.props.user),
+			name: DaoUser.gName(this.props.user),
+			avatar: DaoUser.gPictureUrl(this.props.user),
+		};
+	}
 
 
-  _onSend(messages = []) {
-    if (messages && messages.length <= 0)
-      return;
+	componentWillMount() {
+		this.props.initialize(this.props.getFirebaseMessages, this._getChatUser());
+	}
 
-    let message = messages[0];
-    message.createdAt = new Date().toString();
-
-    this.props.sendMessage(this.props.getFirebaseMessages, message);
-  }
-
-
-  render() {
-    return (
-        <GiftedChat
-            ref={component => {this.giftedChat = component;}}
-
-            messages={this.props.messages}
-            user={this._getChatUser()}
-
-            onSend={this._onSend}
-
-            loadEarlier={!this.props.fetchedAllItems}
-            onLoadEarlier={() => this.props.loadMore(this.props.getFirebaseMessages)}
-            isLoadingEarlier={this.props.runningBulkFetch}
+	componentDidMount() {
+		// Workaround for keyboard overlaps messages on android
+		this.giftedChat.getKeyboardHeight = () => this.giftedChat._keyboardHeight;
+	}
 
 
-            placeholder={this.props.placeholder}
-            isAnimated={true}
-            renderLoading={() => <DefaultLoader/>}
+	_onPressAvatar(user: TUser) {
+
+	}
 
 
-            renderAvatarOnTop={true}
-            onPressAvatar={this._onPressAvatar}
+	_onSend(messages = []) {
+		if (messages && messages.length <= 0)
+			return;
 
-            renderBubble={this._renderBubble}
-            renderCustomView={this._renderBubbleHeader}
+		let message = messages[0];
+		message.createdAt = new Date().toString();
 
-        />
-    );
-  }
-
-
-  _renderBubble(props) {
-    return (
-        <Bubble
-            {...props}
-            wrapperStyle={{
-              left: styles.bubbleLeft,
-              right: styles.bubbleRight
-            }}
-        />
-    );
-  }
+		this.props.sendMessage(this.props.getFirebaseMessages, message);
+	}
 
 
-  _renderBubbleHeader(props) {
-    const senderId = _.get(props, 'currentMessage.user._id', -1);
-    if (senderId == DaoUser.gId(this.props.user))
-      return null;
+	render() {
+		return (
+			<GiftedChat
+				ref={component => {
+					this.giftedChat = component;
+				}}
+
+				messages={this.props.messages}
+				user={this._getChatUser()}
+
+				onSend={this._onSend}
+
+				loadEarlier={!this.props.fetchedAllItems}
+				onLoadEarlier={() => this.props.loadMore(this.props.getFirebaseMessages)}
+				isLoadingEarlier={this.props.runningBulkFetch}
 
 
-    return (
-        <View style={styles.bubbleHeader}>
-          <RkText style={styles.bubbleHeaderText} rkType='secondary6'>{props.currentMessage.user.name}</RkText>
-          <View style={styles.bubbleHeaderFooter}/>
-        </View>
-    );
-  }
+				placeholder={this.props.placeholder}
+				isAnimated={true}
+				renderLoading={() => <DefaultLoader/>}
+
+
+				renderAvatarOnTop={true}
+				onPressAvatar={this._onPressAvatar}
+
+				renderBubble={this._renderBubble}
+				renderCustomView={this._renderBubbleHeader}
+
+			/>
+		);
+	}
+
+
+	_renderBubble(props) {
+		return (
+			<Bubble
+				{...props}
+				wrapperStyle={{
+					left: styles.bubbleLeft,
+					right: styles.bubbleRight
+				}}
+			/>
+		);
+	}
+
+
+	_renderBubbleHeader(props) {
+		const senderId = _.get(props, 'currentMessage.user._id', -1);
+		if (senderId == DaoUser.gId(this.props.user))
+			return null;
+
+
+		return (
+			<View style={styles.bubbleHeader}>
+				<RkText style={styles.bubbleHeaderText} rkType='secondary6'>{props.currentMessage.user.name}</RkText>
+				<View style={styles.bubbleHeaderFooter}/>
+			</View>
+		);
+	}
 
 }
 
 
 const ChatContainer = connect(
-    // mapStateToProps
-    (state) => state.chatReducer,
+	// mapStateToProps
+	(state) => state.chatReducer,
 
-    // mapDispatchToProps
-    (dispatch) => ({
-      initialize: (getFirebaseMessages, user) => dispatch(initialize(getFirebaseMessages, user)),
-      sendMessage: (getFirebaseMessages, message) => dispatch(chatMessagesSendMessage(getFirebaseMessages, message)),
-      loadMore: (getFirebaseMessages) => dispatch(chatMessagesLoadMore(getFirebaseMessages))
-    })
-)(ChatPresentational);
+	// mapDispatchToProps
+	(dispatch) => ({
+		initialize: bindActionCreators(initialize, dispatch),
+		sendMessage: bindActionCreators(chatMessagesSendMessage, dispatch),
+		loadMore: bindActionCreators(chatMessagesLoadMore, dispatch)
+	})
+)(_Chat);
 export default ChatContainer;
 
 
 ChatContainer.defaultProps = {
-  placeholder: 'Type a message...'
+	placeholder: 'Type a message...'
 };
 
 
@@ -174,21 +177,21 @@ ChatContainer.defaultProps = {
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-  bubbleLeft: {
-    backgroundColor: Colors.grey,
-  },
-  bubbleRight: {
-    backgroundColor: Colors.primary
-  },
-  bubbleHeader: {
-    paddingHorizontal: 8,
-    paddingVertical: 4
-  },
-  bubbleHeaderText: {
-    fontSize: 10
-  },
-  bubbleHeaderFooter: {
-    borderBottomColor: 'rgba(0, 0, 0, 0.1)',
-    borderBottomWidth: 1
-  },
+	bubbleLeft: {
+		backgroundColor: Colors.grey,
+	},
+	bubbleRight: {
+		backgroundColor: Colors.primary
+	},
+	bubbleHeader: {
+		paddingHorizontal: 8,
+		paddingVertical: 4
+	},
+	bubbleHeaderText: {
+		fontSize: 10
+	},
+	bubbleHeaderFooter: {
+		borderBottomColor: 'rgba(0, 0, 0, 0.1)',
+		borderBottomWidth: 1
+	},
 });

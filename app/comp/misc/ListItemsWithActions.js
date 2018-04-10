@@ -1,52 +1,34 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-
 import {Avatar, Icon} from 'react-native-elements';
-
 import {AvatarCircle, Touchable} from "../Misc";
 import {Col, Grid} from "react-native-easy-grid";
-
-import {Colors, Icons} from '../../Config';
-
+import {Icons} from '../../Config';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {StyleSheet, TouchableNativeFeedback, View} from 'react-native';
-
+import {View} from 'react-native';
 import type {TIcon} from "../../lib/types/Types";
 
+// ListItemAction *************************************************************************************
+// ListItemAction *************************************************************************************
 
-
-
-// ListItemActionIcon *************************************************************************************
-// ListItemActionIcon *************************************************************************************
-
-type ListItemActionIconProps = {
+export type TListItemAction = {
 	icon: TIcon,
 	color?: string,
 	size?: number,
 	onPress?: () => void
 };
 
-export const ListItemActionIcon = ({icon, size, onPress}: ListItemActionIconProps) => (
-	<RkButton rkType='clear' style={listItemActionIconStyles.root} onPress={onPress}>
+export const ListItemAction = ({icon, size, onPress}: TListItemAction) => (
+	<RkButton rkType='clear' style={styles.listItemActionRoot} onPress={onPress}>
 		<Icon {...icon} size={size}/>
 	</RkButton>
 );
 
-ListItemActionIcon.defaultProps = {
+ListItemAction.defaultProps = {
 	icon: Icons.defaultIcon,
 	size: 30,
-	onPress: () => {
-	}
+	onPress: () => null
 };
-
-
-const listItemActionIconStyles = StyleSheet.create({
-	root: {
-		height: '100%'
-	}
-});
-
-
 
 
 // ListItemImage *****************************************************************************************
@@ -58,50 +40,40 @@ type ListItemImageProps = {
 };
 
 const ListItemImage = ({src, onPress}: ListItemImageProps) => (
-	<View style={listItemImageStyles.root}>
+	<View style={styles.listItemImageRoot}>
 		<Avatar medium source={{uri: src}} onPress={onPress}/>
 	</View>
 );
 
 ListItemImage.defaultProps = {
-	onPress: () => {
-	}
+	onPress: () => null
 };
 
-const listItemImageStyles = StyleSheet.create({
-	root: {
-		justifyContent: 'center',
-		alignItems: 'center'
-	}
-});
-
-
-
 
 // ListItemWithActions ************************************************************************************
 // ListItemWithActions ************************************************************************************
 
-type ListItemWithActionProps = {
+export type ListItemWithActionProps = {
 	header: Node,
 	subContent?: Node,
 	content?: Node,
 	avatarUri?: string,
 	onPress?: () => void,
-	actions?: Array<ListItemActionIconProps>,
+	actions?: Array<TListItemAction>,
 	image?: ListItemImageProps
 };
 
 const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, actions, image}: ListItemWithActionProps) => (
 	<Touchable onPress={onPress}>
+		<Grid style={styles.listItemWithActionsRoot}>
 
-		<Grid style={listItemWithActionStyles.root}>
+			<Col size={100} style={styles.listItemSection}>
+				<View style={styles.listItemWithActionsHeader}>
 
-			<Col size={100} style={{marginRight: 8}}>
-				<View style={listItemWithActionStyles.headerContent}>
 					{!!avatarUri && <AvatarCircle uri={avatarUri}/>}
 
-					<View style={listItemWithActionStyles.content}>
-						<RkText style={listItemWithActionStyles.contentText}>{header}</RkText>
+					<View style={styles.listItemWithActionsContent}>
+						<RkText style={styles.listItemWithActionsContentText}>{header}</RkText>
 						{!!content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
 						{!!subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
 					</View>
@@ -110,8 +82,8 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 			</Col>
 
 			{actions.map((action, key) => (
-				<Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
-					<ListItemActionIcon {...action}/>
+				<Col key={key} size={15} style={key !== actions.length ? styles.listItemSection : styles.listItemSectionEnd}>
+					<ListItemAction {...action}/>
 				</Col>
 			))}
 
@@ -129,34 +101,44 @@ ListItemWithActions.defaultProps = {
 	actions: [],
 };
 
-const listItemWithActionStyles = RkStyleSheet.create(theme => ({
 
-	root: {
-		paddingHorizontal: 12,
+// Config *************************************************************************************************
+// Config *************************************************************************************************
 
+const styles = RkStyleSheet.create(theme => ({
+
+	listItemWithActionsRoot: {
 		display: 'flex',
+		paddingHorizontal: 12,
 		alignItems: 'center',
-
 		borderBottomWidth: 0,
 		borderColor: theme.colors.border.base,
 	},
-
-	headerContent: {
+	listItemSection: {
+		marginRight: 8
+	},
+	listItemSectionEnd: {
+		marginRight: 0
+	},
+	listItemWithActionsHeader: {
 		paddingVertical: 12,
-
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
-
-	content: {
-		marginLeft: 12,
-		flex: 1
+	listItemWithActionsContent: {
+		flex: 1,
+		marginLeft: 12
 	},
-
-	contentText: {
+	listItemWithActionsContentText: {
 		marginBottom: 2
+	},
+	listItemActionRoot: {
+		height: '100%'
+	},
+	listItemImageRoot: {
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
-
 }));
 
 export default ListItemWithActions;

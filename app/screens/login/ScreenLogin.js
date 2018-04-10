@@ -1,23 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
-
 import DaoUser from "../../lib/daos/DaoUser";
-
 import Logger from "../../lib/Logger";
-
 import React from 'react';
-
 import Router from "../../lib/helpers/Router";
-
-import {Dimensions, Image, View} from 'react-native';
-
+import {StyleSheet, Dimensions, Image, View} from 'react-native';
 import {FontAwesome} from '../../assets/Icons';
-import {poolConnect} from '../../redux/ReduxPool';
-
+import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {GradientButton, Screen} from "../../comp/Misc";
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-
+import {poolConnect} from '../../redux/ReduxPool';
+import {RkButton, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
@@ -25,7 +18,6 @@ import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 
 // Const *************************************************************************************************
@@ -36,10 +28,10 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _ScreenLogin *****************************************************************************************
+// _ScreenLogin *****************************************************************************************
 
-class ScreenLoginPresentational extends React.Component<any, Props, any> {
+class _ScreenLogin extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -164,9 +156,9 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 		let height = Dimensions.get('window').height - contentHeight;
 		let width = Dimensions.get('window').width;
 		return (
-			<View style={{height, width, alignItems: 'center', justifyContent: 'center'}}>
+			<View style={[{height, width}, styles.imageCont]}>
 				<Image
-					style={[styles.image, {height: 100, width: 150}]}
+					style={styles.image}
 					source={require('../../assets/images/splashBack.png')}/>
 			</View>
 		);
@@ -174,10 +166,7 @@ class ScreenLoginPresentational extends React.Component<any, Props, any> {
 
 }
 
-const ScreenLogin = poolConnect(
-	// Presentational Component
-	ScreenLoginPresentational,
-
+const ScreenLogin = poolConnect(_ScreenLogin,
 	// mapStateToProps
 	(state) => ({}),
 
@@ -193,13 +182,15 @@ export default ScreenLogin;
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	screen: {
 		alignItems: 'center',
 	},
 	image: {
 		resizeMode: 'cover',
 		marginBottom: scaleVertical(16),
+		height: 100,
+		width: 150
 	},
 	listItemHeaderContent: {
 		paddingHorizontal: 16,
@@ -208,8 +199,8 @@ const styles = RkStyleSheet.create(theme => ({
 		flex: -1
 	},
 	footer: {
-		justifyContent: 'flex-end',
 		flex: 1,
+		justifyContent: 'flex-end',
 		backgroundColor: '#000'
 	},
 	buttons: {
@@ -226,5 +217,9 @@ const styles = RkStyleSheet.create(theme => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 		marginTop: 4
+	},
+	imageCont: {
+		alignItems: 'center',
+		justifyContent: 'center'
 	}
-}));
+});

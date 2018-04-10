@@ -2,8 +2,9 @@
 import React from 'react';
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {RkStyleSheet, RkTextInput} from 'react-native-ui-kitten';
-import {View} from 'react-native';
+import {RkTextInput} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import type {TStyle} from "../../lib/types/Types";
 
 
 
@@ -14,12 +15,12 @@ type Props = {
   placeholder: ?string,
   onChange: Function,
   onSearchPressed: Function,
-	style: Object
+	style: TStyle
 };
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// SearchBar ********************************************************************************************
+// SearchBar ********************************************************************************************
 
 export default class SearchBar extends React.Component<any, Props, any> {
 
@@ -58,7 +59,7 @@ SearchBar.defaultProps = {
 };
 
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
   searchContainer: {
     backgroundColor: Colors.background,
     paddingHorizontal: 16,
@@ -70,4 +71,4 @@ const styles = RkStyleSheet.create(theme => ({
     paddingHorizontal: 8,
     paddingVertical: 2,
   }
-}));
+});

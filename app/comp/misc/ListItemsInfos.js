@@ -4,8 +4,8 @@ import {Col, Grid} from 'react-native-easy-grid';
 import {Icon} from 'react-native-elements';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import type {TDataPoint} from "../../lib/types/Types";
 import {Touchable} from "../Misc";
+import type {TDataPoint} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************
@@ -18,8 +18,8 @@ type Props = TDataPoint & {
   textRkType?: string,
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// ListItemInfo *****************************************************************************************
+// ListItemInfo *****************************************************************************************
 
 export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}: Props) => (
     <Touchable onPress={onPress} style={styles.root}>

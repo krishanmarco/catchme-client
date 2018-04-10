@@ -45,8 +45,8 @@ function featuredAdsHandleClickAction(actionHandlerParams: TActionHandlerParams)
 }
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _FeaturedAds *****************************************************************************************
+// _FeaturedAds *****************************************************************************************
 
 class _FeaturedAds extends React.Component<any, Props, any> {
 
@@ -96,10 +96,7 @@ class _FeaturedAds extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const FeaturedAds = poolConnect(
-	// Presentational Component
-	_FeaturedAds,
-
+const FeaturedAds = poolConnect(_FeaturedAds,
 	// mapStateToProps
 	(state) => state.featuredAdsReducer,
 

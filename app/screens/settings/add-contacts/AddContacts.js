@@ -16,14 +16,15 @@ import UserList from '../../../comp-buisness/user/UserList';
 
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
+// todo refactor proptypes
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
 const addContactsInitState = {
-  initialized: false,
-  usersList: [],
-  usersSearchQuery: '',
+	initialized: false,
+	usersList: [],
+	usersSearchQuery: '',
 };
 
 const ACTION_SET_USERS_SEARCH_QUERY = 'ACTION_SET_USERS_SEARCH_QUERY';
@@ -31,167 +32,164 @@ const ACTION_SET_USERS_SEARCH_LIST = 'ACTION_SET_USERS_SEARCH_LIST';
 const ACTION_SET_USERS_CONTACTS = 'ACTION_SET_USERS_CONTACTS';
 
 export function addContactsReducer(state = addContactsInitState, action) {
-  switch (action.type) {
+	switch (action.type) {
 
-    case ACTION_SET_USERS_SEARCH_QUERY:
-      return Object.assign({}, state, {
-        usersSearchQuery: action.usersSearchQuery
-      });
+		case ACTION_SET_USERS_SEARCH_QUERY:
+			return Object.assign({}, state, {
+				usersSearchQuery: action.usersSearchQuery
+			});
 
-    case ACTION_SET_USERS_SEARCH_LIST:
-      return Object.assign({}, state, {
-        usersList: action.usersList,
-        initialized: true
-      });
+		case ACTION_SET_USERS_SEARCH_LIST:
+			return Object.assign({}, state, {
+				usersList: action.usersList,
+				initialized: true
+			});
 
-    case ACTION_SET_USERS_CONTACTS:
-      return Object.assign({}, state, {
-        contacts: action.contacts
-      });
+		case ACTION_SET_USERS_CONTACTS:
+			return Object.assign({}, state, {
+				contacts: action.contacts
+			});
 
-  }
+	}
 
-  return state;
+	return state;
 }
 
 
 function mapContactsToUsers(currentUserId, contacts) {
-  return (dispatch) => {
+	return (dispatch) => {
 
-    const searchStrings = contacts.map(contact => {
+		const searchStrings = contacts.map(contact => {
 
-      // Join all this users email addresses
-      const emailAddresses = _.get(contact, 'emailAddresses', []);
-      const emailSearchString = emailAddresses
-          .map(e => _.get(e, 'email', '').replace(/\s+/g, ''))
-          .join(' ');
+			// Join all this users email addresses
+			const emailAddresses = _.get(contact, 'emailAddresses', []);
+			const emailSearchString = emailAddresses
+				.map(e => _.get(e, 'email', '').replace(/\s+/g, ''))
+				.join(' ');
 
-      // Join all this users phone numbers
-      const phoneNumbers = _.get(contact, 'phoneNumbers', []);
-      const phoneSearchString = phoneNumbers
-          .map(p => _.get(p, 'number', '').replace(/[^0-9]/g, ''))
-          .join(' ');
+			// Join all this users phone numbers
+			const phoneNumbers = _.get(contact, 'phoneNumbers', []);
+			const phoneSearchString = phoneNumbers
+				.map(p => _.get(p, 'number', '').replace(/[^0-9]/g, ''))
+				.join(' ');
 
-      return (emailSearchString + ' ' + phoneSearchString).trim();
+			return (emailSearchString + ' ' + phoneSearchString).trim();
 
-    }).filter(s => s.length > 0);
-
-
-    // Query the WS for all the users in the searchString
-    ApiClient.searchUsers(searchStrings)
-        .then(users => {
-
-          // Search for and remove the current user
-          const filteredUsers = users
-              .filter(u => DaoUser.gId(u) != currentUserId);
+		}).filter(s => s.length > 0);
 
 
-          dispatch({
-            type: ACTION_SET_USERS_SEARCH_LIST,
-            usersList: filteredUsers
-          });
-        });
-  };
+		// Query the WS for all the users in the searchString
+		ApiClient.searchUsers(searchStrings)
+			.then(users => {
+
+				// Search for and remove the current user
+				const filteredUsers = users
+					.filter(u => DaoUser.gId(u) != currentUserId);
+
+
+				dispatch({
+					type: ACTION_SET_USERS_SEARCH_LIST,
+					usersList: filteredUsers
+				});
+			});
+	};
 }
 
 
 function searchSetUsersSearchQuery(query) {
-  return {
-    type: ACTION_SET_USERS_SEARCH_QUERY,
-    usersSearchQuery: query
-  };
+	return {
+		type: ACTION_SET_USERS_SEARCH_QUERY,
+		usersSearchQuery: query
+	};
 }
 
 function addContactsInitialize(currentUserId) {
-  return (dispatch, getState) => {
-    const initialized = getState().addContactsReducer.initialized;
+	return (dispatch, getState) => {
+		const initialized = getState().addContactsReducer.initialized;
 
-    if (initialized) {
-      Logger.v('AddContacts addContactsInitialize: Already initialized.');
-      return;
-    }
+		if (initialized) {
+			Logger.v('AddContacts addContactsInitialize: Already initialized.');
+			return;
+		}
 
-    // This is the first time mounting this component
-    // Get all the users contacts
-    Contacts.getAll((error, contacts) => {
-      if (error === 'denied')
-        return;
+		// This is the first time mounting this component
+		// Get all the users contacts
+		Contacts.getAll((error, contacts) => {
+			if (error === 'denied')
+				return;
 
-      dispatch(mapContactsToUsers(currentUserId, contacts));
-    });
-  };
+			dispatch(mapContactsToUsers(currentUserId, contacts));
+		});
+	};
 }
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _Search **********************************************************************************************
+// _Search **********************************************************************************************
 
-class SearchPresentational extends React.Component {
+class _Search extends React.Component {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onLocationPress = this._onLocationPress.bind(this);
-    this._onUserPress = this._onUserPress.bind(this);
-  }
-
-
-  componentWillMount() {
-    this.props.initialize(DaoUser.gId(this._userProfile()));
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onLocationPress = this._onLocationPress.bind(this);
+		this._onUserPress = this._onUserPress.bind(this);
+	}
 
 
-  _userProfile() {
-    return this.props.userProfile;
-  }
-
-  _onLocationPress(location) {
-    Router.toLocationProfile(this.props.navigator, location);
-  }
-
-  _onUserPress(user) {
-    Router.toUserProfile(this.props.navigator, user);
-  }
+	componentWillMount() {
+		this.props.initialize(DaoUser.gId(this._userProfile()));
+	}
 
 
-  render() {
-    const userProfile = this._userProfile();
-    return (
-        <View style={styles.root}>
-          <UserList
-              users={this.props.usersList}
+	_userProfile() {
+		return this.props.userProfile;
+	}
 
-              friendIds={DaoUser.gConnectionFriendIds(userProfile)}
-              requestIds={DaoUser.gConnectionRequestIds(userProfile)}
-              blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
+	_onLocationPress(location) {
+		Router.toLocationProfile(this.props.navigator, location);
+	}
 
-              onItemPress={this._onUserPress}
-              onSearchChanged={this.props.setUsersSearchQuery}
+	_onUserPress(user) {
+		Router.toUserProfile(this.props.navigator, user);
+	}
 
-              loading={!this.props.initialized}/>
-        </View>
-    );
-  }
+
+	render() {
+		const userProfile = this._userProfile();
+		return (
+			<View style={styles.root}>
+				<UserList
+					users={this.props.usersList}
+
+					friendIds={DaoUser.gConnectionFriendIds(userProfile)}
+					requestIds={DaoUser.gConnectionRequestIds(userProfile)}
+					blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
+
+					onItemPress={this._onUserPress}
+					onSearchChanged={this.props.setUsersSearchQuery}
+
+					loading={!this.props.initialized}/>
+			</View>
+		);
+	}
 
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const AddContacts = poolConnect(
-    // Presentational Component
-    SearchPresentational,
+const AddContacts = poolConnect(_Search,
+	// mapStateToProps
+	(state) => state.addContactsReducer,
 
-    // mapStateToProps
-    (state) => state.addContactsReducer,
+	// mapDispatchToProps
+	(dispatch) => ({
+		initialize: (currentUserId) => dispatch(addContactsInitialize(currentUserId)),
+		setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(query))
+	}),
 
-    // mapDispatchToProps
-    (dispatch) => ({
-      initialize: (currentUserId) => dispatch(addContactsInitialize(currentUserId)),
-      setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(query))
-    }),
-
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
 
 
@@ -199,16 +197,16 @@ export default AddContacts;
 
 
 AddContacts.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
+	userProfile: PropTypes.object.isRequired,
+	navigator: PropTypes.object.isRequired,
 };
 
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-    paddingTop: 8
-  }
+	root: {
+		flex: 1,
+		paddingTop: 8
+	}
 });

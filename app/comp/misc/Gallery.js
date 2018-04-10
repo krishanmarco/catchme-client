@@ -7,18 +7,20 @@ import {Icon} from 'react-native-elements';
 import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
+import type {TStyle} from "../../lib/types/Types";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
 	ListEmptyComponent: Node,
-	onAddImagePress: () => {},
+	onAddImagePress: () => void,
 	imageSources: TImageURISourceAuth
 };
 
 type State = {
 	imageSize: number,
+	imageSizeStyle: TStyle,
 	itemsToRender: TImageURISourceAuth
 };
 
@@ -26,8 +28,8 @@ const DefaultProps = {
 	imageSources: []
 };
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// Gallery **********************************************************************************************
+// Gallery **********************************************************************************************
 
 export default class Gallery extends React.Component<any, Props, State> {
 	static ADD_IMAGE_URI = 'ADD_IMAGE';
@@ -37,8 +39,10 @@ export default class Gallery extends React.Component<any, Props, State> {
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
 
+		const imageSize = (Dimensions.get('window').width - 12) / 4;
 		this.state = {
 			imageSize: (Dimensions.get('window').width - 12) / 4,
+			imageSizeStyle: {width: imageSize, height: imageSize},
 			itemsToRender: this._buildImageSources(props)
 		};
 	}
@@ -92,11 +96,11 @@ export default class Gallery extends React.Component<any, Props, State> {
 	}
 
 	_renderImage(index) {
-		const {imageSize} = this.state;
+		const {imageSizeStyle} = this.state;
 		const {imageSources} = this.props;
 		return (
 			<RkModalImg
-				style={{width: imageSize, height: imageSize}}
+				style={imageSizeStyle}
 				source={imageSources}
 				index={index}
 				renderHeader={(options) => (
@@ -110,12 +114,12 @@ export default class Gallery extends React.Component<any, Props, State> {
 	}
 
 	_renderAddImageButton() {
-		const {imageSize} = this.state;
+		const {imageSize, imageSizeStyle} = this.state;
 		const {onAddImagePress} = this.props;
 		return (
 			<View style={styles.addImageButton}>
 				<RkButton
-					style={{width: imageSize, height: imageSize, backgroundColor: Colors.greyFade}}
+					style={[imageSizeStyle, styles.addImageButtonButton]}
 					rkType='clear contrast'
 					onPress={onAddImagePress}>
 					<Icon size={imageSize / 1.5} {...Icons.addImage} color={Colors.black}/>
@@ -142,5 +146,8 @@ const styles = StyleSheet.create({
 	addImageButton: {
 		// The padding: 1 is needed to balance the other images
 		padding: 1
+	},
+	addImageButtonButton: {
+		backgroundColor: Colors.greyFade
 	}
 });

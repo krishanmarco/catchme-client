@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
-import {RkButton, RkComponent, RkText} from 'react-native-ui-kitten';
-import {DefaultLoader} from "../Misc";
 import {Colors} from "../../Config";
+import {DefaultLoader} from "../Misc";
+import {RkButton, RkComponent, RkText} from 'react-native-ui-kitten';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -38,10 +38,6 @@ export default class GradientButton extends RkComponent<any, Props> {
 	// Needed for this.defineStyles()
 	componentName = 'GradientButton';
 	typeMapping = {button: {}, gradient: {}, text: {}};
-
-	constructor(props, context) {
-		super(props, context);
-	}
 
 	render() {
 		const {button, gradient, text: textStyle} = this.defineStyles();

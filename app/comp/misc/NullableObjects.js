@@ -12,8 +12,8 @@ type Props = {
   renderFallback: ?Function
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// NullableObjects **************************************************************************************
+// NullableObjects **************************************************************************************
 
 const NullableObjects = ({objects, renderChild, renderFallback}: Props) => {
 

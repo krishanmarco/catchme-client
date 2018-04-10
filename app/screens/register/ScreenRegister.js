@@ -5,20 +5,20 @@ import React from 'react';
 
 import Router from "../../lib/helpers/Router";
 
-import {poolConnect} from '../../redux/ReduxPool';
+import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 
 import {Image, View} from 'react-native';
 
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {poolConnect} from '../../redux/ReduxPool';
 
+import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {scaleVertical} from '../../lib/utils/scale';
 import {Screen} from "../../comp/Misc";
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
-import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 
 
 // Const *************************************************************************************************
@@ -29,10 +29,10 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _ScreenRegister **************************************************************************************
+// _ScreenRegister **************************************************************************************
 
-class ScreenRegisterPresentational extends React.Component<any, Props, any> {
+class _ScreenRegister extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -68,7 +68,7 @@ class ScreenRegisterPresentational extends React.Component<any, Props, any> {
 		return (
 			<Screen>
 
-					<View style={{alignItems: 'center'}}>
+					<View style={styles.header}>
 						<Image style={styles.image} source={require('../../assets/images/logo.png')}/>
 						<RkText rkType='h1'>Registration</RkText>
 					</View>
@@ -121,10 +121,7 @@ class ScreenRegisterPresentational extends React.Component<any, Props, any> {
 	}
 }
 
-const ScreenRegister = poolConnect(
-	// Presentational Component
-	ScreenRegisterPresentational,
-
+const ScreenRegister = poolConnect(_ScreenRegister,
 	// mapStateToProps
 	(state) => ({}),
 
@@ -142,10 +139,13 @@ export default ScreenRegister;
 
 const styles = RkStyleSheet.create(theme => ({
 	screen: {
-		padding: 16,
 		flex: 1,
+		padding: 16,
 		justifyContent: 'space-around',
 		backgroundColor: theme.colors.screen.base
+	},
+	header: {
+		alignItems: 'center'
 	},
 	image: {
 		marginBottom: 10,

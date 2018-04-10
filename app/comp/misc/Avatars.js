@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {TouchableOpacity, Image, View} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
 import {Touchable} from "../Misc";
 

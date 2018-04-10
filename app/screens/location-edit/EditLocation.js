@@ -1,26 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
 import EditLocationAddress from './pages/EditLocationAddress';
-
 import EditLocationInfo from './pages/EditLocationInfo';
-
 import EditLocationRecap from './pages/EditLocationSave';
-
 import EditLocationTimings from './pages/EditLocationTimings';
-
-import PropTypes from 'prop-types';
 import React from 'react';
-import {denormObj} from '../../lib/HelperFunctions';
-import {poolConnect} from '../../redux/ReduxPool';
 import {Colors, Icons} from '../../Config';
+import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
+import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollableIconTabView} from "../../comp/Misc";
+import {TReduxPoolApiForms} from "../../lib/types/ReduxPoolTypes";
 import {View} from 'react-native';
+import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TIcon, TNavigator} from "../../lib/types/Types";
-import {TReduxPoolApiForms} from "../../lib/types/ReduxPoolTypes";
-import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
-import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
 
 
 // Redux ************************************************************************************************
@@ -48,10 +40,10 @@ type Props = {
 	authenticatedUserProfile: TUser
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _EditLocation ****************************************************************************************
+// _EditLocation ****************************************************************************************
 
-class EditLocationPresentational extends React.Component<any, Props, any> {
+class _EditLocation extends React.Component<any, Props, any> {
 	static indexOfInfoTab = 0;
 	static indexOfTimingsTab = 1;
 	static indexOfAddressTab = 2;
@@ -187,10 +179,7 @@ class EditLocationPresentational extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const EditLocation = poolConnect(
-	// Presentational Component
-	EditLocationPresentational,
-
+const EditLocation = poolConnect(_EditLocation,
 	// mapStateToProps
 	(state) => state.locationProfileReducer,
 

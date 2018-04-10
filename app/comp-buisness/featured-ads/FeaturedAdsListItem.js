@@ -17,8 +17,8 @@ type Props = {
 	handleClickAction: Function
 };
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// FeaturedAdsListItem **********************************************************************************
+// FeaturedAdsListItem **********************************************************************************
 
 export default class FeaturedAdsListItem extends React.Component<any, Props, any> {
 
@@ -89,8 +89,8 @@ export default class FeaturedAdsListItem extends React.Component<any, Props, any
 const styles = RkStyleSheet.create(theme => ({
 
 	listItem: {
-		paddingHorizontal: 12,
 		display: 'flex',
+		paddingHorizontal: 12,
 		alignItems: 'center',
 		borderBottomWidth: 0,
 		borderColor: theme.colors.border.base,
@@ -109,8 +109,8 @@ const styles = RkStyleSheet.create(theme => ({
 	},
 
 	listItemContent: {
-		marginLeft: 12,
-		flex: 1
+		flex: 1,
+		marginLeft: 12
 	},
 
 	root: {

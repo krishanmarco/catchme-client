@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
 import _ from 'lodash';
-import {connect} from 'react-redux';
 import Logger from "../../lib/Logger";
 import React from 'react';
 import {Colors} from "../../Config";
+import {connect} from 'react-redux';
 import {Keyboard, StyleSheet, View} from 'react-native';
 import {RkAvoidKeyboard} from 'react-native-ui-kitten';
 
@@ -16,7 +16,7 @@ type Props = {
 	children: Node,
 	height: number,
 	disablePointerEvents: boolean,
-	setHeight: (Object) => {}
+	setHeight: (Object) => void
 };
 
 type State = {
@@ -120,10 +120,10 @@ class Screen extends React.Component<any, Props, State> {
 
 export default connect(
 	// mapStateToProps
-	state => state.screenReducer,
+	(state) => state.screenReducer,
 
 	// mapDispatchToProps
-	dispatch => ({
+	(dispatch) => ({
 		setHeight: (layout) => dispatch(screenSetHeight(layout))
 	})
 )(Screen);

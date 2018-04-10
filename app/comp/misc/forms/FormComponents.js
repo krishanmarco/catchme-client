@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {View} from 'react-native';
+import {RkButton, RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
 
 type FormFooterLinkProps = {
-  text: string,
-  clickableText: string,
-  onPress?: () => {}
+	text: string,
+	clickableText: string,
+	onPress?: () => void
 };
 
 export const FormFooterLink = ({text, clickableText, onPress}: FormFooterLinkProps) => (
@@ -18,10 +18,10 @@ export const FormFooterLink = ({text, clickableText, onPress}: FormFooterLinkPro
     </View>
 );
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
   textRow: {
     justifyContent: 'center',
     flexDirection: 'row',
     marginTop: 4
   }
-}));
+});

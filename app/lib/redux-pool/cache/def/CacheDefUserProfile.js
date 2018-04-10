@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import type {TCacheDef} from "../CacheDef";
-import CacheDef from "../CacheDef";
-import type {TUser} from "../../../daos/DaoUser";
-import type {TThunk} from "../../../types/Types";
 import CacheActionCreator from "../CacheActionCreator";
+import CacheDef from "../CacheDef";
+import type {TCacheDef} from "../CacheDef";
+import type {TThunk} from "../../../types/Types";
+import type {TUser} from "../../../daos/DaoUser";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 

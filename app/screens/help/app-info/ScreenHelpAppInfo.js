@@ -4,37 +4,34 @@ import React from 'react';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {Screen} from "../../../comp/Misc";
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenHelpAppInfo ***********************************************************************************
+// _ScreenHelpAppInfo ***********************************************************************************
 
-class ScreenHelpAppInfoPresentational extends React.Component {
+class _ScreenHelpAppInfo extends React.Component {
 
-  render() {
-    return (
-        <Screen>
-          <HelpAppInfo
-              navigator={this.props.navigator}/>
-        </Screen>
-    );
-  }
+	render() {
+		return (
+			<Screen>
+				<HelpAppInfo
+					navigator={this.props.navigator}/>
+			</Screen>
+		);
+	}
 
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenHelpAppInfo = poolConnect(
-    // Presentational Component
-    ScreenHelpAppInfoPresentational,
+const ScreenHelpAppInfo = poolConnect(_ScreenHelpAppInfo,
+	// mapStateToProps
+	(state) => ({}),
 
-    // mapStateToProps
-    (state) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
 export default ScreenHelpAppInfo;
 

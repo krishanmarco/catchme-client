@@ -1,17 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
-import PropTypes from 'prop-types';
-import React from 'react';
-
-import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
-
-import {poolConnect} from '../../../redux/ReduxPool';
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import DaoLocation from "../../../lib/daos/DaoLocation";
 import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
+import DaoLocation from "../../../lib/daos/DaoLocation";
+import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
+import React from 'react';
+import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
+import {poolConnect} from '../../../redux/ReduxPool';
+import {StyleSheet, View} from 'react-native';
+import type {TLocation} from "../../../lib/daos/DaoLocation";
+import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 
 
 // Redux ************************************************************************************************
@@ -37,7 +34,7 @@ export function editLocationTimingsReducer(state = editLocationTimingsInitState,
 type Props = {
 	navigator: Navigator,
 	locationProfile: Object,
-	formApiEditLocationProfile: Object
+	formApiEditLocationProfile: ApiFormState
 };
 
 type State = {
@@ -46,10 +43,10 @@ type State = {
 
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _EditLocationTimings *********************************************************************************
+// _EditLocationTimings *********************************************************************************
 
-class EditLocationTimingsPresentational extends React.Component<any, Props, State> {
+class _EditLocationTimings extends React.Component<any, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -100,10 +97,7 @@ class EditLocationTimingsPresentational extends React.Component<any, Props, Stat
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const EditLocationTimings = poolConnect(
-	// Presentational Component
-	EditLocationTimingsPresentational,
-
+const EditLocationTimings = poolConnect(_EditLocationTimings,
 	// mapStateToProps
 	(state) => state.editLocationTimingsReducer,
 
@@ -123,17 +117,12 @@ export default EditLocationTimings;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	view: {
 		flex: 1,
 		paddingHorizontal: 24
 	},
-	content: {
+	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 	},
-}));
-
-
-EditLocationTimings.propTypes = {
-	formApiEditLocationProfile: PropTypes.object.isRequired
-};
+});

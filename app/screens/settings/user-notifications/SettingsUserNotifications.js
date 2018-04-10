@@ -4,12 +4,11 @@ import DaoUser from "../../../lib/daos/DaoUser";
 import React from 'react';
 import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
 
+import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
-import {View} from 'react-native';
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
+import {StyleSheet, View} from 'react-native';
 
 
 
@@ -23,8 +22,8 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _SettingsUserNotifications ***************************************************************************
+// _SettingsUserNotifications ***************************************************************************
 
 class _SettingsUserNotifications extends React.Component<any, Props, any> {
 
@@ -144,10 +143,7 @@ class _SettingsUserNotifications extends React.Component<any, Props, any> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const SettingsUserNotifications = poolConnect(
-	// Presentational Component
-	_SettingsUserNotifications,
-
+const SettingsUserNotifications = poolConnect(_SettingsUserNotifications,
 	// mapStateToProps
 	(state) => state.settingsUserAccountReducer,
 
@@ -162,11 +158,11 @@ export default SettingsUserNotifications;
 
 
 
-// Styles ***********************************************************************************************
-// Styles ***********************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
-	content: {
+const styles = StyleSheet.create({
+	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 	},
-}));
+});

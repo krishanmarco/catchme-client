@@ -2,10 +2,10 @@
 import Context from '../../lib/Context';
 import Feed from './Feed';
 import React from 'react';
-import {poolConnect} from '../../redux/ReduxPool';
-import {NullableObjects, Screen} from "../../comp/Misc";
-import type {TNavigator} from "../../lib/types/Types";
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {NullableObjects, Screen} from "../../comp/Misc";
+import {poolConnect} from '../../redux/ReduxPool';
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************
@@ -19,10 +19,10 @@ type State = {
 	// Nothing for now
 };
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenFeed ******************************************************************************************
+// _ScreenFeed ******************************************************************************************
 
-class ScreenFeedPresentational extends React.Component<any, Props, State> {
+class _ScreenFeed extends React.Component<any, Props, State> {
 	
 	componentWillMount() {
 		this.props[CACHE_ID_USER_PROFILE].initialize();
@@ -51,10 +51,7 @@ class ScreenFeedPresentational extends React.Component<any, Props, State> {
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenFeed = poolConnect(
-	// Presentational Component
-	ScreenFeedPresentational,
-	
+const ScreenFeed = poolConnect(_ScreenFeed,
 	// mapStateToProps
 	(state) => ({}),
 	

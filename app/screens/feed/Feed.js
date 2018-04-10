@@ -50,10 +50,10 @@ function feedHandleClickAction(actionHandlerParams: TActionHandlerParams): Promi
 }
 
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _Feed ************************************************************************************************
+// _Feed ************************************************************************************************
 
-class FeedPresentational extends React.Component<any, Props, State> {
+class _Feed extends React.Component<any, Props, State> {
 	
 	constructor(props, context) {
 		super(props, context);
@@ -99,10 +99,7 @@ class FeedPresentational extends React.Component<any, Props, State> {
 	
 }
 
-const Feed = poolConnect(
-	// Presentational Component
-	FeedPresentational,
-	
+const Feed = poolConnect(_Feed,
 	// mapStateToProps
 	(state) => state.feedReducer,
 	

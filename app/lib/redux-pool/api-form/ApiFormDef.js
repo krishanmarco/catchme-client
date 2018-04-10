@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import type {TThunk} from "../../types/Types";
 import _ from 'lodash';
 import {ApiFormState} from "./ApiFormModel";
+import type {TThunk} from "../../types/Types";
 
 export type TApiFormDef<TApiFormObject> = {
 

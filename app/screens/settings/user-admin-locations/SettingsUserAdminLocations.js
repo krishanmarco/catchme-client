@@ -3,16 +3,17 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 
 import DaoUser from "../../../lib/daos/DaoUser";
 
+import LocationList from '../../../comp-buisness/location/LocationList';
 import React from 'react';
 import Router from "../../../lib/helpers/Router";
-import {StyleSheet, FlatList, View} from 'react-native';
-import LocationList from '../../../comp-buisness/location/LocationList';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {Icons} from '../../../Config';
 
 import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
-import type {TUser} from "../../../lib/daos/DaoUser";
 import type {TNavigator} from "../../../lib/types/Types";
+import type {TUser} from "../../../lib/daos/DaoUser";
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 
 // Const *************************************************************************************************
@@ -24,8 +25,8 @@ type Props = {
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// SettingsUserAdministratingLocations ******************************************************************
+// SettingsUserAdministratingLocations ******************************************************************
 
 export default class SettingsUserAdministratingLocations extends React.Component<any, Props, any> {
 
@@ -86,7 +87,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		);
 	}
 
-	_renderLocationItem({item}) {
+	_renderLocationItem({item}: {item: TLocation}) {
 		return (
 			<ListItemLocation
 				location={item}

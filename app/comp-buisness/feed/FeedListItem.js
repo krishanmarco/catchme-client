@@ -5,7 +5,7 @@ import HTMLView from 'react-native-htmlview';
 import React from 'react';
 import {AvatarCircle, Touchable} from "../../comp/Misc";
 import {Col, Grid} from "react-native-easy-grid";
-import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
+import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {View} from 'react-native';
 import type {TAction} from "../../lib/daos/DaoAction";
@@ -97,7 +97,7 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 
 		return actions.map((clickAction, key) => (
 			<Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
-				<ListItemActionIcon
+				<ListItemAction
 					icon={ActionHandler.mapActionToIcon(clickAction)}
 					onPress={() => this._handleClickAction(clickAction)}/>
 			</Col>
@@ -116,18 +116,15 @@ export default class FeedListItem extends React.Component<any, Props, State> {
 const styles = RkStyleSheet.create(theme => ({
 
 	listItem: {
-		paddingHorizontal: 12,
-
 		display: 'flex',
+		paddingHorizontal: 12,
 		alignItems: 'center',
-
 		borderBottomWidth: 0,
 		borderColor: theme.colors.border.base,
 	},
 
 	listItemHeaderContent: {
 		paddingVertical: 12,
-
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center'
@@ -139,8 +136,8 @@ const styles = RkStyleSheet.create(theme => ({
 	},
 
 	listItemContent: {
-		marginLeft: 12,
-		flex: 1
+		flex: 1,
+		marginLeft: 12
 	},
 
 	htmlView: {

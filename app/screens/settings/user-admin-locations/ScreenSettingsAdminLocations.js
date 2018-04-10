@@ -1,65 +1,62 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import SettingsUserAdminLocations from './SettingsUserAdminLocations';
-import {poolConnect} from '../../../redux/ReduxPool';
-import {NullableObjects, Screen} from "../../../comp/Misc";
-import type {TNavigator} from "../../../lib/types/Types";
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {NullableObjects, Screen} from "../../../comp/Misc";
+import {poolConnect} from '../../../redux/ReduxPool';
+import type {TNavigator} from "../../../lib/types/Types";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-  navigator: TNavigator
+	navigator: TNavigator
 }
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// _ScreenSettingsAdminLocations ************************************************************************
+// _ScreenSettingsAdminLocations ************************************************************************
 
-class ScreenSettingsAdminLocationsPresentational extends React.Component<any, Props, any> {
+class _ScreenSettingsAdminLocations extends React.Component<any, Props, any> {
 
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
-  }
+	componentWillMount() {
+		this.props[CACHE_ID_USER_PROFILE].initialize();
+	}
 
-  _authenticatedUserProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
+	_authenticatedUserProfile() {
+		return this.props[CACHE_ID_USER_PROFILE].data;
+	}
 
-  render() {
-    return (
-        <Screen>
-          <NullableObjects
-              objects={[this._authenticatedUserProfile()]}
-              renderChild={([userProfile]) => (
-                  <SettingsUserAdminLocations
-                      navigator={this.props.navigator}
-                      userProfile={userProfile}/>
-              )}/>
-        </Screen>
-    );
-  }
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._authenticatedUserProfile()]}
+					renderChild={([userProfile]) => (
+						<SettingsUserAdminLocations
+							navigator={this.props.navigator}
+							userProfile={userProfile}/>
+					)}/>
+			</Screen>
+		);
+	}
 
 }
 
 // ContainerComponent ***********************************************************************************
 // ContainerComponent ***********************************************************************************
 
-const ScreenSettingsAdminLocations = poolConnect(
-    // Presentational Component
-    ScreenSettingsAdminLocationsPresentational,
+const ScreenSettingsAdminLocations = poolConnect(_ScreenSettingsAdminLocations,
+	// mapStateToProps
+	(state) => ({}),
 
-    // mapStateToProps
-    (state) => ({}),
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_ID_USER_PROFILE]
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsAdminLocations;
 
 ScreenSettingsAdminLocations.propTypes = {
-  // Nothing for now
+	// Nothing for now
 };

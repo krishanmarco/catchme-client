@@ -17,8 +17,8 @@ type Props<T> = {
 	filterExtractor: (T, RegExp) => boolean,
 	searchPlaceholder?: string,
 	numTriggerChars?: number,
-	onSearchChanged?: (string) => {},
-	onSearchPressed?: (string) => {},
+	onSearchChanged?: (string) => void,
+	onSearchPressed?: (string) => void,
 
 };
 
