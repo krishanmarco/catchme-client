@@ -1,24 +1,27 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import ApiClient from '../../lib/data/ApiClient';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
-
 import LocationList from '../../comp-buisness/location/LocationList';
 import PropTypes from 'prop-types';
 import React from 'react';
-
 import Router from '../../lib/helpers/Router';
-
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import UserList from '../../comp-buisness/user/UserList';
 import {Colors} from "../../Config";
-
-
 import {poolConnect} from '../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
-// todo refactor proptypes
+import type {TNavigator} from "../../lib/types/Types";
+import type {TUser} from "../../lib/daos/DaoUser";
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type Props = {
+	navigator: TNavigator,
+	userProfile: TUser
+};
 
 
 // Redux ************************************************************************************************
@@ -334,11 +337,6 @@ export default Search;
 
 // Style ************************************************************************************************
 // Style ************************************************************************************************
-
-Search.propTypes = {
-	userProfile: PropTypes.object.isRequired,
-	navigator: PropTypes.object.isRequired,
-};
 
 const styles = StyleSheet.create({
 	tabBarTextStyle: {

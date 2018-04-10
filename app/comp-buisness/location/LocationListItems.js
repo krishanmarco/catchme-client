@@ -32,10 +32,10 @@ export class ListItemLocation extends React.Component<any, ListItemLocationProps
 	}
 
 	_defaultOnPress() {
-		const {location} = this.props;
+		const {location, onPress} = this.props;
 
-		if (this.props.onPress)
-			this.props.onPress(location);
+		if (onPress)
+			onPress(location);
 	}
 
 

@@ -1,9 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import PropTypes from 'prop-types';
+import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
 import TimingListItem from './TimingListItem';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 
 
 // Const *************************************************************************************************
@@ -15,6 +14,7 @@ type Props = {
 	managerWeekTimings: ManagerWeekTimings,
 	onEdit: Function
 };
+
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

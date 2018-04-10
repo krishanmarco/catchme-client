@@ -1,13 +1,34 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Camera, {constants as CameraConstants} from 'react-native-camera';
 import Logger from "../../../lib/Logger";
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
-// todo refactor proptypes
 
-export default class CameraWrapper extends React.Component {
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type Props = {
+	captureMode: number,
+	onBarCodeRead: Function,
+	onCaptureImage: Function
+};
+
+const defaultProps = {
+	captureMode: CameraConstants.CaptureMode.still,
+	onBarCodeRead: null
+};
+
+const captureOptions = {
+	metadata: {}
+};
+
+
+// CameraWrapper ****************************************************************************************
+// CameraWrapper ****************************************************************************************
+
+export default class CameraWrapper extends React.Component<any, Props, any> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
@@ -15,17 +36,15 @@ export default class CameraWrapper extends React.Component {
 		this._onBarCodeRead = this._onBarCodeRead.bind(this);
 	}
 
-
 	_onBarCodeRead(data) {
+		const {onBarCodeRead} = this.props;
 
-		if (this.props.onBarCodeRead)
-			this.props.onBarCodeRead(data.data);
-
+		if (onBarCodeRead)
+			onBarCodeRead(data.data);
 	}
 
-
 	_onCaptureImage() {
-		this.camera.capture({metadata: {}})
+		return this.refCamera.capture(captureOptions)
 			.then(data => {
 				const {onCaptureImage} = this.props;
 
@@ -33,32 +52,28 @@ export default class CameraWrapper extends React.Component {
 					onCaptureImage(data);
 
 				return data;
-			}).catch(err => {
-			Logger.v(err);
-		});
+			})
+			.catch(error => {
+				Logger.v("CameraWrapper _onCaptureImage", error);
+			});
 	}
 
 
 	render() {
+		const {captureMode} = this.props;
 		return (
 			<View style={styles.container}>
 				<Camera
-					ref={camera => this.camera = camera}
+					ref={camera => this.refCamera = camera}
 					style={styles.preview}
-
+					captureMode={captureMode}
 					aspect={CameraConstants.Aspect.fill}
-					audio={true}
-
-					captureMode={this.props.captureMode}
 					captureTarget={CameraConstants.CaptureTarget.temp}
 					captureQuality={CameraConstants.CaptureQuality.high}
-
 					onBarCodeRead={this._onBarCodeRead}
 					barCodeTypes={["qr"]}
-
+					audio={true}
 					keepAwake={true}>
-
-
 					<RkButton
 						style={styles.cameraButtonButton}
 						rkType='clear contrast'
@@ -72,22 +87,11 @@ export default class CameraWrapper extends React.Component {
 			</View>
 		);
 	}
-
-
 }
 
 
-CameraWrapper.defaultProps = {
-	captureMode: CameraConstants.CaptureMode.still,  // || .video,
-	onBarCodeRead: null
-};
-
-CameraWrapper.propTypes = {
-	captureMode: PropTypes.number,
-	onBarCodeRead: PropTypes.func,
-	onCaptureImage: PropTypes.func,
-};
-
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
 	container: {
