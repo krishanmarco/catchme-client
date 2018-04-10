@@ -140,10 +140,10 @@ class _LocationProfile extends React.Component<any, Props, State> {
 		const {locationProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabRootHome}>
+			<Grid style={styles.tabHomeRoot}>
 				<Row size={-1}>
 					<Image
-						style={{width: '100%', height: 200}}
+						style={styles.tabHomeAvatar}
 						resizeMode='cover'
 						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
 				</Row>
@@ -262,9 +262,13 @@ export default LocationProfile;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	tabRootHome: {
+	tabHomeRoot: {
 		flex: 1,
 		alignItems: 'center'
+	},
+	tabHomeAvatar: {
+		width: '100%',
+		height: 200
 	},
 	tabRootImages: {
 		flex: 1,

@@ -18,7 +18,7 @@ import {Colors} from "../../Config";
 
 import {poolConnect} from '../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
-
+// todo refactor proptypes
 
 
 // Redux ************************************************************************************************

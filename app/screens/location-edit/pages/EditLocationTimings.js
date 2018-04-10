@@ -2,16 +2,13 @@
 import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
-
-import PropTypes from 'prop-types';
-
 import React from 'react';
 import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, StyleSheet, Text, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 
 
 // Redux ************************************************************************************************
@@ -37,7 +34,7 @@ export function editLocationTimingsReducer(state = editLocationTimingsInitState,
 type Props = {
 	navigator: Navigator,
 	locationProfile: Object,
-	formApiEditLocationProfile: Object
+	formApiEditLocationProfile: ApiFormState
 };
 
 type State = {
@@ -120,17 +117,12 @@ export default EditLocationTimings;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	view: {
 		flex: 1,
 		paddingHorizontal: 24
 	},
-	content: {
+	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 	},
-}));
-
-
-EditLocationTimings.propTypes = {
-	formApiEditLocationProfile: PropTypes.object.isRequired
-};
+});

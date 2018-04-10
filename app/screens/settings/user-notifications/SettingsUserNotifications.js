@@ -6,10 +6,9 @@ import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/Help
 
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 
 
@@ -159,11 +158,11 @@ export default SettingsUserNotifications;
 
 
 
-// Styles ***********************************************************************************************
-// Styles ***********************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
-	content: {
+const styles = StyleSheet.create({
+	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 	},
-}));
+});

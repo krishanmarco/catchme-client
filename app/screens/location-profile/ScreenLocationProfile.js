@@ -3,7 +3,6 @@ import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationProfile from './LocationProfile';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Router from "../../lib/helpers/Router";
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
@@ -172,8 +171,3 @@ const ScreenLocationProfile = poolConnect(_ScreenLocationProfile,
 	[CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_PROFILE]
 );
 export default ScreenLocationProfile;
-
-
-ScreenLocationProfile.propTypes = {
-	locationId: PropTypes.number.isRequired,
-};

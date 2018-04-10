@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
-// todo refactor
+// todo refactor proptypes
 
 export default class CameraWrapper extends React.Component {
 
@@ -60,11 +60,11 @@ export default class CameraWrapper extends React.Component {
 
 
 					<RkButton
-						style={{width: 64, height: 64, marginBottom: 32}}
+						style={styles.cameraButtonButton}
 						rkType='clear contrast'
 						onPress={this._onCaptureImage}>
 						<Image
-							style={{flex: 1, width: 64, height: 64}}
+							style={styles.cameraButtonImage}
 							resizeMode='contain'
 							source={require('../../../assets/images/camera_512.png')}/>
 					</RkButton>
@@ -106,5 +106,15 @@ const styles = StyleSheet.create({
 		color: '#000',
 		padding: 10,
 		margin: 40
+	},
+	cameraButtonButton: {
+		width: 64,
+		height: 64,
+		marginBottom: 32
+	},
+	cameraButtonImage: {
+		flex: 1,
+		width: 64,
+		height: 64
 	}
 });

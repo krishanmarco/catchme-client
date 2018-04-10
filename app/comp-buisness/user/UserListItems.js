@@ -1,76 +1,82 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
 import DaoUser from '../../lib/daos/DaoUser';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
-// todo proptypes
+import type {TUser} from "../../lib/daos/DaoUser";
+import type {ListItemWithActionProps, TListItemAction} from "../../comp/misc/ListItemsWithActions";
 
 
-export class ListItemUser extends React.Component {
+// ListItemUser *****************************************************************************************
+// ListItemUser *****************************************************************************************
 
-  constructor(props, context) {
-    super(props, context);
-    this._defaultOnPress = this._defaultOnPress.bind(this);
-  }
+type ListItemUserProps = ListItemWithActionProps & {
+	user: TUser,
+	onPress: (TUser) => void
+};
 
-  _getUser() {
-    return this.props.user;
-  }
+export class ListItemUser extends React.Component<any, ListItemUserProps, any> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._defaultOnPress = this._defaultOnPress.bind(this);
+	}
 
-  _defaultOnPress() {
-    if (this.props.onPress)
-      this.props.onPress(this._getUser());
+	_defaultOnPress() {
+		const {user, onPress} = this.props;
 
-    // Add more on-press actions here
-  }
+		if (onPress)
+			onPress(user);
 
+		// Add more on-press actions here
+	}
 
-  render() {
-    return (
-        <ListItemWithActions
-            header={DaoUser.gName(this._getUser())}
-            content={DaoUser.gPublicMessage(this._getUser())}
-            avatarUri={DaoUser.gPictureUrl(this._getUser())}
-            actions={this.props.actions}
-            image={this.props.image}
-            onPress={this._defaultOnPress}/>
-    );
-  }
+	render() {
+		const {user, ...props} = this.props;
+
+		return (
+			<ListItemWithActions
+				header={DaoUser.gName(user)}
+				content={DaoUser.gPublicMessage(user)}
+				avatarUri={DaoUser.gPictureUrl(user)}
+				onPress={this._defaultOnPress}
+				{...props}/>
+		);
+	}
 
 }
 
-ListItemUser.defaultProps = {};
 
-ListItemUser.propTypes = {
-  user: PropTypes.object.isRequired
+// ListItemUserRequestSend ******************************************************************************
+// ListItemUserRequestSend ******************************************************************************
+
+const ActionUserConnectionsAddUid = {
+	icon: Icons.userFollow,
+	onPress: (user: TUser) => ApiClient.userConnectionsAddUid(DaoUser.gId(user))
 };
 
-
-
-
-export const ListItemUserRequestSend = ({user, onPress}) => (
-    <ListItemUser
-        user={user}
-        onPress={onPress}
-        actions={[{
-          icon: Icons.userFollow,
-          onPress: () => ApiClient.userConnectionsAddUid(DaoUser.gId(user))
-        }]}/>
+export const ListItemUserRequestSend = (props: ListItemUserProps) => (
+	<ListItemUser
+		actions={[ActionUserConnectionsAddUid]}
+		{...props}/>
 );
 
 
-export const ListItemUserRequestReceived = ({user, onPress}) => (
-    <ListItemUser
-        user={user}
-        onPress={onPress}
-        actions={[{
-          icon: Icons.userFollow,
-          onPress: () => ApiClient.userConnectionsAcceptUid(DaoUser.gId(user))
-        }, {
-          icon: Icons.userBlock,
-          onPress: () => ApiClient.userConnectionsBlockUid(DaoUser.gId(user))
-        }]}/>
+// ListItemUserRequestReceived **************************************************************************
+// ListItemUserRequestReceived **************************************************************************
+
+const ActionUserConnectionsBlockUid = {
+	icon: Icons.userBlock,
+	onPress: (user: TUser) => ApiClient.userConnectionsBlockUid(DaoUser.gId(user))
+};
+
+export const ListItemUserRequestReceived = (props: ListItemUserProps) => (
+	<ListItemUser
+		actions={[ActionUserConnectionsAddUid, ActionUserConnectionsBlockUid]}
+		{...props}/>
 );
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************

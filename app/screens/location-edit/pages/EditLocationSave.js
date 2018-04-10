@@ -3,10 +3,11 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 import React from 'react';
 import {AvatarCircle, GradientButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {View} from 'react-native';
+import {RkText} from 'react-native-ui-kitten';
+import {View, StyleSheet} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 
 
 // Redux ************************************************************************************************
@@ -30,9 +31,8 @@ export function editLocationSaveReducer(state = editLocationSaveInitState, actio
 // Const *************************************************************************************************
 
 type Props = {
-	formApiEditLocationProfile: Object,
 	onSaveComplete: Function,
-	formApiEditLocationProfile: Object
+	formApiEditLocationProfile: ApiFormState
 };
 
 
@@ -78,7 +78,7 @@ class _EditLocationSave extends React.Component<any, Props, any> {
 						rkType='huge'
 						uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}/>
 				</View>
-				<RkText style={styles.contentText} rkType='primary3'>
+				<RkText style={styles.listItemWithActionsContentText} rkType='primary3'>
 					{DaoLocation.gAddress(this._formApiEditLocationProfileInput())}
 				</RkText>
 				<GradientButton
@@ -118,7 +118,7 @@ export default EditLocationSave;
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	root: {
 		flex: 1,
 		alignItems: 'center',
@@ -130,11 +130,11 @@ const styles = RkStyleSheet.create(theme => ({
 	avatar: {
 		marginTop: 40
 	},
-	contentText: {
+	listItemWithActionsContentText: {
 		marginTop: 16
 	},
 	saveButton: {
 		marginTop: 40,
 		marginHorizontal: 16
 	}
-}));
+});

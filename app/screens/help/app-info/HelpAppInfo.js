@@ -1,8 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {RkStyleSheet} from 'react-native-ui-kitten';
 import {ScreenInfo} from "../../../comp/Misc";
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -16,10 +15,6 @@ type Props = {
 // HelpAppInfo ******************************************************************************************
 
 export default class HelpAppInfo extends React.Component<any, Props, any> {
-
-	constructor(props, context) {
-		super(props, context);
-	}
 
 	render() {
 		return (
@@ -36,6 +31,6 @@ export default class HelpAppInfo extends React.Component<any, Props, any> {
 // Style ************************************************************************************************
 // Style ************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
-
-}));
+const styles = StyleSheet.create({
+	// Nothing for now
+});

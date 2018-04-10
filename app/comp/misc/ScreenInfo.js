@@ -1,9 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {Dimensions, Image, StyleSheet, TouchableNativeFeedback, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 
 import {RkText} from 'react-native-ui-kitten';
-import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {Touchable} from "../Misc";
 
 
@@ -15,7 +14,7 @@ type Props = {
 	textText?: string,
 	height?: number,
 	marginTop?: number,
-	onPress?: () => {}
+	onPress?: () => void
 };
 
 

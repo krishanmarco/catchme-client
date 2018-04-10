@@ -29,15 +29,15 @@ type Props = {
 
 	messages: Array<TFirebaseChatMessage>,
 	fetchedAllItems: boolean,
-	loadMore: (TGetFirebaseMessages) => {},
+	loadMore: (TGetFirebaseMessages) => void,
 	runningBulkFetch: boolean
 };
 
 
 type State = TReducerChatState & {
-	initialize: (TGetFirebaseMessages, TUser) => {},
-	sendMessage: (TGetFirebaseMessages, TFirebaseChatMessage) => {},
-	loadMore: (TGetFirebaseMessages) => {}
+	initialize: (TGetFirebaseMessages, TUser) => void,
+	sendMessage: (TGetFirebaseMessages, TFirebaseChatMessage) => void,
+	loadMore: (TGetFirebaseMessages) => void
 };
 
 

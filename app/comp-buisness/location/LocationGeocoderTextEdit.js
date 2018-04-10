@@ -9,7 +9,7 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 // Const *************************************************************************************************
 
 type Props = {
-	onSelect: (TLocation) => {}
+	onSelect: (TLocation) => void
 };
 
 export default class LocationGeocoderTextEdit extends React.Component<any, Props, any> {

@@ -16,7 +16,7 @@ type Props = {
 	children: Node,
 	height: number,
 	disablePointerEvents: boolean,
-	setHeight: (Object) => {}
+	setHeight: (Object) => void
 };
 
 type State = {

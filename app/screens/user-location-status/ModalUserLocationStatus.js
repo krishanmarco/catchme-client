@@ -9,7 +9,7 @@ import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Const, Icons} from '../../Config';
 import {compareTimeSmaller} from "../../lib/HelperFunctions";
 import {Icon} from 'react-native-elements';
-import {Image, StyleSheet, TouchableNativeFeedback, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from "react-native-ui-kitten";
 import {Touchable} from "../../comp/Misc";
@@ -25,8 +25,8 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 type Props = {
 	locationProfile: TLocation,
 	userLocationStatus: TUserLocationStatus,
-	onStatusConfirm: (TUserLocationStatus) => {},
-	onStatusChange: (TUserLocationStatus) => {},
+	onStatusConfirm: (TUserLocationStatus) => void,
+	onStatusChange: (TUserLocationStatus) => void,
 
 	dtDateVisible: boolean,
 	dtFromVisible: boolean,

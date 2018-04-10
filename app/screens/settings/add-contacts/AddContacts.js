@@ -16,6 +16,7 @@ import UserList from '../../../comp-buisness/user/UserList';
 
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
+// todo refactor proptypes
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************

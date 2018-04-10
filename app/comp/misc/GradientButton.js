@@ -39,10 +39,6 @@ export default class GradientButton extends RkComponent<any, Props> {
 	componentName = 'GradientButton';
 	typeMapping = {button: {}, gradient: {}, text: {}};
 
-	constructor(props, context) {
-		super(props, context);
-	}
-
 	render() {
 		const {button, gradient, text: textStyle} = this.defineStyles();
 		const {style, gradientStart, gradientEnd, children, text, colors, loading, ...otherProps} = this.props;

@@ -10,10 +10,6 @@ import {poolConnect} from '../../../redux/ReduxPool';
 
 class _ScreenSettingsUserNotifications extends React.Component {
 
-	constructor(props, context) {
-		super(props, context);
-	}
-
 	componentWillMount() {
 		// Fetch the authenticated users profile and then set
 		// the users profile data into the user-profile form handler

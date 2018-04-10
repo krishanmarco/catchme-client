@@ -51,8 +51,6 @@ const ModalTiming = poolConnect(_ModalTiming,
 );
 export default ModalTiming;
 
-ModalTiming.defaultProps = {};
-
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 

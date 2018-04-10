@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 import {ListItemLocation, ListItemLocationFollow} from './LocationListItems';
-
+// todo proptypes
 
 
 export default class LocationList extends React.PureComponent {
@@ -56,9 +56,6 @@ export default class LocationList extends React.PureComponent {
 
 
 }
-
-
-LocationList.defaultProps = {};
 
 LocationList.propTypes = {
   locations: PropTypes.arrayOf(PropTypes.object).isRequired,

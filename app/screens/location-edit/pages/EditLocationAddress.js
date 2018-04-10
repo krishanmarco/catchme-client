@@ -2,20 +2,15 @@
 import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
-
-import PropTypes from 'prop-types';
-
 import React from 'react';
 import Router from "../../../lib/helpers/Router";
-import {Dimensions, ScrollView, View} from 'react-native';
+import {StyleSheet, Dimensions, ScrollView, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
-import {Validate} from "../../../lib/helpers/Validator";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -40,7 +35,7 @@ export function editLocationAddressReducer(state = editLocationAddressInitState,
 type Props = {
 	navigator: Navigator,
 	locationProfile: Object,
-	formApiEditLocationProfile: Object
+	formApiEditLocationProfile: ApiFormState
 };
 
 
@@ -88,7 +83,7 @@ class _EditLocationAddress extends React.Component<any, Props, any> {
 					imageSource={require('../../../assets/images/address.png')}
 					textText='Press the image above to select a location'
 					onPress={this._onGoogleMapsSelectorPress}/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					{[
 						{field: DaoLocation.pAddressCountry, label: 'Country'},
 						{field: DaoLocation.pAddressState, label: 'State'},
@@ -136,28 +131,22 @@ const EditLocationAddress = poolConnect(_EditLocationAddress,
 
 	{withRef: true}
 );
-
 export default EditLocationAddress;
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-// Styles ***********************************************************************************************
-// Styles ***********************************************************************************************
-
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	scrollView: {
 		flex: 1
 	},
-	content: {
+	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 		marginTop: 12
 	},
 	locationMap: {
 		width: '100%'
 	}
-}));
+});
 
-
-EditLocationAddress.propTypes = {
-	formApiEditLocationProfile: PropTypes.object.isRequired
-};

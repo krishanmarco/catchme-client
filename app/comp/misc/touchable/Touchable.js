@@ -8,7 +8,7 @@ import {TouchableOpacity, View} from 'react-native';
 
 type Props = {
 	children: Node,
-	onPress?: () => {},
+	onPress?: () => void,
 	style?: Object
 };
 

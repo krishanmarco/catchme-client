@@ -25,7 +25,7 @@ type Props = {
 	navigator: TNavigator,
 	locationId: number,
 	initialStatus?: TUserLocationStatus,
-	onStatusConfirm?: (TUserLocationStatus) => {},
+	onStatusConfirm?: (TUserLocationStatus) => void,
 	postOnConfirm?: boolean
 };
 

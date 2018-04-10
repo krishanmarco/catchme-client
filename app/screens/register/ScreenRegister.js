@@ -68,7 +68,7 @@ class _ScreenRegister extends React.Component<any, Props, any> {
 		return (
 			<Screen>
 
-					<View style={{alignItems: 'center'}}>
+					<View style={styles.header}>
 						<Image style={styles.image} source={require('../../assets/images/logo.png')}/>
 						<RkText rkType='h1'>Registration</RkText>
 					</View>
@@ -139,10 +139,13 @@ export default ScreenRegister;
 
 const styles = RkStyleSheet.create(theme => ({
 	screen: {
-		padding: 16,
 		flex: 1,
+		padding: 16,
 		justifyContent: 'space-around',
 		backgroundColor: theme.colors.screen.base
+	},
+	header: {
+		alignItems: 'center'
 	},
 	image: {
 		marginBottom: 10,

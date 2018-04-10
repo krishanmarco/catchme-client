@@ -135,7 +135,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader name='Profile'/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<View style={{alignItems: 'center'}}>
 						<AvatarCircle
 							badge={Icons.userEditAvatar}
@@ -180,7 +180,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader name='Privacy'/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					{[
 						{title: 'My previous location', options: privacyAll},
 						{title: 'My current location', options: privacySub},
@@ -204,7 +204,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader name='Security'/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<ListItemInfo
 						title='Change Password'
 						icon={Icons.settingChangePassword}
@@ -219,7 +219,7 @@ class _SettingsUserAccount extends React.Component<any, Props, any> {
 		return (
 			<View>
 				<ListItemHeader/>
-				<View style={styles.content}>
+				<View style={styles.listItemWithActionsContent}>
 					<ListItemInfo
 						title='Add contacts'
 						icon={Icons.settingChangePassword}
@@ -255,11 +255,11 @@ export default SettingsUserAccount;
 
 
 
-// Styles ***********************************************************************************************
-// Styles ***********************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	content: {
+	listItemWithActionsContent: {
 		paddingHorizontal: 8,
 	},
 });

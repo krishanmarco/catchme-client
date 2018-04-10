@@ -146,10 +146,10 @@ class _UserProfile extends React.Component<any, Props, State> {
 		let userProfile = this._userProfile();
 
 		return (
-			<Grid style={[styles.tabRootHome]}>
+			<Grid style={[styles.tabHomeRoot]}>
 				<Row size={-1}>
 					<Image
-						style={{width: '100%', height: 200}}
+						style={styles.avatar}
 						resizeMode='cover'
 						source={{uri: DaoUser.gPictureUrl(userProfile)}}/>
 				</Row>
@@ -164,7 +164,7 @@ class _UserProfile extends React.Component<any, Props, State> {
 						Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
 					].map((b, k) => (
 						<Col key={k}>
-							<Icon style={{marginRight: 8}} size={50} {...b}/>
+							<Icon style={styles.icon} size={50} {...b}/>
 						</Col>
 					))}
 				</Row>
@@ -239,7 +239,7 @@ export default UserProfile;
 // Style ************************************************************************************************
 
 const styles = StyleSheet.create({
-	tabRootHome: {
+	tabHomeRoot: {
 		flex: 1,
 		alignItems: 'center'
 	},
@@ -262,5 +262,12 @@ const styles = StyleSheet.create({
 	},
 	badges: {
 		marginTop: 24
+	},
+	avatar: {
+		width: '100%',
+		height: 200
+	},
+	icon: {
+		marginRight: 8
 	}
 });

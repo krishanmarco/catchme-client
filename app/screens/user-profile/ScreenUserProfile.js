@@ -7,16 +7,12 @@ import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUser
 import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
+// todo refactor proptypes
 
 // _ScreenUserProfile ***********************************************************************************
 // _ScreenUserProfile ***********************************************************************************
 
 class _ScreenUserProfile extends React.Component {
-
-	constructor(props, context) {
-		super(props, context);
-	}
-
 
 	componentWillMount() {
 

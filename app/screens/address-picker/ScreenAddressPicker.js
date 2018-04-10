@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeocoderTextEdit';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Navigation} from 'react-native-navigation';
 import {poolConnect} from '../../redux/ReduxPool';
@@ -12,7 +11,7 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 // Const *************************************************************************************************
 
 type Props = {
-	onSelect: (TLocation) => {}
+	onSelect: (TLocation) => void
 };
 
 // _ScreenAddressPicker *********************************************************************************
@@ -58,7 +57,3 @@ const ScreenAddressPicker = poolConnect(_ScreenAddressPicker,
 );
 export default ScreenAddressPicker;
 
-
-ScreenAddressPicker.propTypes = {
-	onSelect: PropTypes.func.isRequired
-};

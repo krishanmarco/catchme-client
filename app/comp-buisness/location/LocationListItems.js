@@ -1,13 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from '../../lib/daos/DaoLocation';
-
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-
-import PropTypes from 'prop-types';
-
 import React from 'react';
-
 import Router from "../../lib/helpers/Router";
 import {Colors, Const, Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
@@ -23,7 +18,7 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 type ListItemLocationProps = {
 	location: TLocation,
-	onPress?: (TLocation) => {},
+	onPress?: (TLocation) => void,
 	content: ?string,
 	image: ?string,
 	actions: Array<TAction>
@@ -59,14 +54,6 @@ export class ListItemLocation extends React.Component<any, ListItemLocationProps
 	}
 
 }
-
-ListItemLocation.defaultProps = {};
-
-ListItemLocation.propTypes = {
-	location: PropTypes.object.isRequired
-};
-
-
 
 
 // ListItemLocationFollow *******************************************************************************

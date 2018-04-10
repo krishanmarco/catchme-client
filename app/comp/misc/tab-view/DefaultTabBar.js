@@ -9,7 +9,7 @@ import type {TIcon} from "../../../lib/types/Types";
 
 type Props = {
 	allowTabChange?: (number) => boolean,
-	onPreTabChange?: (number) => {},
+	onPreTabChange?: (number) => void,
 
 	activeColor?: string,
 	inactiveColor?: string,
@@ -21,7 +21,7 @@ type Props = {
 	style?: Object,
 
 	// Props coming from ScrollableIconTabView
-	goToPage: (number) => {},
+	goToPage: (number) => void,
 	activeTab: number,
 	containerWidth: number,
 	scrollValue: Object,

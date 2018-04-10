@@ -16,7 +16,7 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 type Props = {
 	allowEdit: boolean,
 	userProfile: TUser,
-	onLocationPress: (TLocation) => {},
+	onLocationPress: (TLocation) => void,
 	favoriteIds?: Array<number>
 };
 
