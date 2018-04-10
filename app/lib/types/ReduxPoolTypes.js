@@ -11,7 +11,7 @@ export type TReduxPoolCacheMap = {
 	cacheId: string,
 	data: Object
 };
-
+// todo unreference
 export type TReduxPoolApiForms<TFormRequest, TFormResponse> = {
 	formId: string,
 	apiInput: TFormRequest,

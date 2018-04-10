@@ -7,6 +7,7 @@ import ApiFormDefRegister, {FORM_API_ID_REGISTER} from './def/ApiFormDefRegister
 import ApiFormDefUserLocationStatus, {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from './def/ApiFormDefUserLocationStatus';
 import ApiFormDefUserProfile, {FORM_API_ID_EDIT_USER_PROFILE} from './def/ApiFormDefUserProfile';
 import {
+	ApiFormState,
 	mutatorApiFormsOnApiException,
 	mutatorApiFormsOnChange,
 	mutatorApiFormsOnErrorDismiss,
@@ -18,6 +19,9 @@ import {
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
 
+
+// Define result of poolConnect for this pool
+export type TApiFormPool = ApiFormActionCreator & ApiFormState;
 
 
 // Define all Actions (There should for each ACTION)

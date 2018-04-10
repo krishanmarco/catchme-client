@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import _ from 'lodash';
-import ApiClient from '../../lib/data/ApiClient';
-import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationList from '../../comp-buisness/location/LocationList';
-import PropTypes from 'prop-types';
 import React from 'react';
 import Router from '../../lib/helpers/Router';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import UserList from '../../comp-buisness/user/UserList';
 import {Colors} from "../../Config";
 import {poolConnect} from '../../redux/ReduxPool';
+import {SEARCH_DATA_ID_LOCATIONS} from "../../lib/redux-pool/search-data/def/SearchDataDefLocations";
+import {SEARCH_DATA_ID_USERS} from "../../lib/redux-pool/search-data/def/SearchDataDefUsers";
 import {StyleSheet, View} from 'react-native';
+import {TSearchData} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -24,174 +24,10 @@ type Props = {
 };
 
 
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const listTypeUsers = 'users';
-const listTypeLocations = 'locations';
-
-const SearchActionConfig = {
-	[listTypeUsers]: {
-		name: listTypeUsers,
-		suggestApiCall: (seed) => ApiClient.suggestSeedUsers(seed),
-		searchApiCall: (query) => ApiClient.searchQueryUsers(query),
-		uniqueFilter: DaoUser.gId
-	},
-	[listTypeLocations]: {
-		name: listTypeLocations,
-		suggestApiCall: (seed) => ApiClient.suggestSeedLocations(seed),
-		searchApiCall: (query) => ApiClient.searchQueryLocations(query),
-		uniqueFilter: DaoLocation.gId
-	},
-};
-
-
-const SearchReducerSection = {
-	loading: false,
-	stopSuggestLoop: false,
-	searchQuery: '',
-	suggestSeed: 0,
-	list: [],
-	searchList: [],
-	suggestList: [],
-};
-
-const searchInitState = {
-	[listTypeUsers]: Object.assign(SearchReducerSection),
-	[listTypeLocations]: Object.assign(SearchReducerSection)
-};
-
-const ACTION_CONCAT_SUGGEST_LIST = 'ACTION_CONCAT_SUGGEST_LIST';
-const ACTION_SET_SEARCH_QUERY = 'ACTION_SET_SEARCH_QUERY';
-const ACTION_SET_SEARCH_LIST = 'ACTION_SET_SEARCH_LIST';
-const ACTION_SET_LOADING = 'ACTION_SET_LOADING';
-
-export function searchReducer(state = searchInitState, action) {
-	switch (action.type) {
-
-		case ACTION_CONCAT_SUGGEST_LIST:
-			const oldState1 = state[action.listType];
-			const listTypeConfig1 = SearchActionConfig[action.listType];
-
-			// The suggestSeed should be incremented
-			const suggestSeed = oldState1.suggestSeed + 1;
-
-			// Stop the suggesting loop if no new data was received
-			const stopSuggestLoop = oldState1.suggestList.length === action.suggestList.length;
-
-			// The new suggest list is the old suggestList + the new received data
-			const suggestList = _.uniqBy(oldState1.suggestList.concat(action.suggestList), listTypeConfig1.uniqueFilter);
-
-			// The new display list is the old searchList + the new suggestList
-			const list = _.uniqBy(oldState1.searchList.concat(suggestList), listTypeConfig1.uniqueFilter);
-
-			return Object.assign({}, state, {
-				[action.listType]: Object.assign({}, oldState1, {
-					loading: false,
-					suggestSeed,
-					stopSuggestLoop,
-					suggestList,
-					list
-				})
-			});
-
-		case ACTION_SET_SEARCH_LIST:
-			const oldState2 = state[action.listType];
-			const listTypeConfig2 = SearchActionConfig[action.listType];
-
-			// The new search list is only what was returned as new data
-			const searchList = _.uniqBy(action.searchList, listTypeConfig2.uniqueFilter);
-
-			// The new display list is the new searchList + the old suggestList
-			const list2 = _.uniqBy(searchList.concat(oldState2.suggestList), listTypeConfig2.uniqueFilter);
-
-			return Object.assign({}, state, {
-				[action.listType]: Object.assign({}, oldState2, {
-					loading: false,
-					searchList,
-					list: list2
-				})
-			});
-
-		case ACTION_SET_SEARCH_QUERY:
-			return Object.assign({}, state, {
-				[action.listType]: Object.assign({}, state[action.listType], {
-					searchQuery: action.searchQuery
-				})
-			});
-
-		case ACTION_SET_LOADING:
-			return Object.assign({}, state, {
-				[action.listType]: Object.assign({}, state[action.listType], {
-					loading: true
-				})
-			});
-	}
-
-	return state;
-}
-
-function searchSuggest(listType: string) {
-	return (dispatch, getState) => {
-		const actionConfig = SearchActionConfig[listType];
-		const currentState = getState().searchReducer[listType];
-
-		if (currentState.loading)
-			return;
-
-		dispatch({
-			type: ACTION_SET_LOADING,
-			listType
-		});
-
-		// Run the suggestion api call
-		actionConfig.suggestApiCall(currentState.suggestSeed)
-			.then(items => dispatch({
-				type: ACTION_CONCAT_SUGGEST_LIST,
-				listType,
-				suggestList: items,
-			}));
-	};
-}
-
-function searchSearch(listType: string) {
-	return (dispatch, getState) => {
-		const actionConfig = SearchActionConfig[listType];
-		const currentState = getState().searchReducer[listType];
-		const query = currentState.searchQuery;
-
-		if (!query || query.length <= 0)
-			return;
-
-		// Always search, even if something is already fetching
-		dispatch({
-			type: ACTION_SET_LOADING,
-			listType
-		});
-
-		// Run the search api call
-		actionConfig.searchApiCall(query)
-			.then(items => dispatch({
-				type: ACTION_SET_SEARCH_LIST,
-				listType,
-				searchList: items
-			}));
-	};
-}
-
-function searchSetSearchQuery(listType: string, query) {
-	return {
-		type: ACTION_SET_SEARCH_QUERY,
-		listType,
-		searchQuery: query
-	};
-}
-
-
 // _Search **********************************************************************************************
 // _Search **********************************************************************************************
 
-class _Search extends React.Component {
+class _Search extends React.Component<any, Props, any> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -201,47 +37,43 @@ class _Search extends React.Component {
 		this._usersOnEndReached = this._usersOnEndReached.bind(this);
 	}
 
-
 	componentWillMount() {
-		this.props.suggestLocations();
-		this.props.suggestUsers();
+		this._searchDataUsers().suggest();
+		this._searchDataLocations().suggest();
 	}
 
-	_locationsState() {
-		return this.props[listTypeLocations];
+	_searchDataUsers(): TSearchData {
+		return this.props[SEARCH_DATA_ID_USERS];
 	}
 
-	_usersState() {
-		return this.props[listTypeUsers];
-	}
-
-
-	_userProfile() {
-		return this.props.userProfile;
+	_searchDataLocations(): TSearchData {
+		return this.props[SEARCH_DATA_ID_LOCATIONS];
 	}
 
 	_onLocationPress(location) {
-		Router.toLocationProfile(this.props.navigator, location);
+		const {navigator} = this.props;
+		Router.toLocationProfile(navigator, location);
 	}
 
 	_onUserPress(user) {
-		Router.toUserProfile(this.props.navigator, user);
+		const {navigator} = this.props;
+		Router.toUserProfile(navigator, user);
 	}
 
 	_locationsOnEndReached() {
-		if (this._locationsState().stopSuggestLoop)
+		if (this._searchDataLocations().stopSuggestLoop)
 			return;
 
 		// Suggest new locations
-		this.props.suggestLocations();
+		this._searchDataLocations().suggest();
 	}
 
 	_usersOnEndReached() {
-		if (this._usersState().stopSuggestLoop)
+		if (this._searchDataUsers().stopSuggestLoop)
 			return;
 
 		// Suggest new users
-		this.props.suggestUsers();
+		this._searchDataUsers().suggest();
 	}
 
 
@@ -270,16 +102,16 @@ class _Search extends React.Component {
 
 
 	_renderTabSearchLocations() {
-		const userProfile = this._userProfile();
-		const {list, loading} = this._locationsState();
+		const {userProfile} = this.props;
+		const {list, loading} = this._searchDataLocations();
 		return (
 			<LocationList
 				locations={list}
 				favoriteIds={DaoUser.gLocationsFavoriteIds(userProfile)}
 
 				onItemPress={this._onLocationPress}
-				onSearchPressed={this.props.searchLocations}
-				onSearchChanged={this.props.setLocationsSearchQuery}
+				onSearchPressed={this._searchDataLocations().search}
+				onSearchChanged={this._searchDataLocations().setSearchQuery}
 				autoFilter={true}
 
 				loading={loading}
@@ -288,8 +120,8 @@ class _Search extends React.Component {
 	}
 
 	_renderTabSearchUsers() {
-		const userProfile = this._userProfile();
-		const {list, loading} = this._usersState();
+		const {userProfile} = this.props;
+		const {list, loading} = this._searchDataUsers();
 		return (
 			<UserList
 				users={list}
@@ -298,8 +130,8 @@ class _Search extends React.Component {
 				blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
 
 				onItemPress={this._onUserPress}
-				onSearchPressed={this.props.searchUsers}
-				onSearchChanged={this.props.setUsersSearchQuery}
+				onSearchPressed={this._searchDataUsers().search}
+				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				autoFilter={true}
 
 				loading={loading}
@@ -314,26 +146,16 @@ class _Search extends React.Component {
 
 const Search = poolConnect(_Search,
 	// mapStateToProps
-	(state) => state.searchReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
-	(dispatch) => ({
-		suggestUsers: () => dispatch(searchSuggest(listTypeUsers)),
-		suggestLocations: () => dispatch(searchSuggest(listTypeLocations)),
-
-		searchUsers: () => dispatch(searchSearch(listTypeUsers)),
-		searchLocations: () => dispatch(searchSearch(listTypeLocations)),
-
-		setUsersSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeUsers, query)),
-		setLocationsSearchQuery: (query) => dispatch(searchSetSearchQuery(listTypeLocations, query)),
-	}),
+	(dispatch) => ({}),
 
 	// Array of pools to subscribe to
-	[]
+	[SEARCH_DATA_ID_USERS, SEARCH_DATA_ID_LOCATIONS]
 );
-
-
 export default Search;
+
 
 // Style ************************************************************************************************
 // Style ************************************************************************************************

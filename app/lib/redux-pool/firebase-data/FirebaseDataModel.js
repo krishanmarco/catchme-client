@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import _ from 'lodash';
 import DaoAction from "../../daos/DaoAction";
 import {arrayClean, arrayCleanAndVerify} from "../../HelperFunctions";
 import {Const} from "../../../Config";

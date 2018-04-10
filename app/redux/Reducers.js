@@ -17,7 +17,6 @@ import {locationProfileReducer} from '../screens/location-profile/LocationProfil
 import {modalUserLocationStatusReducer} from '../screens/user-location-status/ModalUserLocationStatus';
 import {reduxPoolReducer} from './ReduxPool';
 import {screenReducer} from '../comp/misc/Screen';
-import {searchReducer} from '../screens/search/Search';
 
 import {settingsUserAccountReducer} from '../screens/settings/user-account/SettingsUserAccount';
 import {userProfileReducer} from '../screens/user-profile/UserProfile';
@@ -32,7 +31,6 @@ const CombinedReducers = combineReducers({
 
   locationProfileReducer,
   userProfileReducer,
-  searchReducer,
   feedReducer,
   featuredAdsReducer,
 
