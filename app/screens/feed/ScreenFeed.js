@@ -24,7 +24,7 @@ type State = {
 // _ScreenFeed ******************************************************************************************
 // _ScreenFeed ******************************************************************************************
 
-class _ScreenFeed extends React.Component<any, Props, State> {
+class _ScreenFeed extends React.Component<void, Props, State> {
 	
 	componentWillMount() {
 		this._cacheUserProfile().initialize();

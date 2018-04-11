@@ -19,7 +19,7 @@ type Props = {
 // _ScreenEditLocation **********************************************************************************
 // _ScreenEditLocation **********************************************************************************
 
-class _ScreenEditLocation extends React.Component<any, Props, any> {
+class _ScreenEditLocation extends React.Component<void, Props, void> {
 
 	componentWillMount() {
 		this.props[CACHE_ID_USER_PROFILE].initialize();

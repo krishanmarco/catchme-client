@@ -44,7 +44,7 @@ type State = TReducerChatState & {
 // _Chat ************************************************************************************************
 // _Chat ************************************************************************************************
 
-class _Chat extends React.Component<any, Props, State> {
+class _Chat extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

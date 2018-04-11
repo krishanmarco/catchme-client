@@ -24,7 +24,7 @@ export type ScreenUserProfileProps = {
 // _ScreenUserProfile ***********************************************************************************
 // _ScreenUserProfile ***********************************************************************************
 
-class _ScreenUserProfile extends React.Component<any, ScreenUserProfileProps, any> {
+class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, void> {
 
 	componentWillMount() {
 		const {navigator, userId} = this.props;

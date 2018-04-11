@@ -26,7 +26,7 @@ type Props = {
 // FeedList *********************************************************************************************
 // FeedList *********************************************************************************************
 
-export default class FeedList extends React.Component<any, Props, any> {
+export default class FeedList extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

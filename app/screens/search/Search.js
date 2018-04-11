@@ -27,7 +27,7 @@ type Props = {
 // _Search **********************************************************************************************
 // _Search **********************************************************************************************
 
-class _Search extends React.Component<any, Props, any> {
+class _Search extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

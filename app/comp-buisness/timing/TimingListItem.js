@@ -7,7 +7,6 @@ import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Icons} from "../../Config";
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-// todo proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -15,12 +14,14 @@ import {StyleSheet, View} from 'react-native';
 type Props = {
 	day: number,
 	managerWeekTimings: ManagerWeekTimings,
+	onTimingsChanged: () => void,
+	size: number,
 	onEdit?: () => void,
 	isEditable?: boolean
 };
 
 
-export default class TimingListItem extends React.Component<any, Props, any> {
+export default class TimingListItem extends React.Component<void, Props, void> {
 
 	getTimings() {
 		const amTimings = this.refClockAm.getTimings();

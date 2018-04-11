@@ -18,7 +18,7 @@ type Props = {
 // Logout ***********************************************************************************************
 // Logout ***********************************************************************************************
 
-export default class Logout extends React.Component<any, Props, any> {
+export default class Logout extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

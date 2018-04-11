@@ -40,7 +40,7 @@ type Props = {
 // _EditLocationSave ************************************************************************************
 // _EditLocationSave ************************************************************************************
 
-class _EditLocationSave extends React.Component<any, Props, any> {
+class _EditLocationSave extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

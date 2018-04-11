@@ -32,7 +32,7 @@ type Props = {
 // _ScreenRegister **************************************************************************************
 // _ScreenRegister **************************************************************************************
 
-class _ScreenRegister extends React.Component<any, Props, any> {
+class _ScreenRegister extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

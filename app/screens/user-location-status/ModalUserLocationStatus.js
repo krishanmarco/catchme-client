@@ -98,7 +98,7 @@ function modalUserLocationStatusSetUntilModalVisibility(visible) {
 // _ModalUserLocationStatus *****************************************************************************
 // _ModalUserLocationStatus *****************************************************************************
 
-class _ModalUserLocationStatus extends React.Component<any, Props, State> {
+class _ModalUserLocationStatus extends React.Component<void, Props, State> {
 	static DATE_TIME_NOW = new Date();
 
 	constructor(props, context) {

@@ -29,7 +29,7 @@ const DefaultProps = {
 // ScrollableIconTabView ******************************************************************
 // ScrollableIconTabView ******************************************************************
 
-export default class ScrollableIconTabView extends React.Component<any, Props, State> {
+export default class ScrollableIconTabView extends React.Component<void, Props, State> {
 	static defaultProps = DefaultProps;
 
 	constructor(props, context) {

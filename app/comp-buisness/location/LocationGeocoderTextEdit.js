@@ -12,7 +12,7 @@ type Props = {
 	onSelect: (TLocation) => void
 };
 
-export default class LocationGeocoderTextEdit extends React.Component<any, Props, any> {
+export default class LocationGeocoderTextEdit extends React.Component<void, Props, void> {
 
   // Available options can be found at:
   // https://developers.google.com/places/web-service/autocomplete

@@ -17,7 +17,7 @@ type Props = {
 // StaticSectionList ************************************************************************************
 // StaticSectionList ************************************************************************************
 
-export default class StaticSectionList extends React.PureComponent<any, Props, void> {
+export default class StaticSectionList extends React.PureComponent<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

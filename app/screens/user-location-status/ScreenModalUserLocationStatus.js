@@ -33,7 +33,7 @@ const defaultProps = {
 // _ScreenModalUserLocationStatus ***********************************************************************
 // _ScreenModalUserLocationStatus ***********************************************************************
 
-class _ScreenModalUserLocationStatus extends React.Component<any, TModalUserLocationStatusProps, void> {
+class _ScreenModalUserLocationStatus extends React.Component<void, TModalUserLocationStatusProps, void> {
 	static defaultProps = defaultProps;
 
 	constructor(props, context) {

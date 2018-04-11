@@ -31,7 +31,7 @@ type Props = {
 // _ScreenLogin *****************************************************************************************
 // _ScreenLogin *****************************************************************************************
 
-class _ScreenLogin extends React.Component<any, Props, any> {
+class _ScreenLogin extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

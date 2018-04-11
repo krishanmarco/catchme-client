@@ -16,7 +16,7 @@ type ListItemUserProps = ListItemWithActionProps & {
 	onPress: (TUser) => void
 };
 
-export class ListItemUser extends React.Component<any, ListItemUserProps, any> {
+export class ListItemUser extends React.Component<void, ListItemUserProps, void> {
 
 	constructor(props, context) {
 		super(props, context);

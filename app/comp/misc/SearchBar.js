@@ -22,7 +22,7 @@ type Props = {
 // SearchBar ********************************************************************************************
 // SearchBar ********************************************************************************************
 
-export default class SearchBar extends React.Component<any, Props, any> {
+export default class SearchBar extends React.Component<void, Props, void> {
 
   constructor(props, context) {
     super(props, context);

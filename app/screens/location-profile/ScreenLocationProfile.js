@@ -31,7 +31,7 @@ type State = {
 // _ScreenLocationProfile *******************************************************************************
 // _ScreenLocationProfile *******************************************************************************
 
-class _ScreenLocationProfile extends React.Component<any, Props, State> {
+class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 	// todo fix, these buttons should only be accessible once the locationProfile is not null any more!!
 	static NAV_BUTTON_USER_LOCATION_STATUS = {

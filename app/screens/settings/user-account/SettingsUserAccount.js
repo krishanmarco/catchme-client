@@ -47,7 +47,7 @@ type Props = {
 // _SettingsUserAccount *********************************************************************************
 // _SettingsUserAccount *********************************************************************************
 
-class _SettingsUserAccount extends React.Component<any, Props, any> {
+class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

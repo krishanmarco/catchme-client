@@ -46,7 +46,7 @@ type State = {
 // _EditLocationTimings *********************************************************************************
 // _EditLocationTimings *********************************************************************************
 
-class _EditLocationTimings extends React.Component<any, Props, State> {
+class _EditLocationTimings extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

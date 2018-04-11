@@ -16,7 +16,7 @@ type Props = {
 // _ModalTiming *****************************************************************************************
 // _ModalTiming *****************************************************************************************
 
-class _ModalTiming extends React.Component<any, Props, any> {
+class _ModalTiming extends React.Component<void, Props, void> {
 
 	_managerWeekTimings() {
 		return this.props.managerWeekTimings;

@@ -14,7 +14,7 @@ type Props = {
 // HelpAppInfo ******************************************************************************************
 // HelpAppInfo ******************************************************************************************
 
-export default class HelpAppInfo extends React.Component<any, Props, any> {
+export default class HelpAppInfo extends React.Component<void, Props, void> {
 
 	render() {
 		return (

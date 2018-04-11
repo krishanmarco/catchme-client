@@ -98,7 +98,7 @@ export function screenEnablePointerEvents() {
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************
 
-class Screen extends React.Component<any, Props, State> {
+class Screen extends React.Component<void, Props, State> {
 
 	render() {
 		const {children, style, height, disablePointerEvents, setHeight} = this.props;

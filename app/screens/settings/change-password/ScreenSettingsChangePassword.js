@@ -20,7 +20,7 @@ type Props = {
 // _ScreenSettingsChangePassword ************************************************************************
 // _ScreenSettingsChangePassword ************************************************************************
 
-class _ScreenSettingsChangePassword extends React.Component<any, Props, any> {
+class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

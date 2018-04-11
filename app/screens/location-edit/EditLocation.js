@@ -43,7 +43,7 @@ type Props = {
 // _EditLocation ****************************************************************************************
 // _EditLocation ****************************************************************************************
 
-class _EditLocation extends React.Component<any, Props, any> {
+class _EditLocation extends React.Component<void, Props, void> {
 	static indexOfInfoTab = 0;
 	static indexOfTimingsTab = 1;
 	static indexOfAddressTab = 2;

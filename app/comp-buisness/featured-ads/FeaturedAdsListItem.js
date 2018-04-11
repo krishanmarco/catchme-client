@@ -20,7 +20,7 @@ type Props = {
 // FeaturedAdsListItem **********************************************************************************
 // FeaturedAdsListItem **********************************************************************************
 
-export default class FeaturedAdsListItem extends React.Component<any, Props, any> {
+export default class FeaturedAdsListItem extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
