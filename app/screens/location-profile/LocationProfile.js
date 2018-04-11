@@ -68,7 +68,7 @@ type State = {
 // _LocationProfile *************************************************************************************
 // _LocationProfile *************************************************************************************
 
-class _LocationProfile extends React.Component<any, Props, State> {
+class _LocationProfile extends React.Component<void, Props, State> {
 
 	constructor(props: Props, context) {
 		super(props, context);

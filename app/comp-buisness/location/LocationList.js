@@ -19,7 +19,7 @@ type Props = {
 // LocationList *****************************************************************************************
 // LocationList *****************************************************************************************
 
-export default class LocationList extends React.PureComponent<any, Props, any> {
+export default class LocationList extends React.PureComponent<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

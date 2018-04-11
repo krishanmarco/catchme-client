@@ -53,7 +53,7 @@ function feedHandleClickAction(actionHandlerParams: TActionHandlerParams): Promi
 // _Feed ************************************************************************************************
 // _Feed ************************************************************************************************
 
-class _Feed extends React.Component<any, Props, State> {
+class _Feed extends React.Component<void, Props, State> {
 	
 	constructor(props, context) {
 		super(props, context);

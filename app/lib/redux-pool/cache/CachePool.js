@@ -2,9 +2,18 @@
 import CacheDefUserLocationStatus, {CACHE_ID_USER_LOCATION_STATUS} from "./def/CacheDefUserLocationStatus";
 import CacheDefUserProfile, {CACHE_ID_USER_PROFILE} from "./def/CacheDefUserProfile";
 import CachePoolActionCreator from "./CacheActionCreator";
-import {mutatorCacheModelInitializeData, mutatorCacheModelInvalidateData, mutatorCacheModelSetData} from "./CacheModel";
+import {
+	CacheState,
+	mutatorCacheModelInitializeData,
+	mutatorCacheModelInvalidateData,
+	mutatorCacheModelSetData
+} from "./CacheModel";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
+
+
+// Define result of poolConnect for this pool
+export type TCachePool = CachePoolActionCreator & CacheState;
 
 
 // Define all Actions (There should for each ACTION)

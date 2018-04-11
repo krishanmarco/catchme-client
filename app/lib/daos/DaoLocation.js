@@ -107,9 +107,9 @@ export default class DaoLocation {
 		return denormObj({
 			// To allow a new location to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
-			[DaoLocation.pId]: Const.DaoLocation.newLocationId,
+			[DaoLocation.pId]: Const.locationNewId,
 			[DaoLocation.pName]: null,
-			[DaoLocation.pPictureUrl]: Const.DaoLocation.defaultAvatar,
+			[DaoLocation.pPictureUrl]: Const.locationDefaultAvatar,
 			[DaoLocation.pDescription]: null,
 			[DaoLocation.pEmail]: null,
 			[DaoLocation.pPhone]: null,
@@ -163,7 +163,7 @@ export default class DaoLocation {
 	
 	static gPictureUrl(location: TLocation) {
 		const pictureUri = _.trim(_.get(location, DaoLocation.pPictureUrl));
-		return _.isEmpty(pictureUri) ? Const.DaoLocation.defaultAvatar : pictureUri;
+		return _.isEmpty(pictureUri) ? Const.locationDefaultAvatar : pictureUri;
 	}
 	
 	static gTimings(location: TLocation) {
@@ -276,7 +276,7 @@ export default class DaoLocation {
 	static hasNewImage(location: TLocation): boolean {
 		const image = DaoLocation.gPictureUrl(location);
 		return image != null
-			&& image != Const.DaoLocation.defaultAvatar
+			&& image != Const.locationDefaultAvatar
 			&& !isValidUrl(image);
 	}
 	

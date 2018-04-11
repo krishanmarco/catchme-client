@@ -1,19 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../../lib/data/ApiClient';
-
 import DaoLocation from "../../lib/daos/DaoLocation";
-
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import ModalUserLocationStatus from './ModalUserLocationStatus';
 import React from 'react';
 import {CACHE_ID_USER_LOCATION_STATUS} from "../../lib/redux-pool/cache/def/CacheDefUserLocationStatus";
-
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
+import {Const} from "../../Config";
 import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from "../../lib/redux-pool/api-form/def/ApiFormDefUserLocationStatus";
 import {NullableObjects, Screen} from "../../comp/Misc";
-import {
-	poolConnect
-} from '../../redux/ReduxPool';
+import {poolConnect} from '../../redux/ReduxPool';
+import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
+import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
@@ -21,7 +18,7 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
-type Props = {
+export type TModalUserLocationStatusProps = {
 	navigator: TNavigator,
 	locationId: number,
 	initialStatus?: TUserLocationStatus,
@@ -29,121 +26,100 @@ type Props = {
 	postOnConfirm?: boolean
 };
 
-export type TModalUserLocationStatusProps = Props;
-
-type State = {
-	// Nothing for now
+const defaultProps = {
+	postOnConfirm: true
 };
 
-
 // _ScreenModalUserLocationStatus ***********************************************************************
 // _ScreenModalUserLocationStatus ***********************************************************************
 
-class _ScreenModalUserLocationStatus extends React.Component<any, Props, State> {
-
-	static defaultProps = {
-		postOnConfirm: true
-	};
+class _ScreenModalUserLocationStatus extends React.Component<void, TModalUserLocationStatusProps, void> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
 		this._onStatusConfirm = this._onStatusConfirm.bind(this);
-		this._onStatusChange = this._onStatusChange.bind(this);
 	}
 
 	componentWillMount() {
+		const {locationId, navigator} = this.props;
+
 		// Initialize the modals title
-		this._cacheMapLocationProfiles().initializeItem(this.props.locationId)
-			.then(locationProfile => {
-				// Once we have the locations profile, set the modal title
-				this.props.navigator.setTitle({title: DaoLocation.gName(locationProfile)});
-			});
+		this._cacheMapLocationProfiles().initializeItem(locationId)
+			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
 
 		// Bind the initialStatus to the redux form status
 		this._formApiEditUserLocationStatus().change(this._getInitialStatus());
 	}
 
 	_getInitialStatus() {
+		const {initialStatus, locationId} = this.props;
 
 		// If initialStatus props are set use
 		// those as the initial status
-		if (this.props.initialStatus)
-			return this.props.initialStatus;
+		if (initialStatus)
+			return initialStatus;
 
 
 		// Redux pool fallback from initialStatus
-		const userLocationStatusList = this._cacheUserLocationStatusData();
-		if (userLocationStatusList) {
-			const uls = userLocationStatusList
-				.find(uls => DaoUserLocationStatus.gLocationId(uls) == this.props.locationId);
+		const data = this._cacheMapLocationProfiles().data;
+		if (data) {
+			const userLocationStatus = data
+				.find(uls => DaoUserLocationStatus.gLocationId(uls) == locationId);
 
-			if (uls)
-				return uls;
+			if (userLocationStatus)
+				return userLocationStatus;
 		}
 
 
 		// Create new initialStatus fallback from redux pool
-		return DaoUserLocationStatus.newInstance(this.props.locationId);
+		return DaoUserLocationStatus.newInstance(locationId);
 	}
 
 
-	_formApiEditUserLocationStatus() {
+	_formApiEditUserLocationStatus(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_USER_LOCATION_STATUS];
 	}
 
-	_formApiEditUserLocationStatusInput() {
-		return this._formApiEditUserLocationStatus().apiInput;
-	}
-
-	_cacheMapLocationProfiles() {
+	_cacheMapLocationProfiles(): TCacheMapPool {
 		return this.props[CACHE_MAP_ID_LOCATION_PROFILES];
 	}
 
-	_cacheUserLocationStatusData(): ?TUserLocationStatus {
-		return this.props[CACHE_ID_USER_LOCATION_STATUS].data;
-	}
-
-	_locationProfile() {
-		return this._cacheMapLocationProfiles().get(this.props.locationId);
-	}
-
 	_onStatusConfirm() {
-		const newStatus = this._formApiEditUserLocationStatusInput();
+		const {navigator, postOnConfirm, onStatusConfirm} = this.props;
 
-		if (this.props.postOnConfirm) {
+		const newStatus = this._formApiEditUserLocationStatus().apiInput;
+
+		if (postOnConfirm) {
 			this._formApiEditUserLocationStatus().post()
 				.then(success => {
 
 					// Notify the parent component that the status has changed
-					if (this.props.onStatusConfirm)
-						this.props.onStatusConfirm(newStatus);
+					if (onStatusConfirm)
+						onStatusConfirm(newStatus);
 				});
 		}
 
-		this.props.navigator.dismissModal({animationType: 'slide-down'});
-	}
-
-	_onStatusChange(objectToMerge) {
-		this._formApiEditUserLocationStatus().change(objectToMerge);
+		navigator.dismissModal(Const.dismissModalConfig);
 	}
 
 
 	render() {
+		const {locationId} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._locationProfile()]}
+					objects={[this._cacheMapLocationProfiles().get(locationId)]}
 					renderChild={([locationProfile]) => (
 						<ModalUserLocationStatus
 							locationProfile={locationProfile}
-							userLocationStatus={this._formApiEditUserLocationStatusInput()}
-							onStatusConfirm={this._onStatusConfirm}
-							onStatusChange={this._onStatusChange}/>
+							userLocationStatus={this._formApiEditUserLocationStatus().apiInput}
+							onStatusChange={this._formApiEditUserLocationStatus().change}
+							onStatusConfirm={this._onStatusConfirm}/>
 					)}/>
 			</Screen>
 		);
 	}
-
 
 }
 

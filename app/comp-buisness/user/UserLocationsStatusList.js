@@ -33,7 +33,7 @@ type State = {
 
 
 
-export default class UserLocationsStatusList extends React.Component<any, Props, State> {
+export default class UserLocationsStatusList extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

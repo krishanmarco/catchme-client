@@ -25,7 +25,7 @@ type Props = {
 // _SettingsUserNotifications ***************************************************************************
 // _SettingsUserNotifications ***************************************************************************
 
-class _SettingsUserNotifications extends React.Component<any, Props, any> {
+class _SettingsUserNotifications extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

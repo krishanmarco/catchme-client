@@ -21,16 +21,16 @@ export default function run() {
 
   [
 
-    {name: Const.NavigationComponents.ScreenLogin, getComponent: () => ScreenLogin},
-    {name: Const.NavigationComponents.ScreenRegister, getComponent: () => ScreenRegister},
-    {name: Const.NavigationComponents.ScreenRecoverPassword, getComponent: () => ScreenRecoverPassword},
+    {name: Screens.ScreenLogin, getComponent: () => ScreenLogin},
+    {name: Screens.ScreenRegister, getComponent: () => ScreenRegister},
+    {name: Screens.ScreenRecoverPassword, getComponent: () => ScreenRecoverPassword},
 
   ].map(route => Navigation.registerComponent(route.name, route.getComponent, store, Provider));
 
 
   Navigation.startSingleScreenApp({
     screen: {
-      screen: Const.NavigationComponents.ScreenLogin,
+      screen: Screens.ScreenLogin,
       navigatorStyle: {
         navBarHidden: true
       }

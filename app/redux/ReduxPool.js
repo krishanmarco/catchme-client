@@ -7,6 +7,7 @@ import FirebaseDataPool from "../lib/redux-pool/firebase-data/FirebaseDataPool";
 import {connect} from 'react-redux';
 import {TState} from "../lib/types/Types";
 import type {TDispatch} from "../lib/types/Types";
+import SearchDataPool from "../lib/redux-pool/search-data/SearchDataPool";
 
 
 
@@ -20,7 +21,7 @@ export const POOL_TYPE_CACHE_MAP = 'POOL_TYPE_CACHE_MAP';
 export const POOL_TYPE_API_FORMS = 'POOL_TYPE_API_FORMS';
 export const POOL_TYPE_LOCAL_FORMS = 'POOL_TYPE_LOCAL_FORMS';
 export const POOL_TYPE_FIREBASE_DATA = 'POOL_TYPE_LOCAL_FORMS';
-
+export const POOL_TYPE_SEARCH_DATA = 'POOL_TYPE_SEARCH_DATA';
 
 // ObjectWrappers *****************************************************************************************************
 // ObjectWrappers *****************************************************************************************************
@@ -90,7 +91,8 @@ export const ReduxPoolBuilder = {
 	[POOL_TYPE_CACHE]: CachePool,
 	[POOL_TYPE_API_FORMS]: ApiFormPool,
 	[POOL_TYPE_CACHE_MAP]: CacheMapPool,
-	[POOL_TYPE_FIREBASE_DATA]: FirebaseDataPool
+	[POOL_TYPE_FIREBASE_DATA]: FirebaseDataPool,
+	[POOL_TYPE_SEARCH_DATA]: SearchDataPool
 };
 
 

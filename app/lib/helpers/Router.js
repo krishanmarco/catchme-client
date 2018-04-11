@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
-import {Colors, Const} from '../../Config';
+import {Colors, Const, Screens} from '../../Config';
 import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
 
 export default class Router {
@@ -14,7 +14,7 @@ export default class Router {
 
   static toLocationProfileById(navigator, locationId, title = null) {
     navigator.showModal({
-      screen: Const.NavigationComponents.ScreenLocationProfile,
+      screen: Screens.ScreenLocationProfile,
       title,
       passProps: {locationId},
       animated: true,
@@ -34,7 +34,7 @@ export default class Router {
   static toUserProfileById(navigator, userId, title = null) {
 
     navigator.showModal({
-      screen: Const.NavigationComponents.ScreenUserProfile,
+      screen: Screens.ScreenUserProfile,
       title,
       passProps: {userId},
       animated: true,
@@ -50,7 +50,7 @@ export default class Router {
 
   static toCameraModal(navigator, props) {
     navigator.showModal({
-      screen: Const.NavigationComponents.ModalCamera,
+      screen: Screens.ModalCamera,
       passProps: props,
       animated: true,
       animationType: 'slide-up',
@@ -63,7 +63,7 @@ export default class Router {
 
   static toTimingModal(navigator, title, props) {
     navigator.showModal({
-      screen: Const.NavigationComponents.ModalTiming,
+      screen: Screens.ModalTiming,
       title,
       passProps: props,
       animated: true,
@@ -75,7 +75,7 @@ export default class Router {
 
   static toModalUserLocationStatus(navigator, props: TModalUserLocationStatusProps) {
     navigator.showModal({
-      screen: Const.NavigationComponents.ModalUserLocationStatus,
+      screen: Screens.ModalUserLocationStatus,
       passProps: props,
       animated: true,
       animationType: 'slide-up'
@@ -85,7 +85,7 @@ export default class Router {
 
   static toAddressPickerModal(navigator, props) {
     navigator.showModal({
-      screen: Const.NavigationComponents.ScreenAddressPicker,
+      screen: Screens.ScreenAddressPicker,
       passProps: props,
       animated: true,
       animationType: 'slide-up',
@@ -97,7 +97,7 @@ export default class Router {
 
   static toRegister(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenRegister,
+      screen: Screens.ScreenRegister,
       navigatorStyle: {
         navBarHidden: true,
         navBarBackgroundColor: Colors.primary
@@ -107,7 +107,7 @@ export default class Router {
 
   static toLogin(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenLogin,
+      screen: Screens.ScreenLogin,
       navigatorStyle: {
         navBarHidden: true,
         navBarBackgroundColor: Colors.primary
@@ -117,7 +117,7 @@ export default class Router {
 
   static toRecoverPassword(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenRecoverPassword,
+      screen: Screens.ScreenRecoverPassword,
       navigatorStyle: {
         navBarHidden: true,
         navBarBackgroundColor: Colors.primary
@@ -138,7 +138,7 @@ export default class Router {
 
   static toAddContactsScreen(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenAddContacts,
+      screen: Screens.ScreenAddContacts,
       title: 'My Contacts',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
@@ -149,7 +149,7 @@ export default class Router {
 
   static toLogoutScreen(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenLogout,
+      screen: Screens.ScreenLogout,
       title: 'Logout',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
@@ -160,7 +160,7 @@ export default class Router {
 
   static toSettingsUserAccount(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenSettingsUserAccount,
+      screen: Screens.ScreenSettingsUserAccount,
       title: 'Account',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
@@ -171,7 +171,7 @@ export default class Router {
 
   static toSettingsAdminLocations(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenSettingsAdminLocations,
+      screen: Screens.ScreenSettingsAdminLocations,
       title: 'My Locations',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
@@ -181,7 +181,7 @@ export default class Router {
 
   static toSettingsUserNotifications(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenSettingsUserNotifications,
+      screen: Screens.ScreenSettingsUserNotifications,
       title: 'Notifications',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
@@ -192,7 +192,7 @@ export default class Router {
 
   static toSettingsChangePassword(navigator, screenName) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenSettingsChangePassword,
+      screen: Screens.ScreenSettingsChangePassword,
       title: 'Change password',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary
@@ -202,7 +202,7 @@ export default class Router {
 
   static toScreenEditLocation(navigator, locationId) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenEditLocation,
+      screen: Screens.ScreenEditLocation,
       title: 'My Locations',
       passProps: {locationId},
       navigatorStyle: {
@@ -213,7 +213,7 @@ export default class Router {
 
   static toScreenNewLocation(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenNewLocation,
+      screen: Screens.ScreenNewLocation,
       title: 'New Location',
       passProps: {},
       navigatorStyle: {
@@ -224,7 +224,7 @@ export default class Router {
 
   static toScreenHelpAppInfo(navigator) {
     navigator.push({
-      screen: Const.NavigationComponents.ScreenHelpAppInfo,
+      screen: Screens.ScreenHelpAppInfo,
       title: 'Catchme',
       navigatorStyle: {
         navBarBackgroundColor: Colors.primary

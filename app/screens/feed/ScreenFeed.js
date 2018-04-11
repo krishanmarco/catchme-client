@@ -6,6 +6,8 @@ import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUser
 import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TNavigator} from "../../lib/types/Types";
+import type {TCacheDefUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 
 
 // Const *************************************************************************************************
@@ -22,21 +24,21 @@ type State = {
 // _ScreenFeed ******************************************************************************************
 // _ScreenFeed ******************************************************************************************
 
-class _ScreenFeed extends React.Component<any, Props, State> {
+class _ScreenFeed extends React.Component<void, Props, State> {
 	
 	componentWillMount() {
-		this.props[CACHE_ID_USER_PROFILE].initialize();
+		this._cacheUserProfile().initialize();
 	}
-	
-	_userProfile() {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
 	}
-	
+
 	render() {
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._userProfile(), Context.getFirebaseUser()]}
+					objects={[this._cacheUserProfile().data, Context.getFirebaseUser()]}
 					renderChild={([userProfile]) => (
 						<Feed
 							userProfile={userProfile}

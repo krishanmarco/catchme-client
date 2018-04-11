@@ -4,6 +4,7 @@ import CacheMapDefLocationProfiles, {CACHE_MAP_ID_LOCATION_PROFILES} from "./def
 import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from "./def/CacheMapDefUserProfiles";
 import CacheMapExtraProps from "./CacheMapExtraProps";
 import {
+	CacheMapState,
 	mutatorCacheMapModelInitData,
 	mutatorCacheMapModelInvalidateAllData,
 	mutatorCacheMapModelInvalidateData,
@@ -11,6 +12,10 @@ import {
 } from "./CacheMapModel";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
+
+
+// Define result of poolConnect for this pool
+export type TCacheMapPool = CacheMapActionCreator & CacheMapExtraProps & CacheMapState;
 
 
 // Define all Actions (There should for each ACTION)

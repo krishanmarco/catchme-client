@@ -22,7 +22,7 @@ type State = {
 // _ScreenNewLocation ***********************************************************************************
 // _ScreenNewLocation ***********************************************************************************
 
-class _ScreenNewLocation extends React.Component<any, Props, State> {
+class _ScreenNewLocation extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

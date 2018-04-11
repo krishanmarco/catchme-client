@@ -27,7 +27,7 @@ const captureOptions = {
 // CameraWrapper ****************************************************************************************
 // CameraWrapper ****************************************************************************************
 
-export default class CameraWrapper extends React.Component<any, Props, any> {
+export default class CameraWrapper extends React.Component<void, Props, void> {
 	static defaultProps = defaultProps;
 
 	constructor(props, context) {

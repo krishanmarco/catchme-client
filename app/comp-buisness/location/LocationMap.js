@@ -29,7 +29,7 @@ type State = {
 // LocationMap ******************************************************************************************
 // LocationMap ******************************************************************************************
 
-export default class LocationMap extends React.Component<any, Props, State> {
+export default class LocationMap extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -43,7 +43,7 @@ export default class LocationMap extends React.Component<any, Props, State> {
 
 
 	_getInitialRegion(props) {
-		const initialRegion = Const.LocationMap.initialRegion;
+		const initialRegion = Const.locationInitialRegion;
 
 		if (props.locations.length <= 0)
 			return initialRegion;

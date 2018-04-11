@@ -98,7 +98,7 @@ function modalUserLocationStatusSetUntilModalVisibility(visible) {
 // _ModalUserLocationStatus *****************************************************************************
 // _ModalUserLocationStatus *****************************************************************************
 
-class _ModalUserLocationStatus extends React.Component<any, Props, State> {
+class _ModalUserLocationStatus extends React.Component<void, Props, State> {
 	static DATE_TIME_NOW = new Date();
 
 	constructor(props, context) {
@@ -160,7 +160,7 @@ class _ModalUserLocationStatus extends React.Component<any, Props, State> {
 		const from = new Date();
 		const until = new Date();
 
-		until.setHours(until.getHours() + Const.UserLocationStatus.defaultStayHrs);
+		until.setHours(until.getHours() + Const.userLocationStatusDefaultStayHrs);
 
 		this._onStatusChange({
 			[DaoUserLocationStatus.pFromTs]: moment(from).unix(),
@@ -173,8 +173,8 @@ class _ModalUserLocationStatus extends React.Component<any, Props, State> {
 		const from = new Date();
 		const until = new Date();
 
-		const startHrs = Const.UserLocationStatus.defaultLaterStartHrs;
-		const stayHrs = Const.UserLocationStatus.defaultStayHrs;
+		const startHrs = Const.userLocationStatusDefaultLaterStartHrs;
+		const stayHrs = Const.userLocationStatusDefaultStayHrs;
 
 		if (from.getHours() < startHrs)
 			from.setHours(startHrs, 0, 0, 0);

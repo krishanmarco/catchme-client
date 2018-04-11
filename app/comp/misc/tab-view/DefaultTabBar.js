@@ -33,7 +33,7 @@ const DefaultProps = {
 };
 
 
-export default class DefaultTabBar extends React.Component<any, Props, any> {
+export default class DefaultTabBar extends React.Component<void, Props, void> {
 	static defaultProps = DefaultProps;
 
 	constructor(props, context) {

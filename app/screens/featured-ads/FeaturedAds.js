@@ -48,7 +48,7 @@ function featuredAdsHandleClickAction(actionHandlerParams: TActionHandlerParams)
 // _FeaturedAds *****************************************************************************************
 // _FeaturedAds *****************************************************************************************
 
-class _FeaturedAds extends React.Component<any, Props, any> {
+class _FeaturedAds extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

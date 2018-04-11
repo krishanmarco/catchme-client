@@ -59,7 +59,7 @@ type State = {
 // _UserProfile *****************************************************************************************
 // _UserProfile *****************************************************************************************
 
-class _UserProfile extends React.Component<any, Props, State> {
+class _UserProfile extends React.Component<void, Props, State> {
 
 
 	constructor(props: Props, context) {

@@ -8,11 +8,11 @@ import {Colors, Icons} from '../../Config';
 import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
 import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollableIconTabView} from "../../comp/Misc";
-import {TReduxPoolApiForms} from "../../lib/types/ReduxPoolTypes";
 import {View} from 'react-native';
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 
 
 // Redux ************************************************************************************************
@@ -43,7 +43,7 @@ type Props = {
 // _EditLocation ****************************************************************************************
 // _EditLocation ****************************************************************************************
 
-class _EditLocation extends React.Component<any, Props, any> {
+class _EditLocation extends React.Component<void, Props, void> {
 	static indexOfInfoTab = 0;
 	static indexOfTimingsTab = 1;
 	static indexOfAddressTab = 2;
@@ -66,7 +66,7 @@ class _EditLocation extends React.Component<any, Props, any> {
 		this._formApiEditLocationProfile().change(locationProfile);
 	}
 
-	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_LOCATION_PROFILE];
 	}
 

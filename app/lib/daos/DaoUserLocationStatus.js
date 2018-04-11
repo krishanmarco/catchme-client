@@ -36,7 +36,7 @@ export default class DaoUserLocationStatus {
 			[DaoUserLocationStatus.pId]: -1,
 			[DaoUserLocationStatus.pLocationId]: locationId,
 			[DaoUserLocationStatus.pFromTs]: seconds(),
-			[DaoUserLocationStatus.pUntilTs]: seconds() + (Const.UserLocationStatus.defaultStayHrs * 60 * 60),
+			[DaoUserLocationStatus.pUntilTs]: seconds() + (Const.userLocationStatusDefaultStayHrs * 60 * 60),
 		});
 	}
 	

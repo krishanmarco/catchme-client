@@ -5,7 +5,7 @@ import {Const} from "../Config";
 export default class Logger {
 
 	static _isDevMode() {
-		return Const.Development.devMode;
+		return Const.devMode;
 	}
 
 	// (Verbose) Used for normal logging

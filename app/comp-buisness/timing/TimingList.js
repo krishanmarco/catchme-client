@@ -19,7 +19,7 @@ type Props = {
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
-export default class WeekTimingsList extends React.Component<any, Props, any> {
+export default class WeekTimingsList extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

@@ -113,8 +113,8 @@ export default class DaoUser {
 		return denormObj({
 			// To allow a new user to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
-			[DaoUser.pSettingPrivacy]: Const.DaoUser.defaultPrivacySettings,
-			[DaoUser.pSettingNotifications]: Const.DaoUser.defaultNotificationSettings,
+			[DaoUser.pSettingPrivacy]: Const.userDefaultPrivacySettings,
+			[DaoUser.pSettingNotifications]: Const.userDefaultNotificationsSettings,
 			[DaoUser.pPictureUrl]: '',
 			[DaoUser.pPhone]: '',
 			[DaoUser.pEmail]: '',
@@ -159,11 +159,11 @@ export default class DaoUser {
 	}
 	
 	static gSettingPrivacy(user: TUser) {
-		return _.get(user, DaoUser.pSettingPrivacy, Const.DaoUser.defaultPrivacySettings);
+		return _.get(user, DaoUser.pSettingPrivacy, Const.userDefaultPrivacySettings);
 	}
 	
 	static gSettingNotifications(user: TUser) {
-		return _.get(user, DaoUser.pSettingNotifications, Const.DaoUser.defaultNotificationSettings);
+		return _.get(user, DaoUser.pSettingNotifications, Const.userDefaultNotificationsSettings);
 	}
 	
 	static gGender(user: TUser) {

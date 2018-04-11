@@ -9,8 +9,8 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -43,7 +43,7 @@ type Props = {
 // _EditLocationAddress *********************************************************************************
 // _EditLocationAddress *********************************************************************************
 
-class _EditLocationAddress extends React.Component<any, Props, any> {
+class _EditLocationAddress extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -68,7 +68,7 @@ class _EditLocationAddress extends React.Component<any, Props, any> {
 		);
 	}
 
-	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props.formApiEditLocationProfile;
 	}
 

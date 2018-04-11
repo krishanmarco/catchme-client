@@ -29,7 +29,7 @@ type State = {
 // SearchableFlatList ***********************************************************************************
 // SearchableFlatList ***********************************************************************************
 
-export default class SearchableFlatList extends React.PureComponent<any, Props, State> {
+export default class SearchableFlatList extends React.PureComponent<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

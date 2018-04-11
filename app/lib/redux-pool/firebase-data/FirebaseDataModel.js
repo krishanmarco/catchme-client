@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import _ from 'lodash';
 import DaoAction from "../../daos/DaoAction";
 import {arrayClean, arrayCleanAndVerify} from "../../HelperFunctions";
 import {Const} from "../../../Config";
@@ -23,7 +22,7 @@ export class FirebaseDataState {
 		this.runningBulkFetch = true;
 
 		// Defines how many items to fetch on each loadMore() call
-		this.itemsToLoad = Const.FirebaseDataPool.loadMoreItems;
+		this.itemsToLoad = Const.firebasePaginationSize;
 
 		// The received data
 		this.data = [];
@@ -36,7 +35,7 @@ export class FirebaseDataState {
 export function mutatorFirebaseDataOnPreBulkFetch(action, subState: FirebaseDataState): FirebaseDataState {
 	return {
 		runningBulkFetch: true,
-		itemsToLoad: subState.itemsToLoad + Const.FirebaseDataPool.loadMoreItems
+		itemsToLoad: subState.itemsToLoad + Const.firebasePaginationSize
 	};
 }
 

@@ -17,7 +17,7 @@ type Props = {
 // _ScreenAddressPicker *********************************************************************************
 // _ScreenAddressPicker *********************************************************************************
 
-class _ScreenAddressPicker extends React.Component<any, Props, any> {
+class _ScreenAddressPicker extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

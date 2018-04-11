@@ -24,7 +24,7 @@ type ListItemLocationProps = {
 	actions: Array<TAction>
 };
 
-export class ListItemLocation extends React.Component<any, ListItemLocationProps, any> {
+export class ListItemLocation extends React.Component<void, ListItemLocationProps, void> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -82,7 +82,7 @@ type ListItemUserLocationStatusProps = TLocation & {
 	status: TUserLocationStatus
 }
 
-export class ListItemUserLocationStatus extends React.Component<any, ListItemUserLocationStatusProps, any> {
+export class ListItemUserLocationStatus extends React.Component<void, ListItemUserLocationStatusProps, void> {
 
 	constructor(props, context) {
 		super(props, context);

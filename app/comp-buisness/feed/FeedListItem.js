@@ -28,7 +28,7 @@ type State = {
 // FeedListItem *****************************************************************************************
 // FeedListItem *****************************************************************************************
 
-export default class FeedListItem extends React.Component<any, Props, State> {
+export default class FeedListItem extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

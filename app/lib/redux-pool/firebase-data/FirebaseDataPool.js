@@ -3,11 +3,16 @@ import FirebaseDataActionCreator from "./FirebaseDataActionCreator";
 import FirebaseDataDefFeaturedAds, {FIREBASE_DATA_ID_FEATURED_ADS} from "./def/FirebaseDataDefFeaturedAds";
 import FirebaseDataDefFeed, {FIREBASE_DATA_ID_FEED} from "./def/FirebaseDataDefFeed";
 import {
+	FirebaseDataState,
 	mutatorFirebaseDataOnPreBulkFetch,
 	mutatorFirebaseDataSaveReceivedData,
 	mutatorFirebaseDataSetFetchedAllItems
 } from "./FirebaseDataModel";
 import type {TPool} from "../Pool";
+
+
+// Define result of poolConnect for this pool
+export type TFirebaseDataPool = FirebaseDataActionCreator & FirebaseDataState;
 
 
 // Define all Actions (There should for each ACTION)

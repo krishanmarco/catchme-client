@@ -28,7 +28,7 @@ type Props = {
 // SettingsUserAdministratingLocations ******************************************************************
 // SettingsUserAdministratingLocations ******************************************************************
 
-export default class SettingsUserAdministratingLocations extends React.Component<any, Props, any> {
+export default class SettingsUserAdministratingLocations extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);

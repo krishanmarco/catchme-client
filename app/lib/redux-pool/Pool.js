@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 import PoolActionCreator from "./PoolActionCreator";
-import {TPoolDef} from "./PoolDef";
 
 
 // A mutator is a function that takes an action (Object) and the previous state (Object)
@@ -22,6 +21,6 @@ export type TPool = {
 		getActionCreator: (string, Function) => PoolActionCreator
 	},
 	
-	defs: {[string]: TPoolDef}
+	defs: {[string]: Object}
 	
 };
