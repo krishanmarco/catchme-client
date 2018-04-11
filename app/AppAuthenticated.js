@@ -31,7 +31,7 @@ import ScreenSettingsUserNotifications from './screens/settings/user-notificatio
 import ScreenUserProfile from './screens/user-profile/ScreenUserProfile';
 
 import {applyMiddleware, createStore} from 'redux';
-import {Colors, Const, Screens} from './Config';
+import {Colors, Screens} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 import type {TUser} from "./lib/daos/DaoUser";

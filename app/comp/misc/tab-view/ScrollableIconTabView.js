@@ -3,10 +3,11 @@ import DefaultTabBar from './DefaultTabBar';
 import React from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {Colors} from "../../../Config";
+import type {TIcon} from "../../../lib/types/Types";
 
 
 type Props = {
-	icons: Array<Object>,
+	icons: Array<{[string]: TIcon}>,
 	children: Array<Node>,
 	allowIndexChange?: Function,
 	onPreTabChange?: Function,
@@ -74,7 +75,6 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 	render() {
 		const {children, locked} = this.props;
-		const {selectedTab} = this.state;
 
 		return (
 			<ScrollableTabView

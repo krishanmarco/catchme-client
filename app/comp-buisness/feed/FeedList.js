@@ -53,11 +53,11 @@ export default class FeedList extends React.Component<void, Props, void> {
 	}
 
 
-	_renderItem({item}: {item: TFeed}) {
+	_renderItem({item: feed}: {item: TFeed}) {
 		const {handleClickAction} = this.props;
 		return (
 			<FeedListItem
-				feed={item}
+				feed={feed}
 				handleClickAction={handleClickAction}/>
 		);
 	}

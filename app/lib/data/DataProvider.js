@@ -10,7 +10,7 @@ import {seconds} from '../HelperFunctions';
 class DataProvider {
 
 
-	usersGetUidProfile(uid) {
+	usersGetUidProfile(uid: number) {
 		return this._getCachedObjectById(
 			// Cached user object (nullable)
 			RealmIO.getUserById(uid),
@@ -24,7 +24,7 @@ class DataProvider {
 	}
 
 
-	locationsGetLidProfile(lid) {
+	locationsGetLidProfile(lid: number) {
 		return this._getCachedObjectById(
 			// Cached location object (nullable)
 			RealmIO.getLocationById(lid),

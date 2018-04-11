@@ -1,16 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
 import PropTypes from 'prop-types';
-
 import React from 'react';
-
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-
 import {
   ListItemUser,
   ListItemUserRequestReceived,
   ListItemUserRequestSend
 } from '../../comp-buisness/user/UserListItems';
+import type {ListItemUserProps} from "./UserListItems";
 // todo refactor proptypes
 
 
@@ -52,7 +50,7 @@ export default class UserList extends React.PureComponent {
 
   _renderItem({item: user}) {
     let {friendIds, requestIds, blockedIds, onItemPress} = this.props;
-    let listItemProps = {user, onPress: onItemPress};
+    let listItemProps: ListItemUserProps = {user, onPress: onItemPress};
 
     if (requestIds && requestIds.includes(DaoUser.gId(user)))
       return <ListItemUserRequestReceived {...listItemProps}/>;

@@ -5,13 +5,13 @@ import React from 'react';
 import {Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {ListItemWithActionProps, TListItemAction} from "../../comp/misc/ListItemsWithActions";
+import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 
 
 // ListItemUser *****************************************************************************************
 // ListItemUser *****************************************************************************************
 
-type ListItemUserProps = ListItemWithActionProps & {
+export type ListItemUserProps = ListItemWithActionProps & {
 	user: TUser,
 	onPress: (TUser) => void
 };
@@ -28,8 +28,6 @@ export class ListItemUser extends React.Component<void, ListItemUserProps, void>
 
 		if (onPress)
 			onPress(user);
-
-		// Add more on-press actions here
 	}
 
 	render() {

@@ -158,7 +158,7 @@ export function poolConnect(component, mapStateToProps, mapDispatchToProps, pool
 					const getExtraProps = ReduxPoolBuilder[poolType].connectParams.getExtraProps;
 					
 					if (getExtraProps != null)
-						extraProps = getExtraProps(poolId, pool, stateProps[poolId], dispatchProps[poolId]);
+						extraProps = getExtraProps(poolId, stateProps[poolId], dispatchProps[poolId]);
 					
 					
 					mergeResult[poolId] = Object.assign(

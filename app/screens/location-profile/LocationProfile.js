@@ -44,6 +44,15 @@ type State = {
 	locationInfoSections: Array<TSectionListDataPointSections>
 };
 
+const locationProfileTabIcons = {
+	0: Icons.locationProfile,
+	1: Icons.locationImages,
+	2: Icons.locationPersonNow,
+	3: Icons.locationPersonFuture,
+	4: Icons.locationChat,
+	5: Icons.locationInfo,
+};
+
 
 // _LocationProfile *************************************************************************************
 // _LocationProfile *************************************************************************************
@@ -88,17 +97,9 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 		tabs.push(this._renderTab('5', this._renderTabInfo()));
 
-		// todo fix, what if <LocationChat is not added because firebase is disabled renderTabInfo would have the chats icon
 		return (
 			<ScrollableIconTabView
-				icons={[
-					Icons.locationProfile,
-					Icons.locationImages,
-					Icons.locationPersonNow,
-					Icons.locationPersonFuture,
-					Icons.locationChat,
-					Icons.locationInfo,
-				]}>
+				icons={locationProfileTabIcons}>
 				{tabs}
 			</ScrollableIconTabView>
 		);
@@ -208,12 +209,12 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-	_renderTabLocationInfoItem({item}: { item: TDataPoint }) {
+	_renderTabLocationInfoItem({item: dataPoint}: { item: TDataPoint }) {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
-				{...item}/>
+				onPress={() => LocationProfileDataPoints.handleOnItemPress(dataPoint.id, locationProfile, navigator)}
+				{...dataPoint}/>
 		);
 	}
 

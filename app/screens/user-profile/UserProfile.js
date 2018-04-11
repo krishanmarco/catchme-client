@@ -17,6 +17,7 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+// todo refactor
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -31,6 +32,12 @@ type State = {
 	userInfoSections: Array<TSectionListDataPointSections>
 };
 
+const userProfileTabIcons = {
+	0: Icons.userProfile,
+	1: Icons.userLocations,
+	2: Icons.userFriends,
+	3: Icons.userInfo
+};
 
 
 // _UserProfile *****************************************************************************************
@@ -97,12 +104,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 		return (
 			<ScrollableIconTabView
-				icons={[
-					Icons.userProfile,
-					Icons.userLocations,
-					Icons.userFriends,
-					Icons.userInfo
-				]}>
+				icons={userProfileTabIcons}>
 				{tabs}
 			</ScrollableIconTabView>
 		);
@@ -185,11 +187,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-	_renderTabUserInfoItem({item}: { item: TDataPoint }) {
+	_renderTabUserInfoItem({item: dataPoint}: { item: TDataPoint }) {
 		return (
 			<ListItemInfo
-				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._userProfile(), this._navigator())}
-				{...item}/>
+				onPress={() => UserProfileInfoItems.handleOnItemPress(dataPoint.id, this._userProfile(), this._navigator())}
+				{...dataPoint}/>
 		);
 	}
 
@@ -212,8 +214,8 @@ const UserProfile = poolConnect(_UserProfile,
 export default UserProfile;
 
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+// Config ************************************************************************************************
+// Config ************************************************************************************************
 
 const styles = StyleSheet.create({
 	tabHomeRoot: {

@@ -87,11 +87,11 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		);
 	}
 
-	_renderLocationItem({item}: {item: TLocation}) {
+	_renderLocationItem({item: location}: {item: TLocation}) {
 		return (
 			<ListItemLocation
-				location={item}
-				onPress={() => this._onLocationPress(item)}/>
+				location={location}
+				onPress={() => this._onLocationPress(location)}/>
 		);
 	}
 

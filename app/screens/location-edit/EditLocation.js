@@ -27,10 +27,10 @@ type Props = {
 // _EditLocation ****************************************************************************************
 
 class _EditLocation extends React.Component<void, Props, void> {
-	static indexOfInfoTab = 0;
-	static indexOfTimingsTab = 1;
-	static indexOfAddressTab = 2;
-	static indexOfRecapTab = 3;
+	static idxInfo = 0;
+	static idxTimings = 1;
+	static idxAddress = 2;
+	static idxRecap = 3;
 
 	constructor(props, context) {
 		super(props, context);
@@ -69,12 +69,12 @@ class _EditLocation extends React.Component<void, Props, void> {
 	}
 
 	_onPreTabChange(currentIndex, nextIndex) {
-		if (currentIndex == EditLocation.indexOfTimingsTab) {
-			this.refTabs[EditLocation.indexOfTimingsTab].getWrappedInstance().saveTimingsToLocation();
+		if (currentIndex == EditLocation.idxTimings) {
+			this.refTabs[EditLocation.idxTimings].getWrappedInstance().saveTimingsToLocation();
 		}
 	}
 
-	_overrideIconColor(icon: TIcon, tabIndex: number) {
+	_getIcon(tabIndex: number, icon: TIcon) {
 		const wrapperRef = this.refTabs[tabIndex];
 
 		if (wrapperRef) {
@@ -89,24 +89,26 @@ class _EditLocation extends React.Component<void, Props, void> {
 
 
 	render() {
+		const tabs = [];
+
+		tabs.push(this._renderTab('0', this._renderTabEditLocationInfo()));
+		tabs.push(this._renderTab('1', this._renderTabEditLocationTimings()));
+		tabs.push(this._renderTab('2', this._renderTabEditLocationAddress()));
+		tabs.push(this._renderTab('3', this._renderTabEditLocationRecap()));
+
 		return (
 			<ScrollableIconTabView
 				allowIndexChange={this._allowIndexChange}
 				onPreTabChange={this._onPreTabChange}
 				locked={true}
 				activeColor={false}
-				icons={[
-					this._overrideIconColor(Icons.locationInfo, EditLocation.indexOfInfoTab),
-					this._overrideIconColor(Icons.locationTimings, EditLocation.indexOfTimingsTab),
-					this._overrideIconColor(Icons.locationMap, EditLocation.indexOfAddressTab),
-					this._overrideIconColor(Icons.locationSave, EditLocation.indexOfRecapTab)
-				]}>
-				{[
-					this._renderTabEditLocationInfo(),
-					this._renderTabEditLocationTimings(),
-					this._renderTabEditLocationAddress(),
-					this._renderTabEditLocationRecap()
-				].map((jsx, index) => this._renderTab(index.toString(), jsx))}
+				icons={{
+					0: this._getIcon(EditLocation.idxInfo, Icons.locationInfo),
+					1: this._getIcon(EditLocation.idxTimings, Icons.locationTimings),
+					2: this._getIcon(EditLocation.idxAddress, Icons.locationMap),
+					3: this._getIcon(EditLocation.idxRecap, Icons.locationSave)
+				}}>
+				{tabs}
 			</ScrollableIconTabView>
 		);
 	}
@@ -126,7 +128,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationInfo() {
 		return (
 			<EditLocationInfo
-				ref={ref => this.refTabs[EditLocation.indexOfInfoTab] = ref}
+				ref={ref => this.refTabs[EditLocation.idxInfo] = ref}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
@@ -134,7 +136,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationTimings() {
 		return (
 			<EditLocationTimings
-				ref={ref => this.refTabs[EditLocation.indexOfTimingsTab] = ref}
+				ref={ref => this.refTabs[EditLocation.idxTimings] = ref}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
@@ -142,7 +144,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationAddress() {
 		return (
 			<EditLocationAddress
-				ref={ref => this.refTabs[EditLocation.indexOfAddressTab] = ref}
+				ref={ref => this.refTabs[EditLocation.idxAddress] = ref}
 				navigator={this.props.navigator}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
@@ -151,7 +153,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationRecap() {
 		return (
 			<EditLocationRecap
-				ref={ref => this.refTabs[EditLocation.indexOfRecapTab] = ref}
+				ref={ref => this.refTabs[EditLocation.idxRecap] = ref}
 				onSaveComplete={this._onSaveComplete}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
