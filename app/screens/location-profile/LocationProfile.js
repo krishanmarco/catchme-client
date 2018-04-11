@@ -209,12 +209,12 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-	_renderTabLocationInfoItem({item: dataPoint}: { item: TDataPoint }) {
+	_renderTabLocationInfoItem({item}: {item: TDataPoint}) {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				onPress={() => LocationProfileDataPoints.handleOnItemPress(dataPoint.id, locationProfile, navigator)}
-				{...dataPoint}/>
+				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
+				{...item}/>
 		);
 	}
 

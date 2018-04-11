@@ -55,12 +55,12 @@ export default class LocationList extends React.PureComponent<void, Props, void>
 	}
 
 
-	_renderItem({item: location}: {item: TLocation}) {
+	_renderItem({item}: {item: TLocation}) {
 		let {favoriteIds, onItemPress} = this.props;
 
-		const listItemProps = {location, onPress: onItemPress};
+		const listItemProps = {location: item, onPress: onItemPress};
 
-		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(location)))
+		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(item)))
 			return <ListItemLocationFollow {...listItemProps}/>;
 
 		return <ListItemLocation {...listItemProps}/>;

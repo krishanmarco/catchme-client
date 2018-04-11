@@ -138,25 +138,25 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 
 
 
-	_renderItem({item: locationWithUserStatus}: {item: TLocationWithUserLocationStatus}) {
+	_renderItem({item}: {item: TLocationWithUserLocationStatus}) {
 		const {favoriteIds} = this.props;
 
 		const listItemProps = {
-			location: locationWithUserStatus,
+			location: item,
 			onPress: this.props.onLocationPress
 		};
 
 
-		if (locationWithUserStatus.status) {
+		if (item.status) {
 			return (
 				<ListItemUserLocationStatus
 					{...listItemProps}
 					allowEdit={this.props.allowEdit}
-					status={locationWithUserStatus.status}/>
+					status={item.status}/>
 			);
 		}
 
-		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(locationWithUserStatus)))
+		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(item)))
 			return <ListItemLocationFollow {...listItemProps}/>;
 
 		return <ListItemLocation {...listItemProps}/>;
