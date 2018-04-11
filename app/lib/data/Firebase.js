@@ -3,7 +3,7 @@ import * as firebase from 'firebase';
 import {Const} from '../../Config';
 
 const firebaseConfig = {
-	...Const.Firebase
+	...Const.firebaseConfig
 };
 
 firebase.initializeApp(firebaseConfig);

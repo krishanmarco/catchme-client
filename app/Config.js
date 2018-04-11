@@ -1,8 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Colors as _Colors} from './lib/theme/RkTheme';
 
-
-
 // Globals **********************************************************************************************
 // Globals **********************************************************************************************
 
@@ -11,8 +9,6 @@ const Globals = {
 };
 
 export const Colors = _Colors;
-
-
 
 
 // Icons ************************************************************************************************
@@ -77,7 +73,7 @@ export const Icons = {
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,
 
-	
+
 	friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},
 	friendRequestDeny: {name: 'md-hand', type: 'ionicon', color: Colors.secondary},
 	locationAttendanceAccept: {name: 'logo-apple', type: 'ionicon'},
@@ -107,8 +103,6 @@ export const Icons = {
 };
 
 
-
-
 // Urls *************************************************************************************************
 // Urls *************************************************************************************************
 
@@ -118,143 +112,84 @@ export const Urls = {
 };
 
 
+// Screens **********************************************************************************************
+// Screens **********************************************************************************************
+
+export const Screens = {
+	ScreenLocationProfile: `${Globals.packageName}.ScreenLocationProfile`,
+	ScreenUserProfile: `${Globals.packageName}.ScreenUserProfile`,
+	ScreenFeed: `${Globals.packageName}.ScreenUserFeed`,
+	ScreenSearch: `${Globals.packageName}.ScreenSearch`,
+	ScreenLogin: `${Globals.packageName}.ScreenLogin`,
+	ScreenRegister: `${Globals.packageName}.ScreenRegister`,
+	ScreenRecoverPassword: `${Globals.packageName}.ScreenRecoverPassword`,
+	ScreenAddressPicker: `${Globals.packageName}.ScreenAddressPicker`,
+	ScreenSettingsUserAccount: `${Globals.packageName}.ScreenSettingsUserAccount`,
+	ScreenSettingsAdminLocations: `${Globals.packageName}.ScreenSettingsAdminLocations`,
+	ScreenSettingsUserNotifications: `${Globals.packageName}.ScreenSettingsUserNotifications`,
+	ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,
+	ScreenAddContacts: `${Globals.packageName}.ScreenAddContacts`,
+	ScreenLogout: `${Globals.packageName}.ScreenLogout`,
+	ScreenEditLocation: `${Globals.packageName}.ScreenEditLocation`,
+	ScreenNewLocation: `${Globals.packageName}.ScreenNewLocation`,
+	ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
+	ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,
+	ModalCamera: `${Globals.packageName}.ModalCamera`,
+	ModalTiming: `${Globals.packageName}.ModalTiming`,
+	ModalUserLocationStatus: `${Globals.packageName}.ModalUserLocationStatus`
+};
+
+
+// ActionHandlerActions *********************************************************************************
+// ActionHandlerActions *********************************************************************************
+
+export const ActionHandlerActions = {
+	FriendshipRequestAccept: 'FriendshipRequestAccept',
+	FriendshipRequestDeny: 'FriendshipRequestDeny',
+	AttendanceConfirm: 'AttendanceConfirm',
+	LocationFollow: 'LocationFollow',
+	GoToLocationProfile: 'GoToLocationProfile',
+	GoToUserProfile: 'GoToUserProfile',
+};
 
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
 export const Const = {
-	
-	packageName: Globals.packageName,
+	devMode: true,
 
-	Development: {
-		devMode: true
-	},
-	
-	
-	NavigationComponents: {
-		ScreenLocationProfile: `${Globals.packageName}.ScreenLocationProfile`,
-		ScreenUserProfile: `${Globals.packageName}.ScreenUserProfile`,
-		ScreenFeed: `${Globals.packageName}.ScreenUserFeed`,
-		ScreenSearch: `${Globals.packageName}.ScreenSearch`,
-		
-		ScreenLogin: `${Globals.packageName}.ScreenLogin`,
-		ScreenRegister: `${Globals.packageName}.ScreenRegister`,
-		ScreenRecoverPassword: `${Globals.packageName}.ScreenRecoverPassword`,
-		
-		
-		ModalCamera: `${Globals.packageName}.ModalCamera`,
-		ModalTiming: `${Globals.packageName}.ModalTiming`,
-		ScreenAddressPicker: `${Globals.packageName}.ScreenAddressPicker`,
-		ModalUserLocationStatus: `${Globals.packageName}.ModalUserLocationStatus`,
-		
-		
-		ScreenSettingsUserAccount: `${Globals.packageName}.ScreenSettingsUserAccount`,
-		ScreenSettingsAdminLocations: `${Globals.packageName}.ScreenSettingsAdminLocations`,
-		ScreenSettingsUserNotifications: `${Globals.packageName}.ScreenSettingsUserNotifications`,
-		ScreenSettingsChangePassword: `${Globals.packageName}.ScreenSettingsChangePassword`,
-		
-		ScreenAddContacts: `${Globals.packageName}.ScreenAddContacts`,
-		ScreenLogout: `${Globals.packageName}.ScreenLogout`,
-		
-		ScreenEditLocation: `${Globals.packageName}.ScreenEditLocation`,
-		ScreenNewLocation: `${Globals.packageName}.ScreenNewLocation`,
+	dismissModalConfig: {animationType: 'slide-down'},
 
-		
-		ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
-		ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,
-	},
-	
-	GooglePlacesApi: {
-		key: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
-		debounceTimeMs: 500
-	},
-	
-	ApiAuthentication: {
-		RSA_N: 'd466e1dafbba9fc2db029277d5349e4605f29661958aee8e67146892397412d630582952d054b767c8afb96dbfdc35e1cf0cd446c1f0cfda4a8f66a8422d7f152ad580d751b191423a4c8ddca4b7c860344d410555ed25cbf4e8e41aba9874ed92cb17205d347d788a1a48a1239cb731eebe0fe914f8363cf0e5fdf324d799c1',
-		RSA_E: '10001'
-	},
-	
-	ApiClient: {
-		maxApi401: 5
-	},
-	
-	DataProvider: {
-		cacheTTLSec: 0  // 5 * 60,
-	},
-	
-	ImageURISource: {
-		
-		// One of ['default', 'reload', 'force-cache', 'only-if-cached']
-		cachingPolicy: 'default'
-	},
-	
-	
-	Firebase: {
-		apiKey: "AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI",
-		databaseURL: "https://catch-me-179514.firebaseio.com",
-	},
-	
-	Chat: {
-		loadMoreItems: 20,
-		unknownUserFallback: {_id: -1, name: '', avatar: 'https://lorempixel.com/640/480/?2702'}
-	},
-	
-	
-	
-	DaoUser: {
-		defaultPrivacySettings: '22222',
-		defaultNotificationSettings: '111'
+	googlePlacesKey: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
+	googlePlacesDebounceTimeMs: 500,
+
+	apiAuthRSAN: 'd466e1dafbba9fc2db029277d5349e4605f29661958aee8e67146892397412d630582952d054b767c8afb96dbfdc35e1cf0cd446c1f0cfda4a8f66a8422d7f152ad580d751b191423a4c8ddca4b7c860344d410555ed25cbf4e8e41aba9874ed92cb17205d347d788a1a48a1239cb731eebe0fe914f8363cf0e5fdf324d799c1',
+	apiAuthRSAE: '10001',
+
+	apiMax401: 5,
+
+	dataProviderCacheTTLSec: 0, 				// 5 * 60,
+
+	imagesCachingPolicy: 'default',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
+
+	firebaseConfig: {
+		apiKey: 'AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI',
+		databaseURL: 'https://catch-me-179514.firebaseio.com'
 	},
 
-	DaoLocation: {
-		newLocationId: -1,
-		defaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`
-	},
-	
-	FirebaseDataPool: {
-		loadMoreItems: 10,
-	},
-	
-	FeaturedAdsList: {
-		loadMoreItems: 10,
-	},
-	
-	
-	
-	UserLocationStatus: {
-		defaultLaterStartHrs: 22,
-		defaultStayHrs: 2
-	},
-	
-	
-	
-	ActionHandler: {
-		actions: {
-			FriendshipRequestAccept: 'FriendshipRequestAccept',
-			FriendshipRequestDeny: 'FriendshipRequestDeny',
-			AttendanceConfirm: 'AttendanceConfirm',
-			LocationFollow: 'LocationFollow',
-			GoToLocationProfile: 'GoToLocationProfile',
-			GoToUserProfile: 'GoToUserProfile',
-		}
-	},
+	chatPaginationSize: 20,
+	firebasePaginationSize: 10,
 
+	userDefaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`,
+	userDefaultPrivacySettings: '22222',
+	userDefaultNotificationsSettings: '111',
 
-	LocationMap: {
-		initialRegion: {
-			latitude: 37.78825,
-			longitude: -122.4324,
-			latitudeDelta: 0.02,
-			longitudeDelta: 0.02
-		}
-	}
-	
-};
+	locationNewId: -1,
+	locationDefaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`,
+	locationInitialRegion: {latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.02, longitudeDelta: 0.02},
 
-export default {
-	Colors,
-	Icons,
-	Urls,
-	Const
+	userLocationStatusDefaultLaterStartHrs: 22,
+	userLocationStatusDefaultStayHrs: 2
+
 };

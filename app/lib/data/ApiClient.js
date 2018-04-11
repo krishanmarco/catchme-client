@@ -68,7 +68,7 @@ class ApiClient {
 
 			ApiAuthentication.invalidateAuthenticationToken();
 
-			if (this.api401Attempts > Const.ApiClient.maxApi401) {
+			if (this.api401Attempts > Const.apiMax401) {
 				// This request has been unauthorized too many times
 				Logger.v("ApiClient _handleResponse: Too many [401], terminating request retry-loop");
 

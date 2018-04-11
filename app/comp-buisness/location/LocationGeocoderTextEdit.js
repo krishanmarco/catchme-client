@@ -17,7 +17,7 @@ export default class LocationGeocoderTextEdit extends React.Component<any, Props
   // Available options can be found at:
   // https://developers.google.com/places/web-service/autocomplete
   static AutoCompleteQueryKey = {
-    key: Const.GooglePlacesApi.key,
+    key: Const.googlePlacesKey,
     // language: 'it',
     // types: '(cities)' // default: 'geocode'
   };
@@ -75,7 +75,7 @@ export default class LocationGeocoderTextEdit extends React.Component<any, Props
             nearbyPlacesAPI={LocationGeocoderTextEdit.AutoCompleteApi}
             query={LocationGeocoderTextEdit.AutoCompleteQueryKey}
             styles={LocationGeocoderTextEdit.AutoCompleteStyles}
-            debounce={Const.GooglePlacesApi.debounceTimeMs}
+            debounce={Const.googlePlacesDebounceTimeMs}
 
             currentLocation={false}
 

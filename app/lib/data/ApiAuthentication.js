@@ -69,7 +69,7 @@ class ApiAuthentication {
 	_createToken(userId = -1, apiKey = '', serverTimestamp = '') {
 
 		let rsa = new RSAKey();
-		rsa.setPublic(Const.ApiAuthentication.RSA_N, Const.ApiAuthentication.RSA_E);
+		rsa.setPublic(Const.apiAuthRSAN, Const.apiAuthRSAE);
 
 		let key = MD5(serverTimestamp + apiKey);
 		let json = JSON.stringify({id: userId, key});

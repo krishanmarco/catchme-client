@@ -43,7 +43,7 @@ export default class LocationMap extends React.Component<any, Props, State> {
 
 
 	_getInitialRegion(props) {
-		const initialRegion = Const.LocationMap.initialRegion;
+		const initialRegion = Const.locationInitialRegion;
 
 		if (props.locations.length <= 0)
 			return initialRegion;

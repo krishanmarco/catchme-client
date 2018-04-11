@@ -3,7 +3,7 @@ import ApiClient from '../data/ApiClient';
 import DaoAction from "../daos/DaoAction";
 import Logger from "../Logger";
 import Router from "./Router";
-import {Const, Icons} from '../../Config';
+import {Const, ActionHandlerActions, Icons} from '../../Config';
 import {TActionHandlers} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
 import type {TActionHandler, TNavigator, TThunk} from "../types/Types";
@@ -11,7 +11,7 @@ import type {TActionHandler, TNavigator, TThunk} from "../types/Types";
 
 const _ClickActionHandlers: TActionHandlers = ({
 
-	[Const.ActionHandler.actions.FriendshipRequestAccept]: {
+	[ActionHandlerActions.FriendshipRequestAccept]: {
 		icon: Icons.userFollow,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
@@ -25,7 +25,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 	},
 
 
-	[Const.ActionHandler.actions.FriendshipRequestDeny]: {
+	[ActionHandlerActions.FriendshipRequestDeny]: {
 		icon: Icons.userBlock,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
@@ -39,7 +39,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 	},
 
 
-	[Const.ActionHandler.actions.AttendanceConfirm]: {
+	[ActionHandlerActions.AttendanceConfirm]: {
 		icon: Icons.locationPersonFuture,
 		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
@@ -59,7 +59,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 	},
 
 
-	[Const.ActionHandler.actions.LocationFollow]: {
+	[ActionHandlerActions.LocationFollow]: {
 		icon: Icons.locationFollow,
 		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
@@ -73,7 +73,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 	},
 
 
-	[Const.ActionHandler.actions.GoToUserProfile]: {
+	[ActionHandlerActions.GoToUserProfile]: {
 		icon: Icons.userProfile,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
@@ -88,7 +88,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 	},
 
 
-	[Const.ActionHandler.actions.GoToLocationProfile]: {
+	[ActionHandlerActions.GoToLocationProfile]: {
 		icon: Icons.locationProfile,
 		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {

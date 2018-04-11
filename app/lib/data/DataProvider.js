@@ -75,7 +75,7 @@ class DataProvider {
 
 
 	_cacheValid(insertTs) {
-		return seconds() - insertTs < Const.DataProvider.cacheTTLSec;
+		return seconds() - insertTs < Const.dataProviderCacheTTLSec;
 	}
 
 	_cacheException(reason) {

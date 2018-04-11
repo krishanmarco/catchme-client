@@ -6,8 +6,8 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {View, StyleSheet} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 
 // Redux ************************************************************************************************
@@ -51,7 +51,7 @@ class _EditLocationSave extends React.Component<any, Props, any> {
 		return false;
 	}
 
-	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props.formApiEditLocationProfile;
 	}
 

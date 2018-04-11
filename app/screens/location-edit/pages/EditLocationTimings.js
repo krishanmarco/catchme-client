@@ -7,8 +7,8 @@ import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 
 // Redux ************************************************************************************************
@@ -58,7 +58,7 @@ class _EditLocationTimings extends React.Component<any, Props, State> {
 		return ApiFormDef.hasErrors(formErrors, [DaoLocation.pTimings]);
 	}
 
-	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props.formApiEditLocationProfile;
 	}
 

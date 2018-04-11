@@ -31,7 +31,7 @@ import ScreenSettingsUserNotifications from './screens/settings/user-notificatio
 import ScreenUserProfile from './screens/user-profile/ScreenUserProfile';
 
 import {applyMiddleware, createStore} from 'redux';
-import {Colors, Const} from './Config';
+import {Colors, Const, Screens} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 import type {TUser} from "./lib/daos/DaoUser";
@@ -53,27 +53,27 @@ function start(authenticatedUser: TUser) {
 	const store = createStore(ReduxReducer, applyMiddleware(ReduxThunk, promiseMiddleware()));
 
 	[
-		{name: Const.NavigationComponents.ScreenUserProfile, getComponent: () => ScreenUserProfile},
-		{name: Const.NavigationComponents.ScreenLocationProfile, getComponent: () => ScreenLocationProfile},
-		{name: Const.NavigationComponents.ScreenSearch, getComponent: () => ScreenSearch},
-		{name: Const.NavigationComponents.ScreenFeed, getComponent: () => ScreenFeed},
-		{name: Const.NavigationComponents.ScreenFeaturedAds, getComponent: () => ScreenFeaturedAds},
+		{name: Screens.ScreenUserProfile, getComponent: () => ScreenUserProfile},
+		{name: Screens.ScreenLocationProfile, getComponent: () => ScreenLocationProfile},
+		{name: Screens.ScreenSearch, getComponent: () => ScreenSearch},
+		{name: Screens.ScreenFeed, getComponent: () => ScreenFeed},
+		{name: Screens.ScreenFeaturedAds, getComponent: () => ScreenFeaturedAds},
 
-		{name: Const.NavigationComponents.ScreenEditLocation, getComponent: () => ScreenEditLocation},
-		{name: Const.NavigationComponents.ScreenNewLocation, getComponent: () => ScreenNewLocation},
+		{name: Screens.ScreenEditLocation, getComponent: () => ScreenEditLocation},
+		{name: Screens.ScreenNewLocation, getComponent: () => ScreenNewLocation},
 
-		{name: Const.NavigationComponents.ModalCamera, getComponent: () => CameraWrapper},
-		{name: Const.NavigationComponents.ModalTiming, getComponent: () => ModalTiming},
-		{name: Const.NavigationComponents.ScreenAddressPicker, getComponent: () => ScreenAddressPicker},
-		{name: Const.NavigationComponents.ModalUserLocationStatus, getComponent: () => ScreenModalUserLocationStatus},
+		{name: Screens.ModalCamera, getComponent: () => CameraWrapper},
+		{name: Screens.ModalTiming, getComponent: () => ModalTiming},
+		{name: Screens.ScreenAddressPicker, getComponent: () => ScreenAddressPicker},
+		{name: Screens.ModalUserLocationStatus, getComponent: () => ScreenModalUserLocationStatus},
 
-		{name: Const.NavigationComponents.ScreenSettingsUserAccount, getComponent: () => ScreenSettingsUserAccount},
-		{name: Const.NavigationComponents.ScreenSettingsAdminLocations, getComponent: () => ScreenSettingsAdminLocations},
-		{name: Const.NavigationComponents.ScreenSettingsUserNotifications, getComponent: () => ScreenSettingsUserNotifications},
-		{name: Const.NavigationComponents.ScreenSettingsChangePassword, getComponent: () => ScreenSettingsChangePassword},
-		{name: Const.NavigationComponents.ScreenLogout, getComponent: () => ScreenLogout},
-		{name: Const.NavigationComponents.ScreenAddContacts, getComponent: () => ScreenAddContacts},
-		{name: Const.NavigationComponents.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
+		{name: Screens.ScreenSettingsUserAccount, getComponent: () => ScreenSettingsUserAccount},
+		{name: Screens.ScreenSettingsAdminLocations, getComponent: () => ScreenSettingsAdminLocations},
+		{name: Screens.ScreenSettingsUserNotifications, getComponent: () => ScreenSettingsUserNotifications},
+		{name: Screens.ScreenSettingsChangePassword, getComponent: () => ScreenSettingsChangePassword},
+		{name: Screens.ScreenLogout, getComponent: () => ScreenLogout},
+		{name: Screens.ScreenAddContacts, getComponent: () => ScreenAddContacts},
+		{name: Screens.ScreenHelpAppInfo, getComponent: () => ScreenHelpAppInfo}
 
 	].forEach(route => Navigation.registerComponent(route.name, route.getComponent, store, Provider));
 
@@ -83,7 +83,7 @@ function start(authenticatedUser: TUser) {
 		{
 			icon: require('./assets/icons/iosPerson.png'),
 			selectedIcon: require('./assets/icons/iosPerson.png'),
-			screen: Const.NavigationComponents.ScreenUserProfile,
+			screen: Screens.ScreenUserProfile,
 			passProps: {userId: DaoUser.gId(authenticatedUser)},
 			title: 'Catchme',
 			navigatorStyle: {},
@@ -99,7 +99,7 @@ function start(authenticatedUser: TUser) {
 		{
 			icon: require('./assets/icons/search.png'),
 			selectedIcon: require('./assets/icons/search.png'),
-			screen: Const.NavigationComponents.ScreenSearch,
+			screen: Screens.ScreenSearch,
 			title: 'Search',
 			navigatorStyle: {}
 		}
@@ -109,7 +109,7 @@ function start(authenticatedUser: TUser) {
 		tabs.push({
 			icon: require('./assets/icons/feed.png'),
 			selectedIcon: require('./assets/icons/feed.png'),
-			screen: Const.NavigationComponents.ScreenFeed,
+			screen: Screens.ScreenFeed,
 			title: 'Feed',
 			navigatorStyle: {}
 		});
@@ -117,7 +117,7 @@ function start(authenticatedUser: TUser) {
 		tabs.push({
 			icon: require('./assets/icons/spotlight.png'),
 			selectedIcon: require('./assets/icons/spotlight.png'),
-			screen: Const.NavigationComponents.ScreenFeaturedAds,
+			screen: Screens.ScreenFeaturedAds,
 			title: 'Featured',
 			navigatorStyle: {}
 		});

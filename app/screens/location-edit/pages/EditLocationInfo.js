@@ -10,8 +10,8 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {StyleSheet, ScrollView, View} from 'react-native';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
-import type {TReduxPoolApiForms} from "../../../lib/types/ReduxPoolTypes";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 
 // Redux ************************************************************************************************
@@ -64,12 +64,12 @@ class _EditLocationInfo extends React.Component<any, Props, any> {
 	}
 
 	_isNewLocation() {
-		const newLocationid = Const.DaoLocation.newLocationId;
+		const newLocationid = Const.locationNewId;
 		const id = _.get(this._formApiEditLocationProfileInput(), DaoLocation.pId, newLocationid);
 		return newLocationid == id;
 	}
 
-	_formApiEditLocationProfile(): TReduxPoolApiForms<TLocation, TLocation> {
+	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props.formApiEditLocationProfile;
 	}
 

@@ -23,7 +23,7 @@ export default class ImageURISourceAuth {
 	constructor(uri) {
 		this.uri = uri;
 		this.headers = {Authorization: ApiAuthentication.getSimpleAuthenticationToken()};
-		this.cache = Const.ImageURISource.cachingPolicy;
+		this.cache = Const.imagesCachingPolicy;
 	}
 	
 	uri: null;

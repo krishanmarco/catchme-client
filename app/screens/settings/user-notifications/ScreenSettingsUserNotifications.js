@@ -4,6 +4,8 @@ import SettingsUserNotifications from './SettingsUserNotifications';
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {NullableObjects, Screen} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
+import type {TCachePool} from "../../../lib/redux-pool/cache/CachePool";
+// todo proptypes
 
 // _ScreenSettingsUserNotifications *********************************************************************
 // _ScreenSettingsUserNotifications *********************************************************************
@@ -11,22 +13,18 @@ import {poolConnect} from '../../../redux/ReduxPool';
 class _ScreenSettingsUserNotifications extends React.Component {
 
 	componentWillMount() {
-		// Fetch the authenticated users profile and then set
-		// the users profile data into the user-profile form handler
-		return this.props[CACHE_ID_USER_PROFILE].initialize();
+		this._cacheUserProfile().initialize();
 	}
 
-
-	_authenticatedUserProfile() {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
 	}
-
 
 	render() {
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._authenticatedUserProfile()]}
+					objects={[this._cacheUserProfile().data]}
 					renderChild={([authenticatedUserProfile]) => (
 						<SettingsUserNotifications
 							navigator={this.props.navigator}

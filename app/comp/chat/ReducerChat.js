@@ -34,7 +34,7 @@ function mapDbMessageToLocalMessage(dispatch, users, message) {
   }
 
   // User fallback
-  message.user = Const.Chat.unknownUserFallback;
+  message.user = {_id: -1, name: 'Catchme user', avatar: Const.userDefaultAvatar};
 
   // Get the unknown user pId
   FirebaseData.dbUserById(senderId)
@@ -89,7 +89,7 @@ export function chatReducer(state: TReducerChatState = chatInitState, action): T
     case ACTION_LOCATION_CHAT_PRE_BULK_FETCH:
       return Object.assign({}, state, {
         runningBulkFetch: true,
-        itemsToLoad: state.itemsToLoad + Const.Chat.loadMoreItems,
+        itemsToLoad: state.itemsToLoad + Const.chatPaginationSize,
       });
 
     case ACTION_LOCATION_CHAT_START_ON_MESSAGES_RECEIVED:
