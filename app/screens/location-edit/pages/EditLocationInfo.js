@@ -4,32 +4,13 @@ import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import ImagePicker from '../../../lib/helpers/ImagePicker';
 import React from 'react';
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {AvatarCircle} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {StyleSheet, ScrollView, View} from 'react-native';
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {ScrollView, StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationInfoInitState = {
-	// Nothing for now
-};
-
-
-export function editLocationInfoReducer(state = editLocationInfoInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -39,7 +20,6 @@ type Props = {
 	locationProfile: Object,
 	formApiEditLocationProfile: ApiFormState
 };
-
 
 
 // _EditLocationInfo ************************************************************************************
@@ -52,29 +32,14 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 		this._onLocationPicturePress = this._onLocationPicturePress.bind(this);
 	}
 
-	hasErrors() {
-		const formErrors = this._formApiEditLocationProfile().errors;
-		return ApiFormDef.hasErrors(formErrors, [
-			DaoLocation.pName,
-			DaoLocation.pEmail,
-			DaoLocation.pPhone,
-			DaoLocation.pCapacity,
-			DaoLocation.pDescription
-		]);
-	}
-
-	_isNewLocation() {
-		const newLocationid = Const.locationNewId;
-		const id = _.get(this._formApiEditLocationProfileInput(), DaoLocation.pId, newLocationid);
-		return newLocationid == id;
-	}
-
 	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props.formApiEditLocationProfile;
 	}
 
-	_formApiEditLocationProfileInput(): ?TLocation {
-		return this._formApiEditLocationProfile().apiInput;
+	_isNewLocation() {
+		const newLocationid = Const.locationNewId;
+		const id = _.get(this._formApiEditLocationProfile().apiInput, DaoLocation.pId, newLocationid);
+		return newLocationid == id;
 	}
 
 	_onLocationPicturePress() {
@@ -89,6 +54,17 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 		});
 	}
 
+	hasErrors() {
+		const formErrors = this._formApiEditLocationProfile().errors;
+		return ApiFormDef.hasErrors(formErrors, [
+			DaoLocation.pName,
+			DaoLocation.pEmail,
+			DaoLocation.pPhone,
+			DaoLocation.pCapacity,
+			DaoLocation.pDescription
+		]);
+	}
+
 
 	render() {
 		return (
@@ -98,7 +74,7 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 						<AvatarCircle
 							badge={Icons.locationEditAvatar}
 							rkType='large'
-							uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}
+							uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}
 							onPress={this._onLocationPicturePress}/>
 					</View>
 					<RkTextInputFromPool
@@ -145,14 +121,9 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 
 }
 
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const EditLocationInfo = poolConnect(_EditLocationInfo,
 	// mapStateToProps
-	(state) => state.editLocationInfoReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),
@@ -162,9 +133,7 @@ const EditLocationInfo = poolConnect(_EditLocationInfo,
 
 	{withRef: true}
 );
-
 export default EditLocationInfo;
-
 
 
 // Const ************************************************************************************************

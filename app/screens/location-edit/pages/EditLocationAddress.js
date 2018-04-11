@@ -4,30 +4,12 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 import React from 'react';
 import Router from "../../../lib/helpers/Router";
-import {StyleSheet, Dimensions, ScrollView, View} from 'react-native';
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationAddressInitState = {
-	// Nothing for now
-};
-
-
-export function editLocationAddressReducer(state = editLocationAddressInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -72,10 +54,6 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 		return this.props.formApiEditLocationProfile;
 	}
 
-	_formApiEditLocationProfileInput(): ?TLocation {
-		return this._formApiEditLocationProfile().apiInput;
-	}
-
 	render() {
 		return (
 			<ScrollView style={styles.scrollView}>
@@ -101,11 +79,11 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 					))}
 				</View>
 				<View style={[styles.locationMap, {height: Dimensions.get('window').height - 190}]}>
-					{DaoLocation.hasLatLng(this._formApiEditLocationProfileInput()) && (
+					{DaoLocation.hasLatLng(this._formApiEditLocationProfile().apiInput) && (
 						<LocationMap
 						showsMyLocationButton={true}
 						scrollEnabled={false}
-						locations={[this._formApiEditLocationProfileInput()]}/>
+						locations={[this._formApiEditLocationProfile().apiInput]}/>
 					)}
 				</View>
 			</ScrollView>
@@ -121,7 +99,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 const EditLocationAddress = poolConnect(_EditLocationAddress,
 	// mapStateToProps
-	(state) => state.editLocationAddressReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),

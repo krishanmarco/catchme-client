@@ -2,8 +2,7 @@
 import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
 import TimingListItem from './TimingListItem';
-import {ScrollView, StyleSheet, View} from 'react-native';
-
+import {ScrollView} from 'react-native';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -12,7 +11,6 @@ type Props = {
 	isEditable: Boolean,
 	size: number,
 	managerWeekTimings: ManagerWeekTimings,
-	onEdit: Function
 };
 
 
@@ -49,7 +47,6 @@ export default class WeekTimingsList extends React.Component<void, Props, void> 
 		const {managerWeekTimings, size, isEditable} = this.props;
 		return (
 			<ScrollView
-				style={styles.root}
 				showsVerticalScrollIndicator={false}>
 
 				{managerWeekTimings.getBoolWeekTimings()
@@ -67,7 +64,3 @@ export default class WeekTimingsList extends React.Component<void, Props, void> 
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	// Nothing for now
-});

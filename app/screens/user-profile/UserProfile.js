@@ -1,45 +1,22 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../lib/daos/DaoUser";
-
 import Maps from "../../lib/data/Maps";
-
 import React from 'react';
 import Router from "../../lib/helpers/Router";
-
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
 import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
-
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
 import {Col, Grid, Row} from "react-native-easy-grid";
-
-import {Colors, Icons} from '../../Config';
-import {Dimensions, FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {Icon} from 'react-native-elements';
+import {Icons} from '../../Config';
+import {Image, StyleSheet, View} from 'react-native';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const userProfileInitState = {
-	// Nothing for now
-};
-
-export function userProfileReducer(state = userProfileInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -223,7 +200,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 const UserProfile = poolConnect(_UserProfile,
 	// mapStateToProps
-	(state) => state.userProfileReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),

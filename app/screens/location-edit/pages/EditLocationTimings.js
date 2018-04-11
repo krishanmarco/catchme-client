@@ -4,29 +4,10 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
 import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationTimingsInitState = {
-	// Nothing for now
-};
-
-
-export function editLocationTimingsReducer(state = editLocationTimingsInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -38,9 +19,8 @@ type Props = {
 };
 
 type State = {
-	// Nothing for now
+	managerWeekTimings: ApiFormState
 }
-
 
 
 // _EditLocationTimings *********************************************************************************
@@ -50,7 +30,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
-		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfileInput())};
+		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfile().apiInput)};
 	}
 
 	hasErrors() {
@@ -60,10 +40,6 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 	_formApiEditLocationProfile(): TApiFormPool {
 		return this.props.formApiEditLocationProfile;
-	}
-
-	_formApiEditLocationProfileInput(): ?TLocation {
-		return this._formApiEditLocationProfile().apiInput;
 	}
 
 	saveTimingsToLocation() {
@@ -99,7 +75,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 const EditLocationTimings = poolConnect(_EditLocationTimings,
 	// mapStateToProps
-	(state) => state.editLocationTimingsReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),
