@@ -20,23 +20,6 @@ type Props = {
 	handleClickAction: Function
 };
 
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const featuredAdsInitState = {
-	// Nothing for now
-};
-
-export function featuredAdsReducer(state = featuredAdsInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
-
 function featuredAdsHandleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
 	return (dispatch, getState) => {
 		// ActionHandler.handleAction(string, TAction, TNavigator, TThunk): Promise
@@ -98,7 +81,7 @@ class _FeaturedAds extends React.Component<void, Props, void> {
 
 const FeaturedAds = poolConnect(_FeaturedAds,
 	// mapStateToProps
-	(state) => state.featuredAdsReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({

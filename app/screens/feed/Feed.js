@@ -26,22 +26,6 @@ type State = {
 };
 
 
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const feedInitState = {
-	// Nothing for now
-};
-
-export function feedReducer(state = feedInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-	
-	return state;
-}
-
-
 function feedHandleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
 	return (dispatch, getState) => {
 		// ActionHandler.handleAction(string, TAction, TNavigator, TThunk): Promise
@@ -101,7 +85,7 @@ class _Feed extends React.Component<void, Props, State> {
 
 const Feed = poolConnect(_Feed,
 	// mapStateToProps
-	(state) => state.feedReducer,
+	(state) => ({}),
 	
 	// mapDispatchToProps
 	(dispatch) => ({
@@ -112,6 +96,3 @@ const Feed = poolConnect(_Feed,
 	[FIREBASE_DATA_ID_FEED]
 );
 export default Feed;
-
-// Style ************************************************************************************************
-// Style ************************************************************************************************

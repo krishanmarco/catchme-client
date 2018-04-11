@@ -4,7 +4,7 @@ import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 import Maps from "../../lib/data/Maps";
 import React from 'react';
 import {Col, Grid, Row} from "react-native-easy-grid";
-import {Colors, Icons} from "../../Config";
+import {Colors} from "../../Config";
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 
@@ -23,6 +23,12 @@ type Props = {
 
 export default class TimingListItem extends React.Component<void, Props, void> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._getLabelAm = this._getLabelAm.bind(this);
+		this._getLabelPm = this._getLabelPm.bind(this);
+	}
+
 	getTimings() {
 		const amTimings = this.refClockAm.getTimings();
 		const pmTimings = this.refClockPm.getTimings();
@@ -32,6 +38,14 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 	_timingsInDay() {
 		const {managerWeekTimings, day} = this.props;
 		return managerWeekTimings.boolTimingsInDay(day);
+	}
+
+	_getLabelAm(index: number) {
+		return index + 1;
+	}
+
+	_getLabelPm(index: number) {
+		return index + 13;
 	}
 
 	render() {
@@ -63,22 +77,22 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 			<Grid style={{height: size * 0.55}}>
 				<Col size={50} style={[styles.listItemWithActionsContent]}>
 					<Clock
-						size={size}
-						ref={ref => this.refClockAm = ref}
-						isEditable={isEditable}
-						getLabel={index => index + 1}
 						centerLabel='am'
+						size={size}
+						isEditable={isEditable}
+						getLabel={this._getLabelAm}
+						ref={ref => this.refClockAm = ref}
 						timings={timingsInDay.slice(0, 12)}
 						onTimingsChanged={onTimingsChanged}/>
 				</Col>
 				<Col size={4}></Col>
 				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
-						size={size}
-						ref={ref => this.refClockPm = ref}
-						isEditable={isEditable}
-						getLabel={index => index + 13}
 						centerLabel='pm'
+						size={size}
+						isEditable={isEditable}
+						getLabel={this._getLabelPm}
+						ref={ref => this.refClockPm = ref}
 						timings={timingsInDay.slice(12, 24)}
 						onTimingsChanged={onTimingsChanged}/>
 				</Col>

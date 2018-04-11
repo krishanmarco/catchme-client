@@ -15,24 +15,6 @@ import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInp
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const settingsUserAccountInitState = {
-	// Nothing for now
-};
-
-
-export function settingsUserAccountReducer(state = settingsUserAccountInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
-
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
@@ -41,7 +23,6 @@ type Props = {
 	authenticatedUserProfile: Object,
 	changePrivacy: Function
 };
-
 
 
 // _SettingsUserAccount *********************************************************************************
@@ -242,7 +223,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// mapStateToProps
-	(state) => state.settingsUserAccountReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),

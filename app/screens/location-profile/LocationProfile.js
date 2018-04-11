@@ -31,25 +31,6 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 
 
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const locationProfileInitState = {
-	// Nothing for now
-};
-
-export function locationProfileReducer(state = locationProfileInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
-
-
-
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
@@ -62,7 +43,6 @@ type Props = {
 type State = {
 	locationInfoSections: Array<TSectionListDataPointSections>
 };
-
 
 
 // _LocationProfile *************************************************************************************
@@ -245,7 +225,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 const LocationProfile = poolConnect(_LocationProfile,
 	// mapStateToProps
-	(state) => state.locationProfileReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),

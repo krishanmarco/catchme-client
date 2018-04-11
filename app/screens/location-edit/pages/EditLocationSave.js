@@ -1,31 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import React from 'react';
+import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {AvatarCircle, GradientButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
-import {View, StyleSheet} from 'react-native';
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationSaveInitState = {
-	// Nothing for now
-};
-
-
-export function editLocationSaveReducer(state = editLocationSaveInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -34,7 +15,6 @@ type Props = {
 	onSaveComplete: Function,
 	formApiEditLocationProfile: ApiFormState
 };
-
 
 
 // _EditLocationSave ************************************************************************************
@@ -55,31 +35,27 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 		return this.props.formApiEditLocationProfile;
 	}
 
-	_formApiEditLocationProfileInput(): ?TLocation {
-		return this._formApiEditLocationProfile().apiInput;
-	}
-
-
 	_onLocationSave() {
+		const {onSaveComplete} = this.props;
+
 		// Post the form and notify the parent component
 		this._formApiEditLocationProfile().post()
-			.then(this.props.onSaveComplete);
+			.then(onSaveComplete);
 	}
-
 
 	render() {
 		return (
 			<View style={styles.root}>
 				<RkText style={styles.headerText} rkType='header2 hero'>
-					{DaoLocation.gName(this._formApiEditLocationProfileInput())}
+					{DaoLocation.gName(this._formApiEditLocationProfile().apiInput)}
 				</RkText>
 				<View style={styles.avatar}>
 					<AvatarCircle
 						rkType='huge'
-						uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}/>
+						uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}/>
 				</View>
 				<RkText style={styles.listItemWithActionsContentText} rkType='primary3'>
-					{DaoLocation.gAddress(this._formApiEditLocationProfileInput())}
+					{DaoLocation.gAddress(this._formApiEditLocationProfile().apiInput)}
 				</RkText>
 				<GradientButton
 					loading={this._formApiEditLocationProfile().loading}
@@ -100,7 +76,7 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 
 const EditLocationSave = poolConnect(_EditLocationSave,
 	// mapStateToProps
-	(state) => state.editLocationSaveReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),
@@ -110,9 +86,7 @@ const EditLocationSave = poolConnect(_EditLocationSave,
 
 	{withRef: true}
 );
-
 export default EditLocationSave;
-
 
 
 // Const ************************************************************************************************

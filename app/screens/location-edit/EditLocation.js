@@ -14,23 +14,6 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationInitState = {
-	// Nothing for now
-};
-
-
-export function editLocationReducer(state = editLocationInitState, action) {
-	switch (action.type) {
-		// Nothing for now
-	}
-
-	return state;
-}
-
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
@@ -181,7 +164,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 
 const EditLocation = poolConnect(_EditLocation,
 	// mapStateToProps
-	(state) => state.locationProfileReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),

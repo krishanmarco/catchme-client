@@ -2,16 +2,37 @@
 import React from 'react';
 import Svg from 'react-native-svg';
 import {Colors} from '../../Config';
+import {StyleSheet} from 'react-native';
 import {VictoryLabel, VictoryPie} from 'victory-native';
-// todo refactor, proptypes
+
+// Const *************************************************************************************************
+// Const *************************************************************************************************
+
+type Props = {
+	timings: string,
+	size: number,
+	isEditable: boolean,
+	getLabel: (number) => string,
+	centerLabel: string,
+	onTimingsChanged: string => void
+};
+
+type State = {
+	timings: string,
+	colorScale: Array<string>,
+	data: Array<{x: number, y: number, label: string}>
+};
 
 
-// this.props.timings, this.props.isEditable this.props.getLabel(index) this.props.centerLabel
-export default class Clock extends React.Component {
+// Clock *************************************************************************************************
+// Clock *************************************************************************************************
+
+export default class Clock extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._onSlicePress = this._onSlicePress.bind(this);
+		this._victoryPieEventKey = this._victoryPieEventKey.bind(this);
 		this.state = this._mapPropsToState(props);
 	}
 
@@ -19,8 +40,14 @@ export default class Clock extends React.Component {
 		this.setState(this._mapPropsToState(nextProps));
 	}
 
-	getTimings() {
-		return this.state.timings;
+	_mapPropsToState(props) {
+		const {timings, getLabel} = props;
+
+		return {
+			timings,
+			colorScale: timings.map(timeOn => timeOn ? Colors.primary : Colors.alertRed),
+			data: new Array(12).fill().map((x, i) => ({x: i, y: 1, label: getLabel(i).toString()})),
+		};
 	}
 
 	_onSlicePress(event, data) {
@@ -36,51 +63,52 @@ export default class Clock extends React.Component {
 		this.setState(this._mapPropsToState({timings, ...this.props}), onTimingsChanged);
 	}
 
-	_mapPropsToState(props) {
-		return {
-			timings: props.timings,
-			colorScale: props.timings.map(timeOn => timeOn ? Colors.primary : Colors.alertRed),
-			data: new Array(12).fill().map((x, i) => ({x: i, y: 1, label: props.getLabel(i).toString()}))
-		};
+	_victoryPieEventKey(datum) {
+		return datum.x;
 	}
 
+	getTimings() {
+		const {timings} = this.state;
+		return timings;
+	}
 
 	render() {
-		const {size} = this.props;
-		const svgProps = {
-			width: size,
-			height: size,
-			viewBox: `0 0 ${size} ${size}`,
-			style: {width: '100%', height: 'auto'}
-		};
-
-
+		const {size, centerLabel} = this.props;
+		const {data, colorScale} = this.state;
 		return (
-			<Svg {...svgProps}>
+			<Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={styles.svgStyle}>
 				<VictoryPie
 					height={size}
 					width={size}
+					data={data}
+					colorScale={colorScale}
+
 					labelRadius={size * 0.14}
 					innerRadius={size * 0.06}
 					standalone={false}
-
-					data={this.state.data}
-					colorScale={this.state.colorScale}
+					labelComponent={<VictoryLabel/>}
+					eventKey={this._victoryPieEventKey}
 
 					style={{labels: {fill: 'white', fontSize: size * 0.05}}}
-					labelComponent={<VictoryLabel/>}
-
-					eventKey={datum => datum.x}
 					events={[{target: "data", eventHandlers: {onPress: this._onSlicePress}}]}/>
 				<VictoryLabel
 					textAnchor="middle"
-					style={{fill: Colors.primary, fontSize: size * 0.06, fontWeight: 'bold'}}
 					x={size / 2}
 					y={size / 2}
-					text={this.props.centerLabel}
+					text={centerLabel}
+					style={{fill: Colors.primary, fontSize: size * 0.06, fontWeight: 'bold'}}
 				/>
 			</Svg>
 		);
 	}
-
 }
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	svgStyle: {
+		width: '100%',
+		height: 'auto'
+	}
+});
