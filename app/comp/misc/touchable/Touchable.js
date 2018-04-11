@@ -26,6 +26,6 @@ const Touchable = ({children, onPress, style, ...props}: Props) => {
 	if (!onPress)
 		return child;
 
-	return (<TouchableOpacity onPress={onPress} {...props}>{child}</TouchableOpacity>);
+	return (<TouchableOpacity {...props} onPress={onPress}>{child}</TouchableOpacity>);
 };
 export default Touchable;

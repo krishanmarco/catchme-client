@@ -187,7 +187,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-	_renderTabUserInfoItem({item}: {item: TDataPoint}) {
+	_renderTabUserInfoItem({item}: { item: TDataPoint }) {
 		return (
 			<ListItemInfo
 				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._userProfile(), this._navigator())}

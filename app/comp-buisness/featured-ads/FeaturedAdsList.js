@@ -52,7 +52,7 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 	}
 
 
-	_renderItem({item}: {item: TFeaturedAd}) {
+	_renderItem({item}: { item: TFeaturedAd }) {
 		const {handleClickAction} = this.props;
 		return (
 			<FeaturedAdsListItem

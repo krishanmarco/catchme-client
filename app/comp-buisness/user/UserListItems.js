@@ -35,11 +35,11 @@ export class ListItemUser extends React.Component<void, ListItemUserProps, void>
 
 		return (
 			<ListItemWithActions
+				{...props}
 				header={DaoUser.gName(user)}
 				content={DaoUser.gPublicMessage(user)}
 				avatarUri={DaoUser.gPictureUrl(user)}
-				onPress={this._defaultOnPress}
-				{...props}/>
+				onPress={this._defaultOnPress}/>
 		);
 	}
 
@@ -56,8 +56,8 @@ const ActionUserConnectionsAddUid = {
 
 export const ListItemUserRequestSend = (props: ListItemUserProps) => (
 	<ListItemUser
-		actions={[ActionUserConnectionsAddUid]}
-		{...props}/>
+		{...props}
+		actions={[ActionUserConnectionsAddUid]}/>
 );
 
 
@@ -71,8 +71,8 @@ const ActionUserConnectionsBlockUid = {
 
 export const ListItemUserRequestReceived = (props: ListItemUserProps) => (
 	<ListItemUser
-		actions={[ActionUserConnectionsAddUid, ActionUserConnectionsBlockUid]}
-		{...props}/>
+		{...props}
+		actions={[ActionUserConnectionsAddUid, ActionUserConnectionsBlockUid]}/>
 );
 
 

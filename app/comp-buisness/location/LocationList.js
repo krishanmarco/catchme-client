@@ -55,7 +55,7 @@ export default class LocationList extends React.PureComponent<void, Props, void>
 	}
 
 
-	_renderItem({item}: {item: TLocation}) {
+	_renderItem({item}: { item: TLocation }) {
 		let {favoriteIds, onItemPress} = this.props;
 
 		const listItemProps = {location: item, onPress: onItemPress};

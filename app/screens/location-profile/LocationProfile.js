@@ -209,7 +209,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-	_renderTabLocationInfoItem({item}: {item: TDataPoint}) {
+	_renderTabLocationInfoItem({item}: { item: TDataPoint }) {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo

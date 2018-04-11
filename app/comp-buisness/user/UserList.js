@@ -49,18 +49,18 @@ export default class UserList extends React.PureComponent {
 	}
 
 
-	_renderItem({item}: {item: TUser}) {
+	_renderItem({item}: { item: TUser }) {
 		let {friendIds, requestIds, blockedIds, onItemPress} = this.props;
 		let listItemProps: ListItemUserProps = {user: item, onPress: onItemPress};
 
-		// if (requestIds && requestIds.includes(DaoUser.gId(user)))
-		//   return <ListItemUserRequestReceived {...listItemProps}/>;
-		//
-		// if (blockedIds && blockedIds.includes(DaoUser.gId(user)))
-		//   return <ListItemUserRequestSend {...listItemProps}/>;
-		//
-		// if (friendIds && !friendIds.includes(DaoUser.gId(user)))
-		//   return <ListItemUserRequestSend {...listItemProps}/>;
+		if (requestIds && requestIds.includes(DaoUser.gId(item)))
+			return <ListItemUserRequestReceived {...listItemProps}/>;
+
+		if (blockedIds && blockedIds.includes(DaoUser.gId(item)))
+			return <ListItemUserRequestSend {...listItemProps}/>;
+
+		if (friendIds && !friendIds.includes(DaoUser.gId(item)))
+			return <ListItemUserRequestSend {...listItemProps}/>;
 
 		return <ListItemUser {...listItemProps}/>;
 	}

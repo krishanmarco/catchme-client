@@ -48,6 +48,6 @@ type Props = {
 };
 
 export const AvatarCircle = ({rkType, ...props}: Props) => (
-	<Avatar rkType={`circle ${rkType}`} {...props}/>
+	<Avatar {...props} rkType={`circle ${rkType}`}/>
 );
 

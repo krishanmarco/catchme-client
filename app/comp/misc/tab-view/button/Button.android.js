@@ -8,9 +8,9 @@ type Props = {
 
 const Button = ({children, ...props}: Props) => (
 	<TouchableNativeFeedback
+		{...props}
 		delayPressIn={0}
-		background={TouchableNativeFeedback.SelectableBackground()}
-		{...props}>
+		background={TouchableNativeFeedback.SelectableBackground()}>
 		{children}
 	</TouchableNativeFeedback>
 );

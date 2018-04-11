@@ -102,12 +102,12 @@ export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}: RkTe
 
 	return (
 		<RkTextInput
+			{...props}
 			value={value}
 			errorCode={errorCode}
 			rkType={rkType}
 			style={style}
-			onChangeText={text => pool.change(denormObj({[field]: text}))}
-			{...props}/>
+			onChangeText={text => pool.change(denormObj({[field]: text}))}/>
 	);
 };
 

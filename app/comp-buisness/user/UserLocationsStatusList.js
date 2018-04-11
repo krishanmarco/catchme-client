@@ -138,7 +138,7 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 
 
 
-	_renderItem({item}: {item: TLocationWithUserLocationStatus}) {
+	_renderItem({item}: { item: TLocationWithUserLocationStatus }) {
 		const {favoriteIds} = this.props;
 
 		const listItemProps = {
