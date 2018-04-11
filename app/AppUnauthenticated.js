@@ -10,7 +10,7 @@ import ScreenRecoverPassword from './screens/settings/recover-password/ScreenRec
 import ScreenRegister from './screens/register/ScreenRegister';
 import {applyMiddleware, createStore} from 'redux';
 
-import {Colors, Const} from './Config';
+import {Colors, Screens} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 

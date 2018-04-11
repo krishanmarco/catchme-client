@@ -55,7 +55,7 @@ class _Search extends React.Component<void, Props, void> {
 		Router.toLocationProfile(navigator, location);
 	}
 
-	_onUserPress(user) {
+	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
 		Router.toUserProfile(navigator, user);
 	}
@@ -157,8 +157,8 @@ const Search = poolConnect(_Search,
 export default Search;
 
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+// Config ************************************************************************************************
+// Config ************************************************************************************************
 
 const styles = StyleSheet.create({
 	tabBarTextStyle: {

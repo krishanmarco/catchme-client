@@ -5,13 +5,13 @@ import React from 'react';
 import {Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {ListItemWithActionProps, TListItemAction} from "../../comp/misc/ListItemsWithActions";
+import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 
 
 // ListItemUser *****************************************************************************************
 // ListItemUser *****************************************************************************************
 
-type ListItemUserProps = ListItemWithActionProps & {
+export type ListItemUserProps = ListItemWithActionProps & {
 	user: TUser,
 	onPress: (TUser) => void
 };
@@ -28,8 +28,6 @@ export class ListItemUser extends React.Component<void, ListItemUserProps, void>
 
 		if (onPress)
 			onPress(user);
-
-		// Add more on-press actions here
 	}
 
 	render() {
@@ -37,11 +35,11 @@ export class ListItemUser extends React.Component<void, ListItemUserProps, void>
 
 		return (
 			<ListItemWithActions
+				{...props}
 				header={DaoUser.gName(user)}
 				content={DaoUser.gPublicMessage(user)}
 				avatarUri={DaoUser.gPictureUrl(user)}
-				onPress={this._defaultOnPress}
-				{...props}/>
+				onPress={this._defaultOnPress}/>
 		);
 	}
 
@@ -58,8 +56,8 @@ const ActionUserConnectionsAddUid = {
 
 export const ListItemUserRequestSend = (props: ListItemUserProps) => (
 	<ListItemUser
-		actions={[ActionUserConnectionsAddUid]}
-		{...props}/>
+		{...props}
+		actions={[ActionUserConnectionsAddUid]}/>
 );
 
 
@@ -73,8 +71,8 @@ const ActionUserConnectionsBlockUid = {
 
 export const ListItemUserRequestReceived = (props: ListItemUserProps) => (
 	<ListItemUser
-		actions={[ActionUserConnectionsAddUid, ActionUserConnectionsBlockUid]}
-		{...props}/>
+		{...props}
+		actions={[ActionUserConnectionsAddUid, ActionUserConnectionsBlockUid]}/>
 );
 
 

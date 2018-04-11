@@ -1,7 +1,7 @@
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/DefaultTabBar.js
 import Button from './button/Button';
 import React from 'react';
-import {Animated, StyleSheet, Text, View} from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 import {Colors} from "../../../Config";
 import {Icon} from 'react-native-elements';
 import type {TIcon} from "../../../lib/types/Types";
@@ -15,7 +15,7 @@ type Props = {
 	inactiveColor?: string,
 
 	tabs: Array<Node>,
-	icons: Array<TIcon>,
+	icons: Array<{[string]: TIcon}>,
 
 	tabStyle?: Object,
 	style?: Object,

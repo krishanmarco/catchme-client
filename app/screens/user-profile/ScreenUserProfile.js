@@ -4,6 +4,7 @@ import React from 'react';
 import UserProfile from './UserProfile';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
+import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
 import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
@@ -30,24 +31,29 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 		const {navigator, userId} = this.props;
 
 		// Initialize the logged in user profile
-		this.props[CACHE_ID_USER_PROFILE].initialize();
+		this._cacheUserProfile().initialize();
 
 		// Initialize the profile of the user that is being viewed
-		this.props[CACHE_MAP_ID_USER_PROFILES].initializeItem(userId)
+		this._cacheMapUserProfiles().initializeItem(userId)
 			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
 	}
 
-	_authenticatedUserProfile(): TUser {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+	_cacheUserProfile(): CacheState {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	_cacheMapUserProfiles(): CacheMapState {
+		return this.props[CACHE_MAP_ID_USER_PROFILES];
 	}
 
 	_userProfile() {
 		const {userId} = this.props;
 
-		if (userId === DaoUser.gId(this._authenticatedUserProfile()))
-			return this._authenticatedUserProfile();
+		const authUser: TUser = this._cacheUserProfile().data;
+		if (userId === DaoUser.gId(authUser))
+			return authUser;
 
-		return this.props[CACHE_MAP_ID_USER_PROFILES].get(userId);
+		return this._cacheMapUserProfiles().get(userId);
 	}
 
 	render() {
@@ -55,7 +61,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._userProfile(), this._authenticatedUserProfile()]}
+					objects={[this._userProfile(), this._cacheUserProfile().data]}
 					renderChild={([userProfile, authenticatedUserProfile]) => (
 						<UserProfile
 							navigator={navigator}

@@ -16,6 +16,7 @@ import UserList from '../../../comp-buisness/user/UserList';
 
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
+import type {TUser} from "../../../lib/daos/DaoUser";
 // todo refactor proptypes
 
 // Redux ************************************************************************************************
@@ -149,7 +150,7 @@ class _Search extends React.Component {
 		Router.toLocationProfile(this.props.navigator, location);
 	}
 
-	_onUserPress(user) {
+	_onUserPress(user: TUser) {
 		Router.toUserProfile(this.props.navigator, user);
 	}
 
@@ -201,8 +202,8 @@ AddContacts.propTypes = {
 	navigator: PropTypes.object.isRequired,
 };
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+// Config ************************************************************************************************
+// Config ************************************************************************************************
 
 const styles = StyleSheet.create({
 	root: {

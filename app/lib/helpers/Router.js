@@ -1,8 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from "../daos/DaoUser";
-import {Colors, Const, Screens} from '../../Config';
+import {Colors, Screens} from '../../Config';
 import type {TModalUserLocationStatusProps} from "../../screens/user-location-status/ScreenModalUserLocationStatus";
+import type {TUser} from "../daos/DaoUser";
+import type {TNavigator} from "../types/Types";
 
 export default class Router {
   static NAV_BUTTON_SET_USER_LOCATION_STATUS = 'NAV_BUTTON_SET_USER_LOCATION_STATUS';
@@ -27,11 +29,11 @@ export default class Router {
   }
 
 
-  static toUserProfile(navigator, user) {
+  static toUserProfile(navigator: TNavigator, user: TUser) {
     Router.toUserProfileById(navigator, DaoUser.gId(user), DaoUser.gName(user));
   }
 
-  static toUserProfileById(navigator, userId, title = null) {
+  static toUserProfileById(navigator: TNavigator, userId: number, title = null) {
 
     navigator.showModal({
       screen: Screens.ScreenUserProfile,

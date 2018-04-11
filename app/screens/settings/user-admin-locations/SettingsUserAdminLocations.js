@@ -87,7 +87,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		);
 	}
 
-	_renderLocationItem({item}: {item: TLocation}) {
+	_renderLocationItem({item}: { item: TLocation }) {
 		return (
 			<ListItemLocation
 				location={item}

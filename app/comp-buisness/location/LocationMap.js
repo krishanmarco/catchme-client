@@ -63,14 +63,13 @@ export default class LocationMap extends React.Component<void, Props, State> {
 		const {locations, ...props} = this.props;
 		return (
 			<MapView
+				{...props}
 				style={styles.map}
 				customMapStyle={MapsTheme}
 
 				region={this.state.region}
 				onRegionChange={region => this.setState({region})}
-				loadingIndicatorColor={Colors.primary}
-				{...props}
-			>
+				loadingIndicatorColor={Colors.primary}>
 
 				{locations.map((location, key) => (
 					<MapView.Marker
