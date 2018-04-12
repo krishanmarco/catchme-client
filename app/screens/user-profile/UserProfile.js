@@ -17,7 +17,6 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-// todo refactor
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -45,7 +44,6 @@ const userProfileTabIcons = {
 
 class _UserProfile extends React.Component<void, Props, State> {
 
-
 	constructor(props: Props, context) {
 		super(props, context);
 		this._onLocationPress = this._onLocationPress.bind(this);
@@ -59,37 +57,29 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_calculateState(props: Props) {
+		const {userProfile} = props;
+
 		// Calculate the user info section value only once
 		return {
-			userInfoSections: new UserProfileInfoItems(this._userProfile(props))
+			userInfoSections: new UserProfileInfoItems(userProfile)
 				.includeSettingsAndHelpIf(this._isSameUser(props))
 				.build()
 		};
 	}
 
-
-	_navigator(): TNavigator {
-		return this.props.navigator;
-	}
-
-	_userProfile(props: Props = this.props) {
-		return props.userProfile;
-	}
-
-	_authenticatedUserProfile(props: Props = this.props) {
-		return props.authenticatedUserProfile;
-	}
-
 	_onLocationPress(location: TLocation) {
-		Router.toLocationProfile(this._navigator(), location);
+		const {navigator} = this.props;
+		Router.toLocationProfile(navigator, location);
 	}
 
 	_onUserPress(user: TUser) {
-		Router.toUserProfile(this._navigator(), user);
+		const {navigator} = this.props;
+		Router.toUserProfile(navigator, user);
 	}
 
 	_isSameUser(props: Props = this.props): boolean {
-		return DaoUser.gId(this._userProfile(props)) === DaoUser.gId(this._authenticatedUserProfile(props));
+		const {userProfile, authenticatedUserProfile} = props;
+		return DaoUser.gId(userProfile) === DaoUser.gId(authenticatedUserProfile);
 	}
 
 	render() {
@@ -122,10 +112,10 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabHome() {
-		let userProfile = this._userProfile();
+		const {userProfile} = this.props;
 
 		return (
-			<Grid style={[styles.tabHomeRoot]}>
+			<Grid style={styles.tabHomeRoot}>
 				<Row size={-1}>
 					<Image
 						style={styles.avatar}
@@ -133,14 +123,14 @@ class _UserProfile extends React.Component<void, Props, State> {
 						source={{uri: DaoUser.gPictureUrl(userProfile)}}/>
 				</Row>
 
-				<Row size={-1} style={[styles.publicMessage]}>
+				<Row size={-1} style={styles.publicMessage}>
 					<RkText rkType='primary1 hint'>{DaoUser.gPublicMessage(userProfile)}</RkText>
 				</Row>
 
-				<Row size={-1} style={[styles.badges]}>
+				<Row size={-1} style={styles.badges}>
 					{[
-						Maps.genderToIcon(DaoUser.gGender(this._userProfile())),
-						Maps.reputationToIcon(DaoUser.gReputation(this._userProfile()))
+						Maps.genderToIcon(DaoUser.gGender(userProfile)),
+						Maps.reputationToIcon(DaoUser.gReputation(userProfile))
 					].map((b, k) => (
 						<Col key={k}>
 							<Icon style={styles.icon} size={50} {...b}/>
@@ -153,25 +143,25 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 
 	_renderTabLocations() {
+		const {userProfile} = this.props;
 		return (
-			<View style={[styles.tabRootLocations]}>
+			<View style={styles.tabRootLocations}>
 				<UserLocationsStatusList
 					allowEdit={this._isSameUser()}
-					userProfile={this._userProfile()}
+					userProfile={userProfile}
 					onLocationPress={this._onLocationPress}/>
 			</View>
 		);
 	}
 
 	_renderTabFriends() {
-		let userProfile = this._userProfile();
-		let authUserProfile = this._authenticatedUserProfile();
+		const {userProfile, authenticatedUserProfile} = this.props;
 
 		return (
-			<View style={[styles.tabRootFriends]}>
+			<View style={styles.tabRootFriends}>
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
-					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
+					friendIds={DaoUser.gConnectionFriendIds(authenticatedUserProfile)}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);
@@ -179,7 +169,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	_renderTabInfo() {
 		return (
-			<View style={[styles.tabRootInfo]}>
+			<View style={styles.tabRootInfo}>
 				<StaticSectionList
 					sections={this.state.userInfoSections}
 					renderItem={this._renderTabUserInfoItem}/>
@@ -188,9 +178,10 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabUserInfoItem({item}: { item: TDataPoint }) {
+		const {userProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._userProfile(), this._navigator())}
+				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, userProfile, navigator)}
 				{...item}/>
 		);
 	}

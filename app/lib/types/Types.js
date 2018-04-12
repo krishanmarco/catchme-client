@@ -23,6 +23,11 @@ export type TDataPoint = {
 	icon?: TIcon;
 }
 
+export type TDataTuple = {
+	name: string,
+	value: any
+};
+
 export type TSectionListDataPointSections = {
 	title: string,
 	data: Array<TDataPoint>

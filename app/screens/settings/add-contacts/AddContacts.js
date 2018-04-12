@@ -1,23 +1,36 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import ApiClient from '../../../lib/data/ApiClient';
-
 import Contacts from 'react-native-contacts';
 import DaoUser from "../../../lib/daos/DaoUser";
-
 import Logger from "../../../lib/Logger";
-
-import PropTypes from 'prop-types';
-
 import React from 'react';
 import Router from '../../../lib/helpers/Router';
-
 import UserList from '../../../comp-buisness/user/UserList';
-
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
+import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-// todo refactor proptypes
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type ReduxState = {
+	initialized: boolean,
+	usersList: Array<TUser>,
+	usersSearchQuery: string,
+};
+
+type ReduxDispatch = {
+	initialize: (number) => void,
+	setUsersSearchQuery: (string) => void
+};
+
+type Props = ReduxState & ReduxDispatch & {
+	userProfile: TUser,
+	navigator: TNavigator,
+};
+
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
@@ -28,19 +41,19 @@ const addContactsInitState = {
 	usersSearchQuery: '',
 };
 
-const ACTION_SET_USERS_SEARCH_QUERY = 'ACTION_SET_USERS_SEARCH_QUERY';
-const ACTION_SET_USERS_SEARCH_LIST = 'ACTION_SET_USERS_SEARCH_LIST';
+const ACTION_SET_USERS_AddContacts_QUERY = 'ACTION_SET_USERS_AddContacts_QUERY';
+const ACTION_SET_USERS_AddContacts_LIST = 'ACTION_SET_USERS_AddContacts_LIST';
 const ACTION_SET_USERS_CONTACTS = 'ACTION_SET_USERS_CONTACTS';
 
 export function addContactsReducer(state = addContactsInitState, action) {
 	switch (action.type) {
 
-		case ACTION_SET_USERS_SEARCH_QUERY:
+		case ACTION_SET_USERS_AddContacts_QUERY:
 			return Object.assign({}, state, {
 				usersSearchQuery: action.usersSearchQuery
 			});
 
-		case ACTION_SET_USERS_SEARCH_LIST:
+		case ACTION_SET_USERS_AddContacts_LIST:
 			return Object.assign({}, state, {
 				usersList: action.usersList,
 				initialized: true
@@ -87,9 +100,8 @@ function mapContactsToUsers(currentUserId, contacts) {
 				const filteredUsers = users
 					.filter(u => DaoUser.gId(u) != currentUserId);
 
-
 				dispatch({
-					type: ACTION_SET_USERS_SEARCH_LIST,
+					type: ACTION_SET_USERS_AddContacts_LIST,
 					usersList: filteredUsers
 				});
 			});
@@ -99,7 +111,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
 function searchSetUsersSearchQuery(query) {
 	return {
-		type: ACTION_SET_USERS_SEARCH_QUERY,
+		type: ACTION_SET_USERS_AddContacts_QUERY,
 		usersSearchQuery: query
 	};
 }
@@ -125,10 +137,10 @@ function addContactsInitialize(currentUserId) {
 }
 
 
-// _Search **********************************************************************************************
-// _Search **********************************************************************************************
+// _AddContacts *****************************************************************************************
+// _AddContacts *****************************************************************************************
 
-class _Search extends React.Component {
+class _AddContacts extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -136,31 +148,27 @@ class _Search extends React.Component {
 		this._onUserPress = this._onUserPress.bind(this);
 	}
 
-
 	componentWillMount() {
-		this.props.initialize(DaoUser.gId(this._userProfile()));
-	}
-
-
-	_userProfile() {
-		return this.props.userProfile;
+		const {initialize, userProfile} = this.props;
+		initialize(DaoUser.gId(userProfile));
 	}
 
 	_onLocationPress(location) {
-		Router.toLocationProfile(this.props.navigator, location);
+		const {navigator} = this.props;
+		Router.toLocationProfile(navigator, location);
 	}
 
 	_onUserPress(user: TUser) {
-		Router.toUserProfile(this.props.navigator, user);
+		const {navigator} = this.props;
+		Router.toUserProfile(navigator, user);
 	}
 
-
 	render() {
-		const userProfile = this._userProfile();
+		const {userProfile, usersList, initialized} = this.props;
 		return (
 			<View style={styles.root}>
 				<UserList
-					users={this.props.usersList}
+					users={usersList}
 
 					friendIds={DaoUser.gConnectionFriendIds(userProfile)}
 					requestIds={DaoUser.gConnectionRequestIds(userProfile)}
@@ -169,17 +177,14 @@ class _Search extends React.Component {
 					onItemPress={this._onUserPress}
 					onSearchChanged={this.props.setUsersSearchQuery}
 
-					loading={!this.props.initialized}/>
+					loading={!initialized}/>
 			</View>
 		);
 	}
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const AddContacts = poolConnect(_Search,
+const AddContacts = poolConnect(_AddContacts,
 	// mapStateToProps
 	(state) => state.addContactsReducer,
 
@@ -192,15 +197,8 @@ const AddContacts = poolConnect(_Search,
 	// Array of pools to subscribe to
 	[]
 );
-
-
 export default AddContacts;
 
-
-AddContacts.propTypes = {
-	userProfile: PropTypes.object.isRequired,
-	navigator: PropTypes.object.isRequired,
-};
 
 // Config ************************************************************************************************
 // Config ************************************************************************************************

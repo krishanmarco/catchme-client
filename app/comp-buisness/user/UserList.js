@@ -10,18 +10,30 @@ import {
 } from '../../comp-buisness/user/UserListItems';
 import type {ListItemUserProps} from "./UserListItems";
 import type {TUser} from "../../lib/daos/DaoUser";
-// todo refactor proptypes
 
 
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
-export default class UserList extends React.PureComponent {
+type Props = {
+	users: Array<TUser>,
+	onItemPress: (TUser) => void,
+	friendIds?: Array<number>,
+	requestIds?: Array<number>,
+	blockedIds?: Array<number>
+};
+
+
+// UserList *********************************************************************************************
+// UserList *********************************************************************************************
+
+export default class UserList extends React.PureComponent<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._filterExtractor = this._filterExtractor.bind(this);
 		this._renderItem = this._renderItem.bind(this);
 	}
-
 
 	_filterExtractor(user, regExp) {
 		return regExp.test(DaoUser.gName(user))
@@ -65,17 +77,4 @@ export default class UserList extends React.PureComponent {
 		return <ListItemUser {...listItemProps}/>;
 	}
 
-
 }
-
-
-UserList.defaultProps = {};
-
-UserList.propTypes = {
-	users: PropTypes.arrayOf(PropTypes.object).isRequired,
-	friendIds: PropTypes.array,
-	requestIds: PropTypes.array,
-	blockedIds: PropTypes.array,
-	onItemPress: PropTypes.func
-};
-
