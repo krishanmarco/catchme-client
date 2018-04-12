@@ -7,12 +7,12 @@ import React from 'react';
 import Router from "../../lib/helpers/Router";
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
+import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TModalUserLocationStatusProps} from "../user-location-status/ScreenModalUserLocationStatus";
 import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
 
 
 // Const *************************************************************************************************
@@ -52,21 +52,25 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		super(props, context);
 		this._initializeNavigatorButtons();
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
-		this._navigator().setOnNavigatorEvent(this._onNavigatorEvent);
+
+		const {navigator} = props;
+		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
 	}
 
 
 
 	_initializeNavigatorButtons() {
+		const {navigator} = this.props;
+
 		const rightButtons = [];
 
-		const favoriteIds = DaoUser.gLocationsFavoriteIds(this._authenticatedUserProfile());
+		const favoriteIds = DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 		if (!favoriteIds.includes(DaoLocation.gId(this._locationProfile())))
 			rightButtons.push(_ScreenLocationProfile.NAV_BUTTON_FOLLOW_LOCATION);
 
 		rightButtons.push(_ScreenLocationProfile.NAV_BUTTON_USER_LOCATION_STATUS);
 
-		this._navigator().setButtons({rightButtons});
+		navigator.setButtons({rightButtons});
 	}
 
 
@@ -93,6 +97,8 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 	}
 
 	_onNavigatorUserLocationStatusPress(locationProfile: TLocation) {
+		const {navigator} = this.props;
+
 		const passProps = ({
 			// [navigator] is automatically added by the navigator that opens the modal
 		}: TModalUserLocationStatusProps);
@@ -101,7 +107,7 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		// passProps.postOnConfirm = true;
 		// passProps.onStatusConfirm, passProps.initialStatus not needed
 
-		Router.toModalUserLocationStatus(this._navigator(), passProps);
+		Router.toModalUserLocationStatus(navigator, passProps);
 	}
 
 	_onNavigatorFollowLocationPress(locationProfile: TLocation) {
@@ -113,41 +119,39 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 			});
 
 		// Update the UI immediately without waiting for a positive response
-		DaoUser.addLocationToFavorites(this._authenticatedUserProfile(), locationProfile);
+		DaoUser.addLocationToFavorites(this._cacheUserProfile().data, locationProfile);
 		this._initializeNavigatorButtons();
 	}
 
 
 	componentWillMount() {
-		this.props[CACHE_ID_USER_PROFILE].initialize();
+		const {navigator, locationId} = this.props;
 
-		this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-			.then(locationProfile => this._navigator().setTitle({title: DaoLocation.gName(locationProfile)}));
+		this._cacheUserProfile().initialize();
 
+		this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(locationId)
+			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
 	}
 
-
-	_navigator(): TNavigator {
-		return this.props.navigator;
-	}
-
-	_authenticatedUserProfile(): TUser {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+	_cacheUserProfile(): CacheState {
+		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
 	_locationProfile(): ?TLocation {
-		return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(this.props.locationId);
+		const {locationId} = this.props;
+		return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(locationId);
 	}
 
 
 	render() {
+		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._locationProfile(), this._authenticatedUserProfile()]}
+					objects={[this._locationProfile(), this._cacheUserProfile().data]}
 					renderChild={([locationProfile, authenticatedUserProfile]) => (
 						<LocationProfile
-							navigator={this._navigator()}
+							navigator={navigator}
 							locationProfile={locationProfile}
 							authenticatedUserProfile={authenticatedUserProfile}/>
 					)}/>

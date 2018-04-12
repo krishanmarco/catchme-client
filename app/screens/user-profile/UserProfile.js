@@ -143,10 +143,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 
 	_renderTabLocations() {
-		const {userProfile} = this.props;
+		const {userProfile, navigator} = this.props;
 		return (
 			<View style={styles.tabRootLocations}>
 				<UserLocationsStatusList
+					navigator={navigator}
 					allowEdit={this._isSameUser()}
 					userProfile={userProfile}
 					onLocationPress={this._onLocationPress}/>

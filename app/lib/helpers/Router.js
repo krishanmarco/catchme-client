@@ -10,11 +10,11 @@ export default class Router {
   static NAV_BUTTON_SET_USER_LOCATION_STATUS = 'NAV_BUTTON_SET_USER_LOCATION_STATUS';
   static NAV_BUTTON_FOLLOW_LOCATION = 'NAV_BUTTON_ID_FOLLOW_LOCATION';
 
-  static toLocationProfile(navigator, location) {
+  static toLocationProfile(navigator: TNavigator, location) {
     Router.toLocationProfileById(navigator, DaoLocation.gId(location), DaoLocation.gName(location));
   }
 
-  static toLocationProfileById(navigator, locationId, title = null) {
+  static toLocationProfileById(navigator: TNavigator, locationId, title = null) {
     navigator.showModal({
       screen: Screens.ScreenLocationProfile,
       title,
@@ -34,7 +34,6 @@ export default class Router {
   }
 
   static toUserProfileById(navigator: TNavigator, userId: number, title = null) {
-
     navigator.showModal({
       screen: Screens.ScreenUserProfile,
       title,
@@ -50,7 +49,7 @@ export default class Router {
   }
 
 
-  static toCameraModal(navigator, props) {
+  static toCameraModal(navigator: TNavigator, props) {
     navigator.showModal({
       screen: Screens.ModalCamera,
       passProps: props,
@@ -63,7 +62,7 @@ export default class Router {
   }
 
 
-  static toTimingModal(navigator, title, props) {
+  static toTimingModal(navigator: TNavigator, title, props) {
     navigator.showModal({
       screen: Screens.ModalTiming,
       title,
@@ -75,7 +74,7 @@ export default class Router {
   }
 
 
-  static toModalUserLocationStatus(navigator, props: TModalUserLocationStatusProps) {
+  static toModalUserLocationStatus(navigator: TNavigator, props: TModalUserLocationStatusProps) {
     navigator.showModal({
       screen: Screens.ModalUserLocationStatus,
       passProps: props,
@@ -85,7 +84,7 @@ export default class Router {
   }
 
 
-  static toAddressPickerModal(navigator, props) {
+  static toAddressPickerModal(navigator: TNavigator, props) {
     navigator.showModal({
       screen: Screens.ScreenAddressPicker,
       passProps: props,
@@ -97,7 +96,7 @@ export default class Router {
     });
   }
 
-  static toRegister(navigator) {
+  static toRegister(navigator: TNavigator) {
     navigator.push({
       screen: Screens.ScreenRegister,
       navigatorStyle: {
@@ -126,16 +125,6 @@ export default class Router {
       }
     });
   }
-
-
-  // static toScreen(navigator, screenName) {
-  //   navigator.push({
-  //     screen: screenName,
-  //     navigatorStyle: {
-  //       navBarBackgroundColor: Colors.primary
-  //     }
-  //   });
-  // }
 
 
   static toAddContactsScreen(navigator) {
@@ -213,7 +202,7 @@ export default class Router {
     });
   }
 
-  static toScreenNewLocation(navigator) {
+  static toScreenNewLocation(navigator: TNavigator) {
     navigator.push({
       screen: Screens.ScreenNewLocation,
       title: 'New Location',
@@ -224,7 +213,7 @@ export default class Router {
     });
   }
 
-  static toScreenHelpAppInfo(navigator) {
+  static toScreenHelpAppInfo(navigator: TNavigator) {
     navigator.push({
       screen: Screens.ScreenHelpAppInfo,
       title: 'Catchme',

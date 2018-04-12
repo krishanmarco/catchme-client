@@ -10,6 +10,7 @@ import {
 } from "./CacheMapPool";
 import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
+import {CacheMapState} from "./CacheMapModel";
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
@@ -32,10 +33,11 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 	}
 	
 	invalidateAll() {
-		const {dispatchAction} = this;
+		const {dispatchAction, poolId} = this;
 		
 		return dispatchAction({
-			type: POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA
+			type: POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
+			cacheId: poolId
 		});
 	}
 
@@ -53,10 +55,10 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 			
 			
 			// Check if the data is set, if it is return
-			const {data}: CacheState = this.getPoolState(getState);
+			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
 			
-			if (itemId in data) {
-				const {loadingPromise, data} = data[itemId];
+			if (itemId in cacheMapData) {
+				const {loadingPromise, data} = cacheMapData[itemId];
 
 				// If already loading return the promise
 				if (loadingPromise != null) {

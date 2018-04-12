@@ -35,7 +35,8 @@ export type TSectionListDataPointSections = {
 
 export type TNavigator = Object & {
 	// react-native-navigation navigator
-	showModal: Function
+	showModal: Function,
+	push: Function
 };
 
 export type TDispatch = (Object) => ?Object;

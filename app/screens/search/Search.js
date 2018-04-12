@@ -128,12 +128,11 @@ class _Search extends React.Component<void, Props, void> {
 				friendIds={DaoUser.gConnectionFriendIds(userProfile)}
 				requestIds={DaoUser.gConnectionRequestIds(userProfile)}
 				blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
-
 				onItemPress={this._onUserPress}
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				autoFilter={true}
-
+				tabBarUnderlineStyle={styles.tabBarUnderline}
 				loading={loading}
 				onEndReached={this._usersOnEndReached}/>
 		);
@@ -172,4 +171,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: 8
 	},
+	tabBarUnderline: {
+		backgroundColor: Colors.primary
+	}
 });

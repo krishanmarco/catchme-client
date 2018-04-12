@@ -12,6 +12,9 @@ import {ListItemLocation, ListItemLocationFollow, ListItemUserLocationStatus} fr
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import ApiClient from "../../lib/data/ApiClient";
+import Router from "../../lib/helpers/Router";
+import Logger from "../../lib/Logger";
 
 type Props = {
 	allowEdit: boolean,
@@ -38,11 +41,52 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 	constructor(props, context) {
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
+		this._onUserLocationStatusDeletePress = this._onUserLocationStatusDeletePress.bind(this);
+		this._onUserLocationStatusEditPress = this._onUserLocationStatusEditPress.bind(this);
 		this.state = this._mapPropsToState(props);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState(this._mapPropsToState(nextProps));
+	}
+
+	_onUserLocationStatusDeletePress(status: TUserLocationStatus) {
+		// Delete the status from the list so the UI updated immediately
+		// If the request fails the UI will not be aligned anymore
+		const {past, now, future} = this.state;
+		const statusIdToDelete = DaoUserLocationStatus.gId(status);
+
+		// todo
+		const r = (location: TLocationWithUserLocationStatus) => {
+			const _status = location.status;
+			if (_status == null)
+				return false;
+			return DaoUserLocationStatus.gId(_status) === statusIdToDelete;
+		};
+
+		_.remove(past, r);
+		_.remove(now, r);
+		_.remove(future, r);
+		this.setState({past, now, future});
+
+
+		// ApiClient.userStatusDel(statusIdToDelete)
+		// 	.catch(error => {
+		// 		const id = DaoUserLocationStatus.gId(status);
+		// 		Logger.v(`UserLocationStatusList _onPressLocationStatusDelete failed to delete ${id}`, error);
+		// 	});
+	}
+
+	_onUserLocationStatusEditPress(status: TUserLocationStatus, location: TLocation) {
+		const {navigator} = this.props;
+		Router.toModalUserLocationStatus(navigator, {
+			navigator,
+			locationId: DaoLocation.gId(location),
+			initialStatus: status,
+			onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
+				// todo implement then (update ui)
+			}
+		});
 	}
 
 
@@ -139,19 +183,17 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 
 
 	_renderItem({item}: { item: TLocationWithUserLocationStatus }) {
-		const {favoriteIds} = this.props;
+		const {favoriteIds, onLocationPress, allowEdit} = this.props;
 
-		const listItemProps = {
-			location: item,
-			onPress: this.props.onLocationPress
-		};
-
+		const listItemProps = {location: item, onPress: onLocationPress};
 
 		if (item.status) {
 			return (
 				<ListItemUserLocationStatus
 					{...listItemProps}
-					allowEdit={this.props.allowEdit}
+					onEditPress={this._onUserLocationStatusEditPress}
+					onDeletePress={this._onUserLocationStatusDeletePress}
+					allowEdit={allowEdit}
 					status={item.status}/>
 			);
 		}

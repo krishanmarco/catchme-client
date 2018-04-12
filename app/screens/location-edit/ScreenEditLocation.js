@@ -7,6 +7,7 @@ import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TNavigator} from "../../lib/types/Types";
+// todo refactor
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

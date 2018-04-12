@@ -13,8 +13,9 @@ export default class CacheMapExtraProps extends PoolExtraProps {
 	
 	get(itemId, extraParams) {
 		const {stateProps, dispatchProps} = this;
-		
-		if (!(itemId in stateProps.data)) {
+		console.log("__DEBUG__", stateProps);
+
+		if (!(itemId in stateProps.data) || stateProps.data[itemId] == null) {
 			dispatchProps.initializeItem(itemId, extraParams);
 			return null;
 		}
