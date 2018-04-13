@@ -15,6 +15,7 @@ import {RkButton, RkText} from "react-native-ui-kitten";
 import {Touchable} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
 
 
 
@@ -189,18 +190,6 @@ class _ModalUserLocationStatus extends React.Component<void, Props, State> {
 		this.forceUpdate();
 	}
 
-
-	_getStatusDateString() {
-		return this._getFromMoment().calendar(null, {
-			sameDay: `[${'Today'}], ddd Do`,
-			nextDay: `[${'Tomorrow'}], ddd Do`,
-			nextWeek: 'dddd Do',
-			lastDay: 'dddd Do',
-			lastWeek: 'dddd Do',
-			sameElse: 'dddd Do'
-		});
-	}
-
 	_getFromDate() {
 		const fromSec = DaoUserLocationStatus.gFromTs(this._userLocationStatus());
 		return new Date(fromSec * 1000);
@@ -289,7 +278,7 @@ class _ModalUserLocationStatus extends React.Component<void, Props, State> {
 				<Row size={30} style={{marginTop: 24}}>
 					<Col style={styles.center}>
 						<Touchable onPress={() => this.props.setDateModalVisibility(true)}>
-							<RkText>{this._getStatusDateString()}</RkText>
+							<RkText>{TimestampFormatter.parseFromDate(this._getFromMoment())}</RkText>
 						</Touchable>
 					</Col>
 				</Row>

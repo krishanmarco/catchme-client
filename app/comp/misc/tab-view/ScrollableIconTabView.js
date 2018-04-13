@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/01/18 © **/
 import DefaultTabBar from './DefaultTabBar';
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {Colors} from "../../../Config";
 import type {TIcon} from "../../../lib/types/Types";
@@ -81,7 +82,7 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 				onChangeTab={this._onTabChanged}
 				renderTabBar={this._renderDefaultTabBar}
 				locked={locked}
-
+				tabBarUnderlineStyle={styles.tabBarUnderline}
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={2}>
 				{children}
@@ -104,3 +105,11 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 }
 
+// Config *********************************************************************************
+// Config *********************************************************************************
+
+const styles = StyleSheet.create({
+	tabBarUnderline: {
+		backgroundColor: Colors.primary
+	}
+});

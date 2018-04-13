@@ -75,7 +75,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 
 		return (
 			<Grid style={{height: size * 0.55}}>
-				<Col size={50} style={[styles.listItemWithActionsContent]}>
+				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
 						centerLabel='am'
 						size={size}

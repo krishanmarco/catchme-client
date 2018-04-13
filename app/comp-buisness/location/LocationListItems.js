@@ -10,6 +10,7 @@ import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
 
 
 
@@ -77,44 +78,35 @@ export const ListItemLocationFollow = ({location, onPress}: ListItemLocationProp
 // ListItemUserLocationStatus ***************************************************************************
 
 type ListItemUserLocationStatusProps = TLocation & {
-	navigator: TNavigator,
 	allowEdit: boolean,
-	status: TUserLocationStatus
+	status: TUserLocationStatus,
+	onEditPress: (TUserLocationStatus, TLocation) => void,
+	onDeletePress: (TUserLocationStatus) => void
 }
 
 export class ListItemUserLocationStatus extends React.Component<void, ListItemUserLocationStatusProps, void> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._onPressLocationStatusDelete = this._onPressLocationStatusDelete.bind(this);
-		this._onPressLocationStatusEdit = this._onPressLocationStatusEdit.bind(this);
+		this._onEditPress = this._onEditPress.bind(this);
+		this._onDeletePress = this._onDeletePress.bind(this);
 	}
 
-	_onPressLocationStatusDelete() {
-		ApiClient.userStatusDel(DaoUserLocationStatus.gId(this._userLocationStatus()));
-		// todo implement then
+	_getFormattedRange() {
+		const {status} = this.props;
+		const fromTs = DaoUserLocationStatus.gFromTs(status);
+		const toTs = DaoUserLocationStatus.gUntilTs(status);
+		return TimestampFormatter.parseFromTo(fromTs, toTs);
 	}
 
-	_onPressLocationStatusEdit() {
-		Router.toModalUserLocationStatus(
-			this.props.navigator,
-			{
-				navigator: this.props.navigator,
-				locationId: DaoLocation.gId(this._location()),
-				initialStatus: this._userLocationStatus(),
-				onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
-					// todo implement then (update ui)
-				}
-			}
-		);
+	_onEditPress() {
+		const {status, location, onEditPress} = this.props;
+		onEditPress(status, location);
 	}
 
-	_userLocationStatus(): TUserLocationStatus {
-		return this.props.status;
-	}
-
-	_location(): TLocation {
-		return this.props.location;
+	_onDeletePress() {
+		const {status, onDeletePress} = this.props;
+		onDeletePress(status);
 	}
 
 	render() {
@@ -123,21 +115,17 @@ export class ListItemUserLocationStatus extends React.Component<void, ListItemUs
 			<ListItemLocation
 				location={location}
 				onPress={onPress}
-				content={this._renderContent()}
+				content={this._getFormattedRange()}
 				actions={[{
 					icon: Icons.statusEdit,
 					color: Colors.neutralOrange,
-					onPress: this._onPressLocationStatusEdit
+					onPress: this._onEditPress
 				}, {
 					icon: Icons.statusDelete,
 					color: Colors.alertRed,
-					onPress: this._onPressLocationStatusDelete
+					onPress: this._onDeletePress
 				}]}/>
 		);
-	}
-
-	_renderContent() {
-		return "Tomorrow, 08:00 - 19:00";
 	}
 
 }

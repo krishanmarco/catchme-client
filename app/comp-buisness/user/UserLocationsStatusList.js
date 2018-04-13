@@ -1,19 +1,27 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import ApiClient from "../../lib/data/ApiClient";
 import DaoLocation from '../../lib/daos/DaoLocation';
+
 import DaoUser from '../../lib/daos/DaoUser';
-
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import moment from 'moment';
 
+import Logger from "../../lib/Logger";
+import moment from 'moment';
 import React from 'react';
+import Router from "../../lib/helpers/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import {ListItemLocation, ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
 type Props = {
+	navigator: TNavigator,
 	allowEdit: boolean,
 	userProfile: TUser,
 	onLocationPress: (TLocation) => void,
@@ -31,18 +39,76 @@ type State = {
 	future: Array<TLocationWithUserLocationStatus>,
 }
 
+function isUserLocationStatusInLocation(location: TLocationWithUserLocationStatus, statusId: number) {
+	return location.status != null && DaoUserLocationStatus.gId(location.status) === statusId;
+}
 
+// UserLocationsStatusList ******************************************************************************
+// UserLocationsStatusList ******************************************************************************
 
 export default class UserLocationsStatusList extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
+		this._onUserLocationStatusDeletePress = this._onUserLocationStatusDeletePress.bind(this);
+		this._onUserLocationStatusEditPress = this._onUserLocationStatusEditPress.bind(this);
 		this.state = this._mapPropsToState(props);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState(this._mapPropsToState(nextProps));
+	}
+
+	_onUserLocationStatusDeletePress(status: TUserLocationStatus) {
+		// Delete the status from the list so the UI updated immediately
+		// If the request fails the UI will not be aligned anymore
+		const {past, now, future} = this.state;
+		const statusIdToDelete = DaoUserLocationStatus.gId(status);
+
+		const removeFilter = (location) => isUserLocationStatusInLocation(location, statusIdToDelete);
+		_.remove(past, removeFilter);
+		_.remove(now, removeFilter);
+		_.remove(future, removeFilter);
+		this.setState({past, now, future});
+
+		ApiClient.userStatusDel(statusIdToDelete)
+			.catch(error => {
+				const id = DaoUserLocationStatus.gId(status);
+				Logger.v(`UserLocationStatusList _onPressLocationStatusDelete ws failed to delete ${id}`, error);
+			});
+	}
+
+	_onUserLocationStatusEditPress(status: TUserLocationStatus, location: TLocation) {
+		const {navigator} = this.props;
+		Router.toModalUserLocationStatus(navigator, {
+			navigator,
+			locationId: DaoLocation.gId(location),
+			initialStatus: status,
+			onStatusConfirm: (userLocationStatus: TUserLocationStatus) => {
+				const {past, now, future} = this.state;
+
+				const updateArray = (newStatus: TUserLocationStatus, array: Array<TLocationWithUserLocationStatus>) => {
+
+					for (let i = 0; i < array.length; i++) {
+						const location: TLocationWithUserLocationStatus = array[i];
+
+						if (DaoUserLocationStatus.gId(location.status) == DaoUserLocationStatus.gId(newStatus)) {
+							location.status = newStatus;
+						}
+
+					}
+
+					return array;
+				};
+
+				this.setState({
+					past: updateArray(userLocationStatus, past),
+					now: updateArray(userLocationStatus, now),
+					future: updateArray(userLocationStatus, future)
+				});
+			}
+		});
 	}
 
 
@@ -137,21 +203,18 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 	}
 
 
-
 	_renderItem({item}: { item: TLocationWithUserLocationStatus }) {
-		const {favoriteIds} = this.props;
+		const {favoriteIds, onLocationPress, allowEdit} = this.props;
 
-		const listItemProps = {
-			location: item,
-			onPress: this.props.onLocationPress
-		};
-
+		const listItemProps = {location: item, onPress: onLocationPress};
 
 		if (item.status) {
 			return (
 				<ListItemUserLocationStatus
 					{...listItemProps}
-					allowEdit={this.props.allowEdit}
+					onEditPress={this._onUserLocationStatusEditPress}
+					onDeletePress={this._onUserLocationStatusDeletePress}
+					allowEdit={allowEdit}
 					status={item.status}/>
 			);
 		}

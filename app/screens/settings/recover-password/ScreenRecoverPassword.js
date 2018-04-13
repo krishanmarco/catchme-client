@@ -3,29 +3,36 @@ import {GradientButton, Screen} from "../../../comp/Misc";
 import {Image, View} from 'react-native';
 import {RkStyleSheet, RkText, RkTextInput, RkTheme} from 'react-native-ui-kitten';
 import {scaleVertical} from '../../../lib/utils/scale';
-// todo refactor
+import type {TNavigator} from "../../../lib/types/Types";
 
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
-export default class PasswordRecovery extends React.Component {
-	static navigationOptions = {
-		header: null
-	};
+const navigationOptions = {
+	header: null
+};
+
+type Props = {
+	navigation: TNavigator
+};
+
+// PasswordRecovery *************************************************************************************
+// PasswordRecovery *************************************************************************************
+
+export default class PasswordRecovery extends React.Component<void, Props, void> {
+	static navigationOptions = navigationOptions;
 
 	constructor(props) {
 		super(props);
+		this._renderIcon = this._renderIcon.bind(this);
 	}
 
 	render() {
-		let renderIcon = () => {
-			if (RkTheme.current.name === 'light')
-				return <Image style={styles.image} source={require('../../../assets/images/logo.png')}/>;
-			return <Image style={styles.image} source={require('../../../assets/images/logoDark.png')}/>;
-		};
-
+		const {navigation} = this.props;
 		return (
 			<Screen>
 				<View style={styles.header}>
-					{renderIcon()}
+					{this._renderIcon()}
 					<RkText rkType='h1'>Password Recovery</RkText>
 				</View>
 				<View style={styles.listItemContent}>
@@ -34,13 +41,20 @@ export default class PasswordRecovery extends React.Component {
 						Enter your email below to receive your password reset instructions
 					</RkText>
 				</View>
-				<GradientButton style={styles.save} rkType='large' text='SEND' onPress={() => {
-					this.props.navigation.goBack();
-				}}/>
+				<GradientButton style={styles.save} rkType='large' text='SEND' onPress={navigation.goBack}/>
 			</Screen>
 		);
 	}
+
+	_renderIcon() {
+		return RkTheme.current.name === 'light'
+			? <Image style={styles.image} source={require('../../../assets/images/logo.png')}/>
+			: <Image style={styles.image} source={require('../../../assets/images/logoDark.png')}/>;
+	}
 }
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
 	screen: {

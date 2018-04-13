@@ -17,23 +17,25 @@ export class CacheMapState {
 
 // CacheMapModel state-mutators (Reducer cases)
 export function mutatorCacheMapModelInitData(action, subState: CacheMapState): CacheMapState {
-	return Object.assign(subState.data, {
+	subState.data = Object.assign(subState.data, {
 		[action.itemId]: Object.assign(new CacheMapState(action.itemId), {
 			data: null,
 			loading: true,
 			loadingPromise: action.loadingPromise
 		})
 	});
+	return subState;
 }
 
 export function mutatorCacheMapModelSetData(action, subState: CacheMapState): CacheMapState {
-	return Object.assign(subState.data, {
+	subState.data = Object.assign(subState.data, {
 		[action.itemId]: Object.assign(new CacheMapState(action.itemId), {
 			data: action.data,
 			loading: false,
 			loadingPromise: null
 		})
 	});
+	return subState;
 }
 
 export function mutatorCacheMapModelInvalidateData(action, subState: CacheMapState): CacheMapState {
@@ -42,5 +44,5 @@ export function mutatorCacheMapModelInvalidateData(action, subState: CacheMapSta
 }
 
 export function mutatorCacheMapModelInvalidateAllData(action, subState: CacheMapState): CacheMapState {
-	return {};
+	return new CacheMapState(action.cacheId);
 }

@@ -23,6 +23,11 @@ export type TDataPoint = {
 	icon?: TIcon;
 }
 
+export type TDataTuple = {
+	name: string,
+	value: any
+};
+
 export type TSectionListDataPointSections = {
 	title: string,
 	data: Array<TDataPoint>
@@ -30,7 +35,12 @@ export type TSectionListDataPointSections = {
 
 export type TNavigator = Object & {
 	// react-native-navigation navigator
-	showModal: Function
+	showModal: Function,
+	push: Function
+};
+
+export type TMoment = {
+	calendar: (Object, Object) => string
 };
 
 export type TDispatch = (Object) => ?Object;
