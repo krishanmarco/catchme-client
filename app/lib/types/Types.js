@@ -39,6 +39,10 @@ export type TNavigator = Object & {
 	push: Function
 };
 
+export type TMoment = {
+	calendar: (Object, Object) => string
+};
+
 export type TDispatch = (Object) => ?Object;
 export type TState = Object;
 export type TGetState = () => TState;

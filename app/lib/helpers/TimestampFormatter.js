@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 12-Apr-18 © **/
 import moment from 'moment';
 import Logger from "../Logger";
+import type {TMoment} from "../types/Types";
 
 const mNow = moment();
 const mTomorrow = moment(new Date()).add(1, 'days');
@@ -40,6 +41,19 @@ const tplDayDate = (f, t) => `${gStrDay(f)} ${gStrDate(f)} ${sFrom} ${gTime(f)} 
 // + 'Monday 26th April from 09:00 to 18:00'					// If monday of another month													tplDayDateMonth
 // + 'Monday 26th April 2019 from 09:00 to 18:00'			// If monday of another year													tplDayDateMonthYear
 export default class TimestampFormatter {
+	static fromTsFormats = {
+		sameDay: `[${sToday}], dddd Do`,
+		nextDay: `[${sTomorrow}], dddd Do`,
+		nextWeek: 'dddd Do',
+		lastDay: 'dddd Do',
+		lastWeek: 'dddd Do',
+		sameElse: 'dddd Do'
+	};
+
+	static parseFromDate(fromTs: TMoment) {
+		return fromTs.calendar(null, TimestampFormatter.fromTsFormats);
+	}
+
 	
 	static parseFromTo(fromTs: number, toTs: number) {
 		const mFromTs = moment(fromTs * 1000);
