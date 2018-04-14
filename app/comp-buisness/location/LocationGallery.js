@@ -38,12 +38,13 @@ export default class LocationGallery extends React.Component<void, Props, State>
 	}
 
 	componentWillReceiveProps(nextProps) {
+		const {locationProfile} = nextProps;
 
 		// Get the images that are currently in the previous (original form)
-		let currentImages = DaoLocation.gImageUrls(this.props.locationProfile);
+		let currentImages = DaoLocation.gImageUrls(locationProfile);
 
 		// Get the images that are in the new props
-		let nextImages = DaoLocation.gImageUrls(nextProps.locationProfile);
+		let nextImages = DaoLocation.gImageUrls(locationProfile);
 
 		// Decide whether to update or not based on the arrays length
 		// Note that the component will not update if an image changes
@@ -54,41 +55,39 @@ export default class LocationGallery extends React.Component<void, Props, State>
 	}
 
 	_getImagesFromProps(props) {
-		return DaoLocation.gImageUrls(props.locationProfile)
+		const {locationProfile} = props;
+		return DaoLocation.gImageUrls(locationProfile)
 			.map(ImageURISourceAuth.fromUrl);
 	}
 
-
 	_onCaptureImage(data) {
-		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(this.props.locationProfile), data.file)
+		const {locationProfile} = this.props;
+
+		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(locationProfile), data.file)
 			.then(addedUrl => {
+				const {imageSources} = this.state;
 
 				// Update only location images
-				const newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
+				const newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(imageSources);
 				this.setState({imageSources: newImages});
 
 			});
 	}
 
 	_onAddImagePress() {
-		Router.toModalCamera(this.props.navigator, {
-			onCaptureImage: this._onCaptureImage
-		});
+		const {navigator} = this.props;
+		Router.toModalCamera(navigator, {onCaptureImage: this._onCaptureImage});
 	}
 
-
-
-
 	render() {
+		const {imageSources} = this.state;
 		return (
 			<Gallery
 				onAddImagePress={this._onAddImagePress}
-				imageSources={this.state.imageSources}
+				imageSources={imageSources}
 				ListEmptyComponent={this._renderEmptyListComponent}/>
 		);
 	}
-
-
 
 	_renderEmptyListComponent() {
 		return (

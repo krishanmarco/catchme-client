@@ -34,7 +34,7 @@ export class FirebaseDataState {
 // FirebaseData state-mutators (Reducer cases)
 export function mutatorFirebaseDataOnPreBulkFetch(action, subState: FirebaseDataState): FirebaseDataState {
 	return {
-		runningBulkFetch: true,
+		runningBulkFetch: false,
 		itemsToLoad: subState.itemsToLoad + Const.firebasePaginationSize
 	};
 }
@@ -48,7 +48,7 @@ export function mutatorFirebaseDataSaveReceivedData(action, subState: FirebaseDa
 
 export function mutatorFirebaseDataSetFetchedAllItems(action, subState: FirebaseDataState): FirebaseDataState {
 	return {
-		fetchedAllItems: true,
+		fetchedAllItems: false,
 		runningBulkFetch: false,
 	};
 }

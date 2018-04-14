@@ -71,7 +71,7 @@ export default class Gallery extends React.Component<void, Props, State> {
 			<View style={styles.images}>
 				<FlatList
 					data={itemsToRender}
-					keyExtractor={(item, index) => item.uri}
+					keyExtractor={(item) => item.uri}
 
 					renderItem={this._renderItem}
 					initialNumToRender={12}
@@ -122,7 +122,7 @@ export default class Gallery extends React.Component<void, Props, State> {
 					style={[imageSizeStyle, styles.addImageButtonButton]}
 					rkType='clear contrast'
 					onPress={onAddImagePress}>
-					<Icon size={imageSize / 1.5} {...Icons.addImage} color={Colors.black}/>
+					<Icon size={imageSize / 1.5} {...Icons.galleryAddImage} color={Colors.black}/>
 				</RkButton>
 			</View>
 		);

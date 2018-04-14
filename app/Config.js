@@ -38,6 +38,7 @@ const _Icons = {
 	penEdit: {name: 'edit', type: 'material-icons', color: Colors.neutralOrange},
 	bin: {name: 'delete', type: 'material-icons', color: Colors.alertRed},
 	save: {name: 'save', type: 'fontawesome', color: Colors.alertRed},
+	plus: {name: 'plus', type: 'evilicons', color: Colors.primary},
 };
 
 export const Icons = {
@@ -72,6 +73,7 @@ export const Icons = {
 	locationSave: _Icons.save,
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,
+	galleryAddImage: _Icons.plus,
 
 
 	friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},

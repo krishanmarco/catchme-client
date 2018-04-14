@@ -10,6 +10,7 @@ import {View} from 'react-native';
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {TFirebaseDataPool} from "../../lib/redux-pool/firebase-data/FirebaseDataPool";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -44,7 +45,7 @@ class _FeaturedAds extends React.Component<void, Props, void> {
 		this._firebaseDataFeaturedAds().initialize(DaoUser.gId(userProfile));
 	}
 
-	_firebaseDataFeaturedAds() {
+	_firebaseDataFeaturedAds(): TFirebaseDataPool {
 		return this.props[FIREBASE_DATA_ID_FEATURED_ADS];
 	}
 

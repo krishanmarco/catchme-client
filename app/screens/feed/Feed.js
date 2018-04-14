@@ -10,6 +10,7 @@ import {View} from 'react-native';
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TNavigator, TThunk} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {TFirebaseDataPool} from "../../lib/redux-pool/firebase-data/FirebaseDataPool";
 
 
 // Const *************************************************************************************************
@@ -50,7 +51,7 @@ class _Feed extends React.Component<void, Props, State> {
 		this._firebaseDataFeed().initialize(DaoUser.gId(userProfile));
 	}
 	
-	_firebaseDataFeed() {
+	_firebaseDataFeed(): TFirebaseDataPool {
 		return this.props[FIREBASE_DATA_ID_FEED];
 	}
 
