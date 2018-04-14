@@ -198,7 +198,8 @@ export function mapIdsToObjects(idList, objectList, getIdFromObject) {
 			result[indexOf] = object;
 	}
 
-	return result;
+	// Clean any empty indexes (happens in case objectList didn't contain objectId)
+	return _.compact(result);
 }
 
 export function isValidUrl(url) {
