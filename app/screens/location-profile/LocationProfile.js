@@ -29,6 +29,7 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 
 
 // Const *************************************************************************************************
@@ -37,7 +38,8 @@ import type {TUser} from "../../lib/daos/DaoUser";
 type Props = {
 	locationProfile: TLocation,
 	authenticatedUserProfile: TUser,
-	navigator: TNavigator
+	navigator: TNavigator,
+	navbarHandler: NavbarHandlerLocationProfile
 };
 
 type State = {
@@ -58,16 +60,40 @@ const locationProfileTabIcons = {
 // _LocationProfile *************************************************************************************
 
 class _LocationProfile extends React.Component<void, Props, State> {
+	static idxProfile = 0;
+	static idxImages = 1;
+	static idxPersonNow = 2;
+	static idxPersonFuture = 3;
 
 	constructor(props: Props, context) {
 		super(props, context);
 		this._onUserPress = this._onUserPress.bind(this);
 		this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
+		this._onTabChanged = this._onTabChanged.bind(this);
 		this.state = this._calculateState(props);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState(this._calculateState(nextProps));
+	}
+
+	_onTabChanged(changedToIndex) {
+		const {navbarHandler, onGalleryImageAdded} = this.props;
+
+		switch(changedToIndex) {
+			case _LocationProfile.idxProfile:
+				navbarHandler.showButtonFollow();
+				break;
+			case _LocationProfile.idxImages:
+				navbarHandler.showButtonAddLocationImage(onGalleryImageAdded);
+				break;
+			case _LocationProfile.idxPersonNow:
+			case _LocationProfile.idxPersonFuture:
+				navbarHandler.showButtonAddStatus();
+				break;
+			default:
+				navbarHandler.showNoButtons();
+		}
 	}
 
 	_calculateState(props: Props = this.props) {
@@ -103,7 +129,8 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 		return (
 			<ScrollableIconTabView
-				icons={locationProfileTabIcons}>
+				icons={locationProfileTabIcons}
+				onTabChanged={this._onTabChanged}>
 				{tabs}
 			</ScrollableIconTabView>
 		);
@@ -150,11 +177,10 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabImages() {
-		const {locationProfile, navigator} = this.props;
+		const {locationProfile} = this.props;
 		return (
 			<View style={styles.tabRootImages}>
 				<LocationGallery
-					navigator={navigator}
 					locationProfile={locationProfile}/>
 			</View>
 		);

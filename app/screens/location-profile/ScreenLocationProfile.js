@@ -14,6 +14,8 @@ import {poolConnect} from '../../redux/ReduxPool';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
+import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 
 
 // Const *************************************************************************************************
@@ -37,6 +39,7 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._onGalleryImageAdded = this._onGalleryImageAdded.bind(this);
 		this._setupNavigator();
 	}
 
@@ -47,22 +50,27 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 		this.navbarHandler = new NavbarHandlerLocationProfile(
 			navigator,
-			locationProfile,
-			authUserProfile
+			authUserProfile,
+			locationProfile
 		);
 	}
 
-	_cacheUserProfile(): CacheState {
+	_cacheUserProfile(): TCachePool {
 		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
-	_cacheMapLocationProfiles(): CacheMapState {
+	_cacheMapLocationProfiles(): TCacheMapPool {
 		return this.props[CACHE_MAP_ID_LOCATION_PROFILES];
 	}
 
 	_locationProfile(): ?TLocation {
 		const {locationId} = this.props;
 		return this._cacheMapLocationProfiles().get(locationId);
+	}
+
+	_onGalleryImageAdded() {
+		const {locationId} = this.props;
+		this._cacheMapLocationProfiles().invalidateItem(locationId);
 	}
 
 
@@ -89,8 +97,10 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 					renderChild={([locationProfile, authenticatedUserProfile]) => (
 						<LocationProfile
 							navigator={navigator}
+							navbarHandler={this.navbarHandler}
 							locationProfile={locationProfile}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authenticatedUserProfile={authenticatedUserProfile}
+							onGalleryImageAdded={this._onGalleryImageAdded}/>
 					)}/>
 			</Screen>
 		);

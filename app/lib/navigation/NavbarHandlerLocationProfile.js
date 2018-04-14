@@ -6,6 +6,8 @@ import Router from "./Router";
 import type {TLocation} from "../daos/DaoLocation";
 import type {TNavigator} from "../types/Types";
 import type {TUser} from "../daos/DaoUser";
+import ImageURISourceAuth from "../data/ImageURISourceAuth";
+import Logger from "../Logger";
 
 
 const navbarButtonAddUserLocationStatus = {
@@ -22,16 +24,45 @@ const navbarButtonFollowLocation = {
 	buttonFontWeight: '100',
 };
 
+const navbarButtonAddLocationImage = {
+	id: 'NAVBAR_BUTTON_ID_ADD_LOCATION_IMAGE',
+	icon: require('../../assets/icons/search.png'),
+	buttonFontSize: 2,
+	buttonFontWeight: '100',
+};
+
 export default class NavbarHandlerLocationProfile {
 
 	constructor(navigator: TNavigator, authUserProfile: TUser, locationProfile: TLocation) {
 		this.navigator = navigator;
 		this.authUserProfile = authUserProfile;
 		this.locationProfile = locationProfile;
-
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
+		this._onCaptureImage = this._onCaptureImage.bind(this);
+		this.showButtonFollow();
+	}
+
+	showButtonFollow() {
+		this.visibleButtons = [navbarButtonFollowLocation.id];
 		this.setup();
 	}
+
+	showButtonAddStatus() {
+		this.visibleButtons = [navbarButtonAddUserLocationStatus.id];
+		this.setup();
+	}
+
+	showButtonAddLocationImage(onGalleryImageAdded) {
+		this.visibleButtons = [navbarButtonAddLocationImage.id];
+		this.onGalleryImageAdded = onGalleryImageAdded;
+		this.setup();
+	}
+
+	showNoButtons() {
+		this.visibleButtons = [];
+		this.setup();
+	}
+
 
 	setup() {
 		const {navigator, authUserProfile, locationProfile} = this;
@@ -46,10 +77,18 @@ export default class NavbarHandlerLocationProfile {
 
 		const rightButtons = [];
 
-		if (!favoriteIds.includes(locationId))
-			rightButtons.push(navbarButtonFollowLocation);
+		if (this.visibleButtons.includes(navbarButtonFollowLocation.id)) {
+			if (!favoriteIds.includes(locationId))
+				rightButtons.push(navbarButtonFollowLocation);
+		}
 
-		rightButtons.push(navbarButtonAddUserLocationStatus);
+		if (this.visibleButtons.includes(navbarButtonAddUserLocationStatus.id)) {
+			rightButtons.push(navbarButtonAddUserLocationStatus);
+		}
+
+		if (this.visibleButtons.includes(navbarButtonAddLocationImage.id)) {
+			rightButtons.push(navbarButtonAddLocationImage);
+		}
 
 		navigator.setButtons({rightButtons});
 		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
@@ -74,6 +113,11 @@ export default class NavbarHandlerLocationProfile {
 			this._onNavigatorFollowLocationPress();
 			return;
 		}
+
+		if (event.id === navbarButtonAddLocationImage.id) {
+			this._onNavigatorLocationAddImagePress();
+			return;
+		}
 	}
 
 	_onNavigatorUserLocationStatusPress() {
@@ -96,6 +140,26 @@ export default class NavbarHandlerLocationProfile {
 				// Operation failed, revert the UI back to it's original state
 				DaoUser.removeLocationFromFavorites(locationProfile);
 				this.setup();
+			});
+	}
+
+	_onNavigatorLocationAddImagePress() {
+		const {navigator, _onCaptureImage} = this;
+		Router.toModalCamera(navigator, {onCaptureImage: _onCaptureImage});
+	}
+
+	_onCaptureImage(data) {
+		const {locationProfile} = this;
+console.log(locationProfile);
+		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(locationProfile), data.path)
+			.then(addedUrl => {
+				// Add the uploaded image to this locations images
+				const images = DaoLocation.gImageUrls(locationProfile);
+				images.push(addedUrl);
+				this.onGalleryImageAdded(addedUrl);
+			})
+			.catch(error => {
+				Logger.v('NavbarHandlerLocationProfile _onCaptureImage', error);
 			});
 	}
 

@@ -70,7 +70,7 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 		const {onTabChanged} = this.props;
 
 		if (onTabChanged)
-			onTabChanged(changedToIndex, changedToIndex, ref);
+			onTabChanged(changedToIndex, ref);
 	}
 
 

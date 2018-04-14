@@ -247,19 +247,6 @@ class ApiClient {
 			});
 		}
 
-	userProfileEdit(userData: TUser, filePath = null) {
-		const formData = Object.keys(userData)
-			.map(key => ({name: key, data: String(userData[key])}));
-
-		if (filePath != null) {
-			const n = seconds().toString();
-			formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filePath)});
-		}
-
-		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
-			.then(json => JSON.parse(json));
-	}
-
 	userConnectionsAddUid(uid) {
 		return this._get(Urls.api + '/user/connections/add/' + uid);
 	}
@@ -291,25 +278,6 @@ class ApiClient {
 
 	userLocationsFavoritesDel(locationId) {
 		return this._get(`${Urls.api}/user/locations/favorites/del/${locationId}`);
-	}
-
-	userLocationsAdminEditLid(location: TLocation) {
-		location = DaoLocation.apiClean(location);
-
-		// If the locationId == -1 then this is a new location
-		const locationId = DaoLocation.gId(location);
-
-		const formData = prepareForMultipart(location);
-
-		if (DaoLocation.hasNewImage(location)) {
-			const pictureUri = DaoLocation.gPictureUrl(location);
-			const n = seconds().toString();
-			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
-		}
-
-		const url = `${Urls.api}/user/locations/administrating/edit/${locationId}`;
-		return this._postMultipart(url, formData)
-			.then(json => JSON.parse(json));
 	}
 
 
@@ -360,11 +328,42 @@ class ApiClient {
 
 
 
+	userLocationsAdminEditLid(location: TLocation) {
+		location = DaoLocation.apiClean(location);
+
+		// If the locationId == -1 then this is a new location
+		const locationId = DaoLocation.gId(location);
+
+		const formData = prepareForMultipart(location);
+
+		if (DaoLocation.hasNewImage(location)) {
+			const pictureUri = DaoLocation.gPictureUrl(location);
+			const n = seconds().toString();
+			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
+		}
+
+		return this._postMultipart(`${Urls.api}/user/locations/administrating/edit/${locationId}`, formData)
+			.then(json => JSON.parse(json));
+	}
+
+	userProfileEdit(userData: TUser, filePath = null) {
+		const formData = Object.keys(userData)
+			.map(key => ({name: key, data: String(userData[key])}));
+
+		if (filePath != null) {
+			const n = seconds().toString();
+			formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filePath)});
+		}
+
+		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
+			.then(json => JSON.parse(json));
+	}
+
 	mediaAddTypeIdItemId(typeId, itemId, filePath) {
-		const filename = seconds().toString();
+		const n = seconds().toString();
 		return this._postMultipart(
 			`${Urls.api}/media/add/${typeId}/${itemId}`,
-			[{name: filename, filename, data: RNFetchBlob.wrap(filePath)}]
+			[{name: 'media', filename: n, data: RNFetchBlob.wrap(filePath)}]
 		);
 	}
 

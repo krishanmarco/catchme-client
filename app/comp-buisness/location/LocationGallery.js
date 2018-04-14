@@ -4,21 +4,18 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 import Gallery from '../../comp/misc/Gallery';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import React from 'react';
-import Router from "../../lib/navigation/Router";
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
 type Props = {
-	navigator: TNavigator,
 	locationProfile: TLocation
 };
 
@@ -31,9 +28,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 
 	constructor(props, context) {
 		super(props, context);
-		this._onAddImagePress = this._onAddImagePress.bind(this);
 		this._renderEmptyListComponent = this._renderEmptyListComponent.bind(this);
-		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this.state = {imageSources: this._getImagesFromProps(props)};
 	}
 
@@ -60,30 +55,10 @@ export default class LocationGallery extends React.Component<void, Props, State>
 			.map(ImageURISourceAuth.fromUrl);
 	}
 
-	_onCaptureImage(data) {
-		const {locationProfile} = this.props;
-
-		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(locationProfile), data.file)
-			.then(addedUrl => {
-				const {imageSources} = this.state;
-
-				// Update only location images
-				const newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(imageSources);
-				this.setState({imageSources: newImages});
-
-			});
-	}
-
-	_onAddImagePress() {
-		const {navigator} = this.props;
-		Router.toModalCamera(navigator, {onCaptureImage: this._onCaptureImage});
-	}
-
 	render() {
 		const {imageSources} = this.state;
 		return (
 			<Gallery
-				onAddImagePress={this._onAddImagePress}
 				imageSources={imageSources}
 				ListEmptyComponent={this._renderEmptyListComponent}/>
 		);
