@@ -6,7 +6,7 @@ import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TNavigator} from "../../lib/types/Types";
-import NavbarButtonCatchmeLogo from "../../lib/navigation/NavbarButtonCatchmeLogo";
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -30,7 +30,7 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 		super(props, context);
 
 		const {showAppLogo, navigator} = this.props;
-		NavbarButtonCatchmeLogo.setup(navigator, showAppLogo);
+		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
 	}
 
 	componentWillMount() {

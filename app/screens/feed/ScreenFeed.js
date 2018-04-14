@@ -8,7 +8,7 @@ import {poolConnect} from '../../redux/ReduxPool';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TCacheDefUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
-import NavbarButtonCatchmeLogo from "../../lib/navigation/NavbarButtonCatchmeLogo";
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 
 
 // Const *************************************************************************************************
@@ -37,7 +37,7 @@ class _ScreenFeed extends React.Component<void, Props, State> {
 		super(props, context);
 
 		const {showAppLogo, navigator} = this.props;
-		NavbarButtonCatchmeLogo.setup(navigator, showAppLogo);
+		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
 	}
 
 	componentWillMount() {

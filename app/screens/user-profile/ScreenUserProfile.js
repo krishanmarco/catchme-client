@@ -3,7 +3,7 @@ import DaoUser from "../../lib/daos/DaoUser";
 import React from 'react';
 import UserProfile from './UserProfile';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import NavbarButtonCatchmeLogo from "../../lib/navigation/NavbarButtonCatchmeLogo";
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
@@ -36,7 +36,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 		super(props, context);
 
 		const {showAppLogo, navigator} = this.props;
-		NavbarButtonCatchmeLogo.setup(navigator, showAppLogo);
+		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
 	}
 
 	componentWillMount() {

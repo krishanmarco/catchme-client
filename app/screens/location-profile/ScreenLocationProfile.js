@@ -13,6 +13,7 @@ import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
+import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 
 
 // Const *************************************************************************************************
@@ -29,21 +30,6 @@ type State = {
 };
 
 
-const navbarButtonAddUserLocationStatus = {
-	id: 'NAVBAR_BUTTON_ID_USER_LOCATION_STATUS',
-	icon: require('../../assets/icons/timerSandFull.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
-};
-
-const navbarButtonFollowLocation = {
-	id: 'NAVBAR_BUTTON_ID_FOLLOW_LOCATION',
-	icon: require('../../assets/icons/cocktailGlass.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
-};
-
-
 // _ScreenLocationProfile *******************************************************************************
 // _ScreenLocationProfile *******************************************************************************
 
@@ -51,81 +37,19 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
-		this._setupNavigator();
-	}
-
-	componentWillReceiveProps(nextProps) {
 		this._setupNavigator();
 	}
 
 	_setupNavigator() {
 		const {navigator} = this.props;
-
-		// If the locationProfile has not been set yet,
-		// do not display the navigation buttons
 		const locationProfile = this._locationProfile();
-		if (locationProfile == null)
-			return;
+		const authUserProfile = this._cacheUserProfile().data;
 
-		const rightButtons = [];
-
-		const favoriteIds = DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
-		if (!favoriteIds.includes(DaoLocation.gId(this._locationProfile())))
-			rightButtons.push(navbarButtonFollowLocation);
-
-		rightButtons.push(navbarButtonAddUserLocationStatus);
-
-		navigator.setButtons({rightButtons});
-		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
-	}
-
-	_onNavigatorEvent(event) {
-		if (event.type !== 'NavBarButtonPress')
-			return;
-
-		// A navigator button was pressed
-		const locationProfile = this._locationProfile();
-		if (locationProfile == null)
-			return;
-
-		if (event.id === navbarButtonAddUserLocationStatus.id) {
-			this._onNavigatorUserLocationStatusPress(locationProfile);
-			return;
-		}
-
-		if (event.id === navbarButtonFollowLocation.id) {
-			this._onNavigatorFollowLocationPress(locationProfile);
-			return;
-		}
-	}
-
-	_onNavigatorUserLocationStatusPress(locationProfile: TLocation) {
-		const {navigator} = this.props;
-		Router.toModalUserLocationStatus(navigator, {locationId: DaoLocation.gId(locationProfile)});
-	}
-
-	_onNavigatorFollowLocationPress(locationProfile: TLocation) {
-		// Update the UI immediately without waiting for a positive response
-		DaoUser.addLocationToFavorites(this._cacheUserProfile().data, locationProfile);
-		this._setupNavigator();
-
-		ApiClient.userLocationsFavoritesAdd(DaoLocation.gId(locationProfile))
-			.catch((error) => {
-				// Operation failed, revert the UI back to it's original state
-				DaoUser.removeLocationFromFavorites(this._locationProfile());
-				this._setupNavigator();
-			});
-	}
-
-
-	componentWillMount() {
-		const {navigator, locationId} = this.props;
-
-		this._cacheUserProfile().initialize();
-
-		this._cacheMapLocationProfiles().initializeItem(locationId)
-			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
+		this.navbarHandler = new NavbarHandlerLocationProfile(
+			navigator,
+			locationProfile,
+			authUserProfile
+		);
 	}
 
 	_cacheUserProfile(): CacheState {
@@ -139,6 +63,20 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 	_locationProfile(): ?TLocation {
 		const {locationId} = this.props;
 		return this._cacheMapLocationProfiles().get(locationId);
+	}
+
+
+	componentWillReceiveProps(nextProps) {
+		this._setupNavigator();
+	}
+
+	componentWillMount() {
+		const {navigator, locationId} = this.props;
+
+		this._cacheUserProfile().initialize();
+
+		this._cacheMapLocationProfiles().initializeItem(locationId)
+			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
 	}
 
 
