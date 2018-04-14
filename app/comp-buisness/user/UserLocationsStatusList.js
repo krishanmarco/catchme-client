@@ -4,7 +4,7 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import Logger from "../../lib/Logger";
 import React from 'react';
-import Router from "../../lib/helpers/Router";
+import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import ULSListManager, {TLocationWithULS, TULSListState} from '../../lib/helpers/ULSListManager';
 import {ListItemLocation, ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
@@ -64,7 +64,7 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 
 	_onUserLocationStatusEditPress(status: TUserLocationStatus, location: TLocation) {
 		const {navigator} = this.props;
-		Router.toModalUserLocationStatus(navigator, {
+		Router.toModalUserLocationStatus(navigator, title, {
 			navigator,
 			locationId: DaoLocation.gId(location),
 			initialStatus: {...status},

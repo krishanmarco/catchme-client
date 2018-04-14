@@ -6,7 +6,7 @@ import Maps from "../../../lib/data/Maps";
 
 import React from 'react';
 
-import Router from "../../../lib/helpers/Router";
+import Router from "../../../lib/navigation/Router";
 import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
@@ -77,16 +77,16 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	_onChangePasswordPress() {
-		Router.toSettingsChangePassword(this._navigator());
+		Router.toScreenSettingsChangePassword(this._navigator());
 	}
 
 
 	_onLogoutPress() {
-		Router.toLogoutScreen(this._navigator());
+		Router.toScreenLogout(this._navigator());
 	}
 
 	_onAddContactsPress() {
-		Router.toAddContactsScreen(this._navigator());
+		Router.toScreenAddContacts(this._navigator());
 	}
 
 	_onUserPicturePress() {

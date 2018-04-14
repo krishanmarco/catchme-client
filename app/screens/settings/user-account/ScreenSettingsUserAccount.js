@@ -5,11 +5,19 @@ import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefU
 import {NullableObjects, Screen} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import type {TCachePool} from "../../../lib/redux-pool/cache/CachePool";
+import type {TNavigator} from "../../../lib/types/Types";
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type Props = {
+	navigator: TNavigator
+};
 
 // _ScreenSettingsUserAccount ***************************************************************************
 // _ScreenSettingsUserAccount ***************************************************************************
 
-class _ScreenSettingsUserAccount extends React.Component {
+class _ScreenSettingsUserAccount extends React.Component<void, Props, void> {
 
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
@@ -20,13 +28,14 @@ class _ScreenSettingsUserAccount extends React.Component {
 	}
 
 	render() {
+		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
 					renderChild={([authenticatedUserProfile]) => (
 						<SettingsUserAccount
-							navigator={this.props.navigator}
+							navigator={navigator}
 							authenticatedUserProfile={authenticatedUserProfile}/>
 					)}/>
 			</Screen>

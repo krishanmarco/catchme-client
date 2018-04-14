@@ -3,7 +3,7 @@ import DaoUser from "../../lib/daos/DaoUser";
 
 import React from 'react';
 
-import Router from "../../lib/helpers/Router";
+import Router from "../../lib/navigation/Router";
 
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 
@@ -60,7 +60,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 	}
 
 	_onGoToLoginPress() {
-		Router.toLogin(this.props.navigator);
+		Router.toScreenLogin(this.props.navigator);
 	}
 
 

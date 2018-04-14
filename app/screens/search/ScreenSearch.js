@@ -6,18 +6,32 @@ import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TNavigator} from "../../lib/types/Types";
+import NavbarButtonCatchmeLogo from "../../lib/navigation/NavbarButtonCatchmeLogo";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
 type Props = {
-	navigator: TNavigator
+	navigator: TNavigator,
+	showAppLogo: boolean
+};
+
+const defaultProps = {
+	showAppLogo: false
 };
 
 // _ScreenSearch ****************************************************************************************
 // _ScreenSearch ****************************************************************************************
 
 class _ScreenSearch extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
+
+	constructor(props, context) {
+		super(props, context);
+
+		const {showAppLogo, navigator} = this.props;
+		NavbarButtonCatchmeLogo.setup(navigator, showAppLogo);
+	}
 
 	componentWillMount() {
 		this._cacheUserProfile().initialize();

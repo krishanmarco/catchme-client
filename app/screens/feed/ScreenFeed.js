@@ -8,24 +8,38 @@ import {poolConnect} from '../../redux/ReduxPool';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TCacheDefUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
+import NavbarButtonCatchmeLogo from "../../lib/navigation/NavbarButtonCatchmeLogo";
 
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	navigator: TNavigator
+	navigator: TNavigator,
+	showAppLogo: boolean
 };
 
 type State = {
 	// Nothing for now
 };
 
+const defaultProps = {
+	showAppLogo: false
+};
+
 // _ScreenFeed ******************************************************************************************
 // _ScreenFeed ******************************************************************************************
 
 class _ScreenFeed extends React.Component<void, Props, State> {
-	
+	static defaultProps = defaultProps;
+
+	constructor(props, context) {
+		super(props, context);
+
+		const {showAppLogo, navigator} = this.props;
+		NavbarButtonCatchmeLogo.setup(navigator, showAppLogo);
+	}
+
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
 	}

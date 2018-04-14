@@ -5,7 +5,7 @@ import DaoUser from "../../../lib/daos/DaoUser";
 
 import LocationList from '../../../comp-buisness/location/LocationList';
 import React from 'react';
-import Router from "../../../lib/helpers/Router";
+import Router from "../../../lib/navigation/Router";
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Icons} from '../../../Config';
 
@@ -38,7 +38,12 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	}
 
 	_onLocationPress(location) {
-		Router.toScreenEditLocation(this.props.navigator, DaoLocation.gId(location));
+		const {navigator} = this.props;
+		Router.toScreenEditLocation(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onLocationAdd() {

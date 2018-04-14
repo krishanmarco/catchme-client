@@ -5,12 +5,13 @@ import Contacts from 'react-native-contacts';
 import DaoUser from "../../../lib/daos/DaoUser";
 import Logger from "../../../lib/Logger";
 import React from 'react';
-import Router from '../../../lib/helpers/Router';
+import Router from '../../../lib/navigation/Router';
 import UserList from '../../../comp-buisness/user/UserList';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
+import DaoLocation from "../../../lib/daos/DaoLocation";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -155,12 +156,20 @@ class _AddContacts extends React.Component<void, Props, void> {
 
 	_onLocationPress(location) {
 		const {navigator} = this.props;
-		Router.toLocationProfile(navigator, location);
+		Router.toModalLocationProfile(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
-		Router.toUserProfile(navigator, user);
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
 	render() {

@@ -3,7 +3,7 @@ import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 import React from 'react';
-import Router from "../../../lib/helpers/Router";
+import Router from "../../../lib/navigation/Router";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
@@ -44,7 +44,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 	}
 
 	_onGoogleMapsSelectorPress() {
-		Router.toAddressPickerModal(
+		Router.toModalAddressPicker(
 			this.props.navigator,
 			{onSelect: location => this._formApiEditLocationProfile().change(location)}
 		);

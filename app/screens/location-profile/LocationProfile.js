@@ -13,7 +13,7 @@ import LocationMap from '../../comp-buisness/location/LocationMap';
 import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataPoints';
 import React from 'react';
 
-import Router from '../../lib/helpers/Router';
+import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 
 import UserList from '../../comp-buisness/user/UserList';
@@ -80,7 +80,11 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
-		Router.toUserProfile(navigator, user);
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
 

@@ -4,14 +4,14 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationProfile from './LocationProfile';
 import React from 'react';
-import Router from "../../lib/helpers/Router";
+import Router from "../../lib/navigation/Router";
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
+import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TModalUserLocationStatusProps} from "../user-location-status/ScreenModalUserLocationStatus";
 import type {TNavigator} from "../../lib/types/Types";
 
 
@@ -28,53 +28,57 @@ type State = {
 	// Nothing for now
 };
 
+
+const navbarButtonAddUserLocationStatus = {
+	id: 'NAVBAR_BUTTON_ID_USER_LOCATION_STATUS',
+	icon: require('../../assets/icons/timerSandFull.png'),
+	buttonFontSize: 2,
+	buttonFontWeight: '100',
+};
+
+const navbarButtonFollowLocation = {
+	id: 'NAVBAR_BUTTON_ID_FOLLOW_LOCATION',
+	icon: require('../../assets/icons/cocktailGlass.png'),
+	buttonFontSize: 2,
+	buttonFontWeight: '100',
+};
+
+
 // _ScreenLocationProfile *******************************************************************************
 // _ScreenLocationProfile *******************************************************************************
 
 class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
-	// todo fix, these buttons should only be accessible once the locationProfile is not null any more!!
-	static NAV_BUTTON_USER_LOCATION_STATUS = {
-		id: 'NAV_BUTTON_ID_USER_LOCATION_STATUS',
-		icon: require('../../assets/icons/timerSandFull.png'),
-		// buttonFontSize: 2,
-		// buttonFontWeight: '100',
-	};
-
-	static NAV_BUTTON_FOLLOW_LOCATION = {
-		id: 'NAV_BUTTON_ID_FOLLOW_LOCATION',
-		icon: require('../../assets/icons/cocktailGlass.png'),
-		// buttonFontSize: 2,
-		// buttonFontWeight: '100',
-	};
-
 	constructor(props, context) {
 		super(props, context);
-		this._initializeNavigatorButtons();
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
-
-		const {navigator} = props;
-		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
+		this._setupNavigator();
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this._setupNavigator();
+	}
 
-
-	_initializeNavigatorButtons() {
+	_setupNavigator() {
 		const {navigator} = this.props;
+
+		// If the locationProfile has not been set yet,
+		// do not display the navigation buttons
+		const locationProfile = this._locationProfile();
+		if (locationProfile == null)
+			return;
 
 		const rightButtons = [];
 
 		const favoriteIds = DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 		if (!favoriteIds.includes(DaoLocation.gId(this._locationProfile())))
-			rightButtons.push(_ScreenLocationProfile.NAV_BUTTON_FOLLOW_LOCATION);
+			rightButtons.push(navbarButtonFollowLocation);
 
-		rightButtons.push(_ScreenLocationProfile.NAV_BUTTON_USER_LOCATION_STATUS);
+		rightButtons.push(navbarButtonAddUserLocationStatus);
 
 		navigator.setButtons({rightButtons});
+		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
 	}
-
-
-
 
 	_onNavigatorEvent(event) {
 		if (event.type !== 'NavBarButtonPress')
@@ -85,12 +89,12 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		if (locationProfile == null)
 			return;
 
-		if (event.id === _ScreenLocationProfile.NAV_BUTTON_USER_LOCATION_STATUS.id) {
+		if (event.id === navbarButtonAddUserLocationStatus.id) {
 			this._onNavigatorUserLocationStatusPress(locationProfile);
 			return;
 		}
 
-		if (event.id === _ScreenLocationProfile.NAV_BUTTON_FOLLOW_LOCATION.id) {
+		if (event.id === navbarButtonFollowLocation.id) {
 			this._onNavigatorFollowLocationPress(locationProfile);
 			return;
 		}
@@ -98,29 +102,20 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 	_onNavigatorUserLocationStatusPress(locationProfile: TLocation) {
 		const {navigator} = this.props;
-
-		const passProps = ({
-			// [navigator] is automatically added by the navigator that opens the modal
-		}: TModalUserLocationStatusProps);
-
-		passProps.locationId = DaoLocation.gId(locationProfile);
-		// passProps.postOnConfirm = true;
-		// passProps.onStatusConfirm, passProps.initialStatus not needed
-
-		Router.toModalUserLocationStatus(navigator, passProps);
+		Router.toModalUserLocationStatus(navigator, {locationId: DaoLocation.gId(locationProfile)});
 	}
 
 	_onNavigatorFollowLocationPress(locationProfile: TLocation) {
+		// Update the UI immediately without waiting for a positive response
+		DaoUser.addLocationToFavorites(this._cacheUserProfile().data, locationProfile);
+		this._setupNavigator();
+
 		ApiClient.userLocationsFavoritesAdd(DaoLocation.gId(locationProfile))
 			.catch((error) => {
 				// Operation failed, revert the UI back to it's original state
 				DaoUser.removeLocationFromFavorites(this._locationProfile());
-				this._initializeNavigatorButtons();
+				this._setupNavigator();
 			});
-
-		// Update the UI immediately without waiting for a positive response
-		DaoUser.addLocationToFavorites(this._cacheUserProfile().data, locationProfile);
-		this._initializeNavigatorButtons();
 	}
 
 
@@ -129,7 +124,7 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 		this._cacheUserProfile().initialize();
 
-		this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(locationId)
+		this._cacheMapLocationProfiles().initializeItem(locationId)
 			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
 	}
 
@@ -137,9 +132,13 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
+	_cacheMapLocationProfiles(): CacheMapState {
+		return this.props[CACHE_MAP_ID_LOCATION_PROFILES];
+	}
+
 	_locationProfile(): ?TLocation {
 		const {locationId} = this.props;
-		return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(locationId);
+		return this._cacheMapLocationProfiles().get(locationId);
 	}
 
 

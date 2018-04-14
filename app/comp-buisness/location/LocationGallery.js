@@ -4,7 +4,7 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 import Gallery from '../../comp/misc/Gallery';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import React from 'react';
-import Router from "../../lib/helpers/Router";
+import Router from "../../lib/navigation/Router";
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
 import {RkText} from 'react-native-ui-kitten';
@@ -71,7 +71,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 	}
 
 	_onAddImagePress() {
-		Router.toCameraModal(this.props.navigator, {
+		Router.toModalCamera(this.props.navigator, {
 			onCaptureImage: this._onCaptureImage
 		});
 	}

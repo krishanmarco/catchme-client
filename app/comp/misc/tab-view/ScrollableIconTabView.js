@@ -81,8 +81,8 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 			<ScrollableTabView
 				onChangeTab={this._onTabChanged}
 				renderTabBar={this._renderDefaultTabBar}
-				locked={locked}
 				tabBarUnderlineStyle={styles.tabBarUnderline}
+				locked={locked}
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={2}>
 				{children}

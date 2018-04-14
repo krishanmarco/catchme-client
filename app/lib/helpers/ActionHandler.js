@@ -2,7 +2,7 @@
 import ApiClient from '../data/ApiClient';
 import DaoAction from "../daos/DaoAction";
 import Logger from "../Logger";
-import Router from "./Router";
+import Router from "../navigation/Router";
 import {Const, ActionHandlerActions, Icons} from '../../Config';
 import {TActionHandlers} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
@@ -82,7 +82,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!connectionId)
 				return Promise.resolve(0);
 
-			Router.toUserProfileById(navigator, connectionId);
+			Router.toModalUserProfile(navigator, {userId: connectionId});
 			return Promise.resolve(0);
 		}
 	},
@@ -97,7 +97,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			Router.toLocationProfileById(navigator, locationId);
+			Router.toModalLocationProfile(navigator, {locationId});
 			return Promise.resolve(0);
 		}
 	},

@@ -134,9 +134,9 @@ export const Screens = {
 	ScreenNewLocation: `${Globals.packageName}.ScreenNewLocation`,
 	ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
 	ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,
-	ModalCamera: `${Globals.packageName}.ModalCamera`,
-	ModalTiming: `${Globals.packageName}.ModalTiming`,
-	ModalUserLocationStatus: `${Globals.packageName}.ModalUserLocationStatus`
+	ScreenCamera: `${Globals.packageName}.ScreenCamera`,
+	ScreenTimings: `${Globals.packageName}.ScreenTimings`,
+	ScreenUserLocationStatus: `${Globals.packageName}.ScreenUserLocationStatus`
 };
 
 

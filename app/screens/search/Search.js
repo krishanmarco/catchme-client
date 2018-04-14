@@ -2,7 +2,7 @@
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationList from '../../comp-buisness/location/LocationList';
 import React from 'react';
-import Router from '../../lib/helpers/Router';
+import Router from '../../lib/navigation/Router';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import UserList from '../../comp-buisness/user/UserList';
 import {Colors} from "../../Config";
@@ -13,6 +13,7 @@ import {StyleSheet, View} from 'react-native';
 import {TSearchData} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import DaoLocation from "../../lib/daos/DaoLocation";
 
 
 // Const ************************************************************************************************
@@ -52,12 +53,20 @@ class _Search extends React.Component<void, Props, void> {
 
 	_onLocationPress(location) {
 		const {navigator} = this.props;
-		Router.toLocationProfile(navigator, location);
+		Router.toModalLocationProfile(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
-		Router.toUserProfile(navigator, user);
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
 	_locationsOnEndReached() {
@@ -80,6 +89,7 @@ class _Search extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<ScrollableTabView
+				tabBarUnderlineStyle={styles.tabBarUnderline}
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={Infinity}
 				tabBarTextStyle={styles.tabBarTextStyle}
@@ -132,7 +142,6 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				autoFilter={true}
-				tabBarUnderlineStyle={styles.tabBarUnderline}
 				loading={loading}
 				onEndReached={this._usersOnEndReached}/>
 		);

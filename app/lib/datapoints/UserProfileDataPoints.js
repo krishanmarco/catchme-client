@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../daos/DaoUser";
-import Router from "../helpers/Router";
+import Router from "../navigation/Router";
 import {Icons} from '../../Config';
 import {Linking} from 'react-native';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
@@ -15,13 +15,13 @@ export default class UserProfileDataPoints {
       case UserProfileDataPoints.infoItemIdEmail:
         break;
       case UserProfileDataPoints.infoItemIdAccount:
-        Router.toSettingsUserAccount(navigator);
+        Router.toScreenSettingsUserAccount(navigator);
         break;
       case UserProfileDataPoints.infoItemIdAdminLocations:
-        Router.toSettingsAdminLocations(navigator);
+        Router.toScreenSettingsAdminLocations(navigator);
         break;
       case UserProfileDataPoints.infoItemIdNotifications:
-        Router.toSettingsUserNotifications(navigator);
+        Router.toScreenSettingsUserNotifications(navigator);
         break;
       case UserProfileDataPoints.infoItemIdHelpFAQ:
         Linking.openURL('http://catchme.krishanmadan.website');
