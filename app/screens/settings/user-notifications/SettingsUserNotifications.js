@@ -145,7 +145,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 
 const SettingsUserNotifications = poolConnect(_SettingsUserNotifications,
 	// mapStateToProps
-	(state) => state.settingsUserAccountReducer,
+	(state) => ({}),
 
 	// mapDispatchToProps
 	(dispatch) => ({}),

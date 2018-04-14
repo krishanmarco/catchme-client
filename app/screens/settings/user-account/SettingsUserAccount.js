@@ -180,7 +180,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		);
 	}
 
-
 	_renderSecuritySection() {
 		return (
 			<View>
@@ -194,7 +193,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 			</View>
 		);
 	}
-
 
 	_renderLogoutSection() {
 		return (
