@@ -3,15 +3,12 @@ import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import React from 'react';
-import Router from "../../lib/helpers/Router";
-import {Colors, Const, Icons} from '../../Config';
+import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
+import {Colors, Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
-
 
 
 // ListItemLocation *************************************************************************************
@@ -79,7 +76,7 @@ export const ListItemLocationFollow = ({location, onPress}: ListItemLocationProp
 
 type ListItemUserLocationStatusProps = TLocation & {
 	allowEdit: boolean,
-	status: TUserLocationStatus,
+	userLocationStatus: TUserLocationStatus,
 	onEditPress: (TUserLocationStatus, TLocation) => void,
 	onDeletePress: (TUserLocationStatus) => void
 }
@@ -90,23 +87,48 @@ export class ListItemUserLocationStatus extends React.Component<void, ListItemUs
 		super(props, context);
 		this._onEditPress = this._onEditPress.bind(this);
 		this._onDeletePress = this._onDeletePress.bind(this);
+		this._setActions(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this._setActions(nextProps);
+	}
+
+	_setActions(props) {
+		const {allowEdit} = props;
+
+		if (!allowEdit) {
+			this.editActions = [];
+			return;
+		}
+
+		this.editActions = [{
+			icon: Icons.statusEdit,
+			color: Colors.neutralOrange,
+			onPress: this._onEditPress
+		}, {
+			icon: Icons.statusDelete,
+			color: Colors.alertRed,
+			onPress: this._onDeletePress
+		}];
+
 	}
 
 	_getFormattedRange() {
-		const {status} = this.props;
-		const fromTs = DaoUserLocationStatus.gFromTs(status);
-		const toTs = DaoUserLocationStatus.gUntilTs(status);
+		const {userLocationStatus} = this.props;
+		const fromTs = DaoUserLocationStatus.gFromTs(userLocationStatus);
+		const toTs = DaoUserLocationStatus.gUntilTs(userLocationStatus);
 		return TimestampFormatter.parseFromTo(fromTs, toTs);
 	}
 
 	_onEditPress() {
-		const {status, location, onEditPress} = this.props;
-		onEditPress(status, location);
+		const {userLocationStatus, location, onEditPress} = this.props;
+		onEditPress(userLocationStatus, location);
 	}
 
 	_onDeletePress() {
-		const {status, onDeletePress} = this.props;
-		onDeletePress(status);
+		const {userLocationStatus, onDeletePress} = this.props;
+		onDeletePress(userLocationStatus);
 	}
 
 	render() {
@@ -116,15 +138,7 @@ export class ListItemUserLocationStatus extends React.Component<void, ListItemUs
 				location={location}
 				onPress={onPress}
 				content={this._getFormattedRange()}
-				actions={[{
-					icon: Icons.statusEdit,
-					color: Colors.neutralOrange,
-					onPress: this._onEditPress
-				}, {
-					icon: Icons.statusDelete,
-					color: Colors.alertRed,
-					onPress: this._onDeletePress
-				}]}/>
+				actions={this.editActions}/>
 		);
 	}
 

@@ -10,7 +10,8 @@
     "eslint-fix": "node node_modules/eslint/bin/eslint.js -c .eslintrc --fix .",
     "force-load-bash": "curl \"http://localhost:8081/index.android.bundle?platform=android\" -o \"android/app/src/main/assets/index.android.bundle\"",
     "force-load-cmd": "wget \"http://localhost:8081/index.android.bundle?platform=android\" -OutFile \"android/app/src/main/assets/index.android.bundle\"",
-    "assemble-release": "cd android && ./gradlew assembleRelease"
+    "assemble-release": "cd android && ./gradlew assembleRelease",
+    "fake-data": "wget \"http://www.catchme.krishanmadan.website/api/fake?pw=S()KD2dk290kdLksK()&function=update\""
   },
   "dependencies": {
     "color": "^2.0.1",
