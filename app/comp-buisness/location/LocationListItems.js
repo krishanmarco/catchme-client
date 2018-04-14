@@ -87,6 +87,31 @@ export class ListItemUserLocationStatus extends React.Component<void, ListItemUs
 		super(props, context);
 		this._onEditPress = this._onEditPress.bind(this);
 		this._onDeletePress = this._onDeletePress.bind(this);
+		this._setActions(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this._setActions(nextProps);
+	}
+
+	_setActions(props) {
+		const {allowEdit} = props;
+
+		if (!allowEdit) {
+			this.editActions = [];
+			return;
+		}
+
+		this.editActions = [{
+			icon: Icons.statusEdit,
+			color: Colors.neutralOrange,
+			onPress: this._onEditPress
+		}, {
+			icon: Icons.statusDelete,
+			color: Colors.alertRed,
+			onPress: this._onDeletePress
+		}];
+
 	}
 
 	_getFormattedRange() {
@@ -113,15 +138,7 @@ export class ListItemUserLocationStatus extends React.Component<void, ListItemUs
 				location={location}
 				onPress={onPress}
 				content={this._getFormattedRange()}
-				actions={[{
-					icon: Icons.statusEdit,
-					color: Colors.neutralOrange,
-					onPress: this._onEditPress
-				}, {
-					icon: Icons.statusDelete,
-					color: Colors.alertRed,
-					onPress: this._onDeletePress
-				}]}/>
+				actions={this.editActions}/>
 		);
 	}
 
