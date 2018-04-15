@@ -160,7 +160,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: true,
+	loggingEnabled: false,
 
 	dismissModalConfig: {animationType: 'slide-down'},
 
@@ -174,7 +174,7 @@ export const Const = {
 
 	dataProviderCacheTTLSec: 0, 				// 5 * 60,
 
-	imagesCachingPolicy: 'default',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
+	imagesCachingPolicy: 'reload',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
 
 	firebaseConfig: {
 		apiKey: 'AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI',

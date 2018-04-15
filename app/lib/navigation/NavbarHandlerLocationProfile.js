@@ -150,7 +150,7 @@ export default class NavbarHandlerLocationProfile {
 
 	_onCaptureImage(data) {
 		const {locationProfile} = this;
-console.log(locationProfile);
+
 		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(locationProfile), data.path)
 			.then(addedUrl => {
 				// Add the uploaded image to this locations images

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Colors, Icons} from '../../Config';
-import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
+import {Image, Dimensions, FlatList, StyleSheet, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
@@ -30,16 +30,21 @@ const DefaultProps = {
 
 export default class Gallery extends React.Component<void, Props, State> {
 	static defaultProps = DefaultProps;
-	
+
 	constructor(props, context) {
 		super(props, context);
 		this._renderImage = this._renderImage.bind(this);
+		this._keyExtractor = this._keyExtractor.bind(this);
 
-		const imageSize = (Dimensions.get('window').width - 12) / 4;
+		const imageSize = Dimensions.get('window').width / 4;
 		this.state = {
-			imageSize: (Dimensions.get('window').width - 12) / 4,
+			imageSize,
 			imageSizeStyle: {width: imageSize, height: imageSize},
 		};
+	}
+
+	_keyExtractor(item) {
+		return item.uri;
 	}
 
 	render() {
@@ -48,7 +53,8 @@ export default class Gallery extends React.Component<void, Props, State> {
 			<View style={styles.images}>
 				<FlatList
 					data={imageSources}
-					keyExtractor={(item) => item.uri}
+					removeClippedSubviews={true}
+					keyExtractor={this._keyExtractor}
 
 					renderItem={this._renderImage}
 					initialNumToRender={12}
@@ -62,21 +68,16 @@ export default class Gallery extends React.Component<void, Props, State> {
 		);
 	}
 
-	_renderImage({item, index}) {
+	_renderImage({item}) {
 		const {imageSizeStyle} = this.state;
-		const {imageSources} = this.props;
 		return (
-			<RkModalImg
-				style={imageSizeStyle}
-				source={imageSources}
-				index={index}
-				renderHeader={(options) => (
-					<View style={styles.header}>
-						<RkButton rkType='clear contrast' onPress={options.closeImage}>
-							<Icon {...Icons.back} size={35} color={Colors.black}/>
-						</RkButton>
-					</View>
-				)}/>
+			<View style={imageSizeStyle}>
+				<Image
+					resizeMethod='resize'
+					style={imageSizeStyle}
+					source={item}
+				/>
+			</View>
 		);
 	}
 

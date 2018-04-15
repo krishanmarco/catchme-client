@@ -16,7 +16,7 @@ export default class ImageURISourceAuth {
 	
 	// Build this object from a url
 	static fromUrl(url) {
-		return new ImageURISourceAuth(url + '.png');
+		return new ImageURISourceAuth(url);
 	}
 	
 	
