@@ -1,16 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import DaoUser from '../../lib/daos/DaoUser';
-
 import React from 'react';
 import {bindActionCreators} from 'redux';
-
 import {Bubble, GiftedChat} from 'react-native-gifted-chat';
-
 import {chatMessagesLoadMore, chatMessagesSendMessage, initialize} from './ReducerChat';
 import {Colors} from '../../Config';
 import {connect} from 'react-redux';
-
 import {DefaultLoader} from "../Misc";
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';

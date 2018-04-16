@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Colors, Icons} from '../../Config';
-import {Image, Dimensions, FlatList, StyleSheet, View} from 'react-native';
+import {Dimensions, FlatList, Image, StyleSheet, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RkButton, RkModalImg} from 'react-native-ui-kitten';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";

@@ -4,7 +4,7 @@ import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
-import {StyleSheet, Dimensions, Image, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import {FontAwesome} from '../../assets/Icons';
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';

@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import Maps from "../../lib/data/Maps";
 import React from 'react';
@@ -17,7 +18,6 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import DaoLocation from "../../lib/daos/DaoLocation";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

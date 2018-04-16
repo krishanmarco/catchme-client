@@ -4,10 +4,10 @@ import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
 import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
 import CachePool from "../lib/redux-pool/cache/CachePool";
 import FirebaseDataPool from "../lib/redux-pool/firebase-data/FirebaseDataPool";
+import SearchDataPool from "../lib/redux-pool/search-data/SearchDataPool";
 import {connect} from 'react-redux';
 import {TState} from "../lib/types/Types";
 import type {TDispatch} from "../lib/types/Types";
-import SearchDataPool from "../lib/redux-pool/search-data/SearchDataPool";
 
 
 

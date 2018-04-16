@@ -3,18 +3,15 @@ import _ from 'lodash';
 import DaoUser from "../../../lib/daos/DaoUser";
 import ImagePicker from "../../../lib/helpers/ImagePicker";
 import Maps from "../../../lib/data/Maps";
-
 import React from 'react';
-
 import Router from "../../../lib/navigation/Router";
 import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
-import {Const, Icons} from '../../../Config';
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
+import {Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
-// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -100,7 +97,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 			// User canceled
 		});
 	}
-
 
 	render() {
 		return (
@@ -226,7 +222,6 @@ const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	[FORM_API_ID_EDIT_USER_PROFILE]
 );
 export default SettingsUserAccount;
-
 
 
 // Config ***********************************************************************************************

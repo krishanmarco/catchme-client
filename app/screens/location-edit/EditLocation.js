@@ -9,10 +9,10 @@ import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/d
 import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollableIconTabView} from "../../comp/Misc";
 import {View} from 'react-native';
+import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

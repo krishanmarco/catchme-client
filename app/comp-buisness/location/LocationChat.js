@@ -1,10 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Chat from '../../comp/chat/Chat';
 import DaoLocation from '../../lib/daos/DaoLocation';
-
 import React from 'react';
 import {FirebaseData} from '../../lib/data/Firebase';
-
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
 // todo refactor proptypes

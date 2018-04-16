@@ -1,35 +1,25 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Context from '../../lib/Context';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
-
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationChat from '../../comp-buisness/location/LocationChat';
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
-
 import LocationMap from '../../comp-buisness/location/LocationMap';
-
-// import TabBar from '../../comp/misc/TabBar';
 import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataPoints';
+import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 import React from 'react';
-
 import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
 import UserList from '../../comp-buisness/user/UserList';
-
-import {Colors, Icons} from '../../Config';
-
 import {Grid, Row} from "react-native-easy-grid";
+import {Icons} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
-
 import {ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 
 
 // Const *************************************************************************************************

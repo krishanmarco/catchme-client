@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 import React from 'react';
 import Search from './Search';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
@@ -6,7 +7,6 @@ import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TNavigator} from "../../lib/types/Types";
-import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

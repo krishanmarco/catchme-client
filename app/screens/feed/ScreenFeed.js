@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Context from '../../lib/Context';
 import Feed from './Feed';
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 import React from 'react';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TNavigator} from "../../lib/types/Types";
 import type {TCacheDefUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
-import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
+import type {TNavigator} from "../../lib/types/Types";
 // todo refactor proptypes
 
 // Const *************************************************************************************************

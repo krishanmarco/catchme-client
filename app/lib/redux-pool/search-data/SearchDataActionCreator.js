@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import _ from "lodash";
 import PoolActionCreator from "../PoolActionCreator";
-import {POOL_TYPE_SEARCH_DATA} from "../../../redux/ReduxPool";
-import type {TDispatch} from "../../types/Types";
 import {
 	POOL_ACTION_SEARCH_DATA_CONCAT_SUGGEST_LIST,
 	POOL_ACTION_SEARCH_DATA_SEARCH_LIST,
 	POOL_ACTION_SEARCH_DATA_SET_LOADING,
 	POOL_ACTION_SEARCH_DATA_SET_SEARCH_QUERY
 } from "./SearchDataPool";
+import {POOL_TYPE_SEARCH_DATA} from "../../../redux/ReduxPool";
 import {SearchDataState} from "./SearchDataModel";
+import type {TDispatch} from "../../types/Types";
 
 
 export default class SearchDataActionCreator extends PoolActionCreator {

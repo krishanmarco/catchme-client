@@ -2,12 +2,12 @@
 import ApiClient from "../data/ApiClient";
 import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
+import ImageURISourceAuth from "../data/ImageURISourceAuth";
+import Logger from "../Logger";
 import Router from "./Router";
 import type {TLocation} from "../daos/DaoLocation";
 import type {TNavigator} from "../types/Types";
 import type {TUser} from "../daos/DaoUser";
-import ImageURISourceAuth from "../data/ImageURISourceAuth";
-import Logger from "../Logger";
 
 
 const navbarButtonAddUserLocationStatus = {

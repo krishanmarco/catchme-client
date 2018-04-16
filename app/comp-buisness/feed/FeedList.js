@@ -1,10 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoFeed from "../../lib/daos/DaoFeed";
-
 import FeedListItem from "./FeedListItem";
 import React from 'react';
 import {DefaultLoader} from "../../comp/Misc";
-
 import {FlatList} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TUser} from "../../lib/daos/DaoUser";

@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import UserLocationStatus from './UserLocationStatus';
 import React from 'react';
+import UserLocationStatus from './UserLocationStatus';
 import {CACHE_ID_USER_LOCATION_STATUS} from "../../lib/redux-pool/cache/def/CacheDefUserLocationStatus";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 import {Const} from "../../Config";

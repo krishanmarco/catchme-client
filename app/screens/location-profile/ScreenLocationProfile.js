@@ -3,6 +3,7 @@ import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationProfile from './LocationProfile';
+import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
@@ -11,11 +12,10 @@ import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
-import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
+import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************

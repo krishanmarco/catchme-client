@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
 import ApiFormDef from "../ApiFormDef";
+import CacheActionCreator from "../../cache/CacheActionCreator";
 import DaoLocation from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
+import {CACHE_ID_USER_PROFILE} from "../../cache/def/CacheDefUserProfile";
 import {Validate} from "../../../helpers/Validator";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TLocation} from "../../../daos/DaoLocation";
 import type {TThunk} from "../../../types/Types";
-import CacheActionCreator from "../../cache/CacheActionCreator";
-import {CACHE_ID_USER_PROFILE} from "../../cache/def/CacheDefUserProfile";
 
 
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';

@@ -5,9 +5,9 @@ import React from 'react';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
-import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

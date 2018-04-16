@@ -2,9 +2,9 @@
 import {addContactsReducer} from '../screens/settings/add-contacts/AddContacts';
 import {chatReducer} from "../comp/chat/ReducerChat";
 import {combineReducers} from 'redux';
-import {userLocationStatusReducer} from '../screens/user-location-status/UserLocationStatus';
 import {reduxPoolReducer} from './ReduxPool';
 import {screenReducer} from '../comp/misc/Screen';
+import {userLocationStatusReducer} from '../screens/user-location-status/UserLocationStatus';
 
 
 const CombinedReducers = combineReducers({

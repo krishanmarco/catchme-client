@@ -1,18 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../lib/daos/DaoUser";
-
 import React from 'react';
-
 import Router from "../../lib/navigation/Router";
-
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
-
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-
 import {Image, View} from 'react-native';
-
 import {poolConnect} from '../../redux/ReduxPool';
-
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {scaleVertical} from '../../lib/utils/scale';

@@ -6,10 +6,10 @@ import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUser
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TNavigator} from "../../lib/types/Types";
-import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TNavigator} from "../../lib/types/Types";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

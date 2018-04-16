@@ -1,19 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from "../../../lib/daos/DaoLocation";
-
 import DaoUser from "../../../lib/daos/DaoUser";
-
-import LocationList from '../../../comp-buisness/location/LocationList';
 import React from 'react';
 import Router from "../../../lib/navigation/Router";
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Icons} from '../../../Config';
-
 import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 
 // Const *************************************************************************************************

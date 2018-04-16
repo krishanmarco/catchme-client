@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../lib/daos/DaoUser";
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 import React from 'react';
 import UserProfile from './UserProfile';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
 import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";

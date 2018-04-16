@@ -6,11 +6,11 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {poolConnect} from '../../redux/ReduxPool';
 import {TActionHandlerParams} from "../../lib/helpers/ActionHandler";
+import {TFirebaseDataPool} from "../../lib/redux-pool/firebase-data/FirebaseDataPool";
 import {View} from 'react-native';
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TNavigator, TThunk} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {TFirebaseDataPool} from "../../lib/redux-pool/firebase-data/FirebaseDataPool";
 
 
 // Const *************************************************************************************************

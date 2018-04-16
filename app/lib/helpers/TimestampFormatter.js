@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 12-Apr-18 © **/
-import moment from 'moment';
 import Logger from "../Logger";
+import moment from 'moment';
 import type {TMoment} from "../types/Types";
 
 const mNow = moment();

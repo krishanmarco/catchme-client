@@ -4,8 +4,8 @@ import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import {Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
-import type {TUser} from "../../lib/daos/DaoUser";
 import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 // ListItemUser *****************************************************************************************

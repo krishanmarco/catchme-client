@@ -3,7 +3,7 @@ import ApiClient from '../data/ApiClient';
 import DaoAction from "../daos/DaoAction";
 import Logger from "../Logger";
 import Router from "../navigation/Router";
-import {Const, ActionHandlerActions, Icons} from '../../Config';
+import {ActionHandlerActions, Const, Icons} from '../../Config';
 import {TActionHandlers} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
 import type {TActionHandler, TNavigator, TThunk} from "../types/Types";

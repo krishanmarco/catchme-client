@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationList from '../../comp-buisness/location/LocationList';
 import React from 'react';
@@ -13,7 +14,6 @@ import {StyleSheet, View} from 'react-native';
 import {TSearchData} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import DaoLocation from "../../lib/daos/DaoLocation";
 
 
 // Const ************************************************************************************************

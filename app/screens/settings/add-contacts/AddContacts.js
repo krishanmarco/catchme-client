@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import ApiClient from '../../../lib/data/ApiClient';
 import Contacts from 'react-native-contacts';
+import DaoLocation from "../../../lib/daos/DaoLocation";
 import DaoUser from "../../../lib/daos/DaoUser";
 import Logger from "../../../lib/Logger";
 import React from 'react';
@@ -11,7 +12,6 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-import DaoLocation from "../../../lib/daos/DaoLocation";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
