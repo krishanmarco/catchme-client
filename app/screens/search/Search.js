@@ -149,9 +149,6 @@ class _Search extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const Search = poolConnect(_Search,
 	// mapStateToProps
 	(state) => ({}),

@@ -21,7 +21,7 @@ import {stringReplace} from "../../../lib/HelperFunctions";
 
 type Props = {
 	navigator: Navigator,
-	authenticatedUserProfile: Object,
+	authUserProfile: Object,
 	changePrivacy: Function
 };
 
@@ -54,7 +54,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	_userProfile() {
-		return this.props.authenticatedUserProfile;
+		return this.props.authUserProfile;
 	}
 
 	_formApiEditUserProfile() {
@@ -215,11 +215,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 }
 
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// mapStateToProps
 	(state) => ({}),
@@ -230,7 +225,6 @@ const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// Array of pools to subscribe to
 	[FORM_API_ID_EDIT_USER_PROFILE]
 );
-
 export default SettingsUserAccount;
 
 

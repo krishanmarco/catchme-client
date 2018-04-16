@@ -49,20 +49,17 @@ class _ScreenNewLocation extends React.Component<void, Props, State> {
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authenticatedUserProfile]) => (
+					renderChild={([authUserProfile]) => (
 						<EditLocation
 							navigator={navigator}
 							locationProfile={location}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenNewLocation = poolConnect(_ScreenNewLocation,
 	// mapStateToProps

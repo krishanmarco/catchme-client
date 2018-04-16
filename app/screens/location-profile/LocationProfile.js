@@ -37,7 +37,7 @@ import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLoca
 
 type Props = {
 	locationProfile: TLocation,
-	authenticatedUserProfile: TUser,
+	authUserProfile: TUser,
 	navigator: TNavigator,
 	navbarHandler: NavbarHandlerLocationProfile
 };
@@ -80,7 +80,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	_onTabChanged(changedToIndex) {
 		const {navbarHandler, onGalleryImageAdded} = this.props;
 
-		switch(changedToIndex) {
+		switch (changedToIndex) {
 			case _LocationProfile.idxProfile:
 				navbarHandler.showButtonFollow();
 				break;
@@ -187,37 +187,37 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabFriendsNow() {
-		const {locationProfile, authenticatedUserProfile} = this.props;
+		const {locationProfile, authUserProfile} = this.props;
 
 		return (
 			<View style={styles.tabRootFriendsNow}>
 				<UserList
 					users={DaoLocation.gFriendsNow(locationProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(authenticatedUserProfile)}
+					requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);
 	}
 
 	_renderTabFriendsFuture() {
-		const {locationProfile, authenticatedUserProfile} = this.props;
+		const {locationProfile, authUserProfile} = this.props;
 
 		return (
 			<View style={styles.tabRootFriendsFuture}>
 				<UserList
 					users={DaoLocation.gFriendsFuture(locationProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(authenticatedUserProfile)}
+					requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);
 	}
 
 	_renderTabChat() {
-		const {locationProfile, authenticatedUserProfile} = this.props;
+		const {locationProfile, authUserProfile} = this.props;
 
 		return (
 			<View style={styles.tabRootChat}>
-				<LocationChat location={locationProfile} user={authenticatedUserProfile}/>
+				<LocationChat location={locationProfile} user={authUserProfile}/>
 			</View>
 		);
 	}
@@ -248,11 +248,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const LocationProfile = poolConnect(_LocationProfile,
 	// mapStateToProps
@@ -264,8 +260,6 @@ const LocationProfile = poolConnect(_LocationProfile,
 	// Array of pools to subscribe to
 	[]
 );
-
-
 export default LocationProfile;
 
 

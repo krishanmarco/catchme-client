@@ -33,19 +33,16 @@ class _ScreenSettingsUserNotifications extends React.Component<void, Props, void
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authenticatedUserProfile]) => (
+					renderChild={([authUserProfile]) => (
 						<SettingsUserNotifications
 							navigator={navigator}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenSettingsUserNotifications = poolConnect(_ScreenSettingsUserNotifications,
 	// mapStateToProps
@@ -58,7 +55,3 @@ const ScreenSettingsUserNotifications = poolConnect(_ScreenSettingsUserNotificat
 	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsUserNotifications;
-
-ScreenSettingsUserNotifications.propTypes = {
-	// Nothing for now
-};

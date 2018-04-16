@@ -94,12 +94,12 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 			<Screen>
 				<NullableObjects
 					objects={[this._locationProfile(), this._cacheUserProfile().data]}
-					renderChild={([locationProfile, authenticatedUserProfile]) => (
+					renderChild={([locationProfile, authUserProfile]) => (
 						<LocationProfile
 							navigator={navigator}
 							navbarHandler={this.navbarHandler}
 							locationProfile={locationProfile}
-							authenticatedUserProfile={authenticatedUserProfile}
+							authUserProfile={authUserProfile}
 							onGalleryImageAdded={this._onGalleryImageAdded}/>
 					)}/>
 			</Screen>
@@ -107,9 +107,6 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenLocationProfile = poolConnect(_ScreenLocationProfile,
 	// mapStateToProps

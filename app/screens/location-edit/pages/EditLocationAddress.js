@@ -92,11 +92,6 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 }
 
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const EditLocationAddress = poolConnect(_EditLocationAddress,
 	// mapStateToProps
 	(state) => ({}),

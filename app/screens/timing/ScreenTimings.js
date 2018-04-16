@@ -33,9 +33,6 @@ class _ScreenTimings extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenTimings = poolConnect(_ScreenTimings,
 	// mapStateToProps
 	(state) => ({}),
@@ -47,6 +44,7 @@ const ScreenTimings = poolConnect(_ScreenTimings,
 	[]
 );
 export default ScreenTimings;
+
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************

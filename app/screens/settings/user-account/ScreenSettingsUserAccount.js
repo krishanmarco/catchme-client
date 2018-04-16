@@ -33,19 +33,16 @@ class _ScreenSettingsUserAccount extends React.Component<void, Props, void> {
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authenticatedUserProfile]) => (
+					renderChild={([authUserProfile]) => (
 						<SettingsUserAccount
 							navigator={navigator}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenSettingsUserAccount = poolConnect(_ScreenSettingsUserAccount,
 	// mapStateToProps
@@ -58,7 +55,3 @@ const ScreenSettingsUserAccount = poolConnect(_ScreenSettingsUserAccount,
 	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsUserAccount;
-
-ScreenSettingsUserAccount.propTypes = {
-	// Nothing for now
-};

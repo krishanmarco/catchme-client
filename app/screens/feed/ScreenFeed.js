@@ -64,9 +64,6 @@ class _ScreenFeed extends React.Component<void, Props, State> {
 	
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenFeed = poolConnect(_ScreenFeed,
 	// mapStateToProps
 	(state) => ({}),

@@ -44,9 +44,6 @@ class _ScreenSettingsAdminLocations extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenSettingsAdminLocations = poolConnect(_ScreenSettingsAdminLocations,
 	// mapStateToProps
 	(state) => ({}),
@@ -58,7 +55,3 @@ const ScreenSettingsAdminLocations = poolConnect(_ScreenSettingsAdminLocations,
 	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsAdminLocations;
-
-ScreenSettingsAdminLocations.propTypes = {
-	// Nothing for now
-};

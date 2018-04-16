@@ -24,7 +24,7 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 
 type Props = {
 	userProfile: TUser,
-	authenticatedUserProfile: TUser,
+	authUserProfile: TUser,
 	navigator: TNavigator
 };
 
@@ -87,8 +87,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_isSameUser(props: Props = this.props): boolean {
-		const {userProfile, authenticatedUserProfile} = props;
-		return DaoUser.gId(userProfile) === DaoUser.gId(authenticatedUserProfile);
+		const {userProfile, authUserProfile} = props;
+		return DaoUser.gId(userProfile) === DaoUser.gId(authUserProfile);
 	}
 
 	render() {
@@ -165,13 +165,13 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabFriends() {
-		const {userProfile, authenticatedUserProfile} = this.props;
+		const {userProfile, authUserProfile} = this.props;
 
 		return (
 			<View style={styles.tabRootFriends}>
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
-					friendIds={DaoUser.gConnectionFriendIds(authenticatedUserProfile)}
+					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);
@@ -198,9 +198,6 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const UserProfile = poolConnect(_UserProfile,
 	// mapStateToProps
 	(state) => ({}),
@@ -211,7 +208,6 @@ const UserProfile = poolConnect(_UserProfile,
 	// Array of pools to subscribe to
 	[]
 );
-
 export default UserProfile;
 
 

@@ -20,7 +20,7 @@ import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 type Props = {
 	navigator: TNavigator,
 	locationProfile: TLocation,
-	authenticatedUserProfile: TUser
+	authUserProfile: TUser
 };
 
 // _EditLocation ****************************************************************************************
@@ -162,9 +162,6 @@ class _EditLocation extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const EditLocation = poolConnect(_EditLocation,
 	// mapStateToProps
 	(state) => ({}),
@@ -175,7 +172,5 @@ const EditLocation = poolConnect(_EditLocation,
 	// Array of pools to subscribe to
 	[FORM_API_ID_EDIT_LOCATION_PROFILE]
 );
-
-
 export default EditLocation;
 

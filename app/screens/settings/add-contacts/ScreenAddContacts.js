@@ -44,9 +44,6 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenSearch = poolConnect(_ScreenSearch,
 	// mapStateToProps
 	(state) => ({}),
@@ -57,6 +54,4 @@ const ScreenSearch = poolConnect(_ScreenSearch,
 	// Array of pools to subscribe to
 	[CACHE_ID_USER_PROFILE]
 );
-
-
 export default ScreenSearch;

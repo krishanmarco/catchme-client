@@ -47,19 +47,16 @@ class _ScreenFeaturedAds extends React.Component<void, Props, void> {
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authenticatedUserProfile]) => (
+					renderChild={([authUserProfile]) => (
 						<FeaturedAds
 							navigator={navigator}
-							userProfile={authenticatedUserProfile}/>
+							userProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenFeaturedAds = poolConnect(_ScreenFeaturedAds,
 	// mapStateToProps
@@ -71,5 +68,4 @@ const ScreenFeaturedAds = poolConnect(_ScreenFeaturedAds,
 	// Array of pools to subscribe to
 	[CACHE_ID_USER_PROFILE]
 );
-
 export default ScreenFeaturedAds;

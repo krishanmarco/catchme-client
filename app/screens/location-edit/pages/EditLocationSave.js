@@ -70,11 +70,6 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 
 }
 
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const EditLocationSave = poolConnect(_EditLocationSave,
 	// mapStateToProps
 	(state) => ({}),

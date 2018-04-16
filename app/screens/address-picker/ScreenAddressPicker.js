@@ -43,9 +43,6 @@ class _ScreenAddressPicker extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenAddressPicker = poolConnect(_ScreenAddressPicker,
 	// mapStateToProps
 	(state) => ({}),

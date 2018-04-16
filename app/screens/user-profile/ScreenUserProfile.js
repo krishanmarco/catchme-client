@@ -74,20 +74,16 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 			<Screen>
 				<NullableObjects
 					objects={[this._userProfile(), this._cacheUserProfile().data]}
-					renderChild={([userProfile, authenticatedUserProfile]) => (
+					renderChild={([userProfile, authUserProfile]) => (
 						<UserProfile
 							navigator={navigator}
 							userProfile={userProfile}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 }
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenUserProfile = poolConnect(_ScreenUserProfile,
 	// mapStateToProps

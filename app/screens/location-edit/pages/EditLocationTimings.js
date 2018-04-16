@@ -69,11 +69,6 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 }
 
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const EditLocationTimings = poolConnect(_EditLocationTimings,
 	// mapStateToProps
 	(state) => ({}),
@@ -86,9 +81,7 @@ const EditLocationTimings = poolConnect(_EditLocationTimings,
 
 	{withRef: true}
 );
-
 export default EditLocationTimings;
-
 
 
 // Const ************************************************************************************************

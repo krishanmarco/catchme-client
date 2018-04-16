@@ -1,24 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../../lib/daos/DaoUser";
-
 import React from 'react';
 import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
-
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {StyleSheet, View} from 'react-native';
-// todo refactor proptypes
-
-
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
 	navigator: Navigator,
-	authenticatedUserProfile: Object,
+	authUserProfile: Object,
 };
 
 
@@ -46,13 +42,13 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 		this._formApiEditUserProfile().post();
 	}
 
-	_formApiEditUserProfile() {
+	_formApiEditUserProfile(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
 	}
 
-
 	_userProfile() {
-		return this.props.authenticatedUserProfile;
+		const {authUserProfile} = this.props;
+		return authUserProfile;
 	}
 
 	_saveSettingValue(newSettings) {
@@ -137,12 +133,6 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 
 }
 
-
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const SettingsUserNotifications = poolConnect(_SettingsUserNotifications,
 	// mapStateToProps
 	(state) => ({}),
@@ -153,9 +143,7 @@ const SettingsUserNotifications = poolConnect(_SettingsUserNotifications,
 	// Array of pools to subscribe to
 	[FORM_API_ID_EDIT_USER_PROFILE]
 );
-
 export default SettingsUserNotifications;
-
 
 
 // Config ***********************************************************************************************

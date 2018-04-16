@@ -33,19 +33,16 @@ class _ScreenLogout extends React.Component<void, Props, void> {
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authenticatedUserProfile]) => (
+					renderChild={([authUserProfile]) => (
 						<Logout
 							navigator={navigator}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenLogout = poolConnect(_ScreenLogout,
 	// mapStateToProps
@@ -58,5 +55,3 @@ const ScreenLogout = poolConnect(_ScreenLogout,
 	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenLogout;
-
-ScreenLogout.propTypes = {};

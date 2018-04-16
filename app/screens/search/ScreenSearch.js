@@ -58,9 +58,6 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenSearch = poolConnect(_ScreenSearch,
 	// mapStateToProps
 	(state) => ({}),

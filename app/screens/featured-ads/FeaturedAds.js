@@ -77,9 +77,6 @@ class _FeaturedAds extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const FeaturedAds = poolConnect(_FeaturedAds,
 	// mapStateToProps
 	(state) => ({}),
@@ -93,6 +90,7 @@ const FeaturedAds = poolConnect(_FeaturedAds,
 	[FIREBASE_DATA_ID_FEATURED_ADS]
 );
 export default FeaturedAds;
+
 
 // Config ************************************************************************************************
 // Config ************************************************************************************************

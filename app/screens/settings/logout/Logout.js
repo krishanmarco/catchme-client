@@ -10,7 +10,7 @@ import {StyleSheet, View} from 'react-native';
 // Const *************************************************************************************************
 
 type Props = {
-	authenticatedUserProfile: Object,
+	authUserProfile: Object,
 	navigator: Navigator
 };
 

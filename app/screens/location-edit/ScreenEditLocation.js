@@ -56,16 +56,13 @@ class _ScreenEditLocation extends React.Component<void, Props, void> {
 						<EditLocation
 							navigator={navigator}
 							locationProfile={locationProfile}
-							authenticatedUserProfile={authUserProfile}/>
+							authUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenEditLocation = poolConnect(_ScreenEditLocation,
 	// mapStateToProps

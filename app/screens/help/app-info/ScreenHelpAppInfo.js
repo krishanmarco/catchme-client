@@ -29,9 +29,6 @@ class _ScreenHelpAppInfo extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const ScreenHelpAppInfo = poolConnect(_ScreenHelpAppInfo,
 	// mapStateToProps
 	(state) => ({}),
