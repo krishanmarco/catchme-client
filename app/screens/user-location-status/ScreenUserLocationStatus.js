@@ -39,6 +39,7 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 	constructor(props, context) {
 		super(props, context);
 		this._onStatusConfirm = this._onStatusConfirm.bind(this);
+		this._renderUserLocationStatus = this._renderUserLocationStatus.bind(this);
 	}
 
 	componentWillMount() {
@@ -110,14 +111,18 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheMapLocationProfiles().get(locationId)]}
-					renderChild={([locationProfile]) => (
-						<UserLocationStatus
-							locationProfile={locationProfile}
-							userLocationStatus={this._formApiEditUserLocationStatus().apiInput}
-							onStatusChange={this._formApiEditUserLocationStatus().change}
-							onStatusConfirm={this._onStatusConfirm}/>
-					)}/>
+					renderChild={this._renderUserLocationStatus}/>
 			</Screen>
+		);
+	}
+
+	_renderUserLocationStatus([locationProfile]) {
+		return (
+			<UserLocationStatus
+				locationProfile={locationProfile}
+				userLocationStatus={this._formApiEditUserLocationStatus().apiInput}
+				onStatusChange={this._formApiEditUserLocationStatus().change}
+				onStatusConfirm={this._onStatusConfirm}/>
 		);
 	}
 

@@ -28,6 +28,7 @@ class _ScreenFeaturedAds extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderFeaturedAds = this._renderFeaturedAds.bind(this);
 
 		const {showAppLogo, navigator} = this.props;
 		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
@@ -42,17 +43,21 @@ class _ScreenFeaturedAds extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authUserProfile]) => (
-						<FeaturedAds
-							navigator={navigator}
-							userProfile={authUserProfile}/>
-					)}/>
+					renderChild={this._renderFeaturedAds}/>
 			</Screen>
+		);
+	}
+
+	_renderFeaturedAds([authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<FeaturedAds
+				navigator={navigator}
+				userProfile={authUserProfile}/>
 		);
 	}
 

@@ -28,6 +28,7 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderSearch = this._renderSearch.bind(this);
 
 		const {showAppLogo, navigator} = this.props;
 		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
@@ -42,17 +43,21 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([userProfile]) => (
-						<Search
-							navigator={navigator}
-							userProfile={userProfile}/>
-					)}/>
+					renderChild={this._renderSearch}/>
 			</Screen>
+		);
+	}
+
+	_renderSearch([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<Search
+				navigator={navigator}
+				userProfile={userProfile}/>
 		);
 	}
 

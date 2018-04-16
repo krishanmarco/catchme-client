@@ -27,6 +27,7 @@ class _ScreenNewLocation extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderEditLocation = this._renderEditLocation.bind(this);
 
 		// Create a new location as pass it down as the location to edit
 		// Note: This object will never change because EditLocation component
@@ -43,19 +44,23 @@ class _ScreenNewLocation extends React.Component<void, Props, State> {
 	}
 
 	render() {
-		const {navigator} = this.props;
-		const {location} = this.state;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authUserProfile]) => (
-						<EditLocation
-							navigator={navigator}
-							locationProfile={location}
-							authUserProfile={authUserProfile}/>
-					)}/>
+					renderChild={this._renderEditLocation}/>
 			</Screen>
+		);
+	}
+
+	_renderEditLocation([authUserProfile]) {
+		const {navigator} = this.props;
+		const {location} = this.state;
+		return (
+			<EditLocation
+				navigator={navigator}
+				locationProfile={location}
+				authUserProfile={authUserProfile}/>
 		);
 	}
 

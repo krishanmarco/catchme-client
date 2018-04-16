@@ -6,10 +6,9 @@ import React from 'react';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TCacheDefUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TNavigator} from "../../lib/types/Types";
-// todo refactor proptypes
+import type {TUser} from "../../lib/daos/DaoUser";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -35,6 +34,7 @@ class _ScreenFeed extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderFeed = this._renderFeed.bind(this);
 
 		const {showAppLogo, navigator} = this.props;
 		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
@@ -53,12 +53,17 @@ class _ScreenFeed extends React.Component<void, Props, State> {
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data, Context.getFirebaseUser()]}
-					renderChild={([userProfile]) => (
-						<Feed
-							userProfile={userProfile}
-							navigator={this.props.navigator}/>
-					)}/>
+					renderChild={this._renderFeed}/>
 			</Screen>
+		);
+	}
+
+	_renderFeed([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<Feed
+				userProfile={userProfile}
+				navigator={navigator}/>
 		);
 	}
 	

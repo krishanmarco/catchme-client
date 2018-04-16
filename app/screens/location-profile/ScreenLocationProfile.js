@@ -40,6 +40,7 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 	constructor(props, context) {
 		super(props, context);
 		this._onGalleryImageAdded = this._onGalleryImageAdded.bind(this);
+		this._renderLocationProfile = this._renderLocationProfile.bind(this);
 		this._setupNavigator();
 	}
 
@@ -89,20 +90,24 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._locationProfile(), this._cacheUserProfile().data]}
-					renderChild={([locationProfile, authUserProfile]) => (
-						<LocationProfile
-							navigator={navigator}
-							navbarHandler={this.navbarHandler}
-							locationProfile={locationProfile}
-							authUserProfile={authUserProfile}
-							onGalleryImageAdded={this._onGalleryImageAdded}/>
-					)}/>
+					renderChild={this._renderLocationProfile}/>
 			</Screen>
+		);
+	}
+
+	_renderLocationProfile([locationProfile, authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<LocationProfile
+				navigator={navigator}
+				navbarHandler={this.navbarHandler}
+				locationProfile={locationProfile}
+				authUserProfile={authUserProfile}
+				onGalleryImageAdded={this._onGalleryImageAdded}/>
 		);
 	}
 

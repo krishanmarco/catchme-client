@@ -19,6 +19,11 @@ type Props = {
 
 class _ScreenLogout extends React.Component<void, Props, void> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._renderLogout = this._renderLogout.bind(this);
+	}
+
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
 	}
@@ -28,17 +33,21 @@ class _ScreenLogout extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authUserProfile]) => (
-						<Logout
-							navigator={navigator}
-							authUserProfile={authUserProfile}/>
-					)}/>
+					renderChild={this._renderLogout}/>
 			</Screen>
+		);
+	}
+
+	_renderLogout([authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<Logout
+				navigator={navigator}
+				authUserProfile={authUserProfile}/>
 		);
 	}
 

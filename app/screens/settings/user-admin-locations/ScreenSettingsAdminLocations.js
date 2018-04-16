@@ -19,6 +19,11 @@ type Props = {
 
 class _ScreenSettingsAdminLocations extends React.Component<void, Props, void> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._renderSettingsUserAdminLocations = this._renderSettingsUserAdminLocations.bind(this);
+	}
+
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
 	}
@@ -28,17 +33,21 @@ class _ScreenSettingsAdminLocations extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([userProfile]) => (
-						<SettingsUserAdminLocations
-							navigator={navigator}
-							userProfile={userProfile}/>
-					)}/>
+					renderChild={this._renderSettingsUserAdminLocations}/>
 			</Screen>
+		);
+	}
+
+	_renderSettingsUserAdminLocations([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<SettingsUserAdminLocations
+				navigator={navigator}
+				userProfile={userProfile}/>
 		);
 	}
 

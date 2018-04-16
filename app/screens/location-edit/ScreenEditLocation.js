@@ -24,6 +24,11 @@ type Props = {
 
 class _ScreenEditLocation extends React.Component<void, Props, void> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._renderEditLocation = this._renderEditLocation.bind(this);
+	}
+
 	componentWillMount() {
 		const {navigator, locationId} = this.props;
 
@@ -47,18 +52,22 @@ class _ScreenEditLocation extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._locationProfile(), this._cacheUserProfile().data]}
-					renderChild={([locationProfile, authUserProfile]) => (
-						<EditLocation
-							navigator={navigator}
-							locationProfile={locationProfile}
-							authUserProfile={authUserProfile}/>
-					)}/>
+					renderChild={this._renderEditLocation}/>
 			</Screen>
+		);
+	}
+
+	_renderEditLocation([locationProfile, authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<EditLocation
+				navigator={navigator}
+				locationProfile={locationProfile}
+				authUserProfile={authUserProfile}/>
 		);
 	}
 

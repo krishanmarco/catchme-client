@@ -34,6 +34,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderUserProfile = this._renderUserProfile.bind(this);
 
 		const {showAppLogo, navigator} = this.props;
 		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
@@ -69,20 +70,25 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._userProfile(), this._cacheUserProfile().data]}
-					renderChild={([userProfile, authUserProfile]) => (
-						<UserProfile
-							navigator={navigator}
-							userProfile={userProfile}
-							authUserProfile={authUserProfile}/>
-					)}/>
+					renderChild={this._renderUserProfile}/>
 			</Screen>
 		);
 	}
+
+	_renderUserProfile([userProfile, authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<UserProfile
+				navigator={navigator}
+				userProfile={userProfile}
+				authUserProfile={authUserProfile}/>
+		);
+	}
+
 }
 
 const ScreenUserProfile = poolConnect(_ScreenUserProfile,
