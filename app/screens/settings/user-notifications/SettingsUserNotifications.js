@@ -9,7 +9,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {StyleSheet, View} from 'react-native';
-
+// todo refactor proptypes
 
 
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import {DefaultLoader, SearchBar} from "../../Misc";
 import {FlatList, StyleSheet} from 'react-native';
-
+// todo refactor proptypes
 
 
 // Const *************************************************************************************************

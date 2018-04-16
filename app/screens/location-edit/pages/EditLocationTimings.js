@@ -39,7 +39,8 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
-		return this.props.formApiEditLocationProfile;
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
 	}
 
 	saveTimingsToLocation() {

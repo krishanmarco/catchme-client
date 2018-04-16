@@ -29,7 +29,6 @@ export default class CacheActionCreator extends PoolActionCreator {
 	// Action to invalidate a cache
 	invalidate() {
 		const {dispatchAction} = this;
-
 		return dispatchAction({type: POOL_ACTION_CACHE_INVALIDATE_DATA});
 	}
 

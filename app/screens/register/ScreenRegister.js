@@ -60,7 +60,8 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 	}
 
 	_onGoToLoginPress() {
-		Router.toScreenLogin(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toScreenLogin(navigator);
 	}
 
 

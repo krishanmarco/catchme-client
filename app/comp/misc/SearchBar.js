@@ -5,7 +5,7 @@ import {Icon} from 'react-native-elements';
 import {RkTextInput} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TStyle} from "../../lib/types/Types";
-
+// todo refactor proptypes
 
 
 // Const *************************************************************************************************

@@ -9,7 +9,7 @@ import type {TNavigator} from "../../lib/types/Types";
 import type {TCacheDefUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
-
+// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

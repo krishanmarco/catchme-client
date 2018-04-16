@@ -5,6 +5,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import moment from 'moment';
 import React from 'react';
+import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
+import {bindActionCreators} from 'redux';
 import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Const, Icons} from '../../Config';
 import {compareTimeSmaller} from "../../lib/HelperFunctions";
@@ -15,9 +17,6 @@ import {RkButton, RkText} from "react-native-ui-kitten";
 import {Touchable} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
-// todo refactor proptypes
-
 
 
 // Const *************************************************************************************************
@@ -31,7 +30,14 @@ type Props = {
 
 	dtDateVisible: boolean,
 	dtFromVisible: boolean,
-	dtUntilVisible: boolean
+	dtUntilVisible: boolean,
+
+	showDateModal: Function,
+	hideDateModal: Function,
+	showFromModal: Function,
+	hideFromModal: Function,
+	showUntilModal: Function,
+	hideUntilModal: Function
 };
 
 type State = {
@@ -75,26 +81,13 @@ export function userLocationStatusReducer(state = userLocationStatusInitState, a
 	return state;
 }
 
-function userLocationStatusSetDateModalVisibility(visible) {
-	return {
-		type: ACTION_SET_DATE_MODAL_VISIBILITY,
-		visible
-	};
-}
+const ulsShowDateModal = ({type: ACTION_SET_DATE_MODAL_VISIBILITY, visible: true});
+const ulsHideDateModal = ({type: ACTION_SET_DATE_MODAL_VISIBILITY, visible: false});
+const ulsShowFromModal = ({type: ACTION_SET_FROM_MODAL_VISIBILITY, visible: true});
+const ulsHideFromModal = ({type: ACTION_SET_FROM_MODAL_VISIBILITY, visible: false});
+const ulsShowUntilModal = ({type: ACTION_SET_UNTIL_MODAL_VISIBILITY, visible: true});
+const ulsHideUntilModal = ({type: ACTION_SET_UNTIL_MODAL_VISIBILITY, visible: false});
 
-function userLocationStatusSetFromModalVisibility(visible) {
-	return {
-		type: ACTION_SET_FROM_MODAL_VISIBILITY,
-		visible
-	};
-}
-
-function userLocationStatusSetUntilModalVisibility(visible) {
-	return {
-		type: ACTION_SET_UNTIL_MODAL_VISIBILITY,
-		visible
-	};
-}
 
 // _UserLocationStatus *****************************************************************************
 // _UserLocationStatus *****************************************************************************
@@ -113,36 +106,46 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 
 	_locationProfile(): TLocation {
-		return this.props.locationProfile;
+		const {locationProfile} = this.props;
+		return locationProfile;
 	}
 
 	_userLocationStatus(): TUserLocationStatus {
-		return this.props.userLocationStatus;
+		const {userLocationStatus} = this.props;
+		return userLocationStatus;
 	}
 
 	_onStatusChange(objectToMerge) {
-		this.props.onStatusChange(objectToMerge);
+		const {onStatusChange} = this.props;
+		onStatusChange(objectToMerge);
 	}
 
 	_onDatePicked(date: Date) {
+		const {hideDateModal} = this.props;
+
 		const currentFrom = this._getFromDate();
 
 		currentFrom.setFullYear(date.getFullYear(), date.getMonth(), date.getDate());
 
 		this._onStatusChange({[DaoUserLocationStatus.pFromTs]: moment(currentFrom).unix()});
-		this.props.setDateModalVisibility(false);
+		hideDateModal();
 	}
 
 	_onFromPicked(date) {
+		const {hideFromModal} = this.props;
+
 		const currentFrom = this._getFromDate();
 
 		currentFrom.setHours(date.getHours(), date.getMinutes(), 0, 0);
 
 		this._onStatusChange({[DaoUserLocationStatus.pFromTs]: moment(currentFrom).unix()});
-		this.props.setFromModalVisibility(false);
+
+		hideFromModal();
 	}
 
 	_onUntilPicked(date) {
+		const {hideUntilModal} = this.props;
+
 		const from = this._getFromDate();
 		const until = this._getUntilDate();
 
@@ -152,7 +155,8 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		until.setFullYear(from.getFullYear(), from.getMonth(), from.getDate() + dateIncr);
 
 		this._onStatusChange({[DaoUserLocationStatus.pUntilTs]: moment(until).unix()});
-		this.props.setUntilModalVisibility(false);
+
+		hideUntilModal();
 	}
 
 
@@ -226,6 +230,15 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 
 	render() {
+		const {
+			hideDateModal,
+			hideFromModal,
+			hideUntilModal,
+			dtDateVisible,
+			dtFromVisible,
+			dtUntilVisible
+		} = this.props;
+
 		return (
 			<View style={{flex: 1}}>
 				<Grid style={styles.mainGrid}>
@@ -237,22 +250,22 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 				<DateTimePicker
 					mode='date'
 					minimumDate={_UserLocationStatus.DATE_TIME_NOW}
-					isVisible={this.props.dtDateVisible}
+					isVisible={dtDateVisible}
 					date={this._getFromDate()}
 					onConfirm={this._onDatePicked}
-					onCancel={() => this.props.setDateModalVisibility(false)}/>
+					onCancel={hideDateModal}/>
 				<DateTimePicker
 					mode='time'
-					isVisible={this.props.dtFromVisible}
+					isVisible={dtFromVisible}
 					date={this._getFromDate()}
 					onConfirm={this._onFromPicked}
-					onCancel={() => this.props.setFromModalVisibility(false)}/>
+					onCancel={hideFromModal}/>
 				<DateTimePicker
 					mode='time'
-					isVisible={this.props.dtUntilVisible}
+					isVisible={dtUntilVisible}
 					date={this._getUntilDate()}
 					onConfirm={this._onUntilPicked}
-					onCancel={() => this.props.setUntilModalVisibility(false)}/>
+					onCancel={hideUntilModal}/>
 			</View>
 		);
 	}
@@ -268,6 +281,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 
 	_renderContent() {
+		const {showDateModal, showFromModal, showUntilModal} = this.props;
 		return (
 			<Grid>
 				<Row size={30} style={{width: '100%'}}>
@@ -277,14 +291,14 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 				</Row>
 				<Row size={30} style={{marginTop: 24}}>
 					<Col style={styles.center}>
-						<Touchable onPress={() => this.props.setDateModalVisibility(true)}>
+						<Touchable onPress={showDateModal}>
 							<RkText>{TimestampFormatter.parseFromDate(this._getFromMoment())}</RkText>
 						</Touchable>
 					</Col>
 				</Row>
 				<Row size={30}>
 					<Col size={10} style={styles.right}>
-						<Touchable onPress={() => this.props.setFromModalVisibility(true)}>
+						<Touchable onPress={showFromModal}>
 							<RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
 						</Touchable>
 					</Col>
@@ -292,7 +306,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 						<RkText rkType='header1'>-</RkText>
 					</Col>
 					<Col size={10} style={styles.left}>
-						<Touchable onPress={() => this.props.setUntilModalVisibility(true)}>
+						<Touchable onPress={showUntilModal}>
 							<RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
 						</Touchable>
 					</Col>
@@ -331,10 +345,13 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 
 	_renderActionButtons() {
+		const {onStatusConfirm} = this.props;
 		return (
 			<Grid>
 				<Col style={styles.center}>
-					<RkButton style={styles.buttonPositive} onPress={this.props.onStatusConfirm}>Confirm</RkButton>
+					<RkButton style={styles.buttonPositive} onPress={onStatusConfirm}>
+						Confirm
+					</RkButton>
 				</Col>
 			</Grid>
 		);
@@ -349,9 +366,13 @@ const UserLocationStatus = poolConnect(_UserLocationStatus,
 
 	// mapDispatchToProps
 	(dispatch) => ({
-		setDateModalVisibility: (visible) => dispatch(userLocationStatusSetDateModalVisibility(visible)),
-		setFromModalVisibility: (visible) => dispatch(userLocationStatusSetFromModalVisibility(visible)),
-		setUntilModalVisibility: (visible) => dispatch(userLocationStatusSetUntilModalVisibility(visible))
+
+		showDateModal: bindActionCreators(ulsShowDateModal, dispatch),
+		hideDateModal: bindActionCreators(ulsHideDateModal, dispatch),
+		showFromModal: bindActionCreators(ulsShowFromModal, dispatch),
+		hideFromModal: bindActionCreators(ulsHideFromModal, dispatch),
+		showUntilModal: bindActionCreators(ulsShowUntilModal, dispatch),
+		hideUntilModal: bindActionCreators(ulsHideUntilModal, dispatch),
 	}),
 
 	// Array of pools to subscribe to

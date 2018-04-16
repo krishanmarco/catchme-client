@@ -17,6 +17,7 @@ import {StyleSheet, View} from 'react-native';
 import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
 import type {TReducerChatState} from "./ReducerChat";
 import type {TUser} from "../../lib/daos/DaoUser";
+// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

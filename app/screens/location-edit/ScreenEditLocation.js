@@ -7,7 +7,9 @@ import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TNavigator} from "../../lib/types/Types";
-// todo refactor
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
+import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -23,30 +25,38 @@ type Props = {
 class _ScreenEditLocation extends React.Component<void, Props, void> {
 
 	componentWillMount() {
-		this.props[CACHE_ID_USER_PROFILE].initialize();
+		const {navigator, locationId} = this.props;
 
-		this.props[CACHE_MAP_ID_LOCATION_PROFILES].initializeItem(this.props.locationId)
-			.then(location => this.props.navigator.setTitle({title: DaoLocation.gName(location)}));
+		this._cacheUserProfile().initialize();
+
+		this._cacheMapLocationProfiles().initializeItem(locationId)
+			.then(location => navigator.setTitle({title: DaoLocation.gName(location)}));
 	}
 
-	_locationProfile() {
-		return this.props[CACHE_MAP_ID_LOCATION_PROFILES].get(this.props.locationId);
+	_cacheMapLocationProfiles(): TCacheMapPool {
+		return this.props[CACHE_MAP_ID_LOCATION_PROFILES];
 	}
 
-	_authenticatedUserProfile() {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	_locationProfile(): ?TLocation {
+		const {locationId} = this.props;
+		return this._cacheMapLocationProfiles().get(locationId);
 	}
 
 	render() {
+		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._locationProfile(), this._authenticatedUserProfile()]}
-					renderChild={([locationProfile, authenticatedUserProfile]) => (
+					objects={[this._locationProfile(), this._cacheUserProfile().data]}
+					renderChild={([locationProfile, authUserProfile]) => (
 						<EditLocation
-							navigator={this.props.navigator}
+							navigator={navigator}
 							locationProfile={locationProfile}
-							authenticatedUserProfile={authenticatedUserProfile}/>
+							authenticatedUserProfile={authUserProfile}/>
 					)}/>
 			</Screen>
 		);

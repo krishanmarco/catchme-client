@@ -14,6 +14,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
+// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

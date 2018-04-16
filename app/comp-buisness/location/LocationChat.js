@@ -7,7 +7,7 @@ import {FirebaseData} from '../../lib/data/Firebase';
 
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-
+// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

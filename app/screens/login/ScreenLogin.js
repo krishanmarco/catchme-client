@@ -18,7 +18,7 @@ import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-
+// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -86,11 +86,13 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	}
 
 	_onGoToSignupPress() {
-		Router.toScreenRegister(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toScreenRegister(navigator);
 	}
 
 	_onGoToRecoverPasswordPress() {
-		Router.toScreenRecoverPassword(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toScreenRecoverPassword(navigator);
 	}
 
 

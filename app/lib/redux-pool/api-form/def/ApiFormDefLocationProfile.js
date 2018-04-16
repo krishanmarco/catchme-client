@@ -7,6 +7,8 @@ import {Validate} from "../../../helpers/Validator";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TLocation} from "../../../daos/DaoLocation";
 import type {TThunk} from "../../../types/Types";
+import CacheActionCreator from "../../cache/CacheActionCreator";
+import {CACHE_ID_USER_PROFILE} from "../../cache/def/CacheDefUserProfile";
 
 
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
@@ -28,8 +30,13 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 	}
 
 	post(thunk: TThunk, locationProfile: TLocation): Promise<TLocation> {
-		return ApiClient.userLocationsAdminEditLid(locationProfile);
-		// todo implement then (set response object back into form)
+		const cacheActionsUserProfile = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+
+		return ApiClient.userLocationsAdminEditLid(locationProfile)
+			.then(location => {
+				// Reload the user profile cache
+				cacheActionsUserProfile.reinitialize();
+		});
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {

@@ -3,17 +3,26 @@ import HelpAppInfo from './HelpAppInfo';
 import React from 'react';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {Screen} from "../../../comp/Misc";
+import type {TNavigator} from "../../../lib/types/Types";
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type Props = {
+	navigator: TNavigator
+};
 
 // _ScreenHelpAppInfo ***********************************************************************************
 // _ScreenHelpAppInfo ***********************************************************************************
 
-class _ScreenHelpAppInfo extends React.Component {
+class _ScreenHelpAppInfo extends React.Component<void, Props, void> {
 
 	render() {
+		const {navigator} = this.props;
 		return (
 			<Screen>
 				<HelpAppInfo
-					navigator={this.props.navigator}/>
+					navigator={navigator}/>
 			</Screen>
 		);
 	}
@@ -34,5 +43,3 @@ const ScreenHelpAppInfo = poolConnect(_ScreenHelpAppInfo,
 	[]
 );
 export default ScreenHelpAppInfo;
-
-ScreenHelpAppInfo.propTypes = {};

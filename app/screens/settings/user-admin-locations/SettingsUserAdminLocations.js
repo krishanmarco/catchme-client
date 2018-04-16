@@ -47,7 +47,8 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	}
 
 	_onLocationAdd() {
-		Router.toScreenNewLocation(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toScreenNewLocation(navigator);
 	}
 
 

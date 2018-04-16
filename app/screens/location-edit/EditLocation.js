@@ -142,10 +142,11 @@ class _EditLocation extends React.Component<void, Props, void> {
 	}
 
 	_renderTabEditLocationAddress() {
+		const {navigator} = this.props;
 		return (
 			<EditLocationAddress
 				ref={ref => this.refTabs[EditLocation.idxAddress] = ref}
-				navigator={this.props.navigator}
+				navigator={navigator}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}

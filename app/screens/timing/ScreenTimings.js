@@ -18,16 +18,13 @@ type Props = {
 
 class _ScreenTimings extends React.Component<void, Props, void> {
 
-	_managerWeekTimings() {
-		return this.props.managerWeekTimings;
-	}
-
 	render() {
+		const {managerWeekTimings} = this.props;
 		return (
 			<Screen style={styles.root}>
 				<WeekTimingsList
 					ref={_ScreenTimings.refWeekTimingsList}
-					managerWeekTimings={this._managerWeekTimings()}
+					managerWeekTimings={managerWeekTimings}
 					isEditable={false}
 					size={200}/>
 			</Screen>

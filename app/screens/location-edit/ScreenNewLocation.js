@@ -7,6 +7,7 @@ import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -34,22 +35,24 @@ class _ScreenNewLocation extends React.Component<void, Props, State> {
 	}
 
 	componentWillMount() {
-		this.props[CACHE_ID_USER_PROFILE].initialize();
+		this._cacheUserProfile().initialize();
 	}
 
-	_authenticatedUserProfile() {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
 	render() {
+		const {navigator} = this.props;
+		const {location} = this.state;
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._authenticatedUserProfile()]}
+					objects={[this._cacheUserProfile().data]}
 					renderChild={([authenticatedUserProfile]) => (
 						<EditLocation
-							navigator={this.props.navigator}
-							locationProfile={this.state.location}
+							navigator={navigator}
+							locationProfile={location}
 							authenticatedUserProfile={authenticatedUserProfile}/>
 					)}/>
 			</Screen>
