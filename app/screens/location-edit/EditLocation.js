@@ -38,6 +38,10 @@ class _EditLocation extends React.Component<void, Props, void> {
 		this._allowIndexChange = this._allowIndexChange.bind(this);
 		this._onSaveComplete = this._onSaveComplete.bind(this);
 		this._onPreTabChange = this._onPreTabChange.bind(this);
+		this._setRefInfoTab = this._setRefInfoTab.bind(this);
+		this._setRefTimingsTab = this._setRefTimingsTab.bind(this);
+		this._setRefAddressTab = this._setRefAddressTab.bind(this);
+		this._setRefRecapTab = this._setRefRecapTab.bind(this);
 	}
 
 	componentWillMount() {
@@ -87,6 +91,22 @@ class _EditLocation extends React.Component<void, Props, void> {
 		return icon;
 	}
 
+	_setRefInfoTab(ref) {
+		this.refTabs[EditLocation.idxInfo] = ref;
+	}
+
+	_setRefTimingsTab(ref) {
+		this.refTabs[EditLocation.idxTimings] = ref;
+	}
+
+	_setRefAddressTab(ref) {
+		this.refTabs[EditLocation.idxAddress] = ref;
+	}
+
+	_setRefRecapTab(ref) {
+		this.this.refTabs[EditLocation.idxRecap] = ref;
+	}
+
 
 	render() {
 		const tabs = [];
@@ -128,7 +148,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationInfo() {
 		return (
 			<EditLocationInfo
-				ref={ref => this.refTabs[EditLocation.idxInfo] = ref}
+				ref={this._setRefInfoTab}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
@@ -136,7 +156,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationTimings() {
 		return (
 			<EditLocationTimings
-				ref={ref => this.refTabs[EditLocation.idxTimings] = ref}
+				ref={this._setRefTimingsTab}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
@@ -145,7 +165,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 		const {navigator} = this.props;
 		return (
 			<EditLocationAddress
-				ref={ref => this.refTabs[EditLocation.idxAddress] = ref}
+				ref={this._setRefAddressTab}
 				navigator={navigator}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
@@ -154,7 +174,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationRecap() {
 		return (
 			<EditLocationRecap
-				ref={ref => this.refTabs[EditLocation.idxRecap] = ref}
+				ref={this._setRefRecapTab}
 				onSaveComplete={this._onSaveComplete}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);

@@ -41,7 +41,6 @@ export default class WeekTimingsList extends React.Component<void, Props, void> 
 		managerWeekTimings.setBoolWeekTimings(this.getTimings());
 	}
 
-
 	render() {
 		const {managerWeekTimings, isEditable} = this.props;
 		return (

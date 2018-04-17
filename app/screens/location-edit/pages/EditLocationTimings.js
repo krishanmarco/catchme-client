@@ -30,6 +30,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._setRefWeekTimingsList = this._setRefWeekTimingsList.bind(this);
 		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfile().apiInput)};
 	}
 
@@ -52,6 +53,9 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 		// });
 	}
 
+	_setRefWeekTimingsList(ref) {
+		this.refWeekTimingsList = ref;
+	}
 
 	render() {
 		const {managerWeekTimings} = this.state;
@@ -59,7 +63,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.view}>
 				<WeekTimingsList
-					ref={ref => this.refWeekTimingsList = ref}
+					ref={this._setRefWeekTimingsList}
 					managerWeekTimings={managerWeekTimings}
 					isEditable={true}/>
 			</View>

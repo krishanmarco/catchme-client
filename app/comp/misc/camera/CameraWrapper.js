@@ -40,6 +40,7 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 		super(props, context);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this._onBarCodeRead = this._onBarCodeRead.bind(this);
+		this._setRefCamera = this._setRefCamera.bind(this);
 	}
 
 	_onBarCodeRead(data) {
@@ -64,13 +65,16 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 			});
 	}
 
+	_setRefCamera(ref) {
+		this.refCamera = ref;
+	}
 
 	render() {
 		const {captureMode} = this.props;
 		return (
 			<View style={styles.container}>
 				<Camera
-					ref={camera => this.refCamera = camera}
+					ref={this._setRefCamera}
 					style={styles.preview}
 					captureMode={captureMode}
 					aspect={CameraConstants.Aspect.fill}

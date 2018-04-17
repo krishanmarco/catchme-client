@@ -26,6 +26,8 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 		super(props, context);
 		this._getLabelAm = this._getLabelAm.bind(this);
 		this._getLabelPm = this._getLabelPm.bind(this);
+		this._setRefClockAm = this._setRefClockAm.bind(this);
+		this._setRefClockPm = this._setRefClockPm.bind(this);
 	}
 
 	getTimings() {
@@ -45,6 +47,14 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 
 	_getLabelPm(index: number) {
 		return index + 13;
+	}
+
+	_setRefClockAm(ref) {
+		this.refClockAm = ref;
+	}
+
+	_setRefClockPm(ref) {
+		this.refClockPm = ref;
 	}
 
 	render() {
@@ -79,7 +89,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 						centerLabel='am'
 						isEditable={isEditable}
 						getLabel={this._getLabelAm}
-						ref={ref => this.refClockAm = ref}
+						ref={this._setRefClockAm}
 						timings={timingsInDay.slice(0, 12)}
 						onTimingsChanged={onTimingsChanged}/>
 				</Col>
@@ -89,7 +99,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 						centerLabel='pm'
 						isEditable={isEditable}
 						getLabel={this._getLabelPm}
-						ref={ref => this.refClockPm = ref}
+						ref={this._setRefClockPm}
 						timings={timingsInDay.slice(12, 24)}
 						onTimingsChanged={onTimingsChanged}/>
 				</Col>

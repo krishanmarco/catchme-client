@@ -52,6 +52,7 @@ class _Chat extends React.Component<void, Props, void> {
 		this._renderBubble = this._renderBubble.bind(this);
 		this._renderBubbleHeader = this._renderBubbleHeader.bind(this);
 		this._renderLoading = this._renderLoading.bind(this);
+		this._setRefGiftedChat = this._setRefGiftedChat.bind(this);
 	}
 
 	_getChatUser(): TFirebaseChatUser {
@@ -70,7 +71,7 @@ class _Chat extends React.Component<void, Props, void> {
 
 	componentDidMount() {
 		// Workaround for keyboard overlaps messages on android
-		this.giftedChat.getKeyboardHeight = () => this.giftedChat._keyboardHeight;
+		this.refGiftedChat.getKeyboardHeight = () => this.refGiftedChat._keyboardHeight;
 	}
 
 	_onPressAvatar(user: TUser) {
@@ -104,6 +105,10 @@ class _Chat extends React.Component<void, Props, void> {
 		loadMore(getFirebaseMessages);
 	}
 
+	_setRefGiftedChat(ref) {
+		this.refGiftedChat = ref;
+	}
+
 	render() {
 		const {
 			messages,
@@ -114,7 +119,7 @@ class _Chat extends React.Component<void, Props, void> {
 
 		return (
 			<GiftedChat
-				ref={ref => this.giftedChat = ref}
+				ref={this._setRefGiftedChat}
 
 				messages={messages}
 				user={this._getChatUser()}
