@@ -25,7 +25,7 @@ class ApiClient {
 		this._get = this._get.bind(this);
 		this._post = this._post.bind(this);
 		this._postMultipart = this._postMultipart.bind(this);
-		this._onUserLoginSuccess = this._onUserLoginSuccess.bind(this);
+		this._onReceiveUserProfile = this._onReceiveUserProfile.bind(this);
 	}
 
 
@@ -193,7 +193,7 @@ class ApiClient {
 
 
 
-	_onUserLoginSuccess(userProfileJson): Promise<TUser> {
+	_onReceiveUserProfile(userProfileJson): Promise<TUser> {
 		const userForRealm: TUser = JSON.parse(userProfileJson);
 		const userForReturn: TUser = JSON.parse(userProfileJson);
 
@@ -205,22 +205,22 @@ class ApiClient {
 
 	accountsRegister(formUserRegister: TApiFormRegister) {
 		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
-			.then(this._onUserLoginSuccess);
+			.then(this._onReceiveUserProfile);
 	}
 
 	accountsLogin(formUserLogin) {
 		return this._post(`${Urls.api}/accounts/login`, formUserLogin)
-			.then(this._onUserLoginSuccess);
+			.then(this._onReceiveUserProfile);
 	}
 
 	accountsLoginFacebook(accessToken) {
 		return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
-			.then(this._onUserLoginSuccess);
+			.then(this._onReceiveUserProfile);
 	}
 
 	accountsLoginGoogle(accessToken) {
 		return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
-			.then(this._onUserLoginSuccess);
+			.then(this._onReceiveUserProfile);
 	}
 
 	accountsChangePassword(formChangePassword: TApiFormChangePassword) {
@@ -231,7 +231,7 @@ class ApiClient {
 
 	userProfile() {
 		return this._get(Urls.api + '/user/profile')
-			.then(this._onUserLoginSuccess);
+			.then(this._onReceiveUserProfile);
 	}
 
 	authenticateFirebase() {

@@ -58,7 +58,6 @@ export default class CacheActionCreator extends PoolActionCreator {
 				return Promise.resolve(data);
 			}
 
-
 			// Run request or data builder
 			const nextPromise = pool.buildDataSet(dispatch, extraParams).then(buildResultData => {
 

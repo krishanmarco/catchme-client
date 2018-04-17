@@ -34,21 +34,25 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	componentWillMount() {
 		// We now have access to a user profile
 		// Initialize the redux pool form by setting all its values
-		this._formApiEditUserProfile().change(this._userProfile());
+		const {authUserProfile} = this.props;
+		this._formApiEditUserProfile().change(authUserProfile);
 	}
 
 	componentWillUnmount() {
+		const {authUserProfile} = this.props;
+		// Only post the new settings if they are
+		// different than the initial ones
+		const oldSettings = DaoUser.gSettingNotifications(authUserProfile);
+		const newSettings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		if (oldSettings == newSettings)
+			return;
+
 		// Post the updated form
 		this._formApiEditUserProfile().post();
 	}
 
 	_formApiEditUserProfile(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
-	}
-
-	_userProfile() {
-		const {authUserProfile} = this.props;
-		return authUserProfile;
 	}
 
 	_saveSettingValue(newSettings) {
@@ -64,7 +68,8 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	}
 
 	_onDisableAllValueChange(value) {
-		let settingStr = DaoUser.gSettingNotifications(this._userProfile());
+		const userProfile = this._formApiEditUserProfile().apiInput;
+		let settingStr = DaoUser.gSettingNotifications(userProfile);
 		settingStr = this._getNewSettingValue(settingStr, 0, !value);
 		settingStr = this._getNewSettingValue(settingStr, 1, !value);
 		settingStr = this._getNewSettingValue(settingStr, 2, !value);
@@ -72,15 +77,18 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	}
 
 	_onFriendshipRequestValueChange(value) {
-		this._saveSettingValue(this._getNewSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 0, value));
+		const settings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		this._saveSettingValue(this._getNewSettingValue(settings, 0, value));
 	}
 
 	_onFriendActionsValueChange(value) {
-		this._saveSettingValue(this._getNewSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 1, value));
+		const settings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		this._saveSettingValue(this._getNewSettingValue(settings, 1, value));
 	}
 
 	_onCatchmeSuggestionsValueChange(value) {
-		this._saveSettingValue(this._getNewSettingValue(DaoUser.gSettingNotifications(this._userProfile()), 2, value));
+		const settings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		this._saveSettingValue(this._getNewSettingValue(settings, 2, value));
 	}
 
 	render() {
@@ -101,7 +109,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	}
 
 	_renderNotificationSwitches() {
-		const settingNotifications = DaoUser.gSettingNotifications(this._userProfile())
+		const settingNotifications = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput)
 			.split('')
 			.map(intStringToBool);
 

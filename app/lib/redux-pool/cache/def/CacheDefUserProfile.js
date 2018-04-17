@@ -19,11 +19,11 @@ class CacheDefUserProfile extends CacheDef<TUser> {
 		return ApiClient.userProfile();
 	}
 
-	getUser(thunk: TThunk): ?TUser {
-		const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-		const cacheUserProfileState = cacheActionCreator.getPoolState(thunk.getState);
-		return cacheUserProfileState.data;
-	}
+	// getUser(thunk: TThunk): ?TUser {
+	// 	const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+	// 	const cacheUserProfileState = cacheActionCreator.getPoolState(thunk.getState);
+	// 	return cacheUserProfileState.data;
+	// }
 
 }
 

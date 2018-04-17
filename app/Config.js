@@ -160,7 +160,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 
 	dismissModalConfig: {animationType: 'slide-down'},
 
