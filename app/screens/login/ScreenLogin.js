@@ -194,6 +194,9 @@ const styles = StyleSheet.create({
 		height: 100,
 		width: 150
 	},
+	listItemHeader: {
+		marginRight: 8
+	},
 	listItemHeaderContent: {
 		paddingHorizontal: 16,
 		paddingBottom: scaleVertical(32),

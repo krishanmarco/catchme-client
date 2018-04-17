@@ -15,7 +15,6 @@ type Props = {
 	day: number,
 	managerWeekTimings: ManagerWeekTimings,
 	onTimingsChanged: () => void,
-	size: number,
 	onEdit?: () => void,
 	isEditable?: boolean
 };
@@ -70,15 +69,14 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 	}
 
 	_renderTimingContent() {
-		const {size, isEditable, onTimingsChanged} = this.props;
+		const {isEditable, onTimingsChanged} = this.props;
 		const timingsInDay = this._timingsInDay();
 
 		return (
-			<Grid style={{height: size * 0.55}}>
+			<Grid style={styles.timingContentRoot}>
 				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
 						centerLabel='am'
-						size={size}
 						isEditable={isEditable}
 						getLabel={this._getLabelAm}
 						ref={ref => this.refClockAm = ref}
@@ -89,7 +87,6 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
 						centerLabel='pm'
-						size={size}
 						isEditable={isEditable}
 						getLabel={this._getLabelPm}
 						ref={ref => this.refClockPm = ref}
@@ -102,8 +99,12 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 
 }
 
+export const TimingListItemSize = 200;
 
 const styles = StyleSheet.create({
+	timingContentRoot: {
+		height: TimingListItem * 0.55
+	},
 	root: {
 		marginTop: 4,
 	},

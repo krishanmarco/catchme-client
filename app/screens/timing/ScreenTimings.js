@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
-import WeekTimingsList from '../../comp-buisness/timing/TimingList';
+import WeekTimingsList from '../../comp-buisness/timing/WeekTimingsList';
 import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from "../../comp/Misc";
 import {StyleSheet} from 'react-native';
@@ -25,8 +25,7 @@ class _ScreenTimings extends React.Component<void, Props, void> {
 				<WeekTimingsList
 					ref={_ScreenTimings.refWeekTimingsList}
 					managerWeekTimings={managerWeekTimings}
-					isEditable={false}
-					size={200}/>
+					isEditable={false}/>
 			</Screen>
 		);
 	}

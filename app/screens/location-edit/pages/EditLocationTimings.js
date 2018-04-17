@@ -3,7 +3,7 @@ import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
-import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
+import WeekTimingsList from '../../../comp-buisness/timing/WeekTimingsList';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
@@ -61,8 +61,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 				<WeekTimingsList
 					ref={ref => this.refWeekTimingsList = ref}
 					managerWeekTimings={managerWeekTimings}
-					isEditable={true}
-					size={200}/>
+					isEditable={true}/>
 			</View>
 		);
 	}

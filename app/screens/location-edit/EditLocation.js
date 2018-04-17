@@ -8,7 +8,7 @@ import {Colors, Icons} from '../../Config';
 import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
 import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollableIconTabView} from "../../comp/Misc";
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
@@ -118,7 +118,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{height: 460}}>
+				style={styles.tabCont}>
 				{jsx}
 			</View>
 		);
@@ -174,3 +174,9 @@ const EditLocation = poolConnect(_EditLocation,
 );
 export default EditLocation;
 
+
+const styles = StyleSheet.create({
+	tabCont: {
+		height: 460
+	}
+});

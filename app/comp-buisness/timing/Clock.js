@@ -1,17 +1,16 @@
-/* eslint-disable import/no-named-as-default */
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import Svg from 'react-native-svg';
 import {Colors} from '../../Config';
 import {StyleSheet} from 'react-native';
 import {VictoryLabel, VictoryPie} from 'victory-native';
+import {TimingListItemSize} from "./TimingListItem";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
 	timings: string,
-	size: number,
 	isEditable: boolean,
 	getLabel: (number) => string,
 	centerLabel: string,
@@ -35,6 +34,7 @@ export default class Clock extends React.Component<void, Props, State> {
 		this._onSlicePress = this._onSlicePress.bind(this);
 		this._victoryPieEventKey = this._victoryPieEventKey.bind(this);
 		this.state = this._mapPropsToState(props);
+		this.victoryPieEvents = [{target: "data", eventHandlers: {onPress: this._onSlicePress}}];
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -74,30 +74,35 @@ export default class Clock extends React.Component<void, Props, State> {
 	}
 
 	render() {
-		const {size, centerLabel} = this.props;
+		const {centerLabel} = this.props;
 		const {data, colorScale} = this.state;
+
 		return (
-			<Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={styles.svgStyle}>
+			<Svg
+				style={styles.svgStyle}
+				width={ClockSize}
+				height={ClockSize}
+				viewBox={`0 0 ${ClockSize} ${ClockSize}`}>
 				<VictoryPie
-					height={size}
-					width={size}
+					height={ClockSize}
+					width={ClockSize}
 					data={data}
 					colorScale={colorScale}
 
-					labelRadius={size * 0.14}
-					innerRadius={size * 0.06}
+					labelRadius={labelRadius}
+					innerRadius={labelInnerRadius}
 					standalone={false}
 					labelComponent={<VictoryLabel/>}
 					eventKey={this._victoryPieEventKey}
 
-					style={{labels: {fill: 'white', fontSize: size * 0.05}}}
-					events={[{target: "data", eventHandlers: {onPress: this._onSlicePress}}]}/>
+					style={victoryPieStyle}
+					events={this.victoryPieEvents}/>
 				<VictoryLabel
 					textAnchor="middle"
-					x={size / 2}
-					y={size / 2}
+					x={ClockSize / 2}
+					y={ClockSize / 2}
 					text={centerLabel}
-					style={{fill: Colors.primary, fontSize: size * 0.06, fontWeight: 'bold'}}
+					style={victoryLabelStyle}
 				/>
 			</Svg>
 		);
@@ -106,6 +111,23 @@ export default class Clock extends React.Component<void, Props, State> {
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
+
+const ClockSize = TimingListItemSize;
+const labelRadius = ClockSize * 0.14;
+const labelInnerRadius = ClockSize * 0.06;
+
+const victoryPieStyle = {
+	labels: {
+		fill: 'white',
+		fontSize: ClockSize * 0.05
+	}
+};
+
+const victoryLabelStyle = {
+	fill: Colors.primary,
+	fontSize: ClockSize * 0.06,
+	fontWeight: 'bold'
+};
 
 const styles = StyleSheet.create({
 	svgStyle: {

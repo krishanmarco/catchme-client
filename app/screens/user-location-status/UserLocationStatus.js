@@ -240,7 +240,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		} = this.props;
 
 		return (
-			<View style={{flex: 1}}>
+			<View style={styles.root}>
 				<Grid style={styles.mainGrid}>
 					<Row size={30} style={styles.imageRow}>{this._renderHeaderImage()}</Row>
 					<Row size={25} style={styles.contentRow}>{this._renderContent()}</Row>
@@ -274,7 +274,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 	_renderHeaderImage() {
 		return (
 			<Image
-				style={{width: '100%', height: 'auto'}}
+				style={styles.headerImage}
 				source={ImageURISourceAuth.fromUrl(DaoLocation.gPictureUrl(this._locationProfile()))}/>
 		);
 	}
@@ -284,12 +284,12 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		const {showDateModal, showFromModal, showUntilModal} = this.props;
 		return (
 			<Grid>
-				<Row size={30} style={{width: '100%'}}>
+				<Row size={30} style={styles.contentAddress}>
 					<RkText rkType='secondary3'>
 						{DaoLocation.gAddress(this._locationProfile())}
 					</RkText>
 				</Row>
-				<Row size={30} style={{marginTop: 24}}>
+				<Row size={30} style={styles.contentDate}>
 					<Col style={styles.center}>
 						<Touchable onPress={showDateModal}>
 							<RkText>{TimestampFormatter.parseFromDate(this._getFromMoment())}</RkText>
@@ -385,6 +385,9 @@ export default UserLocationStatus;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
+	root: {
+		flex: 1
+	},
 	mainGrid: {
 		flex: 1,
 		flexDirection: 'column'
@@ -428,4 +431,14 @@ const styles = StyleSheet.create({
 		height: 55,
 		backgroundColor: '#BA000D'
 	},
+	headerImage: {
+		width: '100%',
+		height: 'auto'
+	},
+	contentAddress: {
+		width: '100%'
+	},
+	contentDate: {
+		marginTop: 24
+	}
 });

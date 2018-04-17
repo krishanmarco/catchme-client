@@ -115,7 +115,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 			<View>
 				<ListItemHeader name='Profile'/>
 				<View style={styles.listItemWithActionsContent}>
-					<View style={{alignItems: 'center'}}>
+					<View style={styles.profileSection}>
 						<AvatarCircle
 							badge={Icons.userEditAvatar}
 							rkType='big'
@@ -232,4 +232,7 @@ const styles = StyleSheet.create({
 	listItemWithActionsContent: {
 		paddingHorizontal: 8,
 	},
+	profileSection: {
+		alignItems: 'center'
+	}
 });

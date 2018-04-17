@@ -114,7 +114,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{flex: 1}}>
+				style={styles.tabCont}>
 				{jsx}
 			</View>
 		);
@@ -215,6 +215,9 @@ export default UserProfile;
 // Config ************************************************************************************************
 
 const styles = StyleSheet.create({
+	tabCont: {
+		flex: 1
+	},
 	tabHomeRoot: {
 		flex: 1,
 		alignItems: 'center'

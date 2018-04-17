@@ -106,7 +106,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 			.map(intStringToBool);
 
 		return (
-			<View style={{marginTop: 64}}>
+			<View style={styles.switches}>
 				<RkSwitch
 					title='Disable all'
 					value={[
@@ -152,5 +152,8 @@ export default SettingsUserNotifications;
 const styles = StyleSheet.create({
 	listItemWithActionsContent: {
 		paddingHorizontal: 4,
+	},
+	switches: {
+		marginTop: 64
 	},
 });

@@ -133,7 +133,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{height: 510}}>
+				style={styles.tabCont}>
 				{jsx}
 			</View>
 		);
@@ -225,7 +225,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 						sections={this.state.locationInfoSections}
 						renderItem={this._renderTabLocationInfoItem}/>
 				</Row>
-				<Row size={100} style={{marginTop: 16}}>
+				<Row size={100} style={styles.infoTabMapCont}>
 					<LocationMap locations={[locationProfile]}/>
 				</Row>
 			</Grid>
@@ -264,6 +264,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center'
 	},
+	tabCont: {
+		height: 510
+	},
 	tabHomeAvatar: {
 		width: '100%',
 		height: 200
@@ -293,5 +296,8 @@ const styles = StyleSheet.create({
 	},
 	badges: {
 		marginTop: 24
+	},
+	infoTabMapCont: {
+		marginTop: 16
 	}
 });
