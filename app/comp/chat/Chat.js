@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
+import Router from "../../lib/navigation/Router";
 import {bindActionCreators} from 'redux';
 import {Bubble, GiftedChat} from 'react-native-gifted-chat';
 import {chatMessagesLoadMore, chatMessagesSendMessage, initialize} from './ReducerChat';
@@ -13,12 +14,11 @@ import {StyleSheet, View} from 'react-native';
 import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
 import type {TReducerChatState} from "./ReducerChat";
 import type {TUser} from "../../lib/daos/DaoUser";
-// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
-type Props = {
+type Props = TReducerChatState & {
 	chatId: string,
 	user: TUser,
 	getFirebaseMessages: TGetFirebaseMessages,
@@ -26,43 +26,46 @@ type Props = {
 
 	messages: Array<TFirebaseChatMessage>,
 	fetchedAllItems: boolean,
-	loadMore: (TGetFirebaseMessages) => void,
-	runningBulkFetch: boolean
-};
+	runningBulkFetch: boolean,
 
-
-type State = TReducerChatState & {
-	initialize: (TGetFirebaseMessages, TUser) => void,
+	initialize: (TGetFirebaseMessages, TFirebaseChatUser) => void,
 	sendMessage: (TGetFirebaseMessages, TFirebaseChatMessage) => void,
 	loadMore: (TGetFirebaseMessages) => void
 };
 
+const defaultProps = {
+	placeholder: 'Type a message...'
+};
+
 
 // _Chat ************************************************************************************************
 // _Chat ************************************************************************************************
 
-class _Chat extends React.Component<void, Props, State> {
+class _Chat extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
 		this._onSend = this._onSend.bind(this);
+		this._onLoadMore = this._onLoadMore.bind(this);
 		this._onPressAvatar = this._onPressAvatar.bind(this);
 		this._renderBubble = this._renderBubble.bind(this);
 		this._renderBubbleHeader = this._renderBubbleHeader.bind(this);
+		this._renderLoading = this._renderLoading.bind(this);
 	}
 
-
 	_getChatUser(): TFirebaseChatUser {
+		const {user} = this.props;
 		return {
-			_id: DaoUser.gId(this.props.user),
-			name: DaoUser.gName(this.props.user),
-			avatar: DaoUser.gPictureUrl(this.props.user),
+			_id: DaoUser.gId(user),
+			name: DaoUser.gName(user),
+			avatar: DaoUser.gPictureUrl(user),
 		};
 	}
 
-
 	componentWillMount() {
-		this.props.initialize(this.props.getFirebaseMessages, this._getChatUser());
+		const {getFirebaseMessages, initialize} = this.props;
+		initialize(getFirebaseMessages, this._getChatUser());
 	}
 
 	componentDidMount() {
@@ -70,55 +73,70 @@ class _Chat extends React.Component<void, Props, State> {
 		this.giftedChat.getKeyboardHeight = () => this.giftedChat._keyboardHeight;
 	}
 
-
 	_onPressAvatar(user: TUser) {
+		const {navigator} = this.props;
 
+		// If the user pressed on his own avatar do nothing
+		if (DaoUser.gId(user) == this._getChatUser()._id)
+			return;
+
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
-
 	_onSend(messages = []) {
+		const {sendMessage, getFirebaseMessages} = this.props;
+
 		if (messages && messages.length <= 0)
 			return;
 
 		let message = messages[0];
 		message.createdAt = new Date().toString();
 
-		this.props.sendMessage(this.props.getFirebaseMessages, message);
+		sendMessage(getFirebaseMessages, message);
 	}
 
+	_onLoadMore() {
+		const {loadMore, getFirebaseMessages} = this.props;
+		loadMore(getFirebaseMessages);
+	}
 
 	render() {
+		const {
+			messages,
+			fetchedAllItems,
+			runningBulkFetch,
+			placeholder
+		} = this.props;
+
 		return (
 			<GiftedChat
-				ref={component => {
-					this.giftedChat = component;
-				}}
+				ref={ref => this.giftedChat = ref}
 
-				messages={this.props.messages}
+				messages={messages}
 				user={this._getChatUser()}
 
+				loadEarlier={!fetchedAllItems}
+				isLoadingEarlier={runningBulkFetch}
 				onSend={this._onSend}
+				onLoadEarlier={this._onLoadMore}
 
-				loadEarlier={!this.props.fetchedAllItems}
-				onLoadEarlier={() => this.props.loadMore(this.props.getFirebaseMessages)}
-				isLoadingEarlier={this.props.runningBulkFetch}
-
-
-				placeholder={this.props.placeholder}
+				placeholder={placeholder}
 				isAnimated={true}
-				renderLoading={() => <DefaultLoader/>}
-
 
 				renderAvatarOnTop={true}
 				onPressAvatar={this._onPressAvatar}
 
+				renderLoading={this._renderLoading}
 				renderBubble={this._renderBubble}
 				renderCustomView={this._renderBubbleHeader}
 
 			/>
 		);
 	}
-
 
 	_renderBubble(props) {
 		return (
@@ -132,19 +150,25 @@ class _Chat extends React.Component<void, Props, State> {
 		);
 	}
 
-
 	_renderBubbleHeader(props) {
-		const senderId = _.get(props, 'currentMessage.user._id', -1);
-		if (senderId == DaoUser.gId(this.props.user))
-			return null;
+		const {user} = props;
 
+		const senderId = _.get(props, 'currentMessage.user._id', -1);
+		if (senderId == DaoUser.gId(user))
+			return null;
 
 		return (
 			<View style={styles.bubbleHeader}>
-				<RkText style={styles.bubbleHeaderText} rkType='secondary6'>{props.currentMessage.user.name}</RkText>
+				<RkText style={styles.bubbleHeaderText} rkType='secondary6'>
+					{props.currentMessage.user.name}
+					</RkText>
 				<View style={styles.bubbleHeaderFooter}/>
 			</View>
 		);
+	}
+
+	_renderLoading() {
+		return (<DefaultLoader/>);
 	}
 
 }
@@ -162,12 +186,6 @@ const ChatContainer = connect(
 	})
 )(_Chat);
 export default ChatContainer;
-
-
-ChatContainer.defaultProps = {
-	placeholder: 'Type a message...'
-};
-
 
 
 // Config ***********************************************************************************************

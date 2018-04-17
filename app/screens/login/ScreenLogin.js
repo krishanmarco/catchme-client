@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
+import ApiFormPool from "../../lib/redux-pool/api-form/ApiFormPool";
 import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
@@ -18,7 +19,6 @@ import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -61,7 +61,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		return userProfile;
 	}
 
-	_getFormApiLogin() {
+	_getFormApiLogin(): ApiFormPool {
 		return this.props[FORM_API_ID_LOGIN];
 	}
 

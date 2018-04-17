@@ -5,10 +5,11 @@ import React from 'react';
 import UserProfile from './UserProfile';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
-import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
 import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
+import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 
@@ -51,11 +52,11 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
 	}
 
-	_cacheUserProfile(): CacheState {
+	_cacheUserProfile(): TCachePool {
 		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
-	_cacheMapUserProfiles(): CacheMapState {
+	_cacheMapUserProfiles(): TCacheMapPool {
 		return this.props[CACHE_MAP_ID_USER_PROFILES];
 	}
 

@@ -26,10 +26,11 @@ import type {TUser} from "../../lib/daos/DaoUser";
 // Const *************************************************************************************************
 
 type Props = {
+	navigator: TNavigator,
 	locationProfile: TLocation,
 	authUserProfile: TUser,
-	navigator: TNavigator,
-	navbarHandler: NavbarHandlerLocationProfile
+	navbarHandler: NavbarHandlerLocationProfile,
+	onGalleryImageAdded: Function,
 };
 
 type State = {
@@ -203,11 +204,13 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabChat() {
-		const {locationProfile, authUserProfile} = this.props;
-
+		const {locationProfile, authUserProfile, navigator} = this.props;
 		return (
 			<View style={styles.tabRootChat}>
-				<LocationChat location={locationProfile} user={authUserProfile}/>
+				<LocationChat
+					navigator={navigator}
+					location={locationProfile}
+					user={authUserProfile}/>
 			</View>
 		);
 	}

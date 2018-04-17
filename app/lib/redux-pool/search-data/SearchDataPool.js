@@ -12,7 +12,7 @@ import type {TPool} from "../Pool";
 
 
 // Define result of poolConnect for this pool
-export type TSearchData = SearchDataActionCreator & SearchDataState;
+export type TSearchDataPool = SearchDataActionCreator & SearchDataState;
 
 
 // Define all Actions (There should for each ACTION)

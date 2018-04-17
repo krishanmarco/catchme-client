@@ -11,7 +11,7 @@ import {poolConnect} from '../../redux/ReduxPool';
 import {SEARCH_DATA_ID_LOCATIONS} from "../../lib/redux-pool/search-data/def/SearchDataDefLocations";
 import {SEARCH_DATA_ID_USERS} from "../../lib/redux-pool/search-data/def/SearchDataDefUsers";
 import {StyleSheet, View} from 'react-native';
-import {TSearchData} from "../../lib/redux-pool/search-data/SearchDataPool";
+import {TSearchDataPool} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 
@@ -43,11 +43,11 @@ class _Search extends React.Component<void, Props, void> {
 		this._searchDataLocations().suggest();
 	}
 
-	_searchDataUsers(): TSearchData {
+	_searchDataUsers(): TSearchDataPool {
 		return this.props[SEARCH_DATA_ID_USERS];
 	}
 
-	_searchDataLocations(): TSearchData {
+	_searchDataLocations(): TSearchDataPool {
 		return this.props[SEARCH_DATA_ID_LOCATIONS];
 	}
 

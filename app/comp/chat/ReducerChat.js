@@ -110,7 +110,7 @@ export function chatReducer(state: TReducerChatState = chatInitState, action): T
 }
 
 
-export function initialize(getFirebaseMessages: TGetFirebaseMessages, user) {
+export function initialize(getFirebaseMessages: TGetFirebaseMessages, user: TFirebaseChatUser) {
   return (dispatch) => {
     dispatch({type: ACTION_LOCATION_CHAT_RESET});
     dispatch(addUser(user));
@@ -225,7 +225,7 @@ export function chatReceiveMessages(messages) {
 
 
 
-export function chatMessagesSendMessage(getFirebaseMessages, message) {
+export function chatMessagesSendMessage(getFirebaseMessages: TGetFirebaseMessages, message: TFirebaseChatMessage) {
   return (dispatch) => {
 
     // Get a new message pId from firebase

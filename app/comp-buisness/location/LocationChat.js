@@ -4,15 +4,16 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 import React from 'react';
 import {FirebaseData} from '../../lib/data/Firebase';
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-// todo refactor proptypes
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-  location: TLocation,
-  user: TUser
+	navigator: TNavigator,
+	location: TLocation,
+	user: TUser
 };
 
 
@@ -21,32 +22,26 @@ type Props = {
 
 export default class LocationChat extends React.Component<Props> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._getFirebaseMessages = this._getFirebaseMessages.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._getFirebaseMessages = this._getFirebaseMessages.bind(this);
+	}
 
-  _getLocation() {
-    return this.props.location;
-  }
+	_getFirebaseMessages() {
+		const {location} = this.props;
+		return FirebaseData.dbLocationChatMessages(DaoLocation.gId(location));
+	}
 
-  _getUser() {
-    return this.props.user;
-  }
-
-
-  _getFirebaseMessages() {
-    return FirebaseData.dbLocationChatMessages(DaoLocation.gId(this._getLocation()));
-  }
-
-  render() {
-    return (
-        <Chat
-            chatId={DaoLocation.gId(this._getLocation()).toString()}
-            getFirebaseMessages={this._getFirebaseMessages}
-            user={this._getUser()}
-        />
-    );
-  }
+	render() {
+		const {location, user, navigator} = this.props;
+		return (
+			<Chat
+				navigator={navigator}
+				chatId={DaoLocation.gId(location).toString()}
+				user={user}
+				getFirebaseMessages={this._getFirebaseMessages}
+			/>
+		);
+	}
 
 }

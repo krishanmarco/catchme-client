@@ -6,6 +6,7 @@ import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {StyleSheet, View} from 'react-native';
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../../lib/types/Types";
 
 
@@ -28,7 +29,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 		this._onConfirm = this._onConfirm.bind(this);
 	}
 
-	_getFormChangePassword() {
+	_getFormChangePassword(): TApiFormPool {
 		return this.props[FORM_API_ID_CHANGE_PASSWORD];
 	}
 

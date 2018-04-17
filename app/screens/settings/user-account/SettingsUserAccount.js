@@ -12,6 +12,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -54,7 +55,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return this.props.authUserProfile;
 	}
 
-	_formApiEditUserProfile() {
+	_formApiEditUserProfile(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
 	}
 

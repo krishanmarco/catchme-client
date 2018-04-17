@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import Logger from "../Logger";
 
-
 export default class ObjectCache {
 	
 	static get(object, path, calcCallback) {
@@ -25,7 +24,7 @@ export default class ObjectCache {
 	
 	static invalidate(object, path) {
 		path = ObjectCache._fullPath(path);
-		_.set(object, path, undefined);
+		_.unset(object, path);
 	}
 	
 	

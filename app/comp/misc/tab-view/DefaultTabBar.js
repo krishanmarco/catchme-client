@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+// eslint-disable-next-line import/no-unresolved
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/DefaultTabBar.js
 import Button from './button/Button';
 import React from 'react';
