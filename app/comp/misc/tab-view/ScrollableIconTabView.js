@@ -111,6 +111,8 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 // Bug fix for freezing tab view after back
 // https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// Can be removed on upgrade >> react-native 0.55.3
 const scrollableTabViewContentProps = {
 	style: {flex: 1}
 };
