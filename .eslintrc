@@ -16,7 +16,9 @@
   "plugins": [
     "sort-imports-es6-autofix",
     "flowtype",
-    "import"
+    "import",
+    "react",
+    "react-native"
   ],
   "settings": {
     "flowtype": {
@@ -207,6 +209,7 @@
     "max-depth": 2,
 
     "react/no-direct-mutation-state": 0,
+    "react-native/no-inline-styles": 2,
 
     "flowtype/boolean-style": [
       2,

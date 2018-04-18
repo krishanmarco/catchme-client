@@ -89,6 +89,7 @@ class _Search extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<ScrollableTabView
+				contentProps={scrollableTabViewContentProps}
 				tabBarUnderlineStyle={styles.tabBarUnderline}
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={Infinity}
@@ -164,6 +165,12 @@ export default Search;
 
 // Config ************************************************************************************************
 // Config ************************************************************************************************
+
+// Bug fix for freezing tab view after back
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+const scrollableTabViewContentProps = {
+	style: {flex: 1}
+};
 
 const styles = StyleSheet.create({
 	tabBarTextStyle: {

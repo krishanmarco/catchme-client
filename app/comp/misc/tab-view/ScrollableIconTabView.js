@@ -8,7 +8,7 @@ import type {TIcon} from "../../../lib/types/Types";
 
 
 type Props = {
-	icons: Array<{[string]: TIcon}>,
+	icons: Array<{ [string]: TIcon }>,
 	children: Array<Node>,
 	allowIndexChange?: Function,
 	onPreTabChange?: Function,
@@ -79,6 +79,7 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 		return (
 			<ScrollableTabView
+				contentProps={scrollableTabViewContentProps}
 				onChangeTab={this._onTabChanged}
 				renderTabBar={this._renderDefaultTabBar}
 				tabBarUnderlineStyle={styles.tabBarUnderline}
@@ -107,6 +108,12 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 // Config *********************************************************************************
 // Config *********************************************************************************
+
+// Bug fix for freezing tab view after back
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+const scrollableTabViewContentProps = {
+	style: {flex: 1}
+};
 
 const styles = StyleSheet.create({
 	tabBarUnderline: {
