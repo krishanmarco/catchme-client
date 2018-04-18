@@ -17,6 +17,32 @@ export default class CacheActionCreator extends PoolActionCreator {
 		super(POOL_TYPE_CACHE, poolDefId, dispatch);
 		this.invalidate = this.invalidate.bind(this);
 		this.initialize = this.initialize.bind(this);
+		this.setData = this.setData.bind(this);
+		this.mergeData = this.mergeData.bind(this);
+	}
+
+
+	// Merges the input data with the current
+	// {data} of this cache (partial this.set())
+	mergeData(partialData) { console.log("MERGIN DATA", partialData);
+		const {dispatch} = this;
+
+		return dispatch((dispatch, getState) => {
+			const {data}: CacheState = this.getPoolState(getState);
+			return this.setData(Object.assign(data, partialData));
+		});
+	}
+
+	// Directly sets the {data} of this cache
+	setData(data) {
+		const {dispatchAction} = this;
+
+		dispatchAction({
+			type: POOL_ACTION_CACHE_SET_DATA,
+			data,
+		});
+
+		return data;
 	}
 
 
@@ -34,7 +60,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 
 
 	initialize(extraParams) {
-		const {poolId, dispatch, dispatchAction, dispatchPromiseAction} = this;
+		const {poolId, dispatch, dispatchPromiseAction} = this;
 		const pool = this.getPoolDef();
 
 		return dispatch((dispatch, getState) => {
@@ -62,10 +88,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 			const nextPromise = pool.buildDataSet(dispatch, extraParams).then(buildResultData => {
 
 				// Save the result data into the pool
-				dispatchAction({
-					type: POOL_ACTION_CACHE_SET_DATA,
-					data: buildResultData
-				});
+				this.setData(buildResultData);
 
 				// Continue the promise chain
 				return buildResultData;

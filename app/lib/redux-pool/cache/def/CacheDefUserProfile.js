@@ -3,7 +3,6 @@ import ApiClient from "../../../data/ApiClient";
 import CacheActionCreator from "../CacheActionCreator";
 import CacheDef from "../CacheDef";
 import type {TCacheDef} from "../CacheDef";
-import type {TThunk} from "../../../types/Types";
 import type {TUser} from "../../../daos/DaoUser";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';

@@ -346,7 +346,7 @@ class ApiClient {
 			.then(json => JSON.parse(json));
 	}
 
-	userProfileEdit(userData: TUser, filePath = null) {
+	userProfileEdit(userData: TUser, filePath = null): TUser {
 		const formData = Object.keys(userData)
 			.map(key => ({name: key, data: String(userData[key])}));
 
@@ -356,7 +356,7 @@ class ApiClient {
 		}
 
 		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
-			.then(json => JSON.parse(json));
+			.then(this._onReceiveUserProfile);
 	}
 
 	mediaAddTypeIdItemId(typeId, itemId, filePath) {
