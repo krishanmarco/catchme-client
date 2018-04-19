@@ -2,7 +2,6 @@ import React from 'react';
 import {GradientButton, Screen} from "../../../comp/Misc";
 import {Image, View} from 'react-native';
 import {RkStyleSheet, RkText, RkTextInput, RkTheme} from 'react-native-ui-kitten';
-import {scaleVertical} from '../../../lib/utils/scale';
 import type {TNavigator} from "../../../lib/types/Types";
 
 // Const ************************************************************************************************
@@ -60,7 +59,7 @@ const styles = RkStyleSheet.create(theme => ({
 	screen: {
 		flex: 1,
 		paddingHorizontal: 16,
-		paddingVertical: scaleVertical(24),
+		paddingVertical: 24,
 		justifyContent: 'space-between',
 		backgroundColor: theme.colors.screen.base
 	},
@@ -68,8 +67,8 @@ const styles = RkStyleSheet.create(theme => ({
 		alignItems: 'center'
 	},
 	image: {
-		marginVertical: scaleVertical(27),
-		height: scaleVertical(77),
+		marginVertical: 27,
+		height: 77,
 		resizeMode: 'contain'
 	},
 	listItemContent: {

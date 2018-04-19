@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import ApiFormDef from "./ApiFormDef";
+import Logger from "../../Logger";
 import PoolActionCreator from "../PoolActionCreator";
 import {
 	POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
@@ -13,7 +14,6 @@ import {
 import {POOL_TYPE_API_FORMS, ReduxPoolBuilder} from "../../../redux/ReduxPool";
 import {screenDisablePointerEvents, screenEnablePointerEvents} from "../../../comp/misc/Screen";
 import type {TDispatch} from "../../types/Types";
-import Logger from "../../Logger";
 
 
 export default class ApiFormActionCreator extends PoolActionCreator {

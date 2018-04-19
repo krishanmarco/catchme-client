@@ -1,8 +1,16 @@
-/* eslint-disable guard-for-in */
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+/* eslint-disable guard-for-in */
+import {Dimensions, StatusBar, StyleSheet} from 'react-native';
 import {RkTheme} from 'react-native-ui-kitten';
-import {scale, scaleVertical} from '../utils/scale';
-import {StatusBar, StyleSheet} from 'react-native';
+
+// Setup
+const { width, height } = Dimensions.get('window');
+
+//Guideline sizes are based on standard ~5" screen mobile device
+const guidelineBaseWidth = 350;
+const guidelineBaseHeight = 680;
+const scale = size => width / guidelineBaseWidth * size;
+const scaleVertical = size => height / guidelineBaseHeight * size;
 
 
 

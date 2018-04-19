@@ -5,18 +5,17 @@ import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
-import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import {FontAwesome} from '../../assets/Icons';
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {GradientButton, Screen} from "../../comp/Misc";
+import {GradientButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
+import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 
@@ -154,15 +153,9 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 
 	_renderImage() {
-		let contentHeight = scaleModerate(400, 1);
-		let height = Dimensions.get('window').height - contentHeight;
-		let width = Dimensions.get('window').width;
 		return (
-			<View style={[{height, width}, styles.imageCont]}>
-				<Image
-					style={styles.image}
-					source={require('../../assets/images/splashBack.png')}/>
-			</View>
+			<ScreenInfo
+				imageSource={require('../../assets/images/splashBack.png')}/>
 		);
 	}
 
@@ -188,18 +181,12 @@ const styles = StyleSheet.create({
 	screen: {
 		alignItems: 'center',
 	},
-	image: {
-		resizeMode: 'cover',
-		marginBottom: scaleVertical(16),
-		height: 100,
-		width: 150
-	},
 	listItemHeader: {
 		marginRight: 8
 	},
 	listItemHeaderContent: {
 		paddingHorizontal: 16,
-		paddingBottom: scaleVertical(32),
+		paddingBottom: 32,
 		alignItems: 'center',
 		flex: -1
 	},
@@ -210,7 +197,7 @@ const styles = StyleSheet.create({
 	},
 	buttons: {
 		flexDirection: 'row',
-		marginBottom: scaleVertical(16)
+		marginBottom: 16
 	},
 	button: {
 		marginHorizontal: 24
@@ -222,9 +209,5 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		flexDirection: 'row',
 		marginTop: 4
-	},
-	imageCont: {
-		alignItems: 'center',
-		justifyContent: 'center'
 	}
 });

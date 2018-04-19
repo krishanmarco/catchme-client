@@ -70,7 +70,6 @@ class _Search extends React.Component<void, Props, void> {
 	}
 
 	_locationsOnEndReached() {
-		console.log("SUggEsTINg locations");
 		if (this._searchDataLocations().stopSuggestLoop)
 			return;
 
@@ -79,7 +78,6 @@ class _Search extends React.Component<void, Props, void> {
 	}
 
 	_usersOnEndReached() {
-		console.log("SUggEsTINg users");
 		if (this._searchDataUsers().stopSuggestLoop)
 			return;
 

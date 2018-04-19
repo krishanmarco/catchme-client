@@ -8,7 +8,6 @@ import {Image, View} from 'react-native';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {scaleVertical} from '../../lib/utils/scale';
 import {Screen} from "../../comp/Misc";
 import {startApplication} from "../../App";
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
@@ -144,7 +143,7 @@ const styles = RkStyleSheet.create(theme => ({
 	},
 	image: {
 		marginBottom: 10,
-		height: scaleVertical(77),
+		height: 77,
 		resizeMode: 'contain'
 	},
 	listItemContent: {

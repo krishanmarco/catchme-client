@@ -1,10 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+/* eslint-disable import/no-named-as-default */
 import React from 'react';
 import Svg from 'react-native-svg';
 import {Colors} from '../../Config';
 import {StyleSheet} from 'react-native';
-import {VictoryLabel, VictoryPie} from 'victory-native';
 import {TimingListItemSize} from "./TimingListItem";
+import {VictoryLabel, VictoryPie} from 'victory-native';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
