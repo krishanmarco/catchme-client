@@ -109,6 +109,9 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 
 }
 
+// Config *************************************************************************************************
+// Config *************************************************************************************************
+
 export const TimingListItemSize = 200;
 
 const styles = StyleSheet.create({

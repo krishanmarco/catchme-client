@@ -18,6 +18,10 @@ export const FormFooterLink = ({text, clickableText, onPress}: FormFooterLinkPro
     </View>
 );
 
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
 const styles = StyleSheet.create({
   textRow: {
     justifyContent: 'center',

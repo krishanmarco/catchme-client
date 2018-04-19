@@ -38,27 +38,22 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	componentWillMount() {
+		const {authUserProfile} = this.props;
+
 		// We now have access to a user profile
 		// Initialize the redux pool form by setting all its values
-		this._formApiEditUserProfile().change(this._userProfile());
+
+		this._formApiEditUserProfile().reset();
+		this._formApiEditUserProfile().change(DaoUser.apiClean(authUserProfile));
 	}
 
 	componentWillUnmount() {
 		this._formApiEditUserProfile().post();
 	}
 
-	_navigator() {
-		return this.props.navigator;
-	}
-
-	_userProfile() {
-		return this.props.authUserProfile;
-	}
-
 	_formApiEditUserProfile(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
 	}
-
 
 	_onChangePrivacyValue(index, value) {
 		let privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
@@ -76,16 +71,19 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	_onChangePasswordPress() {
-		Router.toScreenSettingsChangePassword(this._navigator());
+		const {navigator} = this.props;
+		Router.toScreenSettingsChangePassword(navigator);
 	}
 
 
 	_onLogoutPress() {
-		Router.toScreenLogout(this._navigator());
+		const {navigator} = this.props;
+		Router.toScreenLogout(navigator);
 	}
 
 	_onAddContactsPress() {
-		Router.toScreenAddContacts(this._navigator());
+		const {navigator} = this.props;
+		Router.toScreenAddContacts(navigator);
 	}
 
 	_onUserPicturePress() {
@@ -119,7 +117,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 						<AvatarCircle
 							badge={Icons.userEditAvatar}
 							rkType='big'
-							uri={DaoUser.gPictureUrl(this._userProfile())}
+							uri={DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}
 							onPress={this._onUserPicturePress}/>
 					</View>
 					<RkTextInputFromPool

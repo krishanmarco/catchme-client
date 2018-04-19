@@ -96,6 +96,7 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 		</Grid>
 	</Touchable>
 );
+export default ListItemWithActions;
 
 ListItemWithActions.defaultProps = {
 	actions: [],
@@ -141,4 +142,3 @@ const styles = RkStyleSheet.create(theme => ({
 	}
 }));
 
-export default ListItemWithActions;

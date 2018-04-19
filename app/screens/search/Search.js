@@ -70,6 +70,7 @@ class _Search extends React.Component<void, Props, void> {
 	}
 
 	_locationsOnEndReached() {
+		console.log("SUggEsTINg locations");
 		if (this._searchDataLocations().stopSuggestLoop)
 			return;
 
@@ -78,6 +79,7 @@ class _Search extends React.Component<void, Props, void> {
 	}
 
 	_usersOnEndReached() {
+		console.log("SUggEsTINg users");
 		if (this._searchDataUsers().stopSuggestLoop)
 			return;
 
@@ -124,8 +126,8 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchPressed={this._searchDataLocations().search}
 				onSearchChanged={this._searchDataLocations().setSearchQuery}
 				autoFilter={true}
-
 				loading={loading}
+				onEndReachedThreshold={0.6}
 				onEndReached={this._locationsOnEndReached}/>
 		);
 	}
@@ -139,11 +141,13 @@ class _Search extends React.Component<void, Props, void> {
 				friendIds={DaoUser.gConnectionFriendIds(userProfile)}
 				requestIds={DaoUser.gConnectionRequestIds(userProfile)}
 				blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
+
 				onItemPress={this._onUserPress}
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				autoFilter={true}
 				loading={loading}
+				onEndReachedThreshold={0.6}
 				onEndReached={this._usersOnEndReached}/>
 		);
 	}

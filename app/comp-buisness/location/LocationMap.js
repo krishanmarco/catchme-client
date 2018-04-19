@@ -85,6 +85,8 @@ export default class LocationMap extends React.Component<void, Props, State> {
 
 }
 
+// Config *************************************************************************************************
+// Config *************************************************************************************************
 
 
 const styles = StyleSheet.create({

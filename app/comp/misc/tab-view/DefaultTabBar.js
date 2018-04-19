@@ -137,6 +137,9 @@ export default class DefaultTabBar extends React.Component<void, Props, void> {
 }
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
 const styles = StyleSheet.create({
 	tab: {
 		flex: 1,

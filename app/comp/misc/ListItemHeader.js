@@ -6,26 +6,29 @@ import type {TStyle} from "../../lib/types/Types";
 
 
 type Props = {
-  name: string,
-  style: TStyle
+	name: string,
+	style: TStyle
 };
 
 const ListItemHeader = ({name = ' ', style}: Props) => (
-    <View style={[styles.row, style]}>
-      <RkText rkType='primary header6'>{name.toUpperCase()}</RkText>
-    </View>
+	<View style={[styles.row, style]}>
+		<RkText rkType='primary header6'>{name.toUpperCase()}</RkText>
+	</View>
 );
 export default ListItemHeader;
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
 const styles = RkStyleSheet.create(theme => ({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center'
-  },
+	row: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 8,
+		paddingHorizontal: 17.5,
+		borderBottomWidth: StyleSheet.hairlineWidth,
+		borderColor: theme.colors.border.base,
+		alignItems: 'center'
+	},
 }));

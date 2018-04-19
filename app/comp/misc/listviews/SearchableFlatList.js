@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {DefaultLoader, SearchBar} from "../../Misc";
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList} from 'react-native';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -46,10 +46,18 @@ type State = {
 	minTriggerChars: 3
 };
 
+
+const defaultProps = {
+	searchPlaceholder: 'Search',
+	minTriggerChars: 0,
+	onEndReachedThreshold: 24
+};
+
 // SearchableFlatList ***********************************************************************************
 // SearchableFlatList ***********************************************************************************
 
 export default class SearchableFlatList extends React.PureComponent<void, Props, State> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
@@ -159,18 +167,4 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 			: null;
 	}
 
-
 }
-
-// Config ***********************************************************************************************
-// Config ***********************************************************************************************
-
-SearchableFlatList.defaultProps = {
-	searchPlaceholder: 'Search',
-	minTriggerChars: 0,
-	onEndReachedThreshold: 24
-};
-
-
-const styles = StyleSheet.create({});
-

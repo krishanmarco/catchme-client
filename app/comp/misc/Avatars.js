@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import _ from 'lodash';
 import React from 'react';
 import {Icon} from 'react-native-elements';
 import {Image, TouchableOpacity, View} from 'react-native';
@@ -24,7 +25,7 @@ class Avatar extends RkComponent {
 		return (
 			<View style={[container, style]}>
 				<Touchable onPress={onPress}>
-					<Image style={imgStyle.image} source={{uri}}/>
+					{!_.isEmpty(uri) && <Image style={imgStyle.image} source={{uri}}/>}
 					{!!badge && (
 						<View style={imgStyle.badge}>
 							<Icon {...badge} />

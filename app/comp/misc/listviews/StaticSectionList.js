@@ -50,11 +50,3 @@ export default class StaticSectionList extends React.PureComponent<void, Props, 
 	}
 
 }
-
-
-// Config **********************************************************************************************
-// Config **********************************************************************************************
-
-const styles = StyleSheet.create({
-	// Nothing for now
-});

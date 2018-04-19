@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import Logger from "../../lib/Logger";
 import React from 'react';
+import {bindActionCreators} from 'redux';
 import {Colors} from "../../Config";
 import {connect} from 'react-redux';
 import {Keyboard, StyleSheet, View} from 'react-native';
@@ -124,7 +125,7 @@ export default connect(
 
 	// mapDispatchToProps
 	(dispatch) => ({
-		setHeight: (layout) => dispatch(screenSetHeight(layout))
+		setHeight: bindActionCreators(screenSetHeight, dispatch)
 	})
 )(Screen);
 

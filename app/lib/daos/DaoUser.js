@@ -1,11 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import DaoLocation from "./DaoLocation";
-import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 import Maps from "../data/Maps";
 import ObjectCache from "../helpers/ObjectCache";
 import {Const} from '../../Config';
-import {denormObj, mapIdsToObjects} from "../HelperFunctions";
+import {denormObj, isValidUrl, mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 
@@ -108,13 +107,31 @@ export default class DaoUser {
 		return newUser;
 	}
 
+	static apiClean(user: TUser): TUser {
+		const newUser = {};
+		_.set(newUser, DaoUser.pId, DaoUser.gId(user));
+		_.set(newUser, DaoUser.pPictureUrl, DaoUser.gPictureUrl(user));
+		_.set(newUser, DaoUser.pName, DaoUser.gName(user));
+		_.set(newUser, DaoUser.pReputation, DaoUser.gReputation(user));
+		_.set(newUser, DaoUser.pPublicMessage, DaoUser.gPublicMessage(user));
+		_.set(newUser, DaoUser.pPhone, DaoUser.gPhone(user));
+		_.set(newUser, DaoUser.pEmail, DaoUser.gEmail(user));
+		_.set(newUser, DaoUser.pApiKey, DaoUser.gApiKey(user));
+		_.set(newUser, DaoUser.pSettingPrivacy, DaoUser.gSettingPrivacy(user));
+		_.set(newUser, DaoUser.pSettingNotifications, DaoUser.gSettingNotifications(user));
+		return newUser;
+	}
+
 
 	static newInstance(): TUser {
 		return denormObj({
 			// To allow a new user to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
+			[DaoUser.pId]: -1,
+			[DaoUser.pName]: '',
 			[DaoUser.pSettingPrivacy]: Const.userDefaultPrivacySettings,
 			[DaoUser.pSettingNotifications]: Const.userDefaultNotificationsSettings,
+			[DaoUser.pReputation]: 0,
 			[DaoUser.pPictureUrl]: '',
 			[DaoUser.pPhone]: '',
 			[DaoUser.pEmail]: '',
@@ -267,6 +284,13 @@ export default class DaoUser {
 	
 	static hasLocations(user: TUser) {
 		return DaoUser.pLocations in user;
+	}
+
+	static hasNewImage(user: TUser): boolean {
+		const image = DaoUser.gPictureUrl(user);
+		return image != null
+			&& image != Const.userDefaultAvatar
+			&& !isValidUrl(image);
 	}
 
 

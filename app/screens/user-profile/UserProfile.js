@@ -114,7 +114,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={styles.tabCont}>
+				style={styles.tabView}>
 				{jsx}
 			</View>
 		);
@@ -124,7 +124,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabHomeRoot}>
+			<Grid style={styles.tabRootHome}>
 				<Row size={-1}>
 					<Image
 						style={styles.avatar}
@@ -215,10 +215,10 @@ export default UserProfile;
 // Config ************************************************************************************************
 
 const styles = StyleSheet.create({
-	tabCont: {
+	tabView: {
 		flex: 1
 	},
-	tabHomeRoot: {
+	tabRootHome: {
 		flex: 1,
 		alignItems: 'center'
 	},

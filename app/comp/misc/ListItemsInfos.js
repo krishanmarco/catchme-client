@@ -51,6 +51,9 @@ ListItemInfo.defaultProps = {
 export default ListItemInfo;
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
 const styles = RkStyleSheet.create(theme => ({
   root: {
     borderBottomWidth: StyleSheet.hairlineWidth,

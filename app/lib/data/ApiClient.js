@@ -346,13 +346,15 @@ class ApiClient {
 			.then(json => JSON.parse(json));
 	}
 
-	userProfileEdit(userData: TUser, filePath = null): TUser {
-		const formData = Object.keys(userData)
-			.map(key => ({name: key, data: String(userData[key])}));
+	userProfileEdit(user: TUser): TUser {
+		user = DaoUser.apiClean(user);
 
-		if (filePath != null) {
+		const formData = prepareForMultipart(user);
+
+		if (DaoUser.hasNewImage(user)) {
+			const pictureUri = DaoUser.gPictureUrl(user);
 			const n = seconds().toString();
-			formData.push({name: n, filename: n, data: RNFetchBlob.wrap(filePath)});
+			formData.push({name: DaoUser.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
 		}
 
 		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)

@@ -13,6 +13,7 @@ import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import DaoLocation from "../../lib/daos/DaoLocation";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -50,7 +51,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 		// We now have access to a location profile
 		// Initialize the redux pool form by setting all its values
 		this._formApiEditLocationProfile().reset();
-		this._formApiEditLocationProfile().change(locationProfile);
+		this._formApiEditLocationProfile().change(DaoLocation.apiClean(locationProfile));
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
@@ -194,6 +195,9 @@ const EditLocation = poolConnect(_EditLocation,
 );
 export default EditLocation;
 
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
 	tabCont: {

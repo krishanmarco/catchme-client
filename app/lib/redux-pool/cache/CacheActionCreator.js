@@ -24,7 +24,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 
 	// Merges the input data with the current
 	// {data} of this cache (partial this.set())
-	mergeData(partialData) { console.log("MERGIN DATA", partialData);
+	mergeData(partialData) {
 		const {dispatch} = this;
 
 		return dispatch((dispatch, getState) => {
