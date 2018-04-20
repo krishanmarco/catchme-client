@@ -12,21 +12,21 @@ import type {TUser} from "../daos/DaoUser";
 
 const navbarButtonAddUserLocationStatus = {
 	id: 'NAVBAR_BUTTON_ID_USER_LOCATION_STATUS',
-	icon: require('../../assets/icons/timerSandFull.png'),
+	icon: require('../../assets/images/timerSandFull.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };
 
 const navbarButtonFollowLocation = {
 	id: 'NAVBAR_BUTTON_ID_FOLLOW_LOCATION',
-	icon: require('../../assets/icons/cocktailGlass.png'),
+	icon: require('../../assets/images/cocktailGlass.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };
 
 const navbarButtonAddLocationImage = {
 	id: 'NAVBAR_BUTTON_ID_ADD_LOCATION_IMAGE',
-	icon: require('../../assets/icons/search.png'),
+	icon: require('../../assets/images/search.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };

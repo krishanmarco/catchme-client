@@ -76,15 +76,15 @@ function start(authUser: TUser) {
 		{
 			title: 'Catchme',
 			screen: Screens.ScreenUserProfile,
-			icon: require('./assets/icons/iosPerson.png'),
-			selectedIcon: require('./assets/icons/iosPerson.png'),
+			icon: require('./assets/images/iosPerson.png'),
+			selectedIcon: require('./assets/images/iosPerson.png'),
 			passProps: {showAppLogo: true, userId: DaoUser.gId(authUser)}
 		},
 		{
 			title: 'Search',
 			screen: Screens.ScreenSearch,
-			icon: require('./assets/icons/search.png'),
-			selectedIcon: require('./assets/icons/search.png'),
+			icon: require('./assets/images/search.png'),
+			selectedIcon: require('./assets/images/search.png'),
 			passProps: {showAppLogo: true}
 		}
 	];
@@ -93,16 +93,16 @@ function start(authUser: TUser) {
 		tabs.push({
 			title: 'Feed',
 			screen: Screens.ScreenFeed,
-			icon: require('./assets/icons/feed.png'),
-			selectedIcon: require('./assets/icons/feed.png'),
+			icon: require('./assets/images/feed.png'),
+			selectedIcon: require('./assets/images/feed.png'),
 			passProps: {showAppLogo: true}
 		});
 
 		tabs.push({
 			title: 'Featured',
 			screen: Screens.ScreenFeaturedAds,
-			icon: require('./assets/icons/spotlight.png'),
-			selectedIcon: require('./assets/icons/spotlight.png'),
+			icon: require('./assets/images/spotlight.png'),
+			selectedIcon: require('./assets/images/spotlight.png'),
 			passProps: {showAppLogo: true}
 		});
 	}
