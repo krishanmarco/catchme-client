@@ -4,12 +4,14 @@ import React from 'react';
 import {Colors} from "../../Config";
 import {connect} from 'react-redux';
 import {Dimensions, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const **********************************************************************************************
 // Const **********************************************************************************************
 
 type Props = {
+	navigator: TNavigator,
 	style: ?Object,
 	children: Node,
 	disablePointerEvents: boolean,
@@ -68,8 +70,8 @@ class Screen extends React.PureComponent<void, Props, State> {
 				style={[styles.view, {width, height}, style]}
 				pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
 				<KeyboardAvoidingView
-					behaviour='padding'
-					style={styles.view}>
+					style={styles.view}
+					behaviour='padding'>
 					{children}
 				</KeyboardAvoidingView>
 			</View>
