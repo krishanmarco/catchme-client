@@ -46,9 +46,11 @@ export default class PasswordRecovery extends React.Component<void, Props, void>
 	}
 
 	_renderIcon() {
-		return RkTheme.current.name === 'light'
-			? <Image style={styles.image} source={require('../../../assets/images/logo.png')}/>
-			: <Image style={styles.image} source={require('../../../assets/images/logoDark.png')}/>;
+		return (
+			<Image
+				style={styles.image}
+				source={require('../../../assets/images/logo.png')}/>
+		);
 	}
 }
 

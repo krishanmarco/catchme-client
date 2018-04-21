@@ -5,7 +5,6 @@ import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
-import {FontAwesome} from '../../assets/Icons';
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {GradientButton, Screen, ScreenInfo} from "../../comp/Misc";
@@ -18,6 +17,7 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {FontIcons} from "../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -103,8 +103,8 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 				<View style={styles.listItemHeaderContent}>
 					<View style={styles.buttons}>
 						{[
-							{icon: FontAwesome.google, onPress: this._onGoogleLogin},
-							{icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
+							{icon: FontIcons.google, onPress: this._onGoogleLogin},
+							{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
 						].map(this._renderSocialIcon)}
 					</View>
 
@@ -155,7 +155,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	_renderImage() {
 		return (
 			<ScreenInfo
-				imageSource={require('../../assets/images/splashBack.png')}/>
+				imageSource={require('../../assets/images/logo.png')}/>
 		);
 	}
 
@@ -192,8 +192,7 @@ const styles = StyleSheet.create({
 	},
 	footer: {
 		flex: 1,
-		justifyContent: 'flex-end',
-		backgroundColor: '#000'
+		justifyContent: 'flex-end'
 	},
 	buttons: {
 		flexDirection: 'row',

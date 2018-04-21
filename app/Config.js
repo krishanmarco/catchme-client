@@ -41,6 +41,11 @@ const _Icons = {
 	plus: {name: 'plus', type: 'evilicons', color: Colors.primary},
 };
 
+export const FontIcons = {
+	google: String.fromCharCode(61856),
+	facebook: String.fromCharCode(61594),
+};
+
 export const Icons = {
 	defaultIcon: _Icons.questionMark,
 	userProfile: _Icons.user,
