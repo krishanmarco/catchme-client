@@ -2,7 +2,7 @@
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {AvatarCircle, GradientButton} from "../../../comp/Misc";
+import {AvatarCircle, LoadingButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
@@ -58,7 +58,7 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 				<RkText style={styles.listItemWithActionsContentText} rkType='primary3'>
 					{DaoLocation.gAddress(this._formApiEditLocationProfile().apiInput)}
 				</RkText>
-				<GradientButton
+				<LoadingButton
 					loading={this._formApiEditLocationProfile().loading}
 					rkType='large'
 					style={styles.saveButton}

@@ -780,22 +780,15 @@ export function bootstrapRkTheme() {
 	});
 	
 	
-	RkTheme.registerComponent('GradientButton', (theme) => {
+	RkTheme.registerComponent('LoadingButton', (theme) => {
 		return ({
 			_base: {
 				button: {
 					alignItems: 'stretch',
 					paddingVertical: 0,
 					paddingHorizontal: 0,
-					height: scaleVertical(40),
-					borderRadius: 20
-				},
-				gradient: {
-					flex: 1,
-					alignItems: 'center',
-					justifyContent: 'center',
+					height: 40,
 					borderRadius: 20,
-					colors: theme.colors.gradients.base
 				},
 				text: {
 					backgroundColor: 'transparent',
@@ -805,12 +798,9 @@ export function bootstrapRkTheme() {
 			large: {
 				button: {
 					alignSelf: 'stretch',
-					height: scaleVertical(50),
-					borderRadius: 28,
+					height: 48,
+					borderRadius: 24,
 				},
-				gradient: {
-					borderRadius: 28
-				}
 			},
 			statItem: {
 				button: {
@@ -820,11 +810,6 @@ export function bootstrapRkTheme() {
 					height: null,
 					alignSelf: 'auto',
 				},
-				gradient: {
-					flex: 1,
-					borderRadius: 5,
-					padding: 10,
-				}
 			}
 		});
 	});

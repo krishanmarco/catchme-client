@@ -6,6 +6,7 @@ import {DefaultLoader} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {Const} from "../../Config";
 
 
 // Const *************************************************************************************************
@@ -18,8 +19,6 @@ type Props = {
 	loading: boolean,
 	loadMore: boolean
 };
-
-
 
 // FeedList *********************************************************************************************
 // FeedList *********************************************************************************************
@@ -44,7 +43,7 @@ export default class FeedList extends React.Component<void, Props, void> {
 				ListEmptyComponent={null}
 
 				onEndReached={loadMore}
-				onEndReachedThreshold={5}
+				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
 				ListFooterComponent={this._renderFooterLoader}/>
 		);

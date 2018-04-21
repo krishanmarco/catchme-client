@@ -6,6 +6,7 @@ import {DefaultLoader} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {Const} from "../../Config";
 
 
 // Const ************************************************************************************************
@@ -43,7 +44,7 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 				ListEmptyComponent={null}
 
 				onEndReached={loadMore}
-				onEndReachedThreshold={5}
+				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
 				ListFooterComponent={this._renderFooterLoader}
 

@@ -24,6 +24,9 @@ type Props = {
 	userProfile: TUser
 };
 
+// This is different from the Const.defaultOnEndReachedThreshold
+// because the search API request is slightly slower
+const onEndReachedThreshold = 0.4;
 
 // _Search **********************************************************************************************
 // _Search **********************************************************************************************
@@ -125,7 +128,7 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchChanged={this._searchDataLocations().setSearchQuery}
 				autoFilter={true}
 				loading={loading}
-				onEndReachedThreshold={0.6}
+				onEndReachedThreshold={onEndReachedThreshold}
 				onEndReached={this._locationsOnEndReached}/>
 		);
 	}
@@ -145,7 +148,7 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				autoFilter={true}
 				loading={loading}
-				onEndReachedThreshold={0.6}
+				onEndReachedThreshold={onEndReachedThreshold}
 				onEndReached={this._usersOnEndReached}/>
 		);
 	}

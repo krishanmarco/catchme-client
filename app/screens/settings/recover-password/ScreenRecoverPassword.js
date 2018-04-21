@@ -1,5 +1,5 @@
 import React from 'react';
-import {GradientButton, Screen} from "../../../comp/Misc";
+import {LoadingButton, Screen} from "../../../comp/Misc";
 import {Image, View} from 'react-native';
 import {RkStyleSheet, RkText, RkTextInput, RkTheme} from 'react-native-ui-kitten';
 import type {TNavigator} from "../../../lib/types/Types";
@@ -40,7 +40,11 @@ export default class PasswordRecovery extends React.Component<void, Props, void>
 						Enter your email below to receive your password reset instructions
 					</RkText>
 				</View>
-				<GradientButton style={styles.save} rkType='large' text='SEND' onPress={navigation.goBack}/>
+				<LoadingButton
+					style={styles.save}
+					rkType='large'
+					text='SEND'
+					onPress={navigation.goBack}/>
 			</Screen>
 		);
 	}

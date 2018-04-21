@@ -16,32 +16,33 @@ type Props = {
 	onPress?: () => void
 };
 
+const defaultProps = {
+	height: 150,
+	marginTop: 8,
+};
 
 // ScreenInfo ******************************************************************************************
 // ScreenInfo ******************************************************************************************
 
 export default class ScreenInfo extends React.Component<void, Props, void> {
-	static defaultProps = {
-		height: 150,
-		marginTop: 8,
-	};
+	static defaultProps = defaultProps;
 
 	render() {
-		const {height, marginTop, imageSource, textText, onPress} = this.props;
+		const {height, marginTop, onPress, imageSource, textText} = this.props;
 
 		return (
 			<View style={[{height, marginTop}, styles.root]}>
 
 				<Touchable
-					style={styles.imageRoot}
+					style={styles.imageCont}
 					onPress={onPress}>
 					<Image
-						style={styles.image}
+						style={styles.imageImage}
 						source={imageSource}/>
 				</Touchable>
 
 				{!!textText && (
-					<View style={styles.textRoot}>
+					<View style={styles.textCont}>
 						<RkText style={styles.text} rkType='header6'>{textText}</RkText>
 					</View>
 				)}
@@ -62,17 +63,17 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingVertical: 8
 	},
-	imageRoot: {
+	imageCont: {
 		width: '100%',
-		height: '50%',
+		height: '54%',
 		alignItems: 'center',
 		marginVertical: 16,
 	},
-	image: {
+	imageImage: {
 		resizeMode: 'contain',
 		height: '75%'
 	},
-	textRoot: {
+	textCont: {
 		alignItems: 'center',
 		width: '70%',
 		marginVertical: 16

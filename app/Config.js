@@ -181,6 +181,8 @@ export const Const = {
 
 	imagesCachingPolicy: 'reload',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
 
+	defaultOnEndReachedThreshold: 0.5,
+
 	firebaseConfig: {
 		apiKey: 'AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI',
 		databaseURL: 'https://catch-me-179514.firebaseio.com'

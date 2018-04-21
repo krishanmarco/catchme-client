@@ -2,7 +2,7 @@
 import Logger from "../../../lib/Logger";
 import React from 'react';
 import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
-import {GradientButton, Screen, ScreenInfo} from "../../../comp/Misc";
+import {LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {StyleSheet, View} from 'react-native';
@@ -71,7 +71,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 							secureTextEntry/>
 					</View>
 
-					<GradientButton
+					<LoadingButton
 						style={styles.confirm}
 						rkType='large stretch accentColor'
 						text={'Change'.toUpperCase()}

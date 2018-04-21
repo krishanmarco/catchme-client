@@ -7,7 +7,7 @@ import React from 'react';
 import Router from "../../lib/navigation/Router";
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {GradientButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
@@ -97,17 +97,18 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	render() {
 		return (
-			<Screen style={styles.screen}>
-				{this._renderImage()}
+			<Screen>
+				<ScreenInfo
+					imageSource={require('../../assets/images/meLogo.png')}/>
 
-				<View style={styles.listItemHeaderContent}>
-					<View style={styles.buttons}>
-						{[
-							{icon: FontIcons.google, onPress: this._onGoogleLogin},
-							{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
-						].map(this._renderSocialIcon)}
-					</View>
+				<View style={styles.socialLoginButtons}>
+					{[
+						{icon: FontIcons.google, onPress: this._onGoogleLogin},
+						{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
+					].map(this._renderSocialIcon)}
+				</View>
 
+				<View style={styles.catchmeLoginForm}>
 					<RkTextInputFromPool
 						pool={this._getFormApiLogin()}
 						field='email'
@@ -119,24 +120,24 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						placeholder='Password'
 						secureTextEntry/>
 
-					<GradientButton
-						style={styles.save}
+					<LoadingButton
+						style={styles.catchmeLoginButton}
 						loading={this._getFormApiLogin().loading}
 						rkType='large stretch accentColor'
 						text={'Login'.toUpperCase()}
 						onPress={this._onLoginPress}/>
+				</View>
 
+				<View style={styles.infoFooter}>
+					<FormFooterLink
+						text='Don’t have an account?'
+						clickableText='Sign up now!'
+						onPress={this._onGoToSignupPress}/>
+					<FormFooterLink
+						text='Forgot your password?'
+						clickableText='Recover it!'
+						onPress={this._onGoToRecoverPasswordPress}/>
 
-					<View style={styles.footer}>
-						<FormFooterLink
-							text='Don’t have an account?'
-							clickableText='Sign up now!'
-							onPress={this._onGoToSignupPress}/>
-						<FormFooterLink
-							text='Forgot your password?'
-							clickableText='Recover it!'
-							onPress={this._onGoToRecoverPasswordPress}/>
-					</View>
 				</View>
 			</Screen>
 		);
@@ -145,19 +146,12 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	_renderSocialIcon({icon, onPress}, key) {
 		return (
-			<RkButton key={key} style={styles.button} rkType='social' onPress={onPress}>
+			<RkButton key={key} style={styles.socialButton} rkType='social' onPress={onPress}>
 				<RkText rkType='awesome hero accentColor'>{icon}</RkText>
 			</RkButton>
 		);
 	}
 
-
-	_renderImage() {
-		return (
-			<ScreenInfo
-				imageSource={require('../../assets/images/logo.png')}/>
-		);
-	}
 
 }
 
@@ -178,35 +172,26 @@ export default ScreenLogin;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	screen: {
-		alignItems: 'center',
-	},
-	listItemHeader: {
-		marginRight: 8
-	},
-	listItemHeaderContent: {
-		paddingHorizontal: 16,
-		paddingBottom: 32,
-		alignItems: 'center',
-		flex: -1
-	},
-	footer: {
-		flex: 1,
-		justifyContent: 'flex-end'
-	},
-	buttons: {
+	socialLoginButtons: {
 		flexDirection: 'row',
-		marginBottom: 16
+		alignItems: 'center',
+		marginBottom: 16,
 	},
-	button: {
+	socialButton: {
 		marginHorizontal: 24
 	},
-	save: {
-		marginVertical: 9,
+	catchmeLoginForm: {
+		marginHorizontal: 16,
+		marginBottom: 32,
+		alignItems: 'center',
 	},
-	textRow: {
-		justifyContent: 'center',
-		flexDirection: 'row',
-		marginTop: 4
+	catchmeLoginButton: {
+		marginBottom: 12,
+	},
+	infoFooter: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		marginBottom: 12
 	}
 });

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import RealmIO from '../../../lib/data/RealmIO';
-import {GradientButton, ScreenInfo} from "../../../comp/Misc";
+import {LoadingButton, ScreenInfo} from "../../../comp/Misc";
 import {startApplication} from "../../../App";
 import {StyleSheet, View} from 'react-native';
 
@@ -37,7 +37,7 @@ export default class Logout extends React.Component<void, Props, void> {
 					imageSource={require('../../../assets/images/logout.png')}
 					textText='Are you sure you want to log out?'/>
 
-				<GradientButton
+				<LoadingButton
 					style={styles.logout}
 					rkType='large stretch accentColor'
 					text={'Logout'.toUpperCase()}

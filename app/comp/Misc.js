@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _DefaultLoader from './misc/DefaultLoader';
-import _GradientButton from './misc/GradientButton';
+import _LoadingButton from './misc/LoadingButton';
 import _ListDataPoints from './misc/ListDataPoints';
 import _ListItemHeader from './misc/ListItemHeader';
 import _ListItemInfo from './misc/ListItemsInfos';
@@ -14,7 +14,7 @@ import _Touchable from './misc/touchable/Touchable';
 import {AvatarCircle as _AvatarCircle} from './misc/Avatars';
 
 export const DefaultLoader = _DefaultLoader;
-export const GradientButton = _GradientButton;
+export const LoadingButton = _LoadingButton;
 export const ListDataPoints = _ListDataPoints;
 export const ListItemHeader = _ListItemHeader;
 export const ListItemInfo = _ListItemInfo;
