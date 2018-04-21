@@ -98,7 +98,11 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<Screen>
+
 				<ScreenInfo
+					style={styles.logo}
+					height={120}
+					imageHeight='100%'
 					imageSource={require('../../assets/images/meLogo.png')}/>
 
 				<View style={styles.socialLoginButtons}>
@@ -110,13 +114,15 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 				<View style={styles.catchmeLoginForm}>
 					<RkTextInputFromPool
+						rkType='row'
 						pool={this._getFormApiLogin()}
 						field='email'
 						placeholder='Email'/>
 
 					<RkTextInputFromPool
+						rkType='row'
 						pool={this._getFormApiLogin()}
-						field='email'
+						field='password'
 						placeholder='Password'
 						secureTextEntry/>
 
@@ -128,7 +134,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						onPress={this._onLoginPress}/>
 				</View>
 
-				<View style={styles.infoFooter}>
+				<View style={styles.helpFooter}>
 					<FormFooterLink
 						text='Don’t have an account?'
 						clickableText='Sign up now!'
@@ -137,8 +143,8 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						text='Forgot your password?'
 						clickableText='Recover it!'
 						onPress={this._onGoToRecoverPasswordPress}/>
-
 				</View>
+
 			</Screen>
 		);
 	}
@@ -146,9 +152,11 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	_renderSocialIcon({icon, onPress}, key) {
 		return (
-			<RkButton key={key} style={styles.socialButton} rkType='social' onPress={onPress}>
-				<RkText rkType='awesome hero accentColor'>{icon}</RkText>
-			</RkButton>
+			<View key={key} style={styles.socialButton}>
+				<RkButton rkType='social' onPress={onPress}>
+					<RkText rkType='awesome hero accentColor'>{icon}</RkText>
+				</RkButton>
+			</View>
 		);
 	}
 
@@ -172,26 +180,30 @@ export default ScreenLogin;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
+	logo: {
+		marginTop: 24
+	},
 	socialLoginButtons: {
 		flexDirection: 'row',
-		alignItems: 'center',
-		marginBottom: 16,
+		marginTop: 24,
+		marginHorizontal: 24,
 	},
 	socialButton: {
-		marginHorizontal: 24
+		flex: 0.5,
+		alignItems: 'center',
 	},
 	catchmeLoginForm: {
-		marginHorizontal: 16,
-		marginBottom: 32,
 		alignItems: 'center',
+		marginTop: 36,
+		marginHorizontal: 16,
 	},
 	catchmeLoginButton: {
-		marginBottom: 12,
+		marginTop: 24,
 	},
-	infoFooter: {
+	helpFooter: {
 		flex: 1,
-		justifyContent: 'flex-end',
+		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 12
+		marginVertical: 24
 	}
 });

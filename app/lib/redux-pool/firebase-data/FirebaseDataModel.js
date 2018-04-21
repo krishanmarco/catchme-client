@@ -17,7 +17,7 @@ export class FirebaseDataState {
 
 		// When the first data request is being run
 		// (limitToLast(...).once('value')) this flag is true
-		// Once this flag has been set to false the only way to recieve
+		// Once this flag has been set to false the only way to receive
 		// new data will be though the on('child_added') subscriber
 		this.runningBulkFetch = true;
 

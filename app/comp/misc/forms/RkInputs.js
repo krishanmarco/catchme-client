@@ -4,9 +4,10 @@ import React from 'react';
 import {RkTextInput as _RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {denormObj} from '../../../lib/HelperFunctions';
-import {Picker, Switch, View} from 'react-native';
+import {Picker, StyleSheet, Switch, View} from 'react-native';
 import {Validate} from "../../../lib/helpers/Validator";
 import type {TStyle} from "../../../lib/types/Types";
+import {Colors} from "../../../Config";
 
 
 // RkTextInput ******************************************************************************************
@@ -22,18 +23,20 @@ type RkTextInputProps = {
 
 export const RkTextInput = ({rkType, style, errorCode, ...props}: RkTextInputProps) => {
 
+	const hasErrorCode = errorCode !== 0;
 	const rowOverride = rkType === 'row' ? styles.fullTextInput : {};
 	const pointerEvents = props.editable != null && !props.editable ? 'none' : 'auto';
+	const borderColor = hasErrorCode ? Colors.alertRed : Colors.black;
 
 	return (
 		<View style={style} pointerEvents={pointerEvents}>
 
-			<View style={[styles.row, rowOverride]}>
+			<View style={[{borderColor}, styles.row, rowOverride]}>
 				<_RkTextInput {...props} rkType={rkType}/>
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
-				{errorCode !== 0 ? Validate.mapErrorCodeToMessage(errorCode) : ''}
+				{hasErrorCode ? Validate.mapErrorCodeToMessage(errorCode) : ''}
 			</RkText>
 
 		</View>
@@ -92,11 +95,9 @@ export const RkMultiChoice = ({title, textProps, style, options = [], ...props}:
 type RkTextInputFromPoolProps = {
 	pool: ApiFormState,
 	field: string,
-	rkType: string,
-	style: TStyle
 };
 
-export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}: RkTextInputFromPoolProps) => {
+export const RkTextInputFromPool = ({pool, field, ...props}: RkTextInputFromPoolProps) => {
 	const value = String(_.get(pool, `apiInput.${field}`, ''));
 	const errorCode = _.get(pool, `errors.${field}`, 0);
 
@@ -105,8 +106,6 @@ export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}: RkTe
 			{...props}
 			value={value}
 			errorCode={errorCode}
-			rkType={rkType}
-			style={style}
 			onChangeText={text => pool.change(denormObj({[field]: text}))}/>
 	);
 };
@@ -119,14 +118,13 @@ const styles = RkStyleSheet.create(theme => ({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		padding: 8,
-		borderColor: theme.colors.border.base,
 		alignItems: 'center',
-		// borderBottomWidth: StyleSheet.hairlineWidth
+		borderBottomWidth: StyleSheet.hairlineWidth
 	},
 	error: {
 		textAlign: 'right',
-		marginHorizontal: 4
+		marginHorizontal: 4,
+		marginVertical: 2,
 	},
 	fullTextInput: {
 		paddingVertical: 0,

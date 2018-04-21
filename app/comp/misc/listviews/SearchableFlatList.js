@@ -2,11 +2,12 @@
 import React from 'react';
 import {DefaultLoader, SearchBar} from "../../Misc";
 import {FlatList, StyleSheet} from 'react-native';
+import {Const} from "../../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
-type Props<T> = {
+type Props<T> = FlatList.props & {
 	data: Array<T>,
 	onListEmpty: () => Node,
 	onSearchResultsEmpty: () => Node,
@@ -26,18 +27,6 @@ type Props<T> = {
 	// Threshold after which the search
 	// filter is enabled
 	minTriggerChars: number,
-
-	// FlatList renderItem function
-	renderItem: ({item: T}) => Node,
-
-	// FlatList keyExtractor
-	keyExtractor: T => string,
-
-	// FlatList extra props
-	onEndReached?: Function,
-	onEndReachedThreshold?: number,
-	refreshing?: boolean,
-	onRefresh: Function,
 };
 
 type State = {
@@ -50,7 +39,7 @@ type State = {
 const defaultProps = {
 	searchPlaceholder: 'Search',
 	minTriggerChars: 0,
-	onEndReachedThreshold: 24
+	onEndReachedThreshold: Const.defaultOnEndReachedThreshold
 };
 
 // SearchableFlatList ***********************************************************************************
@@ -108,16 +97,12 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 		const {
 			searchPlaceholder,
 			onSearchPressed,
-			renderItem,
-			keyExtractor,
-			onEndReached,
-			onEndReachedThreshold,
-			refreshing,
-			onRefresh
+			...flatListProps
 		} = this.props;
 
 		return (
 			<FlatList
+				{...flatListProps}
 				data={this._getFilteredData()}
 
 				ListEmptyComponent={this._renderOnListEmpty}
@@ -128,14 +113,7 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 						onSearchPressed={onSearchPressed}
 						onChange={this._onSearchChanged}/>
 				}
-				ListFooterComponent={this._renderFooterLoader}
-
-				renderItem={renderItem}
-				keyExtractor={keyExtractor}
-				onEndReached={onEndReached}
-				onEndReachedThreshold={onEndReachedThreshold}
-				refreshing={refreshing}
-				onRefresh={onRefresh}/>
+				ListFooterComponent={this._renderFooterLoader}/>
 		);
 	}
 

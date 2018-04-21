@@ -3,21 +3,25 @@ import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkText} from 'react-native-ui-kitten';
 import {Touchable} from "../Misc";
+import type {TStyle} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
+	style: TStyle,
 	imageSource: Object,
 	textText?: string,
-	height?: number,
-	marginTop?: number,
+	height?: number|string,
+	imageHeight?: number|string,
+	marginTop?: number|string,
 	onPress?: () => void
 };
 
 const defaultProps = {
 	height: 150,
+	imageHeight: '40%',
 	marginTop: 8,
 };
 
@@ -26,18 +30,26 @@ const defaultProps = {
 
 export default class ScreenInfo extends React.Component<void, Props, void> {
 	static defaultProps = defaultProps;
-
+// todo check the RecoverPassword Screen
 	render() {
-		const {height, marginTop, onPress, imageSource, textText} = this.props;
+		const {
+			style,
+			height,
+			imageHeight,
+			marginTop,
+			onPress,
+			imageSource,
+			textText
+		} = this.props;
 
 		return (
-			<View style={[{height, marginTop}, styles.root]}>
+			<View style={[{height, marginTop}, style, styles.root]}>
 
 				<Touchable
 					style={styles.imageCont}
 					onPress={onPress}>
 					<Image
-						style={styles.imageImage}
+						style={[{height: imageHeight}, styles.imageImage]}
 						source={imageSource}/>
 				</Touchable>
 
@@ -65,13 +77,11 @@ const styles = StyleSheet.create({
 	},
 	imageCont: {
 		width: '100%',
-		height: '54%',
 		alignItems: 'center',
 		marginVertical: 16,
 	},
 	imageImage: {
-		resizeMode: 'contain',
-		height: '75%'
+		resizeMode: 'contain'
 	},
 	textCont: {
 		alignItems: 'center',

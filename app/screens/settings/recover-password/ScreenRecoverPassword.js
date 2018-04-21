@@ -1,83 +1,97 @@
 import React from 'react';
-import {LoadingButton, Screen} from "../../../comp/Misc";
-import {Image, View} from 'react-native';
-import {RkStyleSheet, RkText, RkTextInput, RkTheme} from 'react-native-ui-kitten';
+import {LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
+import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
+import {RkTextInputFromPool} from "../../../comp/misc/forms/RkInputs";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {poolConnect} from "../../../redux/ReduxPool";
+import {FORM_API_ID_RECOVER_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
-
-const navigationOptions = {
-	header: null
-};
 
 type Props = {
-	navigation: TNavigator
+	navigator: TNavigator
 };
 
 // PasswordRecovery *************************************************************************************
 // PasswordRecovery *************************************************************************************
 
-export default class PasswordRecovery extends React.Component<void, Props, void> {
-	static navigationOptions = navigationOptions;
+class _RecoverPassword extends React.Component<void, Props, void> {
 
 	constructor(props) {
 		super(props);
-		this._renderIcon = this._renderIcon.bind(this);
+		this._onSendPress = this._onSendPress.bind(this);
+		this._getFormApiRecoverPassword = this._getFormApiRecoverPassword.bind(this);
+	}
+
+	_getFormApiRecoverPassword(): TApiFormPool {
+		return this.props[FORM_API_ID_RECOVER_PASSWORD];
+	}
+
+	_onSendPress() {
+		this._getFormApiRecoverPassword().post();
+		// todo
+		// .then(this._handleSignInSuccess)
+		// .catch(this._handleSignInError);
 	}
 
 	render() {
-		const {navigation} = this.props;
 		return (
 			<Screen>
-				<View style={styles.header}>
-					{this._renderIcon()}
-					<RkText rkType='h1'>Password Recovery</RkText>
+
+				<ScreenInfo
+					style={styles.logo}
+					imageSource={require('../../../assets/images/meLogo.png')}
+					textText='Enter your email below to receive your password reset instructions'/>
+
+				<View style={styles.catchmeRecoveryForm}>
+					<RkTextInputFromPool
+						rkType='row'
+						pool={this._getFormApiRecoverPassword()}
+						field='email'
+						placeholder='Email'
+						secureTextEntry/>
+
+					<LoadingButton
+						style={styles.catchmeRecoveryButton}
+						loading={this._getFormApiRecoverPassword().loading}
+						onPress={this._getFormApiRecoverPassword().post}
+						rkType='large stretch accentColor'
+						text={'Send'.toUpperCase()}/>
 				</View>
-				<View style={styles.listItemContent}>
-					<RkTextInput rkType='rounded' placeholder='Email'/>
-					<RkText rkType='secondary5 secondaryColor center'>
-						Enter your email below to receive your password reset instructions
-					</RkText>
-				</View>
-				<LoadingButton
-					style={styles.save}
-					rkType='large'
-					text='SEND'
-					onPress={navigation.goBack}/>
+
 			</Screen>
 		);
 	}
 
-	_renderIcon() {
-		return (
-			<Image
-				style={styles.image}
-				source={require('../../../assets/images/logo.png')}/>
-		);
-	}
 }
 
+const ScreenRecoverPassword = poolConnect(_RecoverPassword,
+	// mapStateToProps
+	(state) => ({}),
+
+	// mapDispatchToProps
+	(dispatch) => ({}),
+
+	// Array of pools to subscribe to
+	[FORM_API_ID_RECOVER_PASSWORD]
+);
+export default ScreenRecoverPassword;
+
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
-	screen: {
-		flex: 1,
-		paddingHorizontal: 16,
-		paddingVertical: 24,
-		justifyContent: 'space-between',
-		backgroundColor: theme.colors.screen.base
+const styles = StyleSheet.create({
+	logo: {
+		marginTop: 24
 	},
-	header: {
-		alignItems: 'center'
+	catchmeRecoveryForm: {
+		alignItems: 'center',
+		marginTop: 36,
+		marginHorizontal: 16,
 	},
-	image: {
-		marginVertical: 27,
-		height: 77,
-		resizeMode: 'contain'
-	},
-	listItemContent: {
-		alignItems: 'center'
+	catchmeRecoveryButton: {
+		marginTop: 24,
 	}
-}));
+});

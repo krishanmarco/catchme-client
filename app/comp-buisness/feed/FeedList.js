@@ -60,7 +60,8 @@ export default class FeedList extends React.Component<void, Props, void> {
 	}
 
 	_renderFooterLoader() {
-		return this.props.loading
+		const {loading} = this.props;
+		return loading
 			? (<DefaultLoader size={8}/>)
 			: null;
 	}
