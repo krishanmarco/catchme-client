@@ -261,12 +261,10 @@ export default LocationProfile;
 
 const styles = StyleSheet.create({
 	tabView: {
-		flex: 1,
-		backgroundColor: 'rgba(0, 0, 0, 0.3)'
+		flex: 1
 	},
 	tabHome: {
-		flex: 1,
-		alignItems: 'center'
+		flex: 1
 	},
 	tabImages: {
 		flex: 1,

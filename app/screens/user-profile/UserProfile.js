@@ -142,7 +142,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 						Maps.reputationToIcon(DaoUser.gReputation(userProfile))
 					].map((b, k) => (
 						<Col key={k}>
-							<Icon style={styles.icon} size={50} {...b}/>
+							<Icon size={50} {...b}/>
 						</Col>
 					))}
 				</Row>
@@ -219,8 +219,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	tabHome: {
-		flex: 1,
-		alignItems: 'center'
+		flex: 1
 	},
 	tabLocations: {
 		flex: 1
@@ -231,18 +230,15 @@ const styles = StyleSheet.create({
 	tabInfo: {
 		flex: 1
 	},
+	avatar: {
+		width: '100%',
+		height: 200
+	},
 	publicMessage: {
 		marginTop: 12,
 		paddingHorizontal: 16
 	},
 	badges: {
-		marginTop: 24
-	},
-	avatar: {
-		width: '100%',
-		height: 200
-	},
-	icon: {
-		marginRight: 8
+		marginTop: 12
 	}
 });

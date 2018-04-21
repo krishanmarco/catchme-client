@@ -72,7 +72,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 	_onChangePasswordPress() {
 		const {navigator} = this.props;
-		Router.toScreenSettingsChangePassword(navigator);
+		Router.toModalSettingsChangePassword(navigator);
 	}
 
 

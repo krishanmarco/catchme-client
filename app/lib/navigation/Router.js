@@ -67,38 +67,6 @@ export default class Router {
 		});
 	}
 
-	static toScreenSettingsUserAccount(navigator: TNavigator) {
-		navigator.push({
-			title: 'Account',
-			screen: Screens.ScreenSettingsUserAccount,
-			...screenOptions
-		});
-	}
-
-	static toScreenSettingsAdminLocations(navigator: TNavigator) {
-		navigator.push({
-			title: 'My Locations',
-			screen: Screens.ScreenSettingsAdminLocations,
-			...screenOptions
-		});
-	}
-
-	static toScreenSettingsUserNotifications(navigator: TNavigator) {
-		navigator.push({
-			title: 'Notifications',
-			screen: Screens.ScreenSettingsUserNotifications,
-			...screenOptions
-		});
-	}
-
-	static toScreenSettingsChangePassword(navigator: TNavigator) {
-		navigator.push({
-			title: 'Change password',
-			screen: Screens.ScreenSettingsChangePassword,
-			...screenOptions
-		});
-	}
-
 	static toScreenNewLocation(navigator: TNavigator) {
 		navigator.push({
 			title: 'New Location',
@@ -120,6 +88,38 @@ export default class Router {
 			title,
 			screen: Screens.ScreenEditLocation,
 			passProps: props,
+			...screenOptions
+		});
+	}
+
+	static toModalSettingsUserAccount(navigator: TNavigator) {
+		navigator.showModal({
+			title: 'Account',
+			screen: Screens.ScreenSettingsUserAccount,
+			...screenOptions
+		});
+	}
+
+	static toModalSettingsUserNotifications(navigator: TNavigator) {
+		navigator.showModal({
+			title: 'Notifications',
+			screen: Screens.ScreenSettingsUserNotifications,
+			...screenOptions
+		});
+	}
+
+	static toModalSettingsAdminLocations(navigator: TNavigator) {
+		navigator.showModal({
+			title: 'My Locations',
+			screen: Screens.ScreenSettingsAdminLocations,
+			...screenOptions
+		});
+	}
+
+	static toModalSettingsChangePassword(navigator: TNavigator) {
+		navigator.showModal({
+			title: 'Change password',
+			screen: Screens.ScreenSettingsChangePassword,
 			...screenOptions
 		});
 	}

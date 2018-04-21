@@ -15,13 +15,13 @@ export default class UserProfileDataPoints {
       case UserProfileDataPoints.infoItemIdEmail:
         break;
       case UserProfileDataPoints.infoItemIdAccount:
-        Router.toScreenSettingsUserAccount(navigator);
+        Router.toModalSettingsUserAccount(navigator);
         break;
       case UserProfileDataPoints.infoItemIdAdminLocations:
-        Router.toScreenSettingsAdminLocations(navigator);
+        Router.toModalSettingsAdminLocations(navigator);
         break;
       case UserProfileDataPoints.infoItemIdNotifications:
-        Router.toScreenSettingsUserNotifications(navigator);
+        Router.toModalSettingsUserNotifications(navigator);
         break;
       case UserProfileDataPoints.infoItemIdHelpFAQ:
         Linking.openURL('http://catchme.krishanmadan.website');
