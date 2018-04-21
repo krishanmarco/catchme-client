@@ -45,7 +45,7 @@ export default class LocationList extends React.PureComponent<void, Props, void>
 				{...searchableFlatListProps}
 
 				data={locations}
-				keyExtractor={DaoLocation.gId}
+				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderItem}
 
 				searchPlaceholder='Search by name, email, phone or address'

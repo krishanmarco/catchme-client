@@ -214,7 +214,6 @@ export default AddContacts;
 
 const styles = StyleSheet.create({
 	root: {
-		flex: 1,
-		paddingTop: 8
+		flex: 1
 	}
 });

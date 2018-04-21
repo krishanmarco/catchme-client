@@ -43,7 +43,7 @@ export default class Gallery extends React.Component<void, Props, State> {
 		};
 	}
 
-	_keyExtractor(item) {
+	_keyExtractor(item: TImageURISourceAuth): string {
 		return item.uri;
 	}
 

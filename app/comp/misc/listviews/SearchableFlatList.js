@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {DefaultLoader, SearchBar} from "../../Misc";
-import {FlatList} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -31,7 +31,7 @@ type Props<T> = {
 	renderItem: ({item: T}) => Node,
 
 	// FlatList keyExtractor
-	keyExtractor: T => string|number,
+	keyExtractor: T => string,
 
 	// FlatList extra props
 	onEndReached?: Function,
@@ -67,13 +67,11 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 		this.state = {searchText: ''};
 	}
 
-
 	_onSearchChanged(searchText) {
 		const {onSearchChanged, autoFilter} = this.props;
 
 		if (onSearchChanged)
 			onSearchChanged(searchText);
-
 
 		// If autoFilter is set then also change the internal state so
 		// the input list gets filtered using searchText with _filterExtractor
@@ -106,7 +104,6 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 		}
 	}
 
-
 	render() {
 		const {
 			searchPlaceholder,
@@ -126,6 +123,7 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 				ListEmptyComponent={this._renderOnListEmpty}
 				ListHeaderComponent={
 					<SearchBar
+						style={styles.searchBar}
 						placeholder={searchPlaceholder}
 						onSearchPressed={onSearchPressed}
 						onChange={this._onSearchChanged}/>
@@ -140,7 +138,6 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 				onRefresh={onRefresh}/>
 		);
 	}
-
 
 	_renderOnListEmpty() {
 		const {searchText} = this.state;
@@ -158,7 +155,6 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 		return null;
 	}
 
-
 	_renderFooterLoader() {
 		const {loading} = this.props;
 
@@ -168,3 +164,13 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 	}
 
 }
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	searchBar: {
+		marginTop: 8
+	}
+});

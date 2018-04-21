@@ -29,15 +29,15 @@ export default class DaoFeed extends DaoAction {
   static pLeftAvatar = 'leftAvatar';
   static pRightAvatar = 'rightAvatar';
 
-  static gContent(feed: TFeed) {
+  static gContent(feed: TFeed): string {
     return _.get(feed, DaoFeed.pContent);
   }
 
-  static gLeftAvatar(feed: TFeed) {
+  static gLeftAvatar(feed: TFeed): string {
     return _.get(feed, DaoFeed.pLeftAvatar);
   }
 
-  static gRightAvatar(feed: TFeed) {
+  static gRightAvatar(feed: TFeed): string {
     return _.get(feed, DaoFeed.pRightAvatar);
   }
 

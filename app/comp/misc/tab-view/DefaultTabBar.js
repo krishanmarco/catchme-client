@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingBottom: 8,
-		paddingTop: 5,
+		paddingTop: 6,
 	},
 	tabs: {
 		height: 50,

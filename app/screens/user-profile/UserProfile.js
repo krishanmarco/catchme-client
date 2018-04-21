@@ -124,7 +124,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabRootHome}>
+			<Grid style={styles.tabHome}>
 				<Row size={-1}>
 					<Image
 						style={styles.avatar}
@@ -154,7 +154,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 	_renderTabLocations() {
 		const {userProfile, navigator} = this.props;
 		return (
-			<View style={styles.tabRootLocations}>
+			<View style={styles.tabLocations}>
 				<UserLocationsStatusList
 					navigator={navigator}
 					allowEdit={this._isSameUser()}
@@ -168,7 +168,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile, authUserProfile} = this.props;
 
 		return (
-			<View style={styles.tabRootFriends}>
+			<View style={styles.tabFriends}>
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
 					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
@@ -179,7 +179,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	_renderTabInfo() {
 		return (
-			<View style={styles.tabRootInfo}>
+			<View style={styles.tabInfo}>
 				<StaticSectionList
 					sections={this.state.userInfoSections}
 					renderItem={this._renderTabUserInfoItem}/>
@@ -218,23 +218,19 @@ const styles = StyleSheet.create({
 	tabView: {
 		flex: 1
 	},
-	tabRootHome: {
+	tabHome: {
 		flex: 1,
 		alignItems: 'center'
 	},
-	tabRootLocations: {
-		flex: 1,
-		paddingTop: 8
+	tabLocations: {
+		flex: 1
 	},
-	tabRootFriends: {
-		flex: 1,
-		paddingTop: 8
+	tabFriends: {
+		flex: 1
 	},
-	tabRootInfo: {
-		flex: 1,
-		paddingTop: 8
+	tabInfo: {
+		flex: 1
 	},
-
 	publicMessage: {
 		marginTop: 12,
 		paddingHorizontal: 16

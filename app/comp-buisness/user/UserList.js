@@ -50,7 +50,7 @@ export default class UserList extends React.PureComponent<void, Props, void> {
 				{...searchableFlatListProps}
 
 				data={users}
-				keyExtractor={DaoUser.gId}
+				keyExtractor={DaoUser.gIdStr}
 				renderItem={this._renderItem}
 
 				searchPlaceholder='Search by name, email or number'

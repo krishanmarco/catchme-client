@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 export type TAction = {
-  id: number,                   // 1                            Unique action item identifier
+  id: string,                   // '2d2kd923k0'                 Unique action item identifier
   time: number,                 // 1000000000                   Seconds in which the action was generated
   expiry: number,               // 1000000000|-1                Seconds of expiry, if expired the item is not displayed (-1 => never)
   clickAction?: string,         // 'LocationGoToProfile'        Action to be triggered when the item is clicked
@@ -22,39 +22,39 @@ export default class DaoAction {
   static pPayloadConnectionId = `${DaoAction.pPayload}.connectionId`;
   static pPayloadLocationId = `${DaoAction.pPayload}.locationId`;
 
-  static gId(action: TAction) {
+  static gId(action: TAction): string {
     return _.get(action, DaoAction.pId);
   }
 
-  static gTime(action: TAction) {
+  static gTime(action: TAction): number {
     return _.get(action, DaoAction.pTime);
   }
 
-  static gExpiry(action: TAction) {
+  static gExpiry(action: TAction): boolean {
     return _.get(action, DaoAction.pExpiry);
   }
 
-  static gPayload(action: TAction) {
+  static gPayload(action: TAction): Object {
     return _.get(action, DaoAction.pPayload);
   }
 
-  static gClickAction(action: TAction) {
+  static gClickAction(action: TAction): string {
     return _.get(action, DaoAction.pClickAction);
   }
 
-  static gActions(action: TAction) {
+  static gActions(action: TAction): Array<string> {
     return _.get(action, DaoAction.pActions, []);
   }
 
-	static gConsumeOnView(action: TAction) {
+	static gConsumeOnView(action: TAction): boolean {
 		return _.get(action, DaoAction.pConsumeOnView, false);
 	}
 
-  static gPayloadConnectionId(action: TAction) {
+  static gPayloadConnectionId(action: TAction): number {
     return _.get(action, DaoAction.pPayloadConnectionId);
   }
 
-  static gPayloadLocationId(action: TAction) {
+  static gPayloadLocationId(action: TAction): number {
     return _.get(action, DaoAction.pPayloadLocationId);
   }
 

@@ -98,12 +98,12 @@ class _Search extends React.Component<void, Props, void> {
 				tabBarInactiveTextColor={Colors.black}>
 				<View
 					tabLabel='Locations'
-					style={styles.tabRootUsers}>
+					style={styles.tabUsers}>
 					{this._renderTabSearchLocations()}
 				</View>
 				<View
 					tabLabel='People'
-					style={styles.tabRootLocations}>
+					style={styles.tabLocations}>
 					{this._renderTabSearchUsers()}
 				</View>
 			</ScrollableTabView>
@@ -180,13 +180,11 @@ const styles = StyleSheet.create({
 	tabBarTextStyle: {
 		marginBottom: -8
 	},
-	tabRootUsers: {
-		flex: 1,
-		paddingTop: 8
+	tabUsers: {
+		flex: 1
 	},
-	tabRootLocations: {
-		flex: 1,
-		paddingTop: 8
+	tabLocations: {
+		flex: 1
 	},
 	tabBarUnderline: {
 		backgroundColor: Colors.primary

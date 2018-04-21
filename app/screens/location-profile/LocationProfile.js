@@ -133,7 +133,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={styles.tabCont}>
+				style={styles.tabView}>
 				{jsx}
 			</View>
 		);
@@ -143,7 +143,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabHomeRoot}>
+			<Grid style={styles.tabHome}>
 				<Row size={-1}>
 					<Image
 						style={styles.tabHomeAvatar}
@@ -170,7 +170,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	_renderTabImages() {
 		const {locationProfile} = this.props;
 		return (
-			<View style={styles.tabRootImages}>
+			<View style={styles.tabImages}>
 				<LocationGallery
 					locationProfile={locationProfile}/>
 			</View>
@@ -181,7 +181,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, authUserProfile} = this.props;
 
 		return (
-			<View style={styles.tabRootFriendsNow}>
+			<View style={styles.tabFriendsNow}>
 				<UserList
 					users={DaoLocation.gFriendsNow(locationProfile)}
 					requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
@@ -194,7 +194,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, authUserProfile} = this.props;
 
 		return (
-			<View style={styles.tabRootFriendsFuture}>
+			<View style={styles.tabFriendsFuture}>
 				<UserList
 					users={DaoLocation.gFriendsFuture(locationProfile)}
 					requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
@@ -206,7 +206,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	_renderTabChat() {
 		const {locationProfile, authUserProfile, navigator} = this.props;
 		return (
-			<View style={styles.tabRootChat}>
+			<View style={styles.tabChat}>
 				<LocationChat
 					navigator={navigator}
 					location={locationProfile}
@@ -219,7 +219,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabRootInfo}>
+			<Grid style={styles.tabInfo}>
 				<Row size={-1}>
 					<StaticSectionList
 						sections={this.state.locationInfoSections}
@@ -260,34 +260,33 @@ export default LocationProfile;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	tabHomeRoot: {
+	tabView: {
+		flex: 1,
+		backgroundColor: 'rgba(0, 0, 0, 0.3)'
+	},
+	tabHome: {
 		flex: 1,
 		alignItems: 'center'
 	},
-	tabCont: {
-		height: 510
+	tabImages: {
+		flex: 1,
+	},
+	tabFriendsNow: {
+		flex: 1,
+	},
+	tabFriendsFuture: {
+		flex: 1,
+	},
+	tabChat: {
+		flex: 1,
+	},
+	tabInfo: {
+		flex: 1
 	},
 	tabHomeAvatar: {
+		flex: 1,
 		width: '100%',
 		height: 200
-	},
-	tabRootImages: {
-		flex: 1,
-	},
-	tabRootFriendsNow: {
-		flex: 1,
-		paddingTop: 8
-	},
-	tabRootFriendsFuture: {
-		flex: 1,
-		paddingTop: 8
-	},
-	tabRootChat: {
-		flex: 1,
-	},
-	tabRootInfo: {
-		flex: 1,
-		paddingTop: 8
 	},
 
 	publicMessage: {

@@ -21,7 +21,6 @@ type Props = {
 // ScreenInfo ******************************************************************************************
 
 export default class ScreenInfo extends React.Component<void, Props, void> {
-
 	static defaultProps = {
 		height: 150,
 		marginTop: 8,

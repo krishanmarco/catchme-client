@@ -143,55 +143,55 @@ export default class DaoUser {
 // Accessors ********************************************************************************************
 // Accessors ********************************************************************************************
 	
-	static gId(user: TUser) {
+	static gId(user: TUser): number {
 		return _.get(user, DaoUser.pId);
 	}
 	
-	static gPictureUrl(user: TUser) {
+	static gPictureUrl(user: TUser): string {
 		return _.get(user, DaoUser.pPictureUrl);
 	}
 	
-	static gName(user: TUser) {
+	static gName(user: TUser): string {
 		return _.get(user, DaoUser.pName);
 	}
 	
-	static gReputation(user: TUser) {
+	static gReputation(user: TUser): number {
 		return _.get(user, DaoUser.pReputation);
 	}
 	
-	static gPublicMessage(user: TUser) {
+	static gPublicMessage(user: TUser): string {
 		return _.get(user, DaoUser.pPublicMessage);
 	}
 	
-	static gPhone(user: TUser) {
+	static gPhone(user: TUser): string {
 		return _.get(user, DaoUser.pPhone);
 	}
 	
-	static gEmail(user: TUser) {
+	static gEmail(user: TUser): string {
 		return _.get(user, DaoUser.pEmail);
 	}
 	
-	static gApiKey(user: TUser) {
+	static gApiKey(user: TUser): string {
 		return _.get(user, DaoUser.pApiKey);
 	}
 	
-	static gSettingPrivacy(user: TUser) {
+	static gSettingPrivacy(user: TUser): string {
 		return _.get(user, DaoUser.pSettingPrivacy, Const.userDefaultPrivacySettings);
 	}
 	
-	static gSettingNotifications(user: TUser) {
+	static gSettingNotifications(user: TUser): string {
 		return _.get(user, DaoUser.pSettingNotifications, Const.userDefaultNotificationsSettings);
 	}
 	
-	static gGender(user: TUser) {
+	static gGender(user: TUser): number {
 		return _.get(user, DaoUser.pGender, Maps.genderDefault().value);
 	}
 	
-	static gConnections(user: TUser) {
+	static gConnections(user: TUser): TUserConnectionIds {
 		return _.get(user, DaoUser.pConnections);
 	}
 	
-	static gLocations(user: TUser) {
+	static gLocations(user: TUser): Array<TLocation> {
 		return _.get(user, DaoUser.pLocations);
 	}
 	
@@ -291,6 +291,10 @@ export default class DaoUser {
 		return image != null
 			&& image != Const.userDefaultAvatar
 			&& !isValidUrl(image);
+	}
+
+	static gIdStr(user: TUser): string {
+		return DaoUser.gId(user).toString();
 	}
 
 

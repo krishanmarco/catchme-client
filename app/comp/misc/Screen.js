@@ -5,8 +5,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {Colors} from "../../Config";
 import {connect} from 'react-redux';
-import {Keyboard, StyleSheet, View} from 'react-native';
-import {RkAvoidKeyboard} from 'react-native-ui-kitten';
+import {Dimensions, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 
 
 // Const **********************************************************************************************
@@ -109,9 +108,11 @@ class Screen extends React.PureComponent<void, Props, State> {
 				onLayout={setHeight}
 				pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
 				<View style={{height}}>
-					<RkAvoidKeyboard style={styles.view}>
+					<KeyboardAvoidingView
+						behaviour='padding'
+						style={styles.view}>
 						{children}
-					</RkAvoidKeyboard>
+					</KeyboardAvoidingView>
 				</View>
 			</View>
 		);

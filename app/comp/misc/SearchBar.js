@@ -41,7 +41,7 @@ export default class SearchBar extends React.Component<void, Props, void> {
 	render() {
 		const {onSearchPressed, placeholder, style} = this.props;
 		return (
-			<View style={[styles.searchContainer, style]}>
+			<View style={[styles.root, style]}>
 				<RkTextInput
 					style={styles.textInput}
 					rkType='row rounded'
@@ -61,7 +61,7 @@ export default class SearchBar extends React.Component<void, Props, void> {
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	searchContainer: {
+	root: {
 		backgroundColor: Colors.background,
 		paddingHorizontal: 16,
 		alignItems: 'center',
