@@ -86,12 +86,12 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	_onGoToSignupPress() {
 		const {navigator} = this.props;
-		Router.toScreenRegister(navigator);
+		Router.toModalRegister(navigator);
 	}
 
 	_onGoToRecoverPasswordPress() {
 		const {navigator} = this.props;
-		Router.toScreenRecoverPassword(navigator);
+		Router.toModalRecoverPassword(navigator);
 	}
 
 
@@ -128,8 +128,8 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 					<LoadingButton
 						style={styles.catchmeLoginButton}
-						loading={this._getFormApiLogin().loading}
 						rkType='large stretch accentColor'
+						loading={this._getFormApiLogin().loading}
 						text={'Login'.toUpperCase()}
 						onPress={this._onLoginPress}/>
 				</View>

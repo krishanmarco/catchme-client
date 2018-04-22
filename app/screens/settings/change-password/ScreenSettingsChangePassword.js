@@ -34,10 +34,11 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 	}
 
 	_onConfirm() {
+		const {navigator} = this.props;
+
 		this._getFormChangePassword().post()
 			.then(success => {
-				const {navigator} = this.props;
-				navigator.goBack();
+				navigator.pop();
 			})
 			.catch(error => {
 				Logger.v('ScreenSettingsChangePassword _onConfirm', error);
@@ -47,33 +48,37 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<Screen>
-				<View>
-					<ScreenInfo
-						imageSource={require('../../../assets/images/lock.png')}
-						textText='Change password...'/>
-					<View>
-						<RkTextInputFromPool
-							pool={this._getFormChangePassword()}
-							field='passwordPrevious'
-							placeholder='Password'
-							secureTextEntry/>
+				<ScreenInfo
+					style={styles.screenInfo}
+					imageSource={require('../../../assets/images/lock.png')}
+					textText='Change password...'/>
 
-						<RkTextInputFromPool
-							pool={this._getFormChangePassword()}
-							field='passwordNext'
-							placeholder='New password'
-							secureTextEntry/>
+				<View style={styles.changePasswordForm}>
+					<RkTextInputFromPool
+						rkType='row'
+						pool={this._getFormChangePassword()}
+						field='passwordPrevious'
+						placeholder='Password'
+						secureTextEntry/>
 
-						<RkTextInputFromPool
-							pool={this._getFormChangePassword()}
-							field='passwordConfirmNext'
-							placeholder='Confirm password'
-							secureTextEntry/>
-					</View>
+					<RkTextInputFromPool
+						rkType='row'
+						pool={this._getFormChangePassword()}
+						field='passwordNext'
+						placeholder='New password'
+						secureTextEntry/>
+
+					<RkTextInputFromPool
+						rkType='row'
+						pool={this._getFormChangePassword()}
+						field='passwordConfirmNext'
+						placeholder='Confirm password'
+						secureTextEntry/>
 
 					<LoadingButton
-						style={styles.confirm}
+						style={styles.changeButton}
 						rkType='large stretch accentColor'
+						loading={this._getFormChangePassword().loading}
 						text={'Change'.toUpperCase()}
 						onPress={this._onConfirm}/>
 				</View>
@@ -100,7 +105,15 @@ export default ScreenSettingsChangePassword;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	confirm: {
-		marginVertical: 9,
-	}
+	screenInfo: {
+		marginTop: 16
+	},
+	changePasswordForm: {
+		alignItems: 'center',
+		marginTop: 36,
+		marginHorizontal: 16,
+	},
+	changeButton: {
+		marginTop: 24,
+	},
 });

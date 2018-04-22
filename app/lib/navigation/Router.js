@@ -27,26 +27,10 @@ const fullScreenOptions = {
 export default class Router {
 	static navbarStyle = navbarStyle;
 
-	static toScreenRegister(navigator: TNavigator) {
-		navigator.push({
-			title: 'Register',
-			screen: Screens.ScreenRegister,
-			...screenOptions
-		});
-	}
-
 	static toScreenLogin(navigator: TNavigator) {
 		navigator.push({
 			title: 'Catchme',
 			screen: Screens.ScreenLogin,
-			...screenOptions
-		});
-	}
-
-	static toScreenRecoverPassword(navigator: TNavigator) {
-		navigator.push({
-			title: 'Recover password',
-			screen: Screens.ScreenRecoverPassword,
 			...screenOptions
 		});
 	}
@@ -171,6 +155,22 @@ export default class Router {
 		navigator.showModal({
 			screen: Screens.ScreenAddressPicker,
 			passProps: props,
+			...fullScreenOptions
+		});
+	}
+
+	static toModalRegister(navigator: TNavigator) {
+		navigator.showModal({
+			title: 'Register',
+			screen: Screens.ScreenRegister,
+			...fullScreenOptions
+		});
+	}
+
+	static toModalRecoverPassword(navigator: TNavigator) {
+		navigator.showModal({
+			title: 'Recover password',
+			screen: Screens.ScreenRecoverPassword,
 			...fullScreenOptions
 		});
 	}

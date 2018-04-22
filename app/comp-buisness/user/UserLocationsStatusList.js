@@ -64,12 +64,16 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 
 	_onUserLocationStatusEditPress(status: TUserLocationStatus, location: TLocation) {
 		const {navigator} = this.props;
-		Router.toModalUserLocationStatus(navigator, title, {
+		Router.toModalUserLocationStatus(
 			navigator,
-			locationId: DaoLocation.gId(location),
-			initialStatus: {...status},
-			onStatusConfirm: this._onStatusEditConfirm
-		});
+			{
+				navigator,
+				locationId: DaoLocation.gId(location),
+				initialStatus: {...status},
+				onStatusConfirm: this._onStatusEditConfirm
+			},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onStatusEditConfirm(userLocationStatus: TUserLocationStatus) {

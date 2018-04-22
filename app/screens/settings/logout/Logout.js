@@ -32,16 +32,19 @@ export default class Logout extends React.Component<void, Props, void> {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.root}>
 				<ScreenInfo
+					style={styles.info}
 					imageSource={require('../../../assets/images/logout.png')}
 					textText='Are you sure you want to log out?'/>
 
-				<LoadingButton
-					style={styles.logout}
-					rkType='large stretch accentColor'
-					text={'Logout'.toUpperCase()}
-					onPress={this._onLogoutPress}/>
+				<View style={styles.logoutCont}>
+					<LoadingButton
+						style={styles.logoutButton}
+						rkType='large stretch accentColor'
+						text={'Logout'.toUpperCase()}
+						onPress={this._onLogoutPress}/>
+				</View>
 			</View>
 		);
 	}
@@ -52,7 +55,22 @@ export default class Logout extends React.Component<void, Props, void> {
 // Config ************************************************************************************************
 
 const styles = StyleSheet.create({
+	root: {
+		flex: 1
+	},
+	info: {
+		marginTop: 24
+	},
 	logout: {
 		marginTop: 64
-	}
+	},
+	logoutCont: {
+		flex: 1,
+		justifyContent: 'center',
+		marginTop: 24,
+		marginHorizontal: 24,
+	},
+	logoutButton: {
+		marginTop: 24,
+	},
 });

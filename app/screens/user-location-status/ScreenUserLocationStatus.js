@@ -53,7 +53,7 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 		this._formApiEditUserLocationStatus().change(this._getInitialStatus());
 	}
 
-	_getInitialStatus() {
+	_getInitialStatus(): TUserLocationStatus {
 		const {initialStatus, locationId} = this.props;
 
 		// If initialStatus props are set use
@@ -61,17 +61,16 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 		if (initialStatus)
 			return initialStatus;
 
-
 		// Redux pool fallback from initialStatus
-		const data = this._cacheMapLocationProfiles().data;
-		if (data) {
-			const userLocationStatus = data
-				.find(uls => DaoUserLocationStatus.gLocationId(uls) == locationId);
-
-			if (userLocationStatus)
-				return userLocationStatus;
-		}
-
+		// todo delete?
+		// const data = this._cacheMapLocationProfiles().data;
+		// if (data != null) {
+		// 	const userLocationStatus = data
+		// 		.find(uls => DaoUserLocationStatus.gLocationId(uls) == locationId);
+		//
+		// 	if (userLocationStatus != null)
+		// 		return userLocationStatus;
+		// }
 
 		// Create new initialStatus fallback from redux pool
 		return DaoUserLocationStatus.newInstance(locationId);

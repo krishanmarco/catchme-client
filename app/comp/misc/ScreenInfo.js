@@ -10,18 +10,18 @@ import type {TStyle} from "../../lib/types/Types";
 // Const *************************************************************************************************
 
 type Props = {
-	style: TStyle,
 	imageSource: Object,
 	textText?: string,
 	height?: number|string,
 	imageHeight?: number|string,
 	marginTop?: number|string,
-	onPress?: () => void
+	onPress?: () => void,
+	style?: TStyle
 };
 
 const defaultProps = {
 	height: 150,
-	imageHeight: '40%',
+	imageHeight: '80%',
 	marginTop: 8,
 };
 
@@ -30,7 +30,7 @@ const defaultProps = {
 
 export default class ScreenInfo extends React.Component<void, Props, void> {
 	static defaultProps = defaultProps;
-// todo check the RecoverPassword Screen
+
 	render() {
 		const {
 			style,

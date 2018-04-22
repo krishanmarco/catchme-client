@@ -54,7 +54,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 
 	_onGoToLoginPress() {
 		const {navigator} = this.props;
-		Router.toScreenLogin(navigator);
+		navigator.pop();
 	}
 
 
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
 	},
 	catchmeSignupForm: {
 		alignItems: 'center',
-		marginTop: 0,
 		marginHorizontal: 16,
 	},
 	catchmeSignupButton: {

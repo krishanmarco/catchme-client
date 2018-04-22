@@ -48,11 +48,11 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			Router.toModalUserLocationStatus(navigator, {
-				locationId,
-				postOnConfirm: true
-				// passProps.onStatusConfirm, passProps.initialStatus not needed
-			});
+			// Create a new UserLocationStatus
+			Router.toModalUserLocationStatus(
+				navigator,
+				{locationId, navigator}
+			);
 
 			return Promise.resolve(0);
 		}

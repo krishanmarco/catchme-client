@@ -81,19 +81,18 @@ export function userLocationStatusReducer(state = userLocationStatusInitState, a
 	return state;
 }
 
-const ulsShowDateModal = ({type: ACTION_SET_DATE_MODAL_VISIBILITY, visible: true});
-const ulsHideDateModal = ({type: ACTION_SET_DATE_MODAL_VISIBILITY, visible: false});
-const ulsShowFromModal = ({type: ACTION_SET_FROM_MODAL_VISIBILITY, visible: true});
-const ulsHideFromModal = ({type: ACTION_SET_FROM_MODAL_VISIBILITY, visible: false});
-const ulsShowUntilModal = ({type: ACTION_SET_UNTIL_MODAL_VISIBILITY, visible: true});
-const ulsHideUntilModal = ({type: ACTION_SET_UNTIL_MODAL_VISIBILITY, visible: false});
+const ulsShowDateModal = () => ({type: ACTION_SET_DATE_MODAL_VISIBILITY, visible: true});
+const ulsHideDateModal = () => ({type: ACTION_SET_DATE_MODAL_VISIBILITY, visible: false});
+const ulsShowFromModal = () => ({type: ACTION_SET_FROM_MODAL_VISIBILITY, visible: true});
+const ulsHideFromModal = () => ({type: ACTION_SET_FROM_MODAL_VISIBILITY, visible: false});
+const ulsShowUntilModal = () => ({type: ACTION_SET_UNTIL_MODAL_VISIBILITY, visible: true});
+const ulsHideUntilModal = () => ({type: ACTION_SET_UNTIL_MODAL_VISIBILITY, visible: false});
 
 
 // _UserLocationStatus *****************************************************************************
 // _UserLocationStatus *****************************************************************************
 
 class _UserLocationStatus extends React.Component<void, Props, State> {
-	static DATE_TIME_NOW = new Date();
 
 	constructor(props, context) {
 		super(props, context);
@@ -102,6 +101,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		this._onUntilPicked = this._onUntilPicked.bind(this);
 		this._onHereNowPressed = this._onHereNowPressed.bind(this);
 		this._onHereLaterPressed = this._onHereLaterPressed.bind(this);
+		this.dateTimeNow = new Date();
 	}
 
 
@@ -242,14 +242,14 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.root}>
 				<Grid style={styles.mainGrid}>
-					<Row size={30} style={styles.imageRow}>{this._renderHeaderImage()}</Row>
-					<Row size={25} style={styles.contentRow}>{this._renderContent()}</Row>
-					<Row size={35} style={styles.timeActionRow}>{this._renderTimeActionButtons()}</Row>
-					<Row size={20} style={styles.actionRow}>{this._renderActionButtons()}</Row>
+					<Row size={32}>{this._renderHeaderImage()}</Row>
+					<Row size={24}>{this._renderContent()}</Row>
+					<Row size={28}>{this._renderTimeActionButtons()}</Row>
+					<Row size={16}>{this._renderConfirmStatusButton()}</Row>
 				</Grid>
 				<DateTimePicker
 					mode='date'
-					minimumDate={_UserLocationStatus.DATE_TIME_NOW}
+					minimumDate={this.dateTimeNow}
 					isVisible={dtDateVisible}
 					date={this._getFromDate()}
 					onConfirm={this._onDatePicked}
@@ -283,12 +283,14 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 	_renderContent() {
 		const {showDateModal, showFromModal, showUntilModal} = this.props;
 		return (
-			<Grid>
-				<Row size={30} style={styles.contentAddress}>
+			<Grid style={styles.contentRow}>
+
+				<Row size={40}>
 					<RkText rkType='secondary3'>
 						{DaoLocation.gAddress(this._locationProfile())}
 					</RkText>
 				</Row>
+
 				<Row size={30} style={styles.contentDate}>
 					<Col style={styles.center}>
 						<Touchable onPress={showDateModal}>
@@ -296,21 +298,23 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 						</Touchable>
 					</Col>
 				</Row>
+
 				<Row size={30}>
-					<Col size={10} style={styles.right}>
+					<Col size={45} style={styles.right}>
 						<Touchable onPress={showFromModal}>
 							<RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
 						</Touchable>
 					</Col>
-					<Col size={2} style={styles.center}>
+					<Col size={10} style={styles.center}>
 						<RkText rkType='header1'>-</RkText>
 					</Col>
-					<Col size={10} style={styles.left}>
+					<Col size={45} style={styles.left}>
 						<Touchable onPress={showUntilModal}>
 							<RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
 						</Touchable>
 					</Col>
 				</Row>
+
 			</Grid>
 		);
 	}
@@ -318,42 +322,41 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 	_renderTimeActionButtons() {
 		return (
-			<Grid>
-				<Col style={styles.center}>
-					<View>
-						<Touchable onPress={this._onHereNowPressed}>
-							<Icon
-								size={55}
-								{...{...Icons.locationPersonFuture, color: this._getHereNowColor()}}/>
-							<RkText rkType='secondary2'>I am here now</RkText>
-						</Touchable>
-					</View>
-				</Col>
-				<Col style={styles.center}>
-					<View>
-						<Touchable onPress={this._onHereLaterPressed}>
-							<Icon
-								size={55}
-								{...{...Icons.locationPersonFuture, color: this._getHereLaterColor()}}/>
-							<RkText rkType='secondary2'>I will be here later</RkText>
-						</Touchable>
-					</View>
-				</Col>
-			</Grid>
+			<View style={styles.setTimeButtonsCont}>
+				<View style={styles.setTimeButton}>
+					<Touchable onPress={this._onHereNowPressed}>
+						<Icon
+							size={55}
+							{...Icons.locationPersonFuture}
+							color={this._getHereNowColor()}/>
+						<RkText rkType='secondary2'>I am here now</RkText>
+					</Touchable>
+				</View>
+				<View style={styles.setTimeButton}>
+					<Touchable onPress={this._onHereLaterPressed}>
+						<Icon
+							size={55}
+							{...Icons.locationPersonFuture}
+							color={this._getHereLaterColor()}/>
+						<RkText rkType='secondary2'>I will be here later</RkText>
+					</Touchable>
+				</View>
+			</View>
 		);
 	}
 
 
-	_renderActionButtons() {
+	_renderConfirmStatusButton() {
 		const {onStatusConfirm} = this.props;
 		return (
-			<Grid>
-				<Col style={styles.center}>
-					<RkButton style={styles.buttonPositive} onPress={onStatusConfirm}>
-						Confirm
-					</RkButton>
-				</Col>
-			</Grid>
+			<View style={styles.confirmStatusButtonCont}>
+				<RkButton
+					rkType='stretch'
+					style={styles.confirmStatusButton}
+					onPress={onStatusConfirm}>
+					Confirm
+				</RkButton>
+			</View>
 		);
 	}
 
@@ -366,7 +369,6 @@ const UserLocationStatus = poolConnect(_UserLocationStatus,
 
 	// mapDispatchToProps
 	(dispatch) => ({
-
 		showDateModal: bindActionCreators(ulsShowDateModal, dispatch),
 		hideDateModal: bindActionCreators(ulsHideDateModal, dispatch),
 		showFromModal: bindActionCreators(ulsShowFromModal, dispatch),
@@ -392,19 +394,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column'
 	},
-	imageRow: {
-		maxHeight: '40%'
-	},
 	contentRow: {
 		paddingHorizontal: 16,
 		marginTop: 16,
-	},
-	timeActionRow: {
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	actionRow: {
-		alignItems: 'flex-end'
 	},
 	center: {
 		alignItems: 'center',
@@ -418,27 +410,32 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-end',
 		width: '100%'
 	},
-
-	buttonPositive: {
-		borderRadius: 0,
-		width: '100%',
-		height: 55,
-		backgroundColor: '#25A59A'
-	},
-	buttonNegative: {
-		borderRadius: 0,
-		width: '100%',
-		height: 55,
-		backgroundColor: '#BA000D'
-	},
 	headerImage: {
 		width: '100%',
 		height: 'auto'
 	},
-	contentAddress: {
-		width: '100%'
-	},
 	contentDate: {
 		marginTop: 24
-	}
+	},
+
+	setTimeButtonsCont: {
+		flex: 1,
+		flexDirection: 'row',
+		alignItems: 'center',
+		marginTop: 24,
+	},
+	setTimeButton: {
+		flex: 0.5,
+		alignItems: 'center'
+	},
+	confirmStatusButtonCont: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+	},
+	confirmStatusButton: {
+		borderRadius: 0,
+		height: 55,
+		backgroundColor: Colors.primary,
+	},
 });

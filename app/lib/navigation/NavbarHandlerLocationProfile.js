@@ -122,9 +122,15 @@ export default class NavbarHandlerLocationProfile {
 
 	_onNavigatorUserLocationStatusPress() {
 		const {navigator, locationProfile} = this;
+
+		// Create a new UserLocationStatus
 		Router.toModalUserLocationStatus(
 			navigator,
-			{locationId: DaoLocation.gId(locationProfile)}
+			{
+				locationId: DaoLocation.gId(locationProfile),
+				navigator
+			},
+			DaoLocation.gName(locationProfile)
 		);
 	}
 

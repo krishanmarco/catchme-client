@@ -14,15 +14,20 @@ type Props = {
 	navigator: TNavigator
 };
 
+type State = {
+	passwordRecovered: boolean;
+};
+
 // PasswordRecovery *************************************************************************************
 // PasswordRecovery *************************************************************************************
 
-class _RecoverPassword extends React.Component<void, Props, void> {
+class _RecoverPassword extends React.Component<void, Props, State> {
 
 	constructor(props) {
 		super(props);
 		this._onSendPress = this._onSendPress.bind(this);
 		this._getFormApiRecoverPassword = this._getFormApiRecoverPassword.bind(this);
+		this.state = {passwordRecovered: false};
 	}
 
 	_getFormApiRecoverPassword(): TApiFormPool {
@@ -30,21 +35,16 @@ class _RecoverPassword extends React.Component<void, Props, void> {
 	}
 
 	_onSendPress() {
-		this._getFormApiRecoverPassword().post();
-		// todo
-		// .then(this._handleSignInSuccess)
-		// .catch(this._handleSignInError);
+		this._getFormApiRecoverPassword().post()
+			.then(success => {
+				this.setState({passwordRecovered: true});
+			});
 	}
 
 	render() {
 		return (
 			<Screen>
-
-				<ScreenInfo
-					style={styles.logo}
-					imageSource={require('../../../assets/images/meLogo.png')}
-					textText='Enter your email below to receive your password reset instructions'/>
-
+				{this._renderScreenInfo()}
 				<View style={styles.catchmeRecoveryForm}>
 					<RkTextInputFromPool
 						rkType='row'
@@ -56,12 +56,32 @@ class _RecoverPassword extends React.Component<void, Props, void> {
 					<LoadingButton
 						style={styles.catchmeRecoveryButton}
 						loading={this._getFormApiRecoverPassword().loading}
-						onPress={this._getFormApiRecoverPassword().post}
+						onPress={this._onSendPress}
 						rkType='large stretch accentColor'
 						text={'Send'.toUpperCase()}/>
 				</View>
 
 			</Screen>
+		);
+	}
+
+	_renderScreenInfo() {
+		const {passwordRecovered} = this.state;
+
+		const props = {};
+		if (passwordRecovered) {
+			props.imageSource = require('../../../assets/images/search.png');
+			props.textText = 'Your password has been sen\'t to your email address';
+
+		} else {
+			props.imageSource = require('../../../assets/images/meLogo.png');
+			props.textText = 'Enter your email below to receive your password reset instructions';
+		}
+
+		return (
+			<ScreenInfo
+				{...props}
+				style={styles.logo}/>
 		);
 	}
 
@@ -79,6 +99,7 @@ const ScreenRecoverPassword = poolConnect(_RecoverPassword,
 );
 export default ScreenRecoverPassword;
 
+
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
@@ -88,10 +109,10 @@ const styles = StyleSheet.create({
 	},
 	catchmeRecoveryForm: {
 		alignItems: 'center',
-		marginTop: 36,
+		marginTop: 72,
 		marginHorizontal: 16,
 	},
 	catchmeRecoveryButton: {
-		marginTop: 24,
+		marginTop: 48,
 	}
 });
