@@ -51,7 +51,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			// Create a new UserLocationStatus
 			Router.toModalUserLocationStatus(
 				navigator,
-				{locationId, navigator}
+				{locationId}
 			);
 
 			return Promise.resolve(0);

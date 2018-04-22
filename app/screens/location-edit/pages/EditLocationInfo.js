@@ -33,7 +33,8 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
-		return this.props.formApiEditLocationProfile;
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
 	}
 
 	_isNewLocation() {

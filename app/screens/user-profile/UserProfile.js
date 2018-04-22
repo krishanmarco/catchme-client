@@ -92,13 +92,15 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	render() {
+		const {userInfoSections} = this.state;
+
 		const tabs = [];
 
 		tabs.push(this._renderTab('0', this._renderTabHome()));
 		tabs.push(this._renderTab('1', this._renderTabLocations()));
 		tabs.push(this._renderTab('2', this._renderTabFriends()));
 
-		if (this.state.userInfoSections.length > 0)
+		if (userInfoSections.length > 0)
 			tabs.push(this._renderTab('3', this._renderTabInfo()));
 
 		return (
@@ -178,10 +180,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabInfo() {
+		const {userInfoSections} = this.state;
 		return (
 			<View style={styles.tabInfo}>
 				<StaticSectionList
-					sections={this.state.userInfoSections}
+					sections={userInfoSections}
 					renderItem={this._renderTabUserInfoItem}/>
 			</View>
 		);

@@ -173,7 +173,7 @@ class _AddContacts extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {userProfile, usersList, initialized} = this.props;
+		const {userProfile, usersList, initialized, setUsersSearchQuery} = this.props;
 		return (
 			<View style={styles.root}>
 				<UserList
@@ -184,7 +184,7 @@ class _AddContacts extends React.Component<void, Props, void> {
 					blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
 
 					onItemPress={this._onUserPress}
-					onSearchChanged={this.props.setUsersSearchQuery}
+					onSearchChanged={setUsersSearchQuery}
 
 					loading={!initialized}/>
 			</View>

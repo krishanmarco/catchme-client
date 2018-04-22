@@ -61,7 +61,7 @@ type RkSwitchProps = {
 };
 
 export const RkSwitch = ({title, textProps, style, ...props}: RkSwitchProps) => (
-	<View style={[style, styles.row]}>
+	<View style={[style, styles.switch, styles.row]}>
 		<RkText {...textProps} rkType='header6'>{title}</RkText>
 		<Switch {...props} style={styles.switch}/>
 	</View>
@@ -126,6 +126,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center'
+	},
+	switch: {
+		paddingVertical: 4,
 	},
 	error: {
 		textAlign: 'right',

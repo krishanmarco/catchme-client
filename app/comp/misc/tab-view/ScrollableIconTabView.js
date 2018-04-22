@@ -55,10 +55,10 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 	_onPreTabChange(nextIndex) {
 		const {onPreTabChange} = this.props;
-		const currentTab = this.state.selectedTab;
+		const {selectedTab} = this.state;
 
 		if (onPreTabChange)
-			onPreTabChange(currentTab, nextIndex);
+			onPreTabChange(selectedTab, nextIndex);
 
 		// Important: Do not use setState because if you
 		// trigger an update you will get indirect recursion

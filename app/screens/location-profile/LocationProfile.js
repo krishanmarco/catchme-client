@@ -11,9 +11,9 @@ import React from 'react';
 import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import {Grid, Row} from "react-native-easy-grid";
 import {Icons} from '../../Config';
-import {Image, StyleSheet, View} from 'react-native';
 import {ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
@@ -217,18 +217,22 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 	_renderTabInfo() {
 		const {locationProfile} = this.props;
+		const {locationInfoSections} = this.state;
+		const dim = Dimensions.get('window');
 
 		return (
-			<Grid style={styles.tabInfo}>
-				<Row size={-1}>
+			<ScrollView>
+				<View style={styles.tabInfo}>
 					<StaticSectionList
-						sections={this.state.locationInfoSections}
+						sections={locationInfoSections}
 						renderItem={this._renderTabLocationInfoItem}/>
-				</Row>
-				<Row size={100} style={styles.infoTabMapCont}>
-					<LocationMap locations={[locationProfile]}/>
-				</Row>
-			</Grid>
+					<View style={[{height: dim.height - 130}, styles.infoTabMapCont]}>
+						<LocationMap
+							scrollEnabled={false}
+							locations={[locationProfile]}/>
+					</View>
+				</View>
+			</ScrollView>
 		);
 	}
 

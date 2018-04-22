@@ -45,14 +45,16 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 	}
 
 	_onGoogleMapsSelectorPress() {
+		const {navigator} = this.props;
 		Router.toModalAddressPicker(
-			this.props.navigator,
+			navigator,
 			{onSelect: location => this._formApiEditLocationProfile().change(location)}
 		);
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
-		return this.props.formApiEditLocationProfile;
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
 	}
 
 	render() {

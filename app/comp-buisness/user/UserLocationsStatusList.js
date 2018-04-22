@@ -67,7 +67,6 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 		Router.toModalUserLocationStatus(
 			navigator,
 			{
-				navigator,
 				locationId: DaoLocation.gId(location),
 				initialStatus: {...status},
 				onStatusConfirm: this._onStatusEditConfirm
