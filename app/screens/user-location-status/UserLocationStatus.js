@@ -300,19 +300,27 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 				</Row>
 
 				<Row size={30}>
-					<Col size={45} style={styles.right}>
-						<Touchable onPress={showFromModal}>
-							<RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
-						</Touchable>
-					</Col>
-					<Col size={10} style={styles.center}>
-						<RkText rkType='header1'>-</RkText>
-					</Col>
-					<Col size={45} style={styles.left}>
-						<Touchable onPress={showUntilModal}>
-							<RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
-						</Touchable>
-					</Col>
+					<View style={styles.contentTimeCont}>
+						<View style={styles.contentTime}>
+							<View style={[styles.right]}>
+								<Touchable onPress={showFromModal}>
+									<RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
+								</Touchable>
+							</View>
+						</View>
+						<View style={styles.contentDash}>
+							<View style={[styles.center]}>
+								<RkText rkType='header1'>-</RkText>
+							</View>
+						</View>
+						<View style={styles.contentTime}>
+							<View style={[styles.left]}>
+								<Touchable onPress={showUntilModal}>
+									<RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
+								</Touchable>
+							</View>
+						</View>
+					</View>
 				</Row>
 
 			</Grid>
@@ -398,24 +406,33 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 16,
 		marginTop: 16,
 	},
-	center: {
-		alignItems: 'center',
-		width: '100%'
-	},
-	left: {
-		alignItems: 'flex-start',
-		width: '100%'
-	},
-	right: {
-		alignItems: 'flex-end',
-		width: '100%'
-	},
 	headerImage: {
 		width: '100%',
 		height: 'auto'
 	},
 	contentDate: {
 		marginTop: 24
+	},
+
+	contentTimeCont: {
+		flex: 1,
+		flexDirection: 'row'
+	},
+	contentTime: {
+		flex: 0.45,
+	},
+	contentDash: {
+		flex: 0.1,
+		alignItems: 'center'
+	},
+	left: {
+		alignItems: 'flex-start'
+	},
+	center: {
+		alignItems: 'center'
+	},
+	right: {
+		alignItems: 'flex-end',
 	},
 
 	setTimeButtonsCont: {
