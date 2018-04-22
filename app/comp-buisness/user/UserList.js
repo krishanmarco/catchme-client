@@ -35,7 +35,7 @@ export default class UserList extends React.PureComponent<void, Props, void> {
 		this._renderItem = this._renderItem.bind(this);
 	}
 
-	_filterExtractor(user, regExp) {
+	_filterExtractor(user: TUser, regExp) {
 		return regExp.test(DaoUser.gName(user))
 			|| regExp.test(DaoUser.gEmail(user))
 			|| regExp.test(DaoUser.gPhone(user));

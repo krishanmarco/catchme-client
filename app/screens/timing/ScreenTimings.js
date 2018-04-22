@@ -51,6 +51,5 @@ export default ScreenTimings;
 const styles = StyleSheet.create({
 	root: {
 		paddingHorizontal: 24,
-		paddingVertical: 8,
 	}
 });

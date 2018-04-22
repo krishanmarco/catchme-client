@@ -26,7 +26,7 @@ type Props = {
 
 // This is different from the Const.defaultOnEndReachedThreshold
 // because the search API request is slightly slower
-const onEndReachedThreshold = 0.4;
+const onEndReachedThreshold = 0.7;
 
 // _Search **********************************************************************************************
 // _Search **********************************************************************************************
@@ -126,7 +126,6 @@ class _Search extends React.Component<void, Props, void> {
 				onItemPress={this._onLocationPress}
 				onSearchPressed={this._searchDataLocations().search}
 				onSearchChanged={this._searchDataLocations().setSearchQuery}
-				autoFilter={true}
 				loading={loading}
 				onEndReachedThreshold={onEndReachedThreshold}
 				onEndReached={this._locationsOnEndReached}/>
@@ -143,13 +142,12 @@ class _Search extends React.Component<void, Props, void> {
 				requestIds={DaoUser.gConnectionRequestIds(userProfile)}
 				blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
 
+				loading={loading}
 				onItemPress={this._onUserPress}
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
-				autoFilter={true}
-				loading={loading}
-				onEndReachedThreshold={onEndReachedThreshold}
-				onEndReached={this._usersOnEndReached}/>
+				onEndReached={this._usersOnEndReached}
+				onEndReachedThreshold={onEndReachedThreshold}/>
 		);
 	}
 
