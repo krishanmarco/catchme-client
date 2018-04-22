@@ -4,12 +4,12 @@ import React from 'react';
 import Router from "../../lib/navigation/Router";
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {StyleSheet, View} from 'react-native';
+import {LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {Screen, ScreenInfo, LoadingButton} from "../../comp/Misc";
 import {startApplication} from "../../App";
+import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../lib/types/Types";
 

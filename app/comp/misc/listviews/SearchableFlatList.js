@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
+import {Const} from "../../../Config";
 import {DefaultLoader, SearchBar} from "../../Misc";
 import {FlatList, StyleSheet} from 'react-native';
-import {Const} from "../../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

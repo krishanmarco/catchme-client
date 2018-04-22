@@ -3,6 +3,7 @@ import ApiFormActionCreator from "./ApiFormActionCreator";
 import ApiFormDefChangePassword, {FORM_API_ID_CHANGE_PASSWORD} from './def/ApiFormDefChangePassword';
 import ApiFormDefLocationProfile, {FORM_API_ID_EDIT_LOCATION_PROFILE} from './def/ApiFormDefLocationProfile';
 import ApiFormDefLogin, {FORM_API_ID_LOGIN} from './def/ApiFormDefLogin';
+import ApiFormDefRecoverPassword, {FORM_API_ID_RECOVER_PASSWORD} from "./def/ApiFormDefRecoverPassword";
 import ApiFormDefRegister, {FORM_API_ID_REGISTER} from './def/ApiFormDefRegister';
 import ApiFormDefUserLocationStatus, {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from './def/ApiFormDefUserLocationStatus';
 import ApiFormDefUserProfile, {FORM_API_ID_EDIT_USER_PROFILE} from './def/ApiFormDefUserProfile';
@@ -16,7 +17,6 @@ import {
 	mutatorApiFormsOnReset,
 	mutatorApiFormsOnSuccess
 } from "./ApiFormModel";
-import ApiFormDefRecoverPassword, {FORM_API_ID_RECOVER_PASSWORD} from "./def/ApiFormDefRecoverPassword";
 import type {TDispatch} from "../../types/Types";
 import type {TPool} from "../Pool";
 

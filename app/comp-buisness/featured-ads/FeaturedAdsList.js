@@ -2,11 +2,11 @@
 import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 import FeaturedAdsListItem from "./FeaturedAdsListItem";
 import React from 'react';
+import {Const} from "../../Config";
 import {DefaultLoader} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {Const} from "../../Config";
 
 
 // Const ************************************************************************************************

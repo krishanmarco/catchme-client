@@ -5,6 +5,7 @@ import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
+import {FontIcons} from "../../Config";
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
@@ -17,7 +18,6 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {FontIcons} from "../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

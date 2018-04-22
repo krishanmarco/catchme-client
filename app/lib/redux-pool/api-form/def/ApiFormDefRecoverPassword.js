@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
 import ApiFormDef from "../ApiFormDef";
+import DaoApiFormRecoverPassword from "../../../daos/DaoApiFormRecoverPassword";
 import {ApiFormState} from "../ApiFormModel";
 import {Validate} from "../../../helpers/Validator";
-import type {TApiFormRecoverPassword} from "../../../daos/DaoApiFormRecoverPassword";
 import type {TApiFormDef} from "../ApiFormDef";
+import type {TApiFormRecoverPassword} from "../../../daos/DaoApiFormRecoverPassword";
 import type {TThunk} from "../../../types/Types";
-import DaoApiFormRecoverPassword from "../../../daos/DaoApiFormRecoverPassword";
 
 export const FORM_API_ID_RECOVER_PASSWORD = 'FORM_API_ID_RECOVER_PASSWORD';
 

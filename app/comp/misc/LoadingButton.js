@@ -2,8 +2,8 @@
 import React from 'react';
 import {Colors} from "../../Config";
 import {DefaultLoader} from "../Misc";
-import {StyleSheet, View} from 'react-native';
 import {RkButton, RkComponent, RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

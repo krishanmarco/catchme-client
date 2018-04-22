@@ -11,8 +11,8 @@ import {connect} from 'react-redux';
 import {DefaultLoader} from "../Misc";
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
 import type {TChatReducerState} from "./ChatReducer";
+import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
 import type {TUser} from "../../lib/daos/DaoUser";
 
 // Const *************************************************************************************************
