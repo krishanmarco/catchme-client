@@ -17,22 +17,24 @@ type RkTextInputProps = {
 	rkType?: string,
 	style?: Object,
 	errorCode?: number | string,
-	editable?: boolean
+	editable?: boolean,
+	withBorder?: boolean
 };
 
 
-export const RkTextInput = ({rkType, style, errorCode, ...props}: RkTextInputProps) => {
+export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: RkTextInputProps) => {
 
 	const hasErrorCode = errorCode !== 0;
-	const rowOverride = rkType === 'row' ? styles.fullTextInput : {};
-	const pointerEvents = props.editable != null && !props.editable ? 'none' : 'auto';
+	const pointerEvents = props.editable ? 'auto' : 'none';
+
+	const borderBottomWidth =	withBorder ? StyleSheet.hairlineWidth : 0;
 	const borderColor = hasErrorCode ? Colors.alertRed : Colors.black;
 
 	return (
 		<View style={style} pointerEvents={pointerEvents}>
 
-			<View style={[{borderColor}, styles.row, rowOverride]}>
-				<_RkTextInput {...props} rkType={rkType}/>
+			<View style={[{borderColor, borderBottomWidth}, styles.row, styles.fullTextInput]}>
+				<_RkTextInput {...props} rkType={`row ${rkType}`}/>
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
@@ -41,6 +43,11 @@ export const RkTextInput = ({rkType, style, errorCode, ...props}: RkTextInputPro
 
 		</View>
 	);
+};
+
+RkTextInput.defaultProps = {
+	withBorder: false,
+	editable: true,
 };
 
 
@@ -114,12 +121,11 @@ export const RkTextInputFromPool = ({pool, field, ...props}: RkTextInputFromPool
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'center',
-		borderBottomWidth: StyleSheet.hairlineWidth
+		alignItems: 'center'
 	},
 	error: {
 		textAlign: 'right',
@@ -133,5 +139,5 @@ const styles = RkStyleSheet.create(theme => ({
 	multiChoicePicker: {
 		width: 140
 	}
-}));
+});
 

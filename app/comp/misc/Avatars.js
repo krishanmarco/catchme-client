@@ -2,9 +2,12 @@
 import _ from 'lodash';
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
 import {Touchable} from "../Misc";
+import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
+import type {TIcon, TImageSource} from "../../lib/types/Types";
+import DaoLocation from "../../lib/daos/DaoLocation";
 
 
 // Avatar *********************************************************************************
@@ -52,3 +55,57 @@ export const AvatarCircle = ({rkType, ...props}: Props) => (
 	<Avatar {...props} rkType={`circle ${rkType}`}/>
 );
 
+
+
+// AvatarFull *******************************************************************************************
+// AvatarFull *******************************************************************************************
+
+type Props = {
+	source: TImageSource,
+	onPress?: Function,
+	badge?: TIcon,
+	height?: number
+};
+
+export const AvatarFull = ({source, onPress, height, badge}: Props) => (
+	<Touchable onPress={onPress}>
+		<Image
+			style={[{height}, styles.avatarFullImage]}
+			source={source}/>
+		{!!badge && (
+			<View style={styles.avatarFullOverlay}>
+				<View style={styles.avatarFullBadge}>
+					<Icon size={35} {...badge}/>
+				</View>
+			</View>
+		)}
+	</Touchable>
+);
+
+AvatarFull.defaultProps = {
+	height: 180
+};
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	avatarFullImage: {
+		position: 'relative',
+		width: '100%',
+		resizeMode: 'cover'
+	},
+	avatarFullOverlay: {
+		position: 'absolute',
+		height: '100%',
+		width: '100%',
+	},
+	avatarFullBadge: {
+		position: 'absolute',
+		bottom: '0%',
+		right: '0%',
+		marginRight: 4,
+		marginBottom: 4,
+	}
+});

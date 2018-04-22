@@ -51,14 +51,16 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 						pool={this._getFormApiRecoverPassword()}
 						field='email'
 						placeholder='Email'
-						secureTextEntry/>
+						secureTextEntry
+						withBorder/>
 
 					<LoadingButton
 						style={styles.catchmeRecoveryButton}
 						loading={this._getFormApiRecoverPassword().loading}
 						onPress={this._onSendPress}
 						rkType='large stretch accentColor'
-						text={'Send'.toUpperCase()}/>
+						text={'Send'.toUpperCase()}
+						withBorder/>
 				</View>
 
 			</Screen>

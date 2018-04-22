@@ -11,7 +11,7 @@ import _ScreenInfo from './misc/ScreenInfo';
 import _ScrollableIconTabView from './misc/tab-view/ScrollableIconTabView';
 import _SearchBar from './misc/SearchBar';
 import _Touchable from './misc/touchable/Touchable';
-import {AvatarCircle as _AvatarCircle} from './misc/Avatars';
+import {AvatarCircle as _AvatarCircle, AvatarFull as _AvatarFull} from './misc/Avatars';
 
 export const DefaultLoader = _DefaultLoader;
 export const LoadingButton = _LoadingButton;
@@ -25,4 +25,5 @@ export const ScreenInfo = _ScreenInfo;
 export const ScrollableIconTabView = _ScrollableIconTabView;
 export const SearchBar = _SearchBar;
 export const AvatarCircle = _AvatarCircle;
+export const AvatarFull = _AvatarFull;
 export const Touchable = _Touchable;

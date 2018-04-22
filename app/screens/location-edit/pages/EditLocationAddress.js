@@ -56,34 +56,40 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 	render() {
 		return (
-			<ScrollView style={styles.scrollView}>
-				<ScreenInfo
-					imageSource={require('../../../assets/images/address.png')}
-					textText='Press the image above to select a location'
-					onPress={this._onGoogleMapsSelectorPress}/>
-				<View style={styles.listItemWithActionsContent}>
-					{[
-						{field: DaoLocation.pAddressCountry, label: 'Country'},
-						{field: DaoLocation.pAddressState, label: 'State'},
-						{field: DaoLocation.pAddressCity, label: 'City'},
-						{field: DaoLocation.pAddressPostcode, label: 'Postcode'},
-						{field: DaoLocation.pAddressAddress, label: 'Address'},
-					].map((addressComponent, key) => (
-						<RkTextInputFromPool
-							key={key}
-							rkType='row'
-							pool={this._formApiEditLocationProfile()}
-							editable={false}
-							field={addressComponent.field}
-							label={addressComponent.label}/>
-					))}
-				</View>
-				<View style={[styles.locationMap, {height: Dimensions.get('window').height - 190}]}>
+			<ScrollView>
+				<View style={styles.root}>
+
+					<View style={styles.screenInfoRow}>
+						<ScreenInfo
+							imageSource={require('../../../assets/images/address.png')}
+							textText='Press the image above to select a location'
+							onPress={this._onGoogleMapsSelectorPress}/>
+					</View>
+
+					<View style={styles.editLocationAddressFormRow}>
+						{[
+							{field: DaoLocation.pAddressCountry, label: 'Country'},
+							{field: DaoLocation.pAddressState, label: 'State'},
+							{field: DaoLocation.pAddressCity, label: 'City'},
+							{field: DaoLocation.pAddressPostcode, label: 'Postcode'},
+							{field: DaoLocation.pAddressAddress, label: 'Address'},
+						].map((addressComponent, key) => (
+							<RkTextInputFromPool
+								key={key}
+								rkType='row'
+								pool={this._formApiEditLocationProfile()}
+								editable={false}
+								field={addressComponent.field}
+								label={addressComponent.label}/>
+						))}
+					</View>
 					{DaoLocation.hasLatLng(this._formApiEditLocationProfile().apiInput) && (
-						<LocationMap
-						showsMyLocationButton={true}
-						scrollEnabled={false}
-						locations={[this._formApiEditLocationProfile().apiInput]}/>
+						<View style={[styles.locationMap, {height: Dimensions.get('window').height - 190}]}>
+							<LocationMap
+								showsMyLocationButton={true}
+								scrollEnabled={false}
+								locations={[this._formApiEditLocationProfile().apiInput]}/>
+						</View>
 					)}
 				</View>
 			</ScrollView>
@@ -111,14 +117,19 @@ export default EditLocationAddress;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	scrollView: {
+	root: {
 		flex: 1
 	},
-	listItemWithActionsContent: {
-		paddingHorizontal: 4,
-		marginTop: 12
+	screenInfoRow: {
+		flex: 0.28
+	},
+	editLocationAddressFormRow: {
+		flex: 0.72,
+		paddingHorizontal: 16,
+		marginTop: 16
 	},
 	locationMap: {
+		flex: 1,
 		width: '100%'
 	}
 });

@@ -53,4 +53,9 @@ export type TThunk = {
 	getState: TGetState
 };
 
+export type TImageSource = {
+	uri: string,         								  // Url of the image
+	cache?: string                       	// Caching policy (Defined in Config.js)
+};
+
 export type TStyle = Object;

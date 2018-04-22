@@ -112,7 +112,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader name='Profile'/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					<View style={styles.profileSection}>
 						<AvatarCircle
 							badge={Icons.userEditAvatar}
@@ -157,7 +157,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader name='Privacy'/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					{[
 						{title: 'My previous location', options: privacyAll},
 						{title: 'My current location', options: privacySub},
@@ -180,7 +180,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader name='Security'/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					<ListItemInfo
 						title='Change Password'
 						icon={Icons.settingChangePassword}
@@ -194,7 +194,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					<ListItemInfo
 						title='Add contacts'
 						icon={Icons.settingChangePassword}
@@ -227,8 +227,8 @@ export default SettingsUserAccount;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	listItemWithActionsContent: {
-		paddingHorizontal: 8,
+	section: {
+		paddingHorizontal: 16,
 	},
 	profileSection: {
 		alignItems: 'center'

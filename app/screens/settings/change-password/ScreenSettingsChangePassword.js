@@ -59,6 +59,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 						pool={this._getFormChangePassword()}
 						field='passwordPrevious'
 						placeholder='Password'
+						withBorder
 						secureTextEntry/>
 
 					<RkTextInputFromPool
@@ -66,6 +67,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 						pool={this._getFormChangePassword()}
 						field='passwordNext'
 						placeholder='New password'
+						withBorder
 						secureTextEntry/>
 
 					<RkTextInputFromPool
@@ -73,6 +75,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, void> {
 						pool={this._getFormChangePassword()}
 						field='passwordConfirmNext'
 						placeholder='Confirm password'
+						withBorder
 						secureTextEntry/>
 
 					<LoadingButton

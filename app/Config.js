@@ -183,6 +183,8 @@ export const Const = {
 
 	defaultOnEndReachedThreshold: 0.5,
 
+	clockSize: 230,
+
 	firebaseConfig: {
 		apiKey: 'AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI',
 		databaseURL: 'https://catch-me-179514.firebaseio.com'

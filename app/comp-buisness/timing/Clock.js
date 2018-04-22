@@ -2,9 +2,8 @@
 /* eslint-disable import/no-named-as-default */
 import React from 'react';
 import Svg from 'react-native-svg';
-import {Colors} from '../../Config';
+import {Colors, Const} from '../../Config';
 import {StyleSheet} from 'react-native';
-import {TimingListItemSize} from "./TimingListItem";
 import {VictoryLabel, VictoryPie} from 'victory-native';
 
 // Const *************************************************************************************************
@@ -113,9 +112,9 @@ export default class Clock extends React.Component<void, Props, State> {
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const ClockSize = TimingListItemSize;
-const labelRadius = ClockSize * 0.14;
-const labelInnerRadius = ClockSize * 0.06;
+const ClockSize = Const.clockSize;
+const labelRadius = ClockSize * 0.16;
+const labelInnerRadius = ClockSize * 0.07;
 
 const victoryPieStyle = {
 	labels: {
@@ -126,7 +125,7 @@ const victoryPieStyle = {
 
 const victoryLabelStyle = {
 	fill: Colors.primary,
-	fontSize: ClockSize * 0.06,
+	fontSize: ClockSize * 0.07,
 	fontWeight: 'bold'
 };
 

@@ -5,11 +5,11 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 import ImagePicker from '../../../lib/helpers/ImagePicker';
 import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {AvatarCircle} from "../../../comp/Misc";
+import {AvatarCircle, AvatarFull, Touchable} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {ScrollView, StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
@@ -68,52 +68,56 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 
 	render() {
 		return (
-			<ScrollView style={styles.scrollView}>
-				<View style={styles.listItemWithActionsContent}>
-					<View style={styles.avatarContainer}>
-						<AvatarCircle
-							badge={Icons.locationEditAvatar}
-							rkType='large'
-							uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}
-							onPress={this._onLocationPicturePress}/>
+			<ScrollView>
+				<View style={styles.root}>
+
+					<View style={styles.avatarRow}>
+						<AvatarFull
+							source={{uri: DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}}
+							onPress={this._onLocationPicturePress}
+							badge={Icons.locationEditAvatar}/>
 					</View>
-					<RkTextInputFromPool
-						pool={this._formApiEditLocationProfile()}
-						field={DaoLocation.pName}
-						editable={this._isNewLocation()}
-						rkType='row'
-						label='Name'
-						icon={Icons.settingChangePassword}/>
-					<RkTextInputFromPool
-						pool={this._formApiEditLocationProfile()}
-						field={DaoLocation.pEmail}
-						rkType='row'
-						label='Email'
-						keyboardType='email-address'
-						icon={Icons.settingChangePassword}/>
-					<RkTextInputFromPool
-						pool={this._formApiEditLocationProfile()}
-						field={DaoLocation.pPhone}
-						rkType='row'
-						label='Phone'
-						keyboardType='phone-pad'
-						icon={Icons.settingChangePassword}/>
-					<RkTextInputFromPool
-						pool={this._formApiEditLocationProfile()}
-						field={DaoLocation.pCapacity}
-						rkType='row'
-						label='Capacity'
-						keyboardType='numeric'
-						icon={Icons.settingChangePassword}/>
-					<RkTextInputFromPool
-						pool={this._formApiEditLocationProfile()}
-						field={DaoLocation.pDescription}
-						rkType='row'
-						multiline
-						numberOfLines={3}
-						label='Description'
-						returnKeyType='next'
-						icon={Icons.settingChangePassword}/>
+
+					<View style={styles.editLocationInfoFormRow}>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pName}
+							editable={this._isNewLocation()}
+							rkType='row'
+							label='Name'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pEmail}
+							rkType='row'
+							label='Email'
+							keyboardType='email-address'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pPhone}
+							rkType='row'
+							label='Phone'
+							keyboardType='phone-pad'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pCapacity}
+							rkType='row'
+							label='Capacity'
+							keyboardType='numeric'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pDescription}
+							rkType='row'
+							multiline
+							numberOfLines={3}
+							label='Description'
+							returnKeyType='next'
+							icon={Icons.settingChangePassword}/>
+					</View>
+
 				</View>
 			</ScrollView>
 		);
@@ -141,14 +145,16 @@ export default EditLocationInfo;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	scrollView: {
+	root: {
 		flex: 1
 	},
-	avatarContainer: {
-		alignItems: 'center'
+	avatarRow: {
+		flex: 0.28,
 	},
-	listItemWithActionsContent: {
-		paddingHorizontal: 4,
+	editLocationInfoFormRow: {
+		flex: 0.72,
+		paddingHorizontal: 16,
+		marginTop: 16
 	},
 });
 

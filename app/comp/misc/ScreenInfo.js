@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 	textCont: {
 		alignItems: 'center',
 		width: '70%',
-		marginVertical: 16
+		marginVertical: 8
 	},
 	text: {
 		textAlign: 'center'

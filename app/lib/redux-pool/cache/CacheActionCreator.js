@@ -96,7 +96,8 @@ export default class CacheActionCreator extends PoolActionCreator {
 			}).catch(apiExceptionResponse => {
 				Logger.v("CacheActionCreator POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
 
-				/* todo: remove comment after development
+				/*
+				// todo: remove comment after development
 				dispatch({
 					poolType: POOL_TYPE_CACHE,
 					poolId: poolId,

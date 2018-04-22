@@ -4,7 +4,7 @@ import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
 import Maps from "../../lib/data/Maps";
 import React from 'react';
 import {Col, Grid, Row} from "react-native-easy-grid";
-import {Colors} from "../../Config";
+import {Colors, Const} from "../../Config";
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 
@@ -19,6 +19,8 @@ type Props = {
 	isEditable?: boolean
 };
 
+// TimingListItem ****************************************************************************************
+// TimingListItem ****************************************************************************************
 
 export default class TimingListItem extends React.Component<void, Props, void> {
 
@@ -112,11 +114,9 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-export const TimingListItemSize = 200;
-
 const styles = StyleSheet.create({
 	timingContentRoot: {
-		height: TimingListItem * 0.55
+		height: Const.clockSize * 0.70
 	},
 	root: {
 		marginTop: 4,

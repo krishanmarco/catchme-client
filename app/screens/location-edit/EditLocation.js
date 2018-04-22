@@ -62,7 +62,8 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_onSaveComplete(apiResponse) {
 		// The form has already been posted
 		// Check for success and handle errors
-		//    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal()) todo
+		//    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal())
+		// todo
 	}
 
 
@@ -105,7 +106,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	}
 
 	_setRefRecapTab(ref) {
-		this.this.refTabs[EditLocation.idxRecap] = ref;
+		this.refTabs[EditLocation.idxRecap] = ref;
 	}
 
 
@@ -139,7 +140,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={styles.tabCont}>
+				style={styles.tabView}>
 				{jsx}
 			</View>
 		);
@@ -200,7 +201,7 @@ export default EditLocation;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	tabCont: {
-		height: 460
+	tabView: {
+		flex: 1
 	}
 });

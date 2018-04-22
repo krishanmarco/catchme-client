@@ -47,7 +47,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 	saveTimingsToLocation() {
 		const weekBoolTimings = this.refWeekTimingsList.getTimings();
 		const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
-
+		// todo?
 		// this._formApiEditLocationProfile().change({
 		// 	[DaoLocation.pTimings]: weekStrTimings
 		// });
@@ -65,7 +65,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 				<WeekTimingsList
 					ref={this._setRefWeekTimingsList}
 					managerWeekTimings={managerWeekTimings}
-					isEditable={true}/>
+					isEditable/>
 			</View>
 		);
 	}

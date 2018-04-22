@@ -117,13 +117,15 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						rkType='row'
 						pool={this._getFormApiLogin()}
 						field='email'
-						placeholder='Email'/>
+						placeholder='Email'
+						withBorder/>
 
 					<RkTextInputFromPool
 						rkType='row'
 						pool={this._getFormApiLogin()}
 						field='password'
 						placeholder='Password'
+						withBorder
 						secureTextEntry/>
 
 					<LoadingButton

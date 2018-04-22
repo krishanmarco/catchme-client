@@ -73,28 +73,32 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 						rkType='row'
 						pool={this._getFormApiRegister()}
 						field='name'
-						placeholder='Name'/>
+						placeholder='Name'
+						withBorder/>
 
 					<RkTextInputFromPool
 						rkType='row'
 						pool={this._getFormApiRegister()}
 						field='email'
 						keyboardType='email-address'
-						placeholder='Email'/>
+						placeholder='Email'
+						withBorder/>
 
 					<RkTextInputFromPool
 						rkType='row'
 						pool={this._getFormApiRegister()}
 						field='password'
 						placeholder='Password'
-						secureTextEntry/>
+						secureTextEntry
+						withBorder/>
 
 					<RkTextInputFromPool
 						rkType='row'
 						pool={this._getFormApiRegister()}
 						field='passwordConfirm'
 						placeholder='Confirm Password'
-						secureTextEntry/>
+						secureTextEntry
+						withBorder/>
 
 					<LoadingButton
 						style={styles.catchmeSignupButton}
