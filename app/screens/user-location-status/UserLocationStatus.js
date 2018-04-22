@@ -104,12 +104,6 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		this.dateTimeNow = new Date();
 	}
 
-
-	_locationProfile(): TLocation {
-		const {locationProfile} = this.props;
-		return locationProfile;
-	}
-
 	_userLocationStatus(): TUserLocationStatus {
 		const {userLocationStatus} = this.props;
 		return userLocationStatus;
@@ -241,12 +235,10 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 		return (
 			<View style={styles.root}>
-				<Grid style={styles.mainGrid}>
-					<Row size={32}>{this._renderHeaderImage()}</Row>
-					<Row size={24}>{this._renderContent()}</Row>
-					<Row size={28}>{this._renderTimeActionButtons()}</Row>
-					<Row size={16}>{this._renderConfirmStatusButton()}</Row>
-				</Grid>
+				<View style={styles.headerImageRow}>{this._renderHeaderImage()}</View>
+				<View style={styles.timingsRow}>{this._renderContent()}</View>
+				<View style={styles.timingActionButtonsRow}>{this._renderTimingActionButtons()}</View>
+				<View style={styles.confirmStatusButtonRow}>{this._renderConfirmStatusButton()}</View>
 				<DateTimePicker
 					mode='date'
 					minimumDate={this.dateTimeNow}
@@ -272,66 +264,57 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 
 
 	_renderHeaderImage() {
+		const {locationProfile} = this.props;
 		return (
 			<Image
 				style={styles.headerImage}
-				source={ImageURISourceAuth.fromUrl(DaoLocation.gPictureUrl(this._locationProfile()))}/>
+				source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
 		);
 	}
 
 
 	_renderContent() {
-		const {showDateModal, showFromModal, showUntilModal} = this.props;
+		const {showDateModal, showFromModal, showUntilModal, locationProfile} = this.props;
 		return (
-			<Grid style={styles.contentRow}>
+			<View style={styles.contentRowCont}>
 
-				<Row size={40}>
+				<View style={styles.contentAddress}>
 					<RkText rkType='secondary3'>
-						{DaoLocation.gAddress(this._locationProfile())}
+						{DaoLocation.gAddress(locationProfile)}
 					</RkText>
-				</Row>
+				</View>
 
-				<Row size={30} style={styles.contentDate}>
-					<Col style={styles.center}>
-						<Touchable onPress={showDateModal}>
-							<RkText>{TimestampFormatter.parseFromDate(this._getFromMoment())}</RkText>
+				<View style={styles.contentDate}>
+					<Touchable onPress={showDateModal}>
+						<RkText>{TimestampFormatter.parseFromDate(this._getFromMoment())}</RkText>
+					</Touchable>
+				</View>
+
+				<View style={styles.contentTimesCont}>
+					<View style={[styles.contentTimesLeft]}>
+						<Touchable onPress={showFromModal}>
+							<RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
 						</Touchable>
-					</Col>
-				</Row>
-
-				<Row size={30}>
-					<View style={styles.contentTimeCont}>
-						<View style={styles.contentTime}>
-							<View style={[styles.right]}>
-								<Touchable onPress={showFromModal}>
-									<RkText rkType='header1'>{this._getFromMoment().format('HH:mm')}</RkText>
-								</Touchable>
-							</View>
-						</View>
-						<View style={styles.contentDash}>
-							<View style={[styles.center]}>
-								<RkText rkType='header1'>-</RkText>
-							</View>
-						</View>
-						<View style={styles.contentTime}>
-							<View style={[styles.left]}>
-								<Touchable onPress={showUntilModal}>
-									<RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
-								</Touchable>
-							</View>
-						</View>
 					</View>
-				</Row>
+					<View style={[styles.contentTimesCenter]}>
+						<RkText rkType='header1'>-</RkText>
+					</View>
+					<View style={[styles.contentTimesRight]}>
+						<Touchable onPress={showUntilModal}>
+							<RkText rkType='header1'>{this._getUntilMoment().format('HH:mm')}</RkText>
+						</Touchable>
+					</View>
+				</View>
 
-			</Grid>
+			</View>
 		);
 	}
 
 
-	_renderTimeActionButtons() {
+	_renderTimingActionButtons() {
 		return (
-			<View style={styles.setTimeButtonsCont}>
-				<View style={styles.setTimeButton}>
+			<View style={styles.timingActionButtonsCont}>
+				<View style={styles.timingActionButtons}>
 					<Touchable onPress={this._onHereNowPressed}>
 						<Icon
 							size={55}
@@ -340,7 +323,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 						<RkText rkType='secondary2'>I am here now</RkText>
 					</Touchable>
 				</View>
-				<View style={styles.setTimeButton}>
+				<View style={styles.timingActionButtons}>
 					<Touchable onPress={this._onHereLaterPressed}>
 						<Icon
 							size={55}
@@ -396,55 +379,70 @@ export default UserLocationStatus;
 
 const styles = StyleSheet.create({
 	root: {
-		flex: 1
-	},
-	mainGrid: {
 		flex: 1,
 		flexDirection: 'column'
 	},
-	contentRow: {
-		paddingHorizontal: 16,
-		marginTop: 16,
+	headerImageRow: {
+		flex: 0.32
+	},
+	timingsRow: {
+		flex: 0.24
+	},
+	timingActionButtonsRow: {
+		flex: 0.28
+	},
+	confirmStatusButtonRow: {
+		flex: 0.16
 	},
 	headerImage: {
 		width: '100%',
-		height: 'auto'
+		height: '100%',
+		resizeMode: 'cover',
 	},
-	contentDate: {
-		marginTop: 24
-	},
-
-	contentTimeCont: {
+	contentRowCont: {
 		flex: 1,
+		flexDirection: 'column',
+		paddingHorizontal: 16,
+		marginTop: 16,
+	},
+	contentAddress: {
+		flex: 0.4,
 		flexDirection: 'row'
 	},
-	contentTime: {
-		flex: 0.45,
+	contentDate: {
+		flex: 0.3,
+		flexDirection: 'row',
+		marginTop: 24,
+		justifyContent: 'center'
 	},
-	contentDash: {
+	contentTimesCont: {
+		flex: 0.3,
+		flexDirection: 'row'
+	},
+	contentTimesLeft: {
+		flex: 0.45,
+		alignItems: 'flex-end',
+	},
+	contentTimesCenter: {
 		flex: 0.1,
 		alignItems: 'center'
 	},
-	left: {
+	contentTimesRight: {
+		flex: 0.45,
 		alignItems: 'flex-start'
 	},
-	center: {
-		alignItems: 'center'
-	},
-	right: {
-		alignItems: 'flex-end',
-	},
 
-	setTimeButtonsCont: {
+	timingActionButtonsCont: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 		marginTop: 24,
 	},
-	setTimeButton: {
+	timingActionButtons: {
 		flex: 0.5,
 		alignItems: 'center'
 	},
+
 	confirmStatusButtonCont: {
 		flex: 1,
 		flexDirection: 'column',
