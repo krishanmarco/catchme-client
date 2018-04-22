@@ -2,11 +2,12 @@
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {AvatarCircle, LoadingButton} from "../../../comp/Misc";
+import {AvatarCircle, AvatarFull, LoadingButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {Icons} from "../../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -45,25 +46,37 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 	}
 
 	render() {
+		const locationProfile = this._formApiEditLocationProfile().apiInput;
 		return (
 			<View style={styles.root}>
-				<RkText style={styles.headerText} rkType='header2 hero'>
-					{DaoLocation.gName(this._formApiEditLocationProfile().apiInput)}
-				</RkText>
-				<View style={styles.avatar}>
-					<AvatarCircle
-						rkType='huge'
-						uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}/>
+
+				<View>
+					<AvatarFull
+						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
 				</View>
-				<RkText style={styles.listItemWithActionsContentText} rkType='primary3'>
-					{DaoLocation.gAddress(this._formApiEditLocationProfile().apiInput)}
-				</RkText>
-				<LoadingButton
-					loading={this._formApiEditLocationProfile().loading}
-					rkType='large'
-					style={styles.saveButton}
-					onPress={this._onLocationSave}
-					text='Save & Close'/>
+
+				<View style={styles.contentRow}>
+
+					<RkText rkType='header2 hero'>
+						{DaoLocation.gName(locationProfile)}
+					</RkText>
+
+					<View style={styles.contentAddressRow}>
+						<RkText rkType='header4'>
+							{DaoLocation.gAddress(locationProfile)}
+						</RkText>
+					</View>
+
+					<View style={styles.contentSaveButtonRow}>
+						<LoadingButton
+							loading={this._formApiEditLocationProfile().loading}
+							rkType='large'
+							onPress={this._onLocationSave}
+							text='Save & Close'/>
+					</View>
+
+				</View>
+
 			</View>
 		);
 	}
@@ -91,20 +104,22 @@ export default EditLocationSave;
 const styles = StyleSheet.create({
 	root: {
 		flex: 1,
-		alignItems: 'center',
-		paddingHorizontal: 8,
+		flexDirection: 'column'
 	},
-	headerText: {
-		marginTop: 16
+	contentRow: {
+		flex: 1,
+		paddingHorizontal: 16,
+		marginTop: 16,
 	},
-	avatar: {
-		marginTop: 40
+	contentAddressRow: {
+		flex: 1,
+		marginTop: 16,
+		justifyContent: 'center',
 	},
-	listItemWithActionsContentText: {
-		marginTop: 16
-	},
-	saveButton: {
-		marginTop: 40,
-		marginHorizontal: 16
+	contentSaveButtonRow: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		marginBottom: 24
 	}
 });

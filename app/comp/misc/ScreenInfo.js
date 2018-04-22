@@ -21,7 +21,7 @@ type Props = {
 
 const defaultProps = {
 	height: 150,
-	imageHeight: '80%',
+	imageHeight: '82%',
 	marginTop: 8,
 };
 
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 	imageCont: {
 		width: '100%',
 		alignItems: 'center',
-		marginVertical: 16,
+		marginTop: 16,
 	},
 	imageImage: {
 		resizeMode: 'contain'
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 	textCont: {
 		alignItems: 'center',
 		width: '70%',
-		marginVertical: 8
+		marginTop: 8,
 	},
 	text: {
 		textAlign: 'center'
