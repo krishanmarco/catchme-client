@@ -75,6 +75,7 @@ export const Icons = {
 	locationTimings: _Icons.timings,
 	locationMap: _Icons.mapSigns,
 	locationEditAvatar: _Icons.pen,
+	locationEditAddress: _Icons.pen,
 	locationSave: _Icons.save,
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,

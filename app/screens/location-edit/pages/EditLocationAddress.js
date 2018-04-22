@@ -8,8 +8,9 @@ import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {ScreenInfo} from "../../../comp/Misc";
+import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {Colors, Icons} from "../../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -59,12 +60,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 			<ScrollView>
 				<View style={styles.root}>
 
-					<View style={styles.screenInfoRow}>
-						<ScreenInfo
-							imageSource={require('../../../assets/images/address.png')}
-							textText='Press the image above to select a location'
-							onPress={this._onGoogleMapsSelectorPress}/>
-					</View>
+					{this._renderHeader()}
 
 					<View style={styles.editLocationAddressFormRow}>
 						{[
@@ -83,16 +79,41 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 								label={addressComponent.label}/>
 						))}
 					</View>
-					{DaoLocation.hasLatLng(this._formApiEditLocationProfile().apiInput) && (
-						<View style={[styles.locationMap, {height: Dimensions.get('window').height - 190}]}>
-							<LocationMap
-								showsMyLocationButton={true}
-								scrollEnabled={false}
-								locations={[this._formApiEditLocationProfile().apiInput]}/>
-						</View>
-					)}
 				</View>
 			</ScrollView>
+		);
+	}
+
+	_renderHeader() {
+		const hasLatLng = DaoLocation.hasLatLng(this._formApiEditLocationProfile().apiInput);
+
+		let contentJsx = null;
+
+		if (hasLatLng) {
+			contentJsx = (
+				<BadgeOverlay
+					backgroundJsx={(
+						<LocationMap
+							showsMyLocationButton={true}
+							scrollEnabled={false}
+							locations={[this._formApiEditLocationProfile().apiInput]}/>
+					)}
+					badge={{...Icons.locationEditAddress, color: Colors.white}}/>
+			);
+
+		} else {
+			contentJsx = (
+				<ScreenInfo
+					imageSource={require('../../../assets/images/address.png')}
+					textText='Press the image above to select a location'
+					onPress={this._onGoogleMapsSelectorPress}/>
+			);
+		}
+
+		return (
+			<View style={styles.screenInfoRow}>
+				{contentJsx}
+			</View>
 		);
 	}
 
@@ -121,7 +142,7 @@ const styles = StyleSheet.create({
 		flex: 1
 	},
 	screenInfoRow: {
-		flex: 0.28
+		height: 180
 	},
 	editLocationAddressFormRow: {
 		flex: 0.72,

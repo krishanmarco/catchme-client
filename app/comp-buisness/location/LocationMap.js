@@ -23,7 +23,8 @@ type Props = {
 };
 
 type State = {
-	region: TLocationMapRegion
+	region: TLocationMapRegion,
+	mapIsReady: boolean
 };
 
 // LocationMap ******************************************************************************************
@@ -33,14 +34,17 @@ export default class LocationMap extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
-		this.state = {region: this._getInitialRegion(props)};
+		this._onRegionChanged = this._onRegionChanged.bind(this);
+		this._onMapReady = this._onMapReady.bind(this);
+		this.state = {
+			region: this._getInitialRegion(props),
+			mapIsReady: false
+		};
 	}
-
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({region: this._getInitialRegion(nextProps)});
 	}
-
 
 	_getInitialRegion(props) {
 		const initialRegion = Const.locationInitialRegion;
@@ -58,20 +62,29 @@ export default class LocationMap extends React.Component<void, Props, State> {
 		return {latitude: parseFloat(latLng.lat), longitude: parseFloat(latLng.lng)};
 	}
 
+	_onRegionChanged(region) {
+		this.setState({region});
+	}
+
+	_onMapReady() {
+		this.setState({mapIsReady: true});
+	}
 
 	render() {
 		const {locations, ...props} = this.props;
+		const {mapIsReady, region} = this.state;
 		return (
 			<MapView
 				{...props}
 				style={styles.map}
 				customMapStyle={MapsTheme}
 
-				region={this.state.region}
-				onRegionChange={region => this.setState({region})}
-				loadingIndicatorColor={Colors.primary}>
+				region={region}
+				loadingIndicatorColor={Colors.primary}
+				onRegionChange={this._onRegionChanged}
+				onLayout={this._onMapReady}>
 
-				{locations.map((location, key) => (
+				{mapIsReady && locations.map((location, key) => (
 					<MapView.Marker
 						key={key}
 						pinColor={Colors.primary}

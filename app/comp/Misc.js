@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import _BadgeOverlay from './misc/BadgeOverlay';
 import _DefaultLoader from './misc/DefaultLoader';
 import _ListDataPoints from './misc/ListDataPoints';
 import _ListItemHeader from './misc/ListItemHeader';
@@ -13,6 +14,7 @@ import _SearchBar from './misc/SearchBar';
 import _Touchable from './misc/touchable/Touchable';
 import {AvatarCircle as _AvatarCircle, AvatarFull as _AvatarFull} from './misc/Avatars';
 
+export const BadgeOverlay = _BadgeOverlay;
 export const DefaultLoader = _DefaultLoader;
 export const LoadingButton = _LoadingButton;
 export const ListDataPoints = _ListDataPoints;

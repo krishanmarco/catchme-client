@@ -124,7 +124,7 @@ export const RkTextInputFromPool = ({pool, field, ...props}: RkTextInputFromPool
 const styles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
-		justifyContent: 'space-between',
+		// justifyContent: 'space-between',
 		alignItems: 'center'
 	},
 	error: {
