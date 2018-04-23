@@ -74,7 +74,6 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 						].map((addressComponent, key) => (
 							<RkTextInputFromPool
 								key={key}
-								rkType='row'
 								pool={this._formApiEditLocationProfile()}
 								editable={false}
 								field={addressComponent.field}

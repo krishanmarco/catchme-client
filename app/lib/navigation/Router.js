@@ -11,15 +11,18 @@ const navbarStyle = {
 	screenBackgroundColor: Colors.background,
 };
 
-const screenOptions = {
+const defaultOptions = {
 	animated: true,
 	animationType: 'fade',
+};
+
+const screenOptions = {
+	...defaultOptions,
 	navigatorStyle: navbarStyle,
 };
 
 const fullScreenOptions = {
-	animated: true,
-	animationType: 'slide-up',
+	...defaultOptions,
 	navigatorStyle: {navBarHidden: true},
 };
 

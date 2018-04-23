@@ -66,15 +66,15 @@ class Screen extends React.PureComponent<void, Props, State> {
 		const {children, style, disablePointerEvents} = this.props;
 		const {width, height} = Dimensions.get('window');
 		return (
-			<View
-				style={[styles.view, {width, height}, style]}
-				pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
-				<KeyboardAvoidingView
-					style={styles.view}
-					behaviour='padding'>
+			<KeyboardAvoidingView
+				style={[{position: 'absolute', left: 0, right: 0, bottom: 0}, styles.view]}
+				behaviour='padding'>
+				<View
+					style={[styles.view, {width, height}, style]}
+					pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
 					{children}
-				</KeyboardAvoidingView>
-			</View>
+				</View>
+			</KeyboardAvoidingView>
 		);
 	}
 

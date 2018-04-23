@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _BadgeOverlay from './misc/BadgeOverlay';
 import _DefaultLoader from './misc/DefaultLoader';
+import _FullpageForm from './misc/FullpageForm';
 import _ListDataPoints from './misc/ListDataPoints';
 import _ListItemHeader from './misc/ListItemHeader';
 import _ListItemInfo from './misc/ListItemsInfos';
@@ -16,6 +17,7 @@ import {AvatarCircle as _AvatarCircle, AvatarFull as _AvatarFull} from './misc/A
 
 export const BadgeOverlay = _BadgeOverlay;
 export const DefaultLoader = _DefaultLoader;
+export const FullpageForm = _FullpageForm;
 export const LoadingButton = _LoadingButton;
 export const ListDataPoints = _ListDataPoints;
 export const ListItemHeader = _ListItemHeader;

@@ -8,7 +8,7 @@ import Router from "../../lib/navigation/Router";
 import {FontIcons} from "../../Config";
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
@@ -18,6 +18,7 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {fullpageFormDefaultStyles} from "../../comp/misc/FullpageForm";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -98,55 +99,68 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<Screen>
+				<FullpageForm
 
-				<ScreenInfo
-					style={styles.logo}
-					height={120}
-					imageHeight='100%'
-					imageSource={require('../../assets/images/meLogo.png')}/>
+					headerStyle={fullpageFormDefaultStyles.headerStyle}
+					headerJsx={(
+						<ScreenInfo
+							height={120}
+							imageHeight='100%'
+							imageSource={require('../../assets/images/meLogo.png')}/>
+					)}
 
-				<View style={styles.socialLoginButtons}>
-					{[
-						{icon: FontIcons.google, onPress: this._onGoogleLogin},
-						{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
-					].map(this._renderSocialIcon)}
-				</View>
+					fieldsStyle={fullpageFormDefaultStyles.fieldsStyle}
+					fieldsJsx={(
+						<View style={styles.fieldsRow}>
+							
+							<View style={styles.fieldsSocialButtons}>
+								{[
+									{icon: FontIcons.google, onPress: this._onGoogleLogin},
+									{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
+								].map(this._renderSocialIcon)}
+							</View>
+							
+							<View style={styles.fieldsFields}>
+								<RkTextInputFromPool
+									pool={this._getFormApiLogin()}
+									field='email'
+									keyboardType='email-address'
+									placeholder='Email'
+									withBorder/>
 
-				<View style={styles.catchmeLoginForm}>
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiLogin()}
-						field='email'
-						placeholder='Email'
-						withBorder/>
+								<RkTextInputFromPool
+									pool={this._getFormApiLogin()}
+									field='password'
+									placeholder='Password'
+									withBorder
+									secureTextEntry/>
 
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiLogin()}
-						field='password'
-						placeholder='Password'
-						withBorder
-						secureTextEntry/>
+								<LoadingButton
+									style={fullpageFormDefaultStyles.fieldsButton}
+									rkType='large stretch accentColor'
+									loading={this._getFormApiLogin().loading}
+									text={'Login'.toUpperCase()}
+									onPress={this._onLoginPress}/>
 
-					<LoadingButton
-						style={styles.catchmeLoginButton}
-						rkType='large stretch accentColor'
-						loading={this._getFormApiLogin().loading}
-						text={'Login'.toUpperCase()}
-						onPress={this._onLoginPress}/>
-				</View>
+							</View>
+						</View>
+					)}
 
-				<View style={styles.helpFooter}>
-					<FormFooterLink
-						text='Don’t have an account?'
-						clickableText='Sign up now!'
-						onPress={this._onGoToSignupPress}/>
-					<FormFooterLink
-						text='Forgot your password?'
-						clickableText='Recover it!'
-						onPress={this._onGoToRecoverPasswordPress}/>
-				</View>
+					footerStyle={fullpageFormDefaultStyles.footerStyle}
+					footerJsx={(
+						<View>
+							<FormFooterLink
+								text='Don’t have an account?'
+								clickableText='Sign up now!'
+								onPress={this._onGoToSignupPress}/>
+							<FormFooterLink
+								text='Forgot your password?'
+								clickableText='Recover it!'
+								onPress={this._onGoToRecoverPasswordPress}/>
+						</View>
+					)}
 
+				/>
 			</Screen>
 		);
 	}
@@ -154,7 +168,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	_renderSocialIcon({icon, onPress}, key) {
 		return (
-			<View key={key} style={styles.socialButton}>
+			<View key={key} style={styles.fieldsSocialButtonsButton}>
 				<RkButton rkType='social' onPress={onPress}>
 					<RkText rkType='awesome hero accentColor'>{icon}</RkText>
 				</RkButton>
@@ -182,30 +196,22 @@ export default ScreenLogin;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	logo: {
-		marginTop: 24
+	fieldsRow: {
+		flex: 1,
+		marginTop: 4
 	},
-	socialLoginButtons: {
+	fieldsSocialButtons: {
+		flex: 0.28,
 		flexDirection: 'row',
-		marginTop: 24,
-		marginHorizontal: 24,
-	},
-	socialButton: {
-		flex: 0.5,
-		alignItems: 'center',
-	},
-	catchmeLoginForm: {
-		alignItems: 'center',
-		marginTop: 36,
 		marginHorizontal: 16,
 	},
-	catchmeLoginButton: {
-		marginTop: 24,
-	},
-	helpFooter: {
-		flex: 1,
-		justifyContent: 'center',
+	fieldsSocialButtonsButton: {
+		flex: 0.5,
 		alignItems: 'center',
-		marginVertical: 24
-	}
+		justifyContent: 'center',
+	},
+	fieldsFields: {
+		flex: 0.72,
+		marginTop: 16
+	},
 });

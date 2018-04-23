@@ -33,12 +33,12 @@ export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: Rk
 	return (
 		<View style={style} pointerEvents={pointerEvents}>
 
-			<View style={[{borderColor, borderBottomWidth}, styles.row, styles.fullTextInput]}>
+			<View style={[{borderColor}, styles.row, styles.fullTextInput]}>
 				<_RkTextInput {...props} rkType={`row ${rkType}`}/>
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
-				{hasErrorCode ? Validate.mapErrorCodeToMessage(errorCode) : ''}
+				{hasErrorCode ? Validate.mapErrorCodeToMessage(errorCode) : ' '}
 			</RkText>
 
 		</View>

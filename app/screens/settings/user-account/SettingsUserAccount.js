@@ -123,21 +123,18 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pEmail}
-						rkType='row'
 						label='Email'
 						keyboardType='email-address'
 						icon={Icons.settingChangePassword}/>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pPhone}
-						rkType='row'
 						label='Phone'
 						keyboardType='phone-pad'
 						icon={Icons.settingChangePassword}/>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pPublicMessage}
-						rkType='row'
 						multiline={true}
 						numberOfLines={3}
 						label='Status'

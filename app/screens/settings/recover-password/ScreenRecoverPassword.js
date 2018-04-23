@@ -1,11 +1,12 @@
 import React from 'react';
 import {FORM_API_ID_RECOVER_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword";
-import {LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
 import {poolConnect} from "../../../redux/ReduxPool";
 import {RkTextInputFromPool} from "../../../comp/misc/forms/RkInputs";
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../../lib/types/Types";
+import {fullpageFormDefaultStyles} from "../../../comp/misc/FullpageForm";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -44,25 +45,33 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 	render() {
 		return (
 			<Screen>
-				{this._renderScreenInfo()}
-				<View style={styles.catchmeRecoveryForm}>
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiRecoverPassword()}
-						field='email'
-						placeholder='Email'
-						secureTextEntry
-						withBorder/>
+				<FullpageForm
 
-					<LoadingButton
-						style={styles.catchmeRecoveryButton}
-						loading={this._getFormApiRecoverPassword().loading}
-						onPress={this._onSendPress}
-						rkType='large stretch accentColor'
-						text={'Send'.toUpperCase()}
-						withBorder/>
-				</View>
+					headerStyle={fullpageFormDefaultStyles.headerStyle}
+					headerJsx={this._renderScreenInfo()}
 
+					fieldsStyle={[fullpageFormDefaultStyles.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
+						<View>
+							<RkTextInputFromPool
+								pool={this._getFormApiRecoverPassword()}
+								field='email'
+								keyboardType='email-address'
+								placeholder='Email'
+								secureTextEntry
+								withBorder/>
+
+							<LoadingButton
+								style={fullpageFormDefaultStyles.fieldsButton}
+								loading={this._getFormApiRecoverPassword().loading}
+								onPress={this._onSendPress}
+								rkType='large stretch accentColor'
+								text={'Send'.toUpperCase()}
+								withBorder/>
+						</View>
+					)}
+
+				/>
 			</Screen>
 		);
 	}
@@ -81,9 +90,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 		}
 
 		return (
-			<ScreenInfo
-				{...props}
-				style={styles.logo}/>
+			<ScreenInfo {...props}/>
 		);
 	}
 
@@ -106,15 +113,7 @@ export default ScreenRecoverPassword;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	logo: {
-		marginTop: 24
+	fieldsStyle: {
+		flex: 0.72,
 	},
-	catchmeRecoveryForm: {
-		alignItems: 'center',
-		marginTop: 72,
-		marginHorizontal: 16,
-	},
-	catchmeRecoveryButton: {
-		marginTop: 48,
-	}
 });

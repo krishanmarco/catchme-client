@@ -84,34 +84,29 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pName}
 							editable={this._isNewLocation()}
-							rkType='row'
 							label='Name'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pEmail}
-							rkType='row'
 							label='Email'
 							keyboardType='email-address'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pPhone}
-							rkType='row'
 							label='Phone'
 							keyboardType='phone-pad'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pCapacity}
-							rkType='row'
 							label='Capacity'
 							keyboardType='numeric'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pDescription}
-							rkType='row'
 							multiline
 							numberOfLines={3}
 							label='Description'

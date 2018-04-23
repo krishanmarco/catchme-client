@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/01/18 © **/
-
 import type {TAction} from "../daos/DaoAction";
 
 export type TActionHandlers = {[string]: TActionHandler};

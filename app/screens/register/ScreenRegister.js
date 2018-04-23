@@ -4,7 +4,7 @@ import React from 'react';
 import Router from "../../lib/navigation/Router";
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
@@ -12,6 +12,8 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../lib/types/Types";
+import {FontIcons} from "../../Config";
+import {fullpageFormDefaultStyles} from "../../comp/misc/FullpageForm";
 
 
 // Const *************************************************************************************************
@@ -61,60 +63,67 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<Screen>
+				<FullpageForm
 
-				<ScreenInfo
-					style={styles.logo}
-					height={120}
-					imageHeight='100%'
-					imageSource={require('../../assets/images/meLogo.png')}/>
+					headerStyle={fullpageFormDefaultStyles.headerStyle}
+					headerJsx={(
+						<ScreenInfo
+							height={120}
+							imageHeight='100%'
+							imageSource={require('../../assets/images/meLogo.png')}/>
+					)}
 
-				<View style={styles.catchmeSignupForm}>
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiRegister()}
-						field='name'
-						placeholder='Name'
-						withBorder/>
+					fieldsStyle={[fullpageFormDefaultStyles.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
+						<View>
+							<RkTextInputFromPool
+								pool={this._getFormApiRegister()}
+								field='name'
+								placeholder='Name'
+								withBorder/>
 
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiRegister()}
-						field='email'
-						keyboardType='email-address'
-						placeholder='Email'
-						withBorder/>
+							<RkTextInputFromPool
+								pool={this._getFormApiRegister()}
+								field='email'
+								keyboardType='email-address'
+								placeholder='Email'
+								withBorder/>
 
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiRegister()}
-						field='password'
-						placeholder='Password'
-						secureTextEntry
-						withBorder/>
+							<RkTextInputFromPool
+								pool={this._getFormApiRegister()}
+								field='password'
+								placeholder='Password'
+								secureTextEntry
+								withBorder/>
 
-					<RkTextInputFromPool
-						rkType='row'
-						pool={this._getFormApiRegister()}
-						field='passwordConfirm'
-						placeholder='Confirm Password'
-						secureTextEntry
-						withBorder/>
+							<RkTextInputFromPool
+								pool={this._getFormApiRegister()}
+								field='passwordConfirm'
+								placeholder='Confirm Password'
+								secureTextEntry
+								withBorder/>
 
-					<LoadingButton
-						style={styles.catchmeSignupButton}
-						loading={this._getFormApiRegister().loading}
-						rkType='large stretch accentColor'
-						text={'Sign up'.toUpperCase()}
-						onPress={this._onRegisterPress}/>
-				</View>
+							<LoadingButton
+								style={fullpageFormDefaultStyles.fieldsButton}
+								loading={this._getFormApiRegister().loading}
+								rkType='large stretch accentColor'
+								text={'Sign up'.toUpperCase()}
+								onPress={this._onRegisterPress}/>
 
-				<View style={styles.helpFooter}>
-					<FormFooterLink
-						text='Already have an account?'
-						clickableText='Sign in!'
-						onPress={this._onGoToLoginPress}/>
-				</View>
+						</View>
+					)}
 
+					footerStyle={[fullpageFormDefaultStyles.footerStyle, styles.footerStyle]}
+					footerJsx={(
+						<View>
+							<FormFooterLink
+								text='Already have an account?'
+								clickableText='Sign in!'
+								onPress={this._onGoToLoginPress}/>
+						</View>
+					)}
+
+				/>
 			</Screen>
 		);
 	}
@@ -137,20 +146,10 @@ export default ScreenRegister;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	logo: {
-		marginTop: 24
+	fieldsStyle: {
+		flex: 0.66,
 	},
-	catchmeSignupForm: {
-		alignItems: 'center',
-		marginHorizontal: 16,
-	},
-	catchmeSignupButton: {
-		marginTop: 24,
-	},
-	helpFooter: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginVertical: 24
+	footerStyle: {
+		flex: 0.06,
 	},
 });
