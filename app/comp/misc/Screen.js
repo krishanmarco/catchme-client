@@ -70,7 +70,7 @@ class Screen extends React.PureComponent<void, Props, State> {
 				style={styles.keyboardAvoidingView}
 				behaviour='padding'>
 				<View
-					style={[styles.view, {width, height}, style]}
+					style={[{width, height}, styles.view, style]}
 					pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
 					{children}
 				</View>
@@ -94,10 +94,7 @@ export default connect(
 
 const styles = StyleSheet.create({
 	keyboardAvoidingView: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		bottom: 0
+		flex: 1
 	},
 	view: {
 		flex: 1,
