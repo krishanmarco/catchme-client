@@ -67,7 +67,7 @@ class Screen extends React.PureComponent<void, Props, State> {
 		const {width, height} = Dimensions.get('window');
 		return (
 			<KeyboardAvoidingView
-				style={[{position: 'absolute', left: 0, right: 0, bottom: 0}, styles.view]}
+				style={styles.keyboardAvoidingView}
 				behaviour='padding'>
 				<View
 					style={[styles.view, {width, height}, style]}
@@ -93,6 +93,12 @@ export default connect(
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
+	keyboardAvoidingView: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		bottom: 0
+	},
 	view: {
 		flex: 1,
 		backgroundColor: Colors.background
