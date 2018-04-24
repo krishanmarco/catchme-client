@@ -9,6 +9,7 @@ import {FontIcons} from "../../Config";
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {fullpageForm} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
@@ -18,7 +19,6 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {fullpageFormDefaultStyles} from "../../comp/misc/FullpageForm";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -101,7 +101,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 			<Screen>
 				<FullpageForm
 
-					headerStyle={fullpageFormDefaultStyles.headerStyle}
+					headerStyle={fullpageForm.headerStyle}
 					headerJsx={(
 						<ScreenInfo
 							height={120}
@@ -109,7 +109,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 							imageSource={require('../../assets/images/meLogo.png')}/>
 					)}
 
-					fieldsStyle={fullpageFormDefaultStyles.fieldsStyle}
+					fieldsStyle={fullpageForm.fieldsStyle}
 					fieldsJsx={(
 						<View style={styles.fieldsRow}>
 							
@@ -136,7 +136,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 									secureTextEntry/>
 
 								<LoadingButton
-									style={fullpageFormDefaultStyles.fieldsButton}
+									style={fullpageForm.fieldsButton}
 									rkType='large stretch accentColor'
 									loading={this._getFormApiLogin().loading}
 									text={'Login'.toUpperCase()}
@@ -146,7 +146,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						</View>
 					)}
 
-					footerStyle={fullpageFormDefaultStyles.footerStyle}
+					footerStyle={fullpageForm.footerStyle}
 					footerJsx={(
 						<View>
 							<FormFooterLink

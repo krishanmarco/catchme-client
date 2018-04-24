@@ -18,6 +18,7 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {listItemInfo} from "../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -194,6 +195,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
+				style={listItemInfo.itemStyle}
 				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, userProfile, navigator)}
 				{...item}/>
 		);

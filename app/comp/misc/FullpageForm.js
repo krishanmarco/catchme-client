@@ -61,44 +61,18 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		justifyContent: 'flex-start',
-		// backgroundColor: 'rgba(100, 200, 0, .2)'
+		// backgroundColor: 'rgba(100, 0, 0, .2)'
 	},
 	fields: {
 		justifyContent: 'center',
-		// backgroundColor: 'rgba(100, 0, 100, .2)'
+		// backgroundColor: 'rgba(0, 100, 0, .2)'
 	},
 	fieldFooter: {
 		justifyContent: 'center',
-		// backgroundColor: 'rgba(100, 100, 0, .2)'
+		// backgroundColor: 'rgba(0, 0, 100, .2)'
 	},
 	footer: {
 		justifyContent: 'flex-end',
-		// backgroundColor: 'rgba(0, 100, 100, .2)'
+		// backgroundColor: 'rgba(200, 100, 100, .2)'
 	}
-});
-
-// todo move to Styles.js
-export const fullpageFormDefaultStyles = StyleSheet.create({
-	headerStyle: {
-		flex: 0.28,
-		marginTop: 16
-	},
-	fieldsStyle: {
-		flex: 0.60,
-		marginTop: 4,
-		marginHorizontal: 24,
-	},
-	footerStyle: {
-		flex: 0.12,
-		marginTop: 12,
-		marginBottom: 16,
-	},
-	socialButton: {
-		flex: 0.5,
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-	fieldsButton: {
-		marginTop: 12,
-	},
 });

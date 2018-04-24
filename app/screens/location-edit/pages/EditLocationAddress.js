@@ -5,12 +5,12 @@ import LocationMap from '../../../comp-buisness/location/LocationMap';
 import React from 'react';
 import Router from "../../../lib/navigation/Router";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
+import {Colors, Icons} from "../../../Config";
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import {Colors, Icons} from "../../../Config";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

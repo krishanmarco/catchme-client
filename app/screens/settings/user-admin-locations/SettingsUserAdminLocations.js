@@ -10,6 +10,7 @@ import {ListItemLocation} from '../../../comp-buisness/location/LocationListItem
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
+import {listItemInfo} from "../../../lib/theme/Styles";
 
 
 // Const *************************************************************************************************
@@ -82,6 +83,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderLocationsHeader() {
 		return (
 			<ListItemInfo
+				style={listItemInfo.itemStyle}
 				title='Add a new Location'
 				textRkType='header4'
 				icon={Icons.locationAdminAdd}

@@ -2,9 +2,11 @@
 import DaoUser from "../../lib/daos/DaoUser";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
+import {FontIcons} from "../../Config";
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {fullpageForm} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
@@ -12,8 +14,6 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../lib/types/Types";
-import {FontIcons} from "../../Config";
-import {fullpageFormDefaultStyles} from "../../comp/misc/FullpageForm";
 
 
 // Const *************************************************************************************************
@@ -65,7 +65,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 			<Screen>
 				<FullpageForm
 
-					headerStyle={fullpageFormDefaultStyles.headerStyle}
+					headerStyle={fullpageForm.headerStyle}
 					headerJsx={(
 						<ScreenInfo
 							height={120}
@@ -73,7 +73,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 							imageSource={require('../../assets/images/meLogo.png')}/>
 					)}
 
-					fieldsStyle={[fullpageFormDefaultStyles.fieldsStyle, styles.fieldsStyle]}
+					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
 					fieldsJsx={(
 						<View>
 							<RkTextInputFromPool
@@ -104,7 +104,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 								withBorder/>
 
 							<LoadingButton
-								style={fullpageFormDefaultStyles.fieldsButton}
+								style={fullpageForm.fieldsButton}
 								loading={this._getFormApiRegister().loading}
 								rkType='large stretch accentColor'
 								text={'Sign up'.toUpperCase()}
@@ -113,7 +113,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 						</View>
 					)}
 
-					footerStyle={[fullpageFormDefaultStyles.footerStyle, styles.footerStyle]}
+					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
 					footerJsx={(
 						<View>
 							<FormFooterLink

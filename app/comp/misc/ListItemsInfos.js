@@ -5,47 +5,48 @@ import {Icon} from 'react-native-elements';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Touchable} from "../Misc";
-import type {TDataPoint} from "../../lib/types/Types";
+import type {TDataPoint, TStyle} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = TDataPoint & {
-  subTitle?: string,
-  onPress?: Function,
-  itemRight?: Node,
-  textRkType?: string,
+	style?: TStyle,
+	subTitle?: string,
+	onPress?: Function,
+	itemRight?: Node,
+	textRkType?: string,
 };
 
 // ListItemInfo *****************************************************************************************
 // ListItemInfo *****************************************************************************************
 
-export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}: Props) => (
-    <Touchable onPress={onPress} style={styles.root}>
-      <Grid style={styles.grid}>
+export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType, style}: Props) => (
+	<Touchable onPress={onPress} style={[styles.root, style]}>
+		<Grid style={styles.grid}>
 
-        {!!icon && (
-            <Col size={10} style={styles.icon}>
-              <Icon size={24} {...icon} />
-            </Col>
-        )}
+			{!!icon && (
+				<Col size={10} style={styles.iconCol}>
+					<Icon iconStyle={styles.icon} size={24} {...icon} />
+				</Col>
+			)}
 
-        <Col size={100} style={styles.text}>
-          <RkText rkType={textRkType}>{title}</RkText>
-          {!!subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
-        </Col>
+			<Col size={100} style={styles.textCol}>
+				<RkText rkType={textRkType}>{title}</RkText>
+				{!!subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
+			</Col>
 
-        {!!itemRight && (
-            <Col size={24}>{itemRight}</Col>
-        )}
+			{!!itemRight && (
+				<Col size={24}>{itemRight}</Col>
+			)}
 
-      </Grid>
-    </Touchable>
+		</Grid>
+	</Touchable>
 );
 
 ListItemInfo.defaultProps = {
-  textRkType: 'secondary1'
+	textRkType: 'secondary1'
 };
 
 export default ListItemInfo;
@@ -55,19 +56,21 @@ export default ListItemInfo;
 // Config ***********************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-  root: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-  grid: {
-    alignItems: 'center'
-  },
-  icon: {
-    marginRight: -12
-  },
-  text: {
-    marginLeft: 24
-  },
+	root: {
+		borderBottomWidth: StyleSheet.hairlineWidth,
+		borderColor: theme.colors.border.base,
+		paddingVertical: 12
+	},
+	grid: {
+		alignItems: 'center',
+	},
+	iconCol: {
+		alignItems: 'flex-start',
+	},
+	icon: {
+		padding: 0
+	},
+	textCol: {
+		marginLeft: 8
+	},
 }));

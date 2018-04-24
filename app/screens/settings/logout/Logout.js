@@ -1,7 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import RealmIO from '../../../lib/data/RealmIO';
-import {LoadingButton, ScreenInfo} from "../../../comp/Misc";
+import {FullpageForm, LoadingButton, ScreenInfo} from "../../../comp/Misc";
+import {fullpageForm} from "../../../lib/theme/Styles";
 import {startApplication} from "../../../App";
 import {StyleSheet, View} from 'react-native';
 
@@ -32,20 +33,26 @@ export default class Logout extends React.Component<void, Props, void> {
 
 	render() {
 		return (
-			<View style={styles.root}>
-				<ScreenInfo
-					style={styles.info}
-					imageSource={require('../../../assets/images/logout.png')}
-					textText='Are you sure you want to log out?'/>
+				<FullpageForm
 
-				<View style={styles.logoutCont}>
-					<LoadingButton
-						style={styles.logoutButton}
-						rkType='large stretch accentColor'
-						text={'Logout'.toUpperCase()}
-						onPress={this._onLogoutPress}/>
-				</View>
-			</View>
+					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
+						<ScreenInfo
+							style={styles.info}
+							imageSource={require('../../../assets/images/logout.png')}
+							textText='Are you sure you want to log out?'/>
+					)}
+
+					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerJsx={(
+						<LoadingButton
+							style={fullpageForm.fieldsButton}
+							rkType='large stretch accentColor'
+							text={'Logout'.toUpperCase()}
+							onPress={this._onLogoutPress}/>
+					)}
+
+				/>
 		);
 	}
 }
@@ -55,22 +62,10 @@ export default class Logout extends React.Component<void, Props, void> {
 // Config ************************************************************************************************
 
 const styles = StyleSheet.create({
-	root: {
-		flex: 1
+	fieldsStyle: {
+		flex: 0.88
 	},
-	info: {
-		marginTop: 24
-	},
-	logout: {
-		marginTop: 64
-	},
-	logoutCont: {
-		flex: 1,
-		justifyContent: 'center',
-		marginTop: 24,
-		marginHorizontal: 24,
-	},
-	logoutButton: {
-		marginTop: 24,
+	footerStyle: {
+		marginHorizontal: 24
 	},
 });

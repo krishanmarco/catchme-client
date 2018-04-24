@@ -111,7 +111,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	_renderProfileSection() {
 		return (
 			<View>
-				<ListItemHeader name='Profile'/>
+				<ListItemHeader />
 				<View style={styles.section}>
 					<View style={styles.profileSection}>
 						<AvatarCircle

@@ -20,6 +20,7 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {listItemInfo} from "../../lib/theme/Styles";
 
 
 // Const *************************************************************************************************
@@ -240,6 +241,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
+				style={listItemInfo.itemStyle}
 				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
 				{...item}/>
 		);

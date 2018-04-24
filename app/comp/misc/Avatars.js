@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import React from 'react';
+import {BadgeOverlay, Touchable} from "../Misc";
 import {Icon} from 'react-native-elements';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
-import {BadgeOverlay, Touchable} from "../Misc";
 import type {TIcon, TImageSource} from "../../lib/types/Types";
 
 
