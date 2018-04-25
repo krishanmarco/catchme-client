@@ -4,7 +4,7 @@ import {StyleSheet} from 'react-native';
 export const fullpageForm = StyleSheet.create({
 	headerStyle: {
 		flex: 0.28,
-		marginTop: 12
+		marginTop: 16
 	},
 	fieldsStyle: {
 		flex: 0.60,

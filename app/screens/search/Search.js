@@ -133,14 +133,13 @@ class _Search extends React.Component<void, Props, void> {
 	}
 
 	_renderTabSearchUsers() {
-		const {userProfile} = this.props;
 		const {list, loading} = this._searchDataUsers();
 		return (
 			<UserList
 				users={list}
-				friendIds={DaoUser.gConnectionFriendIds(userProfile)}
-				requestIds={DaoUser.gConnectionRequestIds(userProfile)}
-				blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
+				allowAcceptFriend={true}
+				allowUnblockUser={true}
+				allowRequestFriend={true}
 
 				loading={loading}
 				onItemPress={this._onUserPress}

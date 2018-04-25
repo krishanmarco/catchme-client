@@ -185,7 +185,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabFriendsNow}>
 				<UserList
 					users={DaoLocation.gFriendsNow(locationProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
+					allowRequestFriend={true}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);
@@ -198,7 +198,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabFriendsFuture}>
 				<UserList
 					users={DaoLocation.gFriendsFuture(locationProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(authUserProfile)}
+					allowRequestFriend={true}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);

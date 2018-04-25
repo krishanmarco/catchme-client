@@ -175,6 +175,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
 					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
+					allowRequestFriend={true}
 					onItemPress={this._onUserPress}/>
 			</View>
 		);

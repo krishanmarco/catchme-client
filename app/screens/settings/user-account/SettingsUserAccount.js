@@ -99,7 +99,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 	render() {
 		return (
-			<ScrollView>
+			<ScrollView style={styles.root}>
 				{this._renderProfileSection()}
 				{this._renderPrivacySection()}
 				{this._renderSecuritySection()}
@@ -224,6 +224,9 @@ export default SettingsUserAccount;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
+	root: {
+		paddingBottom: 8
+	},
 	section: {
 		paddingHorizontal: 16,
 	},

@@ -173,15 +173,15 @@ class _AddContacts extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {userProfile, usersList, initialized, setUsersSearchQuery} = this.props;
+		const {usersList, initialized, setUsersSearchQuery} = this.props;
 		return (
 			<View style={styles.root}>
 				<UserList
 					users={usersList}
 
-					friendIds={DaoUser.gConnectionFriendIds(userProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(userProfile)}
-					blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
+					allowAcceptFriend={true}
+					allowUnblockUser={true}
+					allowRequestFriend={true}
 
 					onItemPress={this._onUserPress}
 					onSearchChanged={setUsersSearchQuery}
