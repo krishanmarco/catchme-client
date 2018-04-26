@@ -5,12 +5,12 @@ import React from 'react';
 import Router from "../../../lib/navigation/Router";
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Icons} from '../../../Config';
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-import {listItemInfo} from "../../../lib/theme/Styles";
 
 
 // Const *************************************************************************************************

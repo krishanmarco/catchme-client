@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
+import ListItemUser from '../../comp-buisness/user/UserListItems';
 import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import ListItemUser from '../../comp-buisness/user/UserListItems';
 import {poolConnect} from "../../redux/ReduxPool";
-import type {TUser} from "../../lib/daos/DaoUser";
 import type {ListItemUserProps} from "./UserListItems";
+import type {TUser} from "../../lib/daos/DaoUser";
 
 
 // Const ************************************************************************************************

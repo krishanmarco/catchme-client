@@ -13,12 +13,12 @@ import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {listItemInfo} from "../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
