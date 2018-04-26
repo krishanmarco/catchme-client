@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
-import CacheActionCreator from "../CacheActionCreator";
 import CacheDef from "../CacheDef";
 import type {TCacheDef} from "../CacheDef";
 import type {TUser} from "../../../daos/DaoUser";
