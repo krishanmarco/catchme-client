@@ -230,6 +230,14 @@ export default class DaoUser {
 
 // CacheAccessors ***************************************************************************************
 // CacheAccessors ***************************************************************************************
+
+	static invalidateConnectionFriendIds(user: TUser) {
+		ObjectCache.invalidate(user, DaoUser._pConnectionFriendIds);
+	}
+
+	static invalidateConnectionBlockedIds(user: TUser) {
+		ObjectCache.invalidate(user, DaoUser._pConnectionBlockedIds);
+	}
 	
 	static gConnectionFriendIds(user: TUser) {
 		return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
@@ -298,81 +306,4 @@ export default class DaoUser {
 	}
 
 
-// HelperAccessors **************************************************************************************
-// HelperAccessors **************************************************************************************
-
-	static addToConnectionArray(user: TUser, userToAdd: TUser, connectionPropertyName, connectionIdPropertyName) {
-		const userToAddId = DaoUser.gId(userToAdd);
-
-		// Get all the connection ids
-		const connectionIds = user[connectionIdPropertyName];
-
-		if (connectionIds.includes(userToAddId))
-			return;
-
-		// Get the connections, push the new user and set the result back
-		const connections = user[connectionPropertyName];
-		connections.push(userToAdd);
-		user[connectionPropertyName] = connections;
-
-		// Invalidate the id cache
-		ObjectCache.invalidate(user, connectionIdPropertyName);
-	}
-	
-	static addUserToConnectionFriends(user: TUser, userToAdd: TUser) {
-		DaoUser.addToConnectionArray(
-			user,
-			userToAdd,
-			DaoUser.pConnectionFriends,
-			DaoUser._pConnectionFriendIds
-		);
-	}
-
-	static addUserToConnectionBlocked(user: TUser, userToAdd: TUser) {
-		DaoUser.addToConnectionArray(
-			user,
-			userToAdd,
-			DaoUser.pConnectionBlocked,
-			DaoUser._pConnectionBlockedIds
-		);
-	}
-
-	static addLocationToFavorites(user: TUser, location: TLocation) {
-		const locationId = DaoLocation.gId(location);
-
-		// Get all the location ids
-		const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(user);
-
-		// If this is already a favorite location don't do anything
-		if (favoriteLocationIds.includes(locationId))
-			return;
-
-		// This location needs to be added to the favorite location list
-		favoriteLocationIds.push(locationId);
-
-		// Set the new list into the user.locations object
-		user[DaoUser.pLocationsFavorites] = favoriteLocationIds;
-
-
-		// Get the list of locations associated to the user.locations object
-		const locations = DaoUser.gLocationsLocations(user);
-
-		const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
-		if (locationAlreadyIncluded)
-			return;
-
-		// The location needs to be added to the accumulated locations
-		locations.push(location);
-
-		// Set the new list into the user.locations object
-		user[DaoUser.pLocationsLocations] = locations;
-	}
-	
-	static removeLocationFromFavorites(user: TUser, location: TLocation) {
-		const favoriteLocations = DaoUser.gLocationsFavoriteIds(user);
-		_.remove(favoriteLocations, DaoLocation.gId(location));
-		user[DaoUser.pLocationsFavorites] = favoriteLocations;
-	}
-	
-	
 }

@@ -5,7 +5,7 @@ import Logger from "../Logger";
 export default class ObjectCache {
 	
 	static get(object, path, calcCallback) {
-		path = ObjectCache._fullPath(path);
+		path = ObjectCache.fullPath(path);
 		
 		// Try get the previously cached data
 		let data = _.get(object, path);
@@ -21,14 +21,12 @@ export default class ObjectCache {
 		return data;
 	}
 	
-	
 	static invalidate(object, path) {
-		path = ObjectCache._fullPath(path);
+		path = ObjectCache.fullPath(path);
 		_.unset(object, path);
 	}
 	
-	
-	static _fullPath(path) {
+	static fullPath(path) {
 		return `ObjectCache.${path}`;
 	}
 	

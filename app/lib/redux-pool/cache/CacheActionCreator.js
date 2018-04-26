@@ -15,10 +15,25 @@ export default class CacheActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_CACHE, poolDefId, dispatch);
+		this.executeIfDataNotNull = this.executeIfDataNotNull.bind(this);
 		this.invalidate = this.invalidate.bind(this);
 		this.initialize = this.initialize.bind(this);
 		this.setData = this.setData.bind(this);
 		this.mergeData = this.mergeData.bind(this);
+	}
+
+
+	executeIfDataNotNull(functionToExecute: Object => any) {
+		const {dispatch, getPoolState} = this;
+
+		return dispatch((dispatch, getState) => {
+			const {data} = getPoolState(getState);
+
+			if (data == null)
+				return null;
+
+			return functionToExecute(data);
+		});
 	}
 
 

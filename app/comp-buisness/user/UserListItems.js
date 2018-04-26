@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../../lib/data/ApiClient';
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import {Icons} from '../../Config';
@@ -7,20 +6,49 @@ import {ListItemWithActions} from "../../comp/Misc";
 import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 import type {TUser} from "../../lib/daos/DaoUser";
 
-
-// ListItemUser *****************************************************************************************
-// ListItemUser *****************************************************************************************
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
 export type ListItemUserProps = ListItemWithActionProps & {
 	user: TUser,
-	onPress: (TUser) => void
+	onPress: (TUser) => void,
+	onUserConnectionBlockUid?: (TUser) => void,
+	onUserConnectionAddUid?: (TUser) => void,
 };
 
-export class ListItemUser extends React.Component<void, ListItemUserProps, void> {
+// ListItemUser *****************************************************************************************
+// ListItemUser *****************************************************************************************
+
+export default class ListItemUser extends React.PureComponent<void, ListItemUserProps, void> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._defaultOnPress = this._defaultOnPress.bind(this);
+		this.initialize();
+	}
+
+	componentWillReceiveProps(props) {
+		this.initialize(props);
+	}
+
+	initialize(props = this.props) {
+		const {user, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
+
+		this.actions = [];
+
+		if (onUserConnectionAddUid) {
+			this.actions.push({
+				icon: Icons.userFollow,
+				onPress: () => onUserConnectionAddUid(user)
+			});
+		}
+
+		if (onUserConnectionBlockUid) {
+			this.actions.push({
+				icon: Icons.userBlock,
+				onPress: () => onUserConnectionBlockUid(user)
+			});
+		}
 	}
 
 	_defaultOnPress() {
@@ -39,93 +67,9 @@ export class ListItemUser extends React.Component<void, ListItemUserProps, void>
 				header={DaoUser.gName(user)}
 				content={DaoUser.gPublicMessage(user)}
 				avatarUri={DaoUser.gPictureUrl(user)}
-				onPress={this._defaultOnPress}/>
-		);
-	}
-
-}
-
-
-// ListItemUserRequestSend ******************************************************************************
-// ListItemUserRequestSend ******************************************************************************
-
-type ListItemUserRequestSendProps = ListItemUserProps & {
-	onUserConnectionAddUid: (TUser) => void
-};
-
-const buildActionUserConnectionsAddUid = (onUserConnectionAddUid) => ({
-	icon: Icons.userFollow,
-	onPress: onUserConnectionAddUid
-});
-
-export class ListItemUserRequestSend extends React.PureComponent<void, ListItemUserRequestSendProps, void> {
-
-	constructor(props, context) {
-		super(props, context);
-		this.initialize();
-	}
-
-	componentWillReceiveProps(props) {
-		this.initialize(props);
-	}
-
-	initialize(props = this.props) {
-		const {onUserConnectionAddUid} = props;
-		this.actions = [buildActionUserConnectionsAddUid(onUserConnectionAddUid)];
-	}
-
-	render() {
-		const {onUserConnectionAddUid, ...props} = this.props;
-		return (
-			<ListItemUser
-				{...props}
+				onPress={this._defaultOnPress}
 				actions={this.actions} />
 		);
 	}
 
 }
-
-
-// ListItemUserRequestReceived **************************************************************************
-// ListItemUserRequestReceived **************************************************************************
-
-type ListItemUserRequestReceivedProps = ListItemUserProps & {
-	onUserConnectionBlockUid: (TUser) => void,
-	onUserConnectionAddUid: (TUser) => void,
-};
-
-const buildActionUserConnectionsBlockUid = (onUserConnectionBlockUid) => ({
-	icon: Icons.userBlock,
-	onPress: onUserConnectionBlockUid
-});
-
-export class ListItemUserRequestReceived extends React.PureComponent<void, ListItemUserRequestReceivedProps, void> {
-
-	constructor(props, context) {
-		super(props, context);
-		this.initialize();
-	}
-
-	componentWillReceiveProps(props) {
-		this.initialize(props);
-	}
-
-	initialize(props = this.props) {
-		const {onUserConnectionAddUid, onUserConnectionBlockUid} = props;
-		this.actions = [
-			buildActionUserConnectionsAddUid(onUserConnectionAddUid),
-			buildActionUserConnectionsBlockUid(onUserConnectionBlockUid)
-		];
-	}
-
-	render() {
-		const {onUserConnectionAddUid, onUserConnectionBlockUid, ...props} = this.props;
-		return (
-			<ListItemUser {...props} actions={this.actions} />
-		);
-	}
-
-}
-
-// Config ***********************************************************************************************
-// Config ***********************************************************************************************

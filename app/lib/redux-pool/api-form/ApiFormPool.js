@@ -49,7 +49,7 @@ const ApiFormPool: TPool = {
 	
 	
 	connectParams: {
-		getActionCreator: (poolDefId: string, dispatch: TDispatch) => new ApiFormActionCreator(poolDefId, dispatch)
+		getDefaultActionCreator: (poolDefId: string, dispatch: TDispatch) => new ApiFormActionCreator(poolDefId, dispatch)
 	},
 	
 	

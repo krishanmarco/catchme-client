@@ -32,7 +32,7 @@ const SearchDataPool: TPool = {
 	},
 
 	connectParams: {
-		getActionCreator: (poolId, dispatch) => new SearchDataActionCreator(poolId, dispatch)
+		getDefaultActionCreator: (poolId, dispatch) => new SearchDataActionCreator(poolId, dispatch)
 	},
 
 	defs: {
