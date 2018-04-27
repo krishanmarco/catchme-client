@@ -18,9 +18,9 @@ export type TListItemAction = {
 	onPress?: () => void
 };
 
-export const ListItemAction = ({icon, size, onPress}: TListItemAction) => (
+export const ListItemAction = ({icon, size, color, onPress}: TListItemAction) => (
 	<RkButton rkType='clear' style={styles.listItemActionRoot} onPress={onPress}>
-		<Icon {...icon} size={size}/>
+		<Icon {...icon} color={color} size={size}/>
 	</RkButton>
 );
 

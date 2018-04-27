@@ -116,14 +116,14 @@ class _Search extends React.Component<void, Props, void> {
 
 
 	_renderTabSearchLocations() {
-		const {userProfile} = this.props;
 		const {list, loading} = this._searchDataLocations();
 		return (
 			<LocationList
 				locations={list}
-				favoriteIds={DaoUser.gLocationsFavoriteIds(userProfile)}
+				allowFollow={true}
+				allowUnfollow={true}
 
-				onItemPress={this._onLocationPress}
+				onLocationPress={this._onLocationPress}
 				onSearchPressed={this._searchDataLocations().search}
 				onSearchChanged={this._searchDataLocations().setSearchQuery}
 				loading={loading}

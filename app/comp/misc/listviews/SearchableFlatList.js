@@ -30,15 +30,13 @@ type Props<T> = FlatList.props & {
 };
 
 type State = {
-	autoFilter: true,
-	searchText: string,
-	minTriggerChars: 3
+	searchText: string
 };
-
 
 const defaultProps = {
 	searchPlaceholder: 'Search',
 	minTriggerChars: 0,
+	autoFilter: true,
 	onEndReachedThreshold: Const.defaultOnEndReachedThreshold
 };
 
@@ -83,9 +81,12 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 		const {searchText} = this.state;
 
 		try {
-			const regExp = new RegExp(String(searchText), 'i');
-			const helper = (item) => filterExtractor(item, regExp);
-			return data.filter(helper);
+			// Escape regex special chars
+			const searchTextEscaped = String(searchText)
+				.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+
+			const regExp = new RegExp(searchTextEscaped || '', 'i');
+			return data.filter((item) => filterExtractor(item, regExp));
 
 		} catch (exception) {
 			// Invalid regular expression, do not filter

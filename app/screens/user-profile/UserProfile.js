@@ -160,9 +160,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabLocations}>
 				<UserLocationsStatusList
 					navigator={navigator}
-					allowEdit={this._isSameUser()}
 					userProfile={userProfile}
-					onLocationPress={this._onLocationPress}/>
+					onLocationPress={this._onLocationPress}
+					allowEdit={this._isSameUser()}
+					allowFollow={true}
+					allowUnfollow={this._isSameUser()}/>
 			</View>
 		);
 	}

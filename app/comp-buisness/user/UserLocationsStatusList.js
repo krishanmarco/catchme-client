@@ -7,11 +7,14 @@ import React from 'react';
 import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import ULSListManager, {TLocationWithULS, TULSListState} from '../../lib/helpers/ULSListManager';
-import {ListItemLocation, ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
+import {ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {poolConnect} from "../../redux/ReduxPool";
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import DaoUser from "../../lib/daos/DaoUser";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -21,7 +24,8 @@ type Props = {
 	allowEdit: boolean,
 	userProfile: TUser,
 	onLocationPress: (TLocation) => void,
-	favoriteIds?: Array<number>
+	allowFollow: boolean,
+	allowUnfollow: boolean
 };
 
 type State = TULSListState;
@@ -30,7 +34,7 @@ type State = TULSListState;
 // UserLocationsStatusList ******************************************************************************
 // UserLocationsStatusList ******************************************************************************
 
-export default class UserLocationsStatusList extends React.Component<void, Props, State> {
+class _UserLocationsStatusList extends React.PureComponent<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -43,9 +47,21 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 		this.state = ULSListManager.calculateState(userProfile);
 	}
 
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
+	}
+
 	componentWillReceiveProps(nextProps) {
 		const {userProfile} = nextProps;
 		this.setState(ULSListManager.calculateState(userProfile));
+	}
+
+	_cacheUserProfile(): TCacheUserProfile {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	_getFavoriteIds() {
+		return DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 	}
 
 	_onUserLocationStatusDeletePress(status: TUserLocationStatus) {
@@ -100,27 +116,51 @@ export default class UserLocationsStatusList extends React.Component<void, Props
 
 
 	_renderItem({item}: { item: TLocationWithULS }) {
-		const {favoriteIds, onLocationPress, allowEdit} = this.props;
+		const {allowFollow, allowUnfollow, onLocationPress, allowEdit} = this.props;
 
-		const listItemProps = {location: item, onPress: onLocationPress};
+		const listItemProps = {
+			location: item,
+			onPress: onLocationPress
+		};
+
 		const userLocationStatus = ULSListManager.gStatus(item);
 
 		if (userLocationStatus) {
-			return (
-				<ListItemUserLocationStatus
-					{...listItemProps}
-					onEditPress={this._onUserLocationStatusEditPress}
-					onDeletePress={this._onUserLocationStatusDeletePress}
-					allowEdit={allowEdit}
-					userLocationStatus={userLocationStatus}/>
-			);
+			listItemProps.editUserLocationStatus = this._onUserLocationStatusEditPress;
+			listItemProps.removeUserLocationStatus = this._onUserLocationStatusDeletePress;
+			listItemProps.allowEdit = allowEdit;
+			listItemProps.userLocationStatus = userLocationStatus;
+			return (<ListItemUserLocationStatus {...listItemProps} />);
 		}
 
-		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(item)))
-			return <ListItemLocationFollow {...listItemProps}/>;
 
-		return <ListItemLocation {...listItemProps}/>;
+		const addLocationToFavorites = this._cacheUserProfile().addLocationToFavorites;
+		const removeLocationFromFavorites = this._cacheUserProfile().removeLocationFromFavorites;
+
+		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
+		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
+
+		if (showFollow) {
+			listItemProps.addLocationToFavorites = addLocationToFavorites;
+		}
+
+		if (showUnfollow) {
+			listItemProps.removeLocationFromFavorites = removeLocationFromFavorites;
+		}
+
+		return <ListItemLocationFollow {...listItemProps}/>;
 	}
 
-
 }
+
+const UserLocationsStatusList = poolConnect(_UserLocationsStatusList,
+	// mapStateToProps
+	(state) => ({}),
+
+	// mapDispatchToProps
+	(dispatch) => ({}),
+
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
+);
+export default UserLocationsStatusList;

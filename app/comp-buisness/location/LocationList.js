@@ -1,8 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUser from "../../lib/daos/DaoUser";
 import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-import {ListItemLocation, ListItemLocationFollow} from './LocationListItems';
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {ListItemLocationFollow} from './LocationListItems';
+import {poolConnect} from "../../redux/ReduxPool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 
 
@@ -11,20 +14,25 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 
 type Props = {
 	locations: Array<TLocation>,
-	favoriteIds: Array<number>,
-	onItemPress: Function
+	allowFollow: boolean,
+	allowUnfollow: boolean,
+	onLocationPress: Function
 };
 
 
 // LocationList *****************************************************************************************
 // LocationList *****************************************************************************************
 
-export default class LocationList extends React.PureComponent<void, Props, void> {
+class _LocationList extends React.PureComponent<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._filterExtractor = this._filterExtractor.bind(this);
 		this._renderItem = this._renderItem.bind(this);
+	}
+
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
 	}
 
 	_filterExtractor(location, regExp) {
@@ -34,6 +42,14 @@ export default class LocationList extends React.PureComponent<void, Props, void>
 			|| regExp.test(DaoLocation.gCity(location))
 			|| regExp.test(DaoLocation.gPostcode(location))
 			|| regExp.test(DaoLocation.gAddress(location));
+	}
+
+	_cacheUserProfile(): TCacheUserProfile {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	_getFavoriteIds() {
+		return DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 	}
 
 
@@ -55,16 +71,41 @@ export default class LocationList extends React.PureComponent<void, Props, void>
 	}
 
 
-	_renderItem({item}: { item: TLocation }) { // todo move follow/unfollow to here like UserList
-		let {favoriteIds, onItemPress} = this.props;
+	_renderItem({item}: { item: TLocation }) {
+		const {allowFollow, allowUnfollow, onLocationPress} = this.props;
 
-		const listItemProps = {location: item, onPress: onItemPress};
+		const listItemProps = {
+			location: item,
+			onPress: onLocationPress
+		};
 
-		if (favoriteIds && !favoriteIds.includes(DaoLocation.gId(item)))
-			return <ListItemLocationFollow {...listItemProps}/>;
+		const addLocationToFavorites = this._cacheUserProfile().addLocationToFavorites;
+		const removeLocationFromFavorites = this._cacheUserProfile().removeLocationFromFavorites;
 
-		return <ListItemLocation {...listItemProps}/>;
+		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
+		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
+
+		if (showFollow) {
+			listItemProps.addLocationToFavorites = addLocationToFavorites;
+		}
+
+		if (showUnfollow) {
+			listItemProps.removeLocationFromFavorites = removeLocationFromFavorites;
+		}
+
+		return <ListItemLocationFollow {...listItemProps}/>;
 	}
 
 }
 
+const LocationList = poolConnect(_LocationList,
+	// mapStateToProps
+	(state) => ({}),
+
+	// mapDispatchToProps
+	(dispatch) => ({}),
+
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
+);
+export default LocationList;

@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import {Const} from "../../Config";
 import {denormObj, seconds} from "../HelperFunctions";
+import TimestampFormatter from "../helpers/TimestampFormatter";
 
 
 export type TUserLocationStatus = {
@@ -56,5 +57,16 @@ export default class DaoUserLocationStatus {
 	static gUntilTs(userStatus: TUserLocationStatus) {
 		return _.get(userStatus, DaoUserLocationStatus.pUntilTs);
 	}
-	
+
+
+// HelperAccessors **************************************************************************************
+// HelperAccessors **************************************************************************************
+
+	static getFormattedRange(userStatus: TUserLocationStatus) {
+		const fromTs = DaoUserLocationStatus.gFromTs(userStatus);
+		const toTs = DaoUserLocationStatus.gUntilTs(userStatus);
+		return TimestampFormatter.parseFromTo(fromTs, toTs);
+	}
+
+
 }

@@ -45,6 +45,10 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		this._renderItem = this._renderItem.bind(this);
 	}
 
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
+	}
+
 	_filterExtractor(user: TUser, regExp) {
 		return regExp.test(DaoUser.gName(user))
 			|| regExp.test(DaoUser.gEmail(user))
@@ -56,24 +60,15 @@ class _UserList extends React.PureComponent<void, Props, void> {
 	}
 
 	_getRequestIds() {
-		const userProfile = this._cacheUserProfile().data;
-		return userProfile != null
-			? DaoUser.gConnectionRequestIds(userProfile)
-			: [];
+		return DaoUser.gConnectionRequestIds(this._cacheUserProfile().data);
 	}
 
 	_getBlockedIds() {
-		const userProfile = this._cacheUserProfile().data;
-		return userProfile != null
-			? DaoUser.gConnectionBlockedIds(userProfile)
-			: [];
+		return DaoUser.gConnectionBlockedIds(this._cacheUserProfile().data);
 	}
 
 	_getFriendIds() {
-		const userProfile = this._cacheUserProfile().data;
-		return userProfile != null
-			? DaoUser.gConnectionFriendIds(userProfile)
-			: [];
+		return DaoUser.gConnectionFriendIds(this._cacheUserProfile().data);
 	}
 
 
@@ -103,8 +98,8 @@ class _UserList extends React.PureComponent<void, Props, void> {
 			onPress: onItemPress
 		};
 
-		const addToFriends = this._cacheUserProfile().addToFriends;
-		const removeFromFriends = this._cacheUserProfile().removeFromFriends;
+		const addUserToFriends = this._cacheUserProfile().addUserToFriends;
+		const removeUserFromFriends = this._cacheUserProfile().removeUserFromFriends;
 		const blockUser = this._cacheUserProfile().blockUser;
 
 		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == DaoUser.gId(item);
@@ -116,13 +111,13 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		if (!isSameUser) {
 			if (showAccept) {
 				listItemProps.onUserConnectionBlockUid = blockUser;
-				listItemProps.onUserConnectionAddUid = addToFriends;
+				listItemProps.onUserConnectionAddUid = addUserToFriends;
 
 			} else if (showUnblock || showRequest) {
-				listItemProps.onUserConnectionAddUid = addToFriends;
+				listItemProps.onUserConnectionAddUid = addUserToFriends;
 
 			} else if (showRemove) {
-				listItemProps.onUserConnectionBlockUid = removeFromFriends;
+				listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
 			}
 		}
 

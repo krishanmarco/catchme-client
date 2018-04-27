@@ -38,20 +38,20 @@ export class CacheDefUserProfileActionCreator {
 
 	constructor(cacheActionCreator) {
 		this.cacheActionCreator = cacheActionCreator;
-		this._addLocationToFavorites = this._addLocationToFavorites.bind(this);
-		this._removeLocationFromFavorites = this._removeLocationFromFavorites.bind(this);
+		this.addLocationToFavorites = this.addLocationToFavorites.bind(this);
+		this.removeLocationFromFavorites = this.removeLocationFromFavorites.bind(this);
 		this._addToConnectionArray = this._addToConnectionArray.bind(this);
 		this._removeFromConnectionArray = this._removeFromConnectionArray.bind(this);
 		this._removeUserFromConnectionsFriends = this._removeUserFromConnectionsFriends.bind(this);
 		this._removeUserFromConnectionsBlocked = this._removeUserFromConnectionsBlocked.bind(this);
 		this._addUserToConnectionsFriends = this._addUserToConnectionsFriends.bind(this);
 		this._addUserToConnectionsBlocked = this._addUserToConnectionsBlocked.bind(this);
-		this.addToFriends = this.addToFriends.bind(this);
-		this.removeFromFriends = this.removeFromFriends.bind(this);
+		this.addUserToFriends = this.addUserToFriends.bind(this);
+		this.removeUserFromFriends = this.removeUserFromFriends.bind(this);
 		this.blockUser = this.blockUser.bind(this);
 	}
 
-	_addLocationToFavorites(locationToAdd: TLocation) {
+	addLocationToFavorites(locationToAdd: TLocation) {
 		const {executeIfDataNotNull} = this.cacheActionCreator;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
@@ -84,7 +84,7 @@ export class CacheDefUserProfileActionCreator {
 		});
 	}
 
-	_removeLocationFromFavorites(locationToRemove: TLocation) {
+	removeLocationFromFavorites(locationToRemove: TLocation) {
 		const {executeIfDataNotNull} = this.cacheActionCreator;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
@@ -183,7 +183,7 @@ export class CacheDefUserProfileActionCreator {
 		);
 	}
 
-	addToFriends(userToAdd: TUser) {
+	addUserToFriends(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._addUserToConnectionsFriends(userToAdd);
 
@@ -199,7 +199,7 @@ export class CacheDefUserProfileActionCreator {
 			});
 	}
 
-	removeFromFriends(userToAdd: TUser) {
+	removeUserFromFriends(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._removeUserFromConnectionsFriends(userToAdd);
 
