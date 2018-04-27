@@ -38,7 +38,7 @@ export function mutatorCacheModelInitializeData(action, subState: CacheState): C
 
 export function mutatorCacheModelSetData(action, subState: CacheState): CacheState {
 	return {
-		data: action.data,
+		data: {...action.data},
 		loading: false,
 		loadingPromise: null
 	};
