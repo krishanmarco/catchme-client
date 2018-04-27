@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-
 import {RkText} from 'react-native-ui-kitten';
 import {Touchable} from "../Misc";
+import type {TStyle} from "../../lib/types/Types";
 
 
 // Const *************************************************************************************************
@@ -12,38 +12,49 @@ import {Touchable} from "../Misc";
 type Props = {
 	imageSource: Object,
 	textText?: string,
-	height?: number,
-	marginTop?: number,
-	onPress?: () => void
+	height?: number|string,
+	imageHeight?: number|string,
+	marginTop?: number|string,
+	onPress?: () => void,
+	style?: TStyle
 };
 
+const defaultProps = {
+	height: 150,
+	imageHeight: '82%',
+	marginTop: 8,
+};
 
 // ScreenInfo ******************************************************************************************
 // ScreenInfo ******************************************************************************************
 
 export default class ScreenInfo extends React.Component<void, Props, void> {
-
-	static defaultProps = {
-		height: 150,
-		marginTop: 8,
-	};
+	static defaultProps = defaultProps;
 
 	render() {
-		const {height, marginTop, imageSource, textText, onPress} = this.props;
+		const {
+			style,
+			height,
+			imageHeight,
+			marginTop,
+			onPress,
+			imageSource,
+			textText
+		} = this.props;
 
 		return (
-			<View style={[{height, marginTop}, styles.root]}>
+			<View style={[{height, marginTop}, style, styles.root]}>
 
 				<Touchable
-					style={styles.imageRoot}
+					style={styles.imageCont}
 					onPress={onPress}>
 					<Image
-						style={styles.image}
+						style={[{height: imageHeight}, styles.imageImage]}
 						source={imageSource}/>
 				</Touchable>
 
 				{!!textText && (
-					<View style={styles.textRoot}>
+					<View style={styles.textCont}>
 						<RkText style={styles.text} rkType='header6'>{textText}</RkText>
 					</View>
 				)}
@@ -64,20 +75,18 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		paddingVertical: 8
 	},
-	imageRoot: {
+	imageCont: {
 		width: '100%',
-		height: '50%',
 		alignItems: 'center',
-		marginVertical: 16,
+		marginTop: 16,
 	},
-	image: {
-		resizeMode: 'contain',
-		height: '75%'
+	imageImage: {
+		resizeMode: 'contain'
 	},
-	textRoot: {
+	textCont: {
 		alignItems: 'center',
 		width: '70%',
-		marginVertical: 16
+		marginTop: 8,
 	},
 	text: {
 		textAlign: 'center'

@@ -52,8 +52,9 @@ export default class LocationGeocoderTextEdit extends React.Component<void, Prop
 
 
   _onPress(data, details) {
+    const {onSelect} = this.props;
     // details are only provided when fetchDetails=true
-    this.props.onSelect(new GoogleMapsDataDecoder(details).toLocation());
+    onSelect(new GoogleMapsDataDecoder(details).toLocation());
   }
 
 

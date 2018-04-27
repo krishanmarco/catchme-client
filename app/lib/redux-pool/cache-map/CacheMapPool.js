@@ -37,7 +37,7 @@ const CacheMapPool: TPool = {
 	
 	connectParams: {
 		getExtraProps: (poolDefId, stateProps, dispatchProps) => new CacheMapExtraProps(poolDefId, stateProps, dispatchProps),
-		getActionCreator: (poolDefId: string, dispatch: TDispatch) => new CacheMapActionCreator(poolDefId, dispatch)
+		getDefaultActionCreator: (poolDefId: string, dispatch: TDispatch) => new CacheMapActionCreator(poolDefId, dispatch)
 	},
 
 	

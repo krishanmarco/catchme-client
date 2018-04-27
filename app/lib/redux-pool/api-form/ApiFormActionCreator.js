@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import ApiFormDef from "./ApiFormDef";
+import Logger from "../../Logger";
 import PoolActionCreator from "../PoolActionCreator";
 import {
 	POOL_ACTION_API_FORMS_ON_API_EXCEPTION,
@@ -40,9 +41,10 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 
 
 	change(apiInput) {
-		const {dispatchAction} = this;
+		const {dispatchAction, poolId} = this;
 		const pool = this.getPoolDef();
 
+		Logger.v(`ApiFormActionCreator change: Changing ${poolId}`, apiInput);
 		return dispatchAction({
 			type: POOL_ACTION_API_FORMS_ON_CHANGE,
 			errors: pool.validateOnChange ? this._validate(apiInput) : {},
@@ -80,11 +82,11 @@ export default class ApiFormActionCreator extends PoolActionCreator {
 
 
 	post(extraParams: Object) {
-		const {dispatchAction, dispatch, poolId} = this;
+		const {dispatchAction, dispatch} = this;
 		const pool = this.getPoolDef();
 
 		return dispatch((dispatch, getState) => {
-			const form = getState().reduxPoolReducer[POOL_TYPE_API_FORMS][poolId];
+			const form = this.getPoolState(getState);
 
 			const errors = this._validate(form.apiInput, true);
 			if (ApiFormDef.hasErrors(errors)) {

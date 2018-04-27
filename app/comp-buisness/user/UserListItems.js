@@ -1,26 +1,54 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../../lib/data/ApiClient';
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import {Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
-import type {TUser} from "../../lib/daos/DaoUser";
 import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
+import type {TUser} from "../../lib/daos/DaoUser";
 
-
-// ListItemUser *****************************************************************************************
-// ListItemUser *****************************************************************************************
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
 export type ListItemUserProps = ListItemWithActionProps & {
 	user: TUser,
-	onPress: (TUser) => void
+	onPress: (TUser) => void,
+	onUserConnectionBlockUid?: (TUser) => void,
+	onUserConnectionAddUid?: (TUser) => void,
 };
 
-export class ListItemUser extends React.Component<void, ListItemUserProps, void> {
+// ListItemUser *****************************************************************************************
+// ListItemUser *****************************************************************************************
+
+export default class ListItemUser extends React.PureComponent<void, ListItemUserProps, void> {
 
 	constructor(props, context) {
 		super(props, context);
 		this._defaultOnPress = this._defaultOnPress.bind(this);
+		this.initialize();
+	}
+
+	componentWillReceiveProps(props) {
+		this.initialize(props);
+	}
+
+	initialize(props = this.props) {
+		const {user, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
+
+		this.actions = [];
+
+		if (onUserConnectionAddUid) {
+			this.actions.push({
+				icon: Icons.userFollow,
+				onPress: () => onUserConnectionAddUid(user)
+			});
+		}
+
+		if (onUserConnectionBlockUid) {
+			this.actions.push({
+				icon: Icons.userBlock,
+				onPress: () => onUserConnectionBlockUid(user)
+			});
+		}
 	}
 
 	_defaultOnPress() {
@@ -39,42 +67,9 @@ export class ListItemUser extends React.Component<void, ListItemUserProps, void>
 				header={DaoUser.gName(user)}
 				content={DaoUser.gPublicMessage(user)}
 				avatarUri={DaoUser.gPictureUrl(user)}
-				onPress={this._defaultOnPress}/>
+				onPress={this._defaultOnPress}
+				actions={this.actions} />
 		);
 	}
 
 }
-
-
-// ListItemUserRequestSend ******************************************************************************
-// ListItemUserRequestSend ******************************************************************************
-
-const ActionUserConnectionsAddUid = {
-	icon: Icons.userFollow,
-	onPress: (user: TUser) => ApiClient.userConnectionsAddUid(DaoUser.gId(user))
-};
-
-export const ListItemUserRequestSend = (props: ListItemUserProps) => (
-	<ListItemUser
-		{...props}
-		actions={[ActionUserConnectionsAddUid]}/>
-);
-
-
-// ListItemUserRequestReceived **************************************************************************
-// ListItemUserRequestReceived **************************************************************************
-
-const ActionUserConnectionsBlockUid = {
-	icon: Icons.userBlock,
-	onPress: (user: TUser) => ApiClient.userConnectionsBlockUid(DaoUser.gId(user))
-};
-
-export const ListItemUserRequestReceived = (props: ListItemUserProps) => (
-	<ListItemUser
-		{...props}
-		actions={[ActionUserConnectionsAddUid, ActionUserConnectionsBlockUid]}/>
-);
-
-
-// Config ***********************************************************************************************
-// Config ***********************************************************************************************

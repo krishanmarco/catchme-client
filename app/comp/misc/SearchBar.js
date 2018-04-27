@@ -6,16 +6,18 @@ import {RkTextInput} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TStyle} from "../../lib/types/Types";
 
-
-
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-  placeholder: ?string,
-  onChange: Function,
-  onSearchPressed: Function,
-	style: TStyle
+	placeholder: ?string,
+	onChange: Function,
+	onSearchPressed: Function,
+	style?: TStyle
+};
+
+const defaultProps = {
+	placeholder: 'Search',
 };
 
 
@@ -23,52 +25,51 @@ type Props = {
 // SearchBar ********************************************************************************************
 
 export default class SearchBar extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
 
-  constructor(props, context) {
-    super(props, context);
-    this._onChange = this._onChange.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onChange = this._onChange.bind(this);
+	}
 
-  _onChange(event) {
-    this.props.onChange(event.nativeEvent.text);
-    event.stopPropagation();
-  }
+	_onChange(event) {
+		const {onChange} = this.props;
+		onChange(event.nativeEvent.text);
+		event.stopPropagation();
+	}
 
-
-  render() {
-    const {placeholder, style} = this.props;
-    return (
-        <View style={[styles.searchContainer, style]}>
-          <RkTextInput
-              style={styles.textInput}
-              rkType='row rounded'
-              autoCapitalize='none'
-              autoCorrect={false}
-              label={<Icon {...Icons.search} />}
-              onChange={this._onChange}
-              onEndEditing={this.props.onSearchPressed}
-              placeholder={placeholder}/>
-        </View>
-    );
-  }
+	render() {
+		const {onSearchPressed, placeholder, style} = this.props;
+		return (
+			<View style={[styles.root, style]}>
+				<RkTextInput
+					style={styles.textInput}
+					rkType='row rounded'
+					autoCapitalize='none'
+					autoCorrect={false}
+					label={<Icon {...Icons.search} />}
+					onChange={this._onChange}
+					onEndEditing={onSearchPressed}
+					placeholder={placeholder}/>
+			</View>
+		);
+	}
 
 }
 
-SearchBar.defaultProps = {
-  placeholder: 'Search',
-};
-
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    backgroundColor: Colors.background,
-    paddingHorizontal: 16,
-    alignItems: 'center',
-    marginBottom: 4,
-  },
-  textInput: {
-    marginVertical: 0,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  }
+	root: {
+		backgroundColor: Colors.background,
+		paddingHorizontal: 16,
+		alignItems: 'center',
+		marginBottom: 4,
+	},
+	textInput: {
+		marginVertical: 0,
+		paddingHorizontal: 8,
+		paddingVertical: 2,
+	}
 });

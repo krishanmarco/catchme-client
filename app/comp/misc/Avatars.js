@@ -1,9 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import _ from 'lodash';
 import React from 'react';
+import {BadgeOverlay, Touchable} from "../Misc";
 import {Icon} from 'react-native-elements';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
-import {Touchable} from "../Misc";
+import type {TIcon, TImageSource} from "../../lib/types/Types";
 
 
 // Avatar *********************************************************************************
@@ -24,7 +26,7 @@ class Avatar extends RkComponent {
 		return (
 			<View style={[container, style]}>
 				<Touchable onPress={onPress}>
-					<Image style={imgStyle.image} source={{uri}}/>
+					{!_.isEmpty(uri) && <Image style={imgStyle.image} source={{uri}}/>}
 					{!!badge && (
 						<View style={imgStyle.badge}>
 							<Icon {...badge} />
@@ -51,3 +53,41 @@ export const AvatarCircle = ({rkType, ...props}: Props) => (
 	<Avatar {...props} rkType={`circle ${rkType}`}/>
 );
 
+
+
+// AvatarFull *******************************************************************************************
+// AvatarFull *******************************************************************************************
+
+type Props = {
+	source: TImageSource,
+	onPress?: Function,
+	badge?: TIcon,
+	height?: number
+};
+
+export const AvatarFull = ({source, onPress, height, badge}: Props) => (
+	<Touchable onPress={onPress}>
+		<BadgeOverlay
+			backgroundJsx={(
+				<Image
+					style={[{height}, styles.avatarFullImage]}
+					source={source}/>
+			)}
+			badge={badge}/>
+	</Touchable>
+);
+
+AvatarFull.defaultProps = {
+	height: 180
+};
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	avatarFullImage: {
+		width: '100%',
+		resizeMode: 'cover'
+	},
+});

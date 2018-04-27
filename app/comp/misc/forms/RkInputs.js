@@ -3,8 +3,9 @@ import _ from 'lodash';
 import React from 'react';
 import {RkTextInput as _RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {Colors} from "../../../Config";
 import {denormObj} from '../../../lib/HelperFunctions';
-import {Picker, Switch, View} from 'react-native';
+import {Picker, StyleSheet, Switch, View} from 'react-native';
 import {Validate} from "../../../lib/helpers/Validator";
 import type {TStyle} from "../../../lib/types/Types";
 
@@ -16,28 +17,37 @@ type RkTextInputProps = {
 	rkType?: string,
 	style?: Object,
 	errorCode?: number | string,
-	editable?: boolean
+	editable?: boolean,
+	withBorder?: boolean
 };
 
 
-export const RkTextInput = ({rkType, style, errorCode, ...props}: RkTextInputProps) => {
+export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: RkTextInputProps) => {
 
-	const rowOverride = rkType === 'row' ? styles.fullTextInput : {};
-	const pointerEvents = props.editable != null && !props.editable ? 'none' : 'auto';
+	const hasErrorCode = errorCode !== 0;
+	const pointerEvents = props.editable ? 'auto' : 'none';
+
+	const borderBottomWidth =	withBorder ? StyleSheet.hairlineWidth : 0;
+	const borderColor = hasErrorCode ? Colors.alertRed : Colors.black;
 
 	return (
 		<View style={style} pointerEvents={pointerEvents}>
 
-			<View style={[styles.row, rowOverride]}>
-				<_RkTextInput {...props} rkType={rkType}/>
+			<View style={[{borderColor}, styles.row, styles.fullTextInput]}>
+				<_RkTextInput {...props} rkType={`row ${rkType}`}/>
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
-				{errorCode !== 0 ? Validate.mapErrorCodeToMessage(errorCode) : ''}
+				{hasErrorCode ? Validate.mapErrorCodeToMessage(errorCode) : ' '}
 			</RkText>
 
 		</View>
 	);
+};
+
+RkTextInput.defaultProps = {
+	withBorder: false,
+	editable: true,
 };
 
 
@@ -51,7 +61,7 @@ type RkSwitchProps = {
 };
 
 export const RkSwitch = ({title, textProps, style, ...props}: RkSwitchProps) => (
-	<View style={[style, styles.row]}>
+	<View style={[style, styles.switch, styles.row]}>
 		<RkText {...textProps} rkType='header6'>{title}</RkText>
 		<Switch {...props} style={styles.switch}/>
 	</View>
@@ -92,11 +102,9 @@ export const RkMultiChoice = ({title, textProps, style, options = [], ...props}:
 type RkTextInputFromPoolProps = {
 	pool: ApiFormState,
 	field: string,
-	rkType: string,
-	style: TStyle
 };
 
-export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}: RkTextInputFromPoolProps) => {
+export const RkTextInputFromPool = ({pool, field, ...props}: RkTextInputFromPoolProps) => {
 	const value = String(_.get(pool, `apiInput.${field}`, ''));
 	const errorCode = _.get(pool, `errors.${field}`, 0);
 
@@ -105,8 +113,6 @@ export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}: RkTe
 			{...props}
 			value={value}
 			errorCode={errorCode}
-			rkType={rkType}
-			style={style}
 			onChangeText={text => pool.change(denormObj({[field]: text}))}/>
 	);
 };
@@ -115,18 +121,19 @@ export const RkTextInputFromPool = ({pool, field, rkType, style, ...props}: RkTe
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		padding: 8,
-		borderColor: theme.colors.border.base,
-		alignItems: 'center',
-		// borderBottomWidth: StyleSheet.hairlineWidth
+		alignItems: 'center'
+	},
+	switch: {
+		paddingVertical: 4,
 	},
 	error: {
 		textAlign: 'right',
-		marginHorizontal: 4
+		marginHorizontal: 4,
+		marginVertical: 2,
 	},
 	fullTextInput: {
 		paddingVertical: 0,
@@ -135,5 +142,5 @@ const styles = RkStyleSheet.create(theme => ({
 	multiChoicePicker: {
 		width: 140
 	}
-}));
+});
 

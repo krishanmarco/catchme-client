@@ -3,12 +3,13 @@ import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 import React from 'react';
-import Router from "../../../lib/helpers/Router";
+import Router from "../../../lib/navigation/Router";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
+import {Colors, Icons} from "../../../Config";
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {ScreenInfo} from "../../../comp/Misc";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
@@ -44,58 +45,80 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 	}
 
 	_onGoogleMapsSelectorPress() {
-		Router.toAddressPickerModal(
-			this.props.navigator,
+		const {navigator} = this.props;
+		Router.toModalAddressPicker(
+			navigator,
 			{onSelect: location => this._formApiEditLocationProfile().change(location)}
 		);
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
-		return this.props.formApiEditLocationProfile;
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
 	}
 
 	render() {
 		return (
-			<ScrollView style={styles.scrollView}>
-				<ScreenInfo
-					imageSource={require('../../../assets/images/address.png')}
-					textText='Press the image above to select a location'
-					onPress={this._onGoogleMapsSelectorPress}/>
-				<View style={styles.listItemWithActionsContent}>
-					{[
-						{field: DaoLocation.pAddressCountry, label: 'Country'},
-						{field: DaoLocation.pAddressState, label: 'State'},
-						{field: DaoLocation.pAddressCity, label: 'City'},
-						{field: DaoLocation.pAddressPostcode, label: 'Postcode'},
-						{field: DaoLocation.pAddressAddress, label: 'Address'},
-					].map((addressComponent, key) => (
-						<RkTextInputFromPool
-							key={key}
-							rkType='row'
-							pool={this._formApiEditLocationProfile()}
-							editable={false}
-							field={addressComponent.field}
-							label={addressComponent.label}/>
-					))}
-				</View>
-				<View style={[styles.locationMap, {height: Dimensions.get('window').height - 190}]}>
-					{DaoLocation.hasLatLng(this._formApiEditLocationProfile().apiInput) && (
-						<LocationMap
-						showsMyLocationButton={true}
-						scrollEnabled={false}
-						locations={[this._formApiEditLocationProfile().apiInput]}/>
-					)}
+			<ScrollView>
+				<View style={styles.root}>
+
+					{this._renderHeader()}
+
+					<View style={styles.editLocationAddressFormRow}>
+						{[
+							{field: DaoLocation.pAddressCountry, label: 'Country'},
+							{field: DaoLocation.pAddressState, label: 'State'},
+							{field: DaoLocation.pAddressCity, label: 'City'},
+							{field: DaoLocation.pAddressPostcode, label: 'Postcode'},
+							{field: DaoLocation.pAddressAddress, label: 'Address'},
+						].map((addressComponent, key) => (
+							<RkTextInputFromPool
+								key={key}
+								pool={this._formApiEditLocationProfile()}
+								editable={false}
+								field={addressComponent.field}
+								label={addressComponent.label}/>
+						))}
+					</View>
 				</View>
 			</ScrollView>
 		);
 	}
 
+	_renderHeader() {
+		const hasLatLng = DaoLocation.hasLatLng(this._formApiEditLocationProfile().apiInput);
+
+		let contentJsx = null;
+
+		if (hasLatLng) {
+			contentJsx = (
+				<BadgeOverlay
+					backgroundJsx={(
+						<LocationMap
+							showsMyLocationButton={true}
+							scrollEnabled={false}
+							locations={[this._formApiEditLocationProfile().apiInput]}/>
+					)}
+					badge={{...Icons.locationEditAddress, color: Colors.white}}/>
+			);
+
+		} else {
+			contentJsx = (
+				<ScreenInfo
+					imageSource={require('../../../assets/images/address.png')}
+					textText='Press the image above to select a location'
+					onPress={this._onGoogleMapsSelectorPress}/>
+			);
+		}
+
+		return (
+			<View style={styles.screenInfoRow}>
+				{contentJsx}
+			</View>
+		);
+	}
+
 }
-
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const EditLocationAddress = poolConnect(_EditLocationAddress,
 	// mapStateToProps
@@ -116,14 +139,19 @@ export default EditLocationAddress;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	scrollView: {
+	root: {
 		flex: 1
 	},
-	listItemWithActionsContent: {
-		paddingHorizontal: 4,
-		marginTop: 12
+	screenInfoRow: {
+		height: 180
+	},
+	editLocationAddressFormRow: {
+		flex: 0.72,
+		paddingHorizontal: 16,
+		marginTop: 16
 	},
 	locationMap: {
+		flex: 1,
 		width: '100%'
 	}
 });

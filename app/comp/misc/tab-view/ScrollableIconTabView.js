@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/01/18 © **/
 import DefaultTabBar from './DefaultTabBar';
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {Colors} from "../../../Config";
+import {StyleSheet} from 'react-native';
 import type {TIcon} from "../../../lib/types/Types";
 
 
 type Props = {
-	icons: Array<{[string]: TIcon}>,
+	icons: Array<{ [string]: TIcon }>,
 	children: Array<Node>,
 	allowIndexChange?: Function,
 	onPreTabChange?: Function,
@@ -55,10 +55,10 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 	_onPreTabChange(nextIndex) {
 		const {onPreTabChange} = this.props;
-		const currentTab = this.state.selectedTab;
+		const {selectedTab} = this.state;
 
 		if (onPreTabChange)
-			onPreTabChange(currentTab, nextIndex);
+			onPreTabChange(selectedTab, nextIndex);
 
 		// Important: Do not use setState because if you
 		// trigger an update you will get indirect recursion
@@ -70,7 +70,7 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 		const {onTabChanged} = this.props;
 
 		if (onTabChanged)
-			onTabChanged(changedToIndex, changedToIndex, ref);
+			onTabChanged(changedToIndex, ref);
 	}
 
 
@@ -79,10 +79,11 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 		return (
 			<ScrollableTabView
+				contentProps={scrollableTabViewContentProps}
 				onChangeTab={this._onTabChanged}
 				renderTabBar={this._renderDefaultTabBar}
-				locked={locked}
 				tabBarUnderlineStyle={styles.tabBarUnderline}
+				locked={locked}
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={2}>
 				{children}
@@ -107,6 +108,14 @@ export default class ScrollableIconTabView extends React.Component<void, Props, 
 
 // Config *********************************************************************************
 // Config *********************************************************************************
+
+// Bug fix for freezing tab view after back
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// Can be removed on upgrade >> react-native 0.55.3
+const scrollableTabViewContentProps = {
+	style: {flex: 1}
+};
 
 const styles = StyleSheet.create({
 	tabBarUnderline: {

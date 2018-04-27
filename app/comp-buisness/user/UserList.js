@@ -1,13 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
-import PropTypes from 'prop-types';
+import ListItemUser from '../../comp-buisness/user/UserListItems';
 import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-import {
-	ListItemUser,
-	ListItemUserRequestReceived,
-	ListItemUserRequestSend
-} from '../../comp-buisness/user/UserListItems';
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {poolConnect} from "../../redux/ReduxPool";
 import type {ListItemUserProps} from "./UserListItems";
 import type {TUser} from "../../lib/daos/DaoUser";
 
@@ -17,17 +14,30 @@ import type {TUser} from "../../lib/daos/DaoUser";
 
 type Props = {
 	users: Array<TUser>,
-	onItemPress: (TUser) => void,
+	onUserPress: (TUser) => void,
+
+	allowAcceptFriend?: boolean,
+	allowRemoveFriend?: boolean,
+	allowRequestFriend?: boolean,
+	allowUnblockUser?: boolean,
+
 	friendIds?: Array<number>,
 	requestIds?: Array<number>,
 	blockedIds?: Array<number>
 };
 
+const defaultProps = {
+	allowAcceptFriend: false,
+	allowRemoveFriend: false,
+	allowRequestFriend: false,
+	allowUnblockUser: false,
+};
 
 // UserList *********************************************************************************************
 // UserList *********************************************************************************************
 
-export default class UserList extends React.PureComponent<void, Props, void> {
+class _UserList extends React.PureComponent<void, Props, void> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
@@ -35,22 +45,41 @@ export default class UserList extends React.PureComponent<void, Props, void> {
 		this._renderItem = this._renderItem.bind(this);
 	}
 
-	_filterExtractor(user, regExp) {
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
+	}
+
+	_filterExtractor(user: TUser, regExp) {
 		return regExp.test(DaoUser.gName(user))
 			|| regExp.test(DaoUser.gEmail(user))
 			|| regExp.test(DaoUser.gPhone(user));
 	}
 
+	_cacheUserProfile(): TCacheUserProfile {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	_getRequestIds() {
+		return DaoUser.gConnectionRequestIds(this._cacheUserProfile().data);
+	}
+
+	_getBlockedIds() {
+		return DaoUser.gConnectionBlockedIds(this._cacheUserProfile().data);
+	}
+
+	_getFriendIds() {
+		return DaoUser.gConnectionFriendIds(this._cacheUserProfile().data);
+	}
+
 
 	render() {
-		let {users, ...searchableFlatListProps} = this.props;
-
+		const {users, ...searchableFlatListProps} = this.props;
 		return (
 			<SearchableFlatList
 				{...searchableFlatListProps}
 
 				data={users}
-				keyExtractor={DaoUser.gId}
+				keyExtractor={DaoUser.gIdStr}
 				renderItem={this._renderItem}
 
 				searchPlaceholder='Search by name, email or number'
@@ -62,19 +91,50 @@ export default class UserList extends React.PureComponent<void, Props, void> {
 
 
 	_renderItem({item}: { item: TUser }) {
-		let {friendIds, requestIds, blockedIds, onItemPress} = this.props;
-		let listItemProps: ListItemUserProps = {user: item, onPress: onItemPress};
+		const {allowAcceptFriend, allowRemoveFriend, allowRequestFriend, allowUnblockUser, onUserPress} = this.props;
 
-		if (requestIds && requestIds.includes(DaoUser.gId(item)))
-			return <ListItemUserRequestReceived {...listItemProps}/>;
+		const listItemProps: ListItemUserProps = {
+			user: item,
+			onPress: onUserPress
+		};
 
-		if (blockedIds && blockedIds.includes(DaoUser.gId(item)))
-			return <ListItemUserRequestSend {...listItemProps}/>;
+		const addUserToFriends = this._cacheUserProfile().addUserToFriends;
+		const removeUserFromFriends = this._cacheUserProfile().removeUserFromFriends;
+		const blockUser = this._cacheUserProfile().blockUser;
+		const acceptUserFriendship = this._cacheUserProfile().acceptUserFriendship;
 
-		if (friendIds && !friendIds.includes(DaoUser.gId(item)))
-			return <ListItemUserRequestSend {...listItemProps}/>;
+		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == DaoUser.gId(item);
+		const showAccept = allowAcceptFriend && this._getRequestIds().includes(DaoUser.gId(item));
+		const showUnblock = allowUnblockUser && this._getBlockedIds().includes(DaoUser.gId(item));
+		const showRequest = allowRequestFriend && !this._getFriendIds().includes(DaoUser.gId(item));
+		const showRemove = allowRemoveFriend && this._getFriendIds().includes(DaoUser.gId(item));
+
+		if (!isSameUser) {
+			if (showAccept) {
+				listItemProps.onUserConnectionBlockUid = blockUser;
+				listItemProps.onUserConnectionAddUid = acceptUserFriendship;
+
+			} else if (showUnblock || showRequest) {
+				listItemProps.onUserConnectionAddUid = addUserToFriends;
+
+			} else if (showRemove) {
+				listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
+			}
+		}
 
 		return <ListItemUser {...listItemProps}/>;
 	}
 
 }
+
+const UserList = poolConnect(_UserList,
+	// mapStateToProps
+	(state) => ({}),
+
+	// mapDispatchToProps
+	(dispatch) => ({}),
+
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
+);
+export default UserList;

@@ -1,29 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Context from '../../lib/Context';
-
 import DaoLocation from '../../lib/daos/DaoLocation';
-
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationChat from '../../comp-buisness/location/LocationChat';
 import LocationGallery from "../../comp-buisness/location/LocationGallery";
-
 import LocationMap from '../../comp-buisness/location/LocationMap';
-
-// import TabBar from '../../comp/misc/TabBar';
 import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataPoints';
+import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 import React from 'react';
-
-import Router from '../../lib/helpers/Router';
+import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
 import UserList from '../../comp-buisness/user/UserList';
-
-import {Colors, Icons} from '../../Config';
-
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import {Grid, Row} from "react-native-easy-grid";
-import {Image, StyleSheet, View} from 'react-native';
-
+import {Icons} from '../../Config';
 import {ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
@@ -35,9 +27,11 @@ import type {TUser} from "../../lib/daos/DaoUser";
 // Const *************************************************************************************************
 
 type Props = {
+	navigator: TNavigator,
 	locationProfile: TLocation,
-	authenticatedUserProfile: TUser,
-	navigator: TNavigator
+	authUserProfile: TUser,
+	navbarHandler: NavbarHandlerLocationProfile,
+	onGalleryImageAdded: Function,
 };
 
 type State = {
@@ -58,16 +52,40 @@ const locationProfileTabIcons = {
 // _LocationProfile *************************************************************************************
 
 class _LocationProfile extends React.Component<void, Props, State> {
+	static idxProfile = 0;
+	static idxImages = 1;
+	static idxPersonNow = 2;
+	static idxPersonFuture = 3;
 
 	constructor(props: Props, context) {
 		super(props, context);
 		this._onUserPress = this._onUserPress.bind(this);
 		this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
+		this._onTabChanged = this._onTabChanged.bind(this);
 		this.state = this._calculateState(props);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState(this._calculateState(nextProps));
+	}
+
+	_onTabChanged(changedToIndex) {
+		const {navbarHandler, onGalleryImageAdded} = this.props;
+
+		switch (changedToIndex) {
+			case _LocationProfile.idxProfile:
+				navbarHandler.showButtonFollow();
+				break;
+			case _LocationProfile.idxImages:
+				navbarHandler.showButtonAddLocationImage(onGalleryImageAdded);
+				break;
+			case _LocationProfile.idxPersonNow:
+			case _LocationProfile.idxPersonFuture:
+				navbarHandler.showButtonAddStatus();
+				break;
+			default:
+				navbarHandler.showNoButtons();
+		}
 	}
 
 	_calculateState(props: Props = this.props) {
@@ -80,7 +98,11 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
-		Router.toUserProfile(navigator, user);
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
 
@@ -99,7 +121,8 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 		return (
 			<ScrollableIconTabView
-				icons={locationProfileTabIcons}>
+				icons={locationProfileTabIcons}
+				onTabChanged={this._onTabChanged}>
 				{tabs}
 			</ScrollableIconTabView>
 		);
@@ -111,7 +134,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{height: 510}}>
+				style={styles.tabView}>
 				{jsx}
 			</View>
 		);
@@ -121,7 +144,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabHomeRoot}>
+			<Grid style={styles.tabHome}>
 				<Row size={-1}>
 					<Image
 						style={styles.tabHomeAvatar}
@@ -146,66 +169,71 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabImages() {
-		const {locationProfile, navigator} = this.props;
+		const {locationProfile} = this.props;
 		return (
-			<View style={styles.tabRootImages}>
+			<View style={styles.tabImages}>
 				<LocationGallery
-					navigator={navigator}
 					locationProfile={locationProfile}/>
 			</View>
 		);
 	}
 
 	_renderTabFriendsNow() {
-		const {locationProfile, authenticatedUserProfile} = this.props;
+		const {locationProfile, authUserProfile} = this.props;
 
 		return (
-			<View style={styles.tabRootFriendsNow}>
+			<View style={styles.tabFriendsNow}>
 				<UserList
 					users={DaoLocation.gFriendsNow(locationProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(authenticatedUserProfile)}
-					onItemPress={this._onUserPress}/>
+					allowRequestFriend={true}
+					onUserPress={this._onUserPress}/>
 			</View>
 		);
 	}
 
 	_renderTabFriendsFuture() {
-		const {locationProfile, authenticatedUserProfile} = this.props;
+		const {locationProfile, authUserProfile} = this.props;
 
 		return (
-			<View style={styles.tabRootFriendsFuture}>
+			<View style={styles.tabFriendsFuture}>
 				<UserList
 					users={DaoLocation.gFriendsFuture(locationProfile)}
-					requestIds={DaoUser.gConnectionRequestIds(authenticatedUserProfile)}
-					onItemPress={this._onUserPress}/>
+					allowRequestFriend={true}
+					onUserPress={this._onUserPress}/>
 			</View>
 		);
 	}
 
 	_renderTabChat() {
-		const {locationProfile, authenticatedUserProfile} = this.props;
-
+		const {locationProfile, authUserProfile, navigator} = this.props;
 		return (
-			<View style={styles.tabRootChat}>
-				<LocationChat location={locationProfile} user={authenticatedUserProfile}/>
+			<View style={styles.tabChat}>
+				<LocationChat
+					navigator={navigator}
+					location={locationProfile}
+					user={authUserProfile}/>
 			</View>
 		);
 	}
 
 	_renderTabInfo() {
 		const {locationProfile} = this.props;
+		const {locationInfoSections} = this.state;
+		const dim = Dimensions.get('window');
 
 		return (
-			<Grid style={styles.tabRootInfo}>
-				<Row size={-1}>
+			<ScrollView>
+				<View style={styles.tabInfo}>
 					<StaticSectionList
-						sections={this.state.locationInfoSections}
+						sections={locationInfoSections}
 						renderItem={this._renderTabLocationInfoItem}/>
-				</Row>
-				<Row size={100} style={{marginTop: 16}}>
-					<LocationMap locations={[locationProfile]}/>
-				</Row>
-			</Grid>
+					<View style={[{height: dim.height - 130}, styles.infoTabMapCont]}>
+						<LocationMap
+							scrollEnabled={false}
+							locations={[locationProfile]}/>
+					</View>
+				</View>
+			</ScrollView>
 		);
 	}
 
@@ -213,16 +241,13 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
+				style={listItemInfo.itemStyle}
 				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
 				{...item}/>
 		);
 	}
 
-
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const LocationProfile = poolConnect(_LocationProfile,
 	// mapStateToProps
@@ -234,8 +259,6 @@ const LocationProfile = poolConnect(_LocationProfile,
 	// Array of pools to subscribe to
 	[]
 );
-
-
 export default LocationProfile;
 
 
@@ -243,31 +266,31 @@ export default LocationProfile;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	tabHomeRoot: {
+	tabView: {
+		flex: 1
+	},
+	tabHome: {
+		flex: 1
+	},
+	tabImages: {
 		flex: 1,
-		alignItems: 'center'
+	},
+	tabFriendsNow: {
+		flex: 1,
+	},
+	tabFriendsFuture: {
+		flex: 1,
+	},
+	tabChat: {
+		flex: 1,
+	},
+	tabInfo: {
+		flex: 1
 	},
 	tabHomeAvatar: {
+		flex: 1,
 		width: '100%',
 		height: 200
-	},
-	tabRootImages: {
-		flex: 1,
-	},
-	tabRootFriendsNow: {
-		flex: 1,
-		paddingTop: 8
-	},
-	tabRootFriendsFuture: {
-		flex: 1,
-		paddingTop: 8
-	},
-	tabRootChat: {
-		flex: 1,
-	},
-	tabRootInfo: {
-		flex: 1,
-		paddingTop: 8
 	},
 
 	publicMessage: {
@@ -276,5 +299,8 @@ const styles = StyleSheet.create({
 	},
 	badges: {
 		marginTop: 24
+	},
+	infoTabMapCont: {
+		marginTop: 16
 	}
 });

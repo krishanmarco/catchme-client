@@ -1,23 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../lib/daos/DaoUser";
-
 import React from 'react';
-
-import Router from "../../lib/helpers/Router";
-
+import Router from "../../lib/navigation/Router";
+import {FontIcons} from "../../Config";
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
-
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-
-import {Image, View} from 'react-native';
-
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {fullpageForm} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
-
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {scaleVertical} from '../../lib/utils/scale';
-import {Screen} from "../../comp/Misc";
 import {startApplication} from "../../App";
+import {StyleSheet, View} from 'react-native';
+import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../lib/types/Types";
 
 
@@ -41,7 +36,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 		this._onGoToLoginPress = this._onGoToLoginPress.bind(this);
 	}
 
-	_getFormApiRegister() {
+	_getFormApiRegister(): TApiFormPool {
 		return this.props[FORM_API_ID_REGISTER];
 	}
 
@@ -60,62 +55,75 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 	}
 
 	_onGoToLoginPress() {
-		Router.toLogin(this.props.navigator);
+		const {navigator} = this.props;
+		navigator.pop();
 	}
 
 
 	render() {
 		return (
 			<Screen>
+				<FullpageForm
 
-					<View style={styles.header}>
-						<Image style={styles.image} source={require('../../assets/images/logo.png')}/>
-						<RkText rkType='h1'>Registration</RkText>
-					</View>
+					headerStyle={fullpageForm.headerStyle}
+					headerJsx={(
+						<ScreenInfo
+							height={120}
+							imageHeight='100%'
+							imageSource={require('../../assets/images/meLogo.png')}/>
+					)}
 
-					<View style={styles.listItemContent}>
+					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
 						<View>
-
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='name'
-								placeholder='Name'/>
+								placeholder='Name'
+								withBorder/>
 
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='email'
 								keyboardType='email-address'
-								placeholder='Email'/>
+								placeholder='Email'
+								withBorder/>
 
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='password'
 								placeholder='Password'
-								secureTextEntry/>
+								secureTextEntry
+								withBorder/>
 
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='passwordConfirm'
 								placeholder='Confirm Password'
-								secureTextEntry/>
+								secureTextEntry
+								withBorder/>
 
-							<RkButton
-								style={styles.save}
+							<LoadingButton
+								style={fullpageForm.fieldsButton}
+								loading={this._getFormApiRegister().loading}
 								rkType='large stretch accentColor'
-								onPress={this._onRegisterPress}>
-								{'Sign up'.toUpperCase()}
-							</RkButton>
+								text={'Sign up'.toUpperCase()}
+								onPress={this._onRegisterPress}/>
 
 						</View>
+					)}
 
-						<View style={styles.footer}>
+					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerJsx={(
+						<View>
 							<FormFooterLink
 								text='Already have an account?'
 								clickableText='Sign in!'
 								onPress={this._onGoToLoginPress}/>
 						</View>
-					</View>
+					)}
 
+				/>
 			</Screen>
 		);
 	}
@@ -137,38 +145,11 @@ export default ScreenRegister;
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
-	screen: {
-		flex: 1,
-		padding: 16,
-		justifyContent: 'space-around',
-		backgroundColor: theme.colors.screen.base
+const styles = StyleSheet.create({
+	fieldsStyle: {
+		flex: 0.66,
 	},
-	header: {
-		alignItems: 'center'
+	footerStyle: {
+		flex: 0.06,
 	},
-	image: {
-		marginBottom: 10,
-		height: scaleVertical(77),
-		resizeMode: 'contain'
-	},
-	listItemContent: {
-		justifyContent: 'space-between'
-	},
-	save: {
-		marginVertical: 20
-	},
-	buttons: {
-		flexDirection: 'row',
-		marginBottom: 24,
-		marginHorizontal: 24,
-		justifyContent: 'space-around'
-	},
-	footer: {
-		justifyContent: 'flex-end'
-	},
-	textRow: {
-		flexDirection: 'row',
-		justifyContent: 'center'
-	},
-}));
+});

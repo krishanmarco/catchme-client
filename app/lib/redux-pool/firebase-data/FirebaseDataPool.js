@@ -30,7 +30,7 @@ const FirebaseDataPool: TPool = {
 	},
 
 	connectParams: {
-		getActionCreator: (poolId, dispatch) => new FirebaseDataActionCreator(poolId, dispatch)
+		getDefaultActionCreator: (poolId, dispatch) => new FirebaseDataActionCreator(poolId, dispatch)
 	},
 
 	defs: {

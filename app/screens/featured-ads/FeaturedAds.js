@@ -6,6 +6,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {poolConnect} from '../../redux/ReduxPool';
 import {TActionHandlerParams} from "../../lib/helpers/ActionHandler";
+import {TFirebaseDataPool} from "../../lib/redux-pool/firebase-data/FirebaseDataPool";
 import {View} from 'react-native';
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TNavigator} from "../../lib/types/Types";
@@ -44,7 +45,7 @@ class _FeaturedAds extends React.Component<void, Props, void> {
 		this._firebaseDataFeaturedAds().initialize(DaoUser.gId(userProfile));
 	}
 
-	_firebaseDataFeaturedAds() {
+	_firebaseDataFeaturedAds(): TFirebaseDataPool {
 		return this.props[FIREBASE_DATA_ID_FEATURED_ADS];
 	}
 
@@ -76,9 +77,6 @@ class _FeaturedAds extends React.Component<void, Props, void> {
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const FeaturedAds = poolConnect(_FeaturedAds,
 	// mapStateToProps
 	(state) => ({}),
@@ -92,6 +90,7 @@ const FeaturedAds = poolConnect(_FeaturedAds,
 	[FIREBASE_DATA_ID_FEATURED_ADS]
 );
 export default FeaturedAds;
+
 
 // Config ************************************************************************************************
 // Config ************************************************************************************************

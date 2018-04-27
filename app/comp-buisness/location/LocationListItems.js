@@ -1,10 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import React from 'react';
-import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
 import {Colors, Icons} from '../../Config';
+import {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
@@ -14,15 +13,13 @@ import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 // ListItemLocation *************************************************************************************
 // ListItemLocation *************************************************************************************
 
-type ListItemLocationProps = {
+export type ListItemLocationProps = ListItemWithActionProps & {
 	location: TLocation,
-	onPress?: (TLocation) => void,
-	content: ?string,
-	image: ?string,
-	actions: Array<TAction>
+	content?: string,
+	actions?: Array<TAction>
 };
 
-export class ListItemLocation extends React.Component<void, ListItemLocationProps, void> {
+export class ListItemLocation extends React.PureComponent<void, ListItemLocationProps, void> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -36,18 +33,16 @@ export class ListItemLocation extends React.Component<void, ListItemLocationProp
 			onPress(location);
 	}
 
-
 	render() {
-		const {content, image, actions, location} = this.props;
+		const {location, content, ...props} = this.props;
 
 		return (
 			<ListItemWithActions
-				onPress={this._defaultOnPress}
+				{...props}
 				header={DaoLocation.gName(location)}
 				content={content || DaoLocation.gDescription(location)}
 				avatarUri={DaoLocation.gPictureUrl(location)}
-				image={image}
-				actions={actions}/>
+				onPress={this._defaultOnPress}/>
 		);
 	}
 
@@ -57,88 +52,125 @@ export class ListItemLocation extends React.Component<void, ListItemLocationProp
 // ListItemLocationFollow *******************************************************************************
 // ListItemLocationFollow *******************************************************************************
 
-export const ListItemLocationFollow = ({location, onPress}: ListItemLocationProps) => (
-	<ListItemLocation
-		location={location}
-		onPress={onPress}
-		actions={[{
-			icon: Icons.locationFollow,
-			color: Colors.primary,
-			onPress: () => ApiClient.userLocationsFavoritesAddLid(DaoLocation.gId(location))
-		}]}/>
-);
+export type ListItemLocationFollowProps = ListItemLocationProps & {
+	addLocationToFavorites?: (TLocation) => void,
+	removeLocationFromFavorites?: (TLocation) => void,
+};
 
-
-
-
-// ListItemUserLocationStatus ***************************************************************************
-// ListItemUserLocationStatus ***************************************************************************
-
-type ListItemUserLocationStatusProps = TLocation & {
-	allowEdit: boolean,
-	userLocationStatus: TUserLocationStatus,
-	onEditPress: (TUserLocationStatus, TLocation) => void,
-	onDeletePress: (TUserLocationStatus) => void
-}
-
-export class ListItemUserLocationStatus extends React.Component<void, ListItemUserLocationStatusProps, void> {
+export class ListItemLocationFollow extends React.PureComponent<void, ListItemLocationFollowProps, void> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._onEditPress = this._onEditPress.bind(this);
-		this._onDeletePress = this._onDeletePress.bind(this);
-		this._setActions(props);
+		this.initialize();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this._setActions(nextProps);
+	componentWillReceiveProps(props) {
+		this.initialize(props);
 	}
 
-	_setActions(props) {
-		const {allowEdit} = props;
+	initialize(props = this.props) {
+		const {
+			location,
+			addLocationToFavorites,
+			removeLocationFromFavorites,
+		} = props;
 
-		if (!allowEdit) {
-			this.editActions = [];
-			return;
+		this.actions = [];
+
+		if (addLocationToFavorites) {
+			this.actions.push({
+				icon: Icons.locationFollow,
+				onPress: () => addLocationToFavorites(location)
+			});
 		}
 
-		this.editActions = [{
-			icon: Icons.statusEdit,
-			color: Colors.neutralOrange,
-			onPress: this._onEditPress
-		}, {
-			icon: Icons.statusDelete,
-			color: Colors.alertRed,
-			onPress: this._onDeletePress
-		}];
+		if (removeLocationFromFavorites) {
+			this.actions.push({
+				icon: Icons.locationUnfollow,
+				onPress: () => removeLocationFromFavorites(location)
+			});
+		}
 
-	}
-
-	_getFormattedRange() {
-		const {userLocationStatus} = this.props;
-		const fromTs = DaoUserLocationStatus.gFromTs(userLocationStatus);
-		const toTs = DaoUserLocationStatus.gUntilTs(userLocationStatus);
-		return TimestampFormatter.parseFromTo(fromTs, toTs);
-	}
-
-	_onEditPress() {
-		const {userLocationStatus, location, onEditPress} = this.props;
-		onEditPress(userLocationStatus, location);
-	}
-
-	_onDeletePress() {
-		const {userLocationStatus, onDeletePress} = this.props;
-		onDeletePress(userLocationStatus);
 	}
 
 	render() {
-		const {location, onPress} = this.props;
+		const {addLocationToFavorites, removeLocationFromFavorites, ...props} = this.props;
+
 		return (
 			<ListItemLocation
-				location={location}
-				onPress={onPress}
-				content={this._getFormattedRange()}
-				actions={this.editActions}/>
+				{...props}
+				actions={this.actions}/>
+		);
+	}
+
+}
+
+
+// ListItemUserLocationStatus ***************************************************************************
+// ListItemUserLocationStatus ***************************************************************************
+
+type ListItemUserLocationStatusProps = ListItemLocation & {
+	allowEdit: boolean,
+	userLocationStatus: TUserLocationStatus,
+	editUserLocationStatus: (TUserLocationStatus, TLocation) => void,
+	removeUserLocationStatus: (TUserLocationStatus, TLocation) => void
+}
+
+export class ListItemUserLocationStatus extends React.PureComponent<void, ListItemUserLocationStatusProps, void> {
+
+	constructor(props, context) {
+		super(props, context);
+		this.initialize(props);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this.initialize(nextProps);
+	}
+
+	initialize(props) {
+		const {
+			location,
+			userLocationStatus,
+			allowEdit,
+			editUserLocationStatus,
+			removeUserLocationStatus
+		} = props;
+
+		this.actions = [];
+
+		if (!allowEdit)
+			return;
+
+		if (editUserLocationStatus) {
+			this.actions.push({
+				icon: Icons.statusEdit,
+				onPress: () => editUserLocationStatus(userLocationStatus, location)
+			});
+		}
+
+		if (removeUserLocationStatus) {
+			this.actions.push({
+				icon: Icons.statusDelete,
+				onPress: () => removeUserLocationStatus(userLocationStatus, location)
+			});
+		}
+
+	}
+
+	render() {
+		const {
+			editUserLocationStatus,
+			removeUserLocationStatus,
+			allowEdit,
+			userLocationStatus,
+			...props
+		} = this.props;
+
+		return (
+			<ListItemLocation
+				{...props}
+				content={DaoUserLocationStatus.getFormattedRange(userLocationStatus)}
+				actions={this.actions}/>
 		);
 	}
 

@@ -1,9 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import Maps from "../../lib/data/Maps";
 import React from 'react';
-import Router from "../../lib/helpers/Router";
+import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
+import LocationList from '../../comp-buisness/location/LocationList';
 import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
@@ -12,6 +14,7 @@ import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
@@ -23,7 +26,7 @@ import type {TUser} from "../../lib/daos/DaoUser";
 
 type Props = {
 	userProfile: TUser,
-	authenticatedUserProfile: TUser,
+	authUserProfile: TUser,
 	navigator: TNavigator
 };
 
@@ -33,9 +36,10 @@ type State = {
 
 const userProfileTabIcons = {
 	0: Icons.userProfile,
-	1: Icons.userLocations,
-	2: Icons.userFriends,
-	3: Icons.userInfo
+	1: Icons.userLocationStatuses,
+	2: Icons.userLocationFavorites,
+	3: Icons.userFriends,
+	4: Icons.userInfo
 };
 
 
@@ -69,28 +73,39 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	_onLocationPress(location: TLocation) {
 		const {navigator} = this.props;
-		Router.toLocationProfile(navigator, location);
+		Router.toModalLocationProfile(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
-		Router.toUserProfile(navigator, user);
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
 	_isSameUser(props: Props = this.props): boolean {
-		const {userProfile, authenticatedUserProfile} = props;
-		return DaoUser.gId(userProfile) === DaoUser.gId(authenticatedUserProfile);
+		const {userProfile, authUserProfile} = props;
+		return DaoUser.gId(userProfile) === DaoUser.gId(authUserProfile);
 	}
 
 	render() {
+		const {userInfoSections} = this.state;
+
 		const tabs = [];
 
 		tabs.push(this._renderTab('0', this._renderTabHome()));
-		tabs.push(this._renderTab('1', this._renderTabLocations()));
-		tabs.push(this._renderTab('2', this._renderTabFriends()));
+		tabs.push(this._renderTab('1', this._renderTabLocationStatuses()));
+		tabs.push(this._renderTab('2', this._renderTabFavoriteLocations()));
+		tabs.push(this._renderTab('3', this._renderTabFriends()));
 
-		if (this.state.userInfoSections.length > 0)
-			tabs.push(this._renderTab('3', this._renderTabInfo()));
+		if (userInfoSections.length > 0)
+			tabs.push(this._renderTab('4', this._renderTabInfo()));
 
 		return (
 			<ScrollableIconTabView
@@ -105,7 +120,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{flex: 1}}>
+				style={styles.tabView}>
 				{jsx}
 			</View>
 		);
@@ -115,7 +130,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile} = this.props;
 
 		return (
-			<Grid style={styles.tabHomeRoot}>
+			<Grid style={styles.tabHome}>
 				<Row size={-1}>
 					<Image
 						style={styles.avatar}
@@ -133,7 +148,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 						Maps.reputationToIcon(DaoUser.gReputation(userProfile))
 					].map((b, k) => (
 						<Col key={k}>
-							<Icon style={styles.icon} size={50} {...b}/>
+							<Icon size={50} {...b}/>
 						</Col>
 					))}
 				</Row>
@@ -142,37 +157,56 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 
-	_renderTabLocations() {
+	_renderTabLocationStatuses() {
 		const {userProfile, navigator} = this.props;
 		return (
-			<View style={styles.tabRootLocations}>
+			<View style={styles.tabLocationStatuses}>
 				<UserLocationsStatusList
 					navigator={navigator}
-					allowEdit={this._isSameUser()}
 					userProfile={userProfile}
+					onLocationPress={this._onLocationPress}
+					allowEdit={this._isSameUser()}
+					allowFollow={true}
+					allowUnfollow={this._isSameUser()}/>
+			</View>
+		);
+	}
+
+
+	_renderTabFavoriteLocations() {
+		const {userProfile} = this.props;
+		return (
+			<View style={styles.tabLocationFavorites}>
+				<LocationList
+					locations={DaoUser.gLocationsFavorites(userProfile)}
+					allowFollow={true}
+					allowUnfollow={true}
 					onLocationPress={this._onLocationPress}/>
 			</View>
 		);
 	}
 
 	_renderTabFriends() {
-		const {userProfile, authenticatedUserProfile} = this.props;
+		const {userProfile, authUserProfile} = this.props;
 
 		return (
-			<View style={styles.tabRootFriends}>
+			<View style={styles.tabFriends}>
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
-					friendIds={DaoUser.gConnectionFriendIds(authenticatedUserProfile)}
-					onItemPress={this._onUserPress}/>
+					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
+					allowRequestFriend={true}
+					allowRemoveFriend={this._isSameUser()}
+					onUserPress={this._onUserPress}/>
 			</View>
 		);
 	}
 
 	_renderTabInfo() {
+		const {userInfoSections} = this.state;
 		return (
-			<View style={styles.tabRootInfo}>
+			<View style={styles.tabInfo}>
 				<StaticSectionList
-					sections={this.state.userInfoSections}
+					sections={userInfoSections}
 					renderItem={this._renderTabUserInfoItem}/>
 			</View>
 		);
@@ -182,15 +216,13 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
+				style={listItemInfo.itemStyle}
 				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, userProfile, navigator)}
 				{...item}/>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const UserProfile = poolConnect(_UserProfile,
 	// mapStateToProps
@@ -202,7 +234,6 @@ const UserProfile = poolConnect(_UserProfile,
 	// Array of pools to subscribe to
 	[]
 );
-
 export default UserProfile;
 
 
@@ -210,35 +241,33 @@ export default UserProfile;
 // Config ************************************************************************************************
 
 const styles = StyleSheet.create({
-	tabHomeRoot: {
-		flex: 1,
-		alignItems: 'center'
+	tabView: {
+		flex: 1
 	},
-	tabRootLocations: {
-		flex: 1,
-		paddingTop: 8
+	tabHome: {
+		flex: 1
 	},
-	tabRootFriends: {
-		flex: 1,
-		paddingTop: 8
+	tabLocationStatuses: {
+		flex: 1
 	},
-	tabRootInfo: {
-		flex: 1,
-		paddingTop: 8
+	tabLocationFavorites: {
+		flex: 1
 	},
-
-	publicMessage: {
-		marginTop: 12,
-		paddingHorizontal: 16
+	tabFriends: {
+		flex: 1
 	},
-	badges: {
-		marginTop: 24
+	tabInfo: {
+		flex: 1
 	},
 	avatar: {
 		width: '100%',
 		height: 200
 	},
-	icon: {
-		marginRight: 8
+	publicMessage: {
+		marginTop: 12,
+		paddingHorizontal: 16
+	},
+	badges: {
+		marginTop: 12
 	}
 });

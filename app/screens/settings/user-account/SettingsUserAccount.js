@@ -3,24 +3,23 @@ import _ from 'lodash';
 import DaoUser from "../../../lib/daos/DaoUser";
 import ImagePicker from "../../../lib/helpers/ImagePicker";
 import Maps from "../../../lib/data/Maps";
-
 import React from 'react';
-
-import Router from "../../../lib/helpers/Router";
+import Router from "../../../lib/navigation/Router";
 import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
-import {Const, Icons} from '../../../Config';
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
+import {Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
 	navigator: Navigator,
-	authenticatedUserProfile: Object,
+	authUserProfile: Object,
 	changePrivacy: Function
 };
 
@@ -39,27 +38,22 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	componentWillMount() {
+		const {authUserProfile} = this.props;
+
 		// We now have access to a user profile
 		// Initialize the redux pool form by setting all its values
-		this._formApiEditUserProfile().change(this._userProfile());
+
+		this._formApiEditUserProfile().reset();
+		this._formApiEditUserProfile().change(DaoUser.apiClean(authUserProfile));
 	}
 
 	componentWillUnmount() {
 		this._formApiEditUserProfile().post();
 	}
 
-	_navigator() {
-		return this.props.navigator;
-	}
-
-	_userProfile() {
-		return this.props.authenticatedUserProfile;
-	}
-
-	_formApiEditUserProfile() {
+	_formApiEditUserProfile(): TApiFormPool {
 		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
 	}
-
 
 	_onChangePrivacyValue(index, value) {
 		let privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
@@ -77,16 +71,19 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	_onChangePasswordPress() {
-		Router.toSettingsChangePassword(this._navigator());
+		const {navigator} = this.props;
+		Router.toModalSettingsChangePassword(navigator);
 	}
 
 
 	_onLogoutPress() {
-		Router.toLogoutScreen(this._navigator());
+		const {navigator} = this.props;
+		Router.toScreenLogout(navigator);
 	}
 
 	_onAddContactsPress() {
-		Router.toAddContactsScreen(this._navigator());
+		const {navigator} = this.props;
+		Router.toScreenAddContacts(navigator);
 	}
 
 	_onUserPicturePress() {
@@ -100,10 +97,9 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		});
 	}
 
-
 	render() {
 		return (
-			<ScrollView>
+			<ScrollView style={styles.root}>
 				{this._renderProfileSection()}
 				{this._renderPrivacySection()}
 				{this._renderSecuritySection()}
@@ -115,33 +111,30 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	_renderProfileSection() {
 		return (
 			<View>
-				<ListItemHeader name='Profile'/>
-				<View style={styles.listItemWithActionsContent}>
-					<View style={{alignItems: 'center'}}>
+				<ListItemHeader />
+				<View style={styles.section}>
+					<View style={styles.profileSection}>
 						<AvatarCircle
 							badge={Icons.userEditAvatar}
 							rkType='big'
-							uri={DaoUser.gPictureUrl(this._userProfile())}
+							uri={DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}
 							onPress={this._onUserPicturePress}/>
 					</View>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pEmail}
-						rkType='row'
 						label='Email'
 						keyboardType='email-address'
 						icon={Icons.settingChangePassword}/>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pPhone}
-						rkType='row'
 						label='Phone'
 						keyboardType='phone-pad'
 						icon={Icons.settingChangePassword}/>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pPublicMessage}
-						rkType='row'
 						multiline={true}
 						numberOfLines={3}
 						label='Status'
@@ -161,7 +154,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader name='Privacy'/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					{[
 						{title: 'My previous location', options: privacyAll},
 						{title: 'My current location', options: privacySub},
@@ -180,12 +173,11 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		);
 	}
 
-
 	_renderSecuritySection() {
 		return (
 			<View>
 				<ListItemHeader name='Security'/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					<ListItemInfo
 						title='Change Password'
 						icon={Icons.settingChangePassword}
@@ -195,12 +187,11 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		);
 	}
 
-
 	_renderLogoutSection() {
 		return (
 			<View>
 				<ListItemHeader/>
-				<View style={styles.listItemWithActionsContent}>
+				<View style={styles.section}>
 					<ListItemInfo
 						title='Add contacts'
 						icon={Icons.settingChangePassword}
@@ -216,11 +207,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 }
 
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
 const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// mapStateToProps
 	(state) => ({}),
@@ -231,16 +217,20 @@ const SettingsUserAccount = poolConnect(_SettingsUserAccount,
 	// Array of pools to subscribe to
 	[FORM_API_ID_EDIT_USER_PROFILE]
 );
-
 export default SettingsUserAccount;
-
 
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	listItemWithActionsContent: {
-		paddingHorizontal: 8,
+	root: {
+		paddingBottom: 8
 	},
+	section: {
+		paddingHorizontal: 16,
+	},
+	profileSection: {
+		alignItems: 'center'
+	}
 });

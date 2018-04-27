@@ -30,13 +30,14 @@ export default class StaticSectionList extends React.PureComponent<void, Props, 
 		if (keyExtractor)
 			return keyExtractor(item, index);
 
-		return index;
+		return index.toString();
 	}
 
 	render() {
 		const {sections, renderItem} = this.props;
 		return (
 			<SectionList
+				style={styles.styles}
 				sections={sections}
 				renderItem={renderItem}
 				keyExtractor={this._keyExtractor}
@@ -52,9 +53,11 @@ export default class StaticSectionList extends React.PureComponent<void, Props, 
 }
 
 
-// Config **********************************************************************************************
-// Config **********************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	// Nothing for now
+	root: {
+		marginTop: 8
+	}
 });

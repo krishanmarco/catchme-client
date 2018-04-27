@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
 import React from 'react';
 import Search from './Search';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
@@ -11,13 +12,27 @@ import type {TNavigator} from "../../lib/types/Types";
 // Const ************************************************************************************************
 
 type Props = {
-	navigator: TNavigator
+	navigator: TNavigator,
+	showAppLogo: boolean
+};
+
+const defaultProps = {
+	showAppLogo: false
 };
 
 // _ScreenSearch ****************************************************************************************
 // _ScreenSearch ****************************************************************************************
 
 class _ScreenSearch extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
+
+	constructor(props, context) {
+		super(props, context);
+		this._renderSearch = this._renderSearch.bind(this);
+
+		const {showAppLogo, navigator} = this.props;
+		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
+	}
 
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
@@ -28,24 +43,25 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([userProfile]) => (
-						<Search
-							navigator={navigator}
-							userProfile={userProfile}/>
-					)}/>
+					renderChild={this._renderSearch}/>
 			</Screen>
 		);
 	}
 
-}
+	_renderSearch([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<Search
+				navigator={navigator}
+				userProfile={userProfile}/>
+		);
+	}
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+}
 
 const ScreenSearch = poolConnect(_ScreenSearch,
 	// mapStateToProps

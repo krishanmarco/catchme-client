@@ -4,21 +4,18 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 import Gallery from '../../comp/misc/Gallery';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import React from 'react';
-import Router from "../../lib/helpers/Router";
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
 type Props = {
-	navigator: TNavigator,
 	locationProfile: TLocation
 };
 
@@ -31,19 +28,18 @@ export default class LocationGallery extends React.Component<void, Props, State>
 
 	constructor(props, context) {
 		super(props, context);
-		this._onAddImagePress = this._onAddImagePress.bind(this);
 		this._renderEmptyListComponent = this._renderEmptyListComponent.bind(this);
-		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this.state = {imageSources: this._getImagesFromProps(props)};
 	}
 
 	componentWillReceiveProps(nextProps) {
+		const {locationProfile} = nextProps;
 
 		// Get the images that are currently in the previous (original form)
-		let currentImages = DaoLocation.gImageUrls(this.props.locationProfile);
+		let currentImages = DaoLocation.gImageUrls(locationProfile);
 
 		// Get the images that are in the new props
-		let nextImages = DaoLocation.gImageUrls(nextProps.locationProfile);
+		let nextImages = DaoLocation.gImageUrls(locationProfile);
 
 		// Decide whether to update or not based on the arrays length
 		// Note that the component will not update if an image changes
@@ -54,41 +50,22 @@ export default class LocationGallery extends React.Component<void, Props, State>
 	}
 
 	_getImagesFromProps(props) {
-		return DaoLocation.gImageUrls(props.locationProfile)
-			.map(ImageURISourceAuth.fromUrl);
+		const {locationProfile} = props;
+
+		// uri: http://www.catchme.krishanmadan.website/api/media/get/0/31/1787.png
+		return DaoLocation.gImageUrls(locationProfile)
+			.map(ImageURISourceAuth.fromUrl)
+			.map(obj => ({...obj, /*uri: obj.uri + '.png'*/}));
 	}
-
-
-	_onCaptureImage(data) {
-		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(this.props.locationProfile), data.file)
-			.then(addedUrl => {
-
-				// Update only location images
-				const newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
-				this.setState({imageSources: newImages});
-
-			});
-	}
-
-	_onAddImagePress() {
-		Router.toCameraModal(this.props.navigator, {
-			onCaptureImage: this._onCaptureImage
-		});
-	}
-
-
-
 
 	render() {
+		const {imageSources} = this.state;
 		return (
 			<Gallery
-				onAddImagePress={this._onAddImagePress}
-				imageSources={this.state.imageSources}
+				imageSources={imageSources}
 				ListEmptyComponent={this._renderEmptyListComponent}/>
 		);
 	}
-
-
 
 	_renderEmptyListComponent() {
 		return (

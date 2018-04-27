@@ -4,8 +4,8 @@ import SettingsUserAdminLocations from './SettingsUserAdminLocations';
 import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {NullableObjects, Screen} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
-import type {TNavigator} from "../../../lib/types/Types";
 import type {TCachePool} from "../../../lib/redux-pool/cache/CachePool";
+import type {TNavigator} from "../../../lib/types/Types";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -19,6 +19,11 @@ type Props = {
 
 class _ScreenSettingsAdminLocations extends React.Component<void, Props, void> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._renderSettingsUserAdminLocations = this._renderSettingsUserAdminLocations.bind(this);
+	}
+
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
 	}
@@ -28,24 +33,25 @@ class _ScreenSettingsAdminLocations extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([userProfile]) => (
-						<SettingsUserAdminLocations
-							navigator={navigator}
-							userProfile={userProfile}/>
-					)}/>
+					renderChild={this._renderSettingsUserAdminLocations}/>
 			</Screen>
 		);
 	}
 
-}
+	_renderSettingsUserAdminLocations([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<SettingsUserAdminLocations
+				navigator={navigator}
+				userProfile={userProfile}/>
+		);
+	}
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+}
 
 const ScreenSettingsAdminLocations = poolConnect(_ScreenSettingsAdminLocations,
 	// mapStateToProps
@@ -58,7 +64,3 @@ const ScreenSettingsAdminLocations = poolConnect(_ScreenSettingsAdminLocations,
 	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsAdminLocations;
-
-ScreenSettingsAdminLocations.propTypes = {
-	// Nothing for now
-};

@@ -3,7 +3,7 @@ import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
 import React from 'react';
-import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
+import WeekTimingsList from '../../../comp-buisness/timing/WeekTimingsList';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
@@ -30,6 +30,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._setRefWeekTimingsList = this._setRefWeekTimingsList.bind(this);
 		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfile().apiInput)};
 	}
 
@@ -39,18 +40,22 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
-		return this.props.formApiEditLocationProfile;
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
 	}
 
 	saveTimingsToLocation() {
 		const weekBoolTimings = this.refWeekTimingsList.getTimings();
 		const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
-
+		// todo?
 		// this._formApiEditLocationProfile().change({
 		// 	[DaoLocation.pTimings]: weekStrTimings
 		// });
 	}
 
+	_setRefWeekTimingsList(ref) {
+		this.refWeekTimingsList = ref;
+	}
 
 	render() {
 		const {managerWeekTimings} = this.state;
@@ -58,20 +63,14 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.view}>
 				<WeekTimingsList
-					ref={ref => this.refWeekTimingsList = ref}
+					ref={this._setRefWeekTimingsList}
 					managerWeekTimings={managerWeekTimings}
-					isEditable={true}
-					size={200}/>
+					isEditable/>
 			</View>
 		);
 	}
 
 }
-
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const EditLocationTimings = poolConnect(_EditLocationTimings,
 	// mapStateToProps
@@ -85,13 +84,11 @@ const EditLocationTimings = poolConnect(_EditLocationTimings,
 
 	{withRef: true}
 );
-
 export default EditLocationTimings;
 
 
-
-// Const ************************************************************************************************
-// Const ************************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
 	view: {

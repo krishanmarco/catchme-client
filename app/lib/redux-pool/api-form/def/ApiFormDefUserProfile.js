@@ -34,8 +34,14 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 		
 		// Post and invalidate CACHE_ID_USER_PROFILE
 		return ApiClient.userProfileEdit(user)
-			.then(() => cacheActionsUserProfile.reinitialize())
-			.then((user: TUser) => formApiActionsEditUserProfile.change(user));
+			.then((user: TUser) => {
+				cacheActionsUserProfile.mergeData(user);
+				return user;
+			})
+			.then((user: TUser) => {
+				formApiActionsEditUserProfile.change(user);
+				return user;
+			});
 	}
 	
 	

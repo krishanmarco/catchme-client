@@ -1,8 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
 import LocationList from '../../comp-buisness/location/LocationList';
 import React from 'react';
-import Router from '../../lib/helpers/Router';
+import Router from '../../lib/navigation/Router';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import UserList from '../../comp-buisness/user/UserList';
 import {Colors} from "../../Config";
@@ -10,7 +11,7 @@ import {poolConnect} from '../../redux/ReduxPool';
 import {SEARCH_DATA_ID_LOCATIONS} from "../../lib/redux-pool/search-data/def/SearchDataDefLocations";
 import {SEARCH_DATA_ID_USERS} from "../../lib/redux-pool/search-data/def/SearchDataDefUsers";
 import {StyleSheet, View} from 'react-native';
-import {TSearchData} from "../../lib/redux-pool/search-data/SearchDataPool";
+import {TSearchDataPool} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 
@@ -23,6 +24,9 @@ type Props = {
 	userProfile: TUser
 };
 
+// This is different from the Const.defaultOnEndReachedThreshold
+// because the search API request is slightly slower
+const onEndReachedThreshold = 0.7;
 
 // _Search **********************************************************************************************
 // _Search **********************************************************************************************
@@ -42,22 +46,30 @@ class _Search extends React.Component<void, Props, void> {
 		this._searchDataLocations().suggest();
 	}
 
-	_searchDataUsers(): TSearchData {
+	_searchDataUsers(): TSearchDataPool {
 		return this.props[SEARCH_DATA_ID_USERS];
 	}
 
-	_searchDataLocations(): TSearchData {
+	_searchDataLocations(): TSearchDataPool {
 		return this.props[SEARCH_DATA_ID_LOCATIONS];
 	}
 
 	_onLocationPress(location) {
 		const {navigator} = this.props;
-		Router.toLocationProfile(navigator, location);
+		Router.toModalLocationProfile(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onUserPress(user: TUser) {
 		const {navigator} = this.props;
-		Router.toUserProfile(navigator, user);
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
 	}
 
 	_locationsOnEndReached() {
@@ -80,6 +92,8 @@ class _Search extends React.Component<void, Props, void> {
 	render() {
 		return (
 			<ScrollableTabView
+				contentProps={scrollableTabViewContentProps}
+				tabBarUnderlineStyle={styles.tabBarUnderline}
 				scrollWithoutAnimation={true}
 				prerenderingSiblingsNumber={Infinity}
 				tabBarTextStyle={styles.tabBarTextStyle}
@@ -87,12 +101,12 @@ class _Search extends React.Component<void, Props, void> {
 				tabBarInactiveTextColor={Colors.black}>
 				<View
 					tabLabel='Locations'
-					style={styles.tabRootUsers}>
+					style={styles.tabUsers}>
 					{this._renderTabSearchLocations()}
 				</View>
 				<View
 					tabLabel='People'
-					style={styles.tabRootLocations}>
+					style={styles.tabLocations}>
 					{this._renderTabSearchUsers()}
 				</View>
 			</ScrollableTabView>
@@ -102,46 +116,41 @@ class _Search extends React.Component<void, Props, void> {
 
 
 	_renderTabSearchLocations() {
-		const {userProfile} = this.props;
 		const {list, loading} = this._searchDataLocations();
 		return (
 			<LocationList
 				locations={list}
-				favoriteIds={DaoUser.gLocationsFavoriteIds(userProfile)}
+				allowFollow={true}
+				allowUnfollow={true}
 
-				onItemPress={this._onLocationPress}
+				onLocationPress={this._onLocationPress}
 				onSearchPressed={this._searchDataLocations().search}
 				onSearchChanged={this._searchDataLocations().setSearchQuery}
-				autoFilter={true}
-
 				loading={loading}
+				onEndReachedThreshold={onEndReachedThreshold}
 				onEndReached={this._locationsOnEndReached}/>
 		);
 	}
 
 	_renderTabSearchUsers() {
-		const {userProfile} = this.props;
 		const {list, loading} = this._searchDataUsers();
 		return (
 			<UserList
 				users={list}
-				friendIds={DaoUser.gConnectionFriendIds(userProfile)}
-				requestIds={DaoUser.gConnectionRequestIds(userProfile)}
-				blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
-				onItemPress={this._onUserPress}
+				allowAcceptFriend={true}
+				allowUnblockUser={true}
+				allowRequestFriend={true}
+
+				loading={loading}
+				onUserPress={this._onUserPress}
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
-				autoFilter={true}
-				tabBarUnderlineStyle={styles.tabBarUnderline}
-				loading={loading}
-				onEndReached={this._usersOnEndReached}/>
+				onEndReached={this._usersOnEndReached}
+				onEndReachedThreshold={onEndReachedThreshold}/>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const Search = poolConnect(_Search,
 	// mapStateToProps
@@ -159,17 +168,23 @@ export default Search;
 // Config ************************************************************************************************
 // Config ************************************************************************************************
 
+// Bug fix for freezing tab view after back
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// Can be removed on upgrade >> react-native 0.55.3
+const scrollableTabViewContentProps = {
+	style: {flex: 1}
+};
+
 const styles = StyleSheet.create({
 	tabBarTextStyle: {
 		marginBottom: -8
 	},
-	tabRootUsers: {
-		flex: 1,
-		paddingTop: 8
+	tabUsers: {
+		flex: 1
 	},
-	tabRootLocations: {
-		flex: 1,
-		paddingTop: 8
+	tabLocations: {
+		flex: 1
 	},
 	tabBarUnderline: {
 		backgroundColor: Colors.primary

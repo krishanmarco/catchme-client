@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoLocation from "../../lib/daos/DaoLocation";
 import EditLocationAddress from './pages/EditLocationAddress';
 import EditLocationInfo from './pages/EditLocationInfo';
 import EditLocationRecap from './pages/EditLocationSave';
@@ -8,11 +9,11 @@ import {Colors, Icons} from '../../Config';
 import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
 import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollableIconTabView} from "../../comp/Misc";
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -20,7 +21,7 @@ import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 type Props = {
 	navigator: TNavigator,
 	locationProfile: TLocation,
-	authenticatedUserProfile: TUser
+	authUserProfile: TUser
 };
 
 // _EditLocation ****************************************************************************************
@@ -38,6 +39,10 @@ class _EditLocation extends React.Component<void, Props, void> {
 		this._allowIndexChange = this._allowIndexChange.bind(this);
 		this._onSaveComplete = this._onSaveComplete.bind(this);
 		this._onPreTabChange = this._onPreTabChange.bind(this);
+		this._setRefInfoTab = this._setRefInfoTab.bind(this);
+		this._setRefTimingsTab = this._setRefTimingsTab.bind(this);
+		this._setRefAddressTab = this._setRefAddressTab.bind(this);
+		this._setRefRecapTab = this._setRefRecapTab.bind(this);
 	}
 
 	componentWillMount() {
@@ -46,7 +51,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 		// We now have access to a location profile
 		// Initialize the redux pool form by setting all its values
 		this._formApiEditLocationProfile().reset();
-		this._formApiEditLocationProfile().change(locationProfile);
+		this._formApiEditLocationProfile().change(DaoLocation.apiClean(locationProfile));
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {
@@ -57,7 +62,8 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_onSaveComplete(apiResponse) {
 		// The form has already been posted
 		// Check for success and handle errors
-		//    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal()) todo
+		//    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal())
+		// todo
 	}
 
 
@@ -85,6 +91,22 @@ class _EditLocation extends React.Component<void, Props, void> {
 		}
 
 		return icon;
+	}
+
+	_setRefInfoTab(ref) {
+		this.refTabs[EditLocation.idxInfo] = ref;
+	}
+
+	_setRefTimingsTab(ref) {
+		this.refTabs[EditLocation.idxTimings] = ref;
+	}
+
+	_setRefAddressTab(ref) {
+		this.refTabs[EditLocation.idxAddress] = ref;
+	}
+
+	_setRefRecapTab(ref) {
+		this.refTabs[EditLocation.idxRecap] = ref;
 	}
 
 
@@ -118,7 +140,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 			<View
 				key={tabLabel}
 				tabLabel={tabLabel}
-				style={{height: 460}}>
+				style={styles.tabView}>
 				{jsx}
 			</View>
 		);
@@ -128,7 +150,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationInfo() {
 		return (
 			<EditLocationInfo
-				ref={ref => this.refTabs[EditLocation.idxInfo] = ref}
+				ref={this._setRefInfoTab}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
@@ -136,16 +158,17 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationTimings() {
 		return (
 			<EditLocationTimings
-				ref={ref => this.refTabs[EditLocation.idxTimings] = ref}
+				ref={this._setRefTimingsTab}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
 
 	_renderTabEditLocationAddress() {
+		const {navigator} = this.props;
 		return (
 			<EditLocationAddress
-				ref={ref => this.refTabs[EditLocation.idxAddress] = ref}
-				navigator={this.props.navigator}
+				ref={this._setRefAddressTab}
+				navigator={navigator}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
@@ -153,16 +176,13 @@ class _EditLocation extends React.Component<void, Props, void> {
 	_renderTabEditLocationRecap() {
 		return (
 			<EditLocationRecap
-				ref={ref => this.refTabs[EditLocation.idxRecap] = ref}
+				ref={this._setRefRecapTab}
 				onSaveComplete={this._onSaveComplete}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const EditLocation = poolConnect(_EditLocation,
 	// mapStateToProps
@@ -174,7 +194,14 @@ const EditLocation = poolConnect(_EditLocation,
 	// Array of pools to subscribe to
 	[FORM_API_ID_EDIT_LOCATION_PROFILE]
 );
-
-
 export default EditLocation;
 
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	tabView: {
+		flex: 1
+	}
+});

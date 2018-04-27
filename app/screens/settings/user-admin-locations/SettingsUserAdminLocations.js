@@ -1,19 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from "../../../lib/daos/DaoLocation";
-
 import DaoUser from "../../../lib/daos/DaoUser";
-
-import LocationList from '../../../comp-buisness/location/LocationList';
 import React from 'react';
-import Router from "../../../lib/helpers/Router";
+import Router from "../../../lib/navigation/Router";
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Icons} from '../../../Config';
-
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
+import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
 
 
 // Const *************************************************************************************************
@@ -38,11 +35,17 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	}
 
 	_onLocationPress(location) {
-		Router.toScreenEditLocation(this.props.navigator, DaoLocation.gId(location));
+		const {navigator} = this.props;
+		Router.toScreenEditLocation(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
 	}
 
 	_onLocationAdd() {
-		Router.toScreenNewLocation(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toScreenNewLocation(navigator);
 	}
 
 
@@ -70,7 +73,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 			<FlatList
 				style={styles.locationList}
 				data={DaoUser.gAdminLocations(userProfile)}
-				keyExtractor={DaoLocation.gId}
+				keyExtractor={DaoLocation.gIdStr}
 				ListHeaderComponent={this._renderLocationsHeader()}
 				renderItem={this._renderLocationItem}
 			/>
@@ -80,6 +83,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderLocationsHeader() {
 		return (
 			<ListItemInfo
+				style={listItemInfo.itemStyle}
 				title='Add a new Location'
 				textRkType='header4'
 				icon={Icons.locationAdminAdd}

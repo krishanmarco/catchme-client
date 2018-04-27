@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unresolved */
+// eslint-disable-next-line import/no-unresolved
 // https://github.com/skv-headless/react-native-scrollable-tab-view/blob/master/DefaultTabBar.js
 import Button from './button/Button';
 import React from 'react';
@@ -135,13 +137,16 @@ export default class DefaultTabBar extends React.Component<void, Props, void> {
 }
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
 const styles = StyleSheet.create({
 	tab: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
 		paddingBottom: 8,
-		paddingTop: 5,
+		paddingTop: 6,
 	},
 	tabs: {
 		height: 50,

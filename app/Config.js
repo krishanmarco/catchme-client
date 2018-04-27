@@ -38,12 +38,20 @@ const _Icons = {
 	penEdit: {name: 'edit', type: 'material-icons', color: Colors.neutralOrange},
 	bin: {name: 'delete', type: 'material-icons', color: Colors.alertRed},
 	save: {name: 'save', type: 'fontawesome', color: Colors.alertRed},
+	plus: {name: 'plus', type: 'evilicons', color: Colors.primary},
+	star: {name: 'star', type: 'evilicons', color: Colors.primary},
+};
+
+export const FontIcons = {
+	google: String.fromCharCode(61856),
+	facebook: String.fromCharCode(61594),
 };
 
 export const Icons = {
 	defaultIcon: _Icons.questionMark,
 	userProfile: _Icons.user,
-	userLocations: _Icons.cup,
+	userLocationStatuses: _Icons.cup,
+	userLocationFavorites: _Icons.star,
 	userFriends: _Icons.friends,
 	userInfo: _Icons.info,
 	genderFemale: _Icons.female,
@@ -54,7 +62,8 @@ export const Icons = {
 	userAccountSettings: _Icons.personSettings,
 	userNotificationSettings: _Icons.bell,
 	userEditAvatar: _Icons.bell,
-	locationFollow: _Icons.cup,
+	locationFollow: _Icons.star,
+	locationUnfollow: {..._Icons.star, color: Colors.alertRed},
 	userFollow: {..._Icons.hand, color: Colors.primary},
 	userBlock: {..._Icons.hand, color: Colors.alertRed},
 	userAdminLocations: _Icons.building,
@@ -69,9 +78,11 @@ export const Icons = {
 	locationTimings: _Icons.timings,
 	locationMap: _Icons.mapSigns,
 	locationEditAvatar: _Icons.pen,
+	locationEditAddress: _Icons.pen,
 	locationSave: _Icons.save,
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,
+	galleryAddImage: _Icons.plus,
 
 
 	friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},
@@ -134,9 +145,9 @@ export const Screens = {
 	ScreenNewLocation: `${Globals.packageName}.ScreenNewLocation`,
 	ScreenFeaturedAds: `${Globals.packageName}.ScreenFeaturedAds`,
 	ScreenHelpAppInfo: `${Globals.packageName}.ScreenHelpAppInfo`,
-	ModalCamera: `${Globals.packageName}.ModalCamera`,
-	ModalTiming: `${Globals.packageName}.ModalTiming`,
-	ModalUserLocationStatus: `${Globals.packageName}.ModalUserLocationStatus`
+	ScreenCamera: `${Globals.packageName}.ScreenCamera`,
+	ScreenTimings: `${Globals.packageName}.ScreenTimings`,
+	ScreenUserLocationStatus: `${Globals.packageName}.ScreenUserLocationStatus`
 };
 
 
@@ -158,7 +169,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 
 	dismissModalConfig: {animationType: 'slide-down'},
 
@@ -172,7 +183,11 @@ export const Const = {
 
 	dataProviderCacheTTLSec: 0, 				// 5 * 60,
 
-	imagesCachingPolicy: 'default',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
+	imagesCachingPolicy: 'reload',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
+
+	defaultOnEndReachedThreshold: 0.5,
+
+	clockSize: 230,
 
 	firebaseConfig: {
 		apiKey: 'AIzaSyAou7dzdwfMFwmMqcxSs09I9RPohvr2jlI',

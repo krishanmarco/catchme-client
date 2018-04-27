@@ -1,7 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+/* eslint-disable guard-for-in */
+import {Dimensions, StatusBar, StyleSheet} from 'react-native';
 import {RkTheme} from 'react-native-ui-kitten';
-import {scale, scaleVertical} from '../utils/scale';
-import {StatusBar, StyleSheet} from 'react-native';
+
+// Setup
+const { width, height } = Dimensions.get('window');
+
+//Guideline sizes are based on standard ~5" screen mobile device
+const guidelineBaseWidth = 350;
+const guidelineBaseHeight = 680;
+const scale = size => width / guidelineBaseWidth * size;
+const scaleVertical = size => height / guidelineBaseHeight * size;
 
 
 
@@ -771,22 +780,15 @@ export function bootstrapRkTheme() {
 	});
 	
 	
-	RkTheme.registerComponent('GradientButton', (theme) => {
+	RkTheme.registerComponent('LoadingButton', (theme) => {
 		return ({
 			_base: {
 				button: {
 					alignItems: 'stretch',
 					paddingVertical: 0,
 					paddingHorizontal: 0,
-					height: scaleVertical(40),
-					borderRadius: 20
-				},
-				gradient: {
-					flex: 1,
-					alignItems: 'center',
-					justifyContent: 'center',
+					height: 40,
 					borderRadius: 20,
-					colors: theme.colors.gradients.base
 				},
 				text: {
 					backgroundColor: 'transparent',
@@ -796,12 +798,9 @@ export function bootstrapRkTheme() {
 			large: {
 				button: {
 					alignSelf: 'stretch',
-					height: scaleVertical(50),
-					borderRadius: 28,
+					height: 48,
+					borderRadius: 24,
 				},
-				gradient: {
-					borderRadius: 28
-				}
 			},
 			statItem: {
 				button: {
@@ -811,11 +810,6 @@ export function bootstrapRkTheme() {
 					height: null,
 					alignSelf: 'auto',
 				},
-				gradient: {
-					flex: 1,
-					borderRadius: 5,
-					padding: 10,
-				}
 			}
 		});
 	});

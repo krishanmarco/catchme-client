@@ -19,6 +19,11 @@ type Props = {
 
 class _ScreenSearch extends React.Component<void, Props, void> {
 
+	constructor(props, context) {
+		super(props, context);
+		this._renderAddContacts = this._renderAddContacts.bind(this);
+	}
+
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
 	}
@@ -28,24 +33,25 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {navigator} = this.props;
 		return (
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([userProfile]) => (
-						<AddContacts
-							navigator={navigator}
-							userProfile={userProfile}/>
-					)}/>
+					renderChild={this._renderAddContacts}/>
 			</Screen>
 		);
 	}
 
-}
+	_renderAddContacts([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<AddContacts
+				navigator={navigator}
+				userProfile={userProfile}/>
+		);
+	}
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+}
 
 const ScreenSearch = poolConnect(_ScreenSearch,
 	// mapStateToProps
@@ -57,6 +63,4 @@ const ScreenSearch = poolConnect(_ScreenSearch,
 	// Array of pools to subscribe to
 	[CACHE_ID_USER_PROFILE]
 );
-
-
 export default ScreenSearch;

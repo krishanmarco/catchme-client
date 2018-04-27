@@ -145,88 +145,88 @@ export default class DaoLocation {
 	}
 	
 	
-	static gId(location: TLocation) {
+	static gId(location: TLocation): number {
 		return _.get(location, DaoLocation.pId);
 	}
 	
-	static gName(location: TLocation) {
+	static gName(location: TLocation): string {
 		return _.get(location, DaoLocation.pName);
 	}
 	
-	static gDescription(location: TLocation) {
+	static gDescription(location: TLocation): string {
 		return _.get(location, DaoLocation.pDescription);
 	}
 	
-	static gCapacity(location: TLocation) {
+	static gCapacity(location: TLocation): number {
 		return _.get(location, DaoLocation.pCapacity);
 	}
 	
-	static gPictureUrl(location: TLocation) {
+	static gPictureUrl(location: TLocation): string {
 		const pictureUri = _.trim(_.get(location, DaoLocation.pPictureUrl));
 		return _.isEmpty(pictureUri) ? Const.locationDefaultAvatar : pictureUri;
 	}
 	
-	static gTimings(location: TLocation) {
+	static gTimings(location: TLocation): string {
 		return _.get(location, DaoLocation.pTimings, ManagerWeekTimings.strWeekDefault);
 	}
 	
-	static gPhone(location: TLocation) {
+	static gPhone(location: TLocation): string {
 		return _.get(location, DaoLocation.pPhone);
 	}
 	
-	static gEmail(location: TLocation) {
+	static gEmail(location: TLocation): string {
 		return _.get(location, DaoLocation.pEmail);
 	}
 	
-	static gGooglePlaceId(location: TLocation) {
+	static gGooglePlaceId(location: TLocation): string {
 		return _.get(location, DaoLocation.pGooglePlaceId);
 	}
 	
-	static gAddressObj(location: TLocation) {
+	static gAddressObj(location: TLocation): TLocationAddress {
 		return _.get(location, DaoLocation.pAddress);
 	}
 	
-	static gCountry(location: TLocation) {
+	static gCountry(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressCountry);
 	}
 	
-	static gState(location: TLocation) {
+	static gState(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressState);
 	}
 	
-	static gCity(location: TLocation) {
+	static gCity(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressCity);
 	}
 	
-	static gPostcode(location: TLocation) {
+	static gPostcode(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressPostcode);
 	}
 	
-	static gAddress(location: TLocation) {
+	static gAddress(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressAddress);
 	}
 	
-	static gLatLng(location: TLocation) {
+	static gLatLng(location: TLocation): TLocationAddressLatLng {
 		return _.get(location, DaoLocation.pAddressLatLng);
 	}
 	
-	static gImageUrls(location: TLocation) {
+	static gImageUrls(location: TLocation): Array<string> {
 		return _.get(location, DaoLocation.pImageUrls, []);
 	}
 	
-	static gPeople(location: TLocation) {
+	static gPeople(location: TLocation): TLocationPeople {
 		return _.get(location, DaoLocation.pPeople);
 	}
 	
-	static gMen(location: TLocation) {
+	static gMen(location: TLocation): number {
 		return _.get(location, DaoLocation.pPeopleMen, 0);
 	}
 	
-	static gWomen(location: TLocation) {
+	static gWomen(location: TLocation): number {
 		return _.get(location, DaoLocation.pPeopleWomen, 0);
 	}
 	
-	static gTotal(location: TLocation) {
+	static gTotal(location: TLocation): number {
 		return _.get(location, DaoLocation.pPeopleTotal, 0);
 	}
 	
@@ -278,6 +278,10 @@ export default class DaoLocation {
 		return image != null
 			&& image != Const.locationDefaultAvatar
 			&& !isValidUrl(image);
+	}
+
+	static gIdStr(location: TLocation): string {
+		return DaoLocation.gId(location).toString();
 	}
 	
 	

@@ -5,6 +5,7 @@ import React from 'react';
 import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
+import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 
@@ -26,6 +27,7 @@ class _ScreenNewLocation extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderEditLocation = this._renderEditLocation.bind(this);
 
 		// Create a new location as pass it down as the location to edit
 		// Note: This object will never change because EditLocation component
@@ -34,32 +36,35 @@ class _ScreenNewLocation extends React.Component<void, Props, State> {
 	}
 
 	componentWillMount() {
-		this.props[CACHE_ID_USER_PROFILE].initialize();
+		this._cacheUserProfile().initialize();
 	}
 
-	_authenticatedUserProfile() {
-		return this.props[CACHE_ID_USER_PROFILE].data;
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
 	render() {
 		return (
 			<Screen>
 				<NullableObjects
-					objects={[this._authenticatedUserProfile()]}
-					renderChild={([authenticatedUserProfile]) => (
-						<EditLocation
-							navigator={this.props.navigator}
-							locationProfile={this.state.location}
-							authenticatedUserProfile={authenticatedUserProfile}/>
-					)}/>
+					objects={[this._cacheUserProfile().data]}
+					renderChild={this._renderEditLocation}/>
 			</Screen>
 		);
 	}
 
-}
+	_renderEditLocation([authUserProfile]) {
+		const {navigator} = this.props;
+		const {location} = this.state;
+		return (
+			<EditLocation
+				navigator={navigator}
+				locationProfile={location}
+				authUserProfile={authUserProfile}/>
+		);
+	}
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+}
 
 const ScreenNewLocation = poolConnect(_ScreenNewLocation,
 	// mapStateToProps

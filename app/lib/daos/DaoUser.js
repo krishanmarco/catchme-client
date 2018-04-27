@@ -1,11 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import DaoLocation from "./DaoLocation";
-import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
 import Maps from "../data/Maps";
 import ObjectCache from "../helpers/ObjectCache";
 import {Const} from '../../Config';
-import {denormObj, mapIdsToObjects} from "../HelperFunctions";
+import {denormObj, isValidUrl, mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 
@@ -108,13 +107,31 @@ export default class DaoUser {
 		return newUser;
 	}
 
+	static apiClean(user: TUser): TUser {
+		const newUser = {};
+		_.set(newUser, DaoUser.pId, DaoUser.gId(user));
+		_.set(newUser, DaoUser.pPictureUrl, DaoUser.gPictureUrl(user));
+		_.set(newUser, DaoUser.pName, DaoUser.gName(user));
+		_.set(newUser, DaoUser.pReputation, DaoUser.gReputation(user));
+		_.set(newUser, DaoUser.pPublicMessage, DaoUser.gPublicMessage(user));
+		_.set(newUser, DaoUser.pPhone, DaoUser.gPhone(user));
+		_.set(newUser, DaoUser.pEmail, DaoUser.gEmail(user));
+		_.set(newUser, DaoUser.pApiKey, DaoUser.gApiKey(user));
+		_.set(newUser, DaoUser.pSettingPrivacy, DaoUser.gSettingPrivacy(user));
+		_.set(newUser, DaoUser.pSettingNotifications, DaoUser.gSettingNotifications(user));
+		return newUser;
+	}
+
 
 	static newInstance(): TUser {
 		return denormObj({
 			// To allow a new user to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
+			[DaoUser.pId]: -1,
+			[DaoUser.pName]: '',
 			[DaoUser.pSettingPrivacy]: Const.userDefaultPrivacySettings,
 			[DaoUser.pSettingNotifications]: Const.userDefaultNotificationsSettings,
+			[DaoUser.pReputation]: 0,
 			[DaoUser.pPictureUrl]: '',
 			[DaoUser.pPhone]: '',
 			[DaoUser.pEmail]: '',
@@ -126,55 +143,55 @@ export default class DaoUser {
 // Accessors ********************************************************************************************
 // Accessors ********************************************************************************************
 	
-	static gId(user: TUser) {
+	static gId(user: TUser): number {
 		return _.get(user, DaoUser.pId);
 	}
 	
-	static gPictureUrl(user: TUser) {
+	static gPictureUrl(user: TUser): string {
 		return _.get(user, DaoUser.pPictureUrl);
 	}
 	
-	static gName(user: TUser) {
+	static gName(user: TUser): string {
 		return _.get(user, DaoUser.pName);
 	}
 	
-	static gReputation(user: TUser) {
+	static gReputation(user: TUser): number {
 		return _.get(user, DaoUser.pReputation);
 	}
 	
-	static gPublicMessage(user: TUser) {
+	static gPublicMessage(user: TUser): string {
 		return _.get(user, DaoUser.pPublicMessage);
 	}
 	
-	static gPhone(user: TUser) {
+	static gPhone(user: TUser): string {
 		return _.get(user, DaoUser.pPhone);
 	}
 	
-	static gEmail(user: TUser) {
+	static gEmail(user: TUser): string {
 		return _.get(user, DaoUser.pEmail);
 	}
 	
-	static gApiKey(user: TUser) {
+	static gApiKey(user: TUser): string {
 		return _.get(user, DaoUser.pApiKey);
 	}
 	
-	static gSettingPrivacy(user: TUser) {
+	static gSettingPrivacy(user: TUser): string {
 		return _.get(user, DaoUser.pSettingPrivacy, Const.userDefaultPrivacySettings);
 	}
 	
-	static gSettingNotifications(user: TUser) {
+	static gSettingNotifications(user: TUser): string {
 		return _.get(user, DaoUser.pSettingNotifications, Const.userDefaultNotificationsSettings);
 	}
 	
-	static gGender(user: TUser) {
+	static gGender(user: TUser): number {
 		return _.get(user, DaoUser.pGender, Maps.genderDefault().value);
 	}
 	
-	static gConnections(user: TUser) {
+	static gConnections(user: TUser): TUserConnectionIds {
 		return _.get(user, DaoUser.pConnections);
 	}
 	
-	static gLocations(user: TUser) {
+	static gLocations(user: TUser): Array<TLocation> {
 		return _.get(user, DaoUser.pLocations);
 	}
 	
@@ -213,6 +230,14 @@ export default class DaoUser {
 
 // CacheAccessors ***************************************************************************************
 // CacheAccessors ***************************************************************************************
+
+	static invalidateConnectionFriendIds(user: TUser) {
+		ObjectCache.invalidate(user, DaoUser._pConnectionFriendIds);
+	}
+
+	static invalidateConnectionBlockedIds(user: TUser) {
+		ObjectCache.invalidate(user, DaoUser._pConnectionBlockedIds);
+	}
 	
 	static gConnectionFriendIds(user: TUser) {
 		return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
@@ -269,46 +294,16 @@ export default class DaoUser {
 		return DaoUser.pLocations in user;
 	}
 
+	static hasNewImage(user: TUser): boolean {
+		const image = DaoUser.gPictureUrl(user);
+		return image != null
+			&& image != Const.userDefaultAvatar
+			&& !isValidUrl(image);
+	}
 
-// HelperAccessors **************************************************************************************
-// HelperAccessors **************************************************************************************
-	
-	static addLocationToFavorites(user: TUser, location: TLocation) {
-		const locationId = DaoLocation.gId(location);
-		
-		// Get all the location ids
-		let favoriteLocationIds = DaoUser.gLocationsFavoriteIds(user);
-		
-		// If this is already a favorite location don't do anything
-		if (favoriteLocationIds.includes(locationId))
-			return;
-		
-		// This location needs to be added to the favorite location list
-		favoriteLocationIds.push(locationId);
-		
-		// Set the new list into the user.locations object
-		user[DaoUser.pLocationsFavorites] = favoriteLocationIds;
-		
-		
-		// Get the list of locations associated to the user.locations object
-		const locations = DaoUser.gLocationsLocations(user);
-		
-		const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
-		if (locationAlreadyIncluded)
-			return;
-		
-		// The location needs to be added to the accumulated locations
-		locations.push(location);
-		
-		// Set the new list into the user.locations object
-		user[DaoUser.pLocationsLocations] = locations;
+	static gIdStr(user: TUser): string {
+		return DaoUser.gId(user).toString();
 	}
-	
-	static removeLocationFromFavorites(user: TUser, location: TLocation) {
-		const favoriteLocations = DaoUser.gLocationsFavoriteIds(user);
-		_.remove(favoriteLocations, DaoLocation.gId(location));
-		user[DaoUser.pLocationsFavorites] = favoriteLocations;
-	}
-	
-	
+
+
 }

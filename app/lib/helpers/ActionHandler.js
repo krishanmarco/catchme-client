@@ -1,12 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../data/ApiClient';
+import CacheActionCreator from "../redux-pool/cache/CacheActionCreator";
 import DaoAction from "../daos/DaoAction";
 import Logger from "../Logger";
-import Router from "./Router";
-import {Const, ActionHandlerActions, Icons} from '../../Config';
+import Router from "../navigation/Router";
+import {ActionHandlerActions, Const, Icons} from '../../Config';
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../redux-pool/cache/def/CacheDefUserProfile";
 import {TActionHandlers} from "../types/Types";
 import type {TAction} from "../daos/DaoAction";
-import type {TActionHandler, TNavigator, TThunk} from "../types/Types";
+import type {TActionHandler, TDispatch, TNavigator, TThunk} from "../types/Types";
 
 
 const _ClickActionHandlers: TActionHandlers = ({
@@ -15,12 +17,16 @@ const _ClickActionHandlers: TActionHandlers = ({
 		icon: Icons.userFollow,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
-			const connectionId = DaoAction.gPayloadConnectionId(action);
+			const userId = DaoAction.gPayloadConnectionId(action);
 
-			if (!connectionId)
+			if (!userId)
 				return Promise.resolve(0);
 
-			return ApiClient.userConnectionsAcceptUid(connectionId);
+			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+			return ApiClient.usersGetUid(userId)
+				.then(userProfileActionCreator.addUserToFriends);
 		}
 	},
 
@@ -29,12 +35,16 @@ const _ClickActionHandlers: TActionHandlers = ({
 		icon: Icons.userBlock,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
-			const connectionId = DaoAction.gPayloadConnectionId(action);
+			const userId = DaoAction.gPayloadConnectionId(action);
 
-			if (!connectionId)
+			if (!userId)
 				return Promise.resolve(0);
 
-			return ApiClient.userConnectionsBlockUid(connectionId);
+			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+			return ApiClient.usersGetUid(userId)
+				.then(userProfileActionCreator.blockUser);
 		}
 	},
 
@@ -48,11 +58,11 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			Router.toModalUserLocationStatus(navigator, {
-				locationId,
-				postOnConfirm: true
-				// passProps.onStatusConfirm, passProps.initialStatus not needed
-			});
+			// Create a new UserLocationStatus
+			Router.toModalUserLocationStatus(
+				navigator,
+				{locationId}
+			);
 
 			return Promise.resolve(0);
 		}
@@ -68,7 +78,11 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			return ApiClient.userLocationsFavoritesAddLid(locationId);
+			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+			return ApiClient.locationsGetLid(locationId)
+				.then(userProfileActionCreator.followLocation);
 		}
 	},
 
@@ -77,12 +91,12 @@ const _ClickActionHandlers: TActionHandlers = ({
 		icon: Icons.userProfile,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
-			const connectionId = DaoAction.gPayloadConnectionId(action);
+			const userId = DaoAction.gPayloadConnectionId(action);
 
-			if (!connectionId)
+			if (!userId)
 				return Promise.resolve(0);
 
-			Router.toUserProfileById(navigator, connectionId);
+			Router.toModalUserProfile(navigator, {userId});
 			return Promise.resolve(0);
 		}
 	},
@@ -97,7 +111,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			Router.toLocationProfileById(navigator, locationId);
+			Router.toModalLocationProfile(navigator, {locationId});
 			return Promise.resolve(0);
 		}
 	},

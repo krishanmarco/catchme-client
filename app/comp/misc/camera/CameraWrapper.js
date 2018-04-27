@@ -20,8 +20,14 @@ const defaultProps = {
 };
 
 const captureOptions = {
-	metadata: {}
+
+	// The metadata is added to the output image
+	metadata: {},
+
+	jpegQuality: 8,
 };
+
+const barCodeTypes = ['qr'];
 
 
 // CameraWrapper ****************************************************************************************
@@ -34,6 +40,7 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 		super(props, context);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this._onBarCodeRead = this._onBarCodeRead.bind(this);
+		this._setRefCamera = this._setRefCamera.bind(this);
 	}
 
 	_onBarCodeRead(data) {
@@ -58,20 +65,24 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 			});
 	}
 
+	_setRefCamera(ref) {
+		this.refCamera = ref;
+	}
 
 	render() {
 		const {captureMode} = this.props;
 		return (
 			<View style={styles.container}>
 				<Camera
-					ref={camera => this.refCamera = camera}
+					ref={this._setRefCamera}
 					style={styles.preview}
 					captureMode={captureMode}
 					aspect={CameraConstants.Aspect.fill}
 					captureTarget={CameraConstants.CaptureTarget.temp}
 					captureQuality={CameraConstants.CaptureQuality.high}
+					orientation={CameraConstants.Orientation.portrait}
 					onBarCodeRead={this._onBarCodeRead}
-					barCodeTypes={["qr"]}
+					barCodeTypes={barCodeTypes}
 					audio={true}
 					keepAwake={true}>
 					<RkButton

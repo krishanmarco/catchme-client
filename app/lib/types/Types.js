@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/01/18 © **/
-
 import type {TAction} from "../daos/DaoAction";
 
 export type TActionHandlers = {[string]: TActionHandler};
@@ -36,7 +35,8 @@ export type TSectionListDataPointSections = {
 export type TNavigator = Object & {
 	// react-native-navigation navigator
 	showModal: Function,
-	push: Function
+	push: Function,
+	setButtons: Function
 };
 
 export type TMoment = {
@@ -50,6 +50,11 @@ export type TGetState = () => TState;
 export type TThunk = {
 	dispatch: TDispatch,
 	getState: TGetState
+};
+
+export type TImageSource = {
+	uri: string,         								  // Url of the image
+	cache?: string                       	// Caching policy (Defined in Config.js)
 };
 
 export type TStyle = Object;

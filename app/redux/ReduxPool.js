@@ -4,10 +4,10 @@ import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
 import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
 import CachePool from "../lib/redux-pool/cache/CachePool";
 import FirebaseDataPool from "../lib/redux-pool/firebase-data/FirebaseDataPool";
+import SearchDataPool from "../lib/redux-pool/search-data/SearchDataPool";
 import {connect} from 'react-redux';
 import {TState} from "../lib/types/Types";
 import type {TDispatch} from "../lib/types/Types";
-import SearchDataPool from "../lib/redux-pool/search-data/SearchDataPool";
 
 
 
@@ -231,15 +231,12 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 			
 			// Function to apply to each pool
 			(poolType, poolId) => {
-				
-				const poolDispatch = ReduxPoolBuilder[poolType].connectParams.getActionCreator(
-					// Pass the pool pId (needed dispatch pool specific actions)
-					poolId,
-					
-					// Pass in a the dispatch function
-					dispatch
-				);
+				const connectParams = ReduxPoolBuilder[poolType].connectParams;
 
+				let poolDispatch = connectParams.getDefaultActionCreator(poolId, dispatch);
+
+				if (connectParams[poolId] != null)
+					poolDispatch = Object.assign({}, connectParams[poolId](poolDispatch), poolDispatch);
 
 				// Merge the current result with all the indicated pools
 				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch});

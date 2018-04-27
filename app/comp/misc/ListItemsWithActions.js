@@ -13,7 +13,6 @@ import type {TIcon} from "../../lib/types/Types";
 
 export type TListItemAction = {
 	icon: TIcon,
-	color?: string,
 	size?: number,
 	onPress?: () => void
 };
@@ -96,6 +95,7 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 		</Grid>
 	</Touchable>
 );
+export default ListItemWithActions;
 
 ListItemWithActions.defaultProps = {
 	actions: [],
@@ -141,4 +141,3 @@ const styles = RkStyleSheet.create(theme => ({
 	}
 }));
 
-export default ListItemWithActions;

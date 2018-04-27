@@ -1,78 +1,119 @@
 import React from 'react';
-import {GradientButton, Screen} from "../../../comp/Misc";
-import {Image, View} from 'react-native';
-import {RkStyleSheet, RkText, RkTextInput, RkTheme} from 'react-native-ui-kitten';
-import {scaleVertical} from '../../../lib/utils/scale';
+import {FORM_API_ID_RECOVER_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
+import {fullpageForm} from "../../../lib/theme/Styles";
+import {poolConnect} from "../../../redux/ReduxPool";
+import {RkTextInputFromPool} from "../../../comp/misc/forms/RkInputs";
+import {StyleSheet, View} from 'react-native';
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../../lib/types/Types";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
 
-const navigationOptions = {
-	header: null
-};
-
 type Props = {
-	navigation: TNavigator
+	navigator: TNavigator
+};
+
+type State = {
+	passwordRecovered: boolean;
 };
 
 // PasswordRecovery *************************************************************************************
 // PasswordRecovery *************************************************************************************
 
-export default class PasswordRecovery extends React.Component<void, Props, void> {
-	static navigationOptions = navigationOptions;
+class _RecoverPassword extends React.Component<void, Props, State> {
 
 	constructor(props) {
 		super(props);
-		this._renderIcon = this._renderIcon.bind(this);
+		this._onSendPress = this._onSendPress.bind(this);
+		this._getFormApiRecoverPassword = this._getFormApiRecoverPassword.bind(this);
+		this.state = {passwordRecovered: false};
+	}
+
+	_getFormApiRecoverPassword(): TApiFormPool {
+		return this.props[FORM_API_ID_RECOVER_PASSWORD];
+	}
+
+	_onSendPress() {
+		this._getFormApiRecoverPassword().post()
+			.then(success => {
+				this.setState({passwordRecovered: true});
+			});
 	}
 
 	render() {
-		const {navigation} = this.props;
 		return (
 			<Screen>
-				<View style={styles.header}>
-					{this._renderIcon()}
-					<RkText rkType='h1'>Password Recovery</RkText>
-				</View>
-				<View style={styles.listItemContent}>
-					<RkTextInput rkType='rounded' placeholder='Email'/>
-					<RkText rkType='secondary5 secondaryColor center'>
-						Enter your email below to receive your password reset instructions
-					</RkText>
-				</View>
-				<GradientButton style={styles.save} rkType='large' text='SEND' onPress={navigation.goBack}/>
+				<FullpageForm
+
+					headerStyle={fullpageForm.headerStyle}
+					headerJsx={this._renderScreenInfo()}
+
+					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
+						<View>
+							<RkTextInputFromPool
+								pool={this._getFormApiRecoverPassword()}
+								field='email'
+								keyboardType='email-address'
+								placeholder='Email'
+								secureTextEntry
+								withBorder/>
+
+							<LoadingButton
+								style={fullpageForm.fieldsButton}
+								loading={this._getFormApiRecoverPassword().loading}
+								onPress={this._onSendPress}
+								rkType='large stretch accentColor'
+								text={'Send'.toUpperCase()}
+								withBorder/>
+						</View>
+					)}
+
+				/>
 			</Screen>
 		);
 	}
 
-	_renderIcon() {
-		return RkTheme.current.name === 'light'
-			? <Image style={styles.image} source={require('../../../assets/images/logo.png')}/>
-			: <Image style={styles.image} source={require('../../../assets/images/logoDark.png')}/>;
+	_renderScreenInfo() {
+		const {passwordRecovered} = this.state;
+
+		const props = {};
+		if (passwordRecovered) {
+			props.imageSource = require('../../../assets/images/search.png');
+			props.textText = 'Your password has been sen\'t to your email address';
+
+		} else {
+			props.imageSource = require('../../../assets/images/meLogo.png');
+			props.textText = 'Enter your email below to receive your password reset instructions';
+		}
+
+		return (
+			<ScreenInfo {...props}/>
+		);
 	}
+
 }
 
-// Const ************************************************************************************************
-// Const ************************************************************************************************
+const ScreenRecoverPassword = poolConnect(_RecoverPassword,
+	// mapStateToProps
+	(state) => ({}),
 
-const styles = RkStyleSheet.create(theme => ({
-	screen: {
-		flex: 1,
-		paddingHorizontal: 16,
-		paddingVertical: scaleVertical(24),
-		justifyContent: 'space-between',
-		backgroundColor: theme.colors.screen.base
+	// mapDispatchToProps
+	(dispatch) => ({}),
+
+	// Array of pools to subscribe to
+	[FORM_API_ID_RECOVER_PASSWORD]
+);
+export default ScreenRecoverPassword;
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	fieldsStyle: {
+		flex: 0.72,
 	},
-	header: {
-		alignItems: 'center'
-	},
-	image: {
-		marginVertical: scaleVertical(27),
-		height: scaleVertical(77),
-		resizeMode: 'contain'
-	},
-	listItemContent: {
-		alignItems: 'center'
-	}
-}));
+});

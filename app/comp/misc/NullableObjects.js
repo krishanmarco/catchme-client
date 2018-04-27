@@ -24,8 +24,10 @@ const NullableObjects = ({objects, renderChild, renderFallback}: Props) => {
   return renderChild(objects);
 };
 
+const _DefaultLoader = () => <DefaultLoader/>;
+
 NullableObjects.defaultProps = {
-  renderFallback: () => <DefaultLoader/>
+  renderFallback: _DefaultLoader
 };
 
 

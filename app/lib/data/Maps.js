@@ -63,8 +63,7 @@ export default class Maps {
 		{value: 3, label: 'Thursday'},
 		{value: 4, label: 'Friday'},
 		{value: 5, label: 'Saturday'},
-		{value: 6, label: 'Sunday'},
-		// {value: 7, label: '?'}, todo
+		{value: 6, label: 'Sunday'}
 	];
 
 	static daysOfWeek() {

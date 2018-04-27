@@ -15,8 +15,49 @@ export default class CacheActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_CACHE, poolDefId, dispatch);
+		this.executeIfDataNotNull = this.executeIfDataNotNull.bind(this);
 		this.invalidate = this.invalidate.bind(this);
 		this.initialize = this.initialize.bind(this);
+		this.setData = this.setData.bind(this);
+		this.mergeData = this.mergeData.bind(this);
+	}
+
+
+	executeIfDataNotNull(functionToExecute: Object => any) {
+		const {dispatch, getPoolState} = this;
+
+		return dispatch((dispatch, getState) => {
+			const {data} = getPoolState(getState);
+
+			if (data == null)
+				return null;
+
+			return functionToExecute(data);
+		});
+	}
+
+
+	// Merges the input data with the current
+	// {data} of this cache (partial this.set())
+	mergeData(partialData) {
+		const {dispatch} = this;
+
+		return dispatch((dispatch, getState) => {
+			const {data}: CacheState = this.getPoolState(getState);
+			return this.setData(Object.assign(data, partialData));
+		});
+	}
+
+	// Directly sets the {data} of this cache
+	setData(data) {
+		const {dispatchAction} = this;
+
+		dispatchAction({
+			type: POOL_ACTION_CACHE_SET_DATA,
+			data,
+		});
+
+		return data;
 	}
 
 
@@ -29,13 +70,12 @@ export default class CacheActionCreator extends PoolActionCreator {
 	// Action to invalidate a cache
 	invalidate() {
 		const {dispatchAction} = this;
-
 		return dispatchAction({type: POOL_ACTION_CACHE_INVALIDATE_DATA});
 	}
 
 
 	initialize(extraParams) {
-		const {poolId, dispatch, dispatchAction, dispatchPromiseAction} = this;
+		const {poolId, dispatch, dispatchPromiseAction} = this;
 		const pool = this.getPoolDef();
 
 		return dispatch((dispatch, getState) => {
@@ -59,15 +99,11 @@ export default class CacheActionCreator extends PoolActionCreator {
 				return Promise.resolve(data);
 			}
 
-
 			// Run request or data builder
 			const nextPromise = pool.buildDataSet(dispatch, extraParams).then(buildResultData => {
 
 				// Save the result data into the pool
-				dispatchAction({
-					type: POOL_ACTION_CACHE_SET_DATA,
-					data: buildResultData
-				});
+				this.setData(buildResultData);
 
 				// Continue the promise chain
 				return buildResultData;
@@ -75,7 +111,8 @@ export default class CacheActionCreator extends PoolActionCreator {
 			}).catch(apiExceptionResponse => {
 				Logger.v("CacheActionCreator POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
 
-				/* todo: remove comment after development
+				/*
+				// todo: remove comment after development
 				dispatch({
 					poolType: POOL_TYPE_CACHE,
 					poolId: poolId,

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
+import CacheActionCreator from "./CacheActionCreator";
 import CacheDefUserLocationStatus, {CACHE_ID_USER_LOCATION_STATUS} from "./def/CacheDefUserLocationStatus";
-import CacheDefUserProfile, {CACHE_ID_USER_PROFILE} from "./def/CacheDefUserProfile";
-import CachePoolActionCreator from "./CacheActionCreator";
+import CacheDefUserProfile, {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "./def/CacheDefUserProfile";
 import {
 	CacheState,
 	mutatorCacheModelInitializeData,
@@ -13,7 +13,7 @@ import type {TPool} from "../Pool";
 
 
 // Define result of poolConnect for this pool
-export type TCachePool = CachePoolActionCreator & CacheState;
+export type TCachePool = CacheActionCreator & CacheState;
 
 
 // Define all Actions (There should for each ACTION)
@@ -32,7 +32,8 @@ const CachePool: TPool = {
 	
 	
 	connectParams: {
-		getActionCreator: (poolDefId: string, dispatch: TDispatch) => new CachePoolActionCreator(poolDefId, dispatch)
+		getDefaultActionCreator: (poolDefId: string, dispatch: TDispatch) => new CacheActionCreator(poolDefId, dispatch),
+		[CACHE_ID_USER_PROFILE]: (cacheActionCreator) => new CacheDefUserProfileActionCreator(cacheActionCreator)
 	},
 
 	

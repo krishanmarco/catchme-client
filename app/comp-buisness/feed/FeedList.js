@@ -1,10 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoFeed from "../../lib/daos/DaoFeed";
-
 import FeedListItem from "./FeedListItem";
 import React from 'react';
+import {Const} from "../../Config";
 import {DefaultLoader} from "../../comp/Misc";
-
 import {FlatList} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TUser} from "../../lib/daos/DaoUser";
@@ -20,8 +19,6 @@ type Props = {
 	loading: boolean,
 	loadMore: boolean
 };
-
-
 
 // FeedList *********************************************************************************************
 // FeedList *********************************************************************************************
@@ -46,7 +43,7 @@ export default class FeedList extends React.Component<void, Props, void> {
 				ListEmptyComponent={null}
 
 				onEndReached={loadMore}
-				onEndReachedThreshold={5}
+				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
 				ListFooterComponent={this._renderFooterLoader}/>
 		);
@@ -63,7 +60,8 @@ export default class FeedList extends React.Component<void, Props, void> {
 	}
 
 	_renderFooterLoader() {
-		return this.props.loading
+		const {loading} = this.props;
+		return loading
 			? (<DefaultLoader size={8}/>)
 			: null;
 	}

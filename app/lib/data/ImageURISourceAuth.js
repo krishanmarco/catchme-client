@@ -1,12 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiAuthentication from './ApiAuthentication';
 import {Const} from '../../Config';
+import type {TImageSource} from "../types/Types";
 
-
-export type TImageURISourceAuth = {
-	uri: string,                        // Url of the image
+export type TImageURISourceAuth = TImageSource & {
 	headers: { authorization: string },   // Catch me authorization header of the request
-	cache: string,                      // Caching policy (Defined in Config.js)
 };
 
 

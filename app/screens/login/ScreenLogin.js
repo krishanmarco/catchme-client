@@ -1,24 +1,24 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
+import ApiFormPool from "../../lib/redux-pool/api-form/ApiFormPool";
 import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
-import Router from "../../lib/helpers/Router";
-import {StyleSheet, Dimensions, Image, View} from 'react-native';
-import {FontAwesome} from '../../assets/Icons';
+import Router from "../../lib/navigation/Router";
+import {FontIcons} from "../../Config";
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {GradientButton, Screen} from "../../comp/Misc";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
+import {fullpageForm} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
+import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -61,7 +61,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		return userProfile;
 	}
 
-	_getFormApiLogin() {
+	_getFormApiLogin(): ApiFormPool {
 		return this.props[FORM_API_ID_LOGIN];
 	}
 
@@ -86,57 +86,81 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	}
 
 	_onGoToSignupPress() {
-		Router.toRegister(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toModalRegister(navigator);
 	}
 
 	_onGoToRecoverPasswordPress() {
-		Router.toRecoverPassword(this.props.navigator);
+		const {navigator} = this.props;
+		Router.toModalRecoverPassword(navigator);
 	}
 
 
 	render() {
 		return (
-			<Screen style={styles.screen}>
-				{this._renderImage()}
+			<Screen>
+				<FullpageForm
 
-				<View style={styles.listItemHeaderContent}>
-					<View style={styles.buttons}>
-						{[
-							{icon: FontAwesome.google, onPress: this._onGoogleLogin},
-							{icon: FontAwesome.facebook, onPress: this._onFacebookLogin},
-						].map(this._renderSocialIcon)}
-					</View>
+					headerStyle={fullpageForm.headerStyle}
+					headerJsx={(
+						<ScreenInfo
+							height={120}
+							imageHeight='100%'
+							imageSource={require('../../assets/images/meLogo.png')}/>
+					)}
 
-					<RkTextInputFromPool
-						pool={this._getFormApiLogin()}
-						field='email'
-						placeholder='Email'/>
+					fieldsStyle={fullpageForm.fieldsStyle}
+					fieldsJsx={(
+						<View style={styles.fieldsRow}>
+							
+							<View style={styles.fieldsSocialButtons}>
+								{[
+									{icon: FontIcons.google, onPress: this._onGoogleLogin},
+									{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
+								].map(this._renderSocialIcon)}
+							</View>
+							
+							<View style={styles.fieldsFields}>
+								<RkTextInputFromPool
+									pool={this._getFormApiLogin()}
+									field='email'
+									keyboardType='email-address'
+									placeholder='Email'
+									withBorder/>
 
-					<RkTextInputFromPool
-						pool={this._getFormApiLogin()}
-						field='email'
-						placeholder='Password'
-						secureTextEntry/>
+								<RkTextInputFromPool
+									pool={this._getFormApiLogin()}
+									field='password'
+									placeholder='Password'
+									withBorder
+									secureTextEntry/>
 
-					<GradientButton
-						style={styles.save}
-						loading={this._getFormApiLogin().loading}
-						rkType='large stretch accentColor'
-						text={'Login'.toUpperCase()}
-						onPress={this._onLoginPress}/>
+								<LoadingButton
+									style={fullpageForm.fieldsButton}
+									rkType='large stretch accentColor'
+									loading={this._getFormApiLogin().loading}
+									text={'Login'.toUpperCase()}
+									onPress={this._onLoginPress}/>
 
+							</View>
+						</View>
+					)}
 
-					<View style={styles.footer}>
-						<FormFooterLink
-							text='Don’t have an account?'
-							clickableText='Sign up now!'
-							onPress={this._onGoToSignupPress}/>
-						<FormFooterLink
-							text='Forgot your password?'
-							clickableText='Recover it!'
-							onPress={this._onGoToRecoverPasswordPress}/>
-					</View>
-				</View>
+					footerStyle={fullpageForm.footerStyle}
+					footerJsx={(
+						<View>
+							<FormFooterLink
+								text='Don’t have an account?'
+								clickableText='Sign up now!'
+								onPress={this._onGoToSignupPress}/>
+							<FormFooterLink
+								text='Forgot your password?'
+								clickableText='Recover it!'
+								onPress={this._onGoToRecoverPasswordPress}/>
+						</View>
+					)}
+
+				/>
 			</Screen>
 		);
 	}
@@ -144,25 +168,14 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	_renderSocialIcon({icon, onPress}, key) {
 		return (
-			<RkButton key={key} style={styles.button} rkType='social' onPress={onPress}>
-				<RkText rkType='awesome hero accentColor'>{icon}</RkText>
-			</RkButton>
-		);
-	}
-
-
-	_renderImage() {
-		let contentHeight = scaleModerate(400, 1);
-		let height = Dimensions.get('window').height - contentHeight;
-		let width = Dimensions.get('window').width;
-		return (
-			<View style={[{height, width}, styles.imageCont]}>
-				<Image
-					style={styles.image}
-					source={require('../../assets/images/splashBack.png')}/>
+			<View key={key} style={styles.fieldsSocialButtonsButton}>
+				<RkButton rkType='social' onPress={onPress}>
+					<RkText rkType='awesome hero accentColor'>{icon}</RkText>
+				</RkButton>
 			</View>
 		);
 	}
+
 
 }
 
@@ -183,43 +196,22 @@ export default ScreenLogin;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	screen: {
-		alignItems: 'center',
-	},
-	image: {
-		resizeMode: 'cover',
-		marginBottom: scaleVertical(16),
-		height: 100,
-		width: 150
-	},
-	listItemHeaderContent: {
-		paddingHorizontal: 16,
-		paddingBottom: scaleVertical(32),
-		alignItems: 'center',
-		flex: -1
-	},
-	footer: {
+	fieldsRow: {
 		flex: 1,
-		justifyContent: 'flex-end',
-		backgroundColor: '#000'
-	},
-	buttons: {
-		flexDirection: 'row',
-		marginBottom: scaleVertical(16)
-	},
-	button: {
-		marginHorizontal: 24
-	},
-	save: {
-		marginVertical: 9,
-	},
-	textRow: {
-		justifyContent: 'center',
-		flexDirection: 'row',
 		marginTop: 4
 	},
-	imageCont: {
+	fieldsSocialButtons: {
+		flex: 0.28,
+		flexDirection: 'row',
+		marginHorizontal: 16,
+	},
+	fieldsSocialButtonsButton: {
+		flex: 0.5,
 		alignItems: 'center',
-		justifyContent: 'center'
-	}
+		justifyContent: 'center',
+	},
+	fieldsFields: {
+		flex: 0.72,
+		marginTop: 16
+	},
 });

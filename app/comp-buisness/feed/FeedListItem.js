@@ -8,9 +8,8 @@ import {Col, Grid} from "react-native-easy-grid";
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {View} from 'react-native';
-import type {TAction} from "../../lib/daos/DaoAction";
 import type {TFeed} from "../../lib/daos/DaoFeed";
-
+// todo style
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -36,7 +35,6 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 		this._handleClickAction = this._handleClickAction.bind(this);
 	}
 
-
 	_onFeedItemPress(): Promise {
 		const {feed} = this.props;
 
@@ -49,14 +47,12 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 		return handleClickAction(clickAction, feed, neverConsume);
 	}
 
-
 	render() {
 		const {feed} = this.props;
-
 		return (
 			<Touchable onPress={this._onFeedItemPress}>
 				<Grid style={styles.listItem}>
-					<Col size={100} style={{marginRight: 8}}>
+					<Col size={100} style={styles.listItemHeader}>
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
@@ -73,7 +69,6 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 		);
 	}
 
-
 	_renderLeftAvatar() {
 		const {feed} = this.props;
 
@@ -88,7 +83,6 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 		return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
 	}
 
-
 	_renderActions() {
 		const {feed} = this.props;
 
@@ -96,18 +90,14 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, feed));
 
 		return actions.map((clickAction, key) => (
-			<Col key={key} size={15} style={{marginRight: key === actions.length ? 0 : 8}}>
+			<Col key={key} size={15} style={key === actions.length ? styles.action : styles.actionLast}>
 				<ListItemAction
 					icon={ActionHandler.mapActionToIcon(clickAction)}
 					onPress={() => this._handleClickAction(clickAction)}/>
 			</Col>
 		));
 	}
-
-
 }
-
-
 
 
 // Config *************************************************************************************************
@@ -145,5 +135,12 @@ const styles = RkStyleSheet.create(theme => ({
 		flexDirection: 'row',
 		alignItems: 'flex-start',
 		flexWrap: 'wrap'
+	},
+
+	action: {
+		marginRight: 8
+	},
+	actionLast: {
+		marginRight: 0
 	}
 }));

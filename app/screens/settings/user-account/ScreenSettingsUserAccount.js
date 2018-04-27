@@ -5,11 +5,24 @@ import {CACHE_ID_USER_PROFILE} from "../../../lib/redux-pool/cache/def/CacheDefU
 import {NullableObjects, Screen} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import type {TCachePool} from "../../../lib/redux-pool/cache/CachePool";
+import type {TNavigator} from "../../../lib/types/Types";
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type Props = {
+	navigator: TNavigator
+};
 
 // _ScreenSettingsUserAccount ***************************************************************************
 // _ScreenSettingsUserAccount ***************************************************************************
 
-class _ScreenSettingsUserAccount extends React.Component {
+class _ScreenSettingsUserAccount extends React.Component<void, Props, void> {
+
+	constructor(props, context) {
+		super(props, context);
+		this._renderSettingsUserAccount =this._renderSettingsUserAccount.bind(this);
+	}
 
 	componentWillMount() {
 		this._cacheUserProfile().initialize();
@@ -24,19 +37,21 @@ class _ScreenSettingsUserAccount extends React.Component {
 			<Screen>
 				<NullableObjects
 					objects={[this._cacheUserProfile().data]}
-					renderChild={([authenticatedUserProfile]) => (
-						<SettingsUserAccount
-							navigator={this.props.navigator}
-							authenticatedUserProfile={authenticatedUserProfile}/>
-					)}/>
+					renderChild={this._renderSettingsUserAccount}/>
 			</Screen>
 		);
 	}
 
-}
+	_renderSettingsUserAccount([authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<SettingsUserAccount
+				navigator={navigator}
+				authUserProfile={authUserProfile}/>
+		);
+	}
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+}
 
 const ScreenSettingsUserAccount = poolConnect(_ScreenSettingsUserAccount,
 	// mapStateToProps
@@ -49,7 +64,3 @@ const ScreenSettingsUserAccount = poolConnect(_ScreenSettingsUserAccount,
 	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenSettingsUserAccount;
-
-ScreenSettingsUserAccount.propTypes = {
-	// Nothing for now
-};

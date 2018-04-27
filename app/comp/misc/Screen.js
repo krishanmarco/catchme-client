@@ -1,50 +1,38 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
-import _ from 'lodash';
 import Logger from "../../lib/Logger";
 import React from 'react';
 import {Colors} from "../../Config";
 import {connect} from 'react-redux';
-import {Keyboard, StyleSheet, View} from 'react-native';
-import {RkAvoidKeyboard} from 'react-native-ui-kitten';
+import {Dimensions, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
+import type {TNavigator} from "../../lib/types/Types";
 
 
 // Const **********************************************************************************************
 // Const **********************************************************************************************
 
 type Props = {
+	navigator: TNavigator,
 	style: ?Object,
 	children: Node,
-	height: number,
 	disablePointerEvents: boolean,
-	setHeight: (Object) => void
 };
 
 type State = {
 	// Nothing for now
 };
 
-const ScreenConst = {
-	lastRegisteredHeight: 0,
-	initialHeight: 0
-};
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
-const ACTION_SET_HEIGHT = 'ACTION_SET_HEIGHT';
 const ACTION_SET_DISABLE_POINTER_EVENTS = 'ACTION_SET_DISABLE_POINTER_EVENTS';
 
 const screenInitState = {
-	height: ScreenConst.lastRegisteredHeight,
 	disablePointerEvents: false
 };
 
 export function screenReducer(state = screenInitState, action) {
 	switch (action.type) {
-		case ACTION_SET_HEIGHT:
-			return Object.assign({}, state, {
-				height: action.height
-			});
 
 		case ACTION_SET_DISABLE_POINTER_EVENTS:
 			return Object.assign({}, state, {
@@ -52,32 +40,6 @@ export function screenReducer(state = screenInitState, action) {
 			});
 	}
 	return state;
-}
-
-function screenSetHeight(layout: Object) {
-	return (dispatch, getState) => {
-		// layout: {nativeEvent: { layout: {x, y, width, height}}}
-		const measuredHeight = _.get(layout, 'nativeEvent.layout.height');
-		const currentHeight = getState().screenReducer.height;
-
-		// Check if the height of this screen has changed
-		if (currentHeight !== ScreenConst.initialHeight)
-			return;
-
-		if (currentHeight === measuredHeight)
-			return;
-
-		// The height has changed, save it to the screenLastRegisteredHeight so the
-		// next component might save a re-render
-		Logger.v("Screen screenSetHeight: Updating for new height: " + measuredHeight);
-
-		ScreenConst.lastRegisteredHeight = measuredHeight;
-		dispatch({
-			type: ACTION_SET_HEIGHT,
-			height: measuredHeight
-		});
-
-	};
 }
 
 function screenSetDisablePointerEvents(disablePointerEvents: boolean) {
@@ -98,21 +60,21 @@ export function screenEnablePointerEvents() {
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************
 
-class Screen extends React.Component<void, Props, State> {
+class Screen extends React.PureComponent<void, Props, State> {
 
 	render() {
-		const {children, style, height, disablePointerEvents, setHeight} = this.props;
+		const {children, style, disablePointerEvents} = this.props;
+		const {width, height} = Dimensions.get('window');
 		return (
-			<View
-				style={[styles.view, style]}
-				onLayout={setHeight}
-				pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
-				<View style={{height}}>
-					<RkAvoidKeyboard style={styles.view}>
-						{children}
-					</RkAvoidKeyboard>
+			<KeyboardAvoidingView
+				style={styles.keyboardAvoidingView}
+				behaviour='padding'>
+				<View
+					style={[{width, height}, styles.view, style]}
+					pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
+					{children}
 				</View>
-			</View>
+			</KeyboardAvoidingView>
 		);
 	}
 
@@ -123,9 +85,7 @@ export default connect(
 	(state) => state.screenReducer,
 
 	// mapDispatchToProps
-	(dispatch) => ({
-		setHeight: (layout) => dispatch(screenSetHeight(layout))
-	})
+	(dispatch) => ({})
 )(Screen);
 
 
@@ -133,6 +93,9 @@ export default connect(
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
+	keyboardAvoidingView: {
+		flex: 1
+	},
 	view: {
 		flex: 1,
 		backgroundColor: Colors.background

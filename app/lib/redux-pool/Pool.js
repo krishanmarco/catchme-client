@@ -18,7 +18,7 @@ export type TPool = {
 	
 	connectParams: {
 		getExtraProps?: (string, Object, Object) => {},
-		getActionCreator: (string, Function) => PoolActionCreator
+		getDefaultActionCreator: (string, Function) => PoolActionCreator
 	},
 	
 	defs: {[string]: Object}

@@ -25,7 +25,8 @@ class _ScreenAddressPicker extends React.Component<void, Props, void> {
 	}
 
 	_onSelect(location) {
-		this.props.onSelect(location);
+		const {onSelect} = this.props;
+		onSelect(location);
 		Navigation.dismissModal({animationType: 'slide-down'});
 	}
 
@@ -41,9 +42,6 @@ class _ScreenAddressPicker extends React.Component<void, Props, void> {
 	}
 
 }
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
 
 const ScreenAddressPicker = poolConnect(_ScreenAddressPicker,
 	// mapStateToProps
