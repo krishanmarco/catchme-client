@@ -9,7 +9,7 @@ import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {View} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
-
+// todo style
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

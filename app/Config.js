@@ -61,6 +61,7 @@ export const Icons = {
 	userNotificationSettings: _Icons.bell,
 	userEditAvatar: _Icons.bell,
 	locationFollow: _Icons.cup,
+	locationUnfollow: {..._Icons.cup, color: Colors.alertRed},
 	userFollow: {..._Icons.hand, color: Colors.primary},
 	userBlock: {..._Icons.hand, color: Colors.alertRed},
 	userAdminLocations: _Icons.building,
@@ -166,7 +167,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 
 	dismissModalConfig: {animationType: 'slide-down'},
 

@@ -1,20 +1,20 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from "../../lib/data/ApiClient";
 import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUser from "../../lib/daos/DaoUser";
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import ULSListManager, {TLocationWithULS, TULSListState} from '../../lib/helpers/ULSListManager';
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
+import {poolConnect} from "../../redux/ReduxPool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {poolConnect} from "../../redux/ReduxPool";
-import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import DaoUser from "../../lib/daos/DaoUser";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -34,7 +34,7 @@ type State = TULSListState;
 // UserLocationsStatusList ******************************************************************************
 // UserLocationsStatusList ******************************************************************************
 
-class _UserLocationsStatusList extends React.PureComponent<void, Props, State> {
+class _UserLocationsStatusList extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);

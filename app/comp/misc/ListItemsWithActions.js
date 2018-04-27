@@ -13,14 +13,13 @@ import type {TIcon} from "../../lib/types/Types";
 
 export type TListItemAction = {
 	icon: TIcon,
-	color?: string,
 	size?: number,
 	onPress?: () => void
 };
 
-export const ListItemAction = ({icon, size, color, onPress}: TListItemAction) => (
+export const ListItemAction = ({icon, size, onPress}: TListItemAction) => (
 	<RkButton rkType='clear' style={styles.listItemActionRoot} onPress={onPress}>
-		<Icon {...icon} color={color} size={size}/>
+		<Icon {...icon} size={size}/>
 	</RkButton>
 );
 

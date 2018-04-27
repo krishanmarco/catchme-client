@@ -3,11 +3,11 @@ import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import React from 'react';
 import {Colors, Icons} from '../../Config';
+import {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 
 
 // ListItemLocation *************************************************************************************
@@ -80,15 +80,13 @@ export class ListItemLocationFollow extends React.PureComponent<void, ListItemLo
 		if (addLocationToFavorites) {
 			this.actions.push({
 				icon: Icons.locationFollow,
-				color: Colors.primary,
 				onPress: () => addLocationToFavorites(location)
 			});
 		}
 
 		if (removeLocationFromFavorites) {
 			this.actions.push({
-				icon: Icons.locationFollow,
-				color: Colors.alertRed,
+				icon: Icons.locationUnfollow,
 				onPress: () => removeLocationFromFavorites(location)
 			});
 		}
@@ -146,7 +144,6 @@ export class ListItemUserLocationStatus extends React.PureComponent<void, ListIt
 		if (editUserLocationStatus) {
 			this.actions.push({
 				icon: Icons.statusEdit,
-				color: Colors.neutralOrange,
 				onPress: () => editUserLocationStatus(userLocationStatus, location)
 			});
 		}
@@ -154,7 +151,6 @@ export class ListItemUserLocationStatus extends React.PureComponent<void, ListIt
 		if (removeUserLocationStatus) {
 			this.actions.push({
 				icon: Icons.statusDelete,
-				color: Colors.alertRed,
 				onPress: () => removeUserLocationStatus(userLocationStatus, location)
 			});
 		}
@@ -162,7 +158,14 @@ export class ListItemUserLocationStatus extends React.PureComponent<void, ListIt
 	}
 
 	render() {
-		const {editUserLocationStatus, removeUserLocationStatus, allowEdit, userLocationStatus, ...props} = this.props;
+		const {
+			editUserLocationStatus,
+			removeUserLocationStatus,
+			allowEdit,
+			userLocationStatus,
+			...props
+		} = this.props;
+
 		return (
 			<ListItemLocation
 				{...props}

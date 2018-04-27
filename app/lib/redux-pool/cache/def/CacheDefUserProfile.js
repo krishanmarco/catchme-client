@@ -38,8 +38,6 @@ export class CacheDefUserProfileActionCreator {
 
 	constructor(cacheActionCreator) {
 		this.cacheActionCreator = cacheActionCreator;
-		this.addLocationToFavorites = this.addLocationToFavorites.bind(this);
-		this.removeLocationFromFavorites = this.removeLocationFromFavorites.bind(this);
 		this._addToConnectionArray = this._addToConnectionArray.bind(this);
 		this._removeFromConnectionArray = this._removeFromConnectionArray.bind(this);
 		this._removeUserFromConnectionsFriends = this._removeUserFromConnectionsFriends.bind(this);
@@ -48,57 +46,14 @@ export class CacheDefUserProfileActionCreator {
 		this._addUserToConnectionsBlocked = this._addUserToConnectionsBlocked.bind(this);
 		this.addUserToFriends = this.addUserToFriends.bind(this);
 		this.removeUserFromFriends = this.removeUserFromFriends.bind(this);
+		this.acceptUserFriendship = this.acceptUserFriendship.bind(this);
 		this.blockUser = this.blockUser.bind(this);
-	}
-
-	addLocationToFavorites(locationToAdd: TLocation) {
-		const {executeIfDataNotNull} = this.cacheActionCreator;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const locationId = DaoLocation.gId(locationToAdd);
-
-			// Get all the location ids
-			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
-
-			// If this is already a favorite location don't do anything
-			if (favoriteLocationIds.includes(locationId))
-				return;
-
-			// Add the new id
-			favoriteLocationIds.push(locationId);
-			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
-
-			// Get the list of locations associated to the user.locations object
-			const locations = DaoUser.gLocationsLocations(thisUser);
-
-			const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
-			if (locationAlreadyIncluded)
-				return;
-
-			// Add the new location
-			locations.push(locationToAdd);
-			_.set(thisUser, DaoUser.pLocationsLocations, locations);
-
-			// Run the dispatch action (updating this user)
-			this.cacheActionCreator.setData(thisUser);
-		});
-	}
-
-	removeLocationFromFavorites(locationToRemove: TLocation) {
-		const {executeIfDataNotNull} = this.cacheActionCreator;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const favoriteLocations = DaoUser.gLocationsFavoriteIds(thisUser);
-
-			_.remove(favoriteLocations, DaoLocation.gId(locationToRemove));
-			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocations);
-
-			this.cacheActionCreator.setData(thisUser);
-		});
+		this.addLocationToFavorites = this.addLocationToFavorites.bind(this);
+		this.removeLocationFromFavorites = this.removeLocationFromFavorites.bind(this);
 	}
 
 	_addToConnectionArray(userToAdd: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
-		const {executeIfDataNotNull} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userIdToAdd = DaoUser.gId(userToAdd);
@@ -118,12 +73,12 @@ export class CacheDefUserProfileActionCreator {
 			invalidateConnectionIds(thisUser);
 
 			// Run the dispatch action (updating this user)
-			this.cacheActionCreator.setData(thisUser);
+			setData(thisUser);
 		});
 	}
 
 	_removeFromConnectionArray(userToRemove: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
-		const {executeIfDataNotNull} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userIdToRemove = DaoUser.gId(userToRemove);
@@ -143,7 +98,7 @@ export class CacheDefUserProfileActionCreator {
 			invalidateConnectionIds(thisUser);
 
 			// Run the dispatch action (updating this user)
-			this.cacheActionCreator.setData(thisUser);
+			setData(thisUser);
 		});
 	}
 
@@ -190,12 +145,12 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
-				Logger.v("UserList _onUserConnectionAddUid addUid success", uid, success);
+				Logger.v("UserList addUserToFriends addUid success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v("UserList _onUserConnectionAddUid addUid failed", uid, error);
+				Logger.v("UserList addUserToFriends addUid failed", uid, error);
 			});
 	}
 
@@ -206,12 +161,12 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsBlockUid(uid)
 			.then(success => {
-				Logger.v("UserList _onUserConnectionAddUid blockUid success", uid, success);
+				Logger.v("UserList removeUserFromFriends blockUid success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._addUserToConnectionsFriends(userToAdd);
-				Logger.v("UserList _onUserConnectionBlockUid blockUid failed", uid, error);
+				Logger.v("UserList removeUserFromFriends blockUid failed", uid, error);
 			});
 	}
 
@@ -222,13 +177,75 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsBlockUid(uid)
 			.then(success => {
-				Logger.v("UserList _onUserConnectionAddUid blockUid success", uid, success);
+				Logger.v("UserList blockUser blockUid success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsBlocked(userToAdd);
-				Logger.v("UserList _onUserConnectionBlockUid blockUid failed", uid, error);
+				Logger.v("UserList blockUser blockUid failed", uid, error);
 			});
+	}
+
+	acceptUserFriendship(userToAdd: TUser) {
+		// Update the UI before running the request
+		this._addUserToConnectionsFriends(userToAdd);
+
+		const uid = DaoUser.gId(userToAdd);
+		return ApiClient.userConnectionsAcceptUid(uid)
+			.then(success => {
+				Logger.v("UserList acceptUserFriendship acceptUid success", uid, success);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._removeUserFromConnectionsFriends(userToAdd);
+				Logger.v("UserList acceptUserFriendship acceptUid failed", uid, error);
+			});
+	}
+
+	addLocationToFavorites(locationToAdd: TLocation) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const locationId = DaoLocation.gId(locationToAdd);
+
+			// Get all the location ids
+			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
+
+			// If this is already a favorite location don't do anything
+			if (favoriteLocationIds.includes(locationId))
+				return;
+
+			// Add the new id
+			favoriteLocationIds.push(locationId);
+			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
+
+			// Get the list of locations associated to the user.locations object
+			const locations = DaoUser.gLocationsLocations(thisUser);
+
+			const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
+			if (locationAlreadyIncluded)
+				return;
+
+			// Add the new location
+			locations.push(locationToAdd);
+			_.set(thisUser, DaoUser.pLocationsLocations, locations);
+
+			// Run the dispatch action (updating this user)
+			setData(thisUser);
+		});
+	}
+
+	removeLocationFromFavorites(locationToRemove: TLocation) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const favoriteLocations = DaoUser.gLocationsFavoriteIds(thisUser);
+
+			_.remove(favoriteLocations, DaoLocation.gId(locationToRemove));
+			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocations);
+
+			setData(thisUser);
+		});
 	}
 
 
