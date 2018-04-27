@@ -5,6 +5,7 @@ import Maps from "../../lib/data/Maps";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
+import LocationList from '../../comp-buisness/location/LocationList';
 import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
@@ -35,9 +36,10 @@ type State = {
 
 const userProfileTabIcons = {
 	0: Icons.userProfile,
-	1: Icons.userLocations,
-	2: Icons.userFriends,
-	3: Icons.userInfo
+	1: Icons.userLocationStatuses,
+	2: Icons.userLocationFavorites,
+	3: Icons.userFriends,
+	4: Icons.userInfo
 };
 
 
@@ -98,11 +100,12 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const tabs = [];
 
 		tabs.push(this._renderTab('0', this._renderTabHome()));
-		tabs.push(this._renderTab('1', this._renderTabLocations()));
-		tabs.push(this._renderTab('2', this._renderTabFriends()));
+		tabs.push(this._renderTab('1', this._renderTabLocationStatuses()));
+		tabs.push(this._renderTab('2', this._renderTabFavoriteLocations()));
+		tabs.push(this._renderTab('3', this._renderTabFriends()));
 
 		if (userInfoSections.length > 0)
-			tabs.push(this._renderTab('3', this._renderTabInfo()));
+			tabs.push(this._renderTab('4', this._renderTabInfo()));
 
 		return (
 			<ScrollableIconTabView
@@ -154,10 +157,10 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 
-	_renderTabLocations() {
+	_renderTabLocationStatuses() {
 		const {userProfile, navigator} = this.props;
 		return (
-			<View style={styles.tabLocations}>
+			<View style={styles.tabLocationStatuses}>
 				<UserLocationsStatusList
 					navigator={navigator}
 					userProfile={userProfile}
@@ -165,6 +168,20 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowEdit={this._isSameUser()}
 					allowFollow={true}
 					allowUnfollow={this._isSameUser()}/>
+			</View>
+		);
+	}
+
+
+	_renderTabFavoriteLocations() {
+		const {userProfile} = this.props;
+		return (
+			<View style={styles.tabLocationFavorites}>
+				<LocationList
+					locations={DaoUser.gLocationsFavorites(userProfile)}
+					allowFollow={true}
+					allowUnfollow={true}
+					onLocationPress={this._onLocationPress}/>
 			</View>
 		);
 	}
@@ -179,7 +196,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
 					allowRequestFriend={true}
 					allowRemoveFriend={this._isSameUser()}
-					onItemPress={this._onUserPress}/>
+					onUserPress={this._onUserPress}/>
 			</View>
 		);
 	}
@@ -230,7 +247,10 @@ const styles = StyleSheet.create({
 	tabHome: {
 		flex: 1
 	},
-	tabLocations: {
+	tabLocationStatuses: {
+		flex: 1
+	},
+	tabLocationFavorites: {
 		flex: 1
 	},
 	tabFriends: {

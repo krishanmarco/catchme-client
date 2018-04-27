@@ -142,7 +142,7 @@ class _Search extends React.Component<void, Props, void> {
 				allowRequestFriend={true}
 
 				loading={loading}
-				onItemPress={this._onUserPress}
+				onUserPress={this._onUserPress}
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				onEndReached={this._usersOnEndReached}

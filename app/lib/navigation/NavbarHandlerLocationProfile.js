@@ -8,6 +8,7 @@ import Router from "./Router";
 import type {TLocation} from "../daos/DaoLocation";
 import type {TNavigator} from "../types/Types";
 import type {TUser} from "../daos/DaoUser";
+import {TCacheUserProfile} from "../redux-pool/cache/def/CacheDefUserProfile";
 
 
 const navbarButtonAddUserLocationStatus = {
@@ -33,9 +34,9 @@ const navbarButtonAddLocationImage = {
 
 export default class NavbarHandlerLocationProfile {
 
-	constructor(navigator: TNavigator, authUserProfile: TUser, locationProfile: TLocation) {
+	constructor(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, locationProfile: TLocation) {
 		this.navigator = navigator;
-		this.authUserProfile = authUserProfile;
+		this.cacheUserProfile = cacheUserProfile;
 		this.locationProfile = locationProfile;
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
@@ -65,14 +66,14 @@ export default class NavbarHandlerLocationProfile {
 
 
 	setup() {
-		const {navigator, authUserProfile, locationProfile} = this;
+		const {navigator, cacheUserProfile, locationProfile} = this;
 
 		// If the locationProfile has not been set yet,
 		// do not display the navigation buttons
 		if (locationProfile == null)
 			return;
 
-		const favoriteIds = DaoUser.gLocationsFavoriteIds(authUserProfile);
+		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile);
 		const locationId = DaoLocation.gId(locationProfile);
 
 		const rightButtons = [];
@@ -132,18 +133,9 @@ export default class NavbarHandlerLocationProfile {
 	}
 
 	_onNavigatorFollowLocationPress() {
-		const {authUserProfile, locationProfile} = this;
-
-		// Update the UI immediately without waiting for a positive response
-		DaoUser.addLocationToFavorites(authUserProfile, locationProfile);
-		this.setup();
-
-		ApiClient.userLocationsFavoritesAdd(DaoLocation.gId(locationProfile))
-			.catch((error) => {
-				// Operation failed, revert the UI back to it's original state
-				DaoUser.removeLocationFromFavorites(locationProfile);
-				this.setup();
-			});
+		const {cacheUserProfile, locationProfile} = this;
+		cacheUserProfile.followLocation(locationProfile)
+			.then(this.setup);
 	}
 
 	_onNavigatorLocationAddImagePress() {

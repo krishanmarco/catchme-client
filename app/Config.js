@@ -39,6 +39,7 @@ const _Icons = {
 	bin: {name: 'delete', type: 'material-icons', color: Colors.alertRed},
 	save: {name: 'save', type: 'fontawesome', color: Colors.alertRed},
 	plus: {name: 'plus', type: 'evilicons', color: Colors.primary},
+	star: {name: 'star', type: 'evilicons', color: Colors.primary},
 };
 
 export const FontIcons = {
@@ -49,7 +50,8 @@ export const FontIcons = {
 export const Icons = {
 	defaultIcon: _Icons.questionMark,
 	userProfile: _Icons.user,
-	userLocations: _Icons.cup,
+	userLocationStatuses: _Icons.cup,
+	userLocationFavorites: _Icons.star,
 	userFriends: _Icons.friends,
 	userInfo: _Icons.info,
 	genderFemale: _Icons.female,
@@ -60,8 +62,8 @@ export const Icons = {
 	userAccountSettings: _Icons.personSettings,
 	userNotificationSettings: _Icons.bell,
 	userEditAvatar: _Icons.bell,
-	locationFollow: _Icons.cup,
-	locationUnfollow: {..._Icons.cup, color: Colors.alertRed},
+	locationFollow: _Icons.star,
+	locationUnfollow: {..._Icons.star, color: Colors.alertRed},
 	userFollow: {..._Icons.hand, color: Colors.primary},
 	userBlock: {..._Icons.hand, color: Colors.alertRed},
 	userAdminLocations: _Icons.building,

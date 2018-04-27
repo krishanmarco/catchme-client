@@ -110,7 +110,7 @@ class ApiClient {
 
 		return ApiAuthentication.getUserAuthenticationToken()
 			.then(authenticationToken => {
-				Logger.v("ApiClient _get: Using auth-token " + authenticationToken);
+				Logger.v(`ApiClient _get: Using auth-token ${authenticationToken}`);
 
 				return fetch(url, {
 					method: 'GET',
@@ -184,7 +184,7 @@ class ApiClient {
 
 
 	time(callback) {
-		return fetch(Urls.api + '/meta/time')
+		return fetch(`${Urls.api}/meta/time`)
 			.then(response => response.text())
 			.then(callback)
 			.catch(error => Logger.v(error));
@@ -230,7 +230,7 @@ class ApiClient {
 
 
 	userProfile() {
-		return this._get(Urls.api + '/user/profile')
+		return this._get(`${Urls.api}/user/profile`)
 			.then(this._onReceiveUserProfile);
 	}
 
@@ -247,20 +247,7 @@ class ApiClient {
 			});
 		}
 
-	userConnectionsAddUid(uid) {
-		return this._get(Urls.api + '/user/connections/add/' + uid);
-	}
-
-	userConnectionsAcceptUid(uid) {
-		return this._get(Urls.api + '/user/connections/accept/' + uid);
-	}
-
-	userConnectionsBlockUid(uid) {
-		return this._get(Urls.api + '/user/connections/block/' + uid);
-	}
-
 	userStatusAdd(status: TUserLocationStatus) {
-		Logger.v("_userStatusAdd SENDING STATUS CONFIRM REQUEST.....");
 		return this._post(`${Urls.api}/user/status/add`, status);
 	}
 
@@ -272,58 +259,7 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/status`);
 	}
 
-	userLocationsFavoritesAdd(locationId) {
-		return this._get(`${Urls.api}/user/locations/favorites/add/${locationId}`);
-	}
 
-	userLocationsFavoritesDel(locationId) {
-		return this._get(`${Urls.api}/user/locations/favorites/del/${locationId}`);
-	}
-
-
-
-	usersGetUidProfile(uid: number) {
-		return this._get(Urls.api + '/users/' + uid + '/profile')
-			.then(json => JSON.parse(json));
-	}
-
-	locationsGetLidProfile(lid: number) {
-		return this._get(Urls.api + '/locations/' + lid + '/profile')
-			.then(json => JSON.parse(json));
-	}
-
-
-
-	searchQueryLocations(query) {
-		return this._get(`${Urls.api}/search/${query}/locations`)
-			.then(json => JSON.parse(json));
-	}
-
-	searchQueryUsers(query) {
-		return this._get(`${Urls.api}/search/${query}/users`)
-			.then(json => JSON.parse(json));
-	}
-
-	searchUsers(queryArray = []) {
-		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
-			.then(json => JSON.parse(json));
-	}
-
-	suggestSeedLocations(seed = 0) {
-		return this._get(`${Urls.api}/suggest/${seed}/locations`)
-			.then(json => JSON.parse(json));
-	}
-
-	suggestSeedUsers(seed = 0) {
-		return this._get(`${Urls.api}/suggest/${seed}/users`)
-			.then(json => JSON.parse(json));
-	}
-
-
-
-	userLocationsFavoritesAddLid(lid) {
-		return this._get(`${Urls.api}/user/locations/favorites/add/${lid}`);
-	}
 
 
 
@@ -370,6 +306,86 @@ class ApiClient {
 	}
 
 
+
+	// Verified API Below ***************************************************************************
+	// Verified API Below ***************************************************************************
+
+	usersGetUid(uid: number): Promise<TUser> {
+		return this._get(`${Urls.api}/users/${uid}`)
+			.then(json => JSON.parse(json));
+	}
+
+	locationsGetLid(lid: number): Promise<TLocation> {
+		return this._get(`${Urls.api}/locations/${lid}`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from DataProvider.usersGetUidProfile
+	usersGetUidProfile(uid: number): Promise<TUser> {
+		return this._get(`${Urls.api}/users/${uid}/profile`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from DataProvider.locationsGetLidProfile
+	locationsGetLidProfile(lid: number): Promise<TLocation> {
+		return this._get(`${Urls.api}/locations/${lid}/profile`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userConnectionsAddUid(uid): Promise<number> {
+		return this._get(`${Urls.api}/user/connections/add/${uid}`);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userConnectionsAcceptUid(uid): Promise<number> {
+		return this._get(`${Urls.api}/user/connections/accept/${uid}`);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userConnectionsBlockUid(uid): Promise<number> {
+		return this._get(`${Urls.api}/user/connections/block/${uid}`);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userLocationsFavoritesAddLid(lid): Promise<number> {
+		return this._get(`${Urls.api}/user/locations/favorites/add/${lid}`);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userLocationsFavoritesDelLid(lid): Promise<number> {
+		return this._get(`${Urls.api}/user/locations/favorites/del/${lid}`);
+	}
+
+	// Should only be called from SearchDataDefUsers.searchApiCall
+	searchQueryUsers(query = ''): Promise<Array<TUser>> {
+		return this._get(`${Urls.api}/search/${query}/users`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from SearchDataDefUsers.suggestApiCall
+	suggestSeedUsers(seed = 0): Promise<Array<TUser>> {
+		return this._get(`${Urls.api}/suggest/${seed}/users`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from SearchDataDefUsers.suggestApiCall
+	searchQueryLocations(query = ''): Promise<Array<TLocation>> {
+		return this._get(`${Urls.api}/search/${query}/locations`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from SearchDataDefLocations.suggestApiCall
+	suggestSeedLocations(seed = 0): Promise<Array<TLocation>> {
+		return this._get(`${Urls.api}/suggest/${seed}/locations`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Called from AddContacts.mapContactsToUsers
+	searchUsers(queryArray = []): Promise<Array<TUser>> {
+		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
+			.then(json => JSON.parse(json));
+	}
 
 
 }

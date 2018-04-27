@@ -134,18 +134,18 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		}
 
 
-		const addLocationToFavorites = this._cacheUserProfile().addLocationToFavorites;
-		const removeLocationFromFavorites = this._cacheUserProfile().removeLocationFromFavorites;
+		const followLocation = this._cacheUserProfile().followLocation;
+		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
 
 		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
 		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
 
 		if (showFollow) {
-			listItemProps.addLocationToFavorites = addLocationToFavorites;
+			listItemProps.addLocationToFavorites = followLocation;
 		}
 
 		if (showUnfollow) {
-			listItemProps.removeLocationFromFavorites = removeLocationFromFavorites;
+			listItemProps.removeLocationFromFavorites = unfollowLocation;
 		}
 
 		return <ListItemLocationFollow {...listItemProps}/>;

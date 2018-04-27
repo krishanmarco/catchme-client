@@ -79,18 +79,18 @@ class _LocationList extends React.PureComponent<void, Props, void> {
 			onPress: onLocationPress
 		};
 
-		const addLocationToFavorites = this._cacheUserProfile().addLocationToFavorites;
-		const removeLocationFromFavorites = this._cacheUserProfile().removeLocationFromFavorites;
+		const followLocation = this._cacheUserProfile().followLocation;
+		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
 
 		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
 		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
 
 		if (showFollow) {
-			listItemProps.addLocationToFavorites = addLocationToFavorites;
+			listItemProps.addLocationToFavorites = followLocation;
 		}
 
 		if (showUnfollow) {
-			listItemProps.removeLocationFromFavorites = removeLocationFromFavorites;
+			listItemProps.removeLocationFromFavorites = unfollowLocation;
 		}
 
 		return <ListItemLocationFollow {...listItemProps}/>;

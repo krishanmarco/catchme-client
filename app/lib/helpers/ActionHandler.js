@@ -17,12 +17,16 @@ const _ClickActionHandlers: TActionHandlers = ({
 		icon: Icons.userFollow,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
-			const connectionId = DaoAction.gPayloadConnectionId(action);
+			const userId = DaoAction.gPayloadConnectionId(action);
 
-			if (!connectionId)
+			if (!userId)
 				return Promise.resolve(0);
 
-			return ApiClient.userConnectionsAcceptUid(connectionId);
+			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+			return ApiClient.usersGetUid(userId)
+				.then(userProfileActionCreator.addUserToFriends);
 		}
 	},
 
@@ -31,17 +35,16 @@ const _ClickActionHandlers: TActionHandlers = ({
 		icon: Icons.userBlock,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
-			const connectionId = DaoAction.gPayloadConnectionId(action);
+			const userId = DaoAction.gPayloadConnectionId(action);
 
-			if (!connectionId)
+			if (!userId)
 				return Promise.resolve(0);
 
-			// todo use the userProfileActionCreator
-			// const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			// const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-			// return userProfileActionCreator.blockUser()
+			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
-			return ApiClient.userConnectionsBlockUid(connectionId);
+			return ApiClient.usersGetUid(userId)
+				.then(userProfileActionCreator.blockUser);
 		}
 	},
 
@@ -75,7 +78,11 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			return ApiClient.userLocationsFavoritesAddLid(locationId);
+			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+			return ApiClient.locationsGetLid(locationId)
+				.then(userProfileActionCreator.followLocation);
 		}
 	},
 
@@ -84,12 +91,12 @@ const _ClickActionHandlers: TActionHandlers = ({
 		icon: Icons.userProfile,
 		isValid: (action: TAction) => DaoAction.gPayloadConnectionId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
-			const connectionId = DaoAction.gPayloadConnectionId(action);
+			const userId = DaoAction.gPayloadConnectionId(action);
 
-			if (!connectionId)
+			if (!userId)
 				return Promise.resolve(0);
 
-			Router.toModalUserProfile(navigator, {userId: connectionId});
+			Router.toModalUserProfile(navigator, {userId});
 			return Promise.resolve(0);
 		}
 	},

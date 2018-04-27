@@ -42,19 +42,19 @@ const addContactsInitState = {
 	usersSearchQuery: '',
 };
 
-const ACTION_SET_USERS_AddContacts_QUERY = 'ACTION_SET_USERS_AddContacts_QUERY';
-const ACTION_SET_USERS_AddContacts_LIST = 'ACTION_SET_USERS_AddContacts_LIST';
+const ACTION_SET_USERS_ADD_CONTACTS_QUERY = 'ACTION_SET_USERS_ADD_CONTACTS_QUERY';
+const ACTION_SET_USERS_ADD_CONTACTS_LIST = 'ACTION_SET_USERS_ADD_CONTACTS_LIST';
 const ACTION_SET_USERS_CONTACTS = 'ACTION_SET_USERS_CONTACTS';
 
 export function addContactsReducer(state = addContactsInitState, action) {
 	switch (action.type) {
 
-		case ACTION_SET_USERS_AddContacts_QUERY:
+		case ACTION_SET_USERS_ADD_CONTACTS_QUERY:
 			return Object.assign({}, state, {
 				usersSearchQuery: action.usersSearchQuery
 			});
 
-		case ACTION_SET_USERS_AddContacts_LIST:
+		case ACTION_SET_USERS_ADD_CONTACTS_LIST:
 			return Object.assign({}, state, {
 				usersList: action.usersList,
 				initialized: true
@@ -94,7 +94,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
 
 		// Query the WS for all the users in the searchString
-		ApiClient.searchUsers(searchStrings)
+		return ApiClient.searchUsers(searchStrings)
 			.then(users => {
 
 				// Search for and remove the current user
@@ -102,7 +102,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 					.filter(u => DaoUser.gId(u) != currentUserId);
 
 				dispatch({
-					type: ACTION_SET_USERS_AddContacts_LIST,
+					type: ACTION_SET_USERS_ADD_CONTACTS_LIST,
 					usersList: filteredUsers
 				});
 			});
@@ -112,7 +112,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
 function searchSetUsersSearchQuery(query) {
 	return {
-		type: ACTION_SET_USERS_AddContacts_QUERY,
+		type: ACTION_SET_USERS_ADD_CONTACTS_QUERY,
 		usersSearchQuery: query
 	};
 }
@@ -178,14 +178,11 @@ class _AddContacts extends React.Component<void, Props, void> {
 			<View style={styles.root}>
 				<UserList
 					users={usersList}
-
 					allowAcceptFriend={true}
 					allowUnblockUser={true}
 					allowRequestFriend={true}
-
-					onItemPress={this._onUserPress}
+					onUserPress={this._onUserPress}
 					onSearchChanged={setUsersSearchQuery}
-
 					loading={!initialized}/>
 			</View>
 		);

@@ -14,7 +14,7 @@ import type {TUser} from "../../lib/daos/DaoUser";
 
 type Props = {
 	users: Array<TUser>,
-	onItemPress: (TUser) => void,
+	onUserPress: (TUser) => void,
 
 	allowAcceptFriend?: boolean,
 	allowRemoveFriend?: boolean,
@@ -91,11 +91,11 @@ class _UserList extends React.PureComponent<void, Props, void> {
 
 
 	_renderItem({item}: { item: TUser }) {
-		const {allowAcceptFriend, allowRemoveFriend, allowRequestFriend, allowUnblockUser, onItemPress} = this.props;
+		const {allowAcceptFriend, allowRemoveFriend, allowRequestFriend, allowUnblockUser, onUserPress} = this.props;
 
 		const listItemProps: ListItemUserProps = {
 			user: item,
-			onPress: onItemPress
+			onPress: onUserPress
 		};
 
 		const addUserToFriends = this._cacheUserProfile().addUserToFriends;

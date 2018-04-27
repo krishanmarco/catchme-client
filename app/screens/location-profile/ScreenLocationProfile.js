@@ -6,7 +6,7 @@ import LocationProfile from './LocationProfile';
 import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
 import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
@@ -56,7 +56,7 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		);
 	}
 
-	_cacheUserProfile(): TCachePool {
+	_cacheUserProfile(): TCacheUserProfile {
 		return this.props[CACHE_ID_USER_PROFILE];
 	}
 

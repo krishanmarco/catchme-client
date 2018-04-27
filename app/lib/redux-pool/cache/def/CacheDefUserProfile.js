@@ -5,7 +5,6 @@ import CacheDef from "../CacheDef";
 import DaoLocation from "../../../daos/DaoLocation";
 import DaoUser from "../../../daos/DaoUser";
 import Logger from "../../../Logger";
-import ObjectCache from "../../../helpers/ObjectCache";
 import {CacheState} from "../CacheModel";
 import type {TCacheDef} from "../CacheDef";
 import type {TLocation} from "../../../daos/DaoLocation";
@@ -38,6 +37,8 @@ export class CacheDefUserProfileActionCreator {
 
 	constructor(cacheActionCreator) {
 		this.cacheActionCreator = cacheActionCreator;
+		this._addToLocationFavoritesArray = this._addToLocationFavoritesArray.bind(this);
+		this._removeFromLocationFavoritesArray = this._removeFromLocationFavoritesArray.bind(this);
 		this._addToConnectionArray = this._addToConnectionArray.bind(this);
 		this._removeFromConnectionArray = this._removeFromConnectionArray.bind(this);
 		this._removeUserFromConnectionsFriends = this._removeUserFromConnectionsFriends.bind(this);
@@ -48,8 +49,53 @@ export class CacheDefUserProfileActionCreator {
 		this.removeUserFromFriends = this.removeUserFromFriends.bind(this);
 		this.acceptUserFriendship = this.acceptUserFriendship.bind(this);
 		this.blockUser = this.blockUser.bind(this);
-		this.addLocationToFavorites = this.addLocationToFavorites.bind(this);
-		this.removeLocationFromFavorites = this.removeLocationFromFavorites.bind(this);
+		this.followLocation = this.followLocation.bind(this);
+		this.unfollowLocation = this.unfollowLocation.bind(this);
+	}
+
+	_addToLocationFavoritesArray(locationToAdd: TLocation) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const locationId = DaoLocation.gId(locationToAdd);
+
+			// Get all the location ids
+			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
+
+			// If this is already a favorite location don't do anything
+			if (favoriteLocationIds.includes(locationId))
+				return;
+
+			// Add the new id
+			favoriteLocationIds.push(locationId);
+			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
+
+			// Get the list of locations associated to the user.locations object
+			const locations = DaoUser.gLocationsLocations(thisUser);
+
+			const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
+			if (!locationAlreadyIncluded) {
+				// Add the new location
+				locations.push(locationToAdd);
+				_.set(thisUser, DaoUser.pLocationsLocations, locations);
+			}
+
+			// Run the dispatch action (updating this user)
+			setData(thisUser);
+		});
+	}
+
+	_removeFromLocationFavoritesArray(locationToRemove: TLocation) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
+
+			_.remove(favoriteLocationIds, lid => lid == DaoLocation.gId(locationToRemove));
+			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
+
+			setData(thisUser);
+		});
 	}
 
 	_addToConnectionArray(userToAdd: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
@@ -145,12 +191,12 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
-				Logger.v("UserList addUserToFriends addUid success", uid, success);
+				Logger.v("CacheDefUserProfile addUserToFriends success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v("UserList addUserToFriends addUid failed", uid, error);
+				Logger.v("CacheDefUserProfile addUserToFriends failed", uid, error);
 			});
 	}
 
@@ -161,12 +207,12 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsBlockUid(uid)
 			.then(success => {
-				Logger.v("UserList removeUserFromFriends blockUid success", uid, success);
+				Logger.v("CacheDefUserProfile removeUserFromFriends success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._addUserToConnectionsFriends(userToAdd);
-				Logger.v("UserList removeUserFromFriends blockUid failed", uid, error);
+				Logger.v("CacheDefUserProfile removeUserFromFriends failed", uid, error);
 			});
 	}
 
@@ -177,12 +223,12 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsBlockUid(uid)
 			.then(success => {
-				Logger.v("UserList blockUser blockUid success", uid, success);
+				Logger.v("CacheDefUserProfile blockUser success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsBlocked(userToAdd);
-				Logger.v("UserList blockUser blockUid failed", uid, error);
+				Logger.v("CacheDefUserProfile blockUser failed", uid, error);
 			});
 	}
 
@@ -193,60 +239,45 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAcceptUid(uid)
 			.then(success => {
-				Logger.v("UserList acceptUserFriendship acceptUid success", uid, success);
+				Logger.v("CacheDefUserProfile acceptUserFriendship success", uid, success);
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v("UserList acceptUserFriendship acceptUid failed", uid, error);
+				Logger.v("CacheDefUserProfile acceptUserFriendship failed", uid, error);
 			});
 	}
 
-	addLocationToFavorites(locationToAdd: TLocation) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+	followLocation(locationToAdd: TLocation) {
+		// Update the UI before running the request
+		this._addToLocationFavoritesArray(locationToAdd);
 
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const locationId = DaoLocation.gId(locationToAdd);
-
-			// Get all the location ids
-			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
-
-			// If this is already a favorite location don't do anything
-			if (favoriteLocationIds.includes(locationId))
-				return;
-
-			// Add the new id
-			favoriteLocationIds.push(locationId);
-			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
-
-			// Get the list of locations associated to the user.locations object
-			const locations = DaoUser.gLocationsLocations(thisUser);
-
-			const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
-			if (locationAlreadyIncluded)
-				return;
-
-			// Add the new location
-			locations.push(locationToAdd);
-			_.set(thisUser, DaoUser.pLocationsLocations, locations);
-
-			// Run the dispatch action (updating this user)
-			setData(thisUser);
-		});
+		const lid = DaoLocation.gId(locationToAdd);
+		return ApiClient.userLocationsFavoritesAddLid(lid)
+			.then(success => {
+				Logger.v("CacheDefUserProfile followLocation success", lid, success);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._removeFromLocationFavoritesArray(locationToAdd);
+				Logger.v("CacheDefUserProfile followLocation failed", lid, error);
+			});
 	}
 
-	removeLocationFromFavorites(locationToRemove: TLocation) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const favoriteLocations = DaoUser.gLocationsFavoriteIds(thisUser);
-
-			_.remove(favoriteLocations, DaoLocation.gId(locationToRemove));
-			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocations);
-
-			setData(thisUser);
-		});
+	unfollowLocation(locationToRemove: TLocation) {
+		// Update the UI before running the request
+		this._removeFromLocationFavoritesArray(locationToRemove);
+		
+		const lid = DaoLocation.gId(locationToRemove);
+		return ApiClient.userLocationsFavoritesDelLid(lid)
+			.then(success => {
+				Logger.v("CacheDefUserProfile unfollowLocation success", lid, success);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._addToLocationFavoritesArray(locationToRemove);
+				Logger.v("CacheDefUserProfile unfollowLocation failed", lid, error);
+			});
 	}
-
 
 }

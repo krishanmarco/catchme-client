@@ -186,7 +186,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoLocation.gFriendsNow(locationProfile)}
 					allowRequestFriend={true}
-					onItemPress={this._onUserPress}/>
+					onUserPress={this._onUserPress}/>
 			</View>
 		);
 	}
@@ -199,7 +199,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoLocation.gFriendsFuture(locationProfile)}
 					allowRequestFriend={true}
-					onItemPress={this._onUserPress}/>
+					onUserPress={this._onUserPress}/>
 			</View>
 		);
 	}
