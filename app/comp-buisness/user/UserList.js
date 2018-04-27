@@ -101,6 +101,7 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		const addUserToFriends = this._cacheUserProfile().addUserToFriends;
 		const removeUserFromFriends = this._cacheUserProfile().removeUserFromFriends;
 		const blockUser = this._cacheUserProfile().blockUser;
+		const acceptUserFriendship = this._cacheUserProfile().acceptUserFriendship;
 
 		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == DaoUser.gId(item);
 		const showAccept = allowAcceptFriend && this._getRequestIds().includes(DaoUser.gId(item));
@@ -111,7 +112,7 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		if (!isSameUser) {
 			if (showAccept) {
 				listItemProps.onUserConnectionBlockUid = blockUser;
-				listItemProps.onUserConnectionAddUid = addUserToFriends;
+				listItemProps.onUserConnectionAddUid = acceptUserFriendship;
 
 			} else if (showUnblock || showRequest) {
 				listItemProps.onUserConnectionAddUid = addUserToFriends;
