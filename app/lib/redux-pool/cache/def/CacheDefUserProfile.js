@@ -46,8 +46,9 @@ export class CacheDefUserProfileActionCreator {
 		this._removeUserFromConnectionsBlocked = this._removeUserFromConnectionsBlocked.bind(this);
 		this._addUserToConnectionsFriends = this._addUserToConnectionsFriends.bind(this);
 		this._addUserToConnectionsBlocked = this._addUserToConnectionsBlocked.bind(this);
-		this.onUserConnectionAddUid = this.onUserConnectionAddUid.bind(this);
-		this.onUserConnectionBlockUid = this.onUserConnectionBlockUid.bind(this);
+		this.addToFriends = this.addToFriends.bind(this);
+		this.removeFromFriends = this.removeFromFriends.bind(this);
+		this.blockUser = this.blockUser.bind(this);
 	}
 
 	_addLocationToFavorites(locationToAdd: TLocation) {
@@ -182,8 +183,7 @@ export class CacheDefUserProfileActionCreator {
 		);
 	}
 
-
-	onUserConnectionAddUid(userToAdd: TUser) {
+	addToFriends(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._addUserToConnectionsFriends(userToAdd);
 
@@ -199,7 +199,23 @@ export class CacheDefUserProfileActionCreator {
 			});
 	}
 
-	onUserConnectionBlockUid(userToAdd: TUser) {
+	removeFromFriends(userToAdd: TUser) {
+		// Update the UI before running the request
+		this._removeUserFromConnectionsFriends(userToAdd);
+
+		const uid = DaoUser.gId(userToAdd);
+		return ApiClient.userConnectionsBlockUid(uid)
+			.then(success => {
+				Logger.v("UserList _onUserConnectionAddUid blockUid success", uid, success);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._addUserToConnectionsFriends(userToAdd);
+				Logger.v("UserList _onUserConnectionBlockUid blockUid failed", uid, error);
+			});
+	}
+
+	blockUser(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._addUserToConnectionsBlocked(userToAdd);
 

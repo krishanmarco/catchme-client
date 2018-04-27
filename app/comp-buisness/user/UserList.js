@@ -103,23 +103,27 @@ class _UserList extends React.PureComponent<void, Props, void> {
 			onPress: onItemPress
 		};
 
-		const addUser = this._cacheUserProfile().onUserConnectionAddUid;
-		const blockUser = this._cacheUserProfile().onUserConnectionBlockUid;
+		const addToFriends = this._cacheUserProfile().addToFriends;
+		const removeFromFriends = this._cacheUserProfile().removeFromFriends;
+		const blockUser = this._cacheUserProfile().blockUser;
 
-		if (allowAcceptFriend && this._getRequestIds().includes(DaoUser.gId(item))) {
-			listItemProps.onUserConnectionBlockUid = blockUser;
-			listItemProps.onUserConnectionAddUid = addUser;
+		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == DaoUser.gId(item);
+		const showAccept = allowAcceptFriend && this._getRequestIds().includes(DaoUser.gId(item));
+		const showUnblock = allowUnblockUser && this._getBlockedIds().includes(DaoUser.gId(item));
+		const showRequest = allowRequestFriend && !this._getFriendIds().includes(DaoUser.gId(item));
+		const showRemove = allowRemoveFriend && this._getFriendIds().includes(DaoUser.gId(item));
 
-		} else if (allowUnblockUser && this._getBlockedIds().includes(DaoUser.gId(item))) {
-			listItemProps.onUserConnectionAddUid = addUser;
+		if (!isSameUser) {
+			if (showAccept) {
+				listItemProps.onUserConnectionBlockUid = blockUser;
+				listItemProps.onUserConnectionAddUid = addToFriends;
 
-		} else if (allowRequestFriend && !this._getFriendIds().includes(DaoUser.gId(item))) {
-			listItemProps.onUserConnectionAddUid = addUser;
+			} else if (showUnblock || showRequest) {
+				listItemProps.onUserConnectionAddUid = addToFriends;
 
-		} else if (allowRemoveFriend && this._getFriendIds().includes(DaoUser.gId(item))) {
-
-			// todo The API request run here is ok but the local updater in UserProfileDefCachePool is wrong
-			listItemProps.onUserConnectionBlockUid = blockUser;
+			} else if (showRemove) {
+				listItemProps.onUserConnectionBlockUid = removeFromFriends;
+			}
 		}
 
 		return <ListItemUser {...listItemProps}/>;
