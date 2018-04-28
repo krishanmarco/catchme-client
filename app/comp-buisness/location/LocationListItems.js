@@ -114,8 +114,8 @@ type ListItemUserLocationStatusProps = ListItemLocation & {
 	locationWithULS: TLocationWithULS,
 	allowEdit: boolean,
 	userLocationStatus: TUserLocationStatus,
-	editUserLocationStatus: (TUserLocationStatus, TLocation) => void,
-	removeUserLocationStatus: (TUserLocationStatus, TLocation) => void
+	editUserLocationStatus: (TLocationWithULS) => void,
+	removeUserLocationStatus: (TLocationWithULS) => void
 }
 
 export class ListItemUserLocationStatus extends React.PureComponent<void, ListItemUserLocationStatusProps, void> {

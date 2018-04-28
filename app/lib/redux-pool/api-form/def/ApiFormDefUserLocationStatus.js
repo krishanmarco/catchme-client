@@ -31,11 +31,7 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 		// Use the UserProfileActionCreator to keep the UI synced
 		const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
 		const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-		if (!DaoUserLocationStatus.isNew(userLocationStatus))
-			return userProfileActionCreator.editUserLocationStatus(userLocationStatus);
-
-		return userProfileActionCreator.addUserLocationStatus(userLocationStatus);
+		return userProfileActionCreator.putUserLocationStatus(userLocationStatus);
 	}
 
 	validate(userLocationStatus: TUserLocationStatus, errors: TUserLocationStatus, inclusive: boolean = false): TUserLocationStatus {
