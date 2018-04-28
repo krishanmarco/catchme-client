@@ -7,6 +7,8 @@ import type {TApiFormDef} from "../ApiFormDef";
 import type {TLocation} from "../../../daos/DaoLocation";
 import type {TThunk} from "../../../types/Types";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
+import CacheActionCreator from "../../cache/CacheActionCreator";
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
 
 
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
@@ -26,7 +28,14 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 	}
 
 	post(thunk: TThunk, userLocationStatus: TUserLocationStatus): Promise<TUserLocationStatus> {
-		return ApiClient.userStatusAdd(userLocationStatus);
+		// Use the UserProfileActionCreator to keep the UI synced
+		const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+		const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+		if (!DaoUserLocationStatus.isNew(userLocationStatus))
+			return userProfileActionCreator.editUserLocationStatus(userLocationStatus);
+
+		return userProfileActionCreator.addUserLocationStatus(userLocationStatus);
 	}
 
 	validate(userLocationStatus: TUserLocationStatus, errors: TUserLocationStatus, inclusive: boolean = false): TUserLocationStatus {

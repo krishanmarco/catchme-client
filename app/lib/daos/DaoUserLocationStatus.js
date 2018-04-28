@@ -3,6 +3,7 @@ import _ from 'lodash';
 import TimestampFormatter from "../helpers/TimestampFormatter";
 import {Const} from "../../Config";
 import {denormObj, seconds} from "../HelperFunctions";
+import DaoUser from "./DaoUser";
 
 
 export type TUserLocationStatus = {
@@ -66,6 +67,10 @@ export default class DaoUserLocationStatus {
 		const fromTs = DaoUserLocationStatus.gFromTs(userStatus);
 		const toTs = DaoUserLocationStatus.gUntilTs(userStatus);
 		return TimestampFormatter.parseFromTo(fromTs, toTs);
+	}
+
+	static isNew(userStatus: TUserLocationStatus) {
+		return DaoUserLocationStatus.gId(userStatus) == -1;
 	}
 
 

@@ -39,9 +39,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 	constructor(props, context) {
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
-		this._onUserLocationStatusDeletePress = this._onUserLocationStatusDeletePress.bind(this);
 		this._onUserLocationStatusEditPress = this._onUserLocationStatusEditPress.bind(this);
-		this._onStatusEditConfirm = this._onStatusEditConfirm.bind(this);
 
 		const {userProfile} = props;
 		this.state = ULSListManager.calculateState(userProfile);
@@ -64,37 +62,17 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		return DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 	}
 
-	_onUserLocationStatusDeletePress(status: TUserLocationStatus) {
-		const statusIdToDelete = DaoUserLocationStatus.gId(status);
-
-		// Delete the status from the list so the UI updated immediately
-		// If the request fails the UI will not be aligned anymore
-		this.setState(ULSListManager.deleteAndGetState(this.state, status));
-
-		ApiClient.userStatusDel(statusIdToDelete)
-			.catch(error => {
-				const id = DaoUserLocationStatus.gId(status);
-				Logger.v(`UserLocationStatusList _onPressLocationStatusDelete ws failed to delete ${id}`, error);
-			});
-	}
-
 	_onUserLocationStatusEditPress(status: TUserLocationStatus, location: TLocation) {
 		const {navigator} = this.props;
 		Router.toModalUserLocationStatus(
 			navigator,
 			{
 				locationId: DaoLocation.gId(location),
-				initialStatus: {...status},
-				onStatusConfirm: this._onStatusEditConfirm
+				initialStatus: {...status}
 			},
 			DaoLocation.gName(location)
 		);
 	}
-
-	_onStatusEditConfirm(userLocationStatus: TUserLocationStatus) {
-		this.setState(ULSListManager.editAndGetState(this.state, userLocationStatus));
-	}
-
 
 	_getSections() {
 		const {now, future, top} = this.state;
@@ -115,24 +93,17 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 	}
 
 
-	_renderItem({item}: { item: TLocationWithULS }) {
-		const {allowFollow, allowUnfollow, onLocationPress, allowEdit} = this.props;
+	_renderItem({item}: { item: TLocationWithULS|TLocation }) {
+		const {allowFollow, allowUnfollow, onLocationPress} = this.props;
 
+		if (DaoLocation.gUserLocationStatus(item))
+			return this._renderUserLocationStatus(item);
+
+		// This object is not a TLocationWithULD
 		const listItemProps = {
 			location: item,
 			onPress: onLocationPress
 		};
-
-		const userLocationStatus = ULSListManager.gStatus(item);
-
-		if (userLocationStatus) {
-			listItemProps.editUserLocationStatus = this._onUserLocationStatusEditPress;
-			listItemProps.removeUserLocationStatus = this._onUserLocationStatusDeletePress;
-			listItemProps.allowEdit = allowEdit;
-			listItemProps.userLocationStatus = userLocationStatus;
-			return (<ListItemUserLocationStatus {...listItemProps} />);
-		}
-
 
 		const followLocation = this._cacheUserProfile().followLocation;
 		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
@@ -149,6 +120,18 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		}
 
 		return <ListItemLocationFollow {...listItemProps}/>;
+	}
+
+	_renderUserLocationStatus(location: TLocationWithULS) {
+		const {onLocationPress, allowEdit} = this.props;
+		return (
+			<ListItemUserLocationStatus
+				locationWithULS={location}
+				allowEdit={allowEdit}
+				onPress={onLocationPress}
+				editUserLocationStatus={this._onUserLocationStatusEditPress}
+				removeUserLocationStatus={this._cacheUserProfile().removeUserLocationStatus}/>
+		);
 	}
 
 }

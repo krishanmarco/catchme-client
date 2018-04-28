@@ -9,6 +9,10 @@ import {CacheState} from "../CacheModel";
 import type {TCacheDef} from "../CacheDef";
 import type {TLocation} from "../../../daos/DaoLocation";
 import type {TUser} from "../../../daos/DaoUser";
+import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
+import ULSListManager from "../../../helpers/ULSListManager";
+import type {TLocationWithULS} from "../../../helpers/ULSListManager";
+import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;
@@ -37,6 +41,8 @@ export class CacheDefUserProfileActionCreator {
 
 	constructor(cacheActionCreator) {
 		this.cacheActionCreator = cacheActionCreator;
+		this._addToUserLocationStatusesArray = this._addToUserLocationStatusesArray.bind(this);
+		this._removeFromUserLocationStatusesArray = this._removeFromUserLocationStatusesArray.bind(this);
 		this._addToLocationFavoritesArray = this._addToLocationFavoritesArray.bind(this);
 		this._removeFromLocationFavoritesArray = this._removeFromLocationFavoritesArray.bind(this);
 		this._addToConnectionArray = this._addToConnectionArray.bind(this);
@@ -51,6 +57,45 @@ export class CacheDefUserProfileActionCreator {
 		this.blockUser = this.blockUser.bind(this);
 		this.followLocation = this.followLocation.bind(this);
 		this.unfollowLocation = this.unfollowLocation.bind(this);
+		this.addUserLocationStatus = this.addUserLocationStatus.bind(this);
+		this.removeUserLocationStatus = this.removeUserLocationStatus.bind(this);
+		this.editUserLocationStatus = this.editUserLocationStatus.bind(this);
+	}
+
+	_addToUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const locationsWithULSs = DaoUser.gLocationsUserLocationStatuses(thisUser);
+
+			const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
+			if (locationsWithULSs.map(DaoLocation.gUserLocationStatusId).includes(ulsId))
+				return;
+
+			locationsWithULSs.push(locationWithULS);
+			_.set(thisUser, DaoUser.pLocationsUserLocationStatuses, locationsWithULSs);
+
+			setData(thisUser);
+		});
+	}
+
+	_removeFromUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const locationsWithULSs = DaoUser.gLocationsUserLocationStatuses(thisUser);
+
+			const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
+			_.remove(locationsWithULSs, l => DaoLocation.gUserLocationStatusId(l) == ulsId);
+			_.set(thisUser, DaoUser.pLocationsUserLocationStatuses, locationsWithULSs);
+
+			setData(thisUser);
+		});
+	}
+
+	_editInUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
+		this._removeFromUserLocationStatusesArray(locationWithULS);
+		return this._addToUserLocationStatusesArray(locationWithULS);
 	}
 
 	_addToLocationFavoritesArray(locationToAdd: TLocation) {
@@ -267,7 +312,7 @@ export class CacheDefUserProfileActionCreator {
 	unfollowLocation(locationToRemove: TLocation) {
 		// Update the UI before running the request
 		this._removeFromLocationFavoritesArray(locationToRemove);
-		
+
 		const lid = DaoLocation.gId(locationToRemove);
 		return ApiClient.userLocationsFavoritesDelLid(lid)
 			.then(success => {
@@ -278,6 +323,60 @@ export class CacheDefUserProfileActionCreator {
 				this._addToLocationFavoritesArray(locationToRemove);
 				Logger.v("CacheDefUserProfile unfollowLocation failed", lid, error);
 			});
+	}
+
+	addUserLocationStatus(locationWithUls: TLocationWithULS) {
+		// Update the UI before running the request
+		this._addToUserLocationStatusesArray(locationWithUls);
+
+		const ulsId = DaoLocation.gUserLocationStatusId(locationWithUls);
+		return ApiClient.userStatusAddOrEdit(locationWithUls)
+			.then((userLocationStatus: TUserLocationStatus) => {
+				// todo: edit userLocationStatus because id could have changed
+				Logger.v("CacheDefUserProfile addUserLocationStatus success", ulsId, userLocationStatus);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._removeFromUserLocationStatusesArray(locationWithUls);
+				Logger.v("CacheDefUserProfile addUserLocationStatus failed", ulsId, error);
+			});
+	}
+
+	removeUserLocationStatus(locationWithUls: TLocationWithULS) {
+		// Update the UI before running the request
+		this._removeFromUserLocationStatusesArray(locationWithUls);
+
+		const ulsId = DaoLocation.gUserLocationStatusId(locationWithUls);
+		return ApiClient.userStatusDel(ulsId)
+			.then(success => {
+				Logger.v("CacheDefUserProfile removeUserLocationStatus success", ulsId, success);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._addToUserLocationStatusesArray(locationWithUls);
+				Logger.v("CacheDefUserProfile removeUserLocationStatus failed", ulsId, error);
+			});
+	}
+
+	editUserLocationStatus(locationWithUlS: TLocationWithULS) {
+		const {executeIfDataNotNull} = this.cacheActionCreator;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const ulsId = DaoLocation.gUserLocationStatusId(locationWithUlS);
+
+			// Get the current state (needed if the request fails)
+			const oldLocationWithULS = DaoUser.findUserLocationStatus(thisUser, ulsId);
+			this._editInUserLocationStatusesArray(locationWithUlS);
+
+			return ApiClient.userStatusAddOrEdit(locationWithUlS)
+				.then(success => {
+					Logger.v("CacheDefUserProfile editUserLocationStatus success", ulsId, success);
+				})
+				.catch(error => {
+					// Revert to the previous state
+					this._editInUserLocationStatusesArray(oldLocationWithULS);
+					Logger.v("CacheDefUserProfile addUserLocationStatus failed", ulsId, error);
+				});
+		});
 	}
 
 }

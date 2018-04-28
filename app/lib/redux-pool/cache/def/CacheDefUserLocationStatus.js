@@ -6,7 +6,7 @@ import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 export const CACHE_ID_USER_LOCATION_STATUS = 'CACHE_ID_USER_LOCATION_STATUS';
 
-// Declare cache definition
+// Declare cache definition todo: where is this used???
 class CacheDefUserLocationStatus extends CacheDef<Array<TUserLocationStatus>> {
 
 	constructor() {

@@ -247,18 +247,6 @@ class ApiClient {
 			});
 		}
 
-	userStatusAdd(status: TUserLocationStatus) {
-		return this._post(`${Urls.api}/user/status/add`, status);
-	}
-
-	userStatusDel(statusId) {
-		return this._get(`${Urls.api}/user/status/del/${statusId}`);
-	}
-
-	userStatusGet(): Promise<TUserLocationStatus> {
-		return this._get(`${Urls.api}/user/status`);
-	}
-
 
 
 
@@ -355,6 +343,21 @@ class ApiClient {
 	// Should only be called from CacheDefUserProfile
 	userLocationsFavoritesDelLid(lid): Promise<number> {
 		return this._get(`${Urls.api}/user/locations/favorites/del/${lid}`);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userStatusAddOrEdit(status: TUserLocationStatus) {
+		return this._post(`${Urls.api}/user/status/add`, status);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userStatusDel(statusId) {
+		return this._get(`${Urls.api}/user/status/del/${statusId}`);
+	}
+
+	// todo Should only be called from CacheDefUserProfile
+	userStatusGet(): Promise<TUserLocationStatus> {
+		return this._get(`${Urls.api}/user/status`);
 	}
 
 	// Should only be called from SearchDataDefUsers.searchApiCall

@@ -8,6 +8,7 @@ import {ListItemWithActions} from "../../comp/Misc";
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import type {TLocationWithULS} from "../../lib/helpers/ULSListManager";
 
 
 // ListItemLocation *************************************************************************************
@@ -110,6 +111,7 @@ export class ListItemLocationFollow extends React.PureComponent<void, ListItemLo
 // ListItemUserLocationStatus ***************************************************************************
 
 type ListItemUserLocationStatusProps = ListItemLocation & {
+	locationWithULS: TLocationWithULS,
 	allowEdit: boolean,
 	userLocationStatus: TUserLocationStatus,
 	editUserLocationStatus: (TUserLocationStatus, TLocation) => void,
@@ -129,8 +131,7 @@ export class ListItemUserLocationStatus extends React.PureComponent<void, ListIt
 
 	initialize(props) {
 		const {
-			location,
-			userLocationStatus,
+			locationWithULS,
 			allowEdit,
 			editUserLocationStatus,
 			removeUserLocationStatus
@@ -144,14 +145,14 @@ export class ListItemUserLocationStatus extends React.PureComponent<void, ListIt
 		if (editUserLocationStatus) {
 			this.actions.push({
 				icon: Icons.statusEdit,
-				onPress: () => editUserLocationStatus(userLocationStatus, location)
+				onPress: () => editUserLocationStatus(locationWithULS)
 			});
 		}
 
 		if (removeUserLocationStatus) {
 			this.actions.push({
 				icon: Icons.statusDelete,
-				onPress: () => removeUserLocationStatus(userLocationStatus, location)
+				onPress: () => removeUserLocationStatus(locationWithULS)
 			});
 		}
 
@@ -162,14 +163,17 @@ export class ListItemUserLocationStatus extends React.PureComponent<void, ListIt
 			editUserLocationStatus,
 			removeUserLocationStatus,
 			allowEdit,
-			userLocationStatus,
+			locationWithULS,
 			...props
 		} = this.props;
 
+		const userLocationStatus = DaoLocation.gUserLocationStatus(locationWithULS);
+		const formattedTime = DaoUserLocationStatus.getFormattedRange(userLocationStatus);
 		return (
 			<ListItemLocation
 				{...props}
-				content={DaoUserLocationStatus.getFormattedRange(userLocationStatus)}
+				location={locationWithULS}
+				content={formattedTime}
 				actions={this.actions}/>
 		);
 	}

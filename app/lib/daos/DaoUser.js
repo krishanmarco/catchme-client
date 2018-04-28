@@ -7,6 +7,7 @@ import {Const} from '../../Config';
 import {denormObj, isValidUrl, mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
+import type {TLocationWithULS} from "../helpers/ULSListManager";
 
 
 export type TUser = {
@@ -303,6 +304,11 @@ export default class DaoUser {
 
 	static gIdStr(user: TUser): string {
 		return DaoUser.gId(user).toString();
+	}
+
+	static findUserLocationStatus(user: TUser, ulsId: number): ?TLocationWithULS {
+		const locationsWithULSs = DaoUser.gLocationsUserLocationStatuses(user);
+		return locationsWithULSs.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
 	}
 
 
