@@ -3,7 +3,6 @@ import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import React from 'react';
 import UserLocationStatus from './UserLocationStatus';
-import {CACHE_ID_USER_LOCATION_STATUS} from "../../lib/redux-pool/cache/def/CacheDefUserLocationStatus";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
 import {Const} from "../../Config";
 import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from "../../lib/redux-pool/api-form/def/ApiFormDefUserLocationStatus";
@@ -60,17 +59,6 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 		// those as the initial status
 		if (initialStatus)
 			return initialStatus;
-
-		// Redux pool fallback from initialStatus
-		// todo delete?
-		// const data = this._cacheMapLocationProfiles().data;
-		// if (data != null) {
-		// 	const userLocationStatus = data
-		// 		.find(uls => DaoUserLocationStatus.gLocationId(uls) == locationId);
-		//
-		// 	if (userLocationStatus != null)
-		// 		return userLocationStatus;
-		// }
 
 		// Create new initialStatus fallback from redux pool
 		return DaoUserLocationStatus.newInstance(locationId);
@@ -136,7 +124,7 @@ const ScreenUserLocationStatus = poolConnect(_ScreenUserLocationStatus,
 	(dispatch) => ({}),
 
 	// Array of pools to subscribe to
-	[FORM_API_ID_EDIT_USER_LOCATION_STATUS, CACHE_MAP_ID_LOCATION_PROFILES, CACHE_ID_USER_LOCATION_STATUS]
+	[FORM_API_ID_EDIT_USER_LOCATION_STATUS, CACHE_MAP_ID_LOCATION_PROFILES]
 );
 export default ScreenUserLocationStatus;
 

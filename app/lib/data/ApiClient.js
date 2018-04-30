@@ -355,7 +355,7 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/status/del/${statusId}`);
 	}
 
-	// todo Should only be called from CacheDefUserProfile
+	// Should only be called from CacheDefUserProfile
 	userStatusGet(): Promise<TUserLocationStatus> {
 		return this._get(`${Urls.api}/user/status`);
 	}
