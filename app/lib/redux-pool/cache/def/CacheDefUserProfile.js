@@ -77,7 +77,6 @@ export class CacheDefUserProfileActionCreator {
 
 			userLocationStatuses.push(DaoLocation.gUserLocationStatus(locationWithULS));
 			_.set(thisUser, DaoUser.pLocationsUserLocationStatuses, userLocationStatuses);
-			console.log("FINAL", DaoUser.gLocationsUserLocationStatuses(thisUser));
 			setData(thisUser);
 		});
 	}

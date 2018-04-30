@@ -34,13 +34,16 @@ const navbarButtonAddLocationImage = {
 
 export default class NavbarHandlerLocationProfile {
 
-	constructor(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, locationProfile: TLocation) {
-		this.navigator = navigator;
-		this.cacheUserProfile = cacheUserProfile;
-		this.locationProfile = locationProfile;
+	constructor() {
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this.showButtonFollow();
+	}
+
+	initialize(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, locationProfile: TLocation) {
+		this.navigator = navigator;
+		this.cacheUserProfile = cacheUserProfile;
+		this.locationProfile = locationProfile;
 	}
 
 	showButtonFollow() {
@@ -73,7 +76,7 @@ export default class NavbarHandlerLocationProfile {
 		if (locationProfile == null)
 			return;
 
-		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile.data);
+		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile);
 		const locationId = DaoLocation.gId(locationProfile);
 
 		const rightButtons = [];
