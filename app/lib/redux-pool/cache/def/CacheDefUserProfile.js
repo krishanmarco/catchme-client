@@ -9,10 +9,7 @@ import {CacheState} from "../CacheModel";
 import type {TCacheDef} from "../CacheDef";
 import type {TLocation} from "../../../daos/DaoLocation";
 import type {TUser} from "../../../daos/DaoUser";
-import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
-import ULSListManager from "../../../helpers/ULSListManager";
 import type {TLocationWithULS} from "../../../helpers/ULSListManager";
-import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;
@@ -43,6 +40,8 @@ export class CacheDefUserProfileActionCreator {
 		this.cacheActionCreator = cacheActionCreator;
 		this._putToUserLocationStatusesArray = this._putToUserLocationStatusesArray.bind(this);
 		this._removeFromUserLocationStatusesArray = this._removeFromUserLocationStatusesArray.bind(this);
+		this._putToAdminLocationsArray = this._putToAdminLocationsArray.bind(this);
+		this._removeFromAdminLocationsArray= this._removeFromAdminLocationsArray.bind(this);
 		this._addToLocationFavoritesArray = this._addToLocationFavoritesArray.bind(this);
 		this._removeFromLocationFavoritesArray = this._removeFromLocationFavoritesArray.bind(this);
 		this._addToConnectionArray = this._addToConnectionArray.bind(this);
@@ -58,6 +57,7 @@ export class CacheDefUserProfileActionCreator {
 		this.followLocation = this.followLocation.bind(this);
 		this.unfollowLocation = this.unfollowLocation.bind(this);
 		this.removeUserLocationStatus = this.removeUserLocationStatus.bind(this);
+		this.putAdminLocation = this.putAdminLocation.bind(this);
 	}
 
 	_putToUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
@@ -96,6 +96,18 @@ export class CacheDefUserProfileActionCreator {
 	_editInUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
 		this._removeFromUserLocationStatusesArray(locationWithULS);
 		return this._putToUserLocationStatusesArray(locationWithULS);
+	}
+
+	_putToAdminLocationsArray(locationToAdd: TLocation) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		// todo
+		return executeIfDataNotNull((thisUser: TUser) => {});
+	}
+
+	_removeFromAdminLocationsArray(locationToRemove: TLocation) {
+		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		// todo
+		return executeIfDataNotNull((thisUser: TUser) => {});
 	}
 
 	_addToLocationFavoritesArray(locationToAdd: TLocation) {
@@ -367,5 +379,21 @@ export class CacheDefUserProfileActionCreator {
 				Logger.v("CacheDefUserProfile removeUserLocationStatus failed", ulsId, error);
 			});
 	}
+
+	putAdminLocation(location: TLocation) {
+		// Update the UI before running the request
+		this._putToAdminLocationsArray(location);
+
+		const lid = DaoLocation.gId(location);
+		return ApiClient.userLocationsAdminEditLid(location)
+			.then(success => {
+				Logger.v("CacheDefUserProfile putAdminLocation success", lid, success);
+			})
+			.catch(error => {
+				// Revert to the previous state
+				this._removeFromAdminLocationsArray(location);
+				Logger.v("CacheDefUserProfile putAdminLocation failed", lid, error);
+			});
+		}
 
 }

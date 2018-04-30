@@ -14,6 +14,7 @@ import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -37,7 +38,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 		super(props, context);
 		this.refTabs = [];
 		this._allowIndexChange = this._allowIndexChange.bind(this);
-		this._onSaveComplete = this._onSaveComplete.bind(this);
+		this._onSavePress = this._onSavePress.bind(this);
 		this._onPreTabChange = this._onPreTabChange.bind(this);
 		this._setRefInfoTab = this._setRefInfoTab.bind(this);
 		this._setRefTimingsTab = this._setRefTimingsTab.bind(this);
@@ -59,11 +60,17 @@ class _EditLocation extends React.Component<void, Props, void> {
 	}
 
 
-	_onSaveComplete(apiResponse) {
-		// The form has already been posted
-		// Check for success and handle errors
-		//    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal())
-		// todo
+	_onSavePress() {
+		const {navigator} = this.props;
+
+		// If the form doesn't have any errors, go back
+		this._formApiEditLocationProfile().post()
+			.then(apiResponse => {
+
+				if (!ApiFormDef.hasErrors(apiResponse))
+					navigator.pop();
+
+			});
 	}
 
 
@@ -177,7 +184,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 		return (
 			<EditLocationRecap
 				ref={this._setRefRecapTab}
-				onSaveComplete={this._onSaveComplete}
+				onSavePress={this._onSavePress}
 				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
 		);
 	}

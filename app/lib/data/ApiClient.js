@@ -252,24 +252,6 @@ class ApiClient {
 
 
 
-	userLocationsAdminEditLid(location: TLocation) {
-		location = DaoLocation.apiClean(location);
-
-		// If the locationId == -1 then this is a new location
-		const locationId = DaoLocation.gId(location);
-
-		const formData = prepareForMultipart(location);
-
-		if (DaoLocation.hasNewImage(location)) {
-			const pictureUri = DaoLocation.gPictureUrl(location);
-			const n = seconds().toString();
-			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
-		}
-
-		return this._postMultipart(`${Urls.api}/user/locations/administrating/edit/${locationId}`, formData)
-			.then(json => JSON.parse(json));
-	}
-
 	userProfileEdit(user: TUser): TUser {
 		user = DaoUser.apiClean(user);
 
@@ -360,6 +342,25 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/status`);
 	}
 
+	// Should only be called from CacheDefUserProfile
+	userLocationsAdminEditLid(location: TLocation) {
+		location = DaoLocation.apiClean(location);
+
+		// If the locationId == -1 then this is a new location
+		const locationId = DaoLocation.gId(location);
+
+		const formData = prepareForMultipart(location);
+
+		if (DaoLocation.hasNewImage(location)) {
+			const pictureUri = DaoLocation.gPictureUrl(location);
+			const n = seconds().toString();
+			formData.push({name: DaoLocation.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
+		}
+
+		return this._postMultipart(`${Urls.api}/user/locations/administrating/edit/${locationId}`, formData)
+			.then(json => JSON.parse(json));
+	}
+
 	// Should only be called from SearchDataDefUsers.searchApiCall
 	searchQueryUsers(query = ''): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/search/${query}/users`)
@@ -389,6 +390,7 @@ class ApiClient {
 		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
 			.then(json => JSON.parse(json));
 	}
+
 
 
 }
