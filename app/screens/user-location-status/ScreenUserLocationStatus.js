@@ -75,7 +75,6 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 
 	_onStatusConfirm() {
 		const {navigator, postOnConfirm, onStatusConfirm} = this.props;
-
 		const newStatus = this._formApiEditUserLocationStatus().apiInput;
 
 		if (postOnConfirm) {
@@ -85,6 +84,7 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 					// Notify the parent component that the status has changed
 					if (onStatusConfirm)
 						onStatusConfirm(newStatus);
+
 				});
 		}
 

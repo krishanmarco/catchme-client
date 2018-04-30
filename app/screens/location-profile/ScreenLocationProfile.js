@@ -47,11 +47,10 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 	_setupNavigator() {
 		const {navigator} = this.props;
 		const locationProfile = this._locationProfile();
-		const authUserProfile = this._cacheUserProfile().data;
 
 		this.navbarHandler = new NavbarHandlerLocationProfile(
 			navigator,
-			authUserProfile,
+			this._cacheUserProfile(),
 			locationProfile
 		);
 	}

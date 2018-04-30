@@ -33,12 +33,9 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 		const formApiActionsEditUserProfile = new ApiFormActionCreator(FORM_API_ID_EDIT_USER_PROFILE, thunk.dispatch);
 		
 		// Post and invalidate CACHE_ID_USER_PROFILE
-		return ApiClient.userProfileEdit(user)
+		return ApiClient.userProfileEdit(user) 		// todo to CacheUserProfile
 			.then((user: TUser) => {
 				cacheActionsUserProfile.mergeData(user);
-				return user;
-			})
-			.then((user: TUser) => {
 				formApiActionsEditUserProfile.change(user);
 				return user;
 			});

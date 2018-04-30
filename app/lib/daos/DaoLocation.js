@@ -255,7 +255,7 @@ export default class DaoLocation {
 
 	static sUserLocationStatus(location: TLocationWithULS, userLocationStatus: TUserLocationStatus): TLocationWithULS {
 		_.set(location, DaoLocation.pStatus, userLocationStatus);
-		return _.get(location, DaoLocation.pStatus, null);
+		return location;
 	}
 
 

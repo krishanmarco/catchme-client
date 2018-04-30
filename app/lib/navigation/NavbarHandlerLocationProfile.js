@@ -73,7 +73,7 @@ export default class NavbarHandlerLocationProfile {
 		if (locationProfile == null)
 			return;
 
-		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile);
+		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile.data);
 		const locationId = DaoLocation.gId(locationProfile);
 
 		const rightButtons = [];

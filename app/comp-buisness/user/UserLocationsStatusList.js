@@ -130,7 +130,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 				allowEdit={allowEdit}
 				onPress={onLocationPress}
 				editUserLocationStatus={this._onUserLocationStatusEditPress}
-				removeUserLocationStatus={this._cacheUserProfile().removeUserLocationStatus}/>
+				removeUserLocationStatus={this._cacheUserProfile().removeLocationWithULS}/>
 		);
 	}
 

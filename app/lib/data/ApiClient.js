@@ -277,6 +277,11 @@ class ApiClient {
 
 
 
+	locationsGetLid(lid: number): Promise<TLocation> {
+		return this._get(`${Urls.api}/locations/${lid}`)
+			.then(json => JSON.parse(json));
+	}
+
 	// Verified API Below ***************************************************************************
 	// Verified API Below ***************************************************************************
 
@@ -285,10 +290,7 @@ class ApiClient {
 			.then(json => JSON.parse(json));
 	}
 
-	locationsGetLid(lid: number): Promise<TLocation> {
-		return this._get(`${Urls.api}/locations/${lid}`)
-			.then(json => JSON.parse(json));
-	}
+	// locationsGetLid
 
 	// Should only be called from DataProvider.usersGetUidProfile
 	usersGetUidProfile(uid: number): Promise<TUser> {
@@ -328,8 +330,9 @@ class ApiClient {
 	}
 
 	// Should only be called from CacheDefUserProfile
-	userStatusAddOrEdit(status: TUserLocationStatus) {
-		return this._post(`${Urls.api}/user/status/add`, status);
+	userStatusAddOrEdit(status: TUserLocationStatus): Promise<TUserLocationStatus> {
+		return this._post(`${Urls.api}/user/status/add`, status)
+			.then(json => JSON.parse(json));
 	}
 
 	// Should only be called from CacheDefUserProfile
