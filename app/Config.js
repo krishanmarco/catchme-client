@@ -39,14 +39,14 @@ const _Icons = {
 	timerSandEmpty: 			{name: 'timer-sand-empty',  						type: 'material-community'},
 	timerSand: 						{name: 'timer-sand',  									type: 'material-community'},
 	timings: 							{name: 'calendar-clock',  					 		type: 'material-community'},
+	logout: 							{name: 'exit-to-app',										type: 'material-community'},
 	building: 						{name: 'location-city',  					 			type: 'material-icons'},
 	pen: 									{name: 'mode-edit',  										type: 'material-icons'},
 	bin: 									{name: 'delete',  					 						type: 'material-icons'},
 	mapSigns: 						{name: 'map-signs',  					 					type: 'font-awesome'},
 	save: 								{name: 'save',  					 							type: 'font-awesome'},
-	plus: 								{name: 'plus',  					 							type: 'evilicons'},
+	plus: 								{name: 'add-circle-outline',						type: 'evilicons'},
 	star: 								{name: 'star', 		 					 						type: 'evilicons'},
-	logout: 							{name: 'logout', 												type: 'simplelineicons'},
 };
 
 
