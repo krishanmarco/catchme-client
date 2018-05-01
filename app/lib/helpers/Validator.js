@@ -57,7 +57,7 @@ export class Validate {
 
 
 	static string(value: string, min: number, max: number): string {
-		if (value == null)
+		if (value == null || value.length <= 0)
 			return errorIds.return_error_field_not_set;
 
 		if (min && value.length < min)

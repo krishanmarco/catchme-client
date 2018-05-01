@@ -4,9 +4,9 @@ import DaoUser from "../../../lib/daos/DaoUser";
 import React from 'react';
 import Router from "../../../lib/navigation/Router";
 import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatListEmpty, ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {Icons} from '../../../Config';
 import {listItemInfo} from "../../../lib/theme/Styles";
-import {FlatListEmpty, ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
@@ -61,7 +61,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderScreenHeader() {
 		return (
 			<ScreenInfo
-				imageSource={require('../../../assets/images/adminLocations.png')}
+				imageSource={require('../../../assets/images/primary-admin-locations.png')}
 				textText='These are the locations you manage'/>
 		);
 	}
@@ -77,7 +77,8 @@ export default class SettingsUserAdministratingLocations extends React.Component
 				renderItem={this._renderLocationItem}
 				ListHeaderComponent={this._renderLocationsHeader()}
 				ListEmptyComponent={(
-					<FlatListEmpty/>
+					<FlatListEmpty
+						image={require('../../../assets/images/empty-admin-locations.png')}/>
 				)}/>
 		);
 	}
@@ -88,7 +89,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 				style={listItemInfo.itemStyle}
 				title='Add a new Location'
 				textRkType='header4'
-				icon={Icons.locationAdminAdd}
+				icon={Icons.settingAdminAddLocation}
 				onPress={this._onLocationAdd}/>
 		);
 	}

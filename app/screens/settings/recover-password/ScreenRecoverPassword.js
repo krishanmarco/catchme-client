@@ -81,11 +81,11 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 
 		const props = {};
 		if (passwordRecovered) {
-			props.imageSource = require('../../../assets/images/search.png');
+			props.imageSource = require('../../../assets/images/primary-success.png');
 			props.textText = 'Your password has been sen\'t to your email address';
 
 		} else {
-			props.imageSource = require('../../../assets/images/meLogo.png');
+			props.imageSource = require('../../../assets/images/primary-me.png');
 			props.textText = 'Enter your email below to receive your password reset instructions';
 		}
 

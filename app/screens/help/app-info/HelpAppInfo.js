@@ -20,7 +20,7 @@ export default class HelpAppInfo extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ScreenInfo
-					imageSource={require('../../../assets/images/meLogo.png')}
+					imageSource={require('../../../assets/images/primary-me.png')}
 					height={120}
 					imageHeight='100%'/>
 			</View>

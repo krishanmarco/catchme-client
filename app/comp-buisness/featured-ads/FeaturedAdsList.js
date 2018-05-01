@@ -46,7 +46,8 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 
 				ListFooterComponent={this._renderFooterLoader}
 				ListEmptyComponent={(
-					<FlatListEmpty/>
+					<FlatListEmpty
+						image={require('../../assets/images/empty-featured.png')}/>
 				)}/>
 		);
 	}

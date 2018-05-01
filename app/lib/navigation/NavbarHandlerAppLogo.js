@@ -3,7 +3,7 @@ import type {TNavigator} from "../types/Types";
 
 const navbarBtAppLogo = {
 	id: 'NAVBAR_BUTTON_ID_APP_LOGO',
-	icon: require('../../assets/images/meLogo.png'),
+	icon: require('../../assets/images/primary-me.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };

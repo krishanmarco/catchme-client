@@ -107,11 +107,11 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 
 		const props = {};
 		if (passwordChanged) {
-			props.imageSource = require('../../../assets/images/search.png');
+			props.imageSource = require('../../../assets/images/black-search.png');
 			props.textText = 'Your password has been changed successfully';
 
 		} else {
-			props.imageSource = require('../../../assets/images/meLogo.png');
+			props.imageSource = require('../../../assets/images/primary-me.png');
 			props.textText = 'Change password...';
 		}
 
@@ -128,7 +128,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 			props.onPress = this._onBackPress;
 			props.text = (
 				<RkText>
-					<Icon {...Icons.back}/>
+					<Icon {...Icons.changePasswordBack}/>
 					<RkText>{'back'.toUpperCase()}</RkText>
 				</RkText>
 			);

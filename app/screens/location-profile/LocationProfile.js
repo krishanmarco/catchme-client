@@ -12,9 +12,9 @@ import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {Grid, Row} from "react-native-easy-grid";
 import {Icons} from '../../Config';
-import {FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
@@ -112,7 +112,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		tabs.push(this._renderTab('0', this._renderTabHome()));
 		tabs.push(this._renderTab('1', this._renderTabImages()));
 		tabs.push(this._renderTab('2', this._renderTabFriendsNow()));
-		tabs.push(this._renderTab('3', this._renderTabFriendsFuture()));
+		tabs.push(this._renderTab('3', this._renderTabFriendsLater()));
 
 		if (Context.isFirebaseEnabled())
 			tabs.push(this._renderTab('4', this._renderTabChat()));
@@ -188,13 +188,14 @@ class _LocationProfile extends React.Component<void, Props, State> {
 					allowRequestFriend={true}
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={() => (
-						<FlatListEmpty/>
+						<FlatListEmpty
+							image={require('../../assets/images/empty-lus-now.png')}/>
 					)}/>
 			</View>
 		);
 	}
 
-	_renderTabFriendsFuture() {
+	_renderTabFriendsLater() {
 		const {locationProfile, authUserProfile} = this.props;
 
 		return (
@@ -204,7 +205,8 @@ class _LocationProfile extends React.Component<void, Props, State> {
 					allowRequestFriend={true}
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={() => (
-						<FlatListEmpty/>
+						<FlatListEmpty
+							image={require('../../assets/images/empty-lus-later.png')}/>
 					)}/>
 			</View>
 		);
@@ -232,8 +234,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 				<View style={styles.tabInfo}>
 					<StaticSectionList
 						sections={locationInfoSections}
-						renderItem={this._renderTabLocationInfoItem}
-						ListEmptyComponent={<FlatListEmpty/>}/>
+						renderItem={this._renderTabLocationInfoItem}/>
 					<View style={[{height: dim.height - 130}, styles.infoTabMapCont]}>
 						<LocationMap
 							scrollEnabled={false}

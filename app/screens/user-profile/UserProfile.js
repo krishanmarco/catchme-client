@@ -10,10 +10,10 @@ import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
 import {Col, Grid, Row} from "react-native-easy-grid";
+import {FlatListEmpty, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
-import {FlatListEmpty, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
@@ -183,7 +183,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowUnfollow={true}
 					onLocationPress={this._onLocationPress}
 					renderOnListEmpty={() => (
-						<FlatListEmpty/>
+						<FlatListEmpty
+							image={require('../../assets/images/empty-favorites.png')}/>
 					)}/>
 			</View>
 		);
@@ -201,7 +202,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowRemoveFriend={this._isSameUser()}
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={() => (
-						<FlatListEmpty/>
+						<FlatListEmpty
+							image={require('../../assets/images/empty-friends.png')}/>
 					)}/>
 			</View>
 		);
@@ -213,8 +215,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabInfo}>
 				<StaticSectionList
 					sections={userInfoSections}
-					renderItem={this._renderTabUserInfoItem}
-					ListEmptyComponent={<FlatListEmpty/>}/>
+					renderItem={this._renderTabUserInfoItem}/>
 			</View>
 		);
 	}

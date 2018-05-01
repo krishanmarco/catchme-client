@@ -5,13 +5,14 @@ import DaoUser from "../../lib/daos/DaoUser";
 import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
-import {FontIcons} from "../../Config";
 import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {fullpageForm} from "../../lib/theme/Styles";
+import {Icon} from 'react-native-elements';
+import {Icons} from "../../Config";
 import {poolConnect} from '../../redux/ReduxPool';
-import {RkButton, RkText} from 'react-native-ui-kitten';
+import {RkButton} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {SignInFacebook} from "../../lib/social/SignInFacebook";
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
@@ -106,7 +107,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						<ScreenInfo
 							height={120}
 							imageHeight='100%'
-							imageSource={require('../../assets/images/meLogo.png')}/>
+							imageSource={require('../../assets/images/primary-me.png')}/>
 					)}
 
 					fieldsStyle={fullpageForm.fieldsStyle}
@@ -115,8 +116,8 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 							
 							<View style={styles.fieldsSocialButtons}>
 								{[
-									{icon: FontIcons.google, onPress: this._onGoogleLogin},
-									{icon: FontIcons.facebook, onPress: this._onFacebookLogin},
+									{icon: Icons.loginGoogle, onPress: this._onGoogleLogin},
+									{icon: Icons.loginFacebook, onPress: this._onFacebookLogin},
 								].map(this._renderSocialIcon)}
 							</View>
 							
@@ -170,7 +171,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		return (
 			<View key={key} style={styles.fieldsSocialButtonsButton}>
 				<RkButton rkType='social' onPress={onPress}>
-					<RkText rkType='awesome hero accentColor'>{icon}</RkText>
+					<Icon {...icon} />
 				</RkButton>
 			</View>
 		);

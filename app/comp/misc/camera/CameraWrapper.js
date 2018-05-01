@@ -2,6 +2,7 @@
 import Camera, {constants as CameraConstants} from 'react-native-camera';
 import Logger from "../../../lib/Logger";
 import React from 'react';
+import {Colors} from "../../../Config";
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
 
@@ -92,7 +93,7 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 						<Image
 							style={styles.cameraButtonImage}
 							resizeMode='contain'
-							source={require('../../../assets/images/camera_512.png')}/>
+							source={require('../../../assets/images/primary-camera-me.png')}/>
 					</RkButton>
 				</Camera>
 			</View>
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
 		flex: 0,
 		backgroundColor: '#fff',
 		borderRadius: 5,
-		color: '#000',
+		color: Colors.black,
 		padding: 10,
 		margin: 40
 	},

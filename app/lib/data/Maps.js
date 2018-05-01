@@ -24,12 +24,11 @@ export default class Maps {
 	
 	
 	static _EReputations = [
-		{value: 200, icon: Icons.friendRequestAccept, name: 'joe'},
-		{value: 800, icon: Icons.friendRequestAccept, name: 'dude'},
-		{value: 3200, icon: Icons.friendRequestAccept, name: 'hero'},
-		{value: 12800, icon: Icons.friendRequestAccept, name: 'vip'},
-		{value: 51200, icon: Icons.friendRequestAccept, name: 'catcher'},
-		{value: Infinity, icon: Icons.friendRequestAccept, name: 'su'}
+		{value: 200, icon: Icons.reputationJoe, name: 'joe'},
+		{value: 800, icon: Icons.reputationDude, name: 'dude'},
+		{value: 3200, icon: Icons.reputationHero, name: 'hero'},
+		{value: 12800, icon: Icons.reputationVip, name: 'vip'},
+		{value: 51200, icon: Icons.reputationCatcher, name: 'catcher'}
 	];
 	
 	static reputationToIcon(value) {

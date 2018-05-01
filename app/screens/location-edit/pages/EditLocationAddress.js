@@ -99,13 +99,13 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 							scrollEnabled={false}
 							locations={[this._formApiEditLocationProfile().apiInput]}/>
 					)}
-					badge={{...Icons.locationEditAddress, color: Colors.white}}/>
+					badge={Icons.locationEditAddress}/>
 			);
 
 		} else {
 			contentJsx = (
 				<ScreenInfo
-					imageSource={require('../../../assets/images/address.png')}
+					imageSource={require('../../../assets/images/primary-address.png')}
 					textText='Press the image above to select a location'
 					onPress={this._onGoogleMapsSelectorPress}/>
 			);
