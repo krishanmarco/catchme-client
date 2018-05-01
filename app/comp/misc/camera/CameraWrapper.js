@@ -2,9 +2,9 @@
 import Camera, {constants as CameraConstants} from 'react-native-camera';
 import Logger from "../../../lib/Logger";
 import React from 'react';
+import {Colors} from "../../../Config";
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
-import {Colors} from "../../../Config";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

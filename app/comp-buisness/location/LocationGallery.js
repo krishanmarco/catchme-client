@@ -5,12 +5,12 @@ import Gallery from '../../comp/misc/Gallery';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import React from 'react';
 import {Colors, Icons} from '../../Config';
+import {FlatListEmpty} from "../../comp/Misc";
 import {Icon} from 'react-native-elements';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import {FlatListEmpty} from "../../comp/Misc";
 
 
 // Const ************************************************************************************************
