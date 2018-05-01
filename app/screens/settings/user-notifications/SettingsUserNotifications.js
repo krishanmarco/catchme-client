@@ -103,7 +103,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	_renderScreenHeader() {
 		return (
 			<ScreenInfo
-				imageSource={require('../../../assets/images/userNotifications.png')}
+				imageSource={require('../../../assets/images/primary-notifications.png')}
 				textText='Here you can tweak your notification settings'/>
 		);
 	}

@@ -106,7 +106,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						<ScreenInfo
 							height={120}
 							imageHeight='100%'
-							imageSource={require('../../assets/images/meLogo.png')}/>
+							imageSource={require('../../assets/images/primary-me.png')}/>
 					)}
 
 					fieldsStyle={fullpageForm.fieldsStyle}

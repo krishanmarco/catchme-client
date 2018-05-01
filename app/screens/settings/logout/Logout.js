@@ -39,7 +39,7 @@ export default class Logout extends React.Component<void, Props, void> {
 					fieldsJsx={(
 						<ScreenInfo
 							style={styles.info}
-							imageSource={require('../../../assets/images/logout.png')}
+							imageSource={require('../../../assets/images/primary-logout.png')}
 							textText='Are you sure you want to log out?'/>
 					)}
 

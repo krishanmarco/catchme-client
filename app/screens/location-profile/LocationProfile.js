@@ -189,7 +189,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={() => (
 						<FlatListEmpty
-							image={require('../../assets/images/empty-uls-now.png')}/>
+							image={require('../../assets/images/empty-lus-now.png')}/>
 					)}/>
 			</View>
 		);
@@ -206,7 +206,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={() => (
 						<FlatListEmpty
-							image={require('../../assets/images/empty-uls-later.png')}/>
+							image={require('../../assets/images/empty-lus-later.png')}/>
 					)}/>
 			</View>
 		);

@@ -92,7 +92,7 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 						<Image
 							style={styles.cameraButtonImage}
 							resizeMode='contain'
-							source={require('../../../assets/images/camera_512.png')}/>
+							source={require('../../../assets/images/primary-camera-me.png')}/>
 					</RkButton>
 				</Camera>
 			</View>
