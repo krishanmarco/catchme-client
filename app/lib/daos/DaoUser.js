@@ -6,8 +6,8 @@ import ObjectCache from "../helpers/ObjectCache";
 import {Const} from '../../Config';
 import {denormObj, isValidUrl, mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
-import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 import type {TLocationWithULS} from "../helpers/ULSListManager";
+import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 
 
 export type TUser = {

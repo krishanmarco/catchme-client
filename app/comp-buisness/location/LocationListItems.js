@@ -7,8 +7,8 @@ import {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 import {ListItemWithActions} from "../../comp/Misc";
 import type {TAction} from "../../lib/daos/DaoAction";
 import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 import type {TLocationWithULS} from "../../lib/helpers/ULSListManager";
+import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
 
 
 // ListItemLocation *************************************************************************************

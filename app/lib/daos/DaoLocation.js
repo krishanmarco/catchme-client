@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import DaoUserLocationStatus from "./DaoUserLocationStatus";
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
+import ULSListManager from "../helpers/ULSListManager";
 import {Const} from "../../Config";
 import {denormObj, isValidUrl} from "../HelperFunctions";
-import type {TUser} from "./DaoUser";
 import type {TLocationWithULS} from "../helpers/ULSListManager";
+import type {TUser} from "./DaoUser";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
-import DaoUserLocationStatus from "./DaoUserLocationStatus";
-import ULSListManager from "../helpers/ULSListManager";
 
 
 export type TLocation = {

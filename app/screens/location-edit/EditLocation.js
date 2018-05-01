@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../lib/daos/DaoLocation";
 import EditLocationAddress from './pages/EditLocationAddress';
 import EditLocationInfo from './pages/EditLocationInfo';
@@ -14,7 +15,6 @@ import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TIcon, TNavigator} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

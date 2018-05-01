@@ -2,6 +2,7 @@
 import ApiClient from "../../../data/ApiClient";
 import ApiFormDef from "../ApiFormDef";
 import CacheActionCreator from "../../cache/CacheActionCreator";
+import DaoLocation from "../../../daos/DaoLocation";
 import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
 import {ApiFormState} from "../ApiFormModel";
 import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
@@ -10,7 +11,6 @@ import type {TLocation} from "../../../daos/DaoLocation";
 import type {TLocationWithULS} from "../../../helpers/ULSListManager";
 import type {TThunk} from "../../../types/Types";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
-import DaoLocation from "../../../daos/DaoLocation";
 
 
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';

@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUser from "../../lib/daos/DaoUser";
+import LocationList from '../../comp-buisness/location/LocationList';
 import Maps from "../../lib/data/Maps";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-import LocationList from '../../comp-buisness/location/LocationList';
 import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';

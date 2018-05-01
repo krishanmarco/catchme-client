@@ -5,10 +5,10 @@ import DaoUser from "../daos/DaoUser";
 import ImageURISourceAuth from "../data/ImageURISourceAuth";
 import Logger from "../Logger";
 import Router from "./Router";
+import {TCacheUserProfile} from "../redux-pool/cache/def/CacheDefUserProfile";
 import type {TLocation} from "../daos/DaoLocation";
 import type {TNavigator} from "../types/Types";
 import type {TUser} from "../daos/DaoUser";
-import {TCacheUserProfile} from "../redux-pool/cache/def/CacheDefUserProfile";
 
 
 const navbarButtonAddUserLocationStatus = {

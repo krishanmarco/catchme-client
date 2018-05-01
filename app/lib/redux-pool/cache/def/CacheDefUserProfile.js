@@ -4,13 +4,13 @@ import ApiClient from "../../../data/ApiClient";
 import CacheDef from "../CacheDef";
 import DaoLocation from "../../../daos/DaoLocation";
 import DaoUser from "../../../daos/DaoUser";
+import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
 import Logger from "../../../Logger";
 import {CacheState} from "../CacheModel";
 import type {TCacheDef} from "../CacheDef";
 import type {TLocation} from "../../../daos/DaoLocation";
-import type {TUser} from "../../../daos/DaoUser";
 import type {TLocationWithULS} from "../../../helpers/ULSListManager";
-import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
+import type {TUser} from "../../../daos/DaoUser";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
@@ -97,14 +97,31 @@ export class CacheDefUserProfileActionCreator {
 
 	_putToAdminLocationsArray(locationToAdd: TLocation) {
 		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
-		// todo
-		return executeIfDataNotNull((thisUser: TUser) => {});
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
+
+			const newLid = DaoLocation.gId(locationToAdd);
+			if (userAdminLocations.map(DaoLocation.gId).includes(newLid)) {
+				// This lid is already in the array, remove it so the new version gets pushed
+				this._removeFromAdminLocationsArray(locationToAdd);
+			}
+
+			userAdminLocations.push(locationToAdd);
+			_.set(thisUser, DaoUser.pAdminLocations, userAdminLocations);
+			setData(thisUser);
+		});
 	}
 
 	_removeFromAdminLocationsArray(locationToRemove: TLocation) {
 		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
-		// todo
-		return executeIfDataNotNull((thisUser: TUser) => {});
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
+
+			_.remove(userAdminLocations, l => DaoLocation.gId(l) == DaoLocation.gId(locationToRemove));
+			_.set(thisUser, DaoUser.pAdminLocations, userAdminLocations);
+
+			setData(thisUser);
+		});
 	}
 
 	_addToLocationFavoritesArray(locationToAdd: TLocation) {
