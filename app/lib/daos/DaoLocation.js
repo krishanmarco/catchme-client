@@ -114,18 +114,18 @@ export default class DaoLocation {
 			// To allow a new location to be saved to the server
 			// through the 'edit' entry-point the id has to be -1
 			[DaoLocation.pId]: Const.locationNewId,
-			[DaoLocation.pName]: null,
+			[DaoLocation.pName]: '',
 			[DaoLocation.pPictureUrl]: Const.locationDefaultAvatar,
-			[DaoLocation.pDescription]: null,
-			[DaoLocation.pEmail]: null,
-			[DaoLocation.pPhone]: null,
-			[DaoLocation.pCapacity]: null,
+			[DaoLocation.pDescription]: '',
+			[DaoLocation.pEmail]: '',
+			[DaoLocation.pPhone]: '',
+			[DaoLocation.pCapacity]: 0,
 			[DaoLocation.pTimings]: ManagerWeekTimings.strWeekDefault,
-			[DaoLocation.pAddressCountry]: null,
-			[DaoLocation.pAddressState]: null,
-			[DaoLocation.pAddressCity]: null,
-			[DaoLocation.pAddressPostcode]: null,
-			[DaoLocation.pAddressAddress]: null,
+			[DaoLocation.pAddressCountry]: '',
+			[DaoLocation.pAddressState]: '',
+			[DaoLocation.pAddressCity]: '',
+			[DaoLocation.pAddressPostcode]: '',
+			[DaoLocation.pAddressAddress]: '',
 			[DaoLocation.pAddressLatLng]: {lat: null, lng: null,}
 		});
 	}
