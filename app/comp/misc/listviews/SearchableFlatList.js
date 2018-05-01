@@ -9,8 +9,8 @@ import {FlatList, StyleSheet} from 'react-native';
 
 type Props<T> = FlatList.props & {
 	data: Array<T>,
-	onListEmpty: () => Node,
-	onSearchResultsEmpty: () => Node,
+	renderOnListEmpty: () => Node,
+	renderOnSearchResultsEmpty: () => Node,
 	filterExtractor: (T, RegExp) => boolean,
 	searchPlaceholder?: string,
 	numTriggerChars?: number,
@@ -120,16 +120,16 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 
 	_renderOnListEmpty() {
 		const {searchText} = this.state;
-		const {onSearchResultsEmpty, onListEmpty} = this.props;
+		const {renderOnSearchResultsEmpty, renderOnListEmpty} = this.props;
 
-		if (searchText.length > 0 && onSearchResultsEmpty) {
+		if (renderOnSearchResultsEmpty && searchText.length > 0) {
 			// List empty but the search box is not
-			return onSearchResultsEmpty(searchText);
+			return renderOnSearchResultsEmpty(searchText);
 		}
 
 		// The list is empty or a search callback wasn't specified
-		if (onListEmpty)
-			return onListEmpty();
+		if (renderOnListEmpty)
+			return renderOnListEmpty();
 
 		return null;
 	}

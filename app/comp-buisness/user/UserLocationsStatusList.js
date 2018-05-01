@@ -15,6 +15,7 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {FlatListEmpty} from "../../comp/Misc";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -88,7 +89,8 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		return (
 			<StaticSectionList
 				sections={this._getSections()}
-				renderItem={this._renderItem}/>
+				renderItem={this._renderItem}
+				ListEmptyComponent={<FlatListEmpty/>}/>
 		);
 	}
 

@@ -23,7 +23,7 @@ export const Colors = {
 	
 	primaryFade: 'rgba(37, 165, 154, 0.3)',
 	primaryTrans: 'rgba(37, 165, 154, 0.2)',
-	greyFade: 'rgba(200, 200, 200, 0.2)',
+	greyFade: '#828282',
 	secondary: '#BA000D',
 	alertRed: '#BA000D',
 	successGreen: '#3bd555',

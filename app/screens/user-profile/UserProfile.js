@@ -13,7 +13,7 @@ import {Col, Grid, Row} from "react-native-easy-grid";
 import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
-import {ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {FlatListEmpty, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
@@ -181,7 +181,10 @@ class _UserProfile extends React.Component<void, Props, State> {
 					locations={DaoUser.gLocationsFavorites(userProfile)}
 					allowFollow={true}
 					allowUnfollow={true}
-					onLocationPress={this._onLocationPress}/>
+					onLocationPress={this._onLocationPress}
+					renderOnListEmpty={() => (
+						<FlatListEmpty/>
+					)}/>
 			</View>
 		);
 	}
@@ -196,7 +199,10 @@ class _UserProfile extends React.Component<void, Props, State> {
 					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
 					allowRequestFriend={true}
 					allowRemoveFriend={this._isSameUser()}
-					onUserPress={this._onUserPress}/>
+					onUserPress={this._onUserPress}
+					renderOnListEmpty={() => (
+						<FlatListEmpty/>
+					)}/>
 			</View>
 		);
 	}
@@ -207,7 +213,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabInfo}>
 				<StaticSectionList
 					sections={userInfoSections}
-					renderItem={this._renderTabUserInfoItem}/>
+					renderItem={this._renderTabUserInfoItem}
+					ListEmptyComponent={<FlatListEmpty/>}/>
 			</View>
 		);
 	}

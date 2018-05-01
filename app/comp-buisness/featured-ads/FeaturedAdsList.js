@@ -3,7 +3,7 @@ import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
 import FeaturedAdsListItem from "./FeaturedAdsListItem";
 import React from 'react';
 import {Const} from "../../Config";
-import {DefaultLoader} from "../../comp/Misc";
+import {DefaultLoader, FlatListEmpty} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
 import type {TUser} from "../../lib/daos/DaoUser";
@@ -41,14 +41,13 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 				renderItem={this._renderItem}
 				keyExtractor={DaoFeaturedAd.gId}
 
-				ListEmptyComponent={null}
-
 				onEndReached={loadMore}
 				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
 				ListFooterComponent={this._renderFooterLoader}
-
-			/>
+				ListEmptyComponent={(
+					<FlatListEmpty/>
+				)}/>
 		);
 	}
 
