@@ -83,6 +83,7 @@ export const Icons = {
 	statusEdit: _Icons.penEdit,
 	statusDelete: _Icons.bin,
 	galleryAddImage: _Icons.plus,
+	settingAddContacts: {..._Icons.friends, color: Colors.primary},
 
 
 	friendRequestAccept: {name: 'md-hand', type: 'ionicon', color: Colors.primary},
