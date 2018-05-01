@@ -250,21 +250,6 @@ class ApiClient {
 
 
 
-	userProfileEdit(user: TUser): TUser {
-		user = DaoUser.apiClean(user);
-
-		const formData = prepareForMultipart(user);
-
-		if (DaoUser.hasNewImage(user)) {
-			const pictureUri = DaoUser.gPictureUrl(user);
-			const n = seconds().toString();
-			formData.push({name: DaoUser.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
-		}
-
-		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
-			.then(this._onReceiveUserProfile);
-	}
-
 	mediaAddTypeIdItemId(typeId, itemId, filePath) {
 		const n = seconds().toString();
 		return this._postMultipart(
@@ -275,10 +260,6 @@ class ApiClient {
 
 
 
-	locationsGetLid(lid: number): Promise<TLocation> {
-		return this._get(`${Urls.api}/locations/${lid}`)
-			.then(json => JSON.parse(json));
-	}
 
 	// Verified API Below ***************************************************************************
 	// Verified API Below ***************************************************************************
@@ -288,7 +269,10 @@ class ApiClient {
 			.then(json => JSON.parse(json));
 	}
 
-	// locationsGetLid
+	locationsGetLid(lid: number): Promise<TLocation> {
+		return this._get(`${Urls.api}/locations/${lid}`)
+			.then(json => JSON.parse(json));
+	}
 
 	// Should only be called from DataProvider.usersGetUidProfile
 	usersGetUidProfile(uid: number): Promise<TUser> {
@@ -341,6 +325,22 @@ class ApiClient {
 	// Should only be called from CacheDefUserProfile
 	userStatusGet(): Promise<TUserLocationStatus> {
 		return this._get(`${Urls.api}/user/status`);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userProfileEdit(user: TUser): TUser {
+		user = DaoUser.apiClean(user);
+
+		const formData = prepareForMultipart(user);
+
+		if (DaoUser.hasNewImage(user)) {
+			const pictureUri = DaoUser.gPictureUrl(user);
+			const n = seconds().toString();
+			formData.push({name: DaoUser.pPictureUrl, filename: n, data: RNFetchBlob.wrap(pictureUri)});
+		}
+
+		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
+			.then(this._onReceiveUserProfile);
 	}
 
 	// Should only be called from CacheDefUserProfile

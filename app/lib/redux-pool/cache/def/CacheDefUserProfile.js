@@ -50,6 +50,7 @@ export class CacheDefUserProfileActionCreator {
 		this._removeFromConnectionArray = this._removeFromConnectionArray.bind(this);
 		this._removeUserFromConnectionsFriends = this._removeUserFromConnectionsFriends.bind(this);
 		this._removeUserFromConnectionsBlocked = this._removeUserFromConnectionsBlocked.bind(this);
+		this.editUser = this.editUser.bind(this);
 		this._addUserToConnectionsFriends = this._addUserToConnectionsFriends.bind(this);
 		this._addUserToConnectionsBlocked = this._addUserToConnectionsBlocked.bind(this);
 		this.addUserToFriends = this.addUserToFriends.bind(this);
@@ -253,6 +254,26 @@ export class CacheDefUserProfileActionCreator {
 			DaoUser.gConnectionBlockedIds,
 			DaoUser.invalidateConnectionBlockedIds
 		);
+	}
+
+	editUser(user: TUser) {
+		const {executeIfDataNotNull, mergeData} = this.cacheActionCreator;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const oldUser = Object.assign({}, thisUser);
+			mergeData(user);
+
+			const uid = DaoUser.gId(user);
+			return ApiClient.userProfileEdit(user)
+				.then((newUser: TUser) => {
+					mergeData(user);
+					Logger.v("CacheDefUserProfile editUser success", uid, newUser);
+				})
+				.catch(error => {
+					// Revert to the previous state
+					mergeData(oldUser);
+					Logger.v("CacheDefUserProfile editUser failed", uid, error);
+				});
+		});
 	}
 
 	addUserToFriends(userToAdd: TUser) {
