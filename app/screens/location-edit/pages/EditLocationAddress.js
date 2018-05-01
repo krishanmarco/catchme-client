@@ -105,7 +105,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 		} else {
 			contentJsx = (
 				<ScreenInfo
-					imageSource={require('../../../assets/images/address.png')}
+					imageSource={require('../../../assets/images/primary-address.png')}
 					textText='Press the image above to select a location'
 					onPress={this._onGoogleMapsSelectorPress}/>
 			);

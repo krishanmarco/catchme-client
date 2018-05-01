@@ -45,7 +45,8 @@ export default class FeedList extends React.Component<void, Props, void> {
 
 				ListFooterComponent={this._renderFooterLoader}
 				ListEmptyComponent={(
-					<FlatListEmpty/>
+					<FlatListEmpty
+						image={require('../../assets/images/empty-feed.png')}/>
 				)}/>
 		);
 	}

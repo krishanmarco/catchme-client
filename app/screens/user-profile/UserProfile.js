@@ -183,7 +183,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowUnfollow={true}
 					onLocationPress={this._onLocationPress}
 					renderOnListEmpty={() => (
-						<FlatListEmpty/>
+						<FlatListEmpty
+							image={require('../../assets/images/empty-favorites.png')}/>
 					)}/>
 			</View>
 		);
@@ -201,7 +202,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowRemoveFriend={this._isSameUser()}
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={() => (
-						<FlatListEmpty/>
+						<FlatListEmpty
+							image={require('../../assets/images/empty-friends.png')}/>
 					)}/>
 			</View>
 		);
@@ -213,8 +215,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabInfo}>
 				<StaticSectionList
 					sections={userInfoSections}
-					renderItem={this._renderTabUserInfoItem}
-					ListEmptyComponent={<FlatListEmpty/>}/>
+					renderItem={this._renderTabUserInfoItem}/>
 			</View>
 		);
 	}

@@ -61,7 +61,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderScreenHeader() {
 		return (
 			<ScreenInfo
-				imageSource={require('../../../assets/images/adminLocations.png')}
+				imageSource={require('../../../assets/images/primary-admin-locations.png')}
 				textText='These are the locations you manage'/>
 		);
 	}
@@ -77,7 +77,8 @@ export default class SettingsUserAdministratingLocations extends React.Component
 				renderItem={this._renderLocationItem}
 				ListHeaderComponent={this._renderLocationsHeader()}
 				ListEmptyComponent={(
-					<FlatListEmpty/>
+					<FlatListEmpty
+						image={require('../../../assets/images/empty-admin-locations.png')}/>
 				)}/>
 		);
 	}

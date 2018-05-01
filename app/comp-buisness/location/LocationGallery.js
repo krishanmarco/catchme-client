@@ -64,7 +64,8 @@ export default class LocationGallery extends React.Component<void, Props, State>
 			<Gallery
 				imageSources={imageSources}
 				ListEmptyComponent={(
-					<FlatListEmpty/>
+					<FlatListEmpty
+						image={require('../../assets/images/empty-images.png')}/>
 				)}/>
 		);
 	}

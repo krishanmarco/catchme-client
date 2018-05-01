@@ -90,7 +90,10 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 			<StaticSectionList
 				sections={this._getSections()}
 				renderItem={this._renderItem}
-				ListEmptyComponent={<FlatListEmpty/>}/>
+				ListEmptyComponent={
+					<FlatListEmpty
+						image={require('../../assets/images/empty-cup.png')}/>
+				}/>
 		);
 	}
 

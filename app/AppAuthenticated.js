@@ -93,16 +93,16 @@ function start(authUser: TUser) {
 		tabs.push({
 			title: 'Feed',
 			screen: Screens.ScreenFeed,
-			icon: require('./assets/images/feed.png'),
-			selectedIcon: require('./assets/images/feed.png'),
+			icon: require('./assets/images/black-feed.png'),
+			selectedIcon: require('./assets/images/black-feed.png'),
 			passProps: {showAppLogo: true}
 		});
 
 		tabs.push({
 			title: 'Featured',
 			screen: Screens.ScreenFeaturedAds,
-			icon: require('./assets/images/spotlight.png'),
-			selectedIcon: require('./assets/images/spotlight.png'),
+			icon: require('./assets/images/black-featured.png'),
+			selectedIcon: require('./assets/images/black-featured.png'),
 			passProps: {showAppLogo: true}
 		});
 	}
