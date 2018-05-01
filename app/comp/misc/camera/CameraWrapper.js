@@ -4,6 +4,7 @@ import Logger from "../../../lib/Logger";
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
+import {Colors} from "../../../Config";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
 		flex: 0,
 		backgroundColor: '#fff',
 		borderRadius: 5,
-		color: '#000',
+		color: Colors.black,
 		padding: 10,
 		margin: 40
 	},

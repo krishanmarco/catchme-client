@@ -47,7 +47,7 @@ export default class SearchBar extends React.Component<void, Props, void> {
 					rkType='row rounded'
 					autoCapitalize='none'
 					autoCorrect={false}
-					label={<Icon {...Icons.search} />}
+					label={<Icon {...Icons.searchBar} />}
 					onChange={this._onChange}
 					onEndEditing={onSearchPressed}
 					placeholder={placeholder}/>

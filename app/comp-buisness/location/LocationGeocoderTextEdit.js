@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import GoogleMapsDataDecoder from "../../lib/maps/GoogleMapsDataDecoder";
 import React from 'react';
-import {Const} from '../../Config';
+import {Colors, Const} from '../../Config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import type {TLocation} from "../../lib/daos/DaoLocation";
 
@@ -25,7 +25,7 @@ export default class LocationGeocoderTextEdit extends React.Component<void, Prop
   static AutoCompleteStyles = {
     textInputContainer: {width: '100%'},
     description: {fontWeight: 'bold'},
-    predefinedPlacesDescription: {color: '#1faadb'}
+    predefinedPlacesDescription: {color: Colors.primary}
   };
 
   // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch

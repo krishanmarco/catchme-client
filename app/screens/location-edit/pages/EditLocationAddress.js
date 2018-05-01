@@ -99,7 +99,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 							scrollEnabled={false}
 							locations={[this._formApiEditLocationProfile().apiInput]}/>
 					)}
-					badge={{...Icons.locationEditAddress, color: Colors.white}}/>
+					badge={Icons.locationEditAddress}/>
 			);
 
 		} else {

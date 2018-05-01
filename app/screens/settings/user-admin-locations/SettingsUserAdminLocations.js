@@ -89,7 +89,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 				style={listItemInfo.itemStyle}
 				title='Add a new Location'
 				textRkType='header4'
-				icon={Icons.locationAdminAdd}
+				icon={Icons.settingAdminAddLocation}
 				onPress={this._onLocationAdd}/>
 		);
 	}
