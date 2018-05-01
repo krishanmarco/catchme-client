@@ -30,7 +30,7 @@ export function mutatorCacheMapModelInitData(action, subState: CacheMapState): C
 export function mutatorCacheMapModelSetData(action, subState: CacheMapState): CacheMapState {
 	subState.data = Object.assign(subState.data, {
 		[action.itemId]: Object.assign(new CacheMapState(action.itemId), {
-			data: action.data,
+			data: {...action.data},
 			loading: false,
 			loadingPromise: null
 		})

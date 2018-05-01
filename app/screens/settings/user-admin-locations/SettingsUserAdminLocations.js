@@ -6,7 +6,7 @@ import Router from "../../../lib/navigation/Router";
 import {FlatList, StyleSheet, View} from 'react-native';
 import {Icons} from '../../../Config';
 import {listItemInfo} from "../../../lib/theme/Styles";
-import {ListItemInfo, ScreenInfo} from "../../../comp/Misc";
+import {FlatListEmpty, ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
@@ -74,9 +74,11 @@ export default class SettingsUserAdministratingLocations extends React.Component
 				style={styles.locationList}
 				data={DaoUser.gAdminLocations(userProfile)}
 				keyExtractor={DaoLocation.gIdStr}
-				ListHeaderComponent={this._renderLocationsHeader()}
 				renderItem={this._renderLocationItem}
-			/>
+				ListHeaderComponent={this._renderLocationsHeader()}
+				ListEmptyComponent={(
+					<FlatListEmpty/>
+				)}/>
 		);
 	}
 

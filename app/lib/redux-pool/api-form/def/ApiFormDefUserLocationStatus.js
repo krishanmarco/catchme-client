@@ -1,10 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from "../../../data/ApiClient";
 import ApiFormDef from "../ApiFormDef";
+import CacheActionCreator from "../../cache/CacheActionCreator";
+import DaoLocation from "../../../daos/DaoLocation";
 import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
 import {ApiFormState} from "../ApiFormModel";
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TLocation} from "../../../daos/DaoLocation";
+import type {TLocationWithULS} from "../../../helpers/ULSListManager";
 import type {TThunk} from "../../../types/Types";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 
@@ -25,8 +29,22 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 		return new ApiFormState(this.formId, DaoUserLocationStatus.newInstance());
 	}
 
-	post(thunk: TThunk, userLocationStatus: TUserLocationStatus): Promise<TUserLocationStatus> {
-		return ApiClient.userStatusAdd(userLocationStatus);
+	post(thunk: TThunk, userLocationStatus: TUserLocationStatus, location: TLocation): Promise<TUserLocationStatus> {
+		// Use the UserProfileActionCreator to keep the UI synced
+		const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+		const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
+
+		let promiseLocationProfile = Promise.resolve(location);
+
+		if (location == null)
+			promiseLocationProfile = ApiClient.locationsGetLid(DaoUserLocationStatus.gLocationId(userLocationStatus));
+
+		return promiseLocationProfile
+			.then((location: TLocation) => {
+				location = {...location};
+				const locationWithULS = DaoLocation.sUserLocationStatus(location, userLocationStatus);
+				return userProfileActionCreator.putLocationWithULS(locationWithULS);
+			});
 	}
 
 	validate(userLocationStatus: TUserLocationStatus, errors: TUserLocationStatus, inclusive: boolean = false): TUserLocationStatus {

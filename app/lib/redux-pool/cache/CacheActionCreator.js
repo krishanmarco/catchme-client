@@ -23,7 +23,7 @@ export default class CacheActionCreator extends PoolActionCreator {
 	}
 
 
-	executeIfDataNotNull(functionToExecute: Object => any) {
+	executeIfDataNotNull<T>(functionToExecute: Object => T): T {
 		const {dispatch, getPoolState} = this;
 
 		return dispatch((dispatch, getState) => {

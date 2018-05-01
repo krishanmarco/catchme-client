@@ -1,9 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import DaoUserLocationStatus from "./DaoUserLocationStatus";
 import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
+import ULSListManager from "../helpers/ULSListManager";
 import {Const} from "../../Config";
 import {denormObj, isValidUrl} from "../HelperFunctions";
+import type {TLocationWithULS} from "../helpers/ULSListManager";
 import type {TUser} from "./DaoUser";
+import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 
 
 export type TLocation = {
@@ -18,6 +22,7 @@ export type TLocation = {
 	imageUrls: string,                  // ['http:...', 'http:...']         Array of location images
 	address: TLocationAddress,          // {...TLocationAddress}            Address object for this location
 	googlePlaceId?: string,             // '203948230ksa98'                 Google places location ID
+	status?: TUserLocationStatus,  			// {...TUserLocationStatus}  				Only present if this is a TLocationWithULS
 	people?: TLocationPeople,           // {...TLocationPeople}             People object for this location
 	connections?: TLocationConnections  // {...TLocationConnections}  Connections object for this location
 };
@@ -63,6 +68,7 @@ export default class DaoLocation {
 	static pPeople = 'people';
 	static pConnections = 'connections';
 	static pGooglePlaceId = `googlePlaceId`;
+	static pStatus = `status`;
 	static pAddressCountry = `${DaoLocation.pAddress}.country`;
 	static pAddressState = `${DaoLocation.pAddress}.state`;
 	static pAddressCity = `${DaoLocation.pAddress}.city`;
@@ -242,6 +248,19 @@ export default class DaoLocation {
 	static gFriendsFuture(location: TLocation): Array<TUser> {
 		return _.get(location, DaoLocation.pConnectionsFuture, []);
 	}
+
+	static gUserLocationStatus(location: TLocationWithULS): TUserLocationStatus {
+		return _.get(location, DaoLocation.pStatus, null);
+	}
+
+	static sUserLocationStatus(location: TLocationWithULS, userLocationStatus: TUserLocationStatus): TLocationWithULS {
+		_.set(location, DaoLocation.pStatus, userLocationStatus);
+		return location;
+	}
+
+
+// HelperAccessors **************************************************************************************
+// HelperAccessors **************************************************************************************
 	
 	
 	static hasTimings(location: TLocation): boolean {
@@ -283,6 +302,17 @@ export default class DaoLocation {
 	static gIdStr(location: TLocation): string {
 		return DaoLocation.gId(location).toString();
 	}
-	
+
+	static hasUserLocationStatus(location: TLocation|TLocationWithULS): boolean {
+		return DaoLocation.gUserLocationStatus(location) != null;
+	}
+
+	static isUlSInLocation(ulsId: number, location: TLocation|TLocationWithULS) {
+		return DaoLocation.gUserLocationStatusId(location) == ulsId;
+	}
+
+	static gUserLocationStatusId(location: TLocationWithULS): number {
+		return _.get(location, `${DaoLocation.pStatus}.${DaoUserLocationStatus.pId}`, null);
+	}
 	
 }

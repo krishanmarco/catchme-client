@@ -2,8 +2,7 @@
 import DaoLocation from "../../../lib/daos/DaoLocation";
 import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {AvatarCircle, AvatarFull, LoadingButton} from "../../../comp/Misc";
-import {Icons} from "../../../Config";
+import {AvatarFull, LoadingButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
@@ -13,7 +12,7 @@ import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 // Const *************************************************************************************************
 
 type Props = {
-	onSaveComplete: Function,
+	onSavePress: Function,
 	formApiEditLocationProfile: ApiFormState
 };
 
@@ -25,7 +24,6 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._onLocationSave = this._onLocationSave.bind(this);
 	}
 
 	hasErrors() {
@@ -37,15 +35,8 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 		return formApiEditLocationProfile;
 	}
 
-	_onLocationSave() {
-		const {onSaveComplete} = this.props;
-
-		// Post the form and notify the parent component
-		this._formApiEditLocationProfile().post()
-			.then(onSaveComplete);
-	}
-
 	render() {
+		const {onSavePress} = this.props;
 		const locationProfile = this._formApiEditLocationProfile().apiInput;
 		return (
 			<View style={styles.root}>
@@ -71,7 +62,7 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 						<LoadingButton
 							loading={this._formApiEditLocationProfile().loading}
 							rkType='large'
-							onPress={this._onLocationSave}
+							onPress={onSavePress}
 							text='Save & Close'/>
 					</View>
 

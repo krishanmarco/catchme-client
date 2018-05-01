@@ -34,9 +34,10 @@ export default class StaticSectionList extends React.PureComponent<void, Props, 
 	}
 
 	render() {
-		const {sections, renderItem} = this.props;
+		const {sections, renderItem, ...staticSectionListProps} = this.props;
 		return (
 			<SectionList
+				{...staticSectionListProps}
 				style={styles.styles}
 				sections={sections}
 				renderItem={renderItem}

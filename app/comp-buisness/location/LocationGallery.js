@@ -10,6 +10,7 @@ import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import {FlatListEmpty} from "../../comp/Misc";
 
 
 // Const ************************************************************************************************
@@ -28,7 +29,6 @@ export default class LocationGallery extends React.Component<void, Props, State>
 
 	constructor(props, context) {
 		super(props, context);
-		this._renderEmptyListComponent = this._renderEmptyListComponent.bind(this);
 		this.state = {imageSources: this._getImagesFromProps(props)};
 	}
 
@@ -54,8 +54,8 @@ export default class LocationGallery extends React.Component<void, Props, State>
 
 		// uri: http://www.catchme.krishanmadan.website/api/media/get/0/31/1787.png
 		return DaoLocation.gImageUrls(locationProfile)
-			.map(ImageURISourceAuth.fromUrl)
-			.map(obj => ({...obj, /*uri: obj.uri + '.png'*/}));
+			.map(ImageURISourceAuth.fromUrl);
+			// .map(obj => ({...obj, /*uri: obj.uri + '.png'*/}));
 	}
 
 	render() {
@@ -63,49 +63,10 @@ export default class LocationGallery extends React.Component<void, Props, State>
 		return (
 			<Gallery
 				imageSources={imageSources}
-				ListEmptyComponent={this._renderEmptyListComponent}/>
+				ListEmptyComponent={(
+					<FlatListEmpty/>
+				)}/>
 		);
 	}
-
-	_renderEmptyListComponent() {
-		return (
-			<View style={styles.emptyListRoot}>
-				<RkText style={styles.emptyListHeader} rkType='primary'>
-					No images here...
-				</RkText>
-				<Icon style={styles.emptyListIcon} size={50} {...Icons.sad} color={Colors.primary}/>
-
-				<View style={styles.emptyListInfo}>
-					<RkText rkType='primary'>Use the </RkText>
-					<Icon style={styles.emptyListIcon} size={20} {...Icons.sad} color={Colors.primary}/>
-					<RkText rkType='primary'> to add an image of your night</RkText>
-				</View>
-			</View>
-		);
-	}
-
+	
 }
-
-
-// Config ***********************************************************************************************
-// Config ***********************************************************************************************
-
-const styles = StyleSheet.create({
-	emptyListRoot: {
-		flex: 1,
-		alignItems: 'center',
-		marginTop: 16,
-		padding: 4
-	},
-	emptyListHeader: {
-		textAlign: 'center',
-		marginTop: 4
-	},
-	emptyListInfo: {
-		flexDirection: 'row',
-		marginTop: 4
-	},
-	emptyListIcon: {
-		marginTop: 4
-	}
-});

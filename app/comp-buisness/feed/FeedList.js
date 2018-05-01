@@ -3,7 +3,7 @@ import DaoFeed from "../../lib/daos/DaoFeed";
 import FeedListItem from "./FeedListItem";
 import React from 'react';
 import {Const} from "../../Config";
-import {DefaultLoader} from "../../comp/Misc";
+import {DefaultLoader, FlatListEmpty} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TUser} from "../../lib/daos/DaoUser";
@@ -40,12 +40,13 @@ export default class FeedList extends React.Component<void, Props, void> {
 				renderItem={this._renderItem}
 				keyExtractor={DaoFeed.gId}
 
-				ListEmptyComponent={null}
-
 				onEndReached={loadMore}
 				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
-				ListFooterComponent={this._renderFooterLoader}/>
+				ListFooterComponent={this._renderFooterLoader}
+				ListEmptyComponent={(
+					<FlatListEmpty/>
+				)}/>
 		);
 	}
 

@@ -6,26 +6,27 @@ import ObjectCache from "../helpers/ObjectCache";
 import {Const} from '../../Config';
 import {denormObj, isValidUrl, mapIdsToObjects} from "../HelperFunctions";
 import type {TLocation} from "./DaoLocation";
+import type {TLocationWithULS} from "../helpers/ULSListManager";
 import type {TUserLocationStatus} from "./DaoUserLocationStatus";
 
 
 export type TUser = {
-	id: number,                           // 1                                Unique feed item identifier
-	pictureUrl: string,                   // 'http://catchme.top/image.png'   URL of the user profile picture
-	name: string,                         // 'Krishan Madan'                  User name
-	reputation: number,                   // 450                              User reputation
-	publicMessage: string,                // 'Hi, i am Krishan Madan'         User public message
-	phone?: string,                       // '+393347014935'                  Location phone number
-	email?: string,                       // 'admin@areadocks.com'            Location email address
-	apiKey?: string,                      // '203984230092384230984'          Api key is only set if this is current users
-	gender?: number,                      // 1                                User gender id
-	settingPrivacy?: string,              // '120'                            Users privacy settings
-	settingNotifications?: string,        // '00101'                          Users notification settings
-	adminLocations?: Array<TLocation>,    // [1, 2, 3, 4, ...]            Locations administered by this user
-	connections?: TUserConnections,       // {...TUserConnections}            Connections
-	locations?: TUserLocations,           // {...TUserLocations}              Locations
-	_connectionIds?: TUserConnectionIds,  // {...TUserConnectionIds}          Connection ids [Lazy], needs refresh
-	_locationIds?: TUserLocationIds       // {...TUserLocationIds}            Location ids [Lazy], needs refresh
+	id: number,                           // 1                                	Unique feed item identifier
+	pictureUrl: string,                   // 'http://catchme.top/image.png'   	URL of the user profile picture
+	name: string,                         // 'Krishan Madan'                  	User name
+	reputation: number,                   // 450                              	User reputation
+	publicMessage: string,                // 'Hi, i am Krishan Madan'         	User public message
+	phone?: string,                       // '+393347014935'                  	Location phone number
+	email?: string,                       // 'admin@areadocks.com'            	Location email address
+	apiKey?: string,                      // '203984230092384230984'          	Api key is only set if this is current users
+	gender?: number,                      // 1                                	User gender id
+	settingPrivacy?: string,              // '120'                            	Users privacy settings
+	settingNotifications?: string,        // '00101'                          	Users notification settings
+	adminLocations?: Array<TLocation>,    // [{...TLocation}, {TLocation} ...]  Locations administered by this user
+	connections?: TUserConnections,       // {...TUserConnections}            	Connections
+	locations?: TUserLocations,           // {...TUserLocations}              	Locations
+	_connectionIds?: TUserConnectionIds,  // {...TUserConnectionIds}          	Connection ids [Lazy], needs refresh
+	_locationIds?: TUserLocationIds       // {...TUserLocationIds}            	Location ids [Lazy], needs refresh
 };
 
 export type TUserConnections = {
@@ -303,6 +304,11 @@ export default class DaoUser {
 
 	static gIdStr(user: TUser): string {
 		return DaoUser.gId(user).toString();
+	}
+
+	static findUserLocationStatus(user: TUser, ulsId: number): ?TLocationWithULS {
+		const locationsWithULSs = DaoUser.gLocationsUserLocationStatuses(user);
+		return locationsWithULSs.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
 	}
 
 

@@ -1,19 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from "../../lib/daos/DaoLocation";
-import DaoUser from "../../lib/daos/DaoUser";
 import LocationProfile from './LocationProfile';
 import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
 import React from 'react';
-import Router from "../../lib/navigation/Router";
 import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
-import {CacheMapState} from "../../lib/redux-pool/cache-map/CacheMapModel";
-import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
-import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 
@@ -41,42 +35,12 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		super(props, context);
 		this._onGalleryImageAdded = this._onGalleryImageAdded.bind(this);
 		this._renderLocationProfile = this._renderLocationProfile.bind(this);
-		this._setupNavigator();
+		this.navbarHandler = new NavbarHandlerLocationProfile();
+		this._updateNavigator();
 	}
-
-	_setupNavigator() {
-		const {navigator} = this.props;
-		const locationProfile = this._locationProfile();
-		const authUserProfile = this._cacheUserProfile().data;
-
-		this.navbarHandler = new NavbarHandlerLocationProfile(
-			navigator,
-			authUserProfile,
-			locationProfile
-		);
-	}
-
-	_cacheUserProfile(): TCacheUserProfile {
-		return this.props[CACHE_ID_USER_PROFILE];
-	}
-
-	_cacheMapLocationProfiles(): TCacheMapPool {
-		return this.props[CACHE_MAP_ID_LOCATION_PROFILES];
-	}
-
-	_locationProfile(): ?TLocation {
-		const {locationId} = this.props;
-		return this._cacheMapLocationProfiles().get(locationId);
-	}
-
-	_onGalleryImageAdded() {
-		const {locationId} = this.props;
-		this._cacheMapLocationProfiles().invalidateItem(locationId);
-	}
-
 
 	componentWillReceiveProps(nextProps) {
-		this._setupNavigator();
+		this._updateNavigator(nextProps);
 	}
 
 	componentWillMount() {
@@ -88,6 +52,32 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
 	}
 
+	_updateNavigator(props = this.props) {
+		const {navigator} = props;
+		this.navbarHandler.initialize(
+			navigator,
+			this._cacheUserProfile(),
+			this._locationProfile(props)
+		);
+	}
+
+	_locationProfile(props = this.props): ?TLocation {
+		const {locationId} = props;
+		return this._cacheMapLocationProfiles().get(locationId);
+	}
+
+	_cacheUserProfile(props = this.props): TCacheUserProfile {
+		return props[CACHE_ID_USER_PROFILE];
+	}
+
+	_cacheMapLocationProfiles(props = this.props): TCacheMapPool {
+		return props[CACHE_MAP_ID_LOCATION_PROFILES];
+	}
+
+	_onGalleryImageAdded() {
+		const {locationId} = this.props;
+		this._cacheMapLocationProfiles().invalidateItem(locationId);
+	}
 
 	render() {
 		return (

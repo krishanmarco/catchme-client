@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 import CacheActionCreator from "./CacheActionCreator";
-import CacheDefUserLocationStatus, {CACHE_ID_USER_LOCATION_STATUS} from "./def/CacheDefUserLocationStatus";
 import CacheDefUserProfile, {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "./def/CacheDefUserProfile";
 import {
 	CacheState,
@@ -38,8 +37,7 @@ const CachePool: TPool = {
 
 	
 	defs: {
-		[CACHE_ID_USER_PROFILE]: CacheDefUserProfile,
-		[CACHE_ID_USER_LOCATION_STATUS]: CacheDefUserLocationStatus,
+		[CACHE_ID_USER_PROFILE]: CacheDefUserProfile
 	}
 	
 };

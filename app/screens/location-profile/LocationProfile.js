@@ -14,7 +14,7 @@ import UserList from '../../comp-buisness/user/UserList';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import {Grid, Row} from "react-native-easy-grid";
 import {Icons} from '../../Config';
-import {ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
@@ -186,7 +186,10 @@ class _LocationProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoLocation.gFriendsNow(locationProfile)}
 					allowRequestFriend={true}
-					onUserPress={this._onUserPress}/>
+					onUserPress={this._onUserPress}
+					renderOnListEmpty={() => (
+						<FlatListEmpty/>
+					)}/>
 			</View>
 		);
 	}
@@ -199,7 +202,10 @@ class _LocationProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoLocation.gFriendsFuture(locationProfile)}
 					allowRequestFriend={true}
-					onUserPress={this._onUserPress}/>
+					onUserPress={this._onUserPress}
+					renderOnListEmpty={() => (
+						<FlatListEmpty/>
+					)}/>
 			</View>
 		);
 	}
@@ -226,7 +232,8 @@ class _LocationProfile extends React.Component<void, Props, State> {
 				<View style={styles.tabInfo}>
 					<StaticSectionList
 						sections={locationInfoSections}
-						renderItem={this._renderTabLocationInfoItem}/>
+						renderItem={this._renderTabLocationInfoItem}
+						ListEmptyComponent={<FlatListEmpty/>}/>
 					<View style={[{height: dim.height - 130}, styles.infoTabMapCont]}>
 						<LocationMap
 							scrollEnabled={false}

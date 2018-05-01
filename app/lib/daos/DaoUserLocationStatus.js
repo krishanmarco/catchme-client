@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import DaoUser from "./DaoUser";
 import TimestampFormatter from "../helpers/TimestampFormatter";
 import {Const} from "../../Config";
 import {denormObj, seconds} from "../HelperFunctions";
@@ -66,6 +67,10 @@ export default class DaoUserLocationStatus {
 		const fromTs = DaoUserLocationStatus.gFromTs(userStatus);
 		const toTs = DaoUserLocationStatus.gUntilTs(userStatus);
 		return TimestampFormatter.parseFromTo(fromTs, toTs);
+	}
+
+	static isNew(userStatus: TUserLocationStatus) {
+		return DaoUserLocationStatus.gId(userStatus) == -1;
 	}
 
 

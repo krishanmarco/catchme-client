@@ -38,7 +38,7 @@ export default class ULSListManager {
 		const now = moment();
 
 		locationsWithUls.forEach((location: TLocationWithULS) => {
-			const uls = ULSListManager.gStatus(location);
+			const uls = DaoLocation.gUserLocationStatus(location);
 
 			// If status is null this is not a TLocationWithULS
 			if (uls == null)
@@ -85,7 +85,7 @@ export default class ULSListManager {
 			// A corresponding location might not have been given
 			// this is a backend error (shouldn't happen)
 			if (location != null)
-				locationsWithUls.push(ULSListManager.sStatus({...location}, uls));
+				locationsWithUls.push(DaoLocation.sUserLocationStatus({...location}, uls));
 		}
 
 		// Organize the locationsWithUls state by timings
@@ -100,58 +100,52 @@ export default class ULSListManager {
 	}
 
 
-	static deleteAndGetState(state: TULSListState, uls: TUserLocationStatus) {
-		const {top, past, now, future} = state;
-		const ulsId = DaoUserLocationStatus.gId(uls);
+	// static deleteAndGetState(state: TULSListState, uls: TUserLocationStatus) {
+	// 	const {top, past, now, future} = state;
+	// 	const ulsId = DaoUserLocationStatus.gId(uls);
+	//
+	// 	const removeFilter = (location) => DaoLocation.isUlSInLocation(ulsId, location);
+	//
+	// 	_.remove(past, removeFilter);
+	// 	_.remove(now, removeFilter);
+	// 	_.remove(future, removeFilter);
+	//
+	// 	return new ULSListState(top, past, now, future);
+	// }
 
-		const removeFilter = (location) =>
-			ULSListManager._isULSInLocation(ulsId, location);
+	// static editAndGetState(state: TULSListState, newUls: TUserLocationStatus) {
+	// 	const {top, past, now, future} = state;
+	//
+	// 	// Merge all the TLocationWithULS
+	// 	const locationsWithUls = _.concat(past, now, future);
+	//
+	// 	// Get the id of the object to replace
+	// 	const newUlsId = DaoUserLocationStatus.gId(newUls);
+	//
+	// 	// Search for newUlsId in locationsWithUls and replace
+	// 	for (let i = 0; i < locationsWithUls.length; i++) {
+	// 		const oldUls = ULSListManager.gStatus(locationsWithUls[i]);
+	//
+	// 		if (DaoUserLocationStatus.gId(oldUls) == newUlsId) {
+	// 			locationsWithUls[i] = ULSListManager.sStatus(locationsWithUls[i], newUls);
+	// 			// Do not break, this list may have two objects that need changing
+	// 		}
+	// 	}
+	//
+	// 	// Re-organize the locations (the timestamp may have changed)
+	// 	const newState = ULSListManager._organizeState(locationsWithUls);
+	// 	newState.top = top;
+	// 	return newState;
+	// }
 
-		_.remove(past, removeFilter);
-		_.remove(now, removeFilter);
-		_.remove(future, removeFilter);
+	//
+	// static gStatus(location: TLocationWithULS): TUserLocationStatus {
+	// 	return _.get(location, ULSListManager.pStatus);
+	// }
 
-		return new ULSListState(top, past, now, future);
-	}
-
-	static editAndGetState(state: TULSListState, newUls: TUserLocationStatus) {
-		const {top, past, now, future} = state;
-
-		// Merge all the TLocationWithULS
-		const locationsWithUls = _.concat(past, now, future);
-
-		// Get the id of the object to replace
-		const newUlsId = DaoUserLocationStatus.gId(newUls);
-
-		// Search for newUlsId in locationsWithUls and replace
-		for (let i = 0; i < locationsWithUls.length; i++) {
-			const oldUls = ULSListManager.gStatus(locationsWithUls[i]);
-
-			if (DaoUserLocationStatus.gId(oldUls) == newUlsId) {
-				locationsWithUls[i] = ULSListManager.sStatus(locationsWithUls[i], newUls);
-				// Do not break, this list may have two objects that need changing
-			}
-		}
-
-		// Re-organize the locations (the timestamp may have changed)
-		const newState = ULSListManager._organizeState(locationsWithUls);
-		newState.top = top;
-		return newState;
-	}
-
-	static _isULSInLocation(ulsId: number, location: TLocationWithULS) {
-		const status = ULSListManager.gStatus(location);
-		return status != null && DaoUserLocationStatus.gId(status) === ulsId;
-	}
-
-
-	static gStatus(location: TLocationWithULS): TUserLocationStatus {
-		return _.get(location, ULSListManager.pStatus);
-	}
-
-	static sStatus(location: TLocation, status: TUserLocationStatus): TLocationWithULS {
-		_.set(location, ULSListManager.pStatus, status);
-		return location;
-	}
+	// static sStatus(location: TLocation, status: TUserLocationStatus): TLocationWithULS {
+	// 	_.set(location, ULSListManager.pStatus, status);
+	// 	return location;
+	// }
 
 }

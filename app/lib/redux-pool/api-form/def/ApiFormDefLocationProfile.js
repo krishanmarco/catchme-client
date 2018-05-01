@@ -4,7 +4,7 @@ import ApiFormDef from "../ApiFormDef";
 import CacheActionCreator from "../../cache/CacheActionCreator";
 import DaoLocation from "../../../daos/DaoLocation";
 import {ApiFormState} from "../ApiFormModel";
-import {CACHE_ID_USER_PROFILE} from "../../cache/def/CacheDefUserProfile";
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
 import {Validate} from "../../../helpers/Validator";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TLocation} from "../../../daos/DaoLocation";
@@ -30,13 +30,9 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 	}
 
 	post(thunk: TThunk, locationProfile: TLocation): Promise<TLocation> {
-		const cacheActionsUserProfile = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-
-		return ApiClient.userLocationsAdminEditLid(locationProfile)
-			.then(location => {
-				// Reload the user profile cache
-				cacheActionsUserProfile.reinitialize();
-		});
+		const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+		const cacheUserProfile = new CacheDefUserProfileActionCreator(cacheActionCreator);
+		return cacheUserProfile.putAdminLocation(locationProfile);
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {

@@ -12,6 +12,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
+import {FlatListEmpty} from "../../../comp/Misc";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -183,7 +184,10 @@ class _AddContacts extends React.Component<void, Props, void> {
 					allowRequestFriend={true}
 					onUserPress={this._onUserPress}
 					onSearchChanged={setUsersSearchQuery}
-					loading={!initialized}/>
+					loading={!initialized}
+					renderOnListEmpty={() => (
+						<FlatListEmpty/>
+					)}/>
 			</View>
 		);
 	}

@@ -14,6 +14,7 @@ import {StyleSheet, View} from 'react-native';
 import {TSearchDataPool} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {FlatListEmpty} from "../../comp/Misc";
 
 
 // Const ************************************************************************************************
@@ -128,7 +129,10 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchChanged={this._searchDataLocations().setSearchQuery}
 				loading={loading}
 				onEndReachedThreshold={onEndReachedThreshold}
-				onEndReached={this._locationsOnEndReached}/>
+				onEndReached={this._locationsOnEndReached}
+				renderOnListEmpty={() => (
+					<FlatListEmpty/>
+				)}/>
 		);
 	}
 
@@ -146,7 +150,10 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchPressed={this._searchDataUsers().search}
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				onEndReached={this._usersOnEndReached}
-				onEndReachedThreshold={onEndReachedThreshold}/>
+				onEndReachedThreshold={onEndReachedThreshold}
+				renderOnListEmpty={() => (
+					<FlatListEmpty/>
+				)}/>
 		);
 	}
 

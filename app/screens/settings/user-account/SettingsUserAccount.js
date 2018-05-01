@@ -33,7 +33,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		super(props, context);
 		this._onChangePasswordPress = this._onChangePasswordPress.bind(this);
 		this._onLogoutPress = this._onLogoutPress.bind(this);
-		this._onAddContactsPress = this._onAddContactsPress.bind(this);
 		this._onUserPicturePress = this._onUserPicturePress.bind(this);
 	}
 
@@ -81,11 +80,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		Router.toScreenLogout(navigator);
 	}
 
-	_onAddContactsPress() {
-		const {navigator} = this.props;
-		Router.toScreenAddContacts(navigator);
-	}
-
 	_onUserPicturePress() {
 		ImagePicker.pickImage()
 			.then(response => {
@@ -103,7 +97,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				{this._renderProfileSection()}
 				{this._renderPrivacySection()}
 				{this._renderSecuritySection()}
-				{this._renderLogoutSection()}
 			</ScrollView>
 		);
 	}
@@ -176,26 +169,12 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	_renderSecuritySection() {
 		return (
 			<View>
-				<ListItemHeader name='Security'/>
+				<ListItemHeader/>
 				<View style={styles.section}>
 					<ListItemInfo
 						title='Change Password'
 						icon={Icons.settingChangePassword}
 						onPress={this._onChangePasswordPress}/>
-				</View>
-			</View>
-		);
-	}
-
-	_renderLogoutSection() {
-		return (
-			<View>
-				<ListItemHeader/>
-				<View style={styles.section}>
-					<ListItemInfo
-						title='Add contacts'
-						icon={Icons.settingChangePassword}
-						onPress={this._onAddContactsPress}/>
 					<ListItemInfo
 						title='Logout'
 						icon={Icons.settingLogout}

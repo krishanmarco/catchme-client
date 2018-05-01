@@ -5,10 +5,10 @@ import DaoUser from "../daos/DaoUser";
 import ImageURISourceAuth from "../data/ImageURISourceAuth";
 import Logger from "../Logger";
 import Router from "./Router";
+import {TCacheUserProfile} from "../redux-pool/cache/def/CacheDefUserProfile";
 import type {TLocation} from "../daos/DaoLocation";
 import type {TNavigator} from "../types/Types";
 import type {TUser} from "../daos/DaoUser";
-import {TCacheUserProfile} from "../redux-pool/cache/def/CacheDefUserProfile";
 
 
 const navbarButtonAddUserLocationStatus = {
@@ -34,13 +34,16 @@ const navbarButtonAddLocationImage = {
 
 export default class NavbarHandlerLocationProfile {
 
-	constructor(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, locationProfile: TLocation) {
-		this.navigator = navigator;
-		this.cacheUserProfile = cacheUserProfile;
-		this.locationProfile = locationProfile;
+	constructor() {
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this.showButtonFollow();
+	}
+
+	initialize(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, locationProfile: TLocation) {
+		this.navigator = navigator;
+		this.cacheUserProfile = cacheUserProfile;
+		this.locationProfile = locationProfile;
 	}
 
 	showButtonFollow() {

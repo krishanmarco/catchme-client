@@ -5,7 +5,7 @@ import ApiFormDef from "../ApiFormDef";
 import CacheActionCreator from "../../cache/CacheActionCreator";
 import DaoUser from "../../../daos/DaoUser";
 import {ApiFormState} from "../ApiFormModel";
-import {CACHE_ID_USER_PROFILE} from "../../cache/def/CacheDefUserProfile";
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
 import {Validate} from "../../../helpers/Validator";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TThunk} from "../../../types/Types";
@@ -29,18 +29,14 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 	}
 
 	post(thunk: TThunk, user: TUser): Promise<TUser> {
-		const cacheActionsUserProfile = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
 		const formApiActionsEditUserProfile = new ApiFormActionCreator(FORM_API_ID_EDIT_USER_PROFILE, thunk.dispatch);
-		
-		// Post and invalidate CACHE_ID_USER_PROFILE
-		return ApiClient.userProfileEdit(user)
-			.then((user: TUser) => {
-				cacheActionsUserProfile.mergeData(user);
-				return user;
-			})
-			.then((user: TUser) => {
-				formApiActionsEditUserProfile.change(user);
-				return user;
+
+		const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
+		const userProfileActionCreator = new CacheDefUserProfileActionCreator(cacheActionCreator);
+
+		return userProfileActionCreator.editUser(user)
+			.then((newUser) => {
+				formApiActionsEditUserProfile.change(newUser);
 			});
 	}
 	
