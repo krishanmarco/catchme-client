@@ -32,6 +32,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		this._onLocationPress = this._onLocationPress.bind(this);
 		this._onLocationAdd = this._onLocationAdd.bind(this);
 		this._renderLocationItem = this._renderLocationItem.bind(this);
+		this._renderListEmpty = this._renderListEmpty.bind(this);
 	}
 
 	_onLocationPress(location) {
@@ -76,10 +77,17 @@ export default class SettingsUserAdministratingLocations extends React.Component
 				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderLocationItem}
 				ListHeaderComponent={this._renderLocationsHeader()}
-				ListEmptyComponent={(
-					<FlatListEmpty
-						image={require('../../../assets/images/empty-admin-locations.png')}/>
-				)}/>
+				ListEmptyComponent={this._renderListEmpty}/>
+		);
+	}
+
+	_renderListEmpty() {
+		return (
+			<FlatListEmpty
+				text={'You have not yet added any locations, if you are the owner of a club/bar you can add it to catchme here.'}
+				buttonText={'Add your club'}
+				onPress={this._onLocationAdd}
+				image={require('../../../assets/images/empty-admin-locations.png')}/>
 		);
 	}
 

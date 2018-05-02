@@ -41,6 +41,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
 		this._onUserLocationStatusEditPress = this._onUserLocationStatusEditPress.bind(this);
+		this._renderULSListEmpty = this._renderULSListEmpty.bind(this);
 
 		const {userProfile} = props;
 		this.state = ULSListManager.calculateState(userProfile);
@@ -90,13 +91,17 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 			<StaticSectionList
 				sections={this._getSections()}
 				renderItem={this._renderItem}
-				ListEmptyComponent={
-					<FlatListEmpty
-						image={require('../../assets/images/empty-cup.png')}/>
-				}/>
+				ListEmptyComponent={this._renderULSListEmpty}/>
 		);
 	}
 
+	_renderULSListEmpty() {
+		return (
+			<FlatListEmpty
+				text={'It seems like you have no plans to go out.\nOr maybe you just haven\'t added them yet.\nSearch for a location and add your next exciting location.'}
+				image={require('../../assets/images/empty-cup.png')}/>
+		);
+	}
 
 	_renderItem({item}: { item: TLocationWithULS|TLocation }) {
 		const {allowFollow, allowUnfollow, onLocationPress} = this.props;

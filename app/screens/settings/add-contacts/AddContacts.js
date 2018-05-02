@@ -148,6 +148,7 @@ class _AddContacts extends React.Component<void, Props, void> {
 		super(props, context);
 		this._onLocationPress = this._onLocationPress.bind(this);
 		this._onUserPress = this._onUserPress.bind(this);
+		this._renderListEmpty = this._renderListEmpty.bind(this);
 	}
 
 	componentWillMount() {
@@ -185,10 +186,16 @@ class _AddContacts extends React.Component<void, Props, void> {
 					onUserPress={this._onUserPress}
 					onSearchChanged={setUsersSearchQuery}
 					loading={!initialized}
-					renderOnListEmpty={() => (
-						<FlatListEmpty/>
-					)}/>
+					renderOnListEmpty={this._renderListEmpty}/>
 			</View>
+		);
+	}
+
+	_renderListEmpty() {
+		return (
+			<FlatListEmpty
+				text={'Well, it seems like none of your contacts are using catchme.\nMaybe you should invite them :)'}
+				image={require('../../../assets/images/empty-friends.png')}/>
 		);
 	}
 

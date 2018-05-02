@@ -40,6 +40,7 @@ class _Search extends React.Component<void, Props, void> {
 		this._onUserPress = this._onUserPress.bind(this);
 		this._locationsOnEndReached = this._locationsOnEndReached.bind(this);
 		this._usersOnEndReached = this._usersOnEndReached.bind(this);
+		this._renderListEmpty = this._renderListEmpty.bind(this);
 	}
 
 	componentWillMount() {
@@ -130,9 +131,7 @@ class _Search extends React.Component<void, Props, void> {
 				loading={loading}
 				onEndReachedThreshold={onEndReachedThreshold}
 				onEndReached={this._locationsOnEndReached}
-				renderOnListEmpty={() => (
-					<FlatListEmpty/>
-				)}/>
+				renderOnListEmpty={this._renderListEmpty}/>
 		);
 	}
 
@@ -151,9 +150,15 @@ class _Search extends React.Component<void, Props, void> {
 				onSearchChanged={this._searchDataUsers().setSearchQuery}
 				onEndReached={this._usersOnEndReached}
 				onEndReachedThreshold={onEndReachedThreshold}
-				renderOnListEmpty={() => (
-					<FlatListEmpty/>
-				)}/>
+				renderOnListEmpty={this._renderListEmpty}/>
+		);
+	}
+
+	_renderListEmpty() {
+		return (
+			<FlatListEmpty
+				text={'Mmm... There were no results for that search'}
+				image={require('../../assets/images/empty-search.png')}/>
 		);
 	}
 

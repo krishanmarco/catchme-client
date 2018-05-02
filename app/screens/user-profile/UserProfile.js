@@ -52,7 +52,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 		super(props, context);
 		this._onLocationPress = this._onLocationPress.bind(this);
 		this._onUserPress = this._onUserPress.bind(this);
+		this._onLocationSearchPress = this._onLocationSearchPress.bind(this);
+		this._onUserSearchPress = this._onUserSearchPress.bind(this);
 		this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
+		this._renderFavoriteListEmpty = this._renderFavoriteListEmpty.bind(this);
+		this._renderFriendsListEmpty = this._renderFriendsListEmpty.bind(this);
 		this.state = this._calculateState(props);
 	}
 
@@ -69,6 +73,16 @@ class _UserProfile extends React.Component<void, Props, State> {
 				.includeSettingsAndHelpIf(this._isSameUser(props))
 				.build()
 		};
+	}
+
+	_onLocationSearchPress() {
+		const {navigator} = this.props;
+		Router.toSearchTab(navigator);
+	}
+
+	_onUserSearchPress() {
+		const {navigator} = this.props;
+		Router.toSearchTab(navigator);
 	}
 
 	_onLocationPress(location: TLocation) {
@@ -182,11 +196,18 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowFollow={true}
 					allowUnfollow={true}
 					onLocationPress={this._onLocationPress}
-					renderOnListEmpty={() => (
-						<FlatListEmpty
-							image={require('../../assets/images/empty-favorites.png')}/>
-					)}/>
+					renderOnListEmpty={this._renderFavoriteListEmpty}/>
 			</View>
+		);
+	}
+
+	_renderFavoriteListEmpty() {
+		return (
+			<FlatListEmpty
+				text={'This is suspicious...\nYou don\'t have any favorite locations, use the search screen to find and add your favorite locations'}
+				buttonText={'Search for a location'}
+				onPress={this._onLocationSearchPress}
+				image={require('../../assets/images/empty-favorites.png')}/>
 		);
 	}
 
@@ -201,11 +222,18 @@ class _UserProfile extends React.Component<void, Props, State> {
 					allowRequestFriend={true}
 					allowRemoveFriend={this._isSameUser()}
 					onUserPress={this._onUserPress}
-					renderOnListEmpty={() => (
-						<FlatListEmpty
-							image={require('../../assets/images/empty-friends.png')}/>
-					)}/>
+					renderOnListEmpty={this._renderFriendsListEmpty}/>
 			</View>
+		);
+	}
+
+	_renderFriendsListEmpty() {
+		return (
+			<FlatListEmpty
+				text={'This is a bit sad...\nYou don\'t have any friends on catchme, use the search screen to find your friends'}
+				buttonText={'Search for your friends'}
+				onPress={this._onUserSearchPress}
+				image={require('../../assets/images/empty-friends.png')}/>
 		);
 	}
 

@@ -29,6 +29,26 @@ const fullScreenOptions = {
 
 export default class Router {
 	static navbarStyle = navbarStyle;
+	static tabIdxUserProfile = 0;
+	static tabIdxSearch = 1;
+	static tabIdxFeed = 2;
+	static tabIdxFeaturedAds = 3;
+
+	static toUserProfileTab(navigator: TNavigator) {
+		navigator.switchToTab({tabIndex: Router.tabIdxUserProfile});
+	}
+
+	static toSearchTab(navigator: TNavigator) {
+		navigator.switchToTab({tabIndex: Router.tabIdxSearch});
+	}
+
+	static toFeedTab(navigator: TNavigator) {
+		navigator.switchToTab({tabIndex: Router.tabIdxFeed});
+	}
+
+	static toFeaturedAdsTab(navigator: TNavigator) {
+		navigator.switchToTab({tabIndex: Router.tabIdxFeaturedAds});
+	}
 
 	static toScreenLogin(navigator: TNavigator) {
 		navigator.push({
