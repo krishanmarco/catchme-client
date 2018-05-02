@@ -22,7 +22,12 @@ import type {TUser} from "../../lib/daos/DaoUser";
 
 type Props = {
 	navigator: TNavigator,
-	userProfile: TUser
+	userProfile: TUser,
+	initialPage?: number
+};
+
+const defaultProps = {
+	initialPage: 0
 };
 
 // This is different from the Const.defaultOnEndReachedThreshold
@@ -33,6 +38,7 @@ const onEndReachedThreshold = 0.7;
 // _Search **********************************************************************************************
 
 class _Search extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
@@ -92,8 +98,10 @@ class _Search extends React.Component<void, Props, void> {
 
 
 	render() {
+		const {initialPage} = this.props;
 		return (
 			<ScrollableTabView
+				initialPage={initialPage}
 				contentProps={scrollableTabViewContentProps}
 				tabBarUnderlineStyle={styles.tabBarUnderline}
 				scrollWithoutAnimation={true}

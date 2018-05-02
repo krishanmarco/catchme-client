@@ -35,7 +35,10 @@ export default class Router {
 	static tabIdxFeaturedAds = 3;
 
 	static toUserProfileTab(navigator: TNavigator) {
-		navigator.switchToTab({tabIndex: Router.tabIdxUserProfile});
+		navigator.switchToTab({
+			tabIndex: Router.tabIdxUserProfile,
+			passProps: {initialPage: 1}
+		});
 	}
 
 	static toSearchTab(navigator: TNavigator) {

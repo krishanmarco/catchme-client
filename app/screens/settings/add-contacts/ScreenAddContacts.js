@@ -14,10 +14,10 @@ type Props = {
 	navigator: TNavigator
 };
 
-// _ScreenSearch ****************************************************************************************
-// _ScreenSearch ****************************************************************************************
+// _ScreenAddContacts **********************************************************************************
+// _ScreenAddContacts **********************************************************************************
 
-class _ScreenSearch extends React.Component<void, Props, void> {
+class _ScreenAddContacts extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -53,7 +53,7 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 
 }
 
-const ScreenSearch = poolConnect(_ScreenSearch,
+const ScreenAddContacts = poolConnect(_ScreenAddContacts,
 	// mapStateToProps
 	(state) => ({}),
 
@@ -63,4 +63,4 @@ const ScreenSearch = poolConnect(_ScreenSearch,
 	// Array of pools to subscribe to
 	[CACHE_ID_USER_PROFILE]
 );
-export default ScreenSearch;
+export default ScreenAddContacts;
