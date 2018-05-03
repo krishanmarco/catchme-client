@@ -37,6 +37,9 @@ export default class NavbarHandlerLocationProfile {
 	constructor() {
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
+		this._onNavigatorUserLocationStatusPress = this._onNavigatorUserLocationStatusPress.bind(this);
+		this._onNavigatorFollowLocationPress = this._onNavigatorFollowLocationPress.bind(this);
+		this._onNavigatorLocationAddImagePress = this._onNavigatorLocationAddImagePress.bind(this);
 		this.showButtonFollow();
 	}
 

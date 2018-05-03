@@ -39,8 +39,7 @@ export default class FlatListEmpty extends React.PureComponent<void, Props, void
 						<RkText
 							style={styles.text}
 							rkType='primary2'>
-							Lorem ipsum dolor sit amet
-							Lorem ipsum dolor sit amet
+							{text}
 						</RkText>
 					)}
 

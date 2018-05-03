@@ -106,8 +106,9 @@ class RealmIO {
 		
 		_.set(editableUser, DaoUser.pLocationsTop,
 			JSON.parse(_.get(editableUser, `${DaoUser.pLocationsTop}.value`)));
-		
-		const recurse = currentDepth < maxDepth; // todo : the currentDepth + 1 seems wrong...
+
+		// todo the currentDepth + 1 seems wrong
+		const recurse = currentDepth < maxDepth;
 		const nlfdb = (l: TLocation) => this._normalizeLocationFromDb(l, maxDepth, currentDepth + 1);
 		const nufdb = (u: TUser) => this._normalizeUserFromDb(u, maxDepth, currentDepth + 1);
 		const nulsfdb = (lus: TUserLocationStatus) => this._normalizeUserLocationStatusFromDb(lus, maxDepth, currentDepth + 1);
