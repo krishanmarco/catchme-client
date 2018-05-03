@@ -4,6 +4,7 @@ import React from 'react';
 import {Colors, Const} from '../../Config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -61,7 +62,7 @@ export default class LocationGeocoderTextEdit extends React.Component<void, Prop
   render() {
     return (
         <GooglePlacesAutocomplete
-            placeholder='Search for your location'
+            placeholder={t('t_search_location_map')}
             minLength={3}
             autoFocus={false}
             returnKeyType='search'

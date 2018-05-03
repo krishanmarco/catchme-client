@@ -2,27 +2,30 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 /* eslint-disable key-spacing */
 
+import {t} from "../i18n/Translations";
+
 const errorStrings = [
 	/** 0   return_ok **/                                     '',
-	/** -1  return_error_generic **/                          'Generic error',
-	/** -2  return_error_form **/                          		'Form error',
-	/** -3  return_error_not_allowed **/                      'You are not allowed to do that',
-	/** -4  return_error_email_taken **/                      'There is already an account with this email',
-	/** -5  return_error_user_not_found **/                   'This user was not found',
-	/** -6  return_error_incorrect_password **/               'Wrong password',
-	/** -7  return_error_user_banned **/                      'This user has been banned',
-	/** -8  return_error_file_upload_failed **/               'The file upload failed',
-	/** -9  return_error_invalid_social_token **/             'Something wen\'t wrong',
-	/** -10  return_error_field_invalid **/                   'This field was not valid',
-	/** -11 return_error_field_not_set**/                     'Please fill this field',
-	/** -12 return_error_field_length **/                     'The length of this field is invalid',
-	/** -13 return_error_field_length_short **/               'This field is too short',
-	/** -14 return_error_field_length_long **/                'This field is too long',
-	/** -15 return_error_field_phone **/                      'Please insert a valid phone number',
-	/** -16 return_error_field_email **/                      'Please insert a valid email',
-	/** -17 return_error_field_url **/                        'That URL was not valid',
-	/** -18 return_error_field_country **/                    'Please insert a valid country',
-	/** -19 return_error_passwords_not_equal **/              'The two passwords do not match',
+	/** -1  return_error_generic **/                          t('t_e_generic_error'),
+	/** -2  return_error_form **/                          		t('t_e_form_error'),
+	/** -3  return_error_not_allowed **/                      t('t_e_not_allowed'),
+	/** -4  return_error_email_taken **/                      t('t_e_email_taken'),
+	/** -5  return_error_user_not_found **/                   t('t_e_user_not_found'),
+	/** -6  return_error_incorrect_password **/               t('t_e_wrong_password'),
+	/** -7  return_error_user_banned **/                      t('t_e_user_banned'),
+	/** -8  return_error_file_upload_failed **/               t('t_e_upload_failed'),
+	/** -9  return_error_invalid_social_token **/             t('t_e_invalid_social_token'),
+	/** -10  return_error_field_invalid **/                   t('t_e_field_invalid'),
+	/** -11 return_error_field_not_set**/                     t('t_e_field_not_set'),
+	/** -12 return_error_field_length **/                     t('t_e_field_length_invalid'),
+
+	/** -13 return_error_field_length_short **/               t('t_e_field_length_short'),
+	/** -14 return_error_field_length_long **/                t('t_e_field_length_long'),
+	/** -15 return_error_field_phone **/                      t('t_e_field_phone'),
+	/** -16 return_error_field_email **/                      t('t_e_field_email'),
+	/** -17 return_error_field_url **/                        t('t_e_field_url'),
+	/** -18 return_error_field_country **/                    t('t_e_field_country'),
+	/** -19 return_error_passwords_not_equal **/              t('t_e_passwords_not_equal'),
 ];
 
 const errorIds = {

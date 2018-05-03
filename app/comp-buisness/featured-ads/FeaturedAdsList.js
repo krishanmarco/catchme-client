@@ -7,6 +7,7 @@ import {DefaultLoader, FlatListEmpty} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************
@@ -53,7 +54,7 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 	_renderEmptyList() {
 		return (
 			<FlatListEmpty
-				text={'Nothing much is going on now...'}
+				text={t('t_empty_featured_ads')}
 				image={require('../../assets/images/empty-featured.png')}/>
 		);
 	}

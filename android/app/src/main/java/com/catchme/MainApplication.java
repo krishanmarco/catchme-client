@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.maps.MapsPackage;
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.imagepicker.ImagePickerPackage;
 
 
@@ -42,6 +45,9 @@ public class MainApplication extends NavigationApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+            new MapsPackage(),
+            new RNI18nPackage(),
+            new RNGoogleSigninPackage(),
                     new MapsPackage(),
                     new ImagePickerPackage(),
                     new RNGoogleSigninPackage(),

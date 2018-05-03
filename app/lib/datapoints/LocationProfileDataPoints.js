@@ -5,6 +5,7 @@ import Router from "../navigation/Router";
 import {Icons} from '../../Config';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 import type {TLocation} from "../daos/DaoLocation";
+import {t} from "../i18n/Translations";
 
 
 export default class LocationProfileDataPoints {
@@ -41,7 +42,7 @@ export default class LocationProfileDataPoints {
 
 		const locationDataSectionData = this._buildLocationDataSectionData();
 		if (locationDataSectionData.length > 0)
-			locationInfoSections.push({title: 'CATCH INFO', data: locationDataSectionData});
+			locationInfoSections.push({title: t('t_catch_info').toUpperCase(), data: locationDataSectionData});
 
 		return locationInfoSections;
 	}

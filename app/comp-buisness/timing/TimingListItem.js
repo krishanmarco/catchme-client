@@ -7,6 +7,7 @@ import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Const} from "../../Config";
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
+import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -88,7 +89,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 			<Grid style={styles.timingContentRoot}>
 				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
-						centerLabel='am'
+						centerLabel={t('t_am')}
 						isEditable={isEditable}
 						getLabel={this._getLabelAm}
 						ref={this._setRefClockAm}
@@ -98,7 +99,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 				<Col size={4}></Col>
 				<Col size={50} style={styles.listItemWithActionsContent}>
 					<Clock
-						centerLabel='pm'
+						centerLabel={t('t_pm')}
 						isEditable={isEditable}
 						getLabel={this._getLabelPm}
 						ref={this._setRefClockPm}

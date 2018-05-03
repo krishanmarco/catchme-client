@@ -7,6 +7,7 @@ import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cac
 import {poolConnect} from "../../redux/ReduxPool";
 import type {ListItemUserProps} from "./UserListItems";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************
@@ -82,7 +83,7 @@ class _UserList extends React.PureComponent<void, Props, void> {
 				keyExtractor={DaoUser.gIdStr}
 				renderItem={this._renderItem}
 
-				searchPlaceholder='Search by name, email or number'
+				searchPlaceholder={t('t_search_user')}
 				filterExtractor={this._filterExtractor}
 			/>
 

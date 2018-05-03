@@ -1,16 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../../lib/data/ApiClient';
 import DaoLocation from "../../lib/daos/DaoLocation";
 import Gallery from '../../comp/misc/Gallery';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import React from 'react';
-import {Colors, Icons} from '../../Config';
 import {FlatListEmpty} from "../../comp/Misc";
-import {Icon} from 'react-native-elements';
-import {RkText} from 'react-native-ui-kitten';
-import {StyleSheet, View} from 'react-native';
 import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************
@@ -73,7 +69,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 		const {onAddImagePress} = this.props;
 		return (
 			<FlatListEmpty
-				text={'No one has posted pictures of this location. Be the first one to share an image!'}
+				text={t('t_empty_location_gallery')}
 				buttonText={'Sure!'}
 				onPress={onAddImagePress}
 				image={require('../../assets/images/empty-images.png')}/>

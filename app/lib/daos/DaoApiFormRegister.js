@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 24-Mar-18 © **/
 import _ from 'lodash';
 import {denormObj} from "../HelperFunctions";
+import {t} from "../i18n/Translations";
 
 
 export type TApiFormRegister = {
@@ -24,7 +25,7 @@ export default class DaoApiFormRegister {
 			[DaoApiFormRegister.pEmail]: '',
 			[DaoApiFormRegister.pPassword]: '',
 			[DaoApiFormRegister.pPasswordConfirm]: '',
-			[DaoApiFormRegister.pPublicMessage]: 'Hey! I\'m on Catch me too!',
+			[DaoApiFormRegister.pPublicMessage]: t('t_user_public_message'),
 		});
 	}
 

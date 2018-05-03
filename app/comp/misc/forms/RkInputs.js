@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import React from 'react';
-import {RkTextInput as _RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {RkTextInput as _RkTextInput, RkText} from 'react-native-ui-kitten';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {Colors} from "../../../Config";
 import {denormObj} from '../../../lib/HelperFunctions';
@@ -27,7 +27,7 @@ export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: Rk
 	const hasErrorCode = errorCode !== 0;
 	const pointerEvents = props.editable ? 'auto' : 'none';
 
-	const borderBottomWidth =	withBorder ? StyleSheet.hairlineWidth : 0;
+	// const borderBottomWidth =	withBorder ? StyleSheet.hairlineWidth : 0;
 	const borderColor = hasErrorCode ? Colors.alertRed : Colors.black;
 
 	return (

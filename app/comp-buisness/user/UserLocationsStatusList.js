@@ -16,6 +16,7 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {t} from "../../lib/i18n/Translations";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -79,9 +80,9 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 	_getSections() {
 		const {now, future, top} = this.state;
 		return [
-			{title: 'NOW', data: now},
-			{title: 'LATER ON', data: future},
-			{title: 'TOP 5 PLACES', data: top}
+			{title: t('t_now').toUpperCase(), data: now},
+			{title: t('t_later').toUpperCase(), data: future},
+			{title: t('t_top_5_places').toUpperCase(), data: top}
 		].filter(section => section.data.length > 0);
 	}
 
@@ -98,7 +99,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 	_renderULSListEmpty() {
 		return (
 			<FlatListEmpty
-				text={'It seems like you have no plans to go out.\nOr maybe you just haven\'t added them yet.\nSearch for a location and add your next exciting location.'}
+				text={t('t_empty_uls')}
 				image={require('../../assets/images/empty-cup.png')}/>
 		);
 	}
