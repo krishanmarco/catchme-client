@@ -29,6 +29,7 @@ export default class FeedList extends React.Component<void, Props, void> {
 		super(props, context);
 		this._renderFooterLoader = this._renderFooterLoader.bind(this);
 		this._renderItem = this._renderItem.bind(this);
+		this._renderEmptyList = this._renderEmptyList.bind(this);
 	}
 
 	render() {
@@ -44,13 +45,17 @@ export default class FeedList extends React.Component<void, Props, void> {
 				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
 				ListFooterComponent={this._renderFooterLoader}
-				ListEmptyComponent={(
-					<FlatListEmpty
-						image={require('../../assets/images/empty-feed.png')}/>
-				)}/>
+				ListEmptyComponent={this._renderEmptyList}/>
 		);
 	}
 
+	_renderEmptyList() {
+		return (
+			<FlatListEmpty
+				text={'You have no feed items for now. Maybe check back later...'}
+				image={require('../../assets/images/empty-feed.png')}/>
+		);
+	}
 
 	_renderItem({item}: { item: TFeed }) {
 		const {handleClickAction} = this.props;

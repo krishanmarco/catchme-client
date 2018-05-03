@@ -36,7 +36,8 @@ export type TNavigator = Object & {
 	// react-native-navigation navigator
 	showModal: Function,
 	push: Function,
-	setButtons: Function
+	setButtons: Function,
+	switchToTab: Function
 };
 
 export type TMoment = {

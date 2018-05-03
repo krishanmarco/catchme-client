@@ -17,7 +17,8 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 // Const ************************************************************************************************
 
 type Props = {
-	locationProfile: TLocation
+	locationProfile: TLocation,
+	onAddImagePress: Function,
 };
 
 type State = {
@@ -29,6 +30,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 
 	constructor(props, context) {
 		super(props, context);
+		this._renderEmptyList = this._renderEmptyList.bind(this);
 		this.state = {imageSources: this._getImagesFromProps(props)};
 	}
 
@@ -63,10 +65,18 @@ export default class LocationGallery extends React.Component<void, Props, State>
 		return (
 			<Gallery
 				imageSources={imageSources}
-				ListEmptyComponent={(
-					<FlatListEmpty
-						image={require('../../assets/images/empty-images.png')}/>
-				)}/>
+				ListEmptyComponent={this._renderEmptyList}/>
+		);
+	}
+
+	_renderEmptyList() {
+		const {onAddImagePress} = this.props;
+		return (
+			<FlatListEmpty
+				text={'No one has posted pictures of this location. Be the first one to share an image!'}
+				buttonText={'Sure!'}
+				onPress={onAddImagePress}
+				image={require('../../assets/images/empty-images.png')}/>
 		);
 	}
 	

@@ -25,24 +25,21 @@ const DefaultProps = {
 export default class FlatListEmpty extends React.PureComponent<void, Props, void> {
 	static defaultProps = DefaultProps;
 
-	render() {// todo once all the <FlatListEmpty /> image properties have been set, remove the null check (should always have image)
+	render() {
 		const {image, text, onPress, buttonText} = this.props;
 		return (
 			<View style={styles.root}>
 				<View style={styles.content}>
 
-					{!!image && (
-						<Image
-							style={styles.image}
-							source={image}/>
-					)}
+					<Image
+						style={styles.image}
+						source={image}/>
 
 					{!!text && (
 						<RkText
 							style={styles.text}
 							rkType='primary2'>
-							Lorem ipsum dolor sit amet
-							Lorem ipsum dolor sit amet
+							{text}
 						</RkText>
 					)}
 

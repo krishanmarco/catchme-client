@@ -30,6 +30,7 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 		super(props, context);
 		this._renderItem = this._renderItem.bind(this);
 		this._renderFooterLoader = this._renderFooterLoader.bind(this);
+		this._renderEmptyList = this._renderEmptyList.bind(this);
 	}
 
 	render() {
@@ -45,13 +46,17 @@ export default class FeaturedAdsList extends React.Component<void, Props, void> 
 				onEndReachedThreshold={Const.defaultOnEndReachedThreshold}
 
 				ListFooterComponent={this._renderFooterLoader}
-				ListEmptyComponent={(
-					<FlatListEmpty
-						image={require('../../assets/images/empty-featured.png')}/>
-				)}/>
+				ListEmptyComponent={this._renderEmptyList}/>
 		);
 	}
 
+	_renderEmptyList() {
+		return (
+			<FlatListEmpty
+				text={'Nothing much is going on now...'}
+				image={require('../../assets/images/empty-featured.png')}/>
+		);
+	}
 
 	_renderItem({item}: { item: TFeaturedAd }) {
 		const {handleClickAction} = this.props;

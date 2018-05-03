@@ -60,8 +60,10 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	constructor(props: Props, context) {
 		super(props, context);
 		this._onUserPress = this._onUserPress.bind(this);
-		this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
 		this._onTabChanged = this._onTabChanged.bind(this);
+		this._renderTabLocationInfoItem = this._renderTabLocationInfoItem.bind(this);
+		this._renderFriendsNowListEmpty = this._renderFriendsNowListEmpty.bind(this);
+		this._renderFriendsLaterListEmpty = this._renderFriendsLaterListEmpty.bind(this);
 		this.state = this._calculateState(props);
 	}
 
@@ -169,10 +171,11 @@ class _LocationProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderTabImages() {
-		const {locationProfile} = this.props;
+		const {navbarHandler, locationProfile} = this.props;
 		return (
 			<View style={styles.tabImages}>
 				<LocationGallery
+					onAddImagePress={navbarHandler._onNavigatorLocationAddImagePress}
 					locationProfile={locationProfile}/>
 			</View>
 		);
@@ -187,11 +190,19 @@ class _LocationProfile extends React.Component<void, Props, State> {
 					users={DaoLocation.gFriendsNow(locationProfile)}
 					allowRequestFriend={true}
 					onUserPress={this._onUserPress}
-					renderOnListEmpty={() => (
-						<FlatListEmpty
-							image={require('../../assets/images/empty-lus-now.png')}/>
-					)}/>
+					renderOnListEmpty={this._renderFriendsNowListEmpty}/>
 			</View>
+		);
+	}
+
+	_renderFriendsNowListEmpty() {
+		const {navbarHandler} = this.props;
+		return (
+			<FlatListEmpty
+				text={'We\'re very sorry, there\'s no one at this location now.\nMaybe you should pull a croud here'}
+				buttonText={'I am here!'}
+				onPress={navbarHandler._onNavigatorUserLocationStatusPress}
+				image={require('../../assets/images/empty-lus-now.png')}/>
 		);
 	}
 
@@ -204,11 +215,19 @@ class _LocationProfile extends React.Component<void, Props, State> {
 					users={DaoLocation.gFriendsFuture(locationProfile)}
 					allowRequestFriend={true}
 					onUserPress={this._onUserPress}
-					renderOnListEmpty={() => (
-						<FlatListEmpty
-							image={require('../../assets/images/empty-lus-later.png')}/>
-					)}/>
+					renderOnListEmpty={this._renderFriendsLaterListEmpty}/>
 			</View>
+		);
+	}
+
+	_renderFriendsLaterListEmpty() {
+		const {navbarHandler} = this.props;
+		return (
+			<FlatListEmpty
+				text={'No one will be here later, or will you?'}
+				buttonText={'I will!'}
+				onPress={navbarHandler._onNavigatorUserLocationStatusPress}
+				image={require('../../assets/images/empty-lus-later.png')}/>
 		);
 	}
 

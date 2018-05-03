@@ -53,10 +53,10 @@ class _ScreenSearch extends React.Component<void, Props, void> {
 	}
 
 	_renderSearch([userProfile]) {
-		const {navigator} = this.props;
+		const {...props} = this.props;
 		return (
 			<Search
-				navigator={navigator}
+				{...props}
 				userProfile={userProfile}/>
 		);
 	}
