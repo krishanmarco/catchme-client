@@ -20,6 +20,7 @@ import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -126,13 +127,13 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 									pool={this._getFormApiLogin()}
 									field='email'
 									keyboardType='email-address'
-									placeholder='Email'
+									placeholder={t('t_field_email')}
 									withBorder/>
 
 								<RkTextInputFromPool
 									pool={this._getFormApiLogin()}
 									field='password'
-									placeholder='Password'
+									placeholder={t('t_field_password')}
 									withBorder
 									secureTextEntry/>
 
@@ -140,7 +141,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 									style={fullpageForm.fieldsButton}
 									rkType='large stretch accentColor'
 									loading={this._getFormApiLogin().loading}
-									text={'Login'.toUpperCase()}
+									text={t('t_bt_login').toUpperCase()}
 									onPress={this._onLoginPress}/>
 
 							</View>
@@ -151,12 +152,12 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 					footerJsx={(
 						<View>
 							<FormFooterLink
-								text='Don’t have an account?'
-								clickableText='Sign up now!'
+								text={t('t_login_no_account')}
+								clickableText={t('t_bt_login_no_account')}
 								onPress={this._onGoToSignupPress}/>
 							<FormFooterLink
-								text='Forgot your password?'
-								clickableText='Recover it!'
+								text={t('t_login_forgot_pw')}
+								clickableText={t('t_bt_login_forgot_pw')}
 								onPress={this._onGoToRecoverPasswordPress}/>
 						</View>
 					)}

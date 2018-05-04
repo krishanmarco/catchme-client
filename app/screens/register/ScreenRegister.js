@@ -1,19 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from "../../lib/daos/DaoUser";
 import React from 'react';
-import Router from "../../lib/navigation/Router";
 import {FontIcons} from "../../Config";
 import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
 import {fullpageForm} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../lib/types/Types";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -79,27 +78,27 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='name'
-								placeholder='Name'
+								placeholder={t('t_field_name')}
 								withBorder/>
 
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='email'
 								keyboardType='email-address'
-								placeholder='Email'
+								placeholder={t('t_field_email')}
 								withBorder/>
 
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='password'
-								placeholder='Password'
+								placeholder={t('t_field_password')}
 								secureTextEntry
 								withBorder/>
 
 							<RkTextInputFromPool
 								pool={this._getFormApiRegister()}
 								field='passwordConfirm'
-								placeholder='Confirm Password'
+								placeholder={t('t_field_password_confirm')}
 								secureTextEntry
 								withBorder/>
 
@@ -107,7 +106,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 								style={fullpageForm.fieldsButton}
 								loading={this._getFormApiRegister().loading}
 								rkType='large stretch accentColor'
-								text={'Sign up'.toUpperCase()}
+								text={t('t_bt_register').toUpperCase()}
 								onPress={this._onRegisterPress}/>
 
 						</View>
@@ -117,8 +116,8 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 					footerJsx={(
 						<View>
 							<FormFooterLink
-								text='Already have an account?'
-								clickableText='Sign in!'
+								text={t('t_register_login')}
+								clickableText={t('t_bt_register_login')}
 								onPress={this._onGoToLoginPress}/>
 						</View>
 					)}

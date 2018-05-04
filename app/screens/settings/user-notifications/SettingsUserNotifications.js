@@ -8,6 +8,7 @@ import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -104,7 +105,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 		return (
 			<ScreenInfo
 				imageSource={require('../../../assets/images/primary-notifications.png')}
-				textText='Here you can tweak your notification settings'/>
+				textText={t('t_si_settings_notifications')}/>
 		);
 	}
 
@@ -116,7 +117,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 		return (
 			<View style={styles.section}>
 				<RkSwitch
-					title='Disable all'
+					title={t('t_disable_all')}
 					value={[
 						settingNotifications[0],
 						settingNotifications[1],
@@ -124,15 +125,15 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 					].every(i => !i)}
 					onValueChange={this._onDisableAllValueChange}/>
 				<RkSwitch
-					title='Friendship request'
+					title={t('t_notifications_friendship_request')}
 					value={settingNotifications[0]}
 					onValueChange={this._onFriendshipRequestValueChange}/>
 				<RkSwitch
-					title='Friend actions'
+					title={t('t_notifications_friend_actions')}
 					value={settingNotifications[1]}
 					onValueChange={this._onFriendActionsValueChange}/>
 				<RkSwitch
-					title='Catchme suggestions'
+					title={t('t_notifications_catchme_suggestions')}
 					value={settingNotifications[2]}
 					onValueChange={this._onCatchmeSuggestionsValueChange}/>
 			</View>

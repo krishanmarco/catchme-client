@@ -2,12 +2,10 @@
 import DaoLocation from "../../lib/daos/DaoLocation";
 import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 import moment from 'moment';
 import React from 'react';
 import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
 import {bindActionCreators} from 'redux';
-import {Col, Grid, Row} from "react-native-easy-grid";
 import {Colors, Const, Icons} from '../../Config';
 import {compareTimeSmaller} from "../../lib/HelperFunctions";
 import {Icon} from 'react-native-elements';
@@ -17,6 +15,7 @@ import {RkButton, RkText} from "react-native-ui-kitten";
 import {Touchable} from "../../comp/Misc";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -320,7 +319,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 							size={55}
 							{...Icons.locationPersonFuture}
 							color={this._getHereNowColor()}/>
-						<RkText rkType='secondary2'>I am here now</RkText>
+						<RkText rkType='secondary2'>{t('t_uls_here_now')}</RkText>
 					</Touchable>
 				</View>
 				<View style={styles.timingActionButtons}>
@@ -329,7 +328,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 							size={55}
 							{...Icons.locationPersonFuture}
 							color={this._getHereLaterColor()}/>
-						<RkText rkType='secondary2'>I will be here later</RkText>
+						<RkText rkType='secondary2'>{t('t_uls_here_later')}</RkText>
 					</Touchable>
 				</View>
 			</View>
@@ -345,7 +344,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 					rkType='stretch'
 					style={styles.confirmStatusButton}
 					onPress={onStatusConfirm}>
-					Confirm
+					{t('t_bt_confirm')}
 				</RkButton>
 			</View>
 		);

@@ -102,66 +102,11 @@ export function mergeWithoutExtend(a, b) {
 	return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
 }
 
-
-
-
-export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
-	// For each word in the searchWords check if
-	// the matchString contains that word
-	// Eg: 'BENCH PRESS' will match 'PRESS BENCH'
-	for (let p = 0; p < ucSearchWords.length; p++) {
-		// if matchString doesn't contain the [p]th word
-		if (ucMatchString.indexOf(ucSearchWords[p]) == -1) {
-			// The filter is not successful
-			return false;
-		}
-	}
-
-	// ucMatchString contained all
-	// words in searchString
-	return true;
-}
-
-
-export function filterByUnOrderedTextMatch(elements, searchString, getTextFromElementFunction) {
-	// initialize result array
-	const result = [];
-
-	// Set the search string to uppercase and get all its words
-	const searchWords = searchString.toUpperCase().split(" ");
-
-	// Iterate each element and filter accordingly
-	for (let i = 0; i < elements.length; i++) {
-		const element = elements[i];
-
-		// get and prepare the second text string
-		// for the text search process
-		const matchString = getTextFromElementFunction(element).toUpperCase();
-
-		// If the i[th] element passes the filter
-		// then push it onto the result
-		if (unOrderedTextMatch(searchWords, matchString))
-			result.push(element);
-	}
-
-	return result;
-}
-
-
-export function arrayFind(elements, finderFunction) {
-	for (let i = 0; i < elements.length; i++) {
-		if (finderFunction(elements[i]))
-			return elements[i];
-	}
-	return null;
-}
-
 export function arrayCleanAndVerify(array: ?array, dotField: string) {
 	if (!_.isArray(array))
 		return array;
 	return _.uniqBy(arrayClean(array, dotField), dotField);
 }
-
 
 // This function filters an array by removing all
 // items that null or undefined in a certain field
@@ -171,20 +116,6 @@ export function arrayClean(array: ?Array, dotField: string) {
 
 	return array.filter(item => _.get(item, dotField, null) != null);
 }
-
-
-
-export function strtr(string, replacePairs) {
-	let str = string, key, re;
-	for (key in replacePairs) {
-		if (replacePairs.hasOwnProperty(key)) {
-			re = new RegExp(key, "g");
-			str = str.replace(re, replacePairs[key]);
-		}
-	}
-	return str;
-}
-
 
 export function mapIdsToObjects(idList, objectList, getIdFromObject) {
 	const result = [];

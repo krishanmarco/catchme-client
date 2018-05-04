@@ -8,7 +8,6 @@ import {NullableObjects, Screen} from "../../comp/Misc";
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
 import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

@@ -21,6 +21,7 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -160,10 +161,10 @@ class _LocationProfile extends React.Component<void, Props, State> {
 
 				<Row size={-1} style={styles.badges}>
 					<ListDataPoints listDataPoints={[
-						{name: 'Capacity', value: DaoLocation.gCapacity(locationProfile)},
-						{name: 'Male', value: DaoLocation.gMen(locationProfile)},
-						{name: 'Female', value: DaoLocation.gWomen(locationProfile)},
-						{name: 'Total', value: DaoLocation.gTotal(locationProfile)},
+						{name: t('t_capacity'), value: DaoLocation.gCapacity(locationProfile)},
+						{name: t('t_gender_male'), value: DaoLocation.gMen(locationProfile)},
+						{name: t('t_gender_female'), value: DaoLocation.gWomen(locationProfile)},
+						{name: t('t_gender_total'), value: DaoLocation.gTotal(locationProfile)},
 					]}/>
 				</Row>
 			</Grid>
@@ -199,8 +200,8 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {navbarHandler} = this.props;
 		return (
 			<FlatListEmpty
-				text={'We\'re very sorry, there\'s no one at this location now.\nMaybe you should pull a croud here'}
-				buttonText={'I am here!'}
+				text={t('t_empty_location_friends_now')}
+				buttonText={t('t_empty_bt_location_friends_now')}
 				onPress={navbarHandler._onNavigatorUserLocationStatusPress}
 				image={require('../../assets/images/empty-lus-now.png')}/>
 		);
@@ -224,8 +225,8 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {navbarHandler} = this.props;
 		return (
 			<FlatListEmpty
-				text={'No one will be here later, or will you?'}
-				buttonText={'I will!'}
+				text={t('t_empty_location_friends_later')}
+				buttonText={t('t_empty_bt_location_friends_later')}
 				onPress={navbarHandler._onNavigatorUserLocationStatusPress}
 				image={require('../../assets/images/empty-lus-later.png')}/>
 		);

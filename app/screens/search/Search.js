@@ -15,6 +15,7 @@ import {StyleSheet, View} from 'react-native';
 import {TSearchDataPool} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************
@@ -110,12 +111,12 @@ class _Search extends React.Component<void, Props, void> {
 				tabBarActiveTextColor={Colors.primary}
 				tabBarInactiveTextColor={Colors.black}>
 				<View
-					tabLabel='Locations'
+					tabLabel={t('t_locations')}
 					style={styles.tabUsers}>
 					{this._renderTabSearchLocations()}
 				</View>
 				<View
-					tabLabel='People'
+					tabLabel={t('t_people')}
 					style={styles.tabLocations}>
 					{this._renderTabSearchUsers()}
 				</View>
@@ -165,7 +166,7 @@ class _Search extends React.Component<void, Props, void> {
 	_renderListEmpty() {
 		return (
 			<FlatListEmpty
-				text={'Mmm... There were no results for that search'}
+				text={t('t_empty_search')}
 				image={require('../../assets/images/empty-search.png')}/>
 		);
 	}

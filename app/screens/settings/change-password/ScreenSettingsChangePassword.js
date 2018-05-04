@@ -12,6 +12,7 @@ import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../../lib/types/Types";
+import {t} from "../../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -72,21 +73,21 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 							<RkTextInputFromPool
 								pool={this._getFormChangePassword()}
 								field='passwordPrevious'
-								placeholder='Password'
+								placeholder={t('t_password')}
 								withBorder
 								secureTextEntry/>
 
 							<RkTextInputFromPool
 								pool={this._getFormChangePassword()}
 								field='passwordNext'
-								placeholder='New password'
+								placeholder={t('t_field_password_new')}
 								withBorder
 								secureTextEntry/>
 
 							<RkTextInputFromPool
 								pool={this._getFormChangePassword()}
 								field='passwordConfirmNext'
-								placeholder='Confirm password'
+								placeholder={t('t_password_confirm')}
 								withBorder
 								secureTextEntry/>
 
@@ -107,12 +108,12 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 
 		const props = {};
 		if (passwordChanged) {
-			props.imageSource = require('../../../assets/images/black-search.png');
-			props.textText = 'Your password has been changed successfully';
+			props.imageSource = require('../../../assets/images/primary-success.png');
+			props.textText = t('t_si_settings_change_password_success');
 
 		} else {
-			props.imageSource = require('../../../assets/images/primary-me.png');
-			props.textText = 'Change password...';
+			props.imageSource = require('../../../assets/images/primary-lock.png');
+			props.textText = t('t_si_settings_change_password');
 		}
 
 		return (
@@ -129,13 +130,13 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 			props.text = (
 				<RkText>
 					<Icon {...Icons.changePasswordBack}/>
-					<RkText>{'back'.toUpperCase()}</RkText>
+					<RkText>{t('t_bt_back').toUpperCase()}</RkText>
 				</RkText>
 			);
 
 		} else {
 			props.onPress = this._onChangePress;
-			props.text = 'Change'.toUpperCase();
+			props.text = t('t_bt_change').toUpperCase();
 		}
 
 		return (

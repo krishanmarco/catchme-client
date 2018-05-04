@@ -11,8 +11,16 @@ I18n.translations = {
 	// en ***************************************************************************************************
 	// en ***************************************************************************************************
 	en: {
+		t_catchme: 'Catchme',
+		t_my_contacts: 'My contacts',
+		t_logout: 'Logout',
+		t_new_location: 'New location',
+		t_add_new_location: 'Add a new location',
+		t_change_password: 'Change password',
 		t_catchme_user: 'Catchme user',
 		t_search: 'Search',
+		t_feed: 'Feed',
+		t_featured: 'Featured',
 
 		t_search_location_map: 'Search for your location',
 		t_search_location: 'Search by name, email, phone or address',
@@ -25,8 +33,73 @@ I18n.translations = {
 		t_later: 'later on',
 		t_top_5_places: 'top 5 places',
 
+		t_uls_here_now: 'I am here now!',
+		t_uls_here_later: 'I will be here later!',
+
 		t_user_public_message: 'Hey! I\'m on catchme too!',
 
+		t_country: 'Country',
+		t_state: 'State',
+		t_city: 'City',
+		t_postcode: 'Postcode',
+		t_address: 'Address',
+
+		t_privacy: 'Privacy',
+		t_privacy_previous_location: 'My previous location',
+		t_privacy_current_location: 'My current location',
+		t_privacy_next_location: 'My next location',
+		t_privacy_email: 'My email',
+		t_privacy_phone: 'My phone number',
+
+		t_disable_all: 'Disable all',
+		t_notifications_friendship_request: 'Friendship request',
+		t_notifications_friend_actions: 'Friend actions',
+		t_notifications_catchme_suggestions: 'Catchme suggestions',
+
+		t_si_edit_location_address: 'Press the image above to select a location',
+		t_bt_edit_location: 'Save & Close',
+
+		t_capacity: 'Capacity',
+		t_gender_male: 'Male',
+		t_gender_female: 'Female',
+		t_gender_total: 'Total',
+
+
+		t_field_name: 'Name',
+		t_field_email: 'Email',
+		t_field_password: 'Password',
+		t_field_password_confirm: 'Confirm password',
+		t_field_password_new: 'New password',
+		t_field_phone: 'Phone',
+		t_field_description: 'Description',
+		t_field_status: 'Status',
+		t_field_capacity: 'Capacity',
+
+		t_locations: 'Locations',
+		t_people: 'People',
+
+		t_bt_login: 'Login',	// todo all bt MAIUSC
+		t_bt_register: 'Sign up',
+		t_bt_back: 'back',
+		t_bt_change: 'change',
+		t_bt_confirm: 'Confirm',
+
+		t_login_no_account: 'Don\'t have an account?',
+		t_bt_login_no_account: 'Sign up now!',
+		t_login_forgot_pw: 'Forgot your password?',
+		t_bt_login_forgot_pw: 'Recover it!',
+		t_register_login: 'Already have an account?',
+		t_bt_register_login: 'Sign in!',
+		t_bt_logout: 'Logout',
+		t_bt_send: 'send',
+
+		t_si_settings_change_password: 'From this screen you can change your password',
+		t_si_settings_change_password_success: 'Your password has been changed successfully',
+		t_si_settings_recover_password: 'Enter your email below to receive your password reset instructions',
+		t_si_settings_recover_password_success: 'Your password has been sen\'t to your email address',
+		t_si_settings_logout: 'Are you sure you want to log out?',
+		t_si_settings_admin_locations: 'There are the locations that you manage',
+		t_si_settings_notifications: 'Here you can tweak your notification settings',
 
 		t_monday: 'Monday',
 		t_tuesday: 'Tuesday',
@@ -65,6 +138,17 @@ I18n.translations = {
 		t_empty_feed: 'You have no feed items for now. Maybe check back later...',
 		t_empty_location_gallery: 'No one has posted pictures of this location. Be the first one to share an image!',
 		t_empty_uls: 'It seems like you have no plans to go out.\nOr maybe you just haven\'t added them yet.\nSearch for a location and add your next exciting location.',
+		t_empty_location_friends_now: 'We\'re very sorry, there\'s no one at this location now.\nMaybe you should pull a croud here',
+		t_empty_bt_location_friends_now: 'No one will be here later, or will you?',
+		t_empty_location_friends_later: 'I will!',
+		t_empty_search: 'Mmm... There were no results for that search',
+		t_empty_add_contacts: 'Well, it seems like none of your contacts are using catchme.\nMaybe you should invite them :)',
+		t_empty_admin_locations: 'You have not yet added any locations, if you are the owner of a club/bar you can add it to catchme here.',
+		t_empty_bt_admin_locations: 'Add your club',
+		t_empty_user_location_favorites: 'This is suspicious...\nYou don\'t have any favorite locations, use the search screen to find and add your favorite locations',
+		t_empty_bt_user_location_favorites: 'Search for a location',
+		t_empty_user_friends: 'This is a bit sad...\nYou don\'t have any friends on catchme, use the search screen to find your friends',
+		t_empty_bt_user_friends: 'Search for your friends',
 
 
 		t_e_generic_error: 'Generic error',

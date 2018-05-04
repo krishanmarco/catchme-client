@@ -6,11 +6,12 @@ import React from 'react';
 import Router from "../../../lib/navigation/Router";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
-import {Colors, Icons} from "../../../Config";
-import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
+import {Icons} from "../../../Config";
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -66,11 +67,11 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 					<View style={styles.editLocationAddressFormRow}>
 						{[
-							{field: DaoLocation.pAddressCountry, label: 'Country'},
-							{field: DaoLocation.pAddressState, label: 'State'},
-							{field: DaoLocation.pAddressCity, label: 'City'},
-							{field: DaoLocation.pAddressPostcode, label: 'Postcode'},
-							{field: DaoLocation.pAddressAddress, label: 'Address'},
+							{field: DaoLocation.pAddressCountry, label: t('t_country')},
+							{field: DaoLocation.pAddressState, label: t('t_state')},
+							{field: DaoLocation.pAddressCity, label: t('t_city')},
+							{field: DaoLocation.pAddressPostcode, label: t('t_postcode')},
+							{field: DaoLocation.pAddressAddress, label: t('t_address')},
 						].map((addressComponent, key) => (
 							<RkTextInputFromPool
 								key={key}
@@ -106,7 +107,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 			contentJsx = (
 				<ScreenInfo
 					imageSource={require('../../../assets/images/primary-address.png')}
-					textText='Press the image above to select a location'
+					textText={t('t_si_edit_location_address')}
 					onPress={this._onGoogleMapsSelectorPress}/>
 			);
 		}

@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiFormDef from "../../lib/redux-pool/api-form/ApiFormDef";
 import DaoLocation from "../../lib/daos/DaoLocation";
 import EditLocationAddress from './pages/EditLocationAddress';
 import EditLocationInfo from './pages/EditLocationInfo';
