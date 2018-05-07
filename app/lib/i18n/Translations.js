@@ -176,4 +176,7 @@ I18n.translations = {
 
 
 };
-export const t = I18n.t;
+
+// Important, this has to be a lazy eval
+// export const t = I18n.t; will fail!
+export const t = id => I18n.t(id);

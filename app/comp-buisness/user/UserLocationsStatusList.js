@@ -1,9 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from "../../lib/data/ApiClient";
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUser from "../../lib/daos/DaoUser";
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
-import Logger from "../../lib/Logger";
 import React from 'react';
 import Router from "../../lib/navigation/Router";
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
