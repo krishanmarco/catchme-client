@@ -24,7 +24,6 @@ import io.realm.react.RealmReactPackage;
 
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -55,8 +54,7 @@ public class MainApplication extends NavigationApplication {
                     new ReactNativeContacts(),
                     new RealmReactPackage(),
                     new VectorIconsPackage(),
-                    new RNFetchBlobPackage(),
-                    new LinearGradientPackage()
+                    new RNFetchBlobPackage()
             );
         }
     };
