@@ -49,7 +49,7 @@ export default class Logout extends React.Component<void, Props, void> {
 						<LoadingButton
 							style={fullpageForm.fieldsButton}
 							rkType='large stretch accentColor'
-							text={t('t_bt_logout').toUpperCase()}
+							text={t('t_bt_logout')}
 							onPress={this._onLogoutPress}/>
 					)}
 

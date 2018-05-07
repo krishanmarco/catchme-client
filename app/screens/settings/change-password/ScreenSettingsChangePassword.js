@@ -130,13 +130,13 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 			props.text = (
 				<RkText>
 					<Icon {...Icons.changePasswordBack}/>
-					<RkText>{t('t_bt_back').toUpperCase()}</RkText>
+					<RkText>{t('t_bt_back')}</RkText>
 				</RkText>
 			);
 
 		} else {
 			props.onPress = this._onChangePress;
-			props.text = t('t_bt_change').toUpperCase();
+			props.text = t('t_bt_change');
 		}
 
 		return (

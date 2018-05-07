@@ -141,7 +141,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 									style={fullpageForm.fieldsButton}
 									rkType='large stretch accentColor'
 									loading={this._getFormApiLogin().loading}
-									text={t('t_bt_login').toUpperCase()}
+									text={t('t_bt_login')}
 									onPress={this._onLoginPress}/>
 
 							</View>
@@ -153,11 +153,11 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						<View>
 							<FormFooterLink
 								text={t('t_login_no_account')}
-								clickableText={t('t_bt_login_no_account')}
+								clickableText={t('t_clk_login_no_account')}
 								onPress={this._onGoToSignupPress}/>
 							<FormFooterLink
 								text={t('t_login_forgot_pw')}
-								clickableText={t('t_bt_login_forgot_pw')}
+								clickableText={t('t_clk_login_forgot_pw')}
 								onPress={this._onGoToRecoverPasswordPress}/>
 						</View>
 					)}

@@ -206,7 +206,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		return (
 			<FlatListEmpty
 				text={t('t_empty_user_location_favorites')}
-				buttonText={t('t_bt_empty_user_location_favorites')}
+				buttonText={t('t_empty_bt_user_location_favorites')}
 				onPress={this._onLocationSearchPress}
 				image={require('../../assets/images/empty-favorites.png')}/>
 		);

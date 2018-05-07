@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 03-May-18 © **/
 import I18n from 'react-native-i18n';
-import {Icons} from "../../Config";
 
 // Enable fallbacks, eg en-US and en-GB fallback to en
 I18n.fallbacks = true;
@@ -78,20 +77,20 @@ I18n.translations = {
 		t_locations: 'Locations',
 		t_people: 'People',
 
-		t_bt_login: 'Login',	// todo all bt MAIUSC
-		t_bt_register: 'Sign up',
-		t_bt_back: 'back',
-		t_bt_change: 'change',
-		t_bt_confirm: 'Confirm',
+		t_bt_login: 'LOGIN',
+		t_bt_register: 'SIGN UP',
+		t_bt_back: 'BACK',
+		t_bt_change: 'CHANGE',
+		t_bt_confirm: 'CONFIRM',
+		t_bt_logout: 'LOGOUT',
+		t_bt_send: 'SEND',
 
 		t_login_no_account: 'Don\'t have an account?',
-		t_bt_login_no_account: 'Sign up now!',
+		t_clk_login_no_account: 'Sign up now!',
 		t_login_forgot_pw: 'Forgot your password?',
-		t_bt_login_forgot_pw: 'Recover it!',
+		t_clk_login_forgot_pw: 'Recover it!',
 		t_register_login: 'Already have an account?',
-		t_bt_register_login: 'Sign in!',
-		t_bt_logout: 'Logout',
-		t_bt_send: 'send',
+		t_clk_register_login: 'Sign in!',
 
 		t_si_settings_change_password: 'From this screen you can change your password',
 		t_si_settings_change_password_success: 'Your password has been changed successfully',

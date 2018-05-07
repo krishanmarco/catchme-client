@@ -106,7 +106,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 								style={fullpageForm.fieldsButton}
 								loading={this._getFormApiRegister().loading}
 								rkType='large stretch accentColor'
-								text={t('t_bt_register').toUpperCase()}
+								text={t('t_bt_register')}
 								onPress={this._onRegisterPress}/>
 
 						</View>
@@ -117,7 +117,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 						<View>
 							<FormFooterLink
 								text={t('t_register_login')}
-								clickableText={t('t_bt_register_login')}
+								clickableText={t('t_clk_register_login')}
 								onPress={this._onGoToLoginPress}/>
 						</View>
 					)}

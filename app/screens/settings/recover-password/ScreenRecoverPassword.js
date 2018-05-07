@@ -67,7 +67,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 								loading={this._getFormApiRecoverPassword().loading}
 								onPress={this._onSendPress}
 								rkType='large stretch accentColor'
-								text={t('t_bt_send').toUpperCase()}
+								text={t('t_bt_send')}
 								withBorder/>
 						</View>
 					)}
