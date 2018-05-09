@@ -12,10 +12,10 @@ import {poolConnect} from '../../redux/ReduxPool';
 import {SEARCH_DATA_ID_LOCATIONS} from "../../lib/redux-pool/search-data/def/SearchDataDefLocations";
 import {SEARCH_DATA_ID_USERS} from "../../lib/redux-pool/search-data/def/SearchDataDefUsers";
 import {StyleSheet, View} from 'react-native';
+import {t} from "../../lib/i18n/Translations";
 import {TSearchDataPool} from "../../lib/redux-pool/search-data/SearchDataPool";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************

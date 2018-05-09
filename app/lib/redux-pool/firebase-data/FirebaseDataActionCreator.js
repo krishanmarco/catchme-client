@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import _ from "lodash";
 import ActionHandler, {TActionHandlerParams} from "../../helpers/ActionHandler";
+import CacheActionCreator from "../cache/CacheActionCreator";
 import CacheDefUserProfile, {
 	CACHE_ID_USER_PROFILE,
 	CacheDefUserProfileActionCreator
@@ -16,7 +17,6 @@ import {
 import {POOL_TYPE_FIREBASE_DATA} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
 import type {TUser} from "../../daos/DaoUser";
-import CacheActionCreator from "../cache/CacheActionCreator";
 
 
 export default class FirebaseDataActionCreator extends PoolActionCreator {

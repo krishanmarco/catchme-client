@@ -6,8 +6,8 @@ import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {ListItemLocationFollow} from './LocationListItems';
 import {poolConnect} from "../../redux/ReduxPool";
-import type {TLocation} from "../../lib/daos/DaoLocation";
 import {t} from "../../lib/i18n/Translations";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 
 // Const ************************************************************************************************

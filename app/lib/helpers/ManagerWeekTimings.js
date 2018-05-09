@@ -4,8 +4,8 @@ import DaoLocation from "../daos/DaoLocation";
 import moment from 'moment';
 import ObjectCache from "./ObjectCache";
 import {boolToIntString, intStringToBool} from '../HelperFunctions';
-import type {TLocation} from "../daos/DaoLocation";
 import {t} from "../i18n/Translations";
+import type {TLocation} from "../daos/DaoLocation";
 
 
 // A location string-timing has the following shape

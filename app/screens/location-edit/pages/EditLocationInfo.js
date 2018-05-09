@@ -7,11 +7,11 @@ import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {AvatarFull} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
-import {ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

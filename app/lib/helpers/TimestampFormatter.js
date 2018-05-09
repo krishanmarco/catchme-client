@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 12-Apr-18 © **/
 import Logger from "../Logger";
 import moment from 'moment';
-import type {TMoment} from "../types/Types";
 import {t} from "../i18n/Translations";
+import type {TMoment} from "../types/Types";
 
 const mNow = moment();
 const mTomorrow = moment(new Date()).add(1, 'days');
 const mNext6Day = moment(new Date()).add(6, 'days');
 
-const sToday = t('r_today');
-const sTomorrow = t('r_tomorrow');
-const sYesterday = t('r_yesterday');
-const sLast = t('r_last');
-const sFrom = t('r_from');
-const sTo = t('r_to');
+const sToday = t('t_today');
+const sTomorrow = t('t_tomorrow');
+const sYesterday = t('t_yesterday');
+const sLast = t('t_last');
+const sFrom = t('t_from');
+const sTo = t('t_to');
 
 
 const gStrDay = m => m.format('dddd');

@@ -12,8 +12,8 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import {t} from "../../../lib/i18n/Translations";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

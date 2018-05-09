@@ -18,10 +18,10 @@ import {Icons} from '../../Config';
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
+import {t} from "../../lib/i18n/Translations";
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {t} from "../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
