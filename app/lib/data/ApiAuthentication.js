@@ -42,7 +42,7 @@ class ApiAuthentication {
 		if (this.userAuthToken !== null) {
 			// userAuthToken is still valid no need
 			// to recalculate it so call the callback immediately
-			Logger.v("ApiAuthentication getUserAuthenticationToken: ApiAuthentication found valid token");
+			Logger.v("ApiAuthentication getUserAuthenticationToken: found valid token");
 			return Promise.resolve(this.userAuthToken);
 		}
 

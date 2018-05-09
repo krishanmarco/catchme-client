@@ -8,7 +8,6 @@ import {ApiFormState} from "../ApiFormModel";
 import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TLocation} from "../../../daos/DaoLocation";
-import type {TLocationWithULS} from "../../../helpers/ULSListManager";
 import type {TThunk} from "../../../types/Types";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
 

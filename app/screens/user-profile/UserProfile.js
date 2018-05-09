@@ -20,6 +20,7 @@ import {RkText} from 'react-native-ui-kitten';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -204,8 +205,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 	_renderFavoriteListEmpty() {
 		return (
 			<FlatListEmpty
-				text={'This is suspicious...\nYou don\'t have any favorite locations, use the search screen to find and add your favorite locations'}
-				buttonText={'Search for a location'}
+				text={t('t_empty_user_location_favorites')}
+				buttonText={t('t_empty_bt_user_location_favorites')}
 				onPress={this._onLocationSearchPress}
 				image={require('../../assets/images/empty-favorites.png')}/>
 		);
@@ -230,8 +231,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 	_renderFriendsListEmpty() {
 		return (
 			<FlatListEmpty
-				text={'This is a bit sad...\nYou don\'t have any friends on catchme, use the search screen to find your friends'}
-				buttonText={'Search for your friends'}
+				text={t('t_empty_user_friends')}
+				buttonText={t('t_bt_empty_user_friends')}
 				onPress={this._onUserSearchPress}
 				image={require('../../assets/images/empty-friends.png')}/>
 		);

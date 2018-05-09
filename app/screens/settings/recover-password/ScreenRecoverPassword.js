@@ -7,6 +7,7 @@ import {RkTextInputFromPool} from "../../../comp/misc/forms/RkInputs";
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import type {TNavigator} from "../../../lib/types/Types";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -57,7 +58,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 								pool={this._getFormApiRecoverPassword()}
 								field='email'
 								keyboardType='email-address'
-								placeholder='Email'
+								placeholder={t('t_field_email')}
 								secureTextEntry
 								withBorder/>
 
@@ -66,7 +67,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 								loading={this._getFormApiRecoverPassword().loading}
 								onPress={this._onSendPress}
 								rkType='large stretch accentColor'
-								text={'Send'.toUpperCase()}
+								text={t('t_bt_send')}
 								withBorder/>
 						</View>
 					)}
@@ -82,11 +83,11 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 		const props = {};
 		if (passwordRecovered) {
 			props.imageSource = require('../../../assets/images/primary-success.png');
-			props.textText = 'Your password has been sen\'t to your email address';
+			props.textText = t('t_si_settings_recover_password_success');
 
 		} else {
 			props.imageSource = require('../../../assets/images/primary-me.png');
-			props.textText = 'Enter your email below to receive your password reset instructions';
+			props.textText = t('t_si_settings_recover_password');
 		}
 
 		return (

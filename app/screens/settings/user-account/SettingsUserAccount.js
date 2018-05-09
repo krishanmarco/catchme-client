@@ -10,9 +10,10 @@ import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/de
 import {Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -116,13 +117,13 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pEmail}
-						label='Email'
+						label={t('t_field_email')}
 						keyboardType='email-address'
 						icon={Icons.settingChangePassword}/>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pPhone}
-						label='Phone'
+						label={t('t_field_phone')}
 						keyboardType='phone-pad'
 						icon={Icons.settingChangePassword}/>
 					<RkTextInputFromPool
@@ -130,7 +131,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 						field={DaoUser.pPublicMessage}
 						multiline={true}
 						numberOfLines={3}
-						label='Status'
+						label={t('t_field_status')}
 						returnKeyType='next'
 						icon={Icons.settingChangePassword}/>
 				</View>
@@ -146,14 +147,14 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 		return (
 			<View>
-				<ListItemHeader name='Privacy'/>
+				<ListItemHeader name={t('t_privacy')}/>
 				<View style={styles.section}>
 					{[
-						{title: 'My previous location', options: privacyAll},
-						{title: 'My current location', options: privacySub},
-						{title: 'My next location', options: privacyAll},
-						{title: 'My email', options: privacyAll},
-						{title: 'My phone number', options: privacyAll}
+						{title: t('t_privacy_previous_location'), options: privacyAll},
+						{title: t('t_privacy_current_location'), options: privacySub},
+						{title: t('t_privacy_next_location'), options: privacyAll},
+						{title: t('t_privacy_email'), options: privacyAll},
+						{title: t('t_privacy_phone'), options: privacyAll}
 					].map((data, key) => (
 						<RkMultiChoice
 							key={key}
@@ -172,11 +173,11 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				<ListItemHeader/>
 				<View style={styles.section}>
 					<ListItemInfo
-						title='Change Password'
+						title={t('t_change_password')}
 						icon={Icons.settingChangePassword}
 						onPress={this._onChangePasswordPress}/>
 					<ListItemInfo
-						title='Logout'
+						title={t('t_logout')}
 						icon={Icons.settingLogout}
 						onPress={this._onLogoutPress}/>
 				</View>

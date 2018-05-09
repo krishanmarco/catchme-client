@@ -2,7 +2,6 @@
 import Logger from "../../Logger";
 import PoolActionCreator from "../PoolActionCreator";
 import {CacheMapState} from "./CacheMapModel";
-import {CacheState} from "../cache/CacheModel";
 import {
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,

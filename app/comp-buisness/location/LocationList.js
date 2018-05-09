@@ -7,6 +7,7 @@ import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cac
 import {ListItemLocationFollow} from './LocationListItems';
 import {poolConnect} from "../../redux/ReduxPool";
 import type {TLocation} from "../../lib/daos/DaoLocation";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************
@@ -64,7 +65,7 @@ class _LocationList extends React.PureComponent<void, Props, void> {
 				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderItem}
 
-				searchPlaceholder='Search by name, email, phone or address'
+				searchPlaceholder={t('t_search_location')}
 				filterExtractor={this._filterExtractor}
 			/>
 		);

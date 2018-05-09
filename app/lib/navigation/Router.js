@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Colors, Screens} from '../../Config';
 import type {TNavigator} from "../types/Types";
+import {t} from "../i18n/Translations";
 
 
 const navbarStyle = {
@@ -55,7 +56,7 @@ export default class Router {
 
 	static toScreenLogin(navigator: TNavigator) {
 		navigator.push({
-			title: 'Catchme',
+			title: t('t_catchme'),
 			screen: Screens.ScreenLogin,
 			...screenOptions
 		});
@@ -63,7 +64,7 @@ export default class Router {
 
 	static toScreenAddContacts(navigator: TNavigator) {
 		navigator.push({
-			title: 'My Contacts',
+			title: t('t_my_contacts'),
 			screen: Screens.ScreenAddContacts,
 			...screenOptions
 		});
@@ -71,7 +72,7 @@ export default class Router {
 
 	static toScreenLogout(navigator: TNavigator) {
 		navigator.push({
-			title: 'Logout',
+			title: t('t_logout'),
 			screen: Screens.ScreenLogout,
 			...screenOptions
 		});
@@ -79,7 +80,7 @@ export default class Router {
 
 	static toScreenNewLocation(navigator: TNavigator) {
 		navigator.push({
-			title: 'New Location',
+			title: t('t_new_location'),
 			screen: Screens.ScreenNewLocation,
 			...screenOptions
 		});
@@ -87,7 +88,7 @@ export default class Router {
 
 	static toScreenHelpAppInfo(navigator: TNavigator) {
 		navigator.push({
-			title: 'Catchme',
+			title: t('t_catchme'),
 			screen: Screens.ScreenHelpAppInfo,
 			...screenOptions
 		});
@@ -104,7 +105,7 @@ export default class Router {
 
 	static toModalSettingsUserAccount(navigator: TNavigator) {
 		navigator.showModal({
-			title: 'Account',
+			title: t('t_account'),
 			screen: Screens.ScreenSettingsUserAccount,
 			...screenOptions
 		});
@@ -112,7 +113,7 @@ export default class Router {
 
 	static toModalSettingsUserNotifications(navigator: TNavigator) {
 		navigator.showModal({
-			title: 'Notifications',
+			title: t('t_notifications'),
 			screen: Screens.ScreenSettingsUserNotifications,
 			...screenOptions
 		});
@@ -120,7 +121,7 @@ export default class Router {
 
 	static toModalSettingsAdminLocations(navigator: TNavigator) {
 		navigator.showModal({
-			title: 'My Locations',
+			title: t('t_my_locations'),
 			screen: Screens.ScreenSettingsAdminLocations,
 			...screenOptions
 		});
@@ -128,7 +129,7 @@ export default class Router {
 
 	static toModalSettingsChangePassword(navigator: TNavigator) {
 		navigator.showModal({
-			title: 'Change password',
+			title: t('t_change_password'),
 			screen: Screens.ScreenSettingsChangePassword,
 			...screenOptions
 		});
@@ -187,7 +188,6 @@ export default class Router {
 
 	static toModalRegister(navigator: TNavigator) {
 		navigator.showModal({
-			title: 'Register',
 			screen: Screens.ScreenRegister,
 			...fullScreenOptions
 		});
@@ -195,7 +195,6 @@ export default class Router {
 
 	static toModalRecoverPassword(navigator: TNavigator) {
 		navigator.showModal({
-			title: 'Recover password',
 			screen: Screens.ScreenRecoverPassword,
 			...fullScreenOptions
 		});

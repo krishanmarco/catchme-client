@@ -5,12 +5,13 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 import ImagePicker from '../../../lib/helpers/ImagePicker';
 import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {AvatarCircle, AvatarFull, Touchable} from "../../../comp/Misc";
+import {AvatarFull} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -84,24 +85,24 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pName}
 							editable={this._isNewLocation()}
-							label='Name'
+							label={t('t_field_name')}
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pEmail}
-							label='Email'
+							label={t('t_field_email')}
 							keyboardType='email-address'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pPhone}
-							label='Phone'
+							label={t('t_field_phone')}
 							keyboardType='phone-pad'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pCapacity}
-							label='Capacity'
+							label={t('t_field_capacity')}
 							keyboardType='numeric'
 							icon={Icons.settingChangePassword}/>
 						<RkTextInputFromPool
@@ -109,7 +110,7 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 							field={DaoLocation.pDescription}
 							multiline
 							numberOfLines={3}
-							label='Description'
+							label={t('t_field_description')}
 							returnKeyType='next'
 							icon={Icons.settingChangePassword}/>
 					</View>

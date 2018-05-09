@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import {t} from "../i18n/Translations";
 import DaoUser from "../daos/DaoUser";
 import Router from "../navigation/Router";
 import {Icons} from '../../Config';
@@ -74,11 +75,11 @@ export default class UserProfileDataPoints {
 
 		const userDataSectionData = this._buildUserDataSectionData();
 		if (userDataSectionData.length > 0)
-			userInfoSections.push({title: 'USER INFO', data: userDataSectionData});
+			userInfoSections.push({title: t('t_user_info').toUpperCase(), data: userDataSectionData});
 
 
 		if (this.includeSettingsAndHelp) {
-			userInfoSections.push({title: 'YOUR ACCOUNT', data: this._buildUserSettingsSectionData()});
+			userInfoSections.push({title: t('t_your_account').toUpperCase(), data: this._buildUserSettingsSectionData()});
 			userInfoSections.push({title: ' ', data: this._buildUserHelpSectionData()});
 		}
 
@@ -138,7 +139,7 @@ export default class UserProfileDataPoints {
 	_infoItemAccount(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdAccount,
-			title: 'Account',
+			title: t('t_account'),
 			icon: Icons.userAccountSettings
 		};
 	}
@@ -146,7 +147,7 @@ export default class UserProfileDataPoints {
 	_infoItemNotifications(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdNotifications,
-			title: 'Notifications',
+			title: t('t_notifications'),
 			icon: Icons.userNotificationSettings
 		};
 	}
@@ -154,7 +155,7 @@ export default class UserProfileDataPoints {
 	_infoItemAdminLocations(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdAdminLocations,
-			title: 'My locations',
+			title: t('t_my_locations'),
 			icon: Icons.userAdminLocations
 		};
 	}
@@ -162,7 +163,7 @@ export default class UserProfileDataPoints {
 	_infoItemAddContacts(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdAddContacts,
-			title: 'Add Contacts',
+			title: t('t_add_contacts'),
 			icon: Icons.settingAddContacts
 		};
 	}
@@ -170,28 +171,28 @@ export default class UserProfileDataPoints {
 	_infoItemFAQ(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdHelpFAQ,
-			title: 'FAQ'
+			title: t('t_faq')
 		};
 	}
 
 	_infoItemContactUs(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdHelpContactUs,
-			title: 'Contact us'
+			title: t('t_contact_us')
 		};
 	}
 
 	_infoItemTermsOfService(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdHelpTermsOfService,
-			title: 'Terms of service'
+			title: t('t_tos')
 		};
 	}
 
 	_infoItemAppInfo(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdHelpAppInfo,
-			title: 'App info.'
+			title: t('t_app_info')
 		};
 	}
 

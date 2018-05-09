@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 13-Apr-18 © **/
-import _ from 'lodash';
 import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
 import DaoUserLocationStatus from "../daos/DaoUserLocationStatus";
@@ -99,53 +98,5 @@ export default class ULSListManager {
 		return state;
 	}
 
-
-	// static deleteAndGetState(state: TULSListState, uls: TUserLocationStatus) {
-	// 	const {top, past, now, future} = state;
-	// 	const ulsId = DaoUserLocationStatus.gId(uls);
-	//
-	// 	const removeFilter = (location) => DaoLocation.isUlSInLocation(ulsId, location);
-	//
-	// 	_.remove(past, removeFilter);
-	// 	_.remove(now, removeFilter);
-	// 	_.remove(future, removeFilter);
-	//
-	// 	return new ULSListState(top, past, now, future);
-	// }
-
-	// static editAndGetState(state: TULSListState, newUls: TUserLocationStatus) {
-	// 	const {top, past, now, future} = state;
-	//
-	// 	// Merge all the TLocationWithULS
-	// 	const locationsWithUls = _.concat(past, now, future);
-	//
-	// 	// Get the id of the object to replace
-	// 	const newUlsId = DaoUserLocationStatus.gId(newUls);
-	//
-	// 	// Search for newUlsId in locationsWithUls and replace
-	// 	for (let i = 0; i < locationsWithUls.length; i++) {
-	// 		const oldUls = ULSListManager.gStatus(locationsWithUls[i]);
-	//
-	// 		if (DaoUserLocationStatus.gId(oldUls) == newUlsId) {
-	// 			locationsWithUls[i] = ULSListManager.sStatus(locationsWithUls[i], newUls);
-	// 			// Do not break, this list may have two objects that need changing
-	// 		}
-	// 	}
-	//
-	// 	// Re-organize the locations (the timestamp may have changed)
-	// 	const newState = ULSListManager._organizeState(locationsWithUls);
-	// 	newState.top = top;
-	// 	return newState;
-	// }
-
-	//
-	// static gStatus(location: TLocationWithULS): TUserLocationStatus {
-	// 	return _.get(location, ULSListManager.pStatus);
-	// }
-
-	// static sStatus(location: TLocation, status: TUserLocationStatus): TLocationWithULS {
-	// 	_.set(location, ULSListManager.pStatus, status);
-	// 	return location;
-	// }
 
 }

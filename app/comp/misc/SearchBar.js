@@ -5,6 +5,7 @@ import {Icon} from 'react-native-elements';
 import {RkTextInput} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TStyle} from "../../lib/types/Types";
+import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -17,7 +18,7 @@ type Props = {
 };
 
 const defaultProps = {
-	placeholder: 'Search',
+	placeholder: t('t_search'),
 };
 
 

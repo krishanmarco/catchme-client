@@ -7,6 +7,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -63,7 +64,7 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 							loading={this._formApiEditLocationProfile().loading}
 							rkType='large'
 							onPress={onSavePress}
-							text='Save & Close'/>
+							text={t('t_bt_edit_location')}/>
 					</View>
 
 				</View>

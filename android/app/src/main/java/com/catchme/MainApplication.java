@@ -3,13 +3,17 @@ package com.catchme;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+
+
+import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
+
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+
 import com.airbnb.android.react.maps.MapsPackage;
 import com.imagepicker.ImagePickerPackage;
 
 
 import com.magus.fblogin.FacebookLoginPackage;
-
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 
 import com.horcrux.svg.SvgPackage;
 import com.reactnativenavigation.NavigationApplication;
@@ -19,9 +23,7 @@ import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import io.realm.react.RealmReactPackage;
 
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.airbnb.android.react.maps.MapsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -42,17 +44,17 @@ public class MainApplication extends NavigationApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new MapsPackage(),
-                    new ImagePickerPackage(),
                     new RNGoogleSigninPackage(),
+                    new MapsPackage(),
+                    new RNI18nPackage(),
+                    new ImagePickerPackage(),
                     new FacebookLoginPackage(),
                     new SvgPackage(),
                     new RCTCameraPackage(),
                     new ReactNativeContacts(),
                     new RealmReactPackage(),
                     new VectorIconsPackage(),
-                    new RNFetchBlobPackage(),
-                    new LinearGradientPackage()
+                    new RNFetchBlobPackage()
             );
         }
     };

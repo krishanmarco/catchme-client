@@ -5,6 +5,7 @@ import {FullpageForm, LoadingButton, ScreenInfo} from "../../../comp/Misc";
 import {fullpageForm} from "../../../lib/theme/Styles";
 import {startApplication} from "../../../App";
 import {StyleSheet, View} from 'react-native';
+import {t} from "../../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -40,7 +41,7 @@ export default class Logout extends React.Component<void, Props, void> {
 						<ScreenInfo
 							style={styles.info}
 							imageSource={require('../../../assets/images/primary-logout.png')}
-							textText='Are you sure you want to log out?'/>
+							textText={t('t_si_settings_logout')}/>
 					)}
 
 					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
@@ -48,7 +49,7 @@ export default class Logout extends React.Component<void, Props, void> {
 						<LoadingButton
 							style={fullpageForm.fieldsButton}
 							rkType='large stretch accentColor'
-							text={'Logout'.toUpperCase()}
+							text={t('t_bt_logout')}
 							onPress={this._onLogoutPress}/>
 					)}
 

@@ -5,6 +5,7 @@ import moment from 'moment';
 import ObjectCache from "./ObjectCache";
 import {boolToIntString, intStringToBool} from '../HelperFunctions';
 import type {TLocation} from "../daos/DaoLocation";
+import {t} from "../i18n/Translations";
 
 
 // A location string-timing has the following shape
@@ -209,7 +210,7 @@ export default class ManagerWeekTimings {
 	}
 
 	toStringIsOpen() {
-		return this.isOpen() ? 'Aperto ora!' : 'Chiuso!';
+		return this.isOpen() ? t('t_location_open') : t('t_location_closed');
 	}
 
 	toStringRangeCurrentDay() {

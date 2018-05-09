@@ -11,6 +11,7 @@ import {ListItemLocation} from '../../../comp-buisness/location/LocationListItem
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
+import {t} from "../../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -63,7 +64,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		return (
 			<ScreenInfo
 				imageSource={require('../../../assets/images/primary-admin-locations.png')}
-				textText='These are the locations you manage'/>
+				textText={t('t_si_settings_admin_locations')}/>
 		);
 	}
 
@@ -84,8 +85,8 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderListEmpty() {
 		return (
 			<FlatListEmpty
-				text={'You have not yet added any locations, if you are the owner of a club/bar you can add it to catchme here.'}
-				buttonText={'Add your club'}
+				text={t('t_empty_admin_locations')}
+				buttonText={t('t_empty_bt_admin_locations')}
 				onPress={this._onLocationAdd}
 				image={require('../../../assets/images/empty-admin-locations.png')}/>
 		);
@@ -95,7 +96,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 		return (
 			<ListItemInfo
 				style={listItemInfo.itemStyle}
-				title='Add a new Location'
+				title={t('t_add_new_location')}
 				textRkType='header4'
 				icon={Icons.settingAdminAddLocation}
 				onPress={this._onLocationAdd}/>

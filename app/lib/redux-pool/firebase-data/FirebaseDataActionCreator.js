@@ -1,7 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import _ from "lodash";
 import ActionHandler, {TActionHandlerParams} from "../../helpers/ActionHandler";
-import CacheDefUserProfile from "../cache/def/CacheDefUserProfile";
+import CacheDefUserProfile, {
+	CACHE_ID_USER_PROFILE,
+	CacheDefUserProfileActionCreator
+} from "../cache/def/CacheDefUserProfile";
 import DaoAction from "../../daos/DaoAction";
 import DaoUser from "../../daos/DaoUser";
 import PoolActionCreator from "../PoolActionCreator";
@@ -13,6 +16,7 @@ import {
 import {POOL_TYPE_FIREBASE_DATA} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
 import type {TUser} from "../../daos/DaoUser";
+import CacheActionCreator from "../cache/CacheActionCreator";
 
 
 export default class FirebaseDataActionCreator extends PoolActionCreator {
@@ -43,6 +47,9 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 		this.loadMore = this.loadMore.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
 		this.initialize = this.initialize.bind(this);
+		this.userProfileActionCreator = new CacheDefUserProfileActionCreator(
+			new CacheActionCreator(CACHE_ID_USER_PROFILE, dispatch)
+		);
 	}
 
 
@@ -155,8 +162,10 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 			});
 
 			// Get and delete the item from the firebase database
-			const userProfile: TUser = CacheDefUserProfile.getUser({dispatch, getState});
-			pool.removeObjectByFirebaseId(DaoUser.gId(userProfile), firebaseItemId);
+			const {executeIfDataNotNull} = this.userProfileActionCreator;
+			executeIfDataNotNull((user: TUser) => {
+				pool.removeObjectByFirebaseId(DaoUser.gId(user), firebaseItemId);
+			});
 		});
 	}
 

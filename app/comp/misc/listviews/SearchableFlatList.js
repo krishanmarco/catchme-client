@@ -3,6 +3,7 @@ import React from 'react';
 import {Const} from "../../../Config";
 import {DefaultLoader, SearchBar} from "../../Misc";
 import {FlatList, StyleSheet} from 'react-native';
+import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -34,7 +35,7 @@ type State = {
 };
 
 const defaultProps = {
-	searchPlaceholder: 'Search',
+	searchPlaceholder: t('t_search'),
 	minTriggerChars: 0,
 	autoFilter: true,
 	onEndReachedThreshold: Const.defaultOnEndReachedThreshold

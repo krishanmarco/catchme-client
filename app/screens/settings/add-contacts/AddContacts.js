@@ -13,6 +13,7 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
+import {t} from "../../../lib/i18n/Translations";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -194,7 +195,7 @@ class _AddContacts extends React.Component<void, Props, void> {
 	_renderListEmpty() {
 		return (
 			<FlatListEmpty
-				text={'Well, it seems like none of your contacts are using catchme.\nMaybe you should invite them :)'}
+				text={t('t_empty_add_contacts')}
 				image={require('../../../assets/images/empty-friends.png')}/>
 		);
 	}

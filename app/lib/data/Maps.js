@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import {Icons} from "../../Config";
+import {t} from "../i18n/Translations";
 
 
 export default class Maps {
@@ -24,11 +25,11 @@ export default class Maps {
 	
 	
 	static _EReputations = [
-		{value: 200, icon: Icons.reputationJoe, name: 'joe'},
-		{value: 800, icon: Icons.reputationDude, name: 'dude'},
-		{value: 3200, icon: Icons.reputationHero, name: 'hero'},
-		{value: 12800, icon: Icons.reputationVip, name: 'vip'},
-		{value: 51200, icon: Icons.reputationCatcher, name: 'catcher'}
+		{value: 200, icon: Icons.reputationJoe, id: 'joe'},
+		{value: 800, icon: Icons.reputationDude, id: 'dude'},
+		{value: 3200, icon: Icons.reputationHero, id: 'hero'},
+		{value: 12800, icon: Icons.reputationVip, id: 'vip'},
+		{value: 51200, icon: Icons.reputationCatcher, id: 'catcher'}
 	];
 	
 	static reputationToIcon(value) {
@@ -40,9 +41,9 @@ export default class Maps {
 	
 	
 	static _EPrivacySettings = [
-		{value: 0, label: 'Only me'},
-		{value: 1, label: 'My friends'},
-		{value: 2, label: 'Everyone'},
+		{value: 0, label: t('t_only_me')},
+		{value: 1, label: t('t_everyone')},
+		{value: 2, label: t('t_my_friends')},
 	];
 	
 	static privacyDefault() {
@@ -56,13 +57,13 @@ export default class Maps {
 
 
 	static _EDaysOfWeek = [
-		{value: 0, label: 'Monday'},
-		{value: 1, label: 'Tuesday'},
-		{value: 2, label: 'Wednesday'},
-		{value: 3, label: 'Thursday'},
-		{value: 4, label: 'Friday'},
-		{value: 5, label: 'Saturday'},
-		{value: 6, label: 'Sunday'}
+		{value: 0, label: t('r_monday')},
+		{value: 1, label: t('r_tuesday')},
+		{value: 2, label: t('r_wednesday')},
+		{value: 3, label: t('r_thursday')},
+		{value: 4, label: t('r_friday')},
+		{value: 5, label: t('r_saturday')},
+		{value: 6, label: t('r_sunday')}
 	];
 
 	static daysOfWeek() {

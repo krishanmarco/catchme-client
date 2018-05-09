@@ -7,6 +7,7 @@ import {DefaultLoader, FlatListEmpty} from "../../comp/Misc";
 import {FlatList} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
 import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -52,7 +53,7 @@ export default class FeedList extends React.Component<void, Props, void> {
 	_renderEmptyList() {
 		return (
 			<FlatListEmpty
-				text={'You have no feed items for now. Maybe check back later...'}
+				text={t('t_empty_feed')}
 				image={require('../../assets/images/empty-feed.png')}/>
 		);
 	}

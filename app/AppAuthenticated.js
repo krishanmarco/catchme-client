@@ -31,6 +31,7 @@ import {Colors, Screens} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
 import type {TUser} from "./lib/daos/DaoUser";
+import {t} from "./lib/i18n/Translations";
 
 
 export default function initializeAuthenticatedApp(authUser: TUser) {
@@ -74,14 +75,14 @@ function start(authUser: TUser) {
 
 	const tabs = [
 		{
-			title: 'Catchme',
+			title: t('t_catchme'),
 			screen: Screens.ScreenUserProfile,
 			icon: require('./assets/images/black-user.png'),
 			selectedIcon: require('./assets/images/primary-user.png'),
 			passProps: {showAppLogo: true, userId: DaoUser.gId(authUser)}
 		},
 		{
-			title: 'Search',
+			title: t('t_search'),
 			screen: Screens.ScreenSearch,
 			icon: require('./assets/images/black-search.png'),
 			selectedIcon: require('./assets/images/primary-search.png'),
@@ -91,7 +92,7 @@ function start(authUser: TUser) {
 
 	if (Context.isFirebaseEnabled()) {
 		tabs.push({
-			title: 'Feed',
+			title: t('t_feed'),
 			screen: Screens.ScreenFeed,
 			icon: require('./assets/images/black-feed.png'),
 			selectedIcon: require('./assets/images/primary-feed.png'),
@@ -99,7 +100,7 @@ function start(authUser: TUser) {
 		});
 
 		tabs.push({
-			title: 'Featured',
+			title: t('t_featured'),
 			screen: Screens.ScreenFeaturedAds,
 			icon: require('./assets/images/black-featured.png'),
 			selectedIcon: require('./assets/images/primary-featured.png'),

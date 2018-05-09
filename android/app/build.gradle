@@ -158,9 +158,9 @@ dependencies {
     compile project(':react-native-contacts')
     compile project(':realm')
     compile project(':react-native-vector-icons')
+    compile project(':react-native-i18n')
     compile project(':react-native-image-picker')
     compile project(':react-native-fetch-blob')
-    compile project(':react-native-linear-gradient')
     compile(project(":react-native-google-signin")) {
         exclude group: "com.google.android.gms" // very important
     }

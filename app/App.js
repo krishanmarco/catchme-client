@@ -36,13 +36,10 @@ export function startApplication(userProfile: ?TUser = null) {
 	let apiKey = DaoUser.gApiKey(userProfile);
 	
 	if (apiKey == null) {
-		
 		runAppUnuth();
 		
 	} else {
-		
 		runAppAuth(userProfile);
-		
 	}
 }
 
