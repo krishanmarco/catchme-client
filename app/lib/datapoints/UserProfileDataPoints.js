@@ -155,7 +155,7 @@ export default class UserProfileDataPoints {
 	_infoItemAdminLocations(): TDataPoint {
 		return {
 			id: UserProfileDataPoints.infoItemIdAdminLocations,
-			title: t('my_locations'),
+			title: t('t_my_locations'),
 			icon: Icons.userAdminLocations
 		};
 	}
