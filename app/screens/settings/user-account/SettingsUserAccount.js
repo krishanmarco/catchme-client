@@ -5,7 +5,7 @@ import ImagePicker from "../../../lib/helpers/ImagePicker";
 import Maps from "../../../lib/data/Maps";
 import React from 'react';
 import Router from "../../../lib/navigation/Router";
-import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
+import {AvatarCircle, AvatarFull, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
 import {Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
@@ -106,15 +106,11 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	_renderProfileSection() {
 		return (
 			<View>
-				<ListItemHeader/>
-				<View style={styles.profileSection}>
-					<AvatarCircle
-						badge={Icons.userEditAvatar}
-						rkType='big'
-						uri={DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}
-						onPress={this._onUserPicturePress}/>
-				</View>
-				<View style={listItemInfo.section}>
+				<AvatarFull
+					source={{uri: DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}}
+					badge={Icons.userEditAvatar}
+					onPress={this._onUserPicturePress}/>
+				<View style={[styles.profileFields, listItemInfo.section]}>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pEmail}
@@ -208,7 +204,7 @@ const styles = StyleSheet.create({
 	root: {
 		paddingBottom: 8
 	},
-	profileSection: {
-		alignItems: 'center'
+	profileFields: {
+		marginTop: 8
 	}
 });

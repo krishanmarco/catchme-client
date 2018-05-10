@@ -2,55 +2,22 @@
 import _ from 'lodash';
 import React from 'react';
 import {BadgeOverlay, Touchable} from "../Misc";
-import {Icon} from 'react-native-elements';
 import {Image, StyleSheet, View} from 'react-native';
-import {RkComponent} from 'react-native-ui-kitten';
 import type {TIcon, TImageSource} from "../../lib/types/Types";
-
-
-// Avatar *********************************************************************************
-// Avatar *********************************************************************************
-
-class Avatar extends RkComponent {
-	componentName = 'Avatar';
-	typeMapping = {
-		listItemHeaderContent: {},
-		image: {},
-		badge: {}
-	};
-
-	render() {
-		const {container, ...imgStyle} = this.defineStyles();
-		const {style, uri, badge, onPress} = this.props;
-
-		return (
-			<View style={[container, style]}>
-				<Touchable onPress={onPress}>
-					{!_.isEmpty(uri) && <Image style={imgStyle.image} source={{uri}}/>}
-					{!!badge && (
-						<View style={imgStyle.badge}>
-							<Icon {...badge} />
-						</View>
-					)}
-				</Touchable>
-			</View>
-		);
-	}
-}
-
-
+import {Avatar} from 'react-native-elements';
 
 // AvatarCircle *****************************************************************************************
 // AvatarCircle *****************************************************************************************
 
 type Props = {
-	uri: string,
-	badge?: Object,
-	rkType?: string
+	uri: string
 };
 
-export const AvatarCircle = ({rkType, ...props}: Props) => (
-	<Avatar {...props} rkType={`circle ${rkType}`}/>
+export const AvatarCircle = ({uri, ...props}: Props) => (
+	<Avatar
+		source={{uri}}
+		size='small'
+		rounded/>
 );
 
 
@@ -68,7 +35,7 @@ type Props = {
 export const AvatarFull = ({source, onPress, height, badge}: Props) => (
 	<Touchable onPress={onPress}>
 		<BadgeOverlay
-			backgroundJsx={(
+			backgroundJsx={!_.isEmpty(source.uri) && (
 				<Image
 					style={[{height}, styles.avatarFullImage]}
 					source={source}/>

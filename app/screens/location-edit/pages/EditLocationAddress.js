@@ -66,7 +66,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 					{this._renderHeader()}
 
-					<View style={styles.editLocationAddressFormRow}>
+					<View style={[listItemInfo.section, styles.editLocationAddressFormRow]}>
 						{[
 							{field: DaoLocation.pAddressCountry, label: t('t_country')},
 							{field: DaoLocation.pAddressState, label: t('t_state')},
@@ -74,13 +74,12 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 							{field: DaoLocation.pAddressPostcode, label: t('t_postcode')},
 							{field: DaoLocation.pAddressAddress, label: t('t_address')},
 						].map((addressComponent, key) => (
-							<View key={key} style={listItemInfo.section}>
-								<RkTextInputFromPool
-									pool={this._formApiEditLocationProfile()}
-									editable={false}
-									field={addressComponent.field}
-									label={addressComponent.label}/>
-							</View>
+							<RkTextInputFromPool
+								key={key}
+								pool={this._formApiEditLocationProfile()}
+								editable={false}
+								field={addressComponent.field}
+								label={addressComponent.label}/>
 						))}
 					</View>
 				</View>

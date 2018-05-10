@@ -106,7 +106,7 @@ const Fonts = {
 	logo: 'Righteous-Regular',
 };
 
-const FontBaseValue = scale(18);
+const FontBaseValue = scale(16);
 
 export const KittenTheme = {
 	name: 'light',
@@ -229,40 +229,29 @@ export const KittenTheme = {
 export function bootstrapRkTheme() {
 	
 	RkTheme.setTheme(KittenTheme, null);
-	
-	/*
-	 RkText types
-	 */
-	
+
 	RkTheme.setType('RkText', 'basic', {
 		fontFamily: theme => theme.fonts.family.bold,
 		backgroundColor: 'transparent'
 	});
-	
 	RkTheme.setType('RkText', 'regular', {
 		fontFamily: theme => theme.fonts.family.regular,
 	});
-	
 	RkTheme.setType('RkText', 'light', {
 		fontFamily: theme => theme.fonts.family.light,
 	});
-	
 	RkTheme.setType('RkText', 'logo', {
 		fontFamily: theme => theme.fonts.family.logo,
 	});
-	
 	RkTheme.setType('RkText', 'moon', {
 		fontFamily: 'icomoon',
 	});
-	
 	RkTheme.setType('RkText', 'awesome', {
 		fontFamily: 'fontawesome',
 	});
-	
 	RkTheme.setType('RkText', 'hero', {
 		fontSize: scale(24)
 	});
-	
 	RkTheme.setType('RkText', 'menuIcon', {
 		fontSize: 44
 	});
@@ -290,7 +279,6 @@ export function bootstrapRkTheme() {
 		});
 	}
 	
-	//theme text styles
 	RkTheme.setType('RkText', 'header1', {
 		fontSize: theme => theme.fonts.sizes.h1,
 		fontFamily: theme => theme.fonts.family.bold
@@ -359,26 +347,20 @@ export function bootstrapRkTheme() {
 		fontSize: theme => theme.fonts.sizes.p4,
 		fontFamily: theme => theme.fonts.family.regular
 	});
-	
 	RkTheme.setType('RkText', 'center', {
 		text: {
 			textAlign: 'center'
 		}
 	});
-	
 	RkTheme.setType('RkText', 'chat', {
 		color: theme => theme.colors.chat.text
 	});
-	/*
-	 RkButton types
-	 */
-	
+
 	RkTheme.setType('RkButton', 'basic', {
 		listItemHeaderContent: {
 			alignSelf: 'auto',
 		}
 	});
-	
 	RkTheme.setType('RkButton', 'square', {
 		borderRadius: 3,
 		backgroundColor: theme => theme.colors.button.back,
@@ -387,7 +369,6 @@ export function bootstrapRkTheme() {
 			margin: 8
 		},
 	});
-	
 	RkTheme.setType('RkButton', 'tile', {
 		borderRadius: 0,
 		backgroundColor: 'transparent',
@@ -397,15 +378,12 @@ export function bootstrapRkTheme() {
 			flexDirection: 'column'
 		}
 	});
-	
 	RkTheme.setType('RkButton', 'link', {
 		color: theme => theme.colors.primary,
 	});
-	
 	RkTheme.setType('RkButton', 'contrast', {
 		color: theme => theme.colors.text.base,
 	});
-	
 	RkTheme.setType('RkButton', 'icon', {
 		height: scale(56),
 		width: scale(56),
@@ -413,11 +391,9 @@ export function bootstrapRkTheme() {
 		backgroundColor: theme => theme.colors.control.background,
 		borderWidth: 1
 	});
-	
 	RkTheme.setType('RkButton', 'highlight', {
 		backgroundColor: theme => theme.colors.button.highlight
 	});
-	
 	RkTheme.setType('RkButton', 'social', {
 		height: scale(52),
 		width: scale(52),
@@ -426,10 +402,7 @@ export function bootstrapRkTheme() {
 		borderWidth: 1,
 		backgroundColor: theme => theme.colors.control.background
 	});
-	/*
-	 RkModalImg types
-	 */
-	
+
 	RkTheme.setType('RkModalImg', 'basic', {
 		img: {
 			margin: 1.5,
@@ -446,11 +419,7 @@ export function bootstrapRkTheme() {
 			paddingBottom: 6
 		},
 	});
-	
-	/*
-	 RkTextInput
-	 */
-	
+
 	RkTheme.setType('RkTextInput', 'basic', {
 		input: {
 			fontFamily: theme => theme.fonts.family.bold
@@ -460,7 +429,6 @@ export function bootstrapRkTheme() {
 		labelColor: theme => theme.colors.input.label,
 		placeholderTextColor: theme => theme.colors.input.placeholder,
 	});
-	
 	RkTheme.setType('RkTextInput', 'rounded', {
 		fontSize: theme => theme.fonts.sizes.h6,
 		borderWidth: 1,
@@ -473,8 +441,6 @@ export function bootstrapRkTheme() {
 			},
 		},
 	});
-	
-	
 	RkTheme.setType('RkTextInput', 'right', {
 		input: {
 			textAlign: 'right',
@@ -492,7 +458,6 @@ export function bootstrapRkTheme() {
 		backgroundColor: 'transparent',
 		labelFontSize: theme => theme.fonts.sizes.small,
 	});
-	
 	RkTheme.setType('RkTextInput', 'row', {
 		input: {
 			marginVertical: 0,
@@ -517,7 +482,6 @@ export function bootstrapRkTheme() {
 		},
 		
 	});
-	
 	RkTheme.setType('RkTextInput', 'iconRight', {
 		label: {
 			position: 'absolute',
@@ -527,7 +491,6 @@ export function bootstrapRkTheme() {
 			marginRight: scale(46)
 		},
 	});
-	
 	RkTheme.setType('RkTextInput', 'sticker', {
 		input: {
 			marginHorizontal: 14
@@ -541,11 +504,7 @@ export function bootstrapRkTheme() {
 			right: 0
 		}
 	});
-	
-	/*
-	 RkCard types
-	 */
-	
+
 	RkTheme.setType('RkCard', 'basic', {
 		listItemHeaderContent: {
 			borderRadius: 3,
@@ -564,7 +523,6 @@ export function bootstrapRkTheme() {
 			paddingHorizontal: 0
 		}
 	});
-	
 	RkTheme.setType('RkCard', 'backImg', {
 		listItemHeaderContent: {
 			borderWidth: 0,
@@ -587,8 +545,6 @@ export function bootstrapRkTheme() {
 			paddingHorizontal: 0
 		}
 	});
-	
-	
 	RkTheme.setType('RkCard', 'imgBlock', {
 		img: {
 			height: 235
@@ -608,7 +564,6 @@ export function bootstrapRkTheme() {
 			paddingHorizontal: 0
 		}
 	});
-	
 	RkTheme.setType('RkCard', 'horizontal', {
 		listItemHeaderContent: {
 			flexDirection: 'row',
@@ -623,7 +578,6 @@ export function bootstrapRkTheme() {
 			width: 120
 		}
 	});
-	
 	RkTheme.setType('RkCard', 'blog', {
 		header: {
 			paddingHorizontal: 16,
@@ -642,7 +596,6 @@ export function bootstrapRkTheme() {
 			alignItems: 'center'
 		}
 	});
-	
 	RkTheme.setType('RkCard', 'article', {
 		listItemHeaderContent: {
 			borderWidth: 0,
@@ -668,7 +621,6 @@ export function bootstrapRkTheme() {
 			alignItems: 'center'
 		}
 	});
-	
 	RkTheme.setType('RkCard', 'credit', {
 		listItemHeaderContent: {
 			borderWidth: 0,
@@ -691,11 +643,7 @@ export function bootstrapRkTheme() {
 			alignItems: 'flex-end'
 		}
 	});
-	
-	/*
-	 Register components
-	 */
-	
+
 	RkTheme.registerComponent('Avatar', (theme) => {
 		return ({
 			_base: {
@@ -778,8 +726,7 @@ export function bootstrapRkTheme() {
 			}
 		});
 	});
-	
-	
+
 	RkTheme.registerComponent('LoadingButton', (theme) => {
 		return ({
 			_base: {

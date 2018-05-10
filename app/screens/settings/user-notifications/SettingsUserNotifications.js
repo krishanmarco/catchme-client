@@ -113,31 +113,27 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	}
 
 	_renderNotificationSwitches() {
-		const settingNotifications = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput)
-			.split('')
-			.map(intStringToBool);
+		const settNotifInt = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput)
+			.split('')							// ['0', '0', '0']
+			.map(intStringToBool);	// [ 0,   0,   0 ]
 
 		return (
 			<View style={listItemInfo.section}>
 				<RkSwitch
 					title={t('t_disable_all')}
-					value={[
-						settingNotifications[0],
-						settingNotifications[1],
-						settingNotifications[2]
-					].every(i => !i)}
+					value={settNotifInt.every(i => !i)}
 					onValueChange={this._onDisableAllValueChange}/>
 				<RkSwitch
 					title={t('t_notifications_friendship_request')}
-					value={settingNotifications[0]}
+					value={settNotifInt[0]}
 					onValueChange={this._onFriendshipRequestValueChange}/>
 				<RkSwitch
 					title={t('t_notifications_friend_actions')}
-					value={settingNotifications[1]}
+					value={settNotifInt[1]}
 					onValueChange={this._onFriendActionsValueChange}/>
 				<RkSwitch
 					title={t('t_notifications_catchme_suggestions')}
-					value={settingNotifications[2]}
+					value={settNotifInt[2]}
 					onValueChange={this._onCatchmeSuggestionsValueChange}/>
 			</View>
 		);

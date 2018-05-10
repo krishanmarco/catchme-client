@@ -2,7 +2,7 @@
 import React from 'react';
 import {Const} from "../../../Config";
 import {DefaultLoader, SearchBar} from "../../Misc";
-import {FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
@@ -109,11 +109,12 @@ export default class SearchableFlatList extends React.PureComponent<void, Props,
 
 				ListEmptyComponent={this._renderOnListEmpty}
 				ListHeaderComponent={
-					<SearchBar
-						style={styles.searchBar}
-						placeholder={searchPlaceholder}
-						onSearchPressed={onSearchPressed}
-						onChange={this._onSearchChanged}/>
+					<View style={styles.searchBar}>
+						<SearchBar
+							placeholder={searchPlaceholder}
+							onSearchPressed={onSearchPressed}
+							onChange={this._onSearchChanged}/>
+					</View>
 				}
 				ListFooterComponent={this._renderFooterLoader}/>
 		);

@@ -25,7 +25,7 @@ export const ListItemAction = ({icon, size, onPress}: TListItemAction) => (
 
 ListItemAction.defaultProps = {
 	icon: Icons.defaultIcon,
-	size: 30,
+	size: 27,
 	onPress: () => null
 };
 
@@ -72,7 +72,7 @@ const ListItemWithActions = ({header, content, subContent, avatarUri, onPress, a
 					{!!avatarUri && <AvatarCircle uri={avatarUri}/>}
 
 					<View style={styles.listItemWithActionsContent}>
-						<RkText style={styles.listItemWithActionsContentText}>{header}</RkText>
+						<RkText style={styles.listItemWithActionsContentText} numberOfLines={1}>{header}</RkText>
 						{!!content && <RkText numberOfLines={1} rkType='secondary5 hintColor'>{content}</RkText>}
 						{!!subContent && <RkText rkType='secondary6'>{subContent}</RkText>}
 					</View>
@@ -110,9 +110,7 @@ const styles = RkStyleSheet.create(theme => ({
 	listItemWithActionsRoot: {
 		display: 'flex',
 		paddingHorizontal: 12,
-		alignItems: 'center',
-		borderBottomWidth: 0,
-		borderColor: theme.colors.border.base,
+		alignItems: 'center'
 	},
 	listItemSection: {
 		marginRight: 8
@@ -121,7 +119,7 @@ const styles = RkStyleSheet.create(theme => ({
 		marginRight: 0
 	},
 	listItemWithActionsHeader: {
-		paddingVertical: 12,
+		paddingVertical: 8,
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
@@ -130,7 +128,7 @@ const styles = RkStyleSheet.create(theme => ({
 		marginLeft: 12
 	},
 	listItemWithActionsContentText: {
-		marginBottom: 2
+		marginBottom: 1
 	},
 	listItemActionRoot: {
 		height: '100%'
