@@ -96,6 +96,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
 
 		// Query the WS for all the users in the searchString
+		// todo handle unhandled promise rejection
 		return ApiClient.searchUsers(searchStrings)
 			.then(users => {
 
