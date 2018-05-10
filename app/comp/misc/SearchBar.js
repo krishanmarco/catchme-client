@@ -43,8 +43,8 @@ export default class SearchBar extends React.Component<void, Props, void> {
 	render() {
 		const {onSearchPressed, placeholder, style} = this.props;
 		return (
-			<View style={[styles.root, style]}>
-				<View style={listItemInfo.section}>
+			<View style={listItemInfo.section}>
+				<View style={[styles.root, style]}>
 					<RkTextInput
 						style={styles.textInput}
 						rkType='row rounded'

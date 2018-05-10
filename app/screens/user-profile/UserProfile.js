@@ -232,7 +232,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		return (
 			<FlatListEmpty
 				text={t('t_empty_user_friends')}
-				buttonText={t('t_bt_empty_user_friends')}
+				buttonText={t('t_empty_bt_user_friends')}
 				onPress={this._onUserSearchPress}
 				image={require('../../assets/images/empty-friends.png')}/>
 		);
