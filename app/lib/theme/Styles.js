@@ -22,7 +22,7 @@ export const fullpageForm = StyleSheet.create({
 });
 
 export const listItemInfo = {
-	itemStyle: {
+	section: {
 		paddingHorizontal: 16
 	}
 };

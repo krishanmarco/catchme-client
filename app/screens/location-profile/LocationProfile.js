@@ -269,7 +269,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				style={listItemInfo.itemStyle}
+				style={listItemInfo.section}
 				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
 				{...item}/>
 		);

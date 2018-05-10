@@ -95,7 +95,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderLocationsHeader() {
 		return (
 			<ListItemInfo
-				style={listItemInfo.itemStyle}
+				style={listItemInfo.section}
 				title={t('t_add_new_location')}
 				textRkType='header4'
 				icon={Icons.settingAdminAddLocation}

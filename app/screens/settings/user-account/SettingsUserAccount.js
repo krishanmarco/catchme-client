@@ -14,6 +14,7 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -105,15 +106,15 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	_renderProfileSection() {
 		return (
 			<View>
-				<ListItemHeader />
-				<View style={styles.section}>
-					<View style={styles.profileSection}>
-						<AvatarCircle
-							badge={Icons.userEditAvatar}
-							rkType='big'
-							uri={DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}
-							onPress={this._onUserPicturePress}/>
-					</View>
+				<ListItemHeader/>
+				<View style={styles.profileSection}>
+					<AvatarCircle
+						badge={Icons.userEditAvatar}
+						rkType='big'
+						uri={DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}
+						onPress={this._onUserPicturePress}/>
+				</View>
+				<View style={listItemInfo.section}>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pEmail}
@@ -148,7 +149,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader name={t('t_privacy')}/>
-				<View style={styles.section}>
+				<View style={listItemInfo.section}>
 					{[
 						{title: t('t_privacy_previous_location'), options: privacyAll},
 						{title: t('t_privacy_current_location'), options: privacySub},
@@ -171,7 +172,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return (
 			<View>
 				<ListItemHeader/>
-				<View style={styles.section}>
+				<View style={listItemInfo.section}>
 					<ListItemInfo
 						title={t('t_change_password')}
 						icon={Icons.settingChangePassword}
@@ -206,9 +207,6 @@ export default SettingsUserAccount;
 const styles = StyleSheet.create({
 	root: {
 		paddingBottom: 8
-	},
-	section: {
-		paddingHorizontal: 16,
 	},
 	profileSection: {
 		alignItems: 'center'

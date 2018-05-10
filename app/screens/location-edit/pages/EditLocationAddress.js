@@ -12,6 +12,7 @@ import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -73,12 +74,13 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 							{field: DaoLocation.pAddressPostcode, label: t('t_postcode')},
 							{field: DaoLocation.pAddressAddress, label: t('t_address')},
 						].map((addressComponent, key) => (
-							<RkTextInputFromPool
-								key={key}
-								pool={this._formApiEditLocationProfile()}
-								editable={false}
-								field={addressComponent.field}
-								label={addressComponent.label}/>
+							<View key={key} style={listItemInfo.section}>
+								<RkTextInputFromPool
+									pool={this._formApiEditLocationProfile()}
+									editable={false}
+									field={addressComponent.field}
+									label={addressComponent.label}/>
+							</View>
 						))}
 					</View>
 				</View>
@@ -148,7 +150,6 @@ const styles = StyleSheet.create({
 	},
 	editLocationAddressFormRow: {
 		flex: 0.72,
-		paddingHorizontal: 16,
 		marginTop: 16
 	},
 	locationMap: {

@@ -253,7 +253,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				style={listItemInfo.itemStyle}
+				style={listItemInfo.section}
 				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, userProfile, navigator)}
 				{...item}/>
 		);
