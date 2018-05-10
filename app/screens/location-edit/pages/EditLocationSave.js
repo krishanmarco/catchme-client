@@ -6,8 +6,8 @@ import {AvatarFull, LoadingButton} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import {t} from "../../../lib/i18n/Translations";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

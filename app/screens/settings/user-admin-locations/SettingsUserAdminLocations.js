@@ -8,10 +8,10 @@ import {FlatListEmpty, ListItemInfo, ScreenInfo} from "../../../comp/Misc";
 import {Icons} from '../../../Config';
 import {listItemInfo} from "../../../lib/theme/Styles";
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
+import {t} from "../../../lib/i18n/Translations";
 import type {TLocation} from "../../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-import {t} from "../../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -95,7 +95,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 	_renderLocationsHeader() {
 		return (
 			<ListItemInfo
-				style={listItemInfo.itemStyle}
+				style={listItemInfo.section}
 				title={t('t_add_new_location')}
 				textRkType='header4'
 				icon={Icons.settingAdminAddLocation}

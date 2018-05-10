@@ -30,8 +30,8 @@ import {applyMiddleware, createStore} from 'redux';
 import {Colors, Screens} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
-import type {TUser} from "./lib/daos/DaoUser";
 import {t} from "./lib/i18n/Translations";
+import type {TUser} from "./lib/daos/DaoUser";
 
 
 export default function initializeAuthenticatedApp(authUser: TUser) {

@@ -245,6 +245,13 @@ export default class DaoUser {
 			() => _.get(user, DaoUser.pConnectionFriends, []).map(DaoUser.gId)
 		);
 	}
+
+	static gConnectionPendingIds(user: TUser) {
+		return []; // todo this must be implemented server side;
+		// return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
+		// 	() => _.get(user, DaoUser.pConnectionFriends, []).map(DaoUser.gId)
+		// );
+	}
 	
 	static gConnectionRequestIds(user: TUser) {
 		return ObjectCache.get(user, DaoUser._pConnectionRequestIds,

@@ -11,9 +11,9 @@ import UserList from '../../../comp-buisness/user/UserList';
 import {FlatListEmpty} from "../../../comp/Misc";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
+import {t} from "../../../lib/i18n/Translations";
 import type {TNavigator} from "../../../lib/types/Types";
 import type {TUser} from "../../../lib/daos/DaoUser";
-import {t} from "../../../lib/i18n/Translations";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -96,6 +96,7 @@ function mapContactsToUsers(currentUserId, contacts) {
 
 
 		// Query the WS for all the users in the searchString
+		// todo handle unhandled promise rejection
 		return ApiClient.searchUsers(searchStrings)
 			.then(users => {
 

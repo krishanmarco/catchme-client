@@ -9,11 +9,10 @@ import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cac
 import {FlatListEmpty} from "../../comp/Misc";
 import {ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
 import {poolConnect} from "../../redux/ReduxPool";
+import {t} from "../../lib/i18n/Translations";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {t} from "../../lib/i18n/Translations";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -62,23 +61,23 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		return DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 	}
 
-	_onUserLocationStatusEditPress(status: TUserLocationStatus, location: TLocation) {
+	_onUserLocationStatusEditPress(locationWithULS: TLocationWithULS) {
 		const {navigator} = this.props;
 		Router.toModalUserLocationStatus(
 			navigator,
 			{
-				locationId: DaoLocation.gId(location),
-				initialStatus: {...status}
+				locationId: DaoLocation.gId(locationWithULS),
+				initialStatus: {...DaoLocation.gUserLocationStatus(locationWithULS)}
 			},
-			DaoLocation.gName(location)
+			DaoLocation.gName(locationWithULS)
 		);
 	}
 
 	_getSections() {
 		const {now, future, top} = this.state;
 		return [
-			{title: t('t_now').toUpperCase(), data: now},
-			{title: t('t_later').toUpperCase(), data: future},
+			{title: t('t_uls_now').toUpperCase(), data: now},
+			{title: t('t_uls_later').toUpperCase(), data: future},
 			{title: t('t_top_5_places').toUpperCase(), data: top}
 		].filter(section => section.data.length > 0);
 	}

@@ -21,7 +21,7 @@ const ListDataPoints = ({listDataPoints = [], style}: Props) => (
 	<Grid style={[styles.header, style]}>
 		<Row>
 			{listDataPoints.map((dp, key) => (
-				<View key={key} style={styles.section}>
+				<View key={key} style={styles.listDataSection}>
 					<RkText rkType='header4' style={styles.space}>{dp.value}</RkText>
 					<RkText rkType='secondary2 hintColor'>{dp.name}</RkText>
 				</View>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 12,
 		marginBottom: 16,
 	},
-	section: {
+	listDataSection: {
 		flex: 1,
 		alignItems: 'center'
 	},

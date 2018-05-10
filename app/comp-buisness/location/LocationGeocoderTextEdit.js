@@ -3,8 +3,8 @@ import GoogleMapsDataDecoder from "../../lib/maps/GoogleMapsDataDecoder";
 import React from 'react';
 import {Colors, Const} from '../../Config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import type {TLocation} from "../../lib/daos/DaoLocation";
 import {t} from "../../lib/i18n/Translations";
+import type {TLocation} from "../../lib/daos/DaoLocation";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

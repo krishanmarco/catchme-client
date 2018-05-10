@@ -7,8 +7,9 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {StyleSheet, View} from 'react-native';
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
 import {t} from "../../../lib/i18n/Translations";
+import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -96,7 +97,9 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 		return (
 			<View>
 				{this._renderScreenHeader()}
-				{this._renderNotificationSwitches()}
+				<View style={styles.notificationSwitches}>
+					{this._renderNotificationSwitches()}
+				</View>
 			</View>
 		);
 	}
@@ -115,7 +118,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 			.map(intStringToBool);
 
 		return (
-			<View style={styles.section}>
+			<View style={listItemInfo.section}>
 				<RkSwitch
 					title={t('t_disable_all')}
 					value={[
@@ -162,8 +165,7 @@ const styles = StyleSheet.create({
 	listItemWithActionsContent: {
 		paddingHorizontal: 4,
 	},
-	section: {
+	notificationSwitches: {
 		marginTop: 64,
-		paddingHorizontal: 16,
 	},
 });

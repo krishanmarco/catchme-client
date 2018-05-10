@@ -5,6 +5,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import React from 'react';
 import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
+import {AvatarFull, Touchable} from "../../comp/Misc";
 import {bindActionCreators} from 'redux';
 import {Colors, Const, Icons} from '../../Config';
 import {compareTimeSmaller} from "../../lib/HelperFunctions";
@@ -12,10 +13,9 @@ import {Icon} from 'react-native-elements';
 import {Image, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton, RkText} from "react-native-ui-kitten";
-import {Touchable} from "../../comp/Misc";
+import {t} from "../../lib/i18n/Translations";
 import type {TLocation} from "../../lib/daos/DaoLocation";
 import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-import {t} from "../../lib/i18n/Translations";
 
 
 // Const *************************************************************************************************
@@ -235,7 +235,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.root}>
 				<View style={styles.headerImageRow}>{this._renderHeaderImage()}</View>
-				<View style={styles.timingsRow}>{this._renderContent()}</View>
+				<View style={styles.contentRow}>{this._renderContent()}</View>
 				<View style={styles.timingActionButtonsRow}>{this._renderTimingActionButtons()}</View>
 				<View style={styles.confirmStatusButtonRow}>{this._renderConfirmStatusButton()}</View>
 				<DateTimePicker
@@ -265,8 +265,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 	_renderHeaderImage() {
 		const {locationProfile} = this.props;
 		return (
-			<Image
-				style={styles.headerImage}
+			<AvatarFull
 				source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
 		);
 	}
@@ -384,7 +383,7 @@ const styles = StyleSheet.create({
 	headerImageRow: {
 		flex: 0.32
 	},
-	timingsRow: {
+	contentRow: {
 		flex: 0.24
 	},
 	timingActionButtonsRow: {
@@ -392,11 +391,6 @@ const styles = StyleSheet.create({
 	},
 	confirmStatusButtonRow: {
 		flex: 0.16
-	},
-	headerImage: {
-		width: '100%',
-		height: '100%',
-		resizeMode: 'cover',
 	},
 	contentRowCont: {
 		flex: 1,

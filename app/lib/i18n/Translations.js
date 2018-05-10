@@ -29,7 +29,7 @@ I18n.translations = {
 		t_pm: 'pm',
 
 		t_uls_now: 'now',
-		t_later: 'later on',
+		t_uls_later: 'later on',
 		t_top_5_places: 'Most frequent places',
 
 		t_uls_here_now: 'I am here now!',
@@ -194,7 +194,7 @@ I18n.translations = {
 		t_pm: 'pm',
 
 		t_uls_now: 'Adesso',
-		t_later: 'Dopo',
+		t_uls_later: 'Dopo',
 		t_top_5_places: 'Piu\' frequentati',
 
 		t_uls_here_now: 'Sono qua adesso!',

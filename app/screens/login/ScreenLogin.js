@@ -18,9 +18,9 @@ import {SignInFacebook} from "../../lib/social/SignInFacebook";
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {startApplication} from "../../App";
 import {StyleSheet, View} from 'react-native';
+import {t} from "../../lib/i18n/Translations";
 import type {TNavigator} from "../../lib/types/Types";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

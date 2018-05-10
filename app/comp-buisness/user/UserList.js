@@ -5,9 +5,9 @@ import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
 import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
 import {poolConnect} from "../../redux/ReduxPool";
+import {t} from "../../lib/i18n/Translations";
 import type {ListItemUserProps} from "./UserListItems";
 import type {TUser} from "../../lib/daos/DaoUser";
-import {t} from "../../lib/i18n/Translations";
 
 
 // Const ************************************************************************************************
@@ -72,6 +72,10 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		return DaoUser.gConnectionFriendIds(this._cacheUserProfile().data);
 	}
 
+	_getPendingIds() {
+		return DaoUser.gConnectionPendingIds(this._cacheUserProfile().data);
+	}
+
 
 	render() {
 		const {users, ...searchableFlatListProps} = this.props;
@@ -104,11 +108,14 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		const blockUser = this._cacheUserProfile().blockUser;
 		const acceptUserFriendship = this._cacheUserProfile().acceptUserFriendship;
 
-		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == DaoUser.gId(item);
-		const showAccept = allowAcceptFriend && this._getRequestIds().includes(DaoUser.gId(item));
-		const showUnblock = allowUnblockUser && this._getBlockedIds().includes(DaoUser.gId(item));
-		const showRequest = allowRequestFriend && !this._getFriendIds().includes(DaoUser.gId(item));
-		const showRemove = allowRemoveFriend && this._getFriendIds().includes(DaoUser.gId(item));
+		const uid = DaoUser.gId(item);
+		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == uid;
+		const showAccept = allowAcceptFriend && this._getRequestIds().includes(uid);
+		const showUnblock = allowUnblockUser && this._getBlockedIds().includes(uid);
+		const showRemove = allowRemoveFriend && this._getFriendIds().includes(uid);
+		const showRequest = allowRequestFriend
+			&& !this._getFriendIds().includes(uid)
+			&& !this._getPendingIds().includes(uid);
 
 		if (!isSameUser) {
 			if (showAccept) {
