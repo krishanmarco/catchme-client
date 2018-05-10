@@ -7,12 +7,12 @@ import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {AvatarFull} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -78,7 +78,8 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 						<AvatarFull
 							source={{uri: DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}}
 							onPress={this._onLocationPicturePress}
-							badge={Icons.locationEditAvatar}/>
+							badge={Icons.locationEditAvatar}
+							defaultUri={Const.locationDefaultAvatar}/>
 					</View>
 
 					<View style={[listItemInfo.section, styles.editLocationInfoFormRow]}>

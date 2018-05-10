@@ -3,6 +3,7 @@ import DaoLocation from "../../../lib/daos/DaoLocation";
 import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {AvatarFull, LoadingButton} from "../../../comp/Misc";
+import {Const} from "../../../Config";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
@@ -44,7 +45,8 @@ class _EditLocationSave extends React.Component<void, Props, void> {
 
 				<View>
 					<AvatarFull
-						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
+						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}
+						defaultUri={Const.locationDefaultAvatar}/>
 				</View>
 
 				<View style={styles.contentRow}>

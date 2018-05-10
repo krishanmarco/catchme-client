@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
-import {Icons} from '../../Config';
+import {Const, Icons} from '../../Config';
 import {ListItemWithActions} from "../../comp/Misc";
 import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
 import type {TUser} from "../../lib/daos/DaoUser";
@@ -66,7 +66,7 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 				{...props}
 				header={DaoUser.gName(user)}
 				content={DaoUser.gPublicMessage(user)}
-				avatarUri={DaoUser.gPictureUrl(user)}
+				avatarSource={{uri: DaoUser.gPictureUrl(user)}}
 				onPress={this._defaultOnPress}
 				actions={this.actions} />
 		);

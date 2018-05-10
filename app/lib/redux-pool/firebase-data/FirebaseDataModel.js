@@ -19,7 +19,7 @@ export class FirebaseDataState {
 		// (limitToLast(...).once('value')) this flag is true
 		// Once this flag has been set to false the only way to receive
 		// new data will be though the on('child_added') subscriber
-		this.runningBulkFetch = true;
+		this.runningBulkFetch = false;
 
 		// Defines how many items to fetch on each loadMore() call
 		this.itemsToLoad = Const.firebasePaginationSize;
@@ -34,7 +34,7 @@ export class FirebaseDataState {
 // FirebaseData state-mutators (Reducer cases)
 export function mutatorFirebaseDataOnPreBulkFetch(action, subState: FirebaseDataState): FirebaseDataState {
 	return {
-		runningBulkFetch: false,
+		runningBulkFetch: true,
 		itemsToLoad: subState.itemsToLoad + Const.firebasePaginationSize
 	};
 }

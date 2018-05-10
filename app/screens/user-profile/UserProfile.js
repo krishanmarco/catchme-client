@@ -9,10 +9,10 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
+import {AvatarFull, FlatListEmpty, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {Col, Grid, Row} from "react-native-easy-grid";
-import {FlatListEmpty, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {Const, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {Icons} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
@@ -147,10 +147,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 		return (
 			<Grid style={styles.tabHome}>
 				<Row size={-1}>
-					<Image
-						style={styles.avatar}
-						resizeMode='cover'
-						source={{uri: DaoUser.gPictureUrl(userProfile)}}/>
+					<View style={styles.avatar}>
+						<AvatarFull
+							source={{uri: DaoUser.gPictureUrl(userProfile)}}
+							defaultUri={Const.userDefaultAvatar}/>
+					</View>
 				</Row>
 
 				<Row size={-1} style={styles.publicMessage}>

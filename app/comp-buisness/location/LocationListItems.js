@@ -42,7 +42,7 @@ export class ListItemLocation extends React.PureComponent<void, ListItemLocation
 				{...props}
 				header={DaoLocation.gName(location)}
 				content={content || DaoLocation.gDescription(location)}
-				avatarUri={DaoLocation.gPictureUrl(location)}
+				avatarSource={{uri: DaoLocation.gPictureUrl(location)}}
 				onPress={this._defaultOnPress}/>
 		);
 	}

@@ -73,14 +73,14 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 		const {feed} = this.props;
 
 		const leftAvatar = DaoFeed.gLeftAvatar(feed);
-		return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
+		return leftAvatar && <AvatarCircle source={{uri: leftAvatar}}/>;
 	}
 
 	_renderRightAvatar() {
 		const {feed} = this.props;
 
 		const rightAvatar = DaoFeed.gRightAvatar(feed);
-		return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
+		return rightAvatar && (<Col size={20}><AvatarCircle source={{uri: rightAvatar}}/></Col>);
 	}
 
 	_renderActions() {

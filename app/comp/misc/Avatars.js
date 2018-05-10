@@ -1,24 +1,32 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import _ from 'lodash';
 import React from 'react';
+import {Avatar} from 'react-native-elements';
 import {BadgeOverlay, Touchable} from "../Misc";
 import {Image, StyleSheet, View} from 'react-native';
+import {validSource} from "../../lib/HelperFunctions";
 import type {TIcon, TImageSource} from "../../lib/types/Types";
-import {Avatar} from 'react-native-elements';
 
 // AvatarCircle *****************************************************************************************
 // AvatarCircle *****************************************************************************************
 
 type Props = {
-	uri: string
+	source: TImageSource,
+	defaultUri?: string
 };
 
-export const AvatarCircle = ({uri, ...props}: Props) => (
-	<Avatar
-		source={{uri}}
-		size='small'
-		rounded/>
-);
+export const AvatarCircle = ({source, defaultUri}: Props) => {
+
+	const _source = validSource(source)
+		? source
+		: {uri: defaultUri};
+
+	return (
+		<Avatar
+			source={_source}
+			size='small'
+			rounded/>
+	);
+};
 
 
 
@@ -28,21 +36,29 @@ export const AvatarCircle = ({uri, ...props}: Props) => (
 type Props = {
 	source: TImageSource,
 	onPress?: Function,
+	height?: number,
 	badge?: TIcon,
-	height?: number
+	defaultUri?: string
 };
 
-export const AvatarFull = ({source, onPress, height, badge}: Props) => (
-	<Touchable onPress={onPress}>
-		<BadgeOverlay
-			backgroundJsx={!_.isEmpty(source.uri) && (
-				<Image
-					style={[{height}, styles.avatarFullImage]}
-					source={source}/>
-			)}
-			badge={badge}/>
-	</Touchable>
-);
+export const AvatarFull = ({source, onPress, height, defaultUri, badge}: Props) => {
+
+	const _source = validSource(source)
+		? source
+		: {uri: defaultUri};
+
+	return (
+		<Touchable onPress={onPress}>
+			<BadgeOverlay
+				backgroundJsx={validSource(_source) && (
+					<Image
+						style={[{height}, styles.avatarFullImage]}
+						source={_source}/>
+				)}
+				badge={badge}/>
+		</Touchable>
+	);
+};
 
 AvatarFull.defaultProps = {
 	height: 180
