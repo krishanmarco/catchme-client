@@ -12,6 +12,7 @@ import type {TLocation} from "../../../daos/DaoLocation";
 import type {TLocationWithULS} from "../../../helpers/ULSListManager";
 import type {TUser} from "../../../daos/DaoUser";
 import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
+import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;
@@ -62,6 +63,7 @@ export class CacheDefUserProfileActionCreator {
 		this.putLocationWithULS = this.putLocationWithULS.bind(this);
 		this.removeLocationWithULS = this.removeLocationWithULS.bind(this);
 		this.putAdminLocation = this.putAdminLocation.bind(this);
+		this.changeUserPassword = this.changeUserPassword.bind(this);
 	}
 
 	_putToUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
@@ -456,5 +458,13 @@ export class CacheDefUserProfileActionCreator {
 				return error;
 			});
 		}
+
+	changeUserPassword(form: TApiFormChangePassword) {
+		const {executeIfDataNotNull} = this.cacheActionCreator;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			const form = {...form, email: DaoUser.gEmail(thisUser)};
+			return ApiClient.accountsChangePassword(form);
+		});
+	}
 
 }

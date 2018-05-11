@@ -4,6 +4,7 @@ import {denormObj} from "../HelperFunctions";
 
 
 export type TApiFormChangePassword = {
+	email: string,
 	passwordPrevious: string,
 	passwordNext: string,
 	passwordConfirmNext: string
@@ -11,12 +12,14 @@ export type TApiFormChangePassword = {
 
 
 export default class DaoApiFormChangePassword {
+	static pEmail = 'email';
 	static pPasswordPrevious = 'passwordPrevious';
 	static pPasswordNext = 'passwordNext';
 	static pPasswordConfirmNext = 'passwordConfirmNext';
 
 	static newInstance(): TApiFormChangePassword {
 		return denormObj({
+			[DaoApiFormChangePassword.pEmail]: '',
 			[DaoApiFormChangePassword.pPasswordPrevious]: '',
 			[DaoApiFormChangePassword.pPasswordNext]: '',
 			[DaoApiFormChangePassword.pPasswordConfirmNext]: ''

@@ -9,7 +9,6 @@ import RealmIO from './RealmIO';
 import RNFetchBlob from 'react-native-fetch-blob';
 import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from "../HelperFunctions";
-import {startApplication} from "../../App";
 import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
 import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
 import type {TLocation} from "../daos/DaoLocation";
@@ -223,10 +222,6 @@ class ApiClient {
 			.then(this._onReceiveUserProfile);
 	}
 
-	accountsChangePassword(formChangePassword: TApiFormChangePassword) {
-		return this._post(`${Urls.api}/accounts/password/change`, formChangePassword);
-	}
-
 
 
 	userProfile() {
@@ -284,6 +279,11 @@ class ApiClient {
 	locationsGetLidProfile(lid: number): Promise<TLocation> {
 		return this._get(`${Urls.api}/locations/${lid}/profile`)
 			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from CacheDefUserProfile
+	accountsChangePassword(formChangePassword: TApiFormChangePassword) {
+		return this._post(`${Urls.api}/accounts/password/change`, formChangePassword);
 	}
 
 	// Should only be called from CacheDefUserProfile
