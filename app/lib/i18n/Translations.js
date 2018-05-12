@@ -170,6 +170,7 @@ I18n.translations = {
 		t_e_field_url: 'That URL was not valid',
 		t_e_field_country: 'Please insert a valid country',
 		t_e_passwords_not_equal: 'The two passwords do not match',
+		t_e_incorrect_recovery_key: 'Invalid recovery key',
 
 	},
 
@@ -336,6 +337,7 @@ I18n.translations = {
 		t_e_field_url: 'Indirizzo web invalido',
 		t_e_field_country: 'Paese invalido',
 		t_e_passwords_not_equal: 'Le due password non corrispondono',
+		t_e_incorrect_recovery_key: 'Chiave di recupero non valida',
 
 	}
 

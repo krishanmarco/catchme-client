@@ -26,6 +26,7 @@ const errorStrings = [
 	/** -17 return_error_field_url **/                        t('t_e_field_url'),
 	/** -18 return_error_field_country **/                    t('t_e_field_country'),
 	/** -19 return_error_passwords_not_equal **/              t('t_e_passwords_not_equal'),
+	/** -20 return_error_incorrect_recovery_key **/           t('t_e_incorrect_recovery_key'),
 ];
 
 const errorIds = {
