@@ -7,6 +7,9 @@ import {Validate} from "../../../helpers/Validator";
 import type {TApiFormDef} from "../ApiFormDef";
 import type {TApiFormRecoverPassword} from "../../../daos/DaoApiFormRecoverPassword";
 import type {TThunk} from "../../../types/Types";
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
+import CacheActionCreator from "../../cache/CacheActionCreator";
+import DaoUser from "../../../daos/DaoUser";
 
 export const FORM_API_ID_RECOVER_PASSWORD = 'FORM_API_ID_RECOVER_PASSWORD';
 
@@ -25,7 +28,8 @@ class ApiFormDefRecoverPassword extends ApiFormDef<TApiFormRecoverPassword> {
 	}
 
 	post(thunk: TThunk, apiFormRecoverPassword: TApiFormRecoverPassword): Promise<TApiFormRecoverPassword> {
-		return ApiClient.accountsChangePassword(apiFormRecoverPassword);	// todo
+		const email = DaoApiFormRecoverPassword.gEmail(apiFormRecoverPassword);
+		return ApiClient.accountsRecoverPassword(email);
 	}
 
 	validate(form: TApiFormRecoverPassword, errors: TApiFormRecoverPassword, inclusive: boolean = false): TApiFormRecoverPassword {

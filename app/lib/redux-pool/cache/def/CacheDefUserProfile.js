@@ -457,13 +457,12 @@ export class CacheDefUserProfileActionCreator {
 				Logger.v("CacheDefUserProfile putAdminLocation failed", lid, error);
 				return error;
 			});
-		}
+	}
 
 	changeUserPassword(form: TApiFormChangePassword) {
 		const {executeIfDataNotNull} = this.cacheActionCreator;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const form = {...form, email: DaoUser.gEmail(thisUser)};
-			return ApiClient.accountsChangePassword(form);
+			return ApiClient.accountsChangePassword(DaoUser.gId(thisUser), form);
 		});
 	}
 

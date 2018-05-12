@@ -281,9 +281,14 @@ class ApiClient {
 			.then(json => JSON.parse(json));
 	}
 
+	// Should only be called from ApiFormDefRecoverPassword
+	accountsRecoverPassword(email: string) {
+		return this._get(`${Urls.api}/accounts/user/${email}/password/recover`);
+	}
+
 	// Should only be called from CacheDefUserProfile
-	accountsChangePassword(formChangePassword: TApiFormChangePassword) {
-		return this._post(`${Urls.api}/accounts/password/change`, formChangePassword);
+	accountsChangePassword(uid: number, formChangePassword: TApiFormChangePassword) {
+		return this._post(`${Urls.api}/accounts/user/${uid}/password/change`, formChangePassword);
 	}
 
 	// Should only be called from CacheDefUserProfile
