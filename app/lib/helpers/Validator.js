@@ -49,6 +49,7 @@ const errorIds = {
 	return_error_field_url: -17,
 	return_error_field_country: -18,
 	return_error_passwords_not_equal: -19,
+	return_error_incorrect_recovery_key: -20,
 };
 
 
