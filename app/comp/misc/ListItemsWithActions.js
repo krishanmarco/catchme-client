@@ -7,6 +7,7 @@ import {Icons} from '../../Config';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {View} from 'react-native';
 import type {TIcon, TImageSource} from "../../lib/types/Types";
+import {listItemActions} from "../../lib/theme/Styles";
 
 // ListItemAction *************************************************************************************
 // ListItemAction *************************************************************************************
@@ -69,7 +70,7 @@ const ListItemWithActions = (props: ListItemWithActionProps) => {
 		<Touchable onPress={onPress}>
 			<Grid style={styles.listItemWithActionsRoot}>
 
-				<Col size={100} style={styles.listItemSection}>
+				<Col size={100}>
 					<View style={styles.listItemWithActionsHeader}>
 
 						{!!avatarSource && <AvatarCircle source={avatarSource}/>}
@@ -84,7 +85,7 @@ const ListItemWithActions = (props: ListItemWithActionProps) => {
 				</Col>
 
 				{actions.map((action, key) => (
-					<Col key={key} size={15} style={key !== actions.length ? styles.listItemSection : styles.listItemSectionEnd}>
+					<Col key={key} size={15} style={key !== actions.length ? listItemActions.action : listItemActions.actionLast}>
 						<ListItemAction {...action}/>
 					</Col>
 				))}
@@ -115,12 +116,6 @@ const styles = RkStyleSheet.create(theme => ({
 		display: 'flex',
 		paddingHorizontal: 12,
 		alignItems: 'center'
-	},
-	listItemSection: {
-		marginRight: 8
-	},
-	listItemSectionEnd: {
-		marginRight: 0
 	},
 	listItemWithActionsHeader: {
 		paddingVertical: 8,

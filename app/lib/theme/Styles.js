@@ -21,8 +21,17 @@ export const fullpageForm = StyleSheet.create({
 	},
 });
 
-export const listItemInfo = {
+export const listItemInfo = StyleSheet.create({
 	section: {
 		paddingHorizontal: 16
 	}
-};
+});
+
+export const listItemActions = StyleSheet.create({
+	action: {
+		marginRight: 8
+	},
+	actionLast: {
+		marginRight: 0
+	}
+});
