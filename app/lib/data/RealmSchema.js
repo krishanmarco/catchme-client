@@ -72,6 +72,7 @@ class UserConnections {
 		name: 'UserConnections',
 		properties: {
 			friends: {type: 'list', objectType: 'User', default: []},
+			pending: {type: 'list', objectType: 'User', default: []},
 			requests: {type: 'list', objectType: 'User', default: []},
 			blocked: {type: 'list', objectType: 'User', default: []},
 		}

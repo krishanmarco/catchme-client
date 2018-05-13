@@ -11,7 +11,7 @@ import {POOL_TYPE_SEARCH_DATA} from "../../../redux/ReduxPool";
 import {SearchDataState} from "./SearchDataModel";
 import type {TDispatch} from "../../types/Types";
 
-
+// todo the search is only triggered after the user presses search for the second time
 export default class SearchDataActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
