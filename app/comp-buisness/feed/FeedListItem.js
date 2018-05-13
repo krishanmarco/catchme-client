@@ -9,7 +9,7 @@ import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {View} from 'react-native';
 import type {TFeed} from "../../lib/daos/DaoFeed";
-// todo style
+import {listItemActions} from "../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -27,7 +27,7 @@ type State = {
 // FeedListItem *****************************************************************************************
 // FeedListItem *****************************************************************************************
 
-export default class FeedListItem extends React.Component<void, Props, State> {
+export default class FeedListItem extends React.PureComponent<void, Props, State> {
 
 	constructor(props, context) {
 		super(props, context);
@@ -52,7 +52,7 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 		return (
 			<Touchable onPress={this._onFeedItemPress}>
 				<Grid style={styles.listItem}>
-					<Col size={100} style={styles.listItemHeader}>
+					<Col size={100}>
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
@@ -71,16 +71,14 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 
 	_renderLeftAvatar() {
 		const {feed} = this.props;
-
 		const leftAvatar = DaoFeed.gLeftAvatar(feed);
-		return leftAvatar && <AvatarCircle uri={leftAvatar}/>;
+		return leftAvatar && (<AvatarCircle source={{uri: leftAvatar}}/>);
 	}
 
 	_renderRightAvatar() {
 		const {feed} = this.props;
-
 		const rightAvatar = DaoFeed.gRightAvatar(feed);
-		return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
+		return rightAvatar && (<Col size={20}><AvatarCircle source={{uri: rightAvatar}}/></Col>);
 	}
 
 	_renderActions() {
@@ -90,7 +88,7 @@ export default class FeedListItem extends React.Component<void, Props, State> {
 			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, feed));
 
 		return actions.map((clickAction, key) => (
-			<Col key={key} size={15} style={key === actions.length ? styles.action : styles.actionLast}>
+			<Col key={key} size={15} style={key === actions.length ? listItemActions.action : listItemActions.actionLast}>
 				<ListItemAction
 					icon={ActionHandler.mapActionToIcon(clickAction)}
 					onPress={() => this._handleClickAction(clickAction)}/>
@@ -135,12 +133,5 @@ const styles = RkStyleSheet.create(theme => ({
 		flexDirection: 'row',
 		alignItems: 'flex-start',
 		flexWrap: 'wrap'
-	},
-
-	action: {
-		marginRight: 8
-	},
-	actionLast: {
-		marginRight: 0
 	}
 }));

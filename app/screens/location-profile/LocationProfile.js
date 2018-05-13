@@ -11,10 +11,10 @@ import React from 'react';
 import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
+import {AvatarFull, FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {Const, Icons} from '../../Config';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
-import {FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
 import {Grid, Row} from "react-native-easy-grid";
-import {Icons} from '../../Config';
 import {listItemInfo} from "../../lib/theme/Styles";
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
@@ -149,10 +149,11 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		return (
 			<Grid style={styles.tabHome}>
 				<Row size={-1}>
-					<Image
-						style={styles.tabHomeAvatar}
-						resizeMode='cover'
-						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
+					<View style={styles.tabHomeAvatar}>
+						<AvatarFull
+							source={{uri: DaoLocation.gPictureUrl(locationProfile)}}
+							defaultUri={Const.locationDefaultAvatar}/>
+					</View>
 				</Row>
 
 				<Row size={-1} style={styles.publicMessage}>

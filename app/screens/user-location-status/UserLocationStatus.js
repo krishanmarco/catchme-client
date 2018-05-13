@@ -266,7 +266,8 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 		const {locationProfile} = this.props;
 		return (
 			<AvatarFull
-				source={{uri: DaoLocation.gPictureUrl(locationProfile)}}/>
+				source={{uri: DaoLocation.gPictureUrl(locationProfile)}}
+				defaultUri={Const.locationDefaultAvatar}/>
 		);
 	}
 

@@ -57,13 +57,13 @@ export default class Maps {
 
 
 	static _EDaysOfWeek = [
-		{value: 0, label: t('r_monday')},
-		{value: 1, label: t('r_tuesday')},
-		{value: 2, label: t('r_wednesday')},
-		{value: 3, label: t('r_thursday')},
-		{value: 4, label: t('r_friday')},
-		{value: 5, label: t('r_saturday')},
-		{value: 6, label: t('r_sunday')}
+		{value: 0, label: t('t_monday')},
+		{value: 1, label: t('t_tuesday')},
+		{value: 2, label: t('t_wednesday')},
+		{value: 3, label: t('t_thursday')},
+		{value: 4, label: t('t_friday')},
+		{value: 5, label: t('t_saturday')},
+		{value: 6, label: t('t_sunday')}
 	];
 
 	static daysOfWeek() {

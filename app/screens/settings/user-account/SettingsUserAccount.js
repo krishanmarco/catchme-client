@@ -2,19 +2,20 @@
 import _ from 'lodash';
 import DaoUser from "../../../lib/daos/DaoUser";
 import ImagePicker from "../../../lib/helpers/ImagePicker";
+import Logger from "../../../lib/Logger";
 import Maps from "../../../lib/data/Maps";
 import React from 'react';
 import Router from "../../../lib/navigation/Router";
-import {AvatarCircle, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
+import {AvatarCircle, AvatarFull, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
+import {Const, Icons} from '../../../Config';
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
-import {Icons} from '../../../Config';
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {stringReplace} from "../../../lib/HelperFunctions";
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -49,7 +50,13 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	componentWillUnmount() {
-		this._formApiEditUserProfile().post();
+		this._formApiEditUserProfile().post()
+			.catch(err => {
+				// todo
+				// This should never happen because the back button
+				// should not be pressed if the form is invalid
+				Logger.v(`SettingsUserAccount componentWillUnmount `, err);
+			});
 	}
 
 	_formApiEditUserProfile(): TApiFormPool {
@@ -57,7 +64,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	_onChangePrivacyValue(index, value) {
-		let privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
+		const privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
 		this._formApiEditUserProfile().change({
 			[DaoUser.pSettingPrivacy]: stringReplace(privacyStr, index, value.toString())
 		});
@@ -106,15 +113,12 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	_renderProfileSection() {
 		return (
 			<View>
-				<ListItemHeader/>
-				<View style={styles.profileSection}>
-					<AvatarCircle
-						badge={Icons.userEditAvatar}
-						rkType='big'
-						uri={DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}
-						onPress={this._onUserPicturePress}/>
-				</View>
-				<View style={listItemInfo.section}>
+				<AvatarFull
+					source={{uri: DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}}
+					badge={Icons.userEditAvatar}
+					onPress={this._onUserPicturePress}
+					defaultUri={Const.userDefaultAvatar}/>
+				<View style={[styles.profileFields, listItemInfo.section]}>
 					<RkTextInputFromPool
 						pool={this._formApiEditUserProfile()}
 						field={DaoUser.pEmail}
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
 	root: {
 		paddingBottom: 8
 	},
-	profileSection: {
-		alignItems: 'center'
+	profileFields: {
+		marginTop: 8
 	}
 });

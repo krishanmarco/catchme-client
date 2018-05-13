@@ -264,15 +264,15 @@ export default class DaoLocation {
 	
 	
 	static hasTimings(location: TLocation): boolean {
-		return DaoLocation.pTimings in location;
+		return !_.isEmpty(DaoLocation.gTimings(location));
 	}
 	
 	static hasPhone(location: TLocation): boolean {
-		return DaoLocation.pPhone in location;
+		return !_.isEmpty(DaoLocation.gPhone(location));
 	}
 	
 	static hasEmail(location: TLocation): boolean {
-		return DaoLocation.pEmail in location;
+		return !_.isEmpty(DaoLocation.gEmail(location));
 	}
 	
 	static hasConnections(location: TLocation): boolean {

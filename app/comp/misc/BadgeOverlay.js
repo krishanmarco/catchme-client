@@ -39,7 +39,7 @@ export default BadgeOverlay;
 const styles = StyleSheet.create({
 	background: {
 		position: 'relative',
-		width: '100%',
+		width: '100%'
 	},
 	badgeFullOverlay: {
 		position: 'absolute',

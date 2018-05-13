@@ -149,7 +149,8 @@ export default class DaoUser {
 	}
 	
 	static gPictureUrl(user: TUser): string {
-		return _.get(user, DaoUser.pPictureUrl);
+		const pictureUri = _.trim(_.get(user, DaoUser.pPictureUrl));
+		return _.isEmpty(pictureUri) ? Const.userDefaultAvatar : pictureUri;
 	}
 	
 	static gName(user: TUser): string {
@@ -287,11 +288,11 @@ export default class DaoUser {
 	
 	
 	static hasPhone(user: TUser) {
-		return DaoUser.pPhone in user;
+		return !_.isEmpty(DaoUser.gPhone(user));
 	}
 	
 	static hasEmail(user: TUser) {
-		return DaoUser.pEmail in user;
+		return !_.isEmpty(DaoUser.gEmail(user));
 	}
 	
 	static hasConnections(user: TUser) {

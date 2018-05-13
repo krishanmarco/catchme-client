@@ -3,13 +3,13 @@ import DaoUser from "../../../lib/daos/DaoUser";
 import React from 'react';
 import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
 import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from "../../../comp/Misc";
 import {StyleSheet, View} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -113,31 +113,27 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 	}
 
 	_renderNotificationSwitches() {
-		const settingNotifications = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput)
-			.split('')
-			.map(intStringToBool);
+		const settNotifInt = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput)
+			.split('')							// ['0', '0', '0']
+			.map(intStringToBool);	// [ 0,   0,   0 ]
 
 		return (
 			<View style={listItemInfo.section}>
 				<RkSwitch
 					title={t('t_disable_all')}
-					value={[
-						settingNotifications[0],
-						settingNotifications[1],
-						settingNotifications[2]
-					].every(i => !i)}
+					value={settNotifInt.every(i => !i)}
 					onValueChange={this._onDisableAllValueChange}/>
 				<RkSwitch
 					title={t('t_notifications_friendship_request')}
-					value={settingNotifications[0]}
+					value={settNotifInt[0]}
 					onValueChange={this._onFriendshipRequestValueChange}/>
 				<RkSwitch
 					title={t('t_notifications_friend_actions')}
-					value={settingNotifications[1]}
+					value={settNotifInt[1]}
 					onValueChange={this._onFriendActionsValueChange}/>
 				<RkSwitch
 					title={t('t_notifications_catchme_suggestions')}
-					value={settingNotifications[2]}
+					value={settNotifInt[2]}
 					onValueChange={this._onCatchmeSuggestionsValueChange}/>
 			</View>
 		);

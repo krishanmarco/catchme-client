@@ -7,12 +7,12 @@ import Router from "../../../lib/navigation/Router";
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
 import {Icons} from "../../../Config";
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -66,7 +66,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 					{this._renderHeader()}
 
-					<View style={styles.editLocationAddressFormRow}>
+					<View style={[listItemInfo.section, styles.editLocationAddressFormRow]}>
 						{[
 							{field: DaoLocation.pAddressCountry, label: t('t_country')},
 							{field: DaoLocation.pAddressState, label: t('t_state')},
@@ -74,13 +74,12 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 							{field: DaoLocation.pAddressPostcode, label: t('t_postcode')},
 							{field: DaoLocation.pAddressAddress, label: t('t_address')},
 						].map((addressComponent, key) => (
-							<View key={key} style={listItemInfo.section}>
-								<RkTextInputFromPool
-									pool={this._formApiEditLocationProfile()}
-									editable={false}
-									field={addressComponent.field}
-									label={addressComponent.label}/>
-							</View>
+							<RkTextInputFromPool
+								key={key}
+								pool={this._formApiEditLocationProfile()}
+								editable={false}
+								field={addressComponent.field}
+								label={addressComponent.label}/>
 						))}
 					</View>
 				</View>

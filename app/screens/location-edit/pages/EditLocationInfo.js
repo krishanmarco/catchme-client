@@ -7,12 +7,12 @@ import React from 'react';
 import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
 import {AvatarFull} from "../../../comp/Misc";
 import {Const, Icons} from '../../../Config';
+import {listItemInfo} from "../../../lib/theme/Styles";
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from "../../../lib/i18n/Translations";
 import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import {listItemInfo} from "../../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -78,44 +78,43 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 						<AvatarFull
 							source={{uri: DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}}
 							onPress={this._onLocationPicturePress}
-							badge={Icons.locationEditAvatar}/>
+							badge={Icons.locationEditAvatar}
+							defaultUri={Const.locationDefaultAvatar}/>
 					</View>
 
-					<View style={styles.editLocationInfoFormRow}>
-						<View style={listItemInfo.section}>
-							<RkTextInputFromPool
-								pool={this._formApiEditLocationProfile()}
-								field={DaoLocation.pName}
-								editable={this._isNewLocation()}
-								label={t('t_field_name')}
-								icon={Icons.settingChangePassword}/>
-							<RkTextInputFromPool
-								pool={this._formApiEditLocationProfile()}
-								field={DaoLocation.pEmail}
-								label={t('t_field_email')}
-								keyboardType='email-address'
-								icon={Icons.settingChangePassword}/>
-							<RkTextInputFromPool
-								pool={this._formApiEditLocationProfile()}
-								field={DaoLocation.pPhone}
-								label={t('t_field_phone')}
-								keyboardType='phone-pad'
-								icon={Icons.settingChangePassword}/>
-							<RkTextInputFromPool
-								pool={this._formApiEditLocationProfile()}
-								field={DaoLocation.pCapacity}
-								label={t('t_field_capacity')}
-								keyboardType='numeric'
-								icon={Icons.settingChangePassword}/>
-							<RkTextInputFromPool
-								pool={this._formApiEditLocationProfile()}
-								field={DaoLocation.pDescription}
-								multiline
-								numberOfLines={3}
-								label={t('t_field_description')}
-								returnKeyType='next'
-								icon={Icons.settingChangePassword}/>
-						</View>
+					<View style={[listItemInfo.section, styles.editLocationInfoFormRow]}>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pName}
+							editable={this._isNewLocation()}
+							label={t('t_field_name')}
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pEmail}
+							label={t('t_field_email')}
+							keyboardType='email-address'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pPhone}
+							label={t('t_field_phone')}
+							keyboardType='phone-pad'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pCapacity}
+							label={t('t_field_capacity')}
+							keyboardType='numeric'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pDescription}
+							multiline
+							numberOfLines={3}
+							label={t('t_field_description')}
+							returnKeyType='next'
+							icon={Icons.settingChangePassword}/>
 					</View>
 
 				</View>

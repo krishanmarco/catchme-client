@@ -140,3 +140,7 @@ export function isValidUrl(url) {
 	const urlUpper = url.toUpperCase();
 	return urlUpper.startsWith("HTTPS://") || urlUpper.startsWith("HTTP://");
 }
+
+export function validSource(source) {
+	return !_.isEmpty(_.get(source, 'uri', null));
+}

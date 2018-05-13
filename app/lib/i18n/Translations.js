@@ -138,8 +138,9 @@ I18n.translations = {
 		t_empty_location_gallery: 'No one has posted pictures of this location. Be the first one to share an image!',
 		t_empty_uls: 'It seems like you have no plans to go out.\nOr maybe you just haven\'t added them yet.\nSearch for a location and add your next exciting location.',
 		t_empty_location_friends_now: 'We\'re very sorry, there\'s no one at this location now.\nMaybe you should pull a croud here',
-		t_empty_bt_location_friends_now: 'No one will be here later, or will you?',
-		t_empty_location_friends_later: 'I will!',
+		t_empty_bt_location_friends_now: 'I will!',
+		t_empty_location_friends_later: 'No one will be here later, or will you?',
+		t_empty_bt_location_friends_later: 'I will!',
 		t_empty_search: 'Mmm... There were no results for that search',
 		t_empty_add_contacts: 'Well, it seems like none of your contacts are using catchme.\nMaybe you should invite them :)',
 		t_empty_admin_locations: 'You have not yet added any locations, if you are the owner of a club/bar you can add it to catchme here.',
@@ -169,6 +170,7 @@ I18n.translations = {
 		t_e_field_url: 'That URL was not valid',
 		t_e_field_country: 'Please insert a valid country',
 		t_e_passwords_not_equal: 'The two passwords do not match',
+		t_e_incorrect_recovery_key: 'Invalid recovery key',
 
 	},
 
@@ -303,8 +305,9 @@ I18n.translations = {
 		t_empty_location_gallery: 'Nessuno ha postato foto di questo locale.\nPuoi ancora essere il primo!',
 		t_empty_uls: 'Sembra che tu non abbia intenzione di uscire.\nO forse non vuoi che i tuoi amici lo sappiano.\n. Cerca il tuo prossimo locale.',
 		t_empty_location_friends_now: 'Ci dispiace. Non c\'e nessuno in questo locale al momento.\nForse ti conviene tirare qua\' un po\' di gente!',
-		t_empty_bt_location_friends_now: 'Nessuno sara\' qua dopo, o tu si?',
-		t_empty_location_friends_later: 'Io si!',
+		t_empty_bt_location_friends_now: 'Io si\'!',
+		t_empty_location_friends_later: 'Nessuno sara\' qua dopo, o tu si?',
+		t_empty_bt_location_friends_later: 'Io si\'!',
 		t_empty_search: 'Mmm... Non ci sono risultati per quella ricerca.',
 		t_empty_add_contacts: 'Beh, sembra che nessuno dei tuoi contatti stia usando catchme.\n Forse potresti invitarli! :)',
 		t_empty_admin_locations: 'Non hai ancora aggiunto locali. Se sei il propretario di un locale puoi aggiungerlo a catchme da qua\'.',
@@ -334,6 +337,7 @@ I18n.translations = {
 		t_e_field_url: 'Indirizzo web invalido',
 		t_e_field_country: 'Paese invalido',
 		t_e_passwords_not_equal: 'Le due password non corrispondono',
+		t_e_incorrect_recovery_key: 'Chiave di recupero non valida',
 
 	}
 

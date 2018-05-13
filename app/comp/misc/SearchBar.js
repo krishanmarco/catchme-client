@@ -2,11 +2,10 @@
 import React from 'react';
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
+import {listItemInfo} from "../../lib/theme/Styles";
 import {RkTextInput} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import {t} from "../../lib/i18n/Translations";
-import type {TStyle} from "../../lib/types/Types";
-import {listItemInfo} from "../../lib/theme/Styles";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -14,8 +13,7 @@ import {listItemInfo} from "../../lib/theme/Styles";
 type Props = {
 	placeholder: ?string,
 	onChange: Function,
-	onSearchPressed: Function,
-	style?: TStyle
+	onSearchPressed: Function
 };
 
 const defaultProps = {
@@ -41,20 +39,18 @@ export default class SearchBar extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		const {onSearchPressed, placeholder, style} = this.props;
+		const {onSearchPressed, placeholder} = this.props;
 		return (
-			<View style={[styles.root, style]}>
-				<View style={listItemInfo.section}>
-					<RkTextInput
-						style={styles.textInput}
-						rkType='row rounded'
-						autoCapitalize='none'
-						autoCorrect={false}
-						label={<Icon {...Icons.searchBar} />}
-						onChange={this._onChange}
-						onEndEditing={onSearchPressed}
-						placeholder={placeholder}/>
-				</View>
+			<View style={[styles.searchBarRoot, listItemInfo.section]}>
+				<RkTextInput
+					style={styles.textInput}
+					rkType='row rounded'
+					autoCapitalize='none'
+					autoCorrect={false}
+					label={<Icon {...Icons.searchBar} />}
+					onChange={this._onChange}
+					onEndEditing={onSearchPressed}
+					placeholder={placeholder}/>
 			</View>
 		);
 	}
@@ -65,7 +61,7 @@ export default class SearchBar extends React.Component<void, Props, void> {
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	root: {
+	searchBarRoot: {
 		backgroundColor: Colors.background,
 		alignItems: 'center',
 		marginBottom: 4,
