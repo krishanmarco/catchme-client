@@ -128,6 +128,9 @@ class RealmIO {
 		_.set(user, DaoUser.pConnectionFriends,
 			(recurse ? Object.values(DaoUser.gConnectionsFriends(user)) : []).map(nufdb));
 		
+		_.set(user, DaoUser.pConnectionPending,
+			(recurse ? Object.values(DaoUser.gConnectionsPending(user)) : []).map(nufdb));
+
 		_.set(user, DaoUser.pConnectionRequests,
 			(recurse ? Object.values(DaoUser.gConnectionsRequests(user)) : []).map(nufdb));
 		
@@ -154,6 +157,9 @@ class RealmIO {
 		
 		_.set(user, DaoUser.pConnectionFriends,
 			_.get(user, DaoUser.pConnectionFriends, []).map(this._prepareApiUserForDb));
+
+		_.set(user, DaoUser.pConnectionPending,
+			_.get(user, DaoUser.pConnectionPending, []).map(this._prepareApiUserForDb));
 		
 		_.set(user, DaoUser.pConnectionRequests,
 			_.get(user, DaoUser.pConnectionRequests, []).map(this._prepareApiUserForDb));

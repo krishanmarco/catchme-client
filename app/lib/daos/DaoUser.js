@@ -70,6 +70,7 @@ export default class DaoUser {
 	static pConnections = 'connections';
 	static pLocations = 'locations';
 	static pConnectionFriends = `${DaoUser.pConnections}.friends`;
+	static pConnectionPending = `${DaoUser.pConnections}.pending`;
 	static pConnectionRequests = `${DaoUser.pConnections}.requests`;
 	static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
 	static pAdminLocations = 'adminLocations';
@@ -79,6 +80,7 @@ export default class DaoUser {
 	static pLocationsLocations = `${DaoUser.pLocations}.locations`;
 	static _pConnectionIds = '_connectionIds';
 	static _pConnectionFriendIds = `${DaoUser._pConnectionIds}.friends`;
+	static _pConnectionPendingIds = `${DaoUser._pConnectionIds}.pending`;
 	static _pConnectionRequestIds = `${DaoUser._pConnectionIds}.requests`;
 	static _pConnectionBlockedIds = `${DaoUser._pConnectionIds}.blocked`;
 	
@@ -97,6 +99,7 @@ export default class DaoUser {
 		_.set(newUser, DaoUser.pSettingNotifications, DaoUser.gSettingNotifications(user));
 		_.set(newUser, DaoUser.pAdminLocations, DaoUser.gAdminLocations(user));
 		_.set(newUser, DaoUser.pConnectionFriends, DaoUser.gConnectionsFriends(user));
+		_.set(newUser, DaoUser.pConnectionPending, DaoUser.gConnectionsPending(user));
 		_.set(newUser, DaoUser.pConnectionRequests, DaoUser.gConnectionsRequests(user));
 		_.set(newUser, DaoUser.pConnectionBlocked, DaoUser.gConnectionsBlocked(user));
 		_.set(newUser, DaoUser.pLocationsFavorites, DaoUser.gLocationsFavoriteIds(user));
@@ -205,6 +208,10 @@ export default class DaoUser {
 		return _.get(user, DaoUser.pConnectionFriends, []);
 	}
 	
+	static gConnectionsPending(user: TUser): Array<TUser> {
+		return _.get(user, DaoUser.pConnectionPending, []);
+	}
+
 	static gConnectionsRequests(user: TUser): Array<TUser> {
 		return _.get(user, DaoUser.pConnectionRequests, []);
 	}
@@ -243,26 +250,25 @@ export default class DaoUser {
 	
 	static gConnectionFriendIds(user: TUser) {
 		return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
-			() => _.get(user, DaoUser.pConnectionFriends, []).map(DaoUser.gId)
+			() => DaoUser.gConnectionsFriends(user).map(DaoUser.gId)
 		);
 	}
 
 	static gConnectionPendingIds(user: TUser) {
-		return []; // todo this must be implemented server side;
-		// return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
-		// 	() => _.get(user, DaoUser.pConnectionFriends, []).map(DaoUser.gId)
-		// );
+		return ObjectCache.get(user, DaoUser._pConnectionPendingIds,
+			() => DaoUser.gConnectionsPending(user).map(DaoUser.gId)
+		);
 	}
 	
 	static gConnectionRequestIds(user: TUser) {
 		return ObjectCache.get(user, DaoUser._pConnectionRequestIds,
-			() => _.get(user, DaoUser.pConnectionRequests, []).map(DaoUser.gId)
+			() => DaoUser.gConnectionsRequests(user).map(DaoUser.gId)
 		);
 	}
 	
 	static gConnectionBlockedIds(user: TUser) {
 		return ObjectCache.get(user, DaoUser._pConnectionBlockedIds,
-			() => _.get(user, DaoUser.pConnectionBlocked, []).map(DaoUser.gId)
+			() => DaoUser.gConnectionsBlocked(user).map(DaoUser.gId)
 		);
 	}
 
