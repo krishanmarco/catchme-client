@@ -303,7 +303,7 @@ export class CacheDefUserProfileActionCreator {
 		this._removeUserFromConnectionsFriends(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
-		return ApiClient.userConnectionsBlockUid(uid)
+		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
 				Logger.v("CacheDefUserProfile removeUserFromFriends success", uid, success);
 				return success;
@@ -321,7 +321,7 @@ export class CacheDefUserProfileActionCreator {
 		this._addUserToConnectionsBlocked(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
-		return ApiClient.userConnectionsBlockUid(uid)
+		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
 				Logger.v("CacheDefUserProfile blockUser success", uid, success);
 				return success;
@@ -339,7 +339,7 @@ export class CacheDefUserProfileActionCreator {
 		this._addUserToConnectionsFriends(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
-		return ApiClient.userConnectionsAcceptUid(uid)
+		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
 				Logger.v("CacheDefUserProfile acceptUserFriendship success", uid, success);
 				return success;

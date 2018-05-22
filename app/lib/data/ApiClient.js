@@ -296,14 +296,10 @@ class ApiClient {
 		return this._get(`${Urls.api}/user/connections/add/${uid}`);
 	}
 
-	// Should only be called from CacheDefUserProfile
-	userConnectionsAcceptUid(uid): Promise<number> {
-		return this._get(`${Urls.api}/user/connections/accept/${uid}`);
-	}
 
 	// Should only be called from CacheDefUserProfile
-	userConnectionsBlockUid(uid): Promise<number> {
-		return this._get(`${Urls.api}/user/connections/block/${uid}`);
+	userConnectionsRemoveUid(uid): Promise<number> {
+		return this._get(`${Urls.api}/user/connections/remove/${uid}`);
 	}
 
 	// Should only be called from CacheDefUserProfile
