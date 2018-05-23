@@ -4,6 +4,9 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+import com.azendoo.reactnativesnackbar.SnackbarPackage;
 
 
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
@@ -45,7 +48,7 @@ public class MainApplication extends NavigationApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-            new SnackbarPackage(),
+                    new SnackbarPackage(),
                     new RNGoogleSigninPackage(),
                     new MapsPackage(),
                     new RNI18nPackage(),
