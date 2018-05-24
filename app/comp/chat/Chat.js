@@ -166,7 +166,7 @@ class _Chat extends React.Component<void, Props, void> {
 			<View style={styles.bubbleHeader}>
 				<RkText style={styles.bubbleHeaderText} rkType='secondary6'>
 					{props.currentMessage.user.name}
-					</RkText>
+				</RkText>
 				<View style={styles.bubbleHeaderFooter}/>
 			</View>
 		);

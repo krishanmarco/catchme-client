@@ -2,7 +2,7 @@
 import ApiClient from './ApiClient';
 import Context from '../Context';
 import Logger from "../Logger";
-import RealmIO from './RealmIO';
+import StorageIO from './StorageIO';
 import {Const} from '../../Config';
 import {seconds} from '../HelperFunctions';
 
@@ -13,13 +13,13 @@ class DataProvider {
 	usersGetUidProfile(uid: number) {
 		return this._getCachedObjectById(
 			// Cached user object (nullable)
-			RealmIO.getUserById(uid),
+			null,		// todo
 
 			// Api request to get user object (if not cached)
 			() => ApiClient.usersGetUidProfile(uid),
 
 			// Callback to save user object to cache
-			user => RealmIO.addUser(user)
+			user => {} // todo
 		);
 	}
 
@@ -27,42 +27,42 @@ class DataProvider {
 	locationsGetLidProfile(lid: number) {
 		return this._getCachedObjectById(
 			// Cached location object (nullable)
-			RealmIO.getLocationById(lid),
+			null,	// todo
 
 			// Api request to get location object (if not cached)
 			() => ApiClient.locationsGetLidProfile(lid),
 
 			// Callback to save user object to cache
-			location => RealmIO.addLocation(location)
+			location => {} // todo
 		);
 	}
 
 
-	_getCachedObjectById(realmObject, apiRequest, saveToRealm) {
+	_getCachedObjectById(object, apiRequest, saveToStorage) {
 
 		return Context.isOnline()
 			.then(online => {
 
-				if (!realmObject) {
+				if (!object) {
 
 					// No cache and device offline, generate exception
 					if (!online)
-						return this._cacheException(`valid=${realmObject} online=${online}`);
+						return this._cacheException(`valid=${object} online=${online}`);
 
 					// No cache and device online, generate miss
-					return this._cacheMiss(apiRequest, saveToRealm, `valid=${realmObject} online=${online}`);
+					return this._cacheMiss(apiRequest, saveToStorage, `valid=${object} online=${online}`);
 				}
 
 
 				// There is a cached element with this pId, extract the insert time
-				const {insertTs, ...cache} = realmObject;
+				const {insertTs, ...cache} = object;
 				const cacheIsValid = this._cacheValid(insertTs);
 
 				if (!cacheIsValid) {
 
 					// Invalid cache and device online, generate miss
 					if (online)
-						return this._cacheMiss(apiRequest, saveToRealm, `valid=${cacheIsValid} online=${online}`);
+						return this._cacheMiss(apiRequest, saveToStorage, `valid=${cacheIsValid} online=${online}`);
 
 
 					// Invalid cache and device offline, generate hit
@@ -83,9 +83,9 @@ class DataProvider {
 		return Promise.reject(0);
 	}
 
-	_cacheMiss(apiRequest, saveToRealm, reason) {
+	_cacheMiss(apiRequest, saveToStorage, reason) {
 		Logger.v(`DataProvider _cacheMiss: MISS => ${reason}`);
-		return this._runApiRequest(apiRequest, saveToRealm);
+		return this._runApiRequest(apiRequest, saveToStorage);
 	}
 
 	_cacheHit(cache, reason) {
@@ -94,11 +94,11 @@ class DataProvider {
 	}
 
 
-	_runApiRequest(apiRequest, saveToRealm) {
+	_runApiRequest(apiRequest, saveToStorage) {
 		return apiRequest()
 			.then(object => {
 				const userForReturn = JSON.parse(JSON.stringify(object));
-				saveToRealm({insertTs: seconds(), ...object});
+				saveToStorage({insertTs: seconds(), ...object});
 				return userForReturn;
 			});
 	}

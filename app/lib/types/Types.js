@@ -59,3 +59,5 @@ export type TImageSource = {
 };
 
 export type TStyle = Object;
+
+export type TDynamicStyleTextArray = Array<[string, TStyle]>;

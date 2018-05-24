@@ -4,7 +4,7 @@
 // Initialize the application, checks if the user is logged in
 // If he is then ./AppAuthenticated is run, else ./AppUnauthenticated
 import DaoUser from "./lib/daos/DaoUser";
-import RealmIO from './lib/data/RealmIO';
+import StorageIO from './lib/data/StorageIO';
 import runAppAuth from './AppAuthenticated';
 import runAppUnuth from './AppUnauthenticated';
 import {bootstrapRkTheme} from './lib/theme/RkTheme';
@@ -29,10 +29,10 @@ export function initializeApplication() {
 }
 
 
-export function startApplication(userProfile: ?TUser = null) {
-	userProfile = userProfile || RealmIO.getLocalUserData();
+export async function startApplication(userProfile: ?TUser = null) {
+	userProfile = userProfile || await StorageIO.getLocalUser();
 	
-	// Try get the logged in user from realm
+	// Try get the logged in user from storage
 	let apiKey = DaoUser.gApiKey(userProfile);
 	
 	if (apiKey == null) {

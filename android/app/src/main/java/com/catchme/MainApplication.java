@@ -23,8 +23,7 @@ import com.horcrux.svg.SvgPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-
-import io.realm.react.RealmReactPackage;
+
 
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;

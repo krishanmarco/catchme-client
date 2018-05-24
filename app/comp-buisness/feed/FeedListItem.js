@@ -3,7 +3,7 @@ import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeed from "../../lib/daos/DaoFeed";
 import HTMLView from 'react-native-htmlview';
 import React from 'react';
-import {AvatarCircle, Touchable} from "../../comp/Misc";
+import {AvatarCircle, DynamicStyleText, Touchable} from "../../comp/Misc";
 import {Col, Grid} from "react-native-easy-grid";
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {RkStyleSheet} from 'react-native-ui-kitten';
@@ -56,9 +56,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
-								<HTMLView
-									style={styles.htmlView}
-									value={DaoFeed.gContent(feed)}/>
+								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent()}/>
 							</View>
 						</View>
 					</Col>
@@ -126,12 +124,5 @@ const styles = RkStyleSheet.create(theme => ({
 	listItemContent: {
 		flex: 1,
 		marginLeft: 12
-	},
-
-	htmlView: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'flex-start',
-		flexWrap: 'wrap'
 	}
 }));

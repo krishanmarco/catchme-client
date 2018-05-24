@@ -5,7 +5,7 @@ import DaoLocation from "../daos/DaoLocation";
 import DaoUser from "../daos/DaoUser";
 import firebase from "./Firebase";
 import Logger from "../Logger";
-import RealmIO from './RealmIO';
+import StorageIO from './StorageIO';
 import RNFetchBlob from 'react-native-fetch-blob';
 import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from "../HelperFunctions";
@@ -192,14 +192,13 @@ class ApiClient {
 
 
 
-	_onReceiveUserProfile(userProfileJson): Promise<TUser> {
-		const userForRealm: TUser = JSON.parse(userProfileJson);
-		const userForReturn: TUser = JSON.parse(userProfileJson);
+	async _onReceiveUserProfile(userProfileJson): Promise<TUser> {
+		const user: TUser = JSON.parse(userProfileJson);
 
-		RealmIO.setLocalUser(userForRealm);
-		ApiAuthentication.update(DaoUser.gId(userForReturn), DaoUser.gApiKey(userForReturn));
+		await StorageIO.setLocalUser(user);
+		ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user));
 
-		return userForReturn;
+		return user;
 	}
 
 	accountsRegister(formUserRegister: TApiFormRegister) {
