@@ -2,7 +2,7 @@
 import React from 'react';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
-import type {TDynamicStyleTextArray} from "../../lib/types/Types";
+import type {TDynamicStyleTextArray} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

@@ -72,7 +72,7 @@
     "object-curly-spacing": 0,
     "padded-blocks": 0,
     "quote-props": ["error", "consistent-as-needed"],
-    "quotes": 0,
+    "quotes": ["error", "single"],
     "id-match": 0,
     "sort-vars": 0,
     "sort-imports-es6-autofix/sort-imports-es6": [2, {

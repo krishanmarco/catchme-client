@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoUserLocationStatus from "./DaoUserLocationStatus";
-import ManagerWeekTimings from "../helpers/ManagerWeekTimings";
-import ULSListManager from "../helpers/ULSListManager";
-import {Const} from "../../Config";
-import {denormObj, isValidUrl} from "../HelperFunctions";
-import type {TLocationWithULS} from "../helpers/ULSListManager";
-import type {TUser} from "./DaoUser";
-import type {TUserLocationStatus} from "./DaoUserLocationStatus";
+import DaoUserLocationStatus from './DaoUserLocationStatus';
+import ManagerWeekTimings from '../helpers/ManagerWeekTimings';
+import ULSListManager from '../helpers/ULSListManager';
+import {Const} from '../../Config';
+import {denormObj, isValidUrl} from '../HelperFunctions';
+import type {TLocationWithULS} from '../helpers/ULSListManager';
+import type {TUser} from './DaoUser';
+import type {TUserLocationStatus} from './DaoUserLocationStatus';
 
 
 export type TLocation = {
@@ -67,8 +67,8 @@ export default class DaoLocation {
 	static pAddress = 'address';
 	static pPeople = 'people';
 	static pConnections = 'connections';
-	static pGooglePlaceId = `googlePlaceId`;
-	static pStatus = `status`;
+	static pGooglePlaceId = 'googlePlaceId';
+	static pStatus = 'status';
 	static pAddressCountry = `${DaoLocation.pAddress}.country`;
 	static pAddressState = `${DaoLocation.pAddress}.state`;
 	static pAddressCity = `${DaoLocation.pAddress}.city`;

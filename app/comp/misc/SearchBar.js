@@ -2,10 +2,10 @@
 import React from 'react';
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {listItemInfo} from "../../lib/theme/Styles";
+import {listItemInfo} from '../../lib/theme/Styles';
 import {RkTextInput} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
+import {t} from '../../lib/i18n/Translations';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

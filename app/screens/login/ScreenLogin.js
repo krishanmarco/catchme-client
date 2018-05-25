@@ -1,26 +1,26 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
-import ApiFormPool from "../../lib/redux-pool/api-form/ApiFormPool";
-import DaoUser from "../../lib/daos/DaoUser";
-import Logger from "../../lib/Logger";
+import ApiFormPool from '../../lib/redux-pool/api-form/ApiFormPool';
+import DaoUser from '../../lib/daos/DaoUser';
+import Logger from '../../lib/Logger';
 import React from 'react';
-import Router from "../../lib/navigation/Router";
-import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
+import Router from '../../lib/navigation/Router';
+import {FORM_API_ID_LOGIN} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
-import {fullpageForm} from "../../lib/theme/Styles";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
+import {fullpageForm} from '../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
-import {Icons} from "../../Config";
+import {Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {SignInFacebook} from "../../lib/social/SignInFacebook";
+import {SignInFacebook} from '../../lib/social/SignInFacebook';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
-import {startApplication} from "../../App";
+import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from '../../lib/i18n/Translations';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -49,7 +49,8 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	}
 
 	_handleSignInError(error = null) {
-		Logger.v("ScreenLogin _handleSignInError: ", error);
+		Logger.v('ScreenLogin _handleSignInError:', error);
+		// todo Snackbar
 	}
 
 	_handleSignInSuccess(userProfile: TUser) {

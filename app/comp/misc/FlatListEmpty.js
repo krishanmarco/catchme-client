@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 01-May-18 © **/
 import React from 'react';
-import {Colors} from "../../Config";
+import {Colors} from '../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 

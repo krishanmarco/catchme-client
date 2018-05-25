@@ -4,9 +4,9 @@
 import Button from './button/Button';
 import React from 'react';
 import {Animated, StyleSheet, View} from 'react-native';
-import {Colors} from "../../../Config";
+import {Colors} from '../../../Config';
 import {Icon} from 'react-native-elements';
-import type {TIcon} from "../../../lib/types/Types";
+import type {TIcon} from '../../../lib/types/Types';
 
 
 type Props = {

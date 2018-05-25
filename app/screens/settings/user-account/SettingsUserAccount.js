@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoUser from "../../../lib/daos/DaoUser";
-import ImagePicker from "../../../lib/helpers/ImagePicker";
-import Logger from "../../../lib/Logger";
-import Maps from "../../../lib/data/Maps";
+import DaoUser from '../../../lib/daos/DaoUser';
+import ImagePicker from '../../../lib/helpers/ImagePicker';
+import Logger from '../../../lib/Logger';
+import Maps from '../../../lib/data/Maps';
 import React from 'react';
-import Router from "../../../lib/navigation/Router";
-import {AvatarCircle, AvatarFull, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
+import Router from '../../../lib/navigation/Router';
+import {AvatarCircle, AvatarFull, ListItemHeader, ListItemInfo} from '../../../comp/Misc';
 import {Const, Icons} from '../../../Config';
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
-import {listItemInfo} from "../../../lib/theme/Styles";
+import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
+import {listItemInfo} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {stringReplace} from "../../../lib/HelperFunctions";
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {stringReplace} from '../../../lib/HelperFunctions';
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -55,7 +55,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				// todo
 				// This should never happen because the back button
 				// should not be pressed if the form is invalid
-				Logger.v(`SettingsUserAccount componentWillUnmount `, err);
+				Logger.v('SettingsUserAccount componentWillUnmount: ', err);
 			});
 	}
 

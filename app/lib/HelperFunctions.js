@@ -138,7 +138,7 @@ export function isValidUrl(url) {
 		return false;
 
 	const urlUpper = url.toUpperCase();
-	return urlUpper.startsWith("HTTPS://") || urlUpper.startsWith("HTTP://");
+	return urlUpper.startsWith('HTTPS://') || urlUpper.startsWith('HTTP://');
 }
 
 export function validSource(source) {

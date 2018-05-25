@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
-import Logger from "../../lib/Logger";
-import React from 'react';
-import {Colors} from "../../Config";
-import {connect} from 'react-redux';
 import Context from '../../lib/Context';
+import Logger from '../../lib/Logger';
+import React from 'react';
+import {Colors} from '../../Config';
+import {connect} from 'react-redux';
 import {Dimensions, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
-import type {TNavigator} from "../../lib/types/Types";
-import {ScreenInfo} from "../Misc";
-import {t} from "../../lib/i18n/Translations";
+import {ScreenInfo} from '../Misc';
+import {t} from '../../lib/i18n/Translations';
+import type {TNavigator} from '../../lib/types/Types';
 
 
 // Const **********************************************************************************************
@@ -47,7 +47,7 @@ export function screenReducer(state = screenInitState, action) {
 
 function screenSetDisablePointerEvents(disablePointerEvents: boolean) {
 	return (dispatch) => {
-		Logger.v(`Screen screenSetDisablePointerEvents: disablePointerEvents ${disablePointerEvents}`);
+		Logger.v(`Screen screenSetDisablePointerEvents: disablePointerEvents=${disablePointerEvents}`);
 		dispatch({type: ACTION_SET_DISABLE_POINTER_EVENTS, disablePointerEvents});
 	};
 }

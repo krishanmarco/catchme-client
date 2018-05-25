@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiFormDef from "../ApiFormDef";
-import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
-import {ApiFormState} from "../ApiFormModel";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TThunk} from "../../../types/Types";
-import CacheActionCreator from "../../cache/CacheActionCreator";
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
+import ApiFormDef from '../ApiFormDef';
+import CacheActionCreator from '../../cache/CacheActionCreator';
+import DaoApiFormChangePassword from '../../../daos/DaoApiFormChangePassword';
+import {ApiFormState} from '../ApiFormModel';
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../../cache/def/CacheDefUserProfile';
+import {Validate} from '../../../helpers/Validator';
+import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TThunk} from '../../../types/Types';
 
 export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 

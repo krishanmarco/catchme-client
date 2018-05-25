@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../daos/DaoUser';
 import {AsyncStorage} from 'react-native';
-import type {TUser} from "../daos/DaoUser";
+import type {TUser} from '../daos/DaoUser';
 
 export default class StorageIO {
 	static KEY_LOCAL_USER = 'LocalUser';

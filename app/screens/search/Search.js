@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUser from '../../lib/daos/DaoUser';
 import LocationList from '../../comp-buisness/location/LocationList';
 import React from 'react';
 import Router from '../../lib/navigation/Router';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import UserList from '../../comp-buisness/user/UserList';
-import {Colors} from "../../Config";
-import {FlatListEmpty} from "../../comp/Misc";
+import {Colors} from '../../Config';
+import {FlatListEmpty} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import {SEARCH_DATA_ID_LOCATIONS} from "../../lib/redux-pool/search-data/def/SearchDataDefLocations";
-import {SEARCH_DATA_ID_USERS} from "../../lib/redux-pool/search-data/def/SearchDataDefUsers";
+import {SEARCH_DATA_ID_LOCATIONS} from '../../lib/redux-pool/search-data/def/SearchDataDefLocations';
+import {SEARCH_DATA_ID_USERS} from '../../lib/redux-pool/search-data/def/SearchDataDefUsers';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
-import {TSearchDataPool} from "../../lib/redux-pool/search-data/SearchDataPool";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from '../../lib/i18n/Translations';
+import {TSearchDataPool} from '../../lib/redux-pool/search-data/SearchDataPool';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 
 // Const ************************************************************************************************

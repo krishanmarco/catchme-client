@@ -3,9 +3,9 @@ import Chat from '../../comp/chat/Chat';
 import DaoLocation from '../../lib/daos/DaoLocation';
 import React from 'react';
 import {FirebaseData} from '../../lib/data/Firebase';
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

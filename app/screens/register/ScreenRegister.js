@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
-import {FontIcons} from "../../Config";
-import {FORM_API_ID_REGISTER} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
+import {FontIcons} from '../../Config';
+import {FORM_API_ID_REGISTER} from '../../lib/redux-pool/api-form/def/ApiFormDefRegister';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
-import {fullpageForm} from "../../lib/theme/Styles";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
+import {fullpageForm} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {startApplication} from "../../App";
+import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
-import type {TNavigator} from "../../lib/types/Types";
+import {t} from '../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
+import type {TNavigator} from '../../lib/types/Types';
 
 
 // Const *************************************************************************************************

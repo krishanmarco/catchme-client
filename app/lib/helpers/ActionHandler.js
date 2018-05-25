@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../data/ApiClient';
-import CacheActionCreator from "../redux-pool/cache/CacheActionCreator";
-import DaoAction from "../daos/DaoAction";
-import Logger from "../Logger";
-import Router from "../navigation/Router";
+import CacheActionCreator from '../redux-pool/cache/CacheActionCreator';
+import DaoAction from '../daos/DaoAction';
+import Logger from '../Logger';
+import Router from '../navigation/Router';
 import {ActionHandlerActions, Const, Icons} from '../../Config';
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../redux-pool/cache/def/CacheDefUserProfile";
-import {TActionHandlers} from "../types/Types";
-import type {TAction} from "../daos/DaoAction";
-import type {TActionHandler, TDispatch, TNavigator, TThunk} from "../types/Types";
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../redux-pool/cache/def/CacheDefUserProfile';
+import {TActionHandlers} from '../types/Types';
+import type {TAction} from '../daos/DaoAction';
+import type {TActionHandler, TDispatch, TNavigator, TThunk} from '../types/Types';
 
 
 const _ClickActionHandlers: TActionHandlers = ({

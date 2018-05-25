@@ -2,18 +2,18 @@
 import _ from 'lodash';
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
-import Router from "../../lib/navigation/Router";
+import Router from '../../lib/navigation/Router';
 import {bindActionCreators} from 'redux';
 import {Bubble, GiftedChat} from 'react-native-gifted-chat';
 import {chatMessagesLoadMore, chatMessagesSendMessage, initialize} from './ChatReducer';
 import {Colors} from '../../Config';
 import {connect} from 'react-redux';
-import {DefaultLoader} from "../Misc";
+import {DefaultLoader} from '../Misc';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import type {TChatReducerState} from "./ChatReducer";
-import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
-import type {TUser} from "../../lib/daos/DaoUser";
+import type {TChatReducerState} from './ChatReducer';
+import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from '../../lib/data/Firebase';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

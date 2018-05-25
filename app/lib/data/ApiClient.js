@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiAuthentication from './ApiAuthentication';
-import Context from "../Context";
-import DaoLocation from "../daos/DaoLocation";
-import DaoUser from "../daos/DaoUser";
-import firebase from "./Firebase";
-import Logger from "../Logger";
-import StorageIO from './StorageIO';
+import Context from '../Context';
+import DaoLocation from '../daos/DaoLocation';
+import DaoUser from '../daos/DaoUser';
+import firebase from './Firebase';
+import Logger from '../Logger';
 import RNFetchBlob from 'react-native-fetch-blob';
+import StorageIO from './StorageIO';
 import {Const, Urls} from '../../Config';
-import {prepareForMultipart, seconds} from "../HelperFunctions";
-import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
-import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
-import type {TLocation} from "../daos/DaoLocation";
-import type {TUser} from "../daos/DaoUser";
-import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import {prepareForMultipart, seconds} from '../HelperFunctions';
+import type {TApiFormChangePassword} from '../daos/DaoApiFormChangePassword';
+import type {TApiFormRegister} from '../daos/DaoApiFormRegister';
+import type {TLocation} from '../daos/DaoLocation';
+import type {TUser} from '../daos/DaoUser';
+import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
 
 
 class ApiClient {
@@ -69,7 +69,7 @@ class ApiClient {
 
 			if (this.api401Attempts > Const.apiMax401) {
 				// This request has been unauthorized too many times
-				Logger.v("ApiClient _handleResponse: Too many [401], terminating request retry-loop");
+				Logger.v('ApiClient _handleResponse: Too many [401], terminating request retry-loop');
 
 				// Reset the 401 request counter
 				this.api401Attempts = 0;
@@ -88,7 +88,7 @@ class ApiClient {
 			return response.text()
 				.then(json => {
 					const apiException = JSON.parse(json);
-					Logger.v('ApiClient _handleResponse: ', apiException);
+					Logger.v('ApiClient _handleResponse:', apiException);
 					return Promise.reject(apiException);
 				}).catch(apiException => {
 					// Do nothing on server internal error
@@ -116,7 +116,7 @@ class ApiClient {
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						"Authorization": authenticationToken
+						'Authorization': authenticationToken
 					}
 				});
 
@@ -127,7 +127,7 @@ class ApiClient {
 
 
 
-	_post(url, body) {
+	_post(url: string, body: ?Object) {
 		Logger.v(`ApiClient _post: Requesting auth-token for ${url}`);
 
 		return ApiAuthentication.getUserAuthenticationToken()
@@ -139,7 +139,7 @@ class ApiClient {
 					headers: {
 						'Accept': 'application/json',
 						'Content-Type': 'application/json',
-						"Authorization": authenticationToken
+						'Authorization': authenticationToken
 					},
 					body: JSON.stringify(body)
 				});
@@ -162,7 +162,7 @@ class ApiClient {
 					{
 						'Accept': 'application/json',
 						'Content-Type': 'multipart/form-data',
-						"Authorization": authenticationToken
+						'Authorization': authenticationToken
 					},
 					formData
 				);
@@ -186,7 +186,7 @@ class ApiClient {
 		return fetch(`${Urls.api}/meta/time`)
 			.then(response => response.text())
 			.then(callback)
-			.catch(error => Logger.v(error));
+			.catch(error => {Logger.v('ApiClient time:', error);});
 	}
 
 
@@ -237,7 +237,7 @@ class ApiClient {
 			})
 			.catch(exception => {
 				Context.setFirebaseEnabled(false);
-				Logger.v("ApiClient authenticateFirebase: Failed to login to firebase: ", exception);
+				Logger.v('ApiClient authenticateFirebase: Failed to login to firebase', exception);
 			});
 		}
 
@@ -387,6 +387,9 @@ class ApiClient {
 
 	// Called from AddContacts.mapContactsToUsers
 	searchUsers(queryArray = []): Promise<Array<TUser>> {
+		if (queryArray.length <= 0)
+			return Promise.resolve([]);
+
 		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
 			.then(json => JSON.parse(json));
 	}

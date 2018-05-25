@@ -2,12 +2,12 @@
 import _ from 'lodash';
 import React from 'react';
 import {RkTextInput as _RkTextInput, RkText} from 'react-native-ui-kitten';
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {Colors} from "../../../Config";
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
+import {Colors} from '../../../Config';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
-import {Validate} from "../../../lib/helpers/Validator";
-import type {TStyle} from "../../../lib/types/Types";
+import {Validate} from '../../../lib/helpers/Validator';
+import type {TStyle} from '../../../lib/types/Types';
 
 
 // RkTextInput ******************************************************************************************

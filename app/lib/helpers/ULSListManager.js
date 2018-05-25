@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 13-Apr-18 © **/
-import DaoLocation from "../daos/DaoLocation";
-import DaoUser from "../daos/DaoUser";
-import DaoUserLocationStatus from "../daos/DaoUserLocationStatus";
-import moment from "moment/moment";
-import type {TLocation} from "../daos/DaoLocation";
-import type {TUser} from "../daos/DaoUser";
-import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
+import DaoLocation from '../daos/DaoLocation';
+import DaoUser from '../daos/DaoUser';
+import DaoUserLocationStatus from '../daos/DaoUserLocationStatus';
+import moment from 'moment/moment';
+import type {TLocation} from '../daos/DaoLocation';
+import type {TUser} from '../daos/DaoUser';
+import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
 
 export type TLocationWithULS = TLocation & {
 	status?: TUserLocationStatus

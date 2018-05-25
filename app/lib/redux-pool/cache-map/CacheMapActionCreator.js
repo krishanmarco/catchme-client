@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import Logger from "../../Logger";
-import PoolActionCreator from "../PoolActionCreator";
-import {CacheMapState} from "./CacheMapModel";
 import DataProvider from '../../data/DataProvider';
+import Logger from '../../Logger';
+import PoolActionCreator from '../PoolActionCreator';
+import {CacheMapState} from './CacheMapModel';
+import {Const} from '../../../Config';
 import {
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
 	POOL_ACTION_CACHE_MAP_SET_DATA
-} from "./CacheMapPool";
-import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
-import type {TDispatch} from "../../types/Types";
-import {Const} from "../../../Config";
-import {seconds} from "../../HelperFunctions";
+} from './CacheMapPool';
+import {POOL_TYPE_CACHE_MAP} from '../../../redux/ReduxPool';
+import {seconds} from '../../HelperFunctions';
+import type {TDispatch} from '../../types/Types';
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
@@ -69,11 +69,11 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 
 				// If already loaded and valid return the data
 				if (data !== null && DataProvider.cacheIsValid(expiryTs)) {
-					Logger.v(`Cache is valid for ${poolId} ${itemId}`);
+					Logger.v(`CacheMapActionCreator initializeItem: Cache valid, ${poolId} ${itemId}`);
 					return Promise.resolve(data);
 				}
 
-				Logger.v(`Cache was invalid for ${poolId} ${itemId}, data is null=${data == null}`);
+				Logger.v(`CacheMapActionCreator initializeItem: Cache invalid, ${poolId} ${itemId}, data(null)=${data == null}`);
 			}
 			
 			
@@ -91,7 +91,7 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 					// Continue the promise chain
 					return buildResultData;
 				}).catch(apiExceptionResponse => {
-					Logger.v("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
+					Logger.v('CacheMapActionCreator initializeItem:', apiExceptionResponse);
 					
 					dispatchAction({
 						type: POOL_ACTION_CACHE_MAP_SET_DATA,

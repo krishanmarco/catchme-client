@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {Icons} from "../../Config";
-import {t} from "../i18n/Translations";
+import {Icons} from '../../Config';
+import {t} from '../i18n/Translations';
 
 
 export default class Maps {

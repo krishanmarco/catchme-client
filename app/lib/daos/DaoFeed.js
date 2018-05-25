@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoAction from "./DaoAction";
-import type {TAction} from "./DaoAction";
-import type {TStyle} from "../types/Types";
-import {TDynamicStyleTextArray} from "../types/Types";
+import DaoAction from './DaoAction';
+import {TDynamicStyleTextArray} from '../types/Types';
+import type {TAction} from './DaoAction';
+import type {TStyle} from '../types/Types';
 
 export type TFeed = TAction & {
 	// id: number,               // 1                            INHERITED Unique feed item identifier

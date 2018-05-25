@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import ApiFormDef from "../ApiFormDef";
-import DaoApiFormLogin from "../../../daos/DaoApiFormLogin";
-import {ApiFormState} from "../ApiFormModel";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TApiFormLogin} from "../../../daos/DaoApiFormLogin";
-import type {TThunk} from "../../../types/Types";
+import ApiClient from '../../../data/ApiClient';
+import ApiFormDef from '../ApiFormDef';
+import DaoApiFormLogin from '../../../daos/DaoApiFormLogin';
+import {ApiFormState} from '../ApiFormModel';
+import {Validate} from '../../../helpers/Validator';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TApiFormLogin} from '../../../daos/DaoApiFormLogin';
+import type {TThunk} from '../../../types/Types';
 
 export const FORM_API_ID_LOGIN = 'FORM_API_ID_LOGIN';
 

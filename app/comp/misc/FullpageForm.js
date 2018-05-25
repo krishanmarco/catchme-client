@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 23-Apr-18 © **/
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import type {TStyle} from "../../lib/types/Types";
+import type {TStyle} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

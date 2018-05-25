@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
+import DaoLocation from '../../lib/daos/DaoLocation';
 import Gallery from '../../comp/misc/Gallery';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
+import ImageURISourceAuth from '../../lib/data/ImageURISourceAuth';
 import React from 'react';
-import {FlatListEmpty} from "../../comp/Misc";
-import {t} from "../../lib/i18n/Translations";
-import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import {FlatListEmpty} from '../../comp/Misc';
+import {t} from '../../lib/i18n/Translations';
+import type {TImageURISourceAuth} from '../../lib/data/ImageURISourceAuth';
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 
 // Const ************************************************************************************************

@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoLocation from "../daos/DaoLocation";
+import DaoLocation from '../daos/DaoLocation';
 import moment from 'moment';
-import ObjectCache from "./ObjectCache";
+import ObjectCache from './ObjectCache';
 import {boolToIntString, intStringToBool} from '../HelperFunctions';
-import {t} from "../i18n/Translations";
-import type {TLocation} from "../daos/DaoLocation";
+import {t} from '../i18n/Translations';
+import type {TLocation} from '../daos/DaoLocation';
 
 
 // A location string-timing has the following shape

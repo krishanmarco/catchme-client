@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import _ from 'lodash';
-import ApiClient from "../../../data/ApiClient";
-import CacheDef from "../CacheDef";
-import DaoLocation from "../../../daos/DaoLocation";
-import DaoUser from "../../../daos/DaoUser";
-import DaoUserLocationStatus from "../../../daos/DaoUserLocationStatus";
-import Logger from "../../../Logger";
-import {CacheState} from "../CacheModel";
-import type {TCacheDef} from "../CacheDef";
-import type {TLocation} from "../../../daos/DaoLocation";
-import type {TLocationWithULS} from "../../../helpers/ULSListManager";
-import type {TUser} from "../../../daos/DaoUser";
-import type {TUserLocationStatus} from "../../../daos/DaoUserLocationStatus";
-import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
+import ApiClient from '../../../data/ApiClient';
+import CacheDef from '../CacheDef';
+import DaoLocation from '../../../daos/DaoLocation';
+import DaoUser from '../../../daos/DaoUser';
+import DaoUserLocationStatus from '../../../daos/DaoUserLocationStatus';
+import Logger from '../../../Logger';
+import {CacheState} from '../CacheModel';
+import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
+import type {TCacheDef} from '../CacheDef';
+import type {TLocation} from '../../../daos/DaoLocation';
+import type {TLocationWithULS} from '../../../helpers/ULSListManager';
+import type {TUser} from '../../../daos/DaoUser';
+import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;
@@ -268,13 +268,13 @@ export class CacheDefUserProfileActionCreator {
 			return ApiClient.userProfileEdit(user)
 				.then((newUser: TUser) => {
 					mergeData(user);
-					Logger.v("CacheDefUserProfile editUser success", uid, newUser);
+					Logger.v('CacheDefUserProfile editUser: success', uid, newUser);
 					return newUser;
 				})
 				.catch(error => {
 					// Revert to the previous state
 					mergeData(oldUser);
-					Logger.v("CacheDefUserProfile editUser failed", uid, error);
+					Logger.v('CacheDefUserProfile editUser: failed', uid, error);
 					return error;
 				});
 		});
@@ -287,13 +287,13 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
-				Logger.v("CacheDefUserProfile addUserToFriends success", uid, success);
+				Logger.v('CacheDefUserProfile addUserToFriends: success', uid, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v("CacheDefUserProfile addUserToFriends failed", uid, error);
+				Logger.v('CacheDefUserProfile addUserToFriends: failed', uid, error);
 				return error;
 			});
 	}
@@ -305,13 +305,13 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
-				Logger.v("CacheDefUserProfile removeUserFromFriends success", uid, success);
+				Logger.v('CacheDefUserProfile removeUserFromFriends: success', uid, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._addUserToConnectionsFriends(userToAdd);
-				Logger.v("CacheDefUserProfile removeUserFromFriends failed", uid, error);
+				Logger.v('CacheDefUserProfile removeUserFromFriends: failed', uid, error);
 				return error;
 			});
 	}
@@ -323,13 +323,13 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
-				Logger.v("CacheDefUserProfile blockUser success", uid, success);
+				Logger.v('CacheDefUserProfile blockUser: success', uid, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsBlocked(userToAdd);
-				Logger.v("CacheDefUserProfile blockUser failed", uid, error);
+				Logger.v('CacheDefUserProfile blockUser: failed', uid, error);
 				return error;
 			});
 	}
@@ -341,13 +341,13 @@ export class CacheDefUserProfileActionCreator {
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
-				Logger.v("CacheDefUserProfile acceptUserFriendship success", uid, success);
+				Logger.v('CacheDefUserProfile acceptUserFriendship: success', uid, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v("CacheDefUserProfile acceptUserFriendship failed", uid, error);
+				Logger.v('CacheDefUserProfile acceptUserFriendship: failed', uid, error);
 				return error;
 			});
 	}
@@ -359,13 +359,13 @@ export class CacheDefUserProfileActionCreator {
 		const lid = DaoLocation.gId(locationToAdd);
 		return ApiClient.userLocationsFavoritesAddLid(lid)
 			.then(success => {
-				Logger.v("CacheDefUserProfile followLocation success", lid, success);
+				Logger.v('CacheDefUserProfile followLocation: success', lid, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeFromLocationFavoritesArray(locationToAdd);
-				Logger.v("CacheDefUserProfile followLocation failed", lid, error);
+				Logger.v('CacheDefUserProfile followLocation: failed', lid, error);
 				return error;
 			});
 	}
@@ -377,13 +377,13 @@ export class CacheDefUserProfileActionCreator {
 		const lid = DaoLocation.gId(locationToRemove);
 		return ApiClient.userLocationsFavoritesDelLid(lid)
 			.then(success => {
-				Logger.v("CacheDefUserProfile unfollowLocation success", lid, success);
+				Logger.v('CacheDefUserProfile unfollowLocation: success', lid, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._addToLocationFavoritesArray(locationToRemove);
-				Logger.v("CacheDefUserProfile unfollowLocation failed", lid, error);
+				Logger.v('CacheDefUserProfile unfollowLocation: failed', lid, error);
 				return error;
 			});
 	}
@@ -405,7 +405,7 @@ export class CacheDefUserProfileActionCreator {
 					this._removeFromUserLocationStatusesArray(locationWithULS);
 					const newLocationWithULS = DaoLocation.sUserLocationStatus(locationWithULS, newUserLocationStatus);
 					this._putToUserLocationStatusesArray(newLocationWithULS);
-					Logger.v("CacheDefUserProfile putLocationWithULS success", ulsId, newUserLocationStatus);
+					Logger.v('CacheDefUserProfile putLocationWithULS: success', ulsId, newUserLocationStatus);
 					return newUserLocationStatus;
 				})
 				.catch(error => {
@@ -417,7 +417,7 @@ export class CacheDefUserProfileActionCreator {
 						this._putToUserLocationStatusesArray(oldLocationWithULS);
 					else this._removeFromUserLocationStatusesArray(locationWithULS);
 
-					Logger.v("CacheDefUserProfile putLocationWithULS failed", ulsId, error);
+					Logger.v('CacheDefUserProfile putLocationWithULS: failed', ulsId, error);
 					return error;
 				});
 		});
@@ -430,13 +430,13 @@ export class CacheDefUserProfileActionCreator {
 		const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
 		return ApiClient.userStatusDel(ulsId)
 			.then(success => {
-				Logger.v("CacheDefUserProfile removeUserLocationStatus success", ulsId, success);
+				Logger.v('CacheDefUserProfile removeUserLocationStatus: success', ulsId, success);
 				return success;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._putToUserLocationStatusesArray(locationWithULS);
-				Logger.v("CacheDefUserProfile removeUserLocationStatus failed", ulsId, error);
+				Logger.v('CacheDefUserProfile removeUserLocationStatus: failed', ulsId, error);
 				return error;
 			});
 	}
@@ -448,13 +448,13 @@ export class CacheDefUserProfileActionCreator {
 		const lid = DaoLocation.gId(location);
 		return ApiClient.userLocationsAdminEditLid(location)
 			.then((location: TLocation) => {
-				Logger.v("CacheDefUserProfile putAdminLocation success", lid, location);
+				Logger.v('CacheDefUserProfile putAdminLocation: success', lid, location);
 				return location;
 			})
 			.catch(error => {
 				// Revert to the previous state
 				this._removeFromAdminLocationsArray(location);
-				Logger.v("CacheDefUserProfile putAdminLocation failed", lid, error);
+				Logger.v('CacheDefUserProfile putAdminLocation: failed', lid, error);
 				return error;
 			});
 	}

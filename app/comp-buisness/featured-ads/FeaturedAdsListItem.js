@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ActionHandler from '../../lib/helpers/ActionHandler';
-import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
+import DaoFeaturedAd from '../../lib/daos/DaoFeaturedAd';
 import React from 'react';
 import {Icon} from 'react-native-elements';
 import {Image, View} from 'react-native';
 import {RkButton, RkCard, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {Touchable} from "../../comp/Misc";
-import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
+import {Touchable} from '../../comp/Misc';
+import type {TFeaturedAd} from '../../lib/daos/DaoFeaturedAd';
 
 
 // Const *************************************************************************************************

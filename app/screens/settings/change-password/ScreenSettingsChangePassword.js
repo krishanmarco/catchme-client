@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import Logger from "../../../lib/Logger";
+import Logger from '../../../lib/Logger';
 import React from 'react';
-import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
-import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
-import {fullpageForm} from "../../../lib/theme/Styles";
+import {FORM_API_ID_CHANGE_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword';
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
+import {fullpageForm} from '../../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
-import {Icons} from "../../../Config";
+import {Icons} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import type {TNavigator} from "../../../lib/types/Types";
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import type {TNavigator} from '../../../lib/types/Types';
 
 
 // Const *************************************************************************************************
@@ -50,7 +50,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 				this.setState({passwordChanged: true});
 			})
 			.catch(error => {
-				Logger.v('ScreenSettingsChangePassword _onChangePress', error);
+				Logger.v('ScreenSettingsChangePassword _onChangePress:', error);
 			});
 	}
 

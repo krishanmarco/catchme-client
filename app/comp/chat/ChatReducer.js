@@ -3,7 +3,7 @@ import _ from 'lodash';
 import firebase, {FirebaseData} from '../../lib/data/Firebase';
 import {Const} from '../../Config';
 import {t} from '../../lib/i18n/Translations';
-import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from "../../lib/data/Firebase";
+import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from '../../lib/data/Firebase';
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************

@@ -29,7 +29,7 @@ function byte2Hex(b) {
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
 function pkcs1pad2(s,n) {
   if(n < s.length + 11) {
-		Logger.v("rsa", "Message too long for RSA");
+		Logger.v('rsa pkcs1pad2 Message too long for RSA');
     return null;
   }
   var ba = new Array();
@@ -110,7 +110,7 @@ function RSASetPublic(N,E) {
     this.e = parseInt(E,16);
   }
   else
-		Logger.v("rsa", "Invalid RSA public key");
+		Logger.v('rsa RSASetPublic: Invalid RSA public key');
 }
 
 function RSASetPublicString(publicStr) {
@@ -188,7 +188,7 @@ function RSASetPrivate(N,E,D) {
     this.d = parseBigInt(D,16);
   }
   else
-		Logger.v("rsa", "Invalid RSA private key");
+		Logger.v('rsa RSASetPrivate Invalid RSA private key');
 }
 
 // Set the private key fields N, e, d and CRT params from hex strings
@@ -217,7 +217,7 @@ function RSASetPrivateEx(N,E,D,P,Q,DP,DQ,C) {
     this.coeff = parseBigInt(params.coeff,16);
   }
   else
-    Logger.v("rsa", "Invalid RSA private key");
+    Logger.v('rsa RSASetPrivateEx: Invalid RSA private key');
 }
 
 // Generate a new random private key B bits long, using public expt E

@@ -3,9 +3,9 @@ import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeoco
 import React from 'react';
 import {Navigation} from 'react-native-navigation';
 import {poolConnect} from '../../redux/ReduxPool';
-import {Screen} from "../../comp/Misc";
+import {Screen} from '../../comp/Misc';
 import {ScrollView} from 'react-native';
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

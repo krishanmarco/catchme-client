@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 
-import {ReduxPoolBuilder} from "../../redux/ReduxPool";
-import type {TDispatch, TGetState} from "../types/Types";
+import {ReduxPoolBuilder} from '../../redux/ReduxPool';
+import type {TDispatch, TGetState} from '../types/Types';
 
 type TPoolActionDispatchObj = {
 	type: string

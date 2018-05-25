@@ -1,5 +1,5 @@
-import {seconds} from "../../HelperFunctions";
-import {Const} from "../../../Config";
+import {Const} from '../../../Config';
+import {seconds} from '../../HelperFunctions';
 
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 

@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import StorageIO from '../../../lib/data/StorageIO';
-import {FullpageForm, LoadingButton, ScreenInfo} from "../../../comp/Misc";
-import {fullpageForm} from "../../../lib/theme/Styles";
-import {startApplication} from "../../../App";
+import {FullpageForm, LoadingButton, ScreenInfo} from '../../../comp/Misc';
+import {fullpageForm} from '../../../lib/theme/Styles';
+import {startApplication} from '../../../App';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
+import {t} from '../../../lib/i18n/Translations';
 
 
 // Const *************************************************************************************************

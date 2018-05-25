@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
 import {ListItemLocationFollow} from './LocationListItems';
-import {poolConnect} from "../../redux/ReduxPool";
-import {t} from "../../lib/i18n/Translations";
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import {poolConnect} from '../../redux/ReduxPool';
+import {t} from '../../lib/i18n/Translations';
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 
 // Const ************************************************************************************************

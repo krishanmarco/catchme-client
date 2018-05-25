@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from './ApiClient';
-import Logger from "../Logger";
+import Logger from '../Logger';
 import MD5 from 'md5';
 import RSAKey from '../react-native-rsa/rsa';
 import {Const} from '../../Config';
@@ -42,7 +42,7 @@ class ApiAuthentication {
 		if (this.userAuthToken !== null) {
 			// userAuthToken is still valid no need
 			// to recalculate it so call the callback immediately
-			Logger.v("ApiAuthentication getUserAuthenticationToken: found valid token");
+			Logger.v('ApiAuthentication getUserAuthenticationToken: found valid token');
 			return Promise.resolve(this.userAuthToken);
 		}
 

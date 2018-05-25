@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import Logger from "../../Logger";
-import PoolActionCreator from "../PoolActionCreator";
-import {CacheState} from "./CacheModel";
+import Logger from '../../Logger';
+import PoolActionCreator from '../PoolActionCreator';
+import {CacheState} from './CacheModel';
 import {
 	POOL_ACTION_CACHE_INIT_DATA,
 	POOL_ACTION_CACHE_INVALIDATE_DATA,
 	POOL_ACTION_CACHE_SET_DATA
-} from "./CachePool";
-import {POOL_TYPE_CACHE} from "../../../redux/ReduxPool";
-import type {TDispatch} from "../../types/Types";
+} from './CachePool';
+import {POOL_TYPE_CACHE} from '../../../redux/ReduxPool';
+import type {TDispatch} from '../../types/Types';
 
 
 export default class CacheActionCreator extends PoolActionCreator {
@@ -109,10 +109,10 @@ export default class CacheActionCreator extends PoolActionCreator {
 				return buildResultData;
 
 			}).catch(apiExceptionResponse => {
-				Logger.v("CacheActionCreator POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
+				Logger.v('CacheActionCreator initialize:', apiExceptionResponse);
 
 				/*
-				// developement remove comment in production
+				// development remove comment in production
 				dispatch({
 					poolType: POOL_TYPE_CACHE,
 					poolId: poolId,

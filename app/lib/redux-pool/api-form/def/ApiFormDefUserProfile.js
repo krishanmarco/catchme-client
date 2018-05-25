@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import ApiFormActionCreator from "../ApiFormActionCreator";
-import ApiFormDef from "../ApiFormDef";
-import CacheActionCreator from "../../cache/CacheActionCreator";
-import DaoUser from "../../../daos/DaoUser";
-import {ApiFormState} from "../ApiFormModel";
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TThunk} from "../../../types/Types";
-import type {TUser} from "../../../daos/DaoUser";
+import ApiClient from '../../../data/ApiClient';
+import ApiFormActionCreator from '../ApiFormActionCreator';
+import ApiFormDef from '../ApiFormDef';
+import CacheActionCreator from '../../cache/CacheActionCreator';
+import DaoUser from '../../../daos/DaoUser';
+import {ApiFormState} from '../ApiFormModel';
+import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../../cache/def/CacheDefUserProfile';
+import {Validate} from '../../../helpers/Validator';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TThunk} from '../../../types/Types';
+import type {TUser} from '../../../daos/DaoUser';
 
 
 export const FORM_API_ID_EDIT_USER_PROFILE = 'FORM_API_ID_EDIT_USER_PROFILE';

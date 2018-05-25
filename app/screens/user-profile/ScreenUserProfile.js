@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoUser from "../../lib/daos/DaoUser";
-import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
+import DaoUser from '../../lib/daos/DaoUser';
+import NavbarHandlerAppLogo from '../../lib/navigation/NavbarHandlerAppLogo';
 import React from 'react';
 import UserProfile from './UserProfile';
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
-import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
-import {NullableObjects, Screen} from "../../comp/Misc";
+import {CACHE_ID_USER_PROFILE} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import {CACHE_MAP_ID_USER_PROFILES} from '../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles';
+import {CacheState} from '../../lib/redux-pool/cache/CacheModel';
+import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
-import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
+import type {TCachePool} from '../../lib/redux-pool/cache/CachePool';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

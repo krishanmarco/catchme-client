@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 24-Mar-18 © **/
 import _ from 'lodash';
-import {denormObj} from "../HelperFunctions";
+import {denormObj} from '../HelperFunctions';
 
 
 export type TApiFormLogin = {

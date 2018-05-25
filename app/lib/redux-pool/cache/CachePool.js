@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import CacheActionCreator from "./CacheActionCreator";
-import CacheDefUserProfile, {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "./def/CacheDefUserProfile";
+import CacheActionCreator from './CacheActionCreator';
+import CacheDefUserProfile, {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from './def/CacheDefUserProfile';
 import {
 	CacheState,
 	mutatorCacheModelInitializeData,
 	mutatorCacheModelInvalidateData,
 	mutatorCacheModelSetData
-} from "./CacheModel";
-import type {TDispatch} from "../../types/Types";
-import type {TPool} from "../Pool";
+} from './CacheModel';
+import type {TDispatch} from '../../types/Types';
+import type {TPool} from '../Pool';
 
 
 // Define result of poolConnect for this pool

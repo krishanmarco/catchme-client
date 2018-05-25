@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
-import type {TNavigator} from "../types/Types";
+import type {TNavigator} from '../types/Types';
 
 const navbarBtAppLogo = {
 	id: 'NAVBAR_BUTTON_ID_APP_LOGO',

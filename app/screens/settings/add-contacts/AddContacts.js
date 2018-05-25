@@ -2,18 +2,19 @@
 import _ from 'lodash';
 import ApiClient from '../../../lib/data/ApiClient';
 import Contacts from 'react-native-contacts';
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import DaoUser from "../../../lib/daos/DaoUser";
-import Logger from "../../../lib/Logger";
+import DaoLocation from '../../../lib/daos/DaoLocation';
+import DaoUser from '../../../lib/daos/DaoUser';
+import Logger from '../../../lib/Logger';
 import React from 'react';
 import Router from '../../../lib/navigation/Router';
 import UserList from '../../../comp-buisness/user/UserList';
-import {FlatListEmpty} from "../../../comp/Misc";
+import {FlatListEmpty} from '../../../comp/Misc';
 import {poolConnect} from '../../../redux/ReduxPool';
+import {Snackbar} from '../../../lib/Snackbar';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
-import type {TNavigator} from "../../../lib/types/Types";
-import type {TUser} from "../../../lib/daos/DaoUser";
+import {t} from '../../../lib/i18n/Translations';
+import type {TNavigator} from '../../../lib/types/Types';
+import type {TUser} from '../../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -76,27 +77,29 @@ export function addContactsReducer(state = addContactsInitState, action) {
 function mapContactsToUsers(currentUserId, contacts) {
 	return (dispatch) => {
 
+		// Get all known contact data,
+		// server search allows for name, email and phone user search
 		const searchStrings = contacts.map(contact => {
+			const searchParams = [
+				_.get(contact, 'familyName', ''),
+				_.get(contact, 'middleName', ''),
+				_.get(contact, 'givenName', ''),
 
-			// Join all this users email addresses
-			const emailAddresses = _.get(contact, 'emailAddresses', []);
-			const emailSearchString = emailAddresses
-				.map(e => _.get(e, 'email', '').replace(/\s+/g, ''))
-				.join(' ');
+				_.get(contact, 'emailAddresses', [])
+					.map(e => _.get(e, 'email', '').replace(/\s+/g, ''))
+					.join(' ')
+					.trim(),
 
-			// Join all this users phone numbers
-			const phoneNumbers = _.get(contact, 'phoneNumbers', []);
-			const phoneSearchString = phoneNumbers
-				.map(p => _.get(p, 'number', '').replace(/[^0-9]/g, ''))
-				.join(' ');
+				_.get(contact, 'phoneNumbers', [])
+					.map(p => _.get(p, 'number', '').replace(/[^0-9]/g, ''))
+					.join(' ')
+					.trim()
+			];
 
-			return (emailSearchString + ' ' + phoneSearchString).trim();
-
+			return searchParams.join(' ').trim();
 		}).filter(s => s.length > 0);
 
-
 		// Query the WS for all the users in the searchString
-		// todo handle unhandled promise rejection
 		return ApiClient.searchUsers(searchStrings)
 			.then(users => {
 
@@ -108,6 +111,10 @@ function mapContactsToUsers(currentUserId, contacts) {
 					type: ACTION_SET_USERS_ADD_CONTACTS_LIST,
 					usersList: filteredUsers
 				});
+			})
+			.catch(error => {
+				Logger.v('AddContacts mapContactsToUsers:', error);
+				// todo Snackbar
 			});
 	};
 }

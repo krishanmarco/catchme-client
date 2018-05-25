@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
-import DaoLocation from "../../../lib/daos/DaoLocation";
+import ApiFormDef from '../../../lib/redux-pool/api-form/ApiFormDef';
+import DaoLocation from '../../../lib/daos/DaoLocation';
 import LocationMap from '../../../comp-buisness/location/LocationMap';
 import React from 'react';
-import Router from "../../../lib/navigation/Router";
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {BadgeOverlay, ScreenInfo} from "../../../comp/Misc";
-import {Icons} from "../../../Config";
-import {listItemInfo} from "../../../lib/theme/Styles";
+import Router from '../../../lib/navigation/Router';
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
+import {BadgeOverlay, ScreenInfo} from '../../../comp/Misc';
+import {Icons} from '../../../Config';
+import {listItemInfo} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import GoogleMapsDataDecoder from "../../lib/maps/GoogleMapsDataDecoder";
+import GoogleMapsDataDecoder from '../../lib/maps/GoogleMapsDataDecoder';
 import React from 'react';
 import {Colors, Const} from '../../Config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import {t} from "../../lib/i18n/Translations";
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import {t} from '../../lib/i18n/Translations';
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

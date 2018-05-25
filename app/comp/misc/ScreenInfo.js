@@ -2,8 +2,8 @@
 import React from 'react';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkText} from 'react-native-ui-kitten';
-import {Touchable} from "../Misc";
-import type {TStyle} from "../../lib/types/Types";
+import {Touchable} from '../Misc';
+import type {TStyle} from '../../lib/types/Types';
 
 
 // Const *************************************************************************************************

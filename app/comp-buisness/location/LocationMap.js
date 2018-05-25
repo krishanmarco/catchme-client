@@ -5,7 +5,7 @@ import MapView from 'react-native-maps';
 import React from 'react';
 import {Colors, Const} from '../../Config';
 import {StyleSheet} from 'react-native';
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 
 // Const *************************************************************************************************

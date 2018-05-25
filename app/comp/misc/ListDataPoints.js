@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {Grid, Row} from "react-native-easy-grid";
+import {Grid, Row} from 'react-native-easy-grid';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import type {TDataTuple, TStyle} from "../../lib/types/Types";
+import type {TDataTuple, TStyle} from '../../lib/types/Types';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

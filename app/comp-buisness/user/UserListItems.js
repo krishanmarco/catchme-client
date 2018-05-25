@@ -2,9 +2,9 @@
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import {Const, Icons} from '../../Config';
-import {ListItemWithActions} from "../../comp/Misc";
-import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {ListItemWithActions} from '../../comp/Misc';
+import type {ListItemWithActionProps} from '../../comp/misc/ListItemsWithActions';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

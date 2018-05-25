@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ImagePicker from 'react-native-image-picker';
-import Logger from "../Logger";
+import Logger from '../Logger';
 
 const imagePickerOptions = {
 	// noData: true,
@@ -16,7 +16,7 @@ class _ImagePicker {
 		return new Promise((resolve, reject) => {
 			ImagePicker.showImagePicker(imagePickerOptions, (response) => {
 				if (response.didCancel || response.error) {
-					Logger.v("ImagePicker pickImage: error", response);
+					Logger.v('ImagePicker pickImage:', response);
 					reject();
 					return;
 				}

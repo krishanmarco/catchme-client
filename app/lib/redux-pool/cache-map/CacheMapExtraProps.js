@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 02-Apr-18 © **/
-import CacheMapActionCreator from "./CacheMapActionCreator";
-import PoolExtraProps from "../PoolExtraProps";
-import {CacheMapState} from "./CacheMapModel";
-import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
+import CacheMapActionCreator from './CacheMapActionCreator';
+import PoolExtraProps from '../PoolExtraProps';
+import {CacheMapState} from './CacheMapModel';
+import {POOL_TYPE_CACHE_MAP} from '../../../redux/ReduxPool';
 
 export default class CacheMapExtraProps extends PoolExtraProps {
 	

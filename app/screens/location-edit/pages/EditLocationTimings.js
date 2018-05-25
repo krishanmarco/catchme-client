@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiFormDef from "../../../lib/redux-pool/api-form/ApiFormDef";
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
+import ApiFormDef from '../../../lib/redux-pool/api-form/ApiFormDef';
+import DaoLocation from '../../../lib/daos/DaoLocation';
+import ManagerWeekTimings from '../../../lib/helpers/ManagerWeekTimings';
 import React from 'react';
 import WeekTimingsList from '../../../comp-buisness/timing/WeekTimingsList';
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

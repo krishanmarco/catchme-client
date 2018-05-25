@@ -1,13 +1,13 @@
 import React from 'react';
-import {FORM_API_ID_RECOVER_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword";
-import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
-import {fullpageForm} from "../../../lib/theme/Styles";
-import {poolConnect} from "../../../redux/ReduxPool";
-import {RkTextInputFromPool} from "../../../comp/misc/forms/RkInputs";
+import {FORM_API_ID_RECOVER_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword';
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
+import {fullpageForm} from '../../../lib/theme/Styles';
+import {poolConnect} from '../../../redux/ReduxPool';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import type {TNavigator} from "../../../lib/types/Types";
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import type {TNavigator} from '../../../lib/types/Types';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

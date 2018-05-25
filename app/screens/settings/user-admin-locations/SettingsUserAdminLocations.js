@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import DaoUser from "../../../lib/daos/DaoUser";
+import DaoLocation from '../../../lib/daos/DaoLocation';
+import DaoUser from '../../../lib/daos/DaoUser';
 import React from 'react';
-import Router from "../../../lib/navigation/Router";
+import Router from '../../../lib/navigation/Router';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {FlatListEmpty, ListItemInfo, ScreenInfo} from "../../../comp/Misc";
+import {FlatListEmpty, ListItemInfo, ScreenInfo} from '../../../comp/Misc';
 import {Icons} from '../../../Config';
-import {listItemInfo} from "../../../lib/theme/Styles";
+import {listItemInfo} from '../../../lib/theme/Styles';
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
-import {t} from "../../../lib/i18n/Translations";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../../lib/types/Types";
-import type {TUser} from "../../../lib/daos/DaoUser";
+import {t} from '../../../lib/i18n/Translations';
+import type {TLocation} from '../../../lib/daos/DaoLocation';
+import type {TNavigator} from '../../../lib/types/Types';
+import type {TUser} from '../../../lib/daos/DaoUser';
 
 
 // Const *************************************************************************************************

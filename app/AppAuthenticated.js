@@ -3,12 +3,12 @@ import ApiAuthentication from './lib/data/ApiAuthentication';
 import ApiClient from './lib/data/ApiClient';
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
 import Context from './lib/Context';
-import DaoUser from "./lib/daos/DaoUser";
+import DaoUser from './lib/daos/DaoUser';
 import promiseMiddleware from 'redux-promise-middleware';
 import React from 'react';
 import ReduxReducer from './redux/Reducers';
 import ReduxThunk from 'redux-thunk';
-import Router from "./lib/navigation/Router";
+import Router from './lib/navigation/Router';
 import ScreenAddContacts from './screens/settings/add-contacts/ScreenAddContacts';
 import ScreenAddressPicker from './screens/address-picker/ScreenAddressPicker';
 import ScreenEditLocation from './screens/location-edit/ScreenEditLocation';
@@ -17,7 +17,7 @@ import ScreenFeed from './screens/feed/ScreenFeed';
 import ScreenHelpAppInfo from './screens/help/app-info/ScreenHelpAppInfo';
 import ScreenLocationProfile from './screens/location-profile/ScreenLocationProfile';
 import ScreenLogout from './screens/settings/logout/ScreenLogout';
-import ScreenNewLocation from "./screens/location-edit/ScreenNewLocation";
+import ScreenNewLocation from './screens/location-edit/ScreenNewLocation';
 import ScreenSearch from './screens/search/ScreenSearch';
 import ScreenSettingsAdminLocations from './screens/settings/user-admin-locations/ScreenSettingsAdminLocations';
 import ScreenSettingsChangePassword from './screens/settings/change-password/ScreenSettingsChangePassword';
@@ -30,8 +30,8 @@ import {applyMiddleware, createStore} from 'redux';
 import {Colors, Screens} from './Config';
 import {Navigation} from 'react-native-navigation';
 import {Provider} from 'react-redux';
-import {t} from "./lib/i18n/Translations";
-import type {TUser} from "./lib/daos/DaoUser";
+import {t} from './lib/i18n/Translations';
+import type {TUser} from './lib/daos/DaoUser';
 
 
 export default function initializeAuthenticatedApp(authUser: TUser) {

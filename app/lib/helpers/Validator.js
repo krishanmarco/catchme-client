@@ -2,7 +2,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 /* eslint-disable key-spacing */
 
-import {t} from "../i18n/Translations";
+import {t} from '../i18n/Translations';
 
 const errorStrings = [
 	/** 0   return_ok **/                                     '',

@@ -1,19 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
+import DaoLocation from '../../lib/daos/DaoLocation';
 import EditLocationAddress from './pages/EditLocationAddress';
 import EditLocationInfo from './pages/EditLocationInfo';
 import EditLocationRecap from './pages/EditLocationSave';
 import EditLocationTimings from './pages/EditLocationTimings';
 import React from 'react';
 import {Colors, Icons} from '../../Config';
-import {FORM_API_ID_EDIT_LOCATION_PROFILE} from "../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile";
+import {FORM_API_ID_EDIT_LOCATION_PROFILE} from '../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile';
 import {poolConnect} from '../../redux/ReduxPool';
-import {ScrollableIconTabView} from "../../comp/Misc";
+import {ScrollableIconTabView} from '../../comp/Misc';
 import {StyleSheet, View} from 'react-native';
-import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
-import type {TIcon, TNavigator} from "../../lib/types/Types";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TUser} from "../../lib/daos/DaoUser";
+import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
+import type {TIcon, TNavigator} from '../../lib/types/Types';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

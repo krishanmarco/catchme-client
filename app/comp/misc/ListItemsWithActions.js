@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Avatar, Icon} from 'react-native-elements';
-import {AvatarCircle, Touchable} from "../Misc";
-import {Col, Grid} from "react-native-easy-grid";
+import {AvatarCircle, Touchable} from '../Misc';
+import {Col, Grid} from 'react-native-easy-grid';
 import {Icons} from '../../Config';
+import {listItemActions} from '../../lib/theme/Styles';
 import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {View} from 'react-native';
-import type {TIcon, TImageSource} from "../../lib/types/Types";
-import {listItemActions} from "../../lib/theme/Styles";
+import type {TIcon, TImageSource} from '../../lib/types/Types';
 
 // ListItemAction *************************************************************************************
 // ListItemAction *************************************************************************************

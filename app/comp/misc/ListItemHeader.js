@@ -2,7 +2,7 @@
 import React from 'react';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import type {TStyle} from "../../lib/types/Types";
+import type {TStyle} from '../../lib/types/Types';
 
 
 type Props = {

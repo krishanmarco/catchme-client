@@ -3,12 +3,12 @@
 
 // Initialize the application, checks if the user is logged in
 // If he is then ./AppAuthenticated is run, else ./AppUnauthenticated
-import DaoUser from "./lib/daos/DaoUser";
-import StorageIO from './lib/data/StorageIO';
+import DaoUser from './lib/daos/DaoUser';
 import runAppAuth from './AppAuthenticated';
 import runAppUnuth from './AppUnauthenticated';
+import StorageIO from './lib/data/StorageIO';
 import {bootstrapRkTheme} from './lib/theme/RkTheme';
-import type {TUser} from "./lib/daos/DaoUser";
+import type {TUser} from './lib/daos/DaoUser';
 
 
 export function initializeApplication() {

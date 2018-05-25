@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoUser from '../../lib/daos/DaoUser';
 import FeaturedAdsList from '../../comp-buisness/featured-ads/FeaturedAdsList';
-import FirebaseDataDefFeaturedAds, {FIREBASE_DATA_ID_FEATURED_ADS} from "../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds";
+import FirebaseDataDefFeaturedAds, {FIREBASE_DATA_ID_FEATURED_ADS} from '../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeaturedAds';
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {poolConnect} from '../../redux/ReduxPool';
-import {TActionHandlerParams} from "../../lib/helpers/ActionHandler";
-import {TFirebaseDataPool} from "../../lib/redux-pool/firebase-data/FirebaseDataPool";
+import {TActionHandlerParams} from '../../lib/helpers/ActionHandler';
+import {TFirebaseDataPool} from '../../lib/redux-pool/firebase-data/FirebaseDataPool';
 import {View} from 'react-native';
-import type {TAction} from "../../lib/daos/DaoAction";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import type {TAction} from '../../lib/daos/DaoAction';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

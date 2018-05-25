@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Camera, {constants as CameraConstants} from 'react-native-camera';
-import Logger from "../../../lib/Logger";
+import Logger from '../../../lib/Logger';
 import React from 'react';
-import {Colors} from "../../../Config";
+import {Colors} from '../../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
 
@@ -62,7 +62,8 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 				return data;
 			})
 			.catch(error => {
-				Logger.v("CameraWrapper _onCaptureImage", error);
+				Logger.v('CameraWrapper _onCaptureImage:', error);
+				// todo Snackbar
 			});
 	}
 

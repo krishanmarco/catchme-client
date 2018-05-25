@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
+import ManagerWeekTimings from '../../lib/helpers/ManagerWeekTimings';
 import React from 'react';
 import TimingListItem from './TimingListItem';
 import {ScrollView} from 'react-native';

@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ActionHandler from '../../lib/helpers/ActionHandler';
-import DaoFeed from "../../lib/daos/DaoFeed";
+import DaoFeed from '../../lib/daos/DaoFeed';
 import React from 'react';
-import {AvatarCircle, DynamicStyleText, Touchable} from "../../comp/Misc";
-import {Col, Grid} from "react-native-easy-grid";
+import {AvatarCircle, DynamicStyleText, Touchable} from '../../comp/Misc';
+import {Col, Grid} from 'react-native-easy-grid';
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
+import {listItemActions} from '../../lib/theme/Styles';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {View} from 'react-native';
-import type {TFeed} from "../../lib/daos/DaoFeed";
-import {listItemActions} from "../../lib/theme/Styles";
+import type {TFeed} from '../../lib/daos/DaoFeed';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

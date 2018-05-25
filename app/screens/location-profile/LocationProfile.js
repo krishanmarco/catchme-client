@@ -1,27 +1,27 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Context from '../../lib/Context';
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoUser from '../../lib/daos/DaoUser';
 import LocationChat from '../../comp-buisness/location/LocationChat';
-import LocationGallery from "../../comp-buisness/location/LocationGallery";
+import LocationGallery from '../../comp-buisness/location/LocationGallery';
 import LocationMap from '../../comp-buisness/location/LocationMap';
 import LocationProfileDataPoints from '../../lib/datapoints/LocationProfileDataPoints';
-import NavbarHandlerLocationProfile from "../../lib/navigation/NavbarHandlerLocationProfile";
+import NavbarHandlerLocationProfile from '../../lib/navigation/NavbarHandlerLocationProfile';
 import React from 'react';
 import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
-import {AvatarFull, FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
+import {AvatarFull, FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from '../../comp/Misc';
 import {Const, Icons} from '../../Config';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
-import {Grid, Row} from "react-native-easy-grid";
-import {listItemInfo} from "../../lib/theme/Styles";
+import {Grid, Row} from 'react-native-easy-grid';
+import {listItemInfo} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
-import {t} from "../../lib/i18n/Translations";
-import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from '../../lib/i18n/Translations';
+import type {TDataPoint, TNavigator, TSectionListDataPointSections} from '../../lib/types/Types';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 
 // Const *************************************************************************************************

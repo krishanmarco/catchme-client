@@ -4,8 +4,8 @@ import {Col, Grid} from 'react-native-easy-grid';
 import {Icon} from 'react-native-elements';
 import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import {Touchable} from "../Misc";
-import type {TDataPoint, TStyle} from "../../lib/types/Types";
+import {Touchable} from '../Misc';
+import type {TDataPoint, TStyle} from '../../lib/types/Types';
 
 
 // Const *************************************************************************************************

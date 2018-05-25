@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
-import ApiClient from "../data/ApiClient";
-import DaoLocation from "../daos/DaoLocation";
-import DaoUser from "../daos/DaoUser";
-import ImageURISourceAuth from "../data/ImageURISourceAuth";
-import Logger from "../Logger";
-import Router from "./Router";
-import {TCacheUserProfile} from "../redux-pool/cache/def/CacheDefUserProfile";
-import type {TLocation} from "../daos/DaoLocation";
-import type {TNavigator} from "../types/Types";
-import type {TUser} from "../daos/DaoUser";
+import ApiClient from '../data/ApiClient';
+import DaoLocation from '../daos/DaoLocation';
+import DaoUser from '../daos/DaoUser';
+import ImageURISourceAuth from '../data/ImageURISourceAuth';
+import Logger from '../Logger';
+import Router from './Router';
+import {TCacheUserProfile} from '../redux-pool/cache/def/CacheDefUserProfile';
+import type {TLocation} from '../daos/DaoLocation';
+import type {TNavigator} from '../types/Types';
+import type {TUser} from '../daos/DaoUser';
 
 
 const navbarButtonAddUserLocationStatus = {
@@ -160,7 +160,7 @@ export default class NavbarHandlerLocationProfile {
 				this.onGalleryImageAdded(addedUrl);
 			})
 			.catch(error => {
-				Logger.v('NavbarHandlerLocationProfile _onCaptureImage', error);
+				Logger.v('NavbarHandlerLocationProfile _onCaptureImage:', error);
 			});
 	}
 

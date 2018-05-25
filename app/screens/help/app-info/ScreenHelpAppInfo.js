@@ -2,8 +2,8 @@
 import HelpAppInfo from './HelpAppInfo';
 import React from 'react';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Screen} from "../../../comp/Misc";
-import type {TNavigator} from "../../../lib/types/Types";
+import {Screen} from '../../../comp/Misc';
+import type {TNavigator} from '../../../lib/types/Types';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************

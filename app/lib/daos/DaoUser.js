@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoLocation from "./DaoLocation";
-import Maps from "../data/Maps";
-import ObjectCache from "../helpers/ObjectCache";
+import DaoLocation from './DaoLocation';
+import Maps from '../data/Maps';
+import ObjectCache from '../helpers/ObjectCache';
 import {Const} from '../../Config';
-import {denormObj, isValidUrl, mapIdsToObjects} from "../HelperFunctions";
-import type {TLocation} from "./DaoLocation";
-import type {TLocationWithULS} from "../helpers/ULSListManager";
-import type {TUserLocationStatus} from "./DaoUserLocationStatus";
+import {denormObj, isValidUrl, mapIdsToObjects} from '../HelperFunctions';
+import type {TLocation} from './DaoLocation';
+import type {TLocationWithULS} from '../helpers/ULSListManager';
+import type {TUserLocationStatus} from './DaoUserLocationStatus';
 
 
 export type TUser = {

@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import {ReduxPoolBuilder} from "../../redux/ReduxPool";
+import {ReduxPoolBuilder} from '../../redux/ReduxPool';
 
 export default class PoolExtraProps {
 

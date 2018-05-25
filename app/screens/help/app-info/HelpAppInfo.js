@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {ScreenInfo} from "../../../comp/Misc";
+import {ScreenInfo} from '../../../comp/Misc';
 import {StyleSheet, View} from 'react-native';
 
 // Const *************************************************************************************************

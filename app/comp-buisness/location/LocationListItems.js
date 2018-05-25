@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+import DaoUserLocationStatus from '../../lib/daos/DaoUserLocationStatus';
 import React from 'react';
 import {Colors, Icons} from '../../Config';
-import {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
-import {ListItemWithActions} from "../../comp/Misc";
-import type {TAction} from "../../lib/daos/DaoAction";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TLocationWithULS} from "../../lib/helpers/ULSListManager";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {ListItemWithActionProps} from '../../comp/misc/ListItemsWithActions';
+import {ListItemWithActions} from '../../comp/Misc';
+import type {TAction} from '../../lib/daos/DaoAction';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TLocationWithULS} from '../../lib/helpers/ULSListManager';
+import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
 
 
 // ListItemLocation *************************************************************************************

@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 12-Apr-18 © **/
-import Logger from "../Logger";
+import Logger from '../Logger';
 import moment from 'moment';
-import {t} from "../i18n/Translations";
-import type {TMoment} from "../types/Types";
+import {t} from '../i18n/Translations';
+import type {TMoment} from '../types/Types';
 
 const mNow = moment();
 const mTomorrow = moment(new Date()).add(1, 'days');
