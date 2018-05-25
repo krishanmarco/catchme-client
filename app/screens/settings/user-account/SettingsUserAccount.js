@@ -56,6 +56,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				// This should never happen because the back button
 				// should not be pressed if the form is invalid
 				Logger.v('SettingsUserAccount componentWillUnmount: ', err);
+				// todo Snackbar
 			});
 	}
 
@@ -172,7 +173,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		);
 	}
 
-	_renderSecuritySection() {
+	_renderSecuritySection() { // todo: Logout icon has an offset!
 		return (
 			<View>
 				<ListItemHeader/>

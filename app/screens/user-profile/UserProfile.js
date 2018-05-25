@@ -43,7 +43,7 @@ const userProfileTabIcons = {
 	4: Icons.userInfo
 };
 
-
+// todo add {addUser} to navbar if not in friends and issameuser (see LocationProfile for navbar pattern)
 // _UserProfile *****************************************************************************************
 // _UserProfile *****************************************************************************************
 
@@ -204,13 +204,17 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderFavoriteListEmpty() {
-		return (
-			<FlatListEmpty
-				text={t('t_empty_user_location_favorites')}
-				buttonText={t('t_empty_bt_user_location_favorites')}
-				onPress={this._onLocationSearchPress}
-				image={require('../../assets/images/empty-favorites.png')}/>
-		);
+		const props = {image: require('../../assets/images/empty-favorites.png')};
+
+		if (this._isSameUser()) {
+			props.text = t('t_empty_user_location_favorites');
+			props.buttonText = t('t_empty_bt_user_location_favorites');
+			props.onPress = this._onLocationSearchPress;
+		} else {
+			props.text = t('t_empty_user_other_location_favorites');
+		}
+
+		return <FlatListEmpty {...props}/>;
 	}
 
 	_renderTabFriends() {
@@ -230,13 +234,17 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderFriendsListEmpty() {
-		return (
-			<FlatListEmpty
-				text={t('t_empty_user_friends')}
-				buttonText={t('t_empty_bt_user_friends')}
-				onPress={this._onUserSearchPress}
-				image={require('../../assets/images/empty-friends.png')}/>
-		);
+		const props = {image: require('../../assets/images/empty-friends.png')};
+
+		if (this._isSameUser()) {
+			props.text = t('t_empty_user_friends');
+			props.buttonText = t('t_empty_bt_user_friends');
+			props.onPress = this._onUserSearchPress;
+		} else {
+			props.text = t('t_empty_user_other_friends');
+		}
+
+		return <FlatListEmpty {...props}/>;
 	}
 
 	_renderTabInfo() {

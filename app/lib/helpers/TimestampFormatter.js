@@ -101,7 +101,7 @@ export default class TimestampFormatter {
 		if (mFromTs.isBetween(mNow, mTomorrow, 'day', '(]'))
 			return tplTomorrow(mFromTs, mToTs);
 
-		Logger.v(`TimestampFormatter parseFromTo uncalculated from timestamp ${mFromTs}`);
+		Logger.v(`TimestampFormatter parseFromTo un-calculated from timestamp ${mFromTs}`);
 
 		return tplDayDateMonthYear(mFromTs, mToTs);
 	}

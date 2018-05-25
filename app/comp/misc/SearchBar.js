@@ -44,6 +44,7 @@ export default class SearchBar extends React.Component<void, Props, void> {
 			<View style={[styles.searchBarRoot, listItemInfo.section]}>
 				<RkTextInput
 					style={styles.textInput}
+					includeFontPadding={false}
 					rkType='row rounded'
 					autoCapitalize='none'
 					autoCorrect={false}

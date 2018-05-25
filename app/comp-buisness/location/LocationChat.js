@@ -19,7 +19,7 @@ type Props = {
 
 // LocationChat *****************************************************************************************
 // LocationChat *****************************************************************************************
-
+// todo when a user sends a message for the first time his name is not displayed ('catchme user' default name is displayed instead)
 export default class LocationChat extends React.Component<Props> {
 
 	constructor(props, context) {

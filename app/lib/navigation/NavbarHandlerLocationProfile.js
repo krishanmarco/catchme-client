@@ -161,6 +161,7 @@ export default class NavbarHandlerLocationProfile {
 			})
 			.catch(error => {
 				Logger.v('NavbarHandlerLocationProfile _onCaptureImage:', error);
+				// todo Snackbar
 			});
 	}
 

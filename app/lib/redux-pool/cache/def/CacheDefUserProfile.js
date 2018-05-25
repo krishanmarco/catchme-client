@@ -288,6 +288,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
 				Logger.v('CacheDefUserProfile addUserToFriends: success', uid, success);
+				// todo Snackbar?
 				return success;
 			})
 			.catch(error => {
@@ -306,6 +307,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
 				Logger.v('CacheDefUserProfile removeUserFromFriends: success', uid, success);
+				// todo: Snackbar
 				return success;
 			})
 			.catch(error => {
@@ -324,6 +326,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
 				Logger.v('CacheDefUserProfile blockUser: success', uid, success);
+				// todo Snackbar?
 				return success;
 			})
 			.catch(error => {
@@ -342,6 +345,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
 				Logger.v('CacheDefUserProfile acceptUserFriendship: success', uid, success);
+				// todo Snackbar
 				return success;
 			})
 			.catch(error => {
@@ -406,6 +410,7 @@ export class CacheDefUserProfileActionCreator {
 					const newLocationWithULS = DaoLocation.sUserLocationStatus(locationWithULS, newUserLocationStatus);
 					this._putToUserLocationStatusesArray(newLocationWithULS);
 					Logger.v('CacheDefUserProfile putLocationWithULS: success', ulsId, newUserLocationStatus);
+					// todo Snackbar?
 					return newUserLocationStatus;
 				})
 				.catch(error => {
@@ -431,6 +436,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userStatusDel(ulsId)
 			.then(success => {
 				Logger.v('CacheDefUserProfile removeUserLocationStatus: success', ulsId, success);
+				// todo SNackbar?
 				return success;
 			})
 			.catch(error => {
@@ -449,6 +455,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userLocationsAdminEditLid(location)
 			.then((location: TLocation) => {
 				Logger.v('CacheDefUserProfile putAdminLocation: success', lid, location);
+				// todo: Snackbar?
 				return location;
 			})
 			.catch(error => {
