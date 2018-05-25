@@ -3,8 +3,11 @@ import Logger from "../../lib/Logger";
 import React from 'react';
 import {Colors} from "../../Config";
 import {connect} from 'react-redux';
+import Context from '../../lib/Context';
 import {Dimensions, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
 import type {TNavigator} from "../../lib/types/Types";
+import {ScreenInfo} from "../Misc";
+import {t} from "../../lib/i18n/Translations";
 
 
 // Const **********************************************************************************************
@@ -63,18 +66,32 @@ export function screenEnablePointerEvents() {
 class Screen extends React.PureComponent<void, Props, State> {
 
 	render() {
-		const {children, style, disablePointerEvents} = this.props;
-		const {width, height} = Dimensions.get('window');
 		return (
 			<KeyboardAvoidingView
 				style={styles.keyboardAvoidingView}
 				behaviour='padding'>
-				<View
-					style={[{width, height}, styles.view, style]}
-					pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
-					{children}
-				</View>
+				{Context.isOnline() ? this._renderScreen() : this._renderNoConnection()}
 			</KeyboardAvoidingView>
+		);
+	}
+
+	_renderScreen() {
+		const {children, style, disablePointerEvents} = this.props;
+		const {width, height} = Dimensions.get('window');
+		return (
+			<View
+				style={[{width, height}, styles.view, style]}
+				pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
+				{children}
+			</View>
+		);
+	}
+
+	_renderNoConnection() {
+		return (
+			<ScreenInfo
+				textText={t('t_no_wifi')}
+				imageSource={require('../../assets/images/no-wifi.png')}/>
 		);
 	}
 

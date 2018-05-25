@@ -1,7 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeed from "../../lib/daos/DaoFeed";
-import HTMLView from 'react-native-htmlview';
 import React from 'react';
 import {AvatarCircle, DynamicStyleText, Touchable} from "../../comp/Misc";
 import {Col, Grid} from "react-native-easy-grid";
@@ -56,7 +55,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
-								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent()}/>
+								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
 							</View>
 						</View>
 					</Col>
@@ -100,27 +99,14 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 // Config *************************************************************************************************
 
 const styles = RkStyleSheet.create(theme => ({
-
 	listItem: {
 		display: 'flex',
-		paddingHorizontal: 12,
-		alignItems: 'center',
-		borderBottomWidth: 0,
-		borderColor: theme.colors.border.base,
+		paddingHorizontal: 12
 	},
-
 	listItemHeaderContent: {
 		paddingVertical: 12,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center'
+		flexDirection: 'row'
 	},
-
-
-	listItemContentText: {
-		marginBottom: 3
-	},
-
 	listItemContent: {
 		flex: 1,
 		marginLeft: 12

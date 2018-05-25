@@ -1,8 +1,8 @@
-import CacheMapDef from "../CacheMapDef";
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import DataProvider from "../../../data/DataProvider";
+import CacheMapDef from "../CacheMapDef";
 import type {TCacheMapDef} from "../CacheMapDef";
 import type {TLocation} from "../../../daos/DaoLocation";
+import ApiClient from "../../../data/ApiClient";
 
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 
@@ -14,8 +14,8 @@ class CacheMapDefLocationProfiles extends CacheMapDef {
 		this.buildDataSet = this.buildDataSet.bind(this);
 	}
 
-	buildDataSet(locationId: number): Promise<TLocation> {
-		return DataProvider.locationsGetLidProfile(locationId);
+	buildDataSet(lid: number): Promise<TLocation> {
+		return ApiClient.locationsGetLidProfile(lid);
 	}
 
 }

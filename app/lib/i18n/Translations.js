@@ -149,6 +149,7 @@ I18n.translations = {
 		t_empty_bt_user_location_favorites: 'Search for a location',
 		t_empty_user_friends: 'This is a bit sad...\nYou don\'t have any friends on catchme, use the search screen to find your friends',
 		t_empty_bt_user_friends: 'Search for your friends',
+		t_no_wifi: 'Please connect to the internet',
 
 
 		t_e_generic_error: 'Generic error',
@@ -316,6 +317,7 @@ I18n.translations = {
 		t_empty_bt_user_location_favorites: 'Cerca un locale',
 		t_empty_user_friends: 'Questa cosa e\' un po\' triste...\nNon hai amici su catchme, usa la schermata di ricerca per trovare e aggiungere amici!',
 		t_empty_bt_user_friends: 'Cerca i tuoi amici.',
+		t_no_wifi: 'Per favore connettiti ad internet',
 
 
 		t_e_generic_error: 'Errore generico',

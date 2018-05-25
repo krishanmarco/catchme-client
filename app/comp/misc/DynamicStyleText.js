@@ -26,7 +26,7 @@ export default class DynamicStyleText extends React.PureComponent<void, Props, v
 		return (
 			<RkText style={styles.dynamicStyleText}>
 				{dynamicStyleTextArray.map((dsta, k) => (
-					<RkText key={k} style={dsta[1]}>{dsta[0]}</RkText>
+					<RkText key={k} rkType='secondary5' style={dsta[1]}>{dsta[0]}</RkText>
 				))}
 			</RkText>
 		);
@@ -40,8 +40,7 @@ export default class DynamicStyleText extends React.PureComponent<void, Props, v
 const styles = StyleSheet.create({
 	dynamicStyleText: {
 		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'flex-start',
-		flexWrap: 'wrap'
+		flexWrap: 'wrap',
+		textAlignVertical: 'center'
 	}
 });

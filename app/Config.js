@@ -183,7 +183,7 @@ export const Const = {
 
 	apiMax401: 5,
 
-	dataProviderCacheTTLSec: 0, 				// 5 * 60,
+	defaultDataCacheTTLSec: 0, 				// 5 * 60,
 
 	imagesCachingPolicy: 'reload',			// One of ['default', 'reload', 'force-cache', 'only-if-cached']
 

@@ -8,7 +8,7 @@ export default class StorageIO {
 
 	static setLocalUser(user: TUser): Promise {
 		const newUser = DaoUser.apiClean(user);
-		newUser.insertTs = -1;
+		newUser.expiryTs = -1;
 
 		return AsyncStorage.setItem(StorageIO.KEY_LOCAL_USER, JSON.stringify(newUser), (error) => {
 			// todo

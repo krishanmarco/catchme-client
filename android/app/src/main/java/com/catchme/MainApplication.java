@@ -23,7 +23,8 @@ import com.horcrux.svg.SvgPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
-
+
+
 
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -56,7 +57,6 @@ public class MainApplication extends NavigationApplication {
                     new SvgPackage(),
                     new RCTCameraPackage(),
                     new ReactNativeContacts(),
-                    new RealmReactPackage(),
                     new VectorIconsPackage(),
                     new RNFetchBlobPackage()
             );

@@ -2,6 +2,7 @@
 import Logger from "../../Logger";
 import PoolActionCreator from "../PoolActionCreator";
 import {CacheMapState} from "./CacheMapModel";
+import DataProvider from '../../data/DataProvider';
 import {
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
@@ -10,6 +11,8 @@ import {
 } from "./CacheMapPool";
 import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
 import type {TDispatch} from "../../types/Types";
+import {Const} from "../../../Config";
+import {seconds} from "../../HelperFunctions";
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
@@ -51,13 +54,12 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 			
 			// If the data has been updated and needs to be requested again, you must
 			// use invalidateItem() and then initializeItem()
-			
-			
-			// Check if the data is set, if it is return
+
+			// Check if the data is set, and is valid if it is return
 			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
 			
 			if (itemId in cacheMapData) {
-				const {loadingPromise, data} = cacheMapData[itemId];
+				const {loadingPromise, data, expiryTs} = cacheMapData[itemId];
 
 				// If already loading return the promise
 				if (loadingPromise != null) {
@@ -65,11 +67,13 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 					return loadingPromise;
 				}
 
-				// If already loaded return the data
-				if (data !== null) {
+				// If already loaded and valid return the data
+				if (data !== null && DataProvider.cacheIsValid(expiryTs)) {
+					Logger.v(`Cache is valid for ${poolId} ${itemId}`);
 					return Promise.resolve(data);
 				}
-				
+
+				Logger.v(`Cache was invalid for ${poolId} ${itemId}, data is null=${data == null}`);
 			}
 			
 			
