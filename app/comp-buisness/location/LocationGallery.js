@@ -53,7 +53,6 @@ export default class LocationGallery extends React.Component<void, Props, State>
 		// uri: http://www.catchme.krishanmadan.website/api/media/get/0/31/1787.png
 		return DaoLocation.gImageUrls(locationProfile)
 			.map(ImageURISourceAuth.fromUrl);
-			// .map(obj => ({...obj, /*uri: obj.uri + '.png'*/}));
 	}
 
 	render() {
@@ -70,7 +69,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 		return (
 			<FlatListEmpty
 				text={t('t_empty_location_gallery')}
-				buttonText={'Sure!'}
+				buttonText={t('t_empty_bt_location_gallery')}
 				onPress={onAddImagePress}
 				image={require('../../assets/images/empty-images.png')}/>
 		);
