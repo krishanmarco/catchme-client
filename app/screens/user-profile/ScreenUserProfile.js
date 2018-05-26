@@ -36,14 +36,11 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 	constructor(props, context) {
 		super(props, context);
 		this._renderUserProfile = this._renderUserProfile.bind(this);
-
-		const {navigator, showAppLogo} = this.props;
-		this.navbarHandler = new NavbarHandlerUserProfile(navigator, showAppLogo);
-		this._updateNavigator();
+		this._reinitializeNavigator();
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this._updateNavigator(nextProps);
+		this._reinitializeNavigator(nextProps);
 	}
 
 	componentWillMount() {
@@ -57,26 +54,36 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
 	}
 
-	_updateNavigator(props = this.props) {
-		this.navbarHandler.initialize(this._userProfile(props), this._cacheUserProfile());
+	_reinitializeNavigator(props = this.props) {
+		const {navigator, showAppLogo} = this.props;
+		this.navbarHandler = new NavbarHandlerUserProfile(
+			navigator,
+			this._cacheUserProfile(props),
+			this._userProfile(props),
+			showAppLogo
+		);
 	}
 
-	_cacheUserProfile(): TCacheUserProfile {
-		return this.props[CACHE_ID_USER_PROFILE];
-	}
-
-	_cacheMapUserProfiles(): TCacheMapPool {
-		return this.props[CACHE_MAP_ID_USER_PROFILES];
+	_cacheUserProfile(props = this.props): TCacheUserProfile {
+		return props[CACHE_ID_USER_PROFILE];
 	}
 
 	_userProfile(props = this.props): ?TUser {
 		const {userId} = props;
 
-		const authUser: TUser = this._cacheUserProfile().data;
-		if (userId === DaoUser.gId(authUser))
-			return authUser;
+		if (this._isSameUser(props))
+			return this._cacheUserProfile(props).data;
 
-		return this._cacheMapUserProfiles().get(userId);
+		return this._cacheMapUserProfiles(props).get(userId);
+	}
+
+	_cacheMapUserProfiles(props = this.props): TCacheMapPool {
+		return this.props[CACHE_MAP_ID_USER_PROFILES];
+	}
+
+	_isSameUser(props = this.props) {
+		const {userId} = props;
+		return DaoUser.gId(this._cacheUserProfile().data) === DaoUser.gId(userId);
 	}
 
 	render() {

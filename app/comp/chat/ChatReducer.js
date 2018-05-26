@@ -125,8 +125,8 @@ export function initialize(getFirebaseMessages: TGetFirebaseMessages, user: TFir
 function addUser(user: TFirebaseChatUser) {
 	return (dispatch, getState) => {
 
-		const messages = getState().messages
-			.map(m => m.user._id == user._id ? Object.assign(message, {user}) : message);
+		const messages = getState().chatReducer.messages
+			.map(m => m.user._id == user._id ? Object.assign(m, {user}) : m);
 
 		dispatch({
 			type: ACTION_LOCATION_CHAT_ADD_USER,

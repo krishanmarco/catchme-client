@@ -35,12 +35,11 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		super(props, context);
 		this._onGalleryImageAdded = this._onGalleryImageAdded.bind(this);
 		this._renderLocationProfile = this._renderLocationProfile.bind(this);
-		this.navbarHandler = new NavbarHandlerLocationProfile();
-		this._updateNavigator();
+		this._reinitializeNavigator();
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this._updateNavigator(nextProps);
+		this._reinitializeNavigator(nextProps);
 	}
 
 	componentWillMount() {
@@ -52,11 +51,11 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 			.then(locationProfile => navigator.setTitle({title: DaoLocation.gName(locationProfile)}));
 	}
 
-	_updateNavigator(props = this.props) {
+	_reinitializeNavigator(props = this.props) {
 		const {navigator} = props;
-		this.navbarHandler.initialize(
+		this.navbarHandler = new NavbarHandlerLocationProfile(
 			navigator,
-			this._cacheUserProfile(),
+			this._cacheUserProfile(props),
 			this._locationProfile(props)
 		);
 	}

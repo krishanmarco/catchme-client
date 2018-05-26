@@ -4,29 +4,28 @@ import DaoLocation from '../daos/DaoLocation';
 import DaoUser from '../daos/DaoUser';
 import Logger from '../Logger';
 import Router from './Router';
+import {Snackbar} from '../Snackbar';
 import {TCacheUserProfile} from '../redux-pool/cache/def/CacheDefUserProfile';
+import {Validate} from '../helpers/Validator';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TNavigator} from '../types/Types';
-import {Snackbar} from "../Snackbar";
-import {Validate} from "../helpers/Validator";
 
-
-const navbarButtonAddUserLocationStatus = {
-	id: 'NAVBAR_BUTTON_ID_USER_LOCATION_STATUS',
+const nbBtULS = {
+	id: 'NB_BT_ID_ULS',
 	icon: require('../../assets/images/navbar-bar.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };
 
-const navbarButtonFollowLocation = {
-	id: 'NAVBAR_BUTTON_ID_FOLLOW_LOCATION',
+const nbBtFollowLocation = {
+	id: 'NB_BT_ID_FOLLOW_LOCATION',
 	icon: require('../../assets/images/navbar-star.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };
 
-const navbarButtonAddLocationImage = {
-	id: 'NAVBAR_BUTTON_ID_ADD_LOCATION_IMAGE',
+const nbBtAddLocationImage = {
+	id: 'NB_BT_ID_ADD_LOCATION_IMAGE',
 	icon: require('../../assets/images/navbar-camera.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
@@ -34,33 +33,33 @@ const navbarButtonAddLocationImage = {
 
 export default class NavbarHandlerLocationProfile {
 
-	constructor() {
+	constructor(navigator: TNavigator,
+							cacheUserProfile: TCacheUserProfile,
+							locationProfile: ?TLocation) {
+		this.navigator = navigator;
+		this.cacheUserProfile = cacheUserProfile;
+		this.locationProfile = locationProfile;
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
 		this._onCaptureImage = this._onCaptureImage.bind(this);
 		this._onNavigatorUserLocationStatusPress = this._onNavigatorUserLocationStatusPress.bind(this);
 		this._onNavigatorFollowLocationPress = this._onNavigatorFollowLocationPress.bind(this);
 		this._onNavigatorLocationAddImagePress = this._onNavigatorLocationAddImagePress.bind(this);
+		this.setup = this.setup.bind(this);
 		this.showButtonFollow();
 	}
 
-	initialize(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, locationProfile: TLocation) {
-		this.navigator = navigator;
-		this.cacheUserProfile = cacheUserProfile;
-		this.locationProfile = locationProfile;
-	}
-
 	showButtonFollow() {
-		this.visibleButtons = [navbarButtonFollowLocation.id];
+		this.visibleButtons = [nbBtFollowLocation.id];
 		this.setup();
 	}
 
 	showButtonAddStatus() {
-		this.visibleButtons = [navbarButtonAddUserLocationStatus.id];
+		this.visibleButtons = [nbBtULS.id];
 		this.setup();
 	}
 
 	showButtonAddLocationImage(onGalleryImageAdded) {
-		this.visibleButtons = [navbarButtonAddLocationImage.id];
+		this.visibleButtons = [nbBtAddLocationImage.id];
 		this.onGalleryImageAdded = onGalleryImageAdded;
 		this.setup();
 	}
@@ -79,22 +78,22 @@ export default class NavbarHandlerLocationProfile {
 		if (locationProfile == null)
 			return;
 
-		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile);
-		const locationId = DaoLocation.gId(locationProfile);
+		const favoriteIds = DaoUser.gLocationsFavoriteIds(cacheUserProfile.data);
+		const lid = DaoLocation.gId(locationProfile);
 
 		const rightButtons = [];
 
-		if (this.visibleButtons.includes(navbarButtonFollowLocation.id)) {
-			if (!favoriteIds.includes(locationId))
-				rightButtons.push(navbarButtonFollowLocation);
+		if (this.visibleButtons.includes(nbBtFollowLocation.id)) {
+			if (!favoriteIds.includes(lid))
+				rightButtons.push(nbBtFollowLocation);
 		}
 
-		if (this.visibleButtons.includes(navbarButtonAddUserLocationStatus.id)) {
-			rightButtons.push(navbarButtonAddUserLocationStatus);
+		if (this.visibleButtons.includes(nbBtULS.id)) {
+			rightButtons.push(nbBtULS);
 		}
 
-		if (this.visibleButtons.includes(navbarButtonAddLocationImage.id)) {
-			rightButtons.push(navbarButtonAddLocationImage);
+		if (this.visibleButtons.includes(nbBtAddLocationImage.id)) {
+			rightButtons.push(nbBtAddLocationImage);
 		}
 
 		navigator.setButtons({rightButtons});
@@ -111,17 +110,17 @@ export default class NavbarHandlerLocationProfile {
 		if (locationProfile == null)
 			return;
 
-		if (event.id === navbarButtonAddUserLocationStatus.id) {
+		if (event.id === nbBtULS.id) {
 			this._onNavigatorUserLocationStatusPress();
 			return;
 		}
 
-		if (event.id === navbarButtonFollowLocation.id) {
+		if (event.id === nbBtFollowLocation.id) {
 			this._onNavigatorFollowLocationPress();
 			return;
 		}
 
-		if (event.id === navbarButtonAddLocationImage.id) {
+		if (event.id === nbBtAddLocationImage.id) {
 			this._onNavigatorLocationAddImagePress();
 			return;
 		}
