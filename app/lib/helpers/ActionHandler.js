@@ -25,6 +25,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
 			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
+			// todo go through cache
 			return ApiClient.usersGetUid(userId)
 				.then(userProfileActionCreator.connAdd);
 		}
@@ -43,6 +44,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
 			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
+			// todo go through cache
 			return ApiClient.usersGetUid(userId)
 				.then(userProfileActionCreator.connBlock);
 		}
@@ -81,6 +83,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
 			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
+			// todo go through cache
 			return ApiClient.locationsGetLid(locationId)
 				.then(userProfileActionCreator.locationFavAdd);
 		}

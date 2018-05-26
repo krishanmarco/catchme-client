@@ -22,10 +22,11 @@ class ApiAuthentication {
 	}
 
 
-	update(userId, apiKey) {
+	async update(userId, apiKey) {
 		this.userId = userId;
 		this.apiKey = apiKey;
 		this.invalidateAuthenticationToken();
+		return ApiClient.authenticateFirebase();
 	}
 
 

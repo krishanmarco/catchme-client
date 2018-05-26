@@ -34,14 +34,11 @@ import {t} from './lib/i18n/Translations';
 import type {TUser} from './lib/daos/DaoUser';
 
 
-export default function initializeAuthenticatedApp(authUser: TUser) {
+export default async function initializeAuthenticatedApp(authUser: TUser) {
 
 	// Set the api keys before starting the app
-	// Make sure update is called before authenticateFirebase
-	ApiAuthentication.update(DaoUser.gId(authUser), DaoUser.gApiKey(authUser));
-
-	return ApiClient.authenticateFirebase()
-		.finally(() => start(authUser));
+	await ApiAuthentication.update(DaoUser.gId(authUser), DaoUser.gApiKey(authUser));
+	start(authUser);
 }
 
 

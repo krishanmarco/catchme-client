@@ -52,28 +52,10 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 
 	render() {
-		return (
-			<View style={styles.settingsUserAdminLocations}>
-				<View style={styles.screenInfoCont}>{this._renderScreenHeader()}</View>
-				<View style={styles.locationListCont}>{this._renderAdminLocationList()}</View>
-			</View>
-		);
-	}
-
-	_renderScreenHeader() {
-		return (
-			<ScreenInfo
-				imageSource={require('../../../assets/images/primary-admin-locations.png')}
-				textText={t('t_si_settings_admin_locations')}/>
-		);
-	}
-
-	_renderAdminLocationList() {
 		const {userProfile} = this.props;
 
 		return (
 			<FlatList
-				style={styles.locationList}
 				data={DaoUser.gAdminLocations(userProfile)}
 				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderLocationItem}
@@ -94,12 +76,18 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 	_renderLocationsHeader() {
 		return (
-			<ListItemInfo
-				style={listItemInfo.section}
-				title={t('t_add_new_location')}
-				textRkType='header4'
-				icon={Icons.settingAdminAddLocation}
-				onPress={this._onLocationAdd}/>
+			<View style={styles.locationsHeader}>
+				<ScreenInfo
+					marginTop={32}
+					imageSource={require('../../../assets/images/primary-admin-locations.png')}
+					textText={t('t_si_settings_admin_locations')}/>
+				<ListItemInfo
+					style={listItemInfo.section}
+					title={t('t_add_new_location')}
+					textRkType='header4'
+					icon={Icons.settingAdminAddLocation}
+					onPress={this._onLocationAdd}/>
+			</View>
 		);
 	}
 
@@ -118,17 +106,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	settingsUserAdminLocations: {
-		flex: 1
-	},
-	screenInfoCont: {
-		flex: 0.25
-	},
-	locationListCont: {
-		flex: 0.75,
-		marginTop: 32,
-	},
-	locationList: {
+	locationsHeader: {
 		flex: 1
 	}
 });

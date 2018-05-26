@@ -13,7 +13,7 @@ import {AvatarFull, FlatListEmpty, ListItemInfo, ScrollableIconTabView} from '..
 import {Col, Grid, Row} from 'react-native-easy-grid';
 import {Const, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {listItemInfo} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';

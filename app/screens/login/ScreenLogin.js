@@ -78,14 +78,14 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	_onFacebookLogin() {
 		SignInFacebook.signInAndGetAccessToken()
-			.then(accessToken => ApiClient.accountsLoginFacebook(accessToken))
+			.then(ApiClient.accountsLoginFacebook)
 			.then(this._handleSignInSuccess)
 			.catch(this._handleSignInError);
 	}
 
 	_onGoogleLogin() {
 		SignInGoogle.signInAndGetAccessToken()
-			.then(accessToken => ApiClient.accountsLoginGoogle(accessToken))
+			.then(ApiClient.accountsLoginGoogle)
 			.then(this._handleSignInSuccess)
 			.catch(this._handleSignInError);
 	}

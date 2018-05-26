@@ -15,7 +15,6 @@ import type {TLocation} from '../daos/DaoLocation';
 import type {TUser} from '../daos/DaoUser';
 import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
 
-
 class ApiClient {
 
 	constructor() {
@@ -26,7 +25,6 @@ class ApiClient {
 		this._postMultipart = this._postMultipart.bind(this);
 		this._onReceiveUserProfile = this._onReceiveUserProfile.bind(this);
 	}
-
 
 	_handleResponse(response, url, callbackRetryRequest) {
 
@@ -56,8 +54,6 @@ class ApiClient {
 				});
 		}
 
-
-
 		// CASE 3, status == 401
 		if (response.status === 401) {
 			Logger.v(`ApiClient _handleResponse: status(401[${this.api401Attempts}]) for ${url}`);
@@ -79,8 +75,6 @@ class ApiClient {
 			return callbackRetryRequest();
 		}
 
-
-
 		// CASE 4, status == 500
 		if (response.status === 500) {
 			Logger.v(`ApiClient _handleResponse: status(500) for ${url}`);
@@ -95,14 +89,10 @@ class ApiClient {
 				});
 		}
 
-
 		// CASE 5, status UNKNOWN
 		Logger.v(`ApiClient _handleResponse: status(${response.status}) for ${url}`);
 		return Promise.reject(0);
 	}
-
-
-
 
 	_get(url) {
 		Logger.v(`ApiClient _get: Requesting auth-token for ${url}`);
@@ -124,9 +114,6 @@ class ApiClient {
 			.then(response => this._handleResponse(response, url, () => this._get(url)));
 	}
 
-
-
-
 	_post(url: string, body: ?Object) {
 		Logger.v(`ApiClient _post: Requesting auth-token for ${url}`);
 
@@ -147,9 +134,6 @@ class ApiClient {
 			})
 			.then(response => this._handleResponse(response, url, () => this._post(url, body)));
 	}
-
-
-
 
 	_postMultipart(url, formData) {
 		Logger.v(`ApiClient _postMultipart: Requesting auth-token for ${url}`);
@@ -179,71 +163,6 @@ class ApiClient {
 			});
 	}
 
-
-
-
-	time(callback) {
-		return fetch(`${Urls.api}/meta/time`)
-			.then(response => response.text())
-			.then(callback)
-			.catch(err => {Logger.v('ApiClient time:', err);});
-	}
-
-
-
-
-	async _onReceiveUserProfile(userProfileJson): Promise<TUser> {
-		const user: TUser = JSON.parse(userProfileJson);
-
-		await StorageIO.setLocalUser(user);
-		ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user));
-
-		return user;
-	}
-
-	accountsRegister(formUserRegister: TApiFormRegister) {
-		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
-			.then(this._onReceiveUserProfile);
-	}
-
-	accountsLogin(formUserLogin) {
-		return this._post(`${Urls.api}/accounts/login`, formUserLogin)
-			.then(this._onReceiveUserProfile);
-	}
-
-	accountsLoginFacebook(accessToken) {
-		return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
-			.then(this._onReceiveUserProfile);
-	}
-
-	accountsLoginGoogle(accessToken) {
-		return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
-			.then(this._onReceiveUserProfile);
-	}
-
-
-
-	userProfile() {
-		return this._get(`${Urls.api}/user/profile`)
-			.then(this._onReceiveUserProfile);
-	}
-
-	authenticateFirebase() {
-		return this._get(`${Urls.api}/user/firebase-jwt`)
-			.then(jwt => {
-				Logger.v(`ApiClient userFirebaseJwt: Received firebase jwt ${jwt}`);
-				Context.setFirebaseEnabled(true);
-				return firebase.auth().signInWithCustomToken(jwt);
-			})
-			.catch(exception => {
-				Context.setFirebaseEnabled(false);
-				Logger.v('ApiClient authenticateFirebase: Failed to login to firebase', exception);
-			});
-		}
-
-
-
-
 	mediaAddTypeIdItemId(typeId, itemId, filePath) {
 		const n = seconds().toString();
 		return this._postMultipart(
@@ -251,12 +170,6 @@ class ApiClient {
 			[{name: 'media', filename: n, data: RNFetchBlob.wrap(filePath)}]
 		);
 	}
-
-
-
-
-	// Verified API Below ***************************************************************************
-	// Verified API Below ***************************************************************************
 
 	usersGetUid(uid: number): Promise<TUser> {
 		return this._get(`${Urls.api}/users/${uid}`)
@@ -268,13 +181,89 @@ class ApiClient {
 			.then(json => JSON.parse(json));
 	}
 
-	// Should only be called from DataProvider.usersGetUidProfile
+	// Called from AddContacts.mapContactsToUsers
+	searchUsers(queryArray = []): Promise<Array<TUser>> {
+		if (queryArray.length <= 0)
+			return Promise.resolve([]);
+
+		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
+			.then(json => JSON.parse(json));
+	}
+
+	// Verified API Below ***************************************************************************
+	// Verified API Below ***************************************************************************
+
+	// Should only be called from ApiAuthentication
+	time(callback) {
+		return fetch(`${Urls.api}/meta/time`)
+			.then(response => response.text())
+			.then(callback)
+			.catch(err => {
+				Logger.v('ApiClient time:', err);
+			});
+	}
+
+	// Should only be called from ApiAuthentication
+	authenticateFirebase() {
+		return this._get(`${Urls.api}/user/firebase-jwt`)
+			.then(jwt => {
+				Logger.v(`ApiClient userFirebaseJwt: Received firebase jwt ${jwt}`);
+				Context.setFirebaseEnabled(true);
+				return firebase.auth().signInWithCustomToken(jwt);
+			})
+			.catch(exception => {
+				Context.setFirebaseEnabled(false);
+				Logger.v('ApiClient authenticateFirebase: Failed to login to firebase', exception);
+			});
+	}
+
+	// Should only be called from login and register functions
+	async _onReceiveUserProfile(userProfileJson): Promise<TUser> {
+		const user: TUser = JSON.parse(userProfileJson);
+
+		await StorageIO.setLocalUser(user);
+		await ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user));
+
+		return user;
+	}
+
+	// Should only be called from ApiFormDefRegister
+	accountsRegister(formUserRegister: TApiFormRegister) {
+		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
+			.then(this._onReceiveUserProfile);
+	}
+
+	// Should only be called from ApiFormDefLogin
+	accountsLogin(formUserLogin) {
+		return this._post(`${Urls.api}/accounts/login`, formUserLogin)
+			.then(this._onReceiveUserProfile);
+	}
+
+	// Should only be called from ScreenLogin
+	accountsLoginFacebook(accessToken) {
+		return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
+			.then(this._onReceiveUserProfile);
+	}
+
+	// Should only be called from ScreenLogin
+	accountsLoginGoogle(accessToken) {
+		return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
+			.then(this._onReceiveUserProfile);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userProfile() {
+		return this._get(`${Urls.api}/user/profile`)
+			.then(json => JSON.parse(json));
+	}
+
+	// Should only be called from CacheMapDefUserProfiles
 	usersGetUidProfile(uid: number): Promise<TUser> {
 		return this._get(`${Urls.api}/users/${uid}/profile`)
 			.then(json => JSON.parse(json));
 	}
 
-	// Should only be called from DataProvider.locationsGetLidProfile
+	// Should only be called from CacheMapDefLocationProfiles
 	locationsGetLidProfile(lid: number): Promise<TLocation> {
 		return this._get(`${Urls.api}/locations/${lid}/profile`)
 			.then(json => JSON.parse(json));
@@ -384,17 +373,6 @@ class ApiClient {
 		return this._get(`${Urls.api}/suggest/${seed}/locations`)
 			.then(json => JSON.parse(json));
 	}
-
-	// Called from AddContacts.mapContactsToUsers
-	searchUsers(queryArray = []): Promise<Array<TUser>> {
-		if (queryArray.length <= 0)
-			return Promise.resolve([]);
-
-		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
-			.then(json => JSON.parse(json));
-	}
-
-
 
 }
 
