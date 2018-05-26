@@ -63,8 +63,8 @@ export class CacheDefUserProfileActionCreator {
 		this.connAccept = this.connAccept.bind(this);
 		this.connCancel = this.connCancel.bind(this);
 		this.connBlock = this.connBlock.bind(this);
-		this.followLocation = this.followLocation.bind(this);
-		this.unfollowLocation = this.unfollowLocation.bind(this);
+		this.locationFavAdd = this.locationFavAdd.bind(this);
+		this.locationFavRemove = this.locationFavRemove.bind(this);
 		this.putLocationWithULS = this.putLocationWithULS.bind(this);
 		this.removeLocationWithULS = this.removeLocationWithULS.bind(this);
 		this.putAdminLocation = this.putAdminLocation.bind(this);
@@ -398,38 +398,38 @@ export class CacheDefUserProfileActionCreator {
 			});
 	}
 
-	followLocation(locationToAdd: TLocation) {
+	locationFavAdd(locationToAdd: TLocation) {
 		// Update the UI before running the request
 		this._addToLocationFavoritesArray(locationToAdd);
 
 		const lid = DaoLocation.gId(locationToAdd);
 		return ApiClient.userLocationsFavoritesAddLid(lid)
 			.then(success => {
-				Logger.v('CacheDefUserProfile followLocation: success', lid, success);
+				Logger.v('CacheDefUserProfile locationFavAdd: success', lid, success);
 				return success;
 			})
 			.catch(err => {
 				// Revert to the previous state
 				this._removeFromLocationFavoritesArray(locationToAdd);
-				Logger.v('CacheDefUserProfile followLocation: failed', lid, err);
+				Logger.v('CacheDefUserProfile locationFavAdd: failed', lid, err);
 				return err;
 			});
 	}
 
-	unfollowLocation(locationToRemove: TLocation) {
+	locationFavRemove(locationToRemove: TLocation) {
 		// Update the UI before running the request
 		this._removeFromLocationFavoritesArray(locationToRemove);
 
 		const lid = DaoLocation.gId(locationToRemove);
 		return ApiClient.userLocationsFavoritesDelLid(lid)
 			.then(success => {
-				Logger.v('CacheDefUserProfile unfollowLocation: success', lid, success);
+				Logger.v('CacheDefUserProfile locationFavRemove: success', lid, success);
 				return success;
 			})
 			.catch(err => {
 				// Revert to the previous state
 				this._addToLocationFavoritesArray(locationToRemove);
-				Logger.v('CacheDefUserProfile unfollowLocation: failed', lid, err);
+				Logger.v('CacheDefUserProfile locationFavRemove: failed', lid, err);
 				return err;
 			});
 	}

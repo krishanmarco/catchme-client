@@ -112,9 +112,9 @@ class _UserList extends React.PureComponent<void, Props, void> {
 
 		const connAdd = this._cacheUserProfile().connAdd;
 		const connRemove = this._cacheUserProfile().connRemove;
-		const connBlock = this._cacheUserProfile().connBlock;
 		const connAccept = this._cacheUserProfile().connAccept;
 		const connCancel = this._cacheUserProfile().connCancel;
+		const connBlock = this._cacheUserProfile().connBlock;
 		const requestIds = this._getRequestIds();
 		const blockedIds = this._getBlockedIds();
 		const friendIds = this._getFriendIds();
@@ -126,17 +126,17 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		const sRequest = showAdd && !friendIds.includes(uid) && !pendingIds.includes(uid);
 
 		if (sAccept) {
-			listItemProps.onUserConnectionBlockUid = connBlock;
-			listItemProps.onUserConnectionAddUid = connAccept;
+			listItemProps.onConnRemovePress = connBlock;
+			listItemProps.onConnAddPress = connAccept;
 
 		} else if (sUnblock || sRequest) {
-			listItemProps.onUserConnectionAddUid = connAdd;
+			listItemProps.onConnAddPress = connAdd;
 
 		} else if (sRemove) {
-			listItemProps.onUserConnectionBlockUid = connRemove;
+			listItemProps.onConnRemovePress = connRemove;
 
 		} else if (sPending) {
-			listItemProps.onUserConnectionPendingUid = connCancel;
+			listItemProps.onConnPendingPress = connCancel;
 		}
 
 		return <ListItemUser {...listItemProps}/>;

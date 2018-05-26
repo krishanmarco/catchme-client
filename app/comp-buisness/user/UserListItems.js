@@ -12,9 +12,9 @@ import type {TUser} from '../../lib/daos/DaoUser';
 export type ListItemUserProps = ListItemWithActionProps & {
 	user: TUser,
 	onPress: (TUser) => void,
-	onUserConnectionBlockUid?: (TUser) => void,
-	onUserConnectionAddUid?: (TUser) => void,
-	onUserConnectionPendingUid?: (TUser) => void,
+	onConnRemovePress?: (TUser) => void,
+	onConnAddPress?: (TUser) => void,
+	onConnPendingPress?: (TUser) => void,
 };
 
 // ListItemUser *****************************************************************************************
@@ -33,28 +33,28 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 	}
 
 	initialize(props = this.props) {
-		const {user, onUserConnectionPendingUid, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
+		const {user, onConnPendingPress, onConnAddPress, onConnRemovePress} = props;
 
 		this.actions = [];
 
-		if (onUserConnectionPendingUid) {
+		if (onConnPendingPress) {
 			this.actions.push({
 				icon: Icons.userPending,
-				onPress: () => onUserConnectionPendingUid(user)
+				onPress: () => onConnPendingPress(user)
 			});
 		}
 
-		if (onUserConnectionAddUid) {
+		if (onConnAddPress) {
 			this.actions.push({
 				icon: Icons.userFollow,
-				onPress: () => onUserConnectionAddUid(user)
+				onPress: () => onConnAddPress(user)
 			});
 		}
 
-		if (onUserConnectionBlockUid) {
+		if (onConnRemovePress) {
 			this.actions.push({
 				icon: Icons.userBlock,
-				onPress: () => onUserConnectionBlockUid(user)
+				onPress: () => onConnRemovePress(user)
 			});
 		}
 	}

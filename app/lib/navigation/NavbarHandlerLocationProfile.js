@@ -139,7 +139,7 @@ export default class NavbarHandlerLocationProfile {
 
 	_onNavigatorFollowLocationPress() {
 		const {cacheUserProfile, locationProfile} = this;
-		cacheUserProfile.followLocation(locationProfile)
+		cacheUserProfile.locationFavAdd(locationProfile)
 			.then(this.setup);
 	}
 

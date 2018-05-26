@@ -82,7 +82,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
 			return ApiClient.locationsGetLid(locationId)
-				.then(userProfileActionCreator.followLocation);
+				.then(userProfileActionCreator.locationFavAdd);
 		}
 	},
 

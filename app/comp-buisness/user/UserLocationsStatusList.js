@@ -112,8 +112,8 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 			onPress: onLocationPress
 		};
 
-		const followLocation = this._cacheUserProfile().followLocation;
-		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
+		const locationFavAdd = this._cacheUserProfile().locationFavAdd;
+		const locationFavRemove = this._cacheUserProfile().locationFavRemove;
 
 		const lid = DaoLocation.gId(item);
 		const favoriteIds = this._getFavoriteIds();
@@ -121,10 +121,10 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		const sUnfollow = showUnfollow && favoriteIds.includes(lid);
 
 		if (sFollow) {
-			listItemProps.addLocationToFavorites = followLocation;
+			listItemProps.onLocationFavAddPress = locationFavAdd;
 
 		} else if (sUnfollow) {
-			listItemProps.removeLocationFromFavorites = unfollowLocation;
+			listItemProps.onLocationFavRemove = locationFavRemove;
 		}
 
 		return <ListItemLocationFollow {...listItemProps}/>;
