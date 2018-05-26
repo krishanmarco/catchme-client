@@ -14,18 +14,13 @@ export type ListItemUserProps = ListItemWithActionProps & {
 	onPress: (TUser) => void,
 	onUserConnectionBlockUid?: (TUser) => void,
 	onUserConnectionAddUid?: (TUser) => void,
-	isPending?: boolean
-};
-
-const defaultProps = {
-	isPending: false
+	onUserConnectionPendingUid?: (TUser) => void,
 };
 
 // ListItemUser *****************************************************************************************
 // ListItemUser *****************************************************************************************
 
 export default class ListItemUser extends React.PureComponent<void, ListItemUserProps, void> {
-	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
@@ -38,9 +33,16 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 	}
 
 	initialize(props = this.props) {
-		const {user, isPending, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
+		const {user, onUserConnectionPendingUid, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
 
 		this.actions = [];
+
+		if (onUserConnectionPendingUid) {
+			this.actions.push({
+				icon: Icons.userPending,
+				onPress: () => onUserConnectionPendingUid(user)
+			});
+		}
 
 		if (onUserConnectionAddUid) {
 			this.actions.push({
@@ -53,12 +55,6 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 			this.actions.push({
 				icon: Icons.userBlock,
 				onPress: () => onUserConnectionBlockUid(user)
-			});
-		}
-
-		if (isPending) {
-			this.actions.push({
-				icon: Icons.userPending
 			});
 		}
 	}

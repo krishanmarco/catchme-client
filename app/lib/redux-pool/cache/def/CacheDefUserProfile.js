@@ -58,10 +58,11 @@ export class CacheDefUserProfileActionCreator {
 		this._addUserToConnectionsFriends = this._addUserToConnectionsFriends.bind(this);
 		this._addUserToConnectionsPending = this._addUserToConnectionsPending.bind(this);
 		this._addUserToConnectionsBlocked = this._addUserToConnectionsBlocked.bind(this);
-		this.addUserToFriends = this.addUserToFriends.bind(this);
-		this.removeUserFromFriends = this.removeUserFromFriends.bind(this);
-		this.acceptUserFriendship = this.acceptUserFriendship.bind(this);
-		this.blockUser = this.blockUser.bind(this);
+		this.connAdd = this.connAdd.bind(this);
+		this.connRemove = this.connRemove.bind(this);
+		this.connAccept = this.connAccept.bind(this);
+		this.connCancel = this.connCancel.bind(this);
+		this.connBlock = this.connBlock.bind(this);
 		this.followLocation = this.followLocation.bind(this);
 		this.unfollowLocation = this.unfollowLocation.bind(this);
 		this.putLocationWithULS = this.putLocationWithULS.bind(this);
@@ -302,78 +303,97 @@ export class CacheDefUserProfileActionCreator {
 		});
 	}
 
-	addUserToFriends(userToAdd: TUser) {
+	connAdd(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._addUserToConnectionsPending(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
-				Logger.v('CacheDefUserProfile addUserToFriends: success', uid, success);
+				Logger.v('CacheDefUserProfile connAdd: success', uid, success);
 				Snackbar.showWarningStr(t('t_ls_user_added'));
 				return success;
 			})
 			.catch(err => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v('CacheDefUserProfile addUserToFriends: failed', uid, err);
+				Logger.v('CacheDefUserProfile connAdd: failed', uid, err);
 				return err;
 			});
 	}
 
-	removeUserFromFriends(userToAdd: TUser) {
+	connRemove(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._removeUserFromConnectionsFriends(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
-				Logger.v('CacheDefUserProfile removeUserFromFriends: success', uid, success);
+				Logger.v('CacheDefUserProfile connRemove: success', uid, success);
 				Snackbar.showSuccessStr(t('t_ls_user_removed'));
 				return success;
 			})
 			.catch(err => {
 				// Revert to the previous state
 				this._addUserToConnectionsFriends(userToAdd);
-				Logger.v('CacheDefUserProfile removeUserFromFriends: failed', uid, err);
+				Logger.v('CacheDefUserProfile connRemove: failed', uid, err);
 				return err;
 			});
 	}
 
-	blockUser(userToAdd: TUser) {
+	connCancel(userToAdd: TUser) {
+		// Update the UI before running the request
+		this._removeUserFromConnectionsPending(userToAdd);
+
+		const uid = DaoUser.gId(userToAdd);
+		return ApiClient.userConnectionsRemoveUid(uid)
+			.then(success => {
+				Logger.v('CacheDefUserProfile connCancel: success', uid, success);
+				Snackbar.showSuccessStr(t('t_ls_user_cancel'));
+				return success;
+			})
+			.catch(err => {
+				// Revert to the previous state
+				this._addUserToConnectionsPending(userToAdd);
+				Logger.v('CacheDefUserProfile connCancel: failed', uid, err);
+				return err;
+			});
+	}
+
+	connBlock(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._addUserToConnectionsBlocked(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsRemoveUid(uid)
 			.then(success => {
-				Logger.v('CacheDefUserProfile blockUser: success', uid, success);
+				Logger.v('CacheDefUserProfile connBlock: success', uid, success);
 				Snackbar.showSuccessStr(t('t_ls_user_blocked'));
 				return success;
 			})
 			.catch(err => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsBlocked(userToAdd);
-				Logger.v('CacheDefUserProfile blockUser: failed', uid, err);
+				Logger.v('CacheDefUserProfile connBlock: failed', uid, err);
 				return err;
 			});
 	}
 
-	acceptUserFriendship(userToAdd: TUser) {
+	connAccept(userToAdd: TUser) {
 		// Update the UI before running the request
 		this._addUserToConnectionsFriends(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
-				Logger.v('CacheDefUserProfile acceptUserFriendship: success', uid, success);
+				Logger.v('CacheDefUserProfile connAccept: success', uid, success);
 				Snackbar.showSuccessStr(t('t_ls_connection_accepted'));
 				return success;
 			})
 			.catch(err => {
 				// Revert to the previous state
 				this._removeUserFromConnectionsFriends(userToAdd);
-				Logger.v('CacheDefUserProfile acceptUserFriendship: failed', uid, err);
+				Logger.v('CacheDefUserProfile connAccept: failed', uid, err);
 				return err;
 			});
 	}

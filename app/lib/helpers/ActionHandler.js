@@ -26,7 +26,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
 			return ApiClient.usersGetUid(userId)
-				.then(userProfileActionCreator.addUserToFriends);
+				.then(userProfileActionCreator.connAdd);
 		}
 	},
 
@@ -44,7 +44,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
 			return ApiClient.usersGetUid(userId)
-				.then(userProfileActionCreator.blockUser);
+				.then(userProfileActionCreator.connBlock);
 		}
 	},
 

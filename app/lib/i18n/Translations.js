@@ -176,6 +176,7 @@ I18n.translations = {
 		t_e_passwords_not_equal: 'The two passwords do not match',
 		t_e_incorrect_recovery_key: 'Invalid recovery key',
 
+		// todo move all strings below to it
 		// Local errors
 		t_le_camera_capture_failed: 'Something went wrong while capturing your image',
 		t_le_admin_location_add_failed: 'Something went wrong while adding your location',
@@ -185,183 +186,11 @@ I18n.translations = {
 		t_ls_uls_removed: 'Your status has been removed',
 		t_ls_user_blocked: 'User blocked. They won\'t be able to see your status anymore',
 		t_ls_user_removed: 'User removed. They will still be able to see your status but are not friends anymore',
+		t_ls_user_cancel: 'Friend request canceled.',
 		t_ls_user_added: 'Friend request sent. The other user will first have to accept before becoming your friend',
 		t_ls_admin_location_added: 'This location was added to the ones you own',
 
-	},
-
-	// it ***************************************************************************************************
-	// it ***************************************************************************************************
-	it: {
-		t_catchme: 'Catchme',
-		t_my_contacts: 'Contatti',
-		t_logout: 'Esci',
-		t_new_location: 'Nuovo locale',
-		t_add_new_location: 'Aggiungi un locale',
-		t_change_password: 'Cambia password',
-		t_catchme_user: 'Utente catchme',
-		t_search: 'Cerca',
-		t_feed: 'Feed',
-		t_featured: 'In evidenza',
-
-		t_search_location_map: 'Cerca il tuo locale',
-		t_search_location: 'Cerca per nome, email, telefono o indirizzo',
-		t_search_user: 'Cerca per nome, email o telefono',
-
-		t_am: 'am',
-		t_pm: 'pm',
-
-		t_uls_now: 'Adesso',
-		t_uls_later: 'Dopo',
-		t_top_5_places: 'Piu\' frequentati',
-
-		t_uls_here_now: 'Sono qua adesso!',
-		t_uls_here_later: 'Saro\' qua\' dopo',
-
-		t_user_public_message: 'Ei! Anche io sono su catchme!',
-
-		t_country: 'Paese',
-		t_state: 'Provincia',
-		t_city: 'Citta\'',
-		t_postcode: 'Codice postale',
-		t_address: 'Indirizzo',
-
-		t_privacy: 'Privacy',
-		t_privacy_previous_location: 'Posizione precendente',
-		t_privacy_current_location: 'Posizione attuale',
-		t_privacy_next_location: 'Prossima posizione',
-		t_privacy_email: 'Il mio email',
-		t_privacy_phone: 'Il mio numero',
-
-		t_disable_all: 'Disattiva tutti',
-		t_notifications_friendship_request: 'Richieste d\'amicizia',
-		t_notifications_friend_actions: 'Movimenti amici',
-		t_notifications_catchme_suggestions: 'Suggerimenti catchme',
-
-		t_si_edit_location_address: 'Premi l\'immagine per cercare un indirizzo',
-		t_bt_edit_location: 'Salva e chiudi',
-
-		t_capacity: 'Capacita\'',
-		t_gender_male: 'Maschio',
-		t_gender_female: 'Femmina',
-		t_gender_total: 'Totale',
-
-
-		t_field_name: 'Nome',
-		t_field_email: 'Email',
-		t_field_password: 'Password',
-		t_field_password_confirm: 'Confirma password',
-		t_field_password_new: 'Nuova password',
-		t_field_phone: 'Telefono',
-		t_field_description: 'Descrizione',
-		t_field_status: 'Stato',
-		t_field_capacity: 'Capacita\'',
-
-		t_locations: 'Locali',
-		t_people: 'Persone',
-
-		t_bt_login: 'ACCEDI',
-		t_bt_register: 'REGISTRATI',
-		t_bt_back: 'INDIETRO',
-		t_bt_change: 'CAMBIA',
-		t_bt_confirm: 'CONFERMA',
-		t_bt_logout: 'ESCI',
-		t_bt_send: 'INVIA',
-
-		t_login_no_account: 'Non hai un account?',
-		t_clk_login_no_account: 'Registrati!',
-		t_login_forgot_pw: 'Hai dimenticato la password?',
-		t_clk_login_forgot_pw: 'Recuperala!',
-		t_register_login: 'Hai gia\' un account?',
-		t_clk_register_login: 'Accedi!',
-
-		t_si_settings_change_password: 'Da questa schermata puoi cambiare la tua password',
-		t_si_settings_change_password_success: 'La tua password e\' stata cambiata correttamente',
-		t_si_settings_recover_password: 'Inserisci la tua email sotto per ricevere le istruzioni per proseguire',
-		t_si_settings_recover_password_success: 'La tua password e\' stata inviata al tuo indirizzo email',
-		t_si_settings_logout: 'Sei sicuro di voler uscire?',
-		t_si_settings_admin_locations: 'Questi sono i locali che gestisci',
-		t_si_settings_notifications: 'Qua\' puoi cambiare le impostazioni delle tue notifiche',
-
-		t_monday: 'Lunedi\'',
-		t_tuesday: 'Martedi\'',
-		t_wednesday: 'Mercoledi\'',
-		t_thursday: 'Giovedi\'',
-		t_friday: 'Venerdi\'',
-		t_saturday: 'Sabato',
-		t_sunday: 'Domenica',
-		t_only_me: 'Solo io',
-		t_everyone: 'Tutti',
-		t_my_friends: 'I miei amici',
-
-		t_catch_info: 'catch Info.',
-		t_user_info: 'Info utente',
-		t_your_account: 'Il tuo account',
-		t_account: 'Account',
-		t_notifications: 'Notifiche',
-		t_my_locations: 'I miei locali',
-		t_add_contacts: 'Aggiungi contatti',
-		t_faq: 'FAQ',
-		t_contact_us: 'Contattaci',
-		t_tos: 'Termini di servizio',
-		t_app_info: 'Info App',
-
-		t_location_open: 'Aperto ora!',
-		t_location_closed: 'Chiuso!',
-
-		t_today: 'Oggi',
-		t_tomorrow: 'Domani',
-		t_yesterday: 'Ieri',
-		t_last: 'Ultimo',
-		t_from: 'da',
-		t_to: 'a',
-
-		t_empty_featured_ads: 'Non succede nulla di interessante per ora',
-		t_empty_feed: 'Non hai notifiche per adesso...\nProva a ricontrollare piu\' tardi',
-		t_empty_location_gallery: 'Nessuno ha postato foto di questo locale.\nPuoi ancora essere il primo!',
-		t_empty_bt_location_gallery: 'Scatta una foto!',
-		t_empty_uls: 'Sembra che tu non abbia intenzione di uscire.\nO forse non vuoi che i tuoi amici lo sappiano.\n. Cerca il tuo prossimo locale',
-		t_empty_location_friends_now: 'Ci dispiace. Non c\'e nessuno in questo locale al momento.\nForse ti conviene tirare qua\' un po\' di gente!',
-		t_empty_bt_location_friends_now: 'Io si\'!',
-		t_empty_location_friends_later: 'Nessuno sara\' qua dopo, o tu si?',
-		t_empty_bt_location_friends_later: 'Io si\'!',
-		t_empty_search: 'Mmm... Non ci sono risultati per quella ricerca',
-		t_empty_add_contacts: 'Beh, sembra che nessuno dei tuoi contatti stia usando catchme.\n Forse potresti invitarli! :)',
-		t_empty_admin_locations: 'Non hai ancora aggiunto locali. Se sei il propretario di un locale puoi aggiungerlo a catchme da qua\'',
-		t_empty_bt_admin_locations: 'Aggiungi il tuo locale',
-		t_empty_user_location_favorites: 'Mmm, che strano...\nNon hai locali preferiti. Usa la schermata di ricerca per trovare i tuoi locali preferiti',
-		t_empty_user_other_location_favorites: 'Questo utente non ha locali preferiti',
-		t_empty_bt_user_location_favorites: 'Cerca un locale',
-		t_empty_user_friends: 'Questa cosa e\' un po\' triste...\nNon hai amici su catchme, usa la schermata di ricerca per trovare e aggiungere amici!',
-		t_empty_user_other_friends: 'Questo utente non ha amici',
-		t_empty_bt_user_friends: 'Cerca i tuoi amici',
-		t_no_wifi: 'Per favore connettiti ad internet',
-
-		// Server errors
-		t_e_generic_error: 'Errore generico',
-		t_e_form_error: 'Errore di form',
-		t_e_not_allowed: 'Non hai le autorizzazioni neccessarie',
-		t_e_email_taken: 'Email gia\' presa',
-		t_e_user_not_found: 'Utente non trovato',
-		t_e_wrong_password: 'Password errata',
-		t_e_user_banned: 'Utente bannato',
-		t_e_upload_failed: 'Upload fallito',
-		t_e_invalid_social_token: 'Qualcosa e\' andato storto',
-		t_e_field_invalid: 'Campo invalido',
-		t_e_field_not_set: 'Perfavore compila questo campo',
-		t_e_field_length_invalid: 'La lunghezza del campo e\' invalido',
-		t_e_field_length_short: 'Campo troppo corto',
-		t_e_field_length_long: 'Campo troppo lungo',
-		t_e_field_phone: 'Telefono invalido',
-		t_e_field_email: 'Email invalida',
-		t_e_field_url: 'Indirizzo web invalido',
-		t_e_field_country: 'Paese invalido',
-		t_e_passwords_not_equal: 'Le due password non corrispondono',
-		t_e_incorrect_recovery_key: 'Chiave di recupero non valida'
 	}
-
-
-
 
 };
 

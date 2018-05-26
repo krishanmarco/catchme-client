@@ -116,13 +116,13 @@ export default class NavbarHandlerUserProfile {
 
 	_onNavigatorAddConnectionPress() {
 		const {cacheUserProfile, userProfile} = this;
-		cacheUserProfile.addUserToFriends(userProfile)
+		cacheUserProfile.connAdd(userProfile)
 			.then(this.setup);
 	}
 
 	_onNavigatorAcceptConnectionPress() {
 		const {cacheUserProfile, userProfile} = this;
-		cacheUserProfile.acceptUserFriendship(userProfile)
+		cacheUserProfile.connAccept(userProfile)
 			.then(this.setup);
 	}
 

@@ -110,10 +110,11 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		if (isSameUser)
 			return <ListItemUser {...listItemProps}/>;
 
-		const addUserToFriends = this._cacheUserProfile().addUserToFriends;
-		const removeUserFromFriends = this._cacheUserProfile().removeUserFromFriends;
-		const blockUser = this._cacheUserProfile().blockUser;
-		const acceptUserFriendship = this._cacheUserProfile().acceptUserFriendship;
+		const connAdd = this._cacheUserProfile().connAdd;
+		const connRemove = this._cacheUserProfile().connRemove;
+		const connBlock = this._cacheUserProfile().connBlock;
+		const connAccept = this._cacheUserProfile().connAccept;
+		const connCancel = this._cacheUserProfile().connCancel;
 		const requestIds = this._getRequestIds();
 		const blockedIds = this._getBlockedIds();
 		const friendIds = this._getFriendIds();
@@ -125,18 +126,17 @@ class _UserList extends React.PureComponent<void, Props, void> {
 		const sRequest = showAdd && !friendIds.includes(uid) && !pendingIds.includes(uid);
 
 		if (sAccept) {
-			listItemProps.onUserConnectionBlockUid = blockUser;
-			listItemProps.onUserConnectionAddUid = acceptUserFriendship;
+			listItemProps.onUserConnectionBlockUid = connBlock;
+			listItemProps.onUserConnectionAddUid = connAccept;
 
 		} else if (sUnblock || sRequest) {
-			listItemProps.onUserConnectionAddUid = addUserToFriends;
+			listItemProps.onUserConnectionAddUid = connAdd;
 
 		} else if (sRemove) {
-			listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
+			listItemProps.onUserConnectionBlockUid = connRemove;
 
 		} else if (sPending) {
-			listItemProps.isPending = true;
-			listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
+			listItemProps.onUserConnectionPendingUid = connCancel;
 		}
 
 		return <ListItemUser {...listItemProps}/>;
