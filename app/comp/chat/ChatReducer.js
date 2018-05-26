@@ -27,7 +27,7 @@ export type TChatReducerState = {
 function mapDbMessageToLocalMessage(dispatch, users, message) {
 
 	// On the firebase db, the user field is the user id
-	let senderId = message.user;
+	const senderId = message.user;
 
 	if (senderId in users) {
 		message.user = users[senderId];
@@ -35,7 +35,7 @@ function mapDbMessageToLocalMessage(dispatch, users, message) {
 	}
 
 	// User fallback
-	message.user = {_id: -1, name: t('t_catchme_user'), avatar: Const.userDefaultAvatar};
+	message.user = {_id: senderId, name: t('t_catchme_user'), avatar: Const.userDefaultAvatar};
 
 	// Get the unknown user pId
 	FirebaseData.dbUserById(senderId)
@@ -77,7 +77,8 @@ export function chatReducer(state: TChatReducerState = chatInitState, action): T
 
 		case ACTION_LOCATION_CHAT_ADD_USER:
 			return Object.assign({}, state, {
-				users: Object.assign(state.users, {[action.user._id]: action.user})
+				users: Object.assign(state.users, {[action.user._id]: action.user}),
+				messages: action.messages
 			});
 
 		case ACTION_LOCATION_CHAT_SET_AUTHORIZED:
@@ -122,9 +123,16 @@ export function initialize(getFirebaseMessages: TGetFirebaseMessages, user: TFir
 }
 
 function addUser(user: TFirebaseChatUser) {
-	return {
-		type: ACTION_LOCATION_CHAT_ADD_USER,
-		user
+	return (dispatch, getState) => {
+
+		const messages = getState().messages
+			.map(m => m.user._id == user._id ? Object.assign(message, {user}) : message);
+
+		dispatch({
+			type: ACTION_LOCATION_CHAT_ADD_USER,
+			user,
+			messages
+		});
 	};
 }
 
@@ -163,7 +171,6 @@ export function chatFetchMessages(getFirebaseMessages: TGetFirebaseMessages) {
 				dispatch({type: ACTION_LOCATION_CHAT_SET_FETCHED_ALL_ITEMS});
 				return;
 			}
-
 
 			const users = getState().chatReducer.users;
 			messages = messages.map(m => mapDbMessageToLocalMessage(dispatch, users, m));

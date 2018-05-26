@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25-May-18 © **/
 import {Colors} from '../Config';
-import {Snackbar as RNSnackbar} from 'react-native-snackbar';
+import RNSnackbar from 'react-native-snackbar';
 import {Validate} from './helpers/Validator';
-
+// todo ui: color not working
 export class Snackbar {
 
 	static showErrorStr(message: String) {
@@ -14,7 +14,7 @@ export class Snackbar {
 	}
 
 	static showErrorCode(errorCode: number) {
-		this.showErrorStr(Validate.mapErrorCodeToMessage(errorCode));
+		Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(errorCode));
 	}
 
 	static showSuccessStr(message: String) {

@@ -62,7 +62,7 @@ export function screenEnablePointerEvents() {
 
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************
-
+// todo offline component not working
 class Screen extends React.PureComponent<void, Props, State> {
 
 	render() {

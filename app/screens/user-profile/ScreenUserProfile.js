@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
-import NavbarHandlerAppLogo from '../../lib/navigation/NavbarHandlerAppLogo';
 import NavbarHandlerUserProfile from '../../lib/navigation/NavbarHandlerUserProfile';
 import React from 'react';
 import UserProfile from './UserProfile';
@@ -37,11 +36,10 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 	constructor(props, context) {
 		super(props, context);
 		this._renderUserProfile = this._renderUserProfile.bind(this);
-		this.navbarHandler = new NavbarHandlerUserProfile();
-		this._updateNavigator();
 
-		const {showAppLogo, navigator} = this.props;
-		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
+		const {navigator, showAppLogo} = this.props;
+		this.navbarHandler = new NavbarHandlerUserProfile(navigator, showAppLogo);
+		this._updateNavigator();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -60,12 +58,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 	}
 
 	_updateNavigator(props = this.props) {
-		const {navigator} = props;
-		this.navbarHandler.initialize(
-			navigator,
-			this._cacheUserProfile(),
-			this._userProfile(props)
-		);
+		this.navbarHandler.initialize(this._userProfile(props), this._cacheUserProfile());
 	}
 
 	_cacheUserProfile(): TCacheUserProfile {

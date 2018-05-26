@@ -18,24 +18,34 @@ const navbarButtonAcceptConnection = {
 	buttonFontWeight: '100',
 };
 
+const navbarBtAppLogo = {
+	id: 'NAVBAR_BUTTON_ID_APP_LOGO',
+	icon: require('../../assets/images/primary-me.png'),
+	buttonFontSize: 2,
+	buttonFontWeight: '100',
+};
+
 export default class NavbarHandlerUserProfile {
 
-	constructor() {
+	constructor(navigator: TNavigator, showAppLogo: boolean = false) {
+		this.navigator = navigator;
+		this.showAppLogo = showAppLogo;
 		this._onNavigatorEvent = this._onNavigatorEvent.bind(this);
 		this._onNavigatorAddConnectionPress = this._onNavigatorAddConnectionPress.bind(this);
 		this._onNavigatorAcceptConnectionPress = this._onNavigatorAcceptConnectionPress.bind(this);
-		this.showButtonAddOrAcceptConnection();
+		this.showNoButtons();
 	}
 
-	initialize(navigator: TNavigator, cacheUserProfile: TCacheUserProfile, userProfile: TUser) {
-		this.navigator = navigator;
-		this.cacheUserProfile = cacheUserProfile;
+	initialize(userProfile: TUser, cacheUserProfile: TCacheUserProfile) {
 		this.userProfile = userProfile;
+		this.cacheUserProfile = cacheUserProfile;
+		this.showButtonAddOrAcceptConnection()
 	}
 
 	showButtonAddOrAcceptConnection() {
 		const {cacheUserProfile, userProfile} = this;
 
+		console.log(cacheUserProfile);
 		if (DaoUser.gId(cacheUserProfile.data) == DaoUser.gId(userProfile))
 			return;
 
@@ -70,6 +80,9 @@ export default class NavbarHandlerUserProfile {
 		if (this.visibleButtons.includes(navbarButtonAcceptConnection.id))
 			if (requestIds.includes(uid))
 				rightButtons.push(navbarButtonAcceptConnection);
+
+		if (rightButtons.length <= 0 && this.showAppLogo)
+			rightButtons.push(navbarBtAppLogo);
 
 		navigator.setButtons({rightButtons});
 		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
