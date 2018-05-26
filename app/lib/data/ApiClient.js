@@ -173,12 +173,12 @@ class ApiClient {
 
 	usersGetUid(uid: number): Promise<TUser> {
 		return this._get(`${Urls.api}/users/${uid}`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	locationsGetLid(lid: number): Promise<TLocation> {
 		return this._get(`${Urls.api}/locations/${lid}`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Called from AddContacts.mapContactsToUsers
@@ -187,7 +187,7 @@ class ApiClient {
 			return Promise.resolve([]);
 
 		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Verified API Below ***************************************************************************
@@ -254,19 +254,19 @@ class ApiClient {
 	// Should only be called from CacheDefUserProfile
 	userProfile() {
 		return this._get(`${Urls.api}/user/profile`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from CacheMapDefUserProfiles
 	usersGetUidProfile(uid: number): Promise<TUser> {
 		return this._get(`${Urls.api}/users/${uid}/profile`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from CacheMapDefLocationProfiles
 	locationsGetLidProfile(lid: number): Promise<TLocation> {
 		return this._get(`${Urls.api}/locations/${lid}/profile`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from ApiFormDefRecoverPassword
@@ -302,7 +302,7 @@ class ApiClient {
 	// Should only be called from CacheDefUserProfile
 	userStatusAddOrEdit(status: TUserLocationStatus): Promise<TUserLocationStatus> {
 		return this._post(`${Urls.api}/user/status/add`, status)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from CacheDefUserProfile
@@ -328,7 +328,7 @@ class ApiClient {
 		}
 
 		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from CacheDefUserProfile
@@ -347,31 +347,31 @@ class ApiClient {
 		}
 
 		return this._postMultipart(`${Urls.api}/user/locations/administrating/edit/${locationId}`, formData)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.searchApiCall
 	searchQueryUsers(query = ''): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/search/${query}/users`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.suggestApiCall
 	suggestSeedUsers(seed = 0): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/suggest/${seed}/users`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.suggestApiCall
 	searchQueryLocations(query = ''): Promise<Array<TLocation>> {
 		return this._get(`${Urls.api}/search/${query}/locations`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefLocations.suggestApiCall
 	suggestSeedLocations(seed = 0): Promise<Array<TLocation>> {
 		return this._get(`${Urls.api}/suggest/${seed}/locations`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 }

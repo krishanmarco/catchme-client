@@ -13,11 +13,11 @@ import {listItemInfo} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import {Snackbar} from '../../../lib/Snackbar';
 import {stringReplace} from '../../../lib/HelperFunctions';
 import {t} from '../../../lib/i18n/Translations';
+import {Validate} from '../../../lib/helpers/Validator';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
-import {Snackbar} from "../../../lib/Snackbar";
-import {Validate} from "../../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

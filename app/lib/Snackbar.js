@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25-May-18 © **/
-import {Colors} from '../Config';
 import RNSnackbar from 'react-native-snackbar';
+import {Colors} from '../Config';
 import {Validate} from './helpers/Validator';
 
 export class Snackbar {

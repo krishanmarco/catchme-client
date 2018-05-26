@@ -16,13 +16,13 @@ import {RkButton} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {SignInFacebook} from '../../lib/social/SignInFacebook';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
+import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
+import {Validate} from '../../lib/helpers/Validator';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUser} from '../../lib/daos/DaoUser';
-import {Snackbar} from "../../lib/Snackbar";
-import {Validate} from "../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

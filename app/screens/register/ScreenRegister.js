@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
+import Router from '../../lib/navigation/Router';
 import {FontIcons} from '../../Config';
 import {FORM_API_ID_REGISTER} from '../../lib/redux-pool/api-form/def/ApiFormDefRegister';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
@@ -13,7 +14,6 @@ import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../lib/types/Types';
-import Router from "../../lib/navigation/Router";
 
 
 // Const *************************************************************************************************

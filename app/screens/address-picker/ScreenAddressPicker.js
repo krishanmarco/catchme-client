@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeocoderTextEdit';
 import React from 'react';
+import Router from '../../lib/navigation/Router';
 import {Navigation} from 'react-native-navigation';
 import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from '../../comp/Misc';
 import {ScrollView} from 'react-native';
 import type {TLocation} from '../../lib/daos/DaoLocation';
-import Router from "../../lib/navigation/Router";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

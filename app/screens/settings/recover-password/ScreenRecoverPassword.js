@@ -1,5 +1,7 @@
 import React from 'react';
+import Router from '../../../lib/navigation/Router';
 import {FORM_API_ID_RECOVER_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword';
+import {FormFooterLink} from '../../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
 import {fullpageForm} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
@@ -8,8 +10,6 @@ import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
-import {FormFooterLink} from "../../../comp/misc/forms/FormComponents";
-import Router from "../../../lib/navigation/Router";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
