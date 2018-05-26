@@ -131,8 +131,8 @@ class _Search extends React.Component<void, Props, void> {
 		return (
 			<LocationList
 				locations={list}
-				allowFollow={true}
-				allowUnfollow={true}
+				showFollow={true}
+				showUnfollow={true}
 
 				onLocationPress={this._onLocationPress}
 				onSearchPressed={this._searchDataLocations().search}
@@ -149,9 +149,10 @@ class _Search extends React.Component<void, Props, void> {
 		return (
 			<UserList
 				users={list}
-				allowAcceptFriend={true}
-				allowUnblockUser={true}
-				allowRequestFriend={true}
+				showAccept={true}
+				showUnblock={true}
+				showAdd={true}
+				showPending={true}
 
 				loading={loading}
 				onUserPress={this._onUserPress}

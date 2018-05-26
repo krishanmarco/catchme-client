@@ -74,8 +74,8 @@ export default class DaoUser {
 	static pConnectionRequests = `${DaoUser.pConnections}.requests`;
 	static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
 	static pAdminLocations = 'adminLocations';
-	static pLocationsFavorites = `${DaoUser.pLocations}.favorites`;
-	static pLocationsTop = `${DaoUser.pLocations}.top`;
+	static pLocationsFavoriteIds = `${DaoUser.pLocations}.favorites`;
+	static pLocationsTopIds = `${DaoUser.pLocations}.top`;
 	static pLocationsUserLocationStatuses = `${DaoUser.pLocations}.userLocationStatuses`;
 	static pLocationsLocations = `${DaoUser.pLocations}.locations`;
 	static _pConnectionIds = '_connectionIds';
@@ -102,8 +102,8 @@ export default class DaoUser {
 		_.set(newUser, DaoUser.pConnectionPending, DaoUser.gConnectionsPending(user));
 		_.set(newUser, DaoUser.pConnectionRequests, DaoUser.gConnectionsRequests(user));
 		_.set(newUser, DaoUser.pConnectionBlocked, DaoUser.gConnectionsBlocked(user));
-		_.set(newUser, DaoUser.pLocationsFavorites, DaoUser.gLocationsFavoriteIds(user));
-		_.set(newUser, DaoUser.pLocationsTop, DaoUser.gLocationsTopIds(user));
+		_.set(newUser, DaoUser.pLocationsFavoriteIds, DaoUser.gLocationsFavoriteIds(user));
+		_.set(newUser, DaoUser.pLocationsTopIds, DaoUser.gLocationsTopIds(user));
 		_.set(newUser, DaoUser.pLocationsUserLocationStatuses, DaoUser.gLocationsUserLocationStatuses(user));
 		_.set(newUser, DaoUser.pLocationsLocations, DaoUser.gLocationsLocations(user));
 		
@@ -221,11 +221,11 @@ export default class DaoUser {
 	}
 	
 	static gLocationsFavoriteIds(user: TUser): Array<number> {
-		return _.get(user, DaoUser.pLocationsFavorites, []);
+		return _.get(user, DaoUser.pLocationsFavoriteIds, []);
 	}
 	
 	static gLocationsTopIds(user: TUser): Array<number> {
-		return _.get(user, DaoUser.pLocationsTop, []);
+		return _.get(user, DaoUser.pLocationsTopIds, []);
 	}
 	
 	static gLocationsUserLocationStatuses(user: TUser): Array<TUserLocationStatus> {
@@ -242,6 +242,10 @@ export default class DaoUser {
 
 	static invalidateConnectionFriendIds(user: TUser) {
 		ObjectCache.invalidate(user, DaoUser._pConnectionFriendIds);
+	}
+
+	static invalidateConnectionPendingIds(user: TUser) {
+		ObjectCache.invalidate(user, DaoUser._pConnectionPendingIds);
 	}
 
 	static invalidateConnectionBlockedIds(user: TUser) {

@@ -25,5 +25,13 @@ export class Snackbar {
 		});
 	}
 
+	static showWarningStr(message: String) {
+		RNSnackbar.show({
+			title: message,
+			duration: RNSnackbar.LENGTH_SHORT,
+			backgroundColor: Colors.neutralOrange
+		});
+	}
+
 
 }

@@ -7,14 +7,14 @@ import DaoUser from '../../../daos/DaoUser';
 import DaoUserLocationStatus from '../../../daos/DaoUserLocationStatus';
 import Logger from '../../../Logger';
 import {CacheState} from '../CacheModel';
+import {Snackbar} from '../../../Snackbar';
+import {t} from '../../../i18n/Translations';
 import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
 import type {TCacheDef} from '../CacheDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TLocationWithULS} from '../../../helpers/ULSListManager';
 import type {TUser} from '../../../daos/DaoUser';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
-import {Snackbar} from "../../../Snackbar";
-import {t} from "../../../i18n/Translations";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;
@@ -52,9 +52,11 @@ export class CacheDefUserProfileActionCreator {
 		this._addToConnectionArray = this._addToConnectionArray.bind(this);
 		this._removeFromConnectionArray = this._removeFromConnectionArray.bind(this);
 		this._removeUserFromConnectionsFriends = this._removeUserFromConnectionsFriends.bind(this);
+		this._removeUserFromConnectionsPending = this._removeUserFromConnectionsPending.bind(this);
 		this._removeUserFromConnectionsBlocked = this._removeUserFromConnectionsBlocked.bind(this);
 		this.editUser = this.editUser.bind(this);
 		this._addUserToConnectionsFriends = this._addUserToConnectionsFriends.bind(this);
+		this._addUserToConnectionsPending = this._addUserToConnectionsPending.bind(this);
 		this._addUserToConnectionsBlocked = this._addUserToConnectionsBlocked.bind(this);
 		this.addUserToFriends = this.addUserToFriends.bind(this);
 		this.removeUserFromFriends = this.removeUserFromFriends.bind(this);
@@ -144,7 +146,7 @@ export class CacheDefUserProfileActionCreator {
 
 			// Add the new id
 			favoriteLocationIds.push(locationId);
-			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
+			_.set(thisUser, DaoUser.pLocationsFavoriteIds, favoriteLocationIds);
 
 			// Get the list of locations associated to the user.locations object
 			const locations = DaoUser.gLocationsLocations(thisUser);
@@ -168,7 +170,7 @@ export class CacheDefUserProfileActionCreator {
 			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
 
 			_.remove(favoriteLocationIds, lid => lid == DaoLocation.gId(locationToRemove));
-			_.set(thisUser, DaoUser.pLocationsFavorites, favoriteLocationIds);
+			_.set(thisUser, DaoUser.pLocationsFavoriteIds, favoriteLocationIds);
 
 			setData(thisUser);
 		});
@@ -233,6 +235,15 @@ export class CacheDefUserProfileActionCreator {
 		);
 	}
 
+	_addUserToConnectionsPending(userToAdd: TUser) {
+		this._addToConnectionArray(
+			userToAdd,
+			DaoUser.pConnectionPending,
+			DaoUser.gConnectionPendingIds,
+			DaoUser.invalidateConnectionPendingIds
+		);
+	}
+
 	_addUserToConnectionsBlocked(userToAdd: TUser) {
 		this._addToConnectionArray(
 			userToAdd,
@@ -248,6 +259,15 @@ export class CacheDefUserProfileActionCreator {
 			DaoUser.pConnectionFriends,
 			DaoUser.gConnectionFriendIds,
 			DaoUser.invalidateConnectionFriendIds
+		);
+	}
+
+	_removeUserFromConnectionsPending(userToRemove: TUser) {
+		this._removeFromConnectionArray(
+			userToRemove,
+			DaoUser.pConnectionPending,
+			DaoUser.gConnectionPendingIds,
+			DaoUser.invalidateConnectionPendingIds
 		);
 	}
 
@@ -284,13 +304,13 @@ export class CacheDefUserProfileActionCreator {
 
 	addUserToFriends(userToAdd: TUser) {
 		// Update the UI before running the request
-		this._addUserToConnectionsFriends(userToAdd);
+		this._addUserToConnectionsPending(userToAdd);
 
 		const uid = DaoUser.gId(userToAdd);
 		return ApiClient.userConnectionsAddUid(uid)
 			.then(success => {
 				Logger.v('CacheDefUserProfile addUserToFriends: success', uid, success);
-				Snackbar.showSuccessStr(t('t_ls_user_added'));
+				Snackbar.showWarningStr(t('t_ls_user_added'));
 				return success;
 			})
 			.catch(err => {

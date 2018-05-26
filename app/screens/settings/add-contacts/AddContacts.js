@@ -191,9 +191,10 @@ class _AddContacts extends React.Component<void, Props, void> {
 			<View style={styles.root}>
 				<UserList
 					users={usersList}
-					allowAcceptFriend={true}
-					allowUnblockUser={true}
-					allowRequestFriend={true}
+					showAccept={true}
+					showUnblock={true}
+					showAdd={true}
+					showPending={true}
 					onUserPress={this._onUserPress}
 					onSearchChanged={setUsersSearchQuery}
 					loading={!initialized}

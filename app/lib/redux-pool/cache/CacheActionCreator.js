@@ -10,7 +10,6 @@ import {
 import {POOL_TYPE_CACHE} from '../../../redux/ReduxPool';
 import type {TDispatch} from '../../types/Types';
 
-
 export default class CacheActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {

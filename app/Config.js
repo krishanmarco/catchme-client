@@ -40,13 +40,15 @@ const _Icons = {
 	timerSandEmpty: 			{name: 'timer-sand-empty',  						type: 'material-community'},
 	timerSand: 						{name: 'timer-sand',  									type: 'material-community'},
 	timings: 							{name: 'calendar-clock',  					 		type: 'material-community'},
+	star: 								{name: 'star', 		 					 						type: 'material-community'},
+	starOff: 							{name: 'star-off', 		 					 				type: 'material-community'},
 	building: 						{name: 'location-city',  					 			type: 'material-icons'},
 	pen: 									{name: 'mode-edit',  										type: 'material-icons'},
+	pending: 							{name: 'access-time',  									type: 'material-icons'},
 	bin: 									{name: 'delete',  					 						type: 'material-icons'},
 	mapSigns: 						{name: 'map-signs',  					 					type: 'font-awesome'},
 	save: 								{name: 'save',  					 							type: 'font-awesome'},
 	plus: 								{name: 'add-circle-outline',						type: 'evilicons'},
-	star: 								{name: 'star', 		 					 						type: 'evilicons'},
 };
 
 
@@ -69,6 +71,7 @@ export const Icons = {
 	userEditAvatar: 									{..._Icons.pen,										color: Colors.primary},
 	userFollow:  						 					{..._Icons.hand,  								color: Colors.primary},
 	userBlock:  						 					{..._Icons.hand,  								color: Colors.alertRed},
+	userPending:  						 				{..._Icons.pending,  							color: Colors.neutralOrange},
 	userAdminLocations:  							{..._Icons.building,  						color: Colors.primary},
 
 	changePasswordBack:  							{..._Icons.back,  								color: Colors.primary},
@@ -87,7 +90,7 @@ export const Icons = {
 	locationEditAddress: 							{..._Icons.pen,										color: Colors.white},
 	locationSave:  										{..._Icons.save,  								color: Colors.primary},
 	locationFollow:  									{..._Icons.star,  								color: Colors.primary},
-	locationUnfollow:  								{..._Icons.star,  								color: Colors.alertRed},
+	locationUnfollow:  								{..._Icons.starOff, 							color: Colors.alertRed},
 
 	statusEdit:  											{..._Icons.pen,  									color: Colors.neutralOrange},
 	statusDelete:  										{..._Icons.bin,  									color: Colors.alertRed},

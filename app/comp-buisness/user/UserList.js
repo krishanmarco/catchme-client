@@ -17,10 +17,11 @@ type Props = {
 	users: Array<TUser>,
 	onUserPress: (TUser) => void,
 
-	allowAcceptFriend?: boolean,
-	allowRemoveFriend?: boolean,
-	allowRequestFriend?: boolean,
-	allowUnblockUser?: boolean,
+	showAccept?: boolean,
+	showRemove?: boolean,
+	showAdd?: boolean,
+	showUnblock?: boolean,
+	showPending?: boolean,
 
 	friendIds?: Array<number>,
 	requestIds?: Array<number>,
@@ -28,10 +29,11 @@ type Props = {
 };
 
 const defaultProps = {
-	allowAcceptFriend: false,
-	allowRemoveFriend: false,
-	allowRequestFriend: false,
-	allowUnblockUser: false,
+	showAccept: false,
+	showRemove: false,
+	showAdd: false,
+	showUnblock: false,
+	showPending: false,
 };
 
 // UserList *********************************************************************************************
@@ -96,38 +98,45 @@ class _UserList extends React.PureComponent<void, Props, void> {
 
 
 	_renderItem({item}: { item: TUser }) {
-		const {allowAcceptFriend, allowRemoveFriend, allowRequestFriend, allowUnblockUser, onUserPress} = this.props;
+		const {showPending, showAccept, showRemove, showAdd, showUnblock, onUserPress} = this.props;
 
 		const listItemProps: ListItemUserProps = {
 			user: item,
 			onPress: onUserPress
 		};
 
+		const uid = DaoUser.gId(item);
+		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == uid;
+		if (isSameUser)
+			return <ListItemUser {...listItemProps}/>;
+
 		const addUserToFriends = this._cacheUserProfile().addUserToFriends;
 		const removeUserFromFriends = this._cacheUserProfile().removeUserFromFriends;
 		const blockUser = this._cacheUserProfile().blockUser;
 		const acceptUserFriendship = this._cacheUserProfile().acceptUserFriendship;
+		const requestIds = this._getRequestIds();
+		const blockedIds = this._getBlockedIds();
+		const friendIds = this._getFriendIds();
+		const pendingIds = this._getPendingIds();
+		const sAccept = showAccept && requestIds.includes(uid);
+		const sUnblock = showUnblock && blockedIds.includes(uid);
+		const sRemove = showRemove && friendIds.includes(uid);
+		const sPending = showPending && pendingIds.includes(uid);
+		const sRequest = showAdd && !friendIds.includes(uid) && !pendingIds.includes(uid);
 
-		const uid = DaoUser.gId(item);
-		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == uid;
-		const showAccept = allowAcceptFriend && this._getRequestIds().includes(uid);
-		const showUnblock = allowUnblockUser && this._getBlockedIds().includes(uid);
-		const showRemove = allowRemoveFriend && this._getFriendIds().includes(uid);
-		const showRequest = allowRequestFriend
-			&& !this._getFriendIds().includes(uid)
-			&& !this._getPendingIds().includes(uid);
+		if (sAccept) {
+			listItemProps.onUserConnectionBlockUid = blockUser;
+			listItemProps.onUserConnectionAddUid = acceptUserFriendship;
 
-		if (!isSameUser) {
-			if (showAccept) {
-				listItemProps.onUserConnectionBlockUid = blockUser;
-				listItemProps.onUserConnectionAddUid = acceptUserFriendship;
+		} else if (sUnblock || sRequest) {
+			listItemProps.onUserConnectionAddUid = addUserToFriends;
 
-			} else if (showUnblock || showRequest) {
-				listItemProps.onUserConnectionAddUid = addUserToFriends;
+		} else if (sRemove) {
+			listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
 
-			} else if (showRemove) {
-				listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
-			}
+		} else if (sPending) {
+			listItemProps.isPending = true;
+			listItemProps.onUserConnectionBlockUid = removeUserFromFriends;
 		}
 
 		return <ListItemUser {...listItemProps}/>;

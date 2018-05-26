@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
-import {Const, Icons} from '../../Config';
+import {Icons} from '../../Config';
 import {ListItemWithActions} from '../../comp/Misc';
 import type {ListItemWithActionProps} from '../../comp/misc/ListItemsWithActions';
 import type {TUser} from '../../lib/daos/DaoUser';
@@ -14,12 +14,18 @@ export type ListItemUserProps = ListItemWithActionProps & {
 	onPress: (TUser) => void,
 	onUserConnectionBlockUid?: (TUser) => void,
 	onUserConnectionAddUid?: (TUser) => void,
+	isPending?: boolean
+};
+
+const defaultProps = {
+	isPending: false
 };
 
 // ListItemUser *****************************************************************************************
 // ListItemUser *****************************************************************************************
 
 export default class ListItemUser extends React.PureComponent<void, ListItemUserProps, void> {
+	static defaultProps = defaultProps;
 
 	constructor(props, context) {
 		super(props, context);
@@ -32,7 +38,7 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 	}
 
 	initialize(props = this.props) {
-		const {user, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
+		const {user, isPending, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
 
 		this.actions = [];
 
@@ -47,6 +53,12 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 			this.actions.push({
 				icon: Icons.userBlock,
 				onPress: () => onUserConnectionBlockUid(user)
+			});
+		}
+
+		if (isPending) {
+			this.actions.push({
+				icon: Icons.userPending
 			});
 		}
 	}

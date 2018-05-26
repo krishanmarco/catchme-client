@@ -22,8 +22,8 @@ type Props = {
 	allowEdit: boolean,
 	userProfile: TUser,
 	onLocationPress: (TLocation) => void,
-	allowFollow: boolean,
-	allowUnfollow: boolean
+	showFollow: boolean,
+	showUnfollow: boolean
 };
 
 type State = TULSListState;
@@ -101,7 +101,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 	}
 
 	_renderItem({item}: { item: TLocationWithULS|TLocation }) {
-		const {allowFollow, allowUnfollow, onLocationPress} = this.props;
+		const {showFollow, showUnfollow, onLocationPress} = this.props;
 
 		if (DaoLocation.gUserLocationStatus(item))
 			return this._renderUserLocationStatus(item);
@@ -115,14 +115,15 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		const followLocation = this._cacheUserProfile().followLocation;
 		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
 
-		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
-		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
+		const lid = DaoLocation.gId(item);
+		const favoriteIds = this._getFavoriteIds();
+		const sFollow = showFollow && !favoriteIds.includes(lid);
+		const sUnfollow = showUnfollow && favoriteIds.includes(lid);
 
-		if (showFollow) {
+		if (sFollow) {
 			listItemProps.addLocationToFavorites = followLocation;
-		}
 
-		if (showUnfollow) {
+		} else if (sUnfollow) {
 			listItemProps.removeLocationFromFavorites = unfollowLocation;
 		}
 

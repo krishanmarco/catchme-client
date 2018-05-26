@@ -15,8 +15,8 @@ import type {TLocation} from '../../lib/daos/DaoLocation';
 
 type Props = {
 	locations: Array<TLocation>,
-	allowFollow: boolean,
-	allowUnfollow: boolean,
+	showFollow: boolean,
+	showUnfollow: boolean,
 	onLocationPress: Function
 };
 
@@ -73,7 +73,7 @@ class _LocationList extends React.PureComponent<void, Props, void> {
 
 
 	_renderItem({item}: { item: TLocation }) {
-		const {allowFollow, allowUnfollow, onLocationPress} = this.props;
+		const {showFollow, showUnfollow, onLocationPress} = this.props;
 
 		const listItemProps = {
 			location: item,
@@ -83,14 +83,15 @@ class _LocationList extends React.PureComponent<void, Props, void> {
 		const followLocation = this._cacheUserProfile().followLocation;
 		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
 
-		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
-		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
+		const lid = DaoLocation.gId(item);
+		const favoriteIds = this._getFavoriteIds();
+		const sFollow = showFollow && !favoriteIds.includes(lid);
+		const sUnfollow = showUnfollow && favoriteIds.includes(lid);
 
-		if (showFollow) {
+		if (sFollow) {
 			listItemProps.addLocationToFavorites = followLocation;
-		}
 
-		if (showUnfollow) {
+		} else if (sUnfollow) {
 			listItemProps.removeLocationFromFavorites = unfollowLocation;
 		}
 

@@ -5,7 +5,6 @@ import React from 'react';
 import Router from '../../lib/navigation/Router';
 import UserLocationStatus from './UserLocationStatus';
 import {CACHE_MAP_ID_LOCATION_PROFILES} from '../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles';
-import {Const} from '../../Config';
 import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../lib/redux-pool/api-form/def/ApiFormDefUserLocationStatus';
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
@@ -13,7 +12,6 @@ import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
-
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

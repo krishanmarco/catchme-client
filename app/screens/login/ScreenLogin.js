@@ -102,8 +102,11 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 
 	render() {
+		// Do not require online to display the login screen
+		// The screen will be completely empty.
+		// This means we have to handle the failed ApiRequest in case of offline // todo
 		return (
-			<Screen>
+			<Screen requireOnline={false}>
 				<FullpageForm
 
 					headerStyle={fullpageForm.headerStyle}

@@ -51,7 +51,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 
 		// Initialize the profile of the user that is being viewed
 		this._cacheMapUserProfiles().initializeItem(userId)
-			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
+			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)})); // todo if same user no query needed
 	}
 
 	_reinitializeNavigator(props = this.props) {
@@ -83,7 +83,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 
 	_isSameUser(props = this.props) {
 		const {userId} = props;
-		return DaoUser.gId(this._cacheUserProfile().data) === DaoUser.gId(userId);
+		return DaoUser.gId(this._cacheUserProfile().data) === userId;
 	}
 
 	render() {

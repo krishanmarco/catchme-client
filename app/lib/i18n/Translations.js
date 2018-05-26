@@ -95,7 +95,7 @@ I18n.translations = {
 		t_si_settings_change_password: 'From this screen you can change your password',
 		t_si_settings_change_password_success: 'Your password has been changed successfully',
 		t_si_settings_recover_password: 'Enter your email below to receive your password reset instructions',
-		t_si_settings_recover_password_success: 'Your password has been sen\'t to your email address',
+		t_si_settings_recover_password_success: 'Your password has been sent to your email address',
 		t_si_settings_logout: 'Are you sure you want to log out?',
 		t_si_settings_admin_locations: 'These are the locations that you manage',
 		t_si_settings_notifications: 'Here you can tweak your notification settings',
@@ -185,7 +185,7 @@ I18n.translations = {
 		t_ls_uls_removed: 'Your status has been removed',
 		t_ls_user_blocked: 'User blocked. They won\'t be able to see your status anymore',
 		t_ls_user_removed: 'User removed. They will still be able to see your status but are not friends anymore',
-		t_ls_user_added: 'Friend request sen\'t. The other user will first have to accept before becoming your friend',
+		t_ls_user_added: 'Friend request sent. The other user will first have to accept before becoming your friend',
 		t_ls_admin_location_added: 'This location was added to the ones you own',
 
 	},

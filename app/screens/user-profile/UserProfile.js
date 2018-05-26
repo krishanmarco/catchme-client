@@ -198,8 +198,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 					userProfile={userProfile}
 					onLocationPress={this._onLocationPress}
 					allowEdit={this._isSameUser()}
-					allowFollow={true}
-					allowUnfollow={this._isSameUser()}/>
+					showFollow={true}
+					showUnfollow={this._isSameUser()}/>
 			</View>
 		);
 	}
@@ -211,8 +211,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabLocationFavorites}>
 				<LocationList
 					locations={DaoUser.gLocationsFavorites(userProfile)}
-					allowFollow={true}
-					allowUnfollow={true}
+					showFollow={true}
+					showUnfollow={true}
 					onLocationPress={this._onLocationPress}
 					renderOnListEmpty={this._renderFavoriteListEmpty}/>
 			</View>
@@ -241,8 +241,9 @@ class _UserProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
 					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
-					allowRequestFriend={true}
-					allowRemoveFriend={this._isSameUser()}
+					showAdd={true}
+					showRemove={this._isSameUser()}
+					showPending={true}
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={this._renderFriendsListEmpty}/>
 			</View>
