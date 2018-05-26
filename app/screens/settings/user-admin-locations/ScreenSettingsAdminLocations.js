@@ -16,7 +16,7 @@ type Props = {
 
 // _ScreenSettingsAdminLocations ************************************************************************
 // _ScreenSettingsAdminLocations ************************************************************************
-// todo the {Add a new Location} screen is cropped on small screen devices
+// todo ui the {Add a new Location} screen is cropped on small screen devices
 class _ScreenSettingsAdminLocations extends React.Component<void, Props, void> {
 
 	constructor(props, context) {

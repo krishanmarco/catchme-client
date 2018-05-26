@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
 import NavbarHandlerAppLogo from '../../lib/navigation/NavbarHandlerAppLogo';
+import NavbarHandlerUserProfile from '../../lib/navigation/NavbarHandlerUserProfile';
 import React from 'react';
 import UserProfile from './UserProfile';
 import {CACHE_ID_USER_PROFILE} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
@@ -9,7 +10,7 @@ import {CacheState} from '../../lib/redux-pool/cache/CacheModel';
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
 import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
-import type {TCachePool} from '../../lib/redux-pool/cache/CachePool';
+import type {TCacheUserProfile} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUser} from '../../lib/daos/DaoUser';
 
@@ -36,9 +37,15 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 	constructor(props, context) {
 		super(props, context);
 		this._renderUserProfile = this._renderUserProfile.bind(this);
+		this.navbarHandler = new NavbarHandlerUserProfile();
+		this._updateNavigator();
 
 		const {showAppLogo, navigator} = this.props;
 		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		this._updateNavigator(nextProps);
 	}
 
 	componentWillMount() {
@@ -52,7 +59,16 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
 	}
 
-	_cacheUserProfile(): TCachePool {
+	_updateNavigator(props = this.props) {
+		const {navigator} = props;
+		this.navbarHandler.initialize(
+			navigator,
+			this._cacheUserProfile(),
+			this._userProfile(props)
+		);
+	}
+
+	_cacheUserProfile(): TCacheUserProfile {
 		return this.props[CACHE_ID_USER_PROFILE];
 	}
 
@@ -60,8 +76,8 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 		return this.props[CACHE_MAP_ID_USER_PROFILES];
 	}
 
-	_userProfile() {
-		const {userId} = this.props;
+	_userProfile(props = this.props): ?TUser {
+		const {userId} = props;
 
 		const authUser: TUser = this._cacheUserProfile().data;
 		if (userId === DaoUser.gId(authUser))
@@ -85,6 +101,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 		return (
 			<UserProfile
 				navigator={navigator}
+				navbarHandler={this.navbarHandler}
 				userProfile={userProfile}
 				authUserProfile={authUserProfile}/>
 		);

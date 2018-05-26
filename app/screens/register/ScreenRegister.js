@@ -54,7 +54,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 	}
 
 	_onGoToLoginPress() {
-		const {navigator} = this.props;
+		const {navigator} = this.props;//todo goToLoginPress doesn't work
 		navigator.pop();
 	}
 

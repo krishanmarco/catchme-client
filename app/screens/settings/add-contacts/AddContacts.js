@@ -102,19 +102,21 @@ function mapContactsToUsers(currentUserId, contacts) {
 		// Query the WS for all the users in the searchString
 		return ApiClient.searchUsers(searchStrings)
 			.then(users => {
-
 				// Search for and remove the current user
-				const filteredUsers = users
+				return users
 					.filter(u => DaoUser.gId(u) != currentUserId);
+			})
+			.catch(err => {
+				Logger.v('AddContacts mapContactsToUsers:', err);
+				return [];
+			})
+			.finally(data => {
 
 				dispatch({
 					type: ACTION_SET_USERS_ADD_CONTACTS_LIST,
-					usersList: filteredUsers
+					usersList: data
 				});
-			})
-			.catch(error => {
-				Logger.v('AddContacts mapContactsToUsers:', error);
-				// todo Snackbar
+
 			});
 	};
 }

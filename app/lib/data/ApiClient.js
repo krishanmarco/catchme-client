@@ -186,7 +186,7 @@ class ApiClient {
 		return fetch(`${Urls.api}/meta/time`)
 			.then(response => response.text())
 			.then(callback)
-			.catch(error => {Logger.v('ApiClient time:', error);});
+			.catch(err => {Logger.v('ApiClient time:', err);});
 	}
 
 

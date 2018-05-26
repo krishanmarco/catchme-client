@@ -21,6 +21,8 @@ import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUser} from '../../lib/daos/DaoUser';
+import {Snackbar} from "../../lib/Snackbar";
+import {Validate} from "../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -48,9 +50,9 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		this._onGoToRecoverPasswordPress = this._onGoToRecoverPasswordPress.bind(this);
 	}
 
-	_handleSignInError(error = null) {
-		Logger.v('ScreenLogin _handleSignInError:', error);
-		// todo Snackbar
+	_handleSignInError(err = null) {
+		Logger.v('ScreenLogin _handleSignInError:', err);
+		Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(err));
 	}
 
 	_handleSignInSuccess(userProfile: TUser) {

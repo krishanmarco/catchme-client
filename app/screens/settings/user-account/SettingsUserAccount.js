@@ -16,6 +16,8 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {stringReplace} from '../../../lib/HelperFunctions';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Snackbar} from "../../../lib/Snackbar";
+import {Validate} from "../../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -56,7 +58,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				// This should never happen because the back button
 				// should not be pressed if the form is invalid
 				Logger.v('SettingsUserAccount componentWillUnmount: ', err);
-				// todo Snackbar
+				Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(err));
 			});
 	}
 
@@ -96,9 +98,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				this._formApiEditUserProfile().change({
 					[DaoUser.pPictureUrl]: response.uri
 				});
-			}).catch(error => {
-			// User canceled
-		});
+			}).catch(err => {Logger.v('SettingsUserAccount _onUserPicturePress:', err);});
 	}
 
 	render() {
@@ -173,7 +173,8 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		);
 	}
 
-	_renderSecuritySection() { // todo: Logout icon has an offset!
+	_renderSecuritySection() {
+		// todo ui: Logout icon has an offset!
 		return (
 			<View>
 				<ListItemHeader/>

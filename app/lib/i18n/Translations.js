@@ -325,7 +325,7 @@ I18n.translations = {
 		t_empty_bt_user_friends: 'Cerca i tuoi amici',
 		t_no_wifi: 'Per favore connettiti ad internet',
 
-
+		// Server errors
 		t_e_generic_error: 'Errore generico',
 		t_e_form_error: 'Errore di form',
 		t_e_not_allowed: 'Non hai le autorizzazioni neccessarie',
@@ -347,6 +347,17 @@ I18n.translations = {
 		t_e_passwords_not_equal: 'Le due password non corrispondono',
 		t_e_incorrect_recovery_key: 'Chiave di recupero non valida',
 
+		// Local errors
+		t_le_camera_capture_failed: 'Something went wrong while capturing your image',
+		t_le_admin_location_add_failed: 'Something went wrong while adding your location',
+
+		// Local success
+		t_ls_connection_accepted: 'Friend request accepted',
+		t_ls_uls_removed: 'Your status has been removed',
+		t_ls_user_blocked: 'User blocked. They won\'t be able to see your status anymore',
+		t_ls_user_removed: 'User removed. They will still be able to see your status but are not friends anymore',
+		t_ls_user_added: 'Friend request sen\'t. The other user will first have to accept before becoming your friend',
+		t_ls_admin_location_added: 'This location was added to the ones you own',
 	}
 
 

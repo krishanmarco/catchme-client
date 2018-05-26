@@ -5,6 +5,8 @@ import React from 'react';
 import {Colors} from '../../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
+import {Snackbar} from '../../../lib/Snackbar';
+import {t} from '../../../lib/i18n/Translations';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -61,9 +63,9 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 
 				return data;
 			})
-			.catch(error => {
-				Logger.v('CameraWrapper _onCaptureImage:', error);
-				// todo Snackbar
+			.catch(err => {
+				Logger.v('CameraWrapper _onCaptureImage:', err);
+				Snackbar.showErrorStr(t('t_le_camera_capture_failed'));
 			});
 	}
 

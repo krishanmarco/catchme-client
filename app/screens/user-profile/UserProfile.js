@@ -21,6 +21,7 @@ import {t} from '../../lib/i18n/Translations';
 import type {TDataPoint, TNavigator, TSectionListDataPointSections} from '../../lib/types/Types';
 import type {TLocation} from '../../lib/daos/DaoLocation';
 import type {TUser} from '../../lib/daos/DaoUser';
+import NavbarHandlerUserProfile from "../../lib/navigation/NavbarHandlerUserProfile";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -28,7 +29,8 @@ import type {TUser} from '../../lib/daos/DaoUser';
 type Props = {
 	userProfile: TUser,
 	authUserProfile: TUser,
-	navigator: TNavigator
+	navigator: TNavigator,
+	navbarHandler: NavbarHandlerUserProfile,
 };
 
 type State = {
@@ -43,11 +45,11 @@ const userProfileTabIcons = {
 	4: Icons.userInfo
 };
 
-// todo add {addUser} to navbar if not in friends and issameuser (see LocationProfile for navbar pattern)
 // _UserProfile *****************************************************************************************
 // _UserProfile *****************************************************************************************
 
 class _UserProfile extends React.Component<void, Props, State> {
+	static idxProfile = 0;
 
 	constructor(props: Props, context) {
 		super(props, context);
@@ -55,6 +57,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		this._onUserPress = this._onUserPress.bind(this);
 		this._onLocationSearchPress = this._onLocationSearchPress.bind(this);
 		this._onUserSearchPress = this._onUserSearchPress.bind(this);
+		this._onTabChanged = this._onTabChanged.bind(this);
 		this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
 		this._renderFavoriteListEmpty = this._renderFavoriteListEmpty.bind(this);
 		this._renderFriendsListEmpty = this._renderFriendsListEmpty.bind(this);
@@ -63,6 +66,18 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	componentWillReceiveProps(nextProps) {
 		this.setState(this._calculateState(nextProps));
+	}
+
+	_onTabChanged(changedToIndex) {
+		const {navbarHandler} = this.props;
+
+		switch (changedToIndex) {
+			case _UserProfile.idxProfile:
+				navbarHandler.showButtonAddOrAcceptConnection();
+				break;
+			default:
+				navbarHandler.showNoButtons();
+		}
 	}
 
 	_calculateState(props: Props) {
@@ -124,7 +139,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 		return (
 			<ScrollableIconTabView
-				icons={userProfileTabIcons}>
+				icons={userProfileTabIcons}
+				onTabChanged={this._onTabChanged}>
 				{tabs}
 			</ScrollableIconTabView>
 		);

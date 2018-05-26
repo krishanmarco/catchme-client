@@ -17,5 +17,13 @@ export class Snackbar {
 		this.showErrorStr(Validate.mapErrorCodeToMessage(errorCode));
 	}
 
+	static showSuccessStr(message: String) {
+		RNSnackbar.show({
+			title: message,
+			duration: RNSnackbar.LENGTH_SHORT,
+			color: Colors.primary
+		});
+	}
+
 
 }

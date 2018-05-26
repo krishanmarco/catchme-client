@@ -21,7 +21,7 @@ const DefaultProps = {
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
-
+// todo ui make image and text smaller
 export default class FlatListEmpty extends React.PureComponent<void, Props, void> {
 	static defaultProps = DefaultProps;
 

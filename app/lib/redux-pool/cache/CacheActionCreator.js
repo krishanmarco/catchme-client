@@ -108,20 +108,10 @@ export default class CacheActionCreator extends PoolActionCreator {
 				// Continue the promise chain
 				return buildResultData;
 
-			}).catch(apiExceptionResponse => {
-				Logger.v('CacheActionCreator initialize:', apiExceptionResponse);
-
-				/*
-				// todo??? development remove comment in production
-				dispatch({
-					poolType: POOL_TYPE_CACHE,
-					poolId: poolId,
-					type: POOL_ACTION_CACHE_SET_DATA,
-					data: null
-				});*/
-
-				// Continue the promise chain
-				return apiExceptionResponse;
+			}).catch(err => {
+				Logger.v('CacheActionCreator initialize: buildDataSet failed', err);
+				this.setData(null);
+				return err;
 			});
 
 
