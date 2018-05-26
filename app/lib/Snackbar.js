@@ -2,14 +2,14 @@
 import {Colors} from '../Config';
 import RNSnackbar from 'react-native-snackbar';
 import {Validate} from './helpers/Validator';
-// todo ui: color not working
+
 export class Snackbar {
 
 	static showErrorStr(message: String) {
 		RNSnackbar.show({
 			title: message,
 			duration: RNSnackbar.LENGTH_SHORT,
-			color: Colors.alertRed
+			backgroundColor: Colors.alertRed
 		});
 	}
 
@@ -21,7 +21,7 @@ export class Snackbar {
 		RNSnackbar.show({
 			title: message,
 			duration: RNSnackbar.LENGTH_SHORT,
-			color: Colors.primary
+			backgroundColor: Colors.primary
 		});
 	}
 

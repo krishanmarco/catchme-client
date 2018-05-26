@@ -339,7 +339,7 @@ class ApiClient {
 		}
 
 		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
-			.then(this._onReceiveUserProfile);
+			.then(json => JSON.parse(json));
 	}
 
 	// Should only be called from CacheDefUserProfile

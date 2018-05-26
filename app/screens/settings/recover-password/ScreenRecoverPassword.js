@@ -8,6 +8,8 @@ import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
+import {FormFooterLink} from "../../../comp/misc/forms/FormComponents";
+import Router from "../../../lib/navigation/Router";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -29,6 +31,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 		super(props);
 		this._onSendPress = this._onSendPress.bind(this);
 		this._getFormApiRecoverPassword = this._getFormApiRecoverPassword.bind(this);
+		this._onGoToLoginPress = this._onGoToLoginPress.bind(this);
 		this.state = {passwordRecovered: false};
 	}
 
@@ -41,6 +44,11 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 			.then(success => {
 				this.setState({passwordRecovered: true});
 			});
+	}
+
+	_onGoToLoginPress() {
+		const {navigator} = this.props;
+		Router.dismissModal(navigator);
 	}
 
 	render() {
@@ -69,6 +77,16 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 								rkType='large stretch accentColor'
 								text={t('t_bt_send')}
 								withBorder/>
+						</View>
+					)}
+
+					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerJsx={(
+						<View>
+							<FormFooterLink
+								text={t('t_register_login')}
+								clickableText={t('t_clk_register_login')}
+								onPress={this._onGoToLoginPress}/>
 						</View>
 					)}
 
@@ -116,5 +134,8 @@ export default ScreenRecoverPassword;
 const styles = StyleSheet.create({
 	fieldsStyle: {
 		flex: 0.72,
+	},
+	footerStyle: {
+		flex: 0.06,
 	},
 });

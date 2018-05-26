@@ -2,6 +2,7 @@
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUserLocationStatus from '../../lib/daos/DaoUserLocationStatus';
 import React from 'react';
+import Router from '../../lib/navigation/Router';
 import UserLocationStatus from './UserLocationStatus';
 import {CACHE_MAP_ID_LOCATION_PROFILES} from '../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles';
 import {Const} from '../../Config';
@@ -87,8 +88,7 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 
 				});
 		}
-
-		navigator.dismissModal(Const.dismissModalConfig);
+		Router.dismissModal(navigator);
 	}
 
 

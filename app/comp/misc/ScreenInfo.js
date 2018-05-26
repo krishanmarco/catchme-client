@@ -20,8 +20,8 @@ type Props = {
 };
 
 const defaultProps = {
-	height: 150,
-	imageHeight: '82%',
+	height: 124,
+	imageHeight: '75%',
 	marginTop: 8,
 };
 
@@ -55,7 +55,7 @@ export default class ScreenInfo extends React.Component<void, Props, void> {
 
 				{!!textText && (
 					<View style={styles.textCont}>
-						<RkText style={styles.text} rkType='header6'>{textText}</RkText>
+						<RkText style={styles.text} rkType='infoText'>{textText}</RkText>
 					</View>
 				)}
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 	textCont: {
 		alignItems: 'center',
 		width: '70%',
-		marginTop: 8,
+		marginTop: 4,
 	},
 	text: {
 		textAlign: 'center'

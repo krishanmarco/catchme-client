@@ -13,6 +13,7 @@ import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../lib/types/Types';
+import Router from "../../lib/navigation/Router";
 
 
 // Const *************************************************************************************************
@@ -54,8 +55,8 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 	}
 
 	_onGoToLoginPress() {
-		const {navigator} = this.props;//todo goToLoginPress doesn't work
-		navigator.pop();
+		const {navigator} = this.props;
+		Router.dismissModal(navigator);
 	}
 
 

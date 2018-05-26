@@ -53,9 +53,9 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 	render() {
 		return (
-			<View>
-				{this._renderScreenHeader()}
-				{this._renderAdminLocationList()}
+			<View style={styles.settingsUserAdminLocations}>
+				<View style={styles.screenInfoCont}>{this._renderScreenHeader()}</View>
+				<View style={styles.locationListCont}>{this._renderAdminLocationList()}</View>
 			</View>
 		);
 	}
@@ -118,8 +118,17 @@ export default class SettingsUserAdministratingLocations extends React.Component
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
+	settingsUserAdminLocations: {
+		flex: 1
+	},
+	screenInfoCont: {
+		flex: 0.25
+	},
+	locationListCont: {
+		flex: 0.75,
+		marginTop: 32,
+	},
 	locationList: {
-		height: 350,
-		marginTop: 32
+		flex: 1
 	}
 });

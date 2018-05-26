@@ -21,7 +21,7 @@ const DefaultProps = {
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
-// todo ui make image and text smaller
+
 export default class FlatListEmpty extends React.PureComponent<void, Props, void> {
 	static defaultProps = DefaultProps;
 
@@ -38,7 +38,7 @@ export default class FlatListEmpty extends React.PureComponent<void, Props, void
 					{!!text && (
 						<RkText
 							style={styles.text}
-							rkType='primary2'>
+							rkType='infoText'>
 							{text}
 						</RkText>
 					)}
@@ -80,17 +80,17 @@ const styles = StyleSheet.create({
 		marginHorizontal: 32
 	},
 	image: {
-		height: 112,
-		width: 112,
+		height: 94,
+		width: 94,
 		resizeMode: 'contain'
 	},
 	text: {
-		marginTop: 16,
+		marginTop: 8,
 		textAlign: 'center',
 		color: Colors.greyFade
 	},
 	button: {
-		marginTop: 12,
+		marginTop: 16,
 		backgroundColor: Colors.primary,
 		marginHorizontal: 12
 	}

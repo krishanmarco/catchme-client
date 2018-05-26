@@ -104,19 +104,32 @@ type RkTextInputFromPoolProps = {
 	field: string,
 };
 
-export const RkTextInputFromPool = ({pool, field, ...props}: RkTextInputFromPoolProps) => {
-	const value = String(_.get(pool, `apiInput.${field}`, ''));
-	const errorCode = _.get(pool, `errors.${field}`, 0);
+export class RkTextInputFromPool extends React.PureComponent<void, RkTextInputFromPoolProps, void> {
 
-	return (
-		<RkTextInput
-			{...props}
-			value={value}
-			errorCode={errorCode}
-			onChangeText={text => pool.change(denormObj({[field]: text}))}/>
-	);
-};
+	constructor(props, context) {
+		super(props, context);
+		this._onChangeText = this._onChangeText.bind(this);
+	}
 
+	_onChangeText(text) {
+		const {pool, field} = this.props;
+		pool.change(denormObj({[field]: text}));
+	}
+
+	render() {
+		const {pool, field, ...props} = this.props;
+		const value = String(_.get(pool, `apiInput.${field}`, ''));
+		const errorCode = _.get(pool, `errors.${field}`, 0);
+		return (
+			<RkTextInput
+				{...props}
+				value={value}
+				errorCode={errorCode}
+				onChangeText={this._onChangeText}/>
+		);
+	}
+
+}
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************

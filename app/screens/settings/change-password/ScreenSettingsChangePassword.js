@@ -15,6 +15,7 @@ import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
 import {Snackbar} from "../../../lib/Snackbar";
 import {Validate} from "../../../lib/helpers/Validator";
+import Router from "../../../lib/navigation/Router";
 
 
 // Const *************************************************************************************************
@@ -59,19 +60,20 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 
 	_onBackPress() {
 		const {navigator} = this.props;
-		navigator.pop();
+		Router.dismissModal(navigator);
 	}
 
 	render() {
+		const {passwordChanged} = this.state;
 		return (
 			<Screen>
 				<FullpageForm
 
-					headerStyle={[fullpageForm.headerStyle, styles.headerStyle]}
+					headerStyle={[fullpageForm.headerStyle, styles.headerStyle, passwordChanged ? styles.headerStyleAfterChange : null]}
 					headerJsx={this._renderScreenInfo()}
 
 					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
-					fieldsJsx={(
+					fieldsJsx={!passwordChanged && (
 						<View>
 							<RkTextInputFromPool
 								pool={this._getFormChangePassword()}
@@ -120,7 +122,9 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 		}
 
 		return (
-			<ScreenInfo {...props}/>
+			<View style={styles.screenInfo}>
+				<ScreenInfo {...props}/>
+			</View>
 		);
 	}
 
@@ -130,13 +134,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 		const props = {};
 		if (passwordChanged) {
 			props.onPress = this._onBackPress;
-			props.text = (
-				<RkText>
-					<Icon {...Icons.changePasswordBack}/>
-					<RkText>{t('t_bt_back')}</RkText>
-				</RkText>
-			);
-
+			props.text = t('t_bt_back');
 		} else {
 			props.onPress = this._onChangePress;
 			props.text = t('t_bt_change');
@@ -171,7 +169,10 @@ export default ScreenSettingsChangePassword;
 
 const styles = StyleSheet.create({
 	headerStyle: {
-		flex: 0.40,
+		flex: 0.40
+	},
+	headerStyleAfterChange: {
+		flex: 0.88
 	},
 	fieldsStyle: {
 		flex: 0.48,
@@ -179,4 +180,8 @@ const styles = StyleSheet.create({
 	footerStyle: {
 		marginHorizontal: 24
 	},
+	screenInfo: {
+		flex: 1,
+		justifyContent: 'center'
+	}
 });

@@ -37,7 +37,8 @@ export type TNavigator = Object & {
 	showModal: Function,
 	push: Function,
 	setButtons: Function,
-	switchToTab: Function
+	switchToTab: Function,
+	dismissModal: Function,
 };
 
 export type TMoment = {

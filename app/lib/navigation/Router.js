@@ -200,5 +200,9 @@ export default class Router {
 		});
 	}
 
+	static dismissModal(navigator: TNavigator, options: ?Object) {
+		navigator.dismissModal({...defaultOptions, ...options});
+	}
+
 
 }

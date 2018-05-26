@@ -33,13 +33,13 @@ const _Icons = {
 	back: 								{name: 'md-arrow-round-back', 					type: 'ionicon'},
 	google: 						 	{name: 'logo-googleplus',  							type: 'ionicon'},
 	facebook: 						{name: 'logo-facebook', 							 	type: 'ionicon'},
+	logout: 							{name: 'md-exit',												type: 'ionicon'},
 	email: 								{name: 'email',  					 							type: 'entypo'},
 	phone: 								{name: 'phone',  												type: 'entypo'},
 	personSettings: 			{name: 'account-settings-variant', 			type: 'material-community'},
 	timerSandEmpty: 			{name: 'timer-sand-empty',  						type: 'material-community'},
 	timerSand: 						{name: 'timer-sand',  									type: 'material-community'},
 	timings: 							{name: 'calendar-clock',  					 		type: 'material-community'},
-	logout: 							{name: 'exit-to-app',										type: 'material-community'},
 	building: 						{name: 'location-city',  					 			type: 'material-icons'},
 	pen: 									{name: 'mode-edit',  										type: 'material-icons'},
 	bin: 									{name: 'delete',  					 						type: 'material-icons'},
@@ -172,8 +172,6 @@ export const ActionHandlerActions = {
 export const Const = {
 	devMode: true,
 	loggingEnabled: false,
-
-	dismissModalConfig: {animationType: 'slide-down'},
 
 	googlePlacesKey: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
 	googlePlacesDebounceTimeMs: 500,

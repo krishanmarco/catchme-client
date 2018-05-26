@@ -174,7 +174,6 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	}
 
 	_renderSecuritySection() {
-		// todo ui: Logout icon has an offset!
 		return (
 			<View>
 				<ListItemHeader/>
