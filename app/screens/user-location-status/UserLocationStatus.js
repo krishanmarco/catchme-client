@@ -317,7 +317,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 					<Touchable onPress={this._onHereNowPressed}>
 						<Icon
 							size={55}
-							{...Icons.locationPersonFuture}
+							{...Icons.locationPersonNow}
 							color={this._getHereNowColor()}/>
 						<RkText rkType='secondary2'>{t('t_uls_here_now')}</RkText>
 					</Touchable>

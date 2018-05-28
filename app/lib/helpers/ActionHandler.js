@@ -9,6 +9,10 @@ import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../redux-
 import {TActionHandlers} from '../types/Types';
 import type {TAction} from '../daos/DaoAction';
 import type {TActionHandler, TDispatch, TNavigator, TThunk} from '../types/Types';
+import {userProfileActions, userActions, locationActions} from "../redux-pool/PoolHelper";
+import CacheMapActionCreator from "../redux-pool/cache-map/CacheMapActionCreator";
+import {CACHE_MAP_ID_USERS} from "../redux-pool/cache-map/def/CacheMapDefUsers";
+import {CACHE_MAP_ID_LOCATIONS} from "../redux-pool/cache-map/def/CacheMapDefLocations";
 
 
 const _ClickActionHandlers: TActionHandlers = ({
@@ -22,12 +26,8 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-			// todo go through cache
-			return ApiClient.usersGetUid(userId)
-				.then(userProfileActionCreator.connAdd);
+			return userActions(thunk).initializeItem(userId)
+				.then(userProfileActions(thunk).connAdd);
 		}
 	},
 
@@ -41,18 +41,14 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-			// todo go through cache
-			return ApiClient.usersGetUid(userId)
-				.then(userProfileActionCreator.connBlock);
+			return userActions(thunk.dispatch).initializeItem(userId)
+				.then(userProfileActions(thunk).connBlock);
 		}
 	},
 
 
 	[ActionHandlerActions.AttendanceConfirm]: {
-		icon: Icons.locationPersonFuture,
+		icon: Icons.userLocationStatuses,
 		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
 			const locationId = DaoAction.gPayloadLocationId(action);
@@ -80,12 +76,8 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-			// todo go through cache
-			return ApiClient.locationsGetLid(locationId)
-				.then(userProfileActionCreator.locationFavAdd);
+			return locationActions(thunk.dispatch).initializeItem(locationId)
+				.then(userProfileActions(thunk).locationFavAdd);
 		}
 	},
 

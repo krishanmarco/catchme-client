@@ -12,7 +12,7 @@ import type {TNavigator} from '../types/Types';
 
 const nbBtULS = {
 	id: 'NB_BT_ID_ULS',
-	icon: require('../../assets/images/navbar-bar.png'),
+	icon: require('../../assets/images/navbar-plus.png'),
 	buttonFontSize: 2,
 	buttonFontWeight: '100',
 };

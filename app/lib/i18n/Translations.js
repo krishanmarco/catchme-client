@@ -176,7 +176,6 @@ I18n.translations = {
 		t_e_passwords_not_equal: 'The two passwords do not match',
 		t_e_incorrect_recovery_key: 'Invalid recovery key',
 
-		// todo move all strings below to it
 		// Local errors
 		t_le_camera_capture_failed: 'Something went wrong while capturing your image',
 		t_le_admin_location_add_failed: 'Something went wrong while adding your location',

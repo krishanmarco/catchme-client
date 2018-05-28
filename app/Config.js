@@ -48,7 +48,8 @@ const _Icons = {
 	bin: 									{name: 'delete',  					 						type: 'material-icons'},
 	mapSigns: 						{name: 'map-signs',  					 					type: 'font-awesome'},
 	save: 								{name: 'save',  					 							type: 'font-awesome'},
-	plus: 								{name: 'add-circle-outline',						type: 'evilicons'},
+	plusOutline: 					{name: 'add-circle-outline',						type: 'evilicons'},
+	plus: 								{name: 'add-circle',										type: 'evilicons'},
 };
 
 
@@ -95,15 +96,13 @@ export const Icons = {
 	statusEdit:  											{..._Icons.pen,  									color: Colors.neutralOrange},
 	statusDelete:  										{..._Icons.bin,  									color: Colors.alertRed},
 
-	galleryAddImage:  								{..._Icons.plus,  								color: Colors.primary},
-
 	settingAddContacts:  							{..._Icons.friends,  							color: Colors.primary},
 	settingChangePassword: 						{..._Icons.lock,  								color: Colors.primary},
 	settingChangePhone: 							{..._Icons.phone, 							  color: Colors.primary},
 	settingNotifications: 						{..._Icons.bell, 									color: Colors.primary},
 	settingLogout:  									{..._Icons.logout, 								color: Colors.primary},
 	settingHelp:  										{..._Icons.help, 									color: Colors.primary},
-	settingAdminAddLocation: 					{..._Icons.plus,  								color: Colors.primary},
+	settingAdminAddLocation: 					{..._Icons.plusOutline, 					color: Colors.primary},
 
 	searchBar:  											{..._Icons.search,  							color: Colors.primary},
 
@@ -174,7 +173,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 
 	googlePlacesKey: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
 	googlePlacesDebounceTimeMs: 500,

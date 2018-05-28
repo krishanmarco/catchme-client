@@ -9,6 +9,7 @@ import {Validate} from '../../../helpers/Validator';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TThunk} from '../../../types/Types';
+import {userProfileActions} from "../../PoolHelper";
 
 
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
@@ -30,9 +31,7 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 	}
 
 	post(thunk: TThunk, locationProfile: TLocation): Promise<TLocation> {
-		const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-		const cacheUserProfile = new CacheDefUserProfileActionCreator(cacheActionCreator);
-		return cacheUserProfile.putAdminLocation(locationProfile);
+		return userProfileActions(thunk).putAdminLocation(locationProfile);
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {

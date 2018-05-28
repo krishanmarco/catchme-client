@@ -2,6 +2,8 @@
 import CacheMapActionCreator from './CacheMapActionCreator';
 import CacheMapDefLocationProfiles, {CACHE_MAP_ID_LOCATION_PROFILES} from './def/CacheMapDefLocationProfiles';
 import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from './def/CacheMapDefUserProfiles';
+import CacheMapDefUsers, {CACHE_MAP_ID_USERS} from './def/CacheMapDefUsers';
+import CacheMapDefLocations, {CACHE_MAP_ID_LOCATIONS} from './def/CacheMapDefLocations';
 import CacheMapExtraProps from './CacheMapExtraProps';
 import {
 	CacheMapState,
@@ -44,6 +46,8 @@ const CacheMapPool: TPool = {
 	defs: {
 		[CACHE_MAP_ID_LOCATION_PROFILES]: CacheMapDefLocationProfiles,
 		[CACHE_MAP_ID_USER_PROFILES]: CacheMapDefUserProfiles,
+		[CACHE_MAP_ID_USERS]: CacheMapDefUsers,
+		[CACHE_MAP_ID_LOCATIONS]: CacheMapDefLocations,
 	}
 	
 };

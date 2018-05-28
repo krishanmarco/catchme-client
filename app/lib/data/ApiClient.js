@@ -171,16 +171,6 @@ class ApiClient {
 		);
 	}
 
-	usersGetUid(uid: number): Promise<TUser> {
-		return this._get(`${Urls.api}/users/${uid}`)
-			.then(JSON.parse);
-	}
-
-	locationsGetLid(lid: number): Promise<TLocation> {
-		return this._get(`${Urls.api}/locations/${lid}`)
-			.then(JSON.parse);
-	}
-
 	// Called from AddContacts.mapContactsToUsers
 	searchUsers(queryArray = []): Promise<Array<TUser>> {
 		if (queryArray.length <= 0)
@@ -266,6 +256,18 @@ class ApiClient {
 	// Should only be called from CacheMapDefLocationProfiles
 	locationsGetLidProfile(lid: number): Promise<TLocation> {
 		return this._get(`${Urls.api}/locations/${lid}/profile`)
+			.then(JSON.parse);
+	}
+
+	// Should only be called from CacheMapDefUsers
+	usersGetUid(uid: number): Promise<TUser> {
+		return this._get(`${Urls.api}/users/${uid}`)
+			.then(JSON.parse);
+	}
+
+	// Should only be called from CacheMapDefLocations
+	locationsGetLid(lid: number): Promise<TLocation> {
+		return this._get(`${Urls.api}/locations/${lid}`)
 			.then(JSON.parse);
 	}
 

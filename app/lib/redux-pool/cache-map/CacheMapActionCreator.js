@@ -21,7 +21,20 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 		this.invalidateAll = this.invalidateAll.bind(this);
 		this.initializeItem = this.initializeItem.bind(this);
 	}
-	
+
+	itemExists(itemId: number|string, needsToBeValid: boolean = true): Promise<boolean> {
+		const {dispatch} = this;
+		return dispatch((dispatch, getState) => {
+			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
+
+			if (!(itemId in cacheMapData))
+				return Promise.resolve(false);
+
+			// item id is in data, check if valid
+			const {data, expiryTs} = cacheMapData[itemId];
+			return Promise.resolve(data !== null && (!needsToBeValid || DataProvider.cacheIsValid(expiryTs)));
+		});
+	}
 	
 	invalidateItem(itemId) {
 		const {dispatchAction} = this;
@@ -61,7 +74,7 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 
 				// If already loading return the promise
 				if (loadingPromise != null) {
-					Logger.v(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
+					Logger.v(`CacheMapActionCreator initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
 					return loadingPromise;
 				}
 

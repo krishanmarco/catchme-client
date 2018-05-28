@@ -10,6 +10,9 @@ import type {TApiFormDef} from '../ApiFormDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TThunk} from '../../../types/Types';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
+import {locationActions, userProfileActions} from "../../PoolHelper";
+import CacheMapActionCreator from "../../cache-map/CacheMapActionCreator";
+import {CACHE_MAP_ID_LOCATIONS} from "../../cache-map/def/CacheMapDefLocations";
 
 
 export const FORM_API_ID_EDIT_USER_LOCATION_STATUS = 'FORM_API_ID_EDIT_USER_LOCATION_STATUS';
@@ -29,19 +32,14 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 	}
 
 	post(thunk: TThunk, uls: TUserLocationStatus, location: ?TLocation): Promise<TUserLocationStatus> {
-		// Use the UserProfileActionCreator to keep the UI synced
-		const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-		const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
 		const promiseLocation = location != null
 			? Promise.resolve(location)
-			: ApiClient.locationsGetLid(DaoUserLocationStatus.gLocationId(uls));
+			: locationActions(thunk.dispatch).initializeItem(DaoUserLocationStatus.gLocationId(uls));
 
 		return promiseLocation
 			.then((location: TLocation) => {
-				location = {...location};
-				const locationWithULS = DaoLocation.sUserLocationStatus(location, uls);
-				return userProfileActionCreator.putLocationWithULS(locationWithULS);
+				const locationWithULS = DaoLocation.sUserLocationStatus({...location}, uls);
+				return userProfileActions(thunk).putLocationWithULS(locationWithULS);
 			});
 	}
 
