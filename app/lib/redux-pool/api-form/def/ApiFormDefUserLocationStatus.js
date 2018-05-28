@@ -28,20 +28,19 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 		return new ApiFormState(this.formId, DaoUserLocationStatus.newInstance());
 	}
 
-	post(thunk: TThunk, userLocationStatus: TUserLocationStatus, location: TLocation): Promise<TUserLocationStatus> {
+	post(thunk: TThunk, uls: TUserLocationStatus, location: ?TLocation): Promise<TUserLocationStatus> {
 		// Use the UserProfileActionCreator to keep the UI synced
 		const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
 		const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
 
-		let promiseLocationProfile = Promise.resolve(location);
+		const promiseLocation = location != null
+			? Promise.resolve(location)
+			: ApiClient.locationsGetLid(DaoUserLocationStatus.gLocationId(uls));
 
-		if (location == null)
-			promiseLocationProfile = ApiClient.locationsGetLid(DaoUserLocationStatus.gLocationId(userLocationStatus));
-
-		return promiseLocationProfile
+		return promiseLocation
 			.then((location: TLocation) => {
 				location = {...location};
-				const locationWithULS = DaoLocation.sUserLocationStatus(location, userLocationStatus);
+				const locationWithULS = DaoLocation.sUserLocationStatus(location, uls);
 				return userProfileActionCreator.putLocationWithULS(locationWithULS);
 			});
 	}

@@ -3,6 +3,7 @@ import ApiClient from '../../../data/ApiClient';
 import CacheMapDef from '../CacheMapDef';
 import type {TCacheMapDef} from '../CacheMapDef';
 import type {TUser} from '../../../daos/DaoUser';
+import type {TThunk} from "../../../types/Types";
 
 export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
 
@@ -14,7 +15,8 @@ class CacheMapDefUserProfiles extends CacheMapDef {
 		this.buildDataSet = this.buildDataSet.bind(this);
 	}
 
-	buildDataSet(uid: number): Promise<TUser> {
+	buildDataSet(thunk: TThunk, uid: number, extraParams: Object): Promise<TUser> {
+		// todo: if uid is same as logged user then return the userProfile without the API request.
 		return ApiClient.usersGetUidProfile(uid);
 	}
 

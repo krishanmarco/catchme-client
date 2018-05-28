@@ -51,7 +51,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 
 		// Initialize the profile of the user that is being viewed
 		this._cacheMapUserProfiles().initializeItem(userId)
-			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)})); // todo if same user no query needed
+			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
 	}
 
 	_reinitializeNavigator(props = this.props) {
