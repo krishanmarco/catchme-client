@@ -1,18 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../data/ApiClient';
-import CacheActionCreator from '../redux-pool/cache/CacheActionCreator';
 import DaoAction from '../daos/DaoAction';
 import Logger from '../Logger';
 import Router from '../navigation/Router';
-import {ActionHandlerActions, Const, Icons} from '../../Config';
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../redux-pool/cache/def/CacheDefUserProfile';
+import {ActionHandlerActions, Icons} from '../../Config';
+import {locationsActions, userProfileActions, usersActions} from '../redux-pool/PoolHelper';
 import {TActionHandlers} from '../types/Types';
 import type {TAction} from '../daos/DaoAction';
-import type {TActionHandler, TDispatch, TNavigator, TThunk} from '../types/Types';
-import {userProfileActions, usersActions, locationsActions} from "../redux-pool/PoolHelper";
-import CacheMapActionCreator from "../redux-pool/cache-map/CacheMapActionCreator";
-import {CACHE_MAP_ID_USERS} from "../redux-pool/cache-map/def/CacheMapDefUsers";
-import {CACHE_MAP_ID_LOCATIONS} from "../redux-pool/cache-map/def/CacheMapDefLocations";
+import type {TActionHandler, TNavigator, TThunk} from '../types/Types';
 
 
 const _ClickActionHandlers: TActionHandlers = ({

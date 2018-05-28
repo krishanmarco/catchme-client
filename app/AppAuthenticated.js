@@ -1,6 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiAuthentication from './lib/data/ApiAuthentication';
-import ApiClient from './lib/data/ApiClient';
 import CameraWrapper from './comp/misc/camera/CameraWrapper';
 import Context from './lib/Context';
 import DaoUser from './lib/daos/DaoUser';

@@ -1,14 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiFormDef from '../ApiFormDef';
-import CacheActionCreator from '../../cache/CacheActionCreator';
 import DaoApiFormChangePassword from '../../../daos/DaoApiFormChangePassword';
 import {ApiFormState} from '../ApiFormModel';
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../../cache/def/CacheDefUserProfile';
+import {userProfileActions} from '../../PoolHelper';
 import {Validate} from '../../../helpers/Validator';
 import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TThunk} from '../../../types/Types';
-import {userProfileActions} from "../../PoolHelper";
 
 export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 

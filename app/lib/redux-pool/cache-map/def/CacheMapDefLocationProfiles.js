@@ -3,7 +3,7 @@ import ApiClient from '../../../data/ApiClient';
 import CacheMapDef from '../CacheMapDef';
 import type {TCacheMapDef} from '../CacheMapDef';
 import type {TLocation} from '../../../daos/DaoLocation';
-import type {TThunk} from "../../../types/Types";
+import type {TThunk} from '../../../types/Types';
 
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 

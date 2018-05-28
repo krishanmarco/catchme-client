@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import {CacheMapState} from './CacheMapModel';
-import type {TThunk} from "../../types/Types";
+import type {TThunk} from '../../types/Types';
 
 
 export type TCacheMapDef<TCacheMapObject> = {

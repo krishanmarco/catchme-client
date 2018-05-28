@@ -6,7 +6,7 @@ import Logger from '../../../lib/Logger';
 import Maps from '../../../lib/data/Maps';
 import React from 'react';
 import Router from '../../../lib/navigation/Router';
-import {AvatarCircle, AvatarFull, ListItemHeader, ListItemInfo} from '../../../comp/Misc';
+import {AvatarFull, ListItemHeader, ListItemInfo} from '../../../comp/Misc';
 import {Const, Icons} from '../../../Config';
 import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
 import {listItemInfo} from '../../../lib/theme/Styles';
@@ -54,7 +54,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 	componentWillUnmount() {
 		this._formApiEditUserProfile().post()
 			.catch(err => {
-				// todo
+				// todo errors
 				// This should never happen because the back button
 				// should not be pressed if the form is invalid
 				Logger.v('SettingsUserAccount componentWillUnmount: ', err);

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {ListItemHeader} from '../../Misc';
-import {SectionList, StyleSheet, View} from 'react-native';
+import {SectionList, StyleSheet} from 'react-native';
 import type {TSectionListDataPointSections} from '../../../lib/types/Types';
 
 // Const *************************************************************************************************

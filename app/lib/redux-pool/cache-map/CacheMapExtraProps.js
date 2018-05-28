@@ -10,7 +10,7 @@ export default class CacheMapExtraProps extends PoolExtraProps {
 		super(POOL_TYPE_CACHE_MAP, poolTypeDef, stateProps, dispatchProps);
 		this.get = this.get.bind(this);
 	}
-	// todo can we remove extraProps and put get in CacheMapActionCreator
+
 	get(itemId, extraParams) {
 		const {stateProps, dispatchProps} = this;
 
@@ -22,6 +22,5 @@ export default class CacheMapExtraProps extends PoolExtraProps {
 		return stateProps.data[itemId].data;
 	}
 	
-	
-	
+
 }

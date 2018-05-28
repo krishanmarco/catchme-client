@@ -65,7 +65,7 @@ class _EditLocation extends React.Component<void, Props, void> {
 		// If the form doesn't have any errors, go back
 		this._formApiEditLocationProfile().post()
 			.then(apiResponse => {
-				// todo: handle errors
+				// todo errors handle
 				navigator.pop();
 			});
 	}

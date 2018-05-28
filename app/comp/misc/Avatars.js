@@ -2,7 +2,7 @@
 import React from 'react';
 import {Avatar} from 'react-native-elements';
 import {BadgeOverlay, Touchable} from '../Misc';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import {validSource} from '../../lib/HelperFunctions';
 import type {TIcon, TImageSource} from '../../lib/types/Types';
 

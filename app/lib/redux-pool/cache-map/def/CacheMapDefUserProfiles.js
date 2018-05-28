@@ -1,9 +1,9 @@
-import ApiClient from '../../../data/ApiClient';
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
+import ApiClient from '../../../data/ApiClient';
 import CacheMapDef from '../CacheMapDef';
 import type {TCacheMapDef} from '../CacheMapDef';
+import type {TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
-import type {TThunk} from "../../../types/Types";
 
 export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
 

@@ -11,7 +11,7 @@ import {
 	POOL_ACTION_API_FORMS_ON_RESET,
 	POOL_ACTION_API_FORMS_ON_SUCCESS
 } from './ApiFormPool';
-import {POOL_TYPE_API_FORMS, ReduxPoolBuilder} from '../../../redux/ReduxPool';
+import {POOL_TYPE_API_FORMS} from '../../../redux/ReduxPool';
 import {screenDisablePointerEvents, screenEnablePointerEvents} from '../../../comp/misc/Screen';
 import type {TDispatch} from '../../types/Types';
 

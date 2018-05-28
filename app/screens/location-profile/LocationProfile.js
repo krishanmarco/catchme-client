@@ -13,7 +13,7 @@ import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
 import {AvatarFull, FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconTabView} from '../../comp/Misc';
 import {Const, Icons} from '../../Config';
-import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {Grid, Row} from 'react-native-easy-grid';
 import {listItemInfo} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';

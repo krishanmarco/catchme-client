@@ -1,13 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from '../../../data/ApiClient';
-import CacheMapActionCreator from '../CacheMapActionCreator';
 import CacheMapDef from '../CacheMapDef';
-import {CACHE_MAP_ID_LOCATION_PROFILES} from './CacheMapDefLocationProfiles';
+import {locationsProfilesActions} from '../../PoolHelper';
 import type {TCacheMapDef} from '../CacheMapDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
-import {locationsProfilesActions} from "../../PoolHelper";
 
 export const CACHE_MAP_ID_LOCATIONS = 'CACHE_MAP_ID_LOCATIONS';
 

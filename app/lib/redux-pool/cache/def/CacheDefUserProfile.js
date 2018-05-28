@@ -13,9 +13,9 @@ import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePasswor
 import type {TCacheDef} from '../CacheDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TLocationWithULS} from '../../../helpers/ULSListManager';
+import type {TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
-import type {TThunk} from "../../../types/Types";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;

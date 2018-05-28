@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 28-May-18 © **/
+import ApiFormActionCreator from './api-form/ApiFormActionCreator';
 import CacheActionCreator from './cache/CacheActionCreator';
+import CacheMapActionCreator from './cache-map/CacheMapActionCreator';
 import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from './cache/def/CacheDefUserProfile';
+import {CACHE_MAP_ID_LOCATION_PROFILES} from './cache-map/def/CacheMapDefLocationProfiles';
+import {CACHE_MAP_ID_LOCATIONS} from './cache-map/def/CacheMapDefLocations';
+import {CACHE_MAP_ID_USER_PROFILES} from './cache-map/def/CacheMapDefUserProfiles';
+import {CACHE_MAP_ID_USERS} from './cache-map/def/CacheMapDefUsers';
+import {FORM_API_ID_EDIT_USER_PROFILE} from './api-form/def/ApiFormDefUserProfile';
 import type {TThunk} from '../types/Types';
-import CacheMapActionCreator from "./cache-map/CacheMapActionCreator";
-import {CACHE_MAP_ID_USERS} from "./cache-map/def/CacheMapDefUsers";
-import {CACHE_MAP_ID_LOCATIONS} from "./cache-map/def/CacheMapDefLocations";
-import {FORM_API_ID_EDIT_USER_PROFILE} from "./api-form/def/ApiFormDefUserProfile";
-import ApiFormActionCreator from "./api-form/ApiFormActionCreator";
-import {CACHE_MAP_ID_LOCATION_PROFILES} from "./cache-map/def/CacheMapDefLocationProfiles";
-import {CACHE_MAP_ID_USER_PROFILES} from "./cache-map/def/CacheMapDefUserProfiles";
 
 // Caches ***********************************************************************************************
 // Caches ***********************************************************************************************

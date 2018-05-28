@@ -2,7 +2,6 @@
 import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeocoderTextEdit';
 import React from 'react';
 import Router from '../../lib/navigation/Router';
-import {Navigation} from 'react-native-navigation';
 import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from '../../comp/Misc';
 import {ScrollView} from 'react-native';

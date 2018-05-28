@@ -1,11 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
 import _ from 'lodash';
 import ActionHandler, {TActionHandlerParams} from '../../helpers/ActionHandler';
-import CacheActionCreator from '../cache/CacheActionCreator';
-import CacheDefUserProfile, {
-	CACHE_ID_USER_PROFILE,
-	CacheDefUserProfileActionCreator
-} from '../cache/def/CacheDefUserProfile';
 import DaoAction from '../../daos/DaoAction';
 import DaoUser from '../../daos/DaoUser';
 import PoolActionCreator from '../PoolActionCreator';
@@ -15,9 +10,9 @@ import {
 	POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS
 } from './FirebaseDataPool';
 import {POOL_TYPE_FIREBASE_DATA} from '../../../redux/ReduxPool';
+import {userProfileActions} from '../PoolHelper';
 import type {TDispatch} from '../../types/Types';
 import type {TUser} from '../../daos/DaoUser';
-import {userProfileActions} from "../PoolHelper";
 
 // todo after a while the loader starts again?
 export default class FirebaseDataActionCreator extends PoolActionCreator {

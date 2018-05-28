@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import DaoUserLocationStatus from './DaoUserLocationStatus';
 import ManagerWeekTimings from '../helpers/ManagerWeekTimings';
-import ULSListManager from '../helpers/ULSListManager';
 import {Const} from '../../Config';
 import {denormObj, isValidUrl} from '../HelperFunctions';
 import type {TLocationWithULS} from '../helpers/ULSListManager';

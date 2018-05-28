@@ -6,7 +6,8 @@ import {
 	mutatorSearchDataConcatSuggestList,
 	mutatorSearchDataSetLoading,
 	mutatorSearchDataSetSearchList,
-	mutatorSearchDataSetSearchQuery, SearchDataState
+	mutatorSearchDataSetSearchQuery,
+	SearchDataState
 } from './SearchDataModel';
 import type {TPool} from '../Pool';
 

@@ -2,7 +2,7 @@
 import DaoLocation from '../../lib/daos/DaoLocation';
 import DaoUserLocationStatus from '../../lib/daos/DaoUserLocationStatus';
 import React from 'react';
-import {Colors, Icons} from '../../Config';
+import {Icons} from '../../Config';
 import {ListItemWithActionProps} from '../../comp/misc/ListItemsWithActions';
 import {ListItemWithActions} from '../../comp/Misc';
 import type {TAction} from '../../lib/daos/DaoAction';

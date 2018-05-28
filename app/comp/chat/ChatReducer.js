@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import firebase, {FirebaseData} from '../../lib/data/Firebase';
 import {Const} from '../../Config';
+import {FirebaseData} from '../../lib/data/Firebase';
 import {t} from '../../lib/i18n/Translations';
 import type {TFirebaseChatMessage, TFirebaseChatUser, TGetFirebaseMessages} from '../../lib/data/Firebase';
 

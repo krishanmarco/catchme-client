@@ -2,11 +2,7 @@
 import Logger from '../../Logger';
 import PoolActionCreator from '../PoolActionCreator';
 import {CacheState} from './CacheModel';
-import {
-	POOL_ACTION_CACHE_INIT_DATA,
-	POOL_ACTION_CACHE_INVALIDATE_DATA,
-	POOL_ACTION_CACHE_SET_DATA
-} from './CachePool';
+import {POOL_ACTION_CACHE_INIT_DATA, POOL_ACTION_CACHE_INVALIDATE_DATA, POOL_ACTION_CACHE_SET_DATA} from './CachePool';
 import {POOL_TYPE_CACHE} from '../../../redux/ReduxPool';
 import type {TDispatch} from '../../types/Types';
 

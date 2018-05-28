@@ -1,11 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from '../../../data/ApiClient';
 import ApiFormDef from '../ApiFormDef';
-import CacheActionCreator from '../../cache/CacheActionCreator';
 import DaoApiFormRecoverPassword from '../../../daos/DaoApiFormRecoverPassword';
-import DaoUser from '../../../daos/DaoUser';
 import {ApiFormState} from '../ApiFormModel';
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../../cache/def/CacheDefUserProfile';
 import {Validate} from '../../../helpers/Validator';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TApiFormRecoverPassword} from '../../../daos/DaoApiFormRecoverPassword';

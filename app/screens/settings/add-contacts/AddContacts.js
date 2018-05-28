@@ -10,7 +10,6 @@ import Router from '../../../lib/navigation/Router';
 import UserList from '../../../comp-buisness/user/UserList';
 import {FlatListEmpty} from '../../../comp/Misc';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Snackbar} from '../../../lib/Snackbar';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TNavigator} from '../../../lib/types/Types';
