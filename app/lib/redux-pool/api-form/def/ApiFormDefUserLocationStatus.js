@@ -34,7 +34,7 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 	post(thunk: TThunk, uls: TUserLocationStatus, location: ?TLocation): Promise<TUserLocationStatus> {
 		const promiseLocation = location != null
 			? Promise.resolve(location)
-			: locationActions(thunk.dispatch).initializeItem(DaoUserLocationStatus.gLocationId(uls));
+			: locationActions(thunk).initializeItem(DaoUserLocationStatus.gLocationId(uls));
 
 		return promiseLocation
 			.then((location: TLocation) => {

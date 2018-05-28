@@ -41,7 +41,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			return userActions(thunk.dispatch).initializeItem(userId)
+			return userActions(thunk).initializeItem(userId)
 				.then(userProfileActions(thunk).connBlock);
 		}
 	},
@@ -76,7 +76,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			return locationActions(thunk.dispatch).initializeItem(locationId)
+			return locationActions(thunk).initializeItem(locationId)
 				.then(userProfileActions(thunk).locationFavAdd);
 		}
 	},

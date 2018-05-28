@@ -20,7 +20,7 @@ class CacheMapDefLocations extends CacheMapDef {
 	}
 
 	async buildDataSet(thunk: TThunk, lid: number, extraParams: Object): Promise<TUser> {
-		const locationProfileActions = locationProfileActions(thunk.dispatch);
+		const locationProfileActions = locationProfileActions(thunk);
 
 		return await locationProfileActions.itemExists(lid, false)
 			? locationProfileActions.initializeItem(lid)
