@@ -15,6 +15,7 @@ import type {TLocation} from '../../../daos/DaoLocation';
 import type {TLocationWithULS} from '../../../helpers/ULSListManager';
 import type {TUser} from '../../../daos/DaoUser';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
+import type {TThunk} from "../../../types/Types";
 
 export const CACHE_ID_USER_PROFILE = 'CACHE_ID_USER_PROFILE';
 export type TCacheUserProfile = CacheDefUserProfileActionCreator & CacheState;
@@ -26,7 +27,7 @@ class CacheDefUserProfile extends CacheDef<TUser> {
 		super(CACHE_ID_USER_PROFILE);
 	}
 
-	buildDataSet(): Promise<TUser> {
+	buildDataSet(thunk: TThunk, extraParams: Object): Promise<TUser> {
 		return ApiClient.userProfile();
 	}
 

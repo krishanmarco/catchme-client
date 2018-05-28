@@ -3,7 +3,6 @@ import DataProvider from '../../data/DataProvider';
 import Logger from '../../Logger';
 import PoolActionCreator from '../PoolActionCreator';
 import {CacheMapState} from './CacheMapModel';
-import {Const} from '../../../Config';
 import {
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
@@ -11,7 +10,6 @@ import {
 	POOL_ACTION_CACHE_MAP_SET_DATA
 } from './CacheMapPool';
 import {POOL_TYPE_CACHE_MAP} from '../../../redux/ReduxPool';
-import {seconds} from '../../HelperFunctions';
 import type {TDispatch} from '../../types/Types';
 
 
@@ -78,7 +76,7 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 			
 			
 			// Run request or data builder
-			const nextPromise = pool.buildDataSet(itemId, extraParams)
+			const nextPromise = pool.buildDataSet({dispatch, getState}, itemId, extraParams)
 				.then(buildResultData => {
 					
 					// Save the result data into the pool
