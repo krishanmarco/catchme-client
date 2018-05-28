@@ -17,6 +17,7 @@ import {
 import {POOL_TYPE_FIREBASE_DATA} from '../../../redux/ReduxPool';
 import type {TDispatch} from '../../types/Types';
 import type {TUser} from '../../daos/DaoUser';
+import {userProfileActions} from "../PoolHelper";
 
 // todo after a while the loader starts again?
 export default class FirebaseDataActionCreator extends PoolActionCreator {
@@ -47,7 +48,6 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 		this.loadMore = this.loadMore.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
 		this.initialize = this.initialize.bind(this);
-		this.userProfileActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, dispatch); // todo ?? PoolHelper
 	}
 
 
@@ -160,7 +160,7 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 			});
 
 			// Get and delete the item from the firebase database
-			const {executeIfDataNotNull} = this.userProfileActionCreator;
+			const {executeIfDataNotNull} = userProfileActions({dispatch, getState});
 			executeIfDataNotNull((user: TUser) => {
 				pool.removeObjectByFirebaseId(DaoUser.gId(user), firebaseItemId);
 			});

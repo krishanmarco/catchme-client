@@ -15,25 +15,25 @@ import {CACHE_MAP_ID_USER_PROFILES} from "./cache-map/def/CacheMapDefUserProfile
 
 export function userProfileActions(thunk: TThunk): CacheDefUserProfileActionCreator {
 	const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-	return new CacheDefUserProfileActionCreator(cacheActionCreator); // todo PoolHelper collision
+	return new CacheDefUserProfileActionCreator(cacheActionCreator);
 }
 
 // CacheMaps ********************************************************************************************
 // CacheMaps ********************************************************************************************
 
-export function userActions(thunk: TThunk): CacheMapActionCreator {
+export function usersActions(thunk: TThunk): CacheMapActionCreator {
 	return new CacheMapActionCreator(CACHE_MAP_ID_USERS, thunk.dispatch);
 }
 
-// export function userProfileActions(thunk: TThunk): CacheMapActionCreator {
-// 	return new CacheMapActionCreator(CACHE_MAP_ID_USER_PROFILES, thunk.dispatch);
-// }
+export function usersProfileActions(thunk: TThunk): CacheMapActionCreator {
+	return new CacheMapActionCreator(CACHE_MAP_ID_USER_PROFILES, thunk.dispatch);
+}
 
-export function locationActions(thunk: TThunk): CacheMapActionCreator {
+export function locationsActions(thunk: TThunk): CacheMapActionCreator {
 	return new CacheMapActionCreator(CACHE_MAP_ID_LOCATIONS, thunk.dispatch);
 }
 
-export function locationProfileActions(thunk: TThunk): CacheMapActionCreator {
+export function locationsProfilesActions(thunk: TThunk): CacheMapActionCreator {
 	return new CacheMapActionCreator(CACHE_MAP_ID_LOCATION_PROFILES, thunk.dispatch);
 }
 

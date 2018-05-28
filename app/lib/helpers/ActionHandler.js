@@ -9,7 +9,7 @@ import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from '../redux-
 import {TActionHandlers} from '../types/Types';
 import type {TAction} from '../daos/DaoAction';
 import type {TActionHandler, TDispatch, TNavigator, TThunk} from '../types/Types';
-import {userProfileActions, userActions, locationActions} from "../redux-pool/PoolHelper";
+import {userProfileActions, usersActions, locationsActions} from "../redux-pool/PoolHelper";
 import CacheMapActionCreator from "../redux-pool/cache-map/CacheMapActionCreator";
 import {CACHE_MAP_ID_USERS} from "../redux-pool/cache-map/def/CacheMapDefUsers";
 import {CACHE_MAP_ID_LOCATIONS} from "../redux-pool/cache-map/def/CacheMapDefLocations";
@@ -26,7 +26,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			return userActions(thunk).initializeItem(userId)
+			return usersActions(thunk).initializeItem(userId)
 				.then(userProfileActions(thunk).connAdd);
 		}
 	},
@@ -41,7 +41,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			return userActions(thunk).initializeItem(userId)
+			return usersActions(thunk).initializeItem(userId)
 				.then(userProfileActions(thunk).connBlock);
 		}
 	},
@@ -76,7 +76,7 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			return locationActions(thunk).initializeItem(locationId)
+			return locationsActions(thunk).initializeItem(locationId)
 				.then(userProfileActions(thunk).locationFavAdd);
 		}
 	},

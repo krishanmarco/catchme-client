@@ -7,7 +7,7 @@ import type {TCacheMapDef} from '../CacheMapDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
-import {locationProfileActions} from "../../PoolHelper";
+import {locationsProfilesActions} from "../../PoolHelper";
 
 export const CACHE_MAP_ID_LOCATIONS = 'CACHE_MAP_ID_LOCATIONS';
 
@@ -20,7 +20,7 @@ class CacheMapDefLocations extends CacheMapDef {
 	}
 
 	async buildDataSet(thunk: TThunk, lid: number, extraParams: Object): Promise<TUser> {
-		const locationProfileActions = locationProfileActions(thunk);
+		const locationProfileActions = locationsProfilesActions(thunk);
 
 		return await locationProfileActions.itemExists(lid, false)
 			? locationProfileActions.initializeItem(lid)

@@ -10,7 +10,7 @@ import type {TApiFormDef} from '../ApiFormDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TThunk} from '../../../types/Types';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
-import {locationActions, userProfileActions} from "../../PoolHelper";
+import {locationsActions, userProfileActions} from "../../PoolHelper";
 import CacheMapActionCreator from "../../cache-map/CacheMapActionCreator";
 import {CACHE_MAP_ID_LOCATIONS} from "../../cache-map/def/CacheMapDefLocations";
 
@@ -34,7 +34,7 @@ class FormDefUserLocationStatus extends ApiFormDef<TLocation> {
 	post(thunk: TThunk, uls: TUserLocationStatus, location: ?TLocation): Promise<TUserLocationStatus> {
 		const promiseLocation = location != null
 			? Promise.resolve(location)
-			: locationActions(thunk).initializeItem(DaoUserLocationStatus.gLocationId(uls));
+			: locationsActions(thunk).initializeItem(DaoUserLocationStatus.gLocationId(uls));
 
 		return promiseLocation
 			.then((location: TLocation) => {

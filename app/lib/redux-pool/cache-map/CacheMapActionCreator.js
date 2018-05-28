@@ -57,7 +57,7 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 	initializeItem(itemId, extraParams) {
 		const {dispatchAction, dispatch, dispatchPromiseAction, poolId} = this;
 		const pool = this.getPoolDef();
-		
+		// todo duplicaed in itemExists
 		return dispatch((dispatch, getState) => {
 			
 			// If the data is already set (or is about to be set [nextPromise != null]) there is

@@ -1,11 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import ApiClient from '../../../data/ApiClient';
 import CacheMapDef from '../CacheMapDef';
+import {usersProfileActions} from '../../PoolHelper';
 import type {TCacheMapDef} from '../CacheMapDef';
+import type {TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
-import type {TThunk} from "../../../types/Types";
-import CacheMapActionCreator from "../CacheMapActionCreator";
-import {CACHE_MAP_ID_USER_PROFILES} from "./CacheMapDefUserProfiles";
 
 export const CACHE_MAP_ID_USERS = 'CACHE_MAP_ID_USERS';
 
@@ -18,7 +17,7 @@ class CacheMapDefUsers extends CacheMapDef {
 	}
 
 	async buildDataSet(thunk: TThunk, uid: number, extraParams: Object): Promise<TUser> {
-		const cacheMapActionCreator = new CacheMapActionCreator(CACHE_MAP_ID_USER_PROFILES, thunk.dispatch);// todo check PoolHelper collision
+		const cacheMapActionCreator = usersProfileActions(thunk);
 		return await cacheMapActionCreator.itemExists(uid, false)
 			? cacheMapActionCreator.initializeItem(uid)
 			: ApiClient.usersGetUid(uid);

@@ -43,7 +43,9 @@ export default cacheDefUserProfile;
 export class CacheDefUserProfileActionCreator {
 
 	constructor(cacheActionCreator) {
-		this.cacheActionCreator = cacheActionCreator;
+		// We can't extend CacheActionCreator because it would create a require-cycle
+		// We have to pass cacheActionCreator in as a parameter and extend with Object.assign
+		Object.assign(this, cacheActionCreator);
 		this._putToUserLocationStatusesArray = this._putToUserLocationStatusesArray.bind(this);
 		this._removeFromUserLocationStatusesArray = this._removeFromUserLocationStatusesArray.bind(this);
 		this._putToAdminLocationsArray = this._putToAdminLocationsArray.bind(this);
@@ -73,7 +75,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_putToUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userLocationStatuses = DaoUser.gLocationsUserLocationStatuses(thisUser);
@@ -91,7 +93,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_removeFromUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userLocationStatuses = DaoUser.gLocationsUserLocationStatuses(thisUser);
@@ -105,7 +107,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_putToAdminLocationsArray(locationToAdd: TLocation) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
 
@@ -122,7 +124,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_removeFromAdminLocationsArray(locationToRemove: TLocation) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
 
@@ -134,7 +136,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_addToLocationFavoritesArray(locationToAdd: TLocation) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const locationId = DaoLocation.gId(locationToAdd);
@@ -166,7 +168,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_removeFromLocationFavoritesArray(locationToRemove: TLocation) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
@@ -179,7 +181,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_addToConnectionArray(userToAdd: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userIdToAdd = DaoUser.gId(userToAdd);
@@ -204,7 +206,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	_removeFromConnectionArray(userToRemove: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
-		const {executeIfDataNotNull, setData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userIdToRemove = DaoUser.gId(userToRemove);
@@ -283,7 +285,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	editUser(user: TUser) {
-		const {executeIfDataNotNull, mergeData} = this.cacheActionCreator;
+		const {executeIfDataNotNull, mergeData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const oldUser = Object.assign({}, thisUser);
 			mergeData(user);
@@ -436,7 +438,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	putLocationWithULS(locationWithULS: TLocationWithULS) {
-		const {executeIfDataNotNull} = this.cacheActionCreator;
+		const {executeIfDataNotNull} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userLocationStatus = DaoLocation.gUserLocationStatus(locationWithULS);
 			const ulsId = DaoUserLocationStatus.gId(userLocationStatus);
@@ -510,7 +512,7 @@ export class CacheDefUserProfileActionCreator {
 	}
 
 	changeUserPassword(form: TApiFormChangePassword) {
-		const {executeIfDataNotNull} = this.cacheActionCreator;
+		const {executeIfDataNotNull} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
 			return ApiClient.accountsChangePassword(DaoUser.gId(thisUser), form);
 		});
