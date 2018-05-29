@@ -9,6 +9,7 @@ import {listItemActions} from '../../lib/theme/Styles';
 import {RkStyleSheet} from 'react-native-ui-kitten';
 import {View} from 'react-native';
 import type {TFeed} from '../../lib/daos/DaoFeed';
+import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -75,7 +76,11 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 	_renderRightAvatar() {
 		const {feed} = this.props;
 		const rightAvatar = DaoFeed.gRightAvatar(feed);
-		return rightAvatar && (<Col size={20}><AvatarCircle source={{uri: rightAvatar}}/></Col>);
+		return rightAvatar && (
+			<Col size={20} style={listItemActions.actionLast}>
+				<AvatarCircle source={{uri: ImageURISourceAuth.fromUrl(rightAvatar)}}/>
+			</Col>
+		);
 	}
 
 	_renderActions() {
