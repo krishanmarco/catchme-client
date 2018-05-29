@@ -231,13 +231,13 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 			(poolType, poolId) => {
 				const connectParams = ReduxPoolBuilder[poolType].connectParams;
 
-				let poolDispatch = connectParams.getDefaultActionCreator(poolId, dispatch);
+				let defaultActions = connectParams.getDefaultActionCreator(poolId, dispatch);
 
 				if (connectParams[poolId] != null)
-					poolDispatch = Object.assign({}, connectParams[poolId](poolDispatch), poolDispatch);
+					defaultActions = Object.assign({}, connectParams[poolId](defaultActions), defaultActions);
 
 				// Merge the current result with all the indicated pools
-				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch});
+				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: defaultActions});
 				
 			}
 		);

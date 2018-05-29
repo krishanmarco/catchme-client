@@ -73,9 +73,9 @@ class _ScreenLocationProfile extends React.Component<void, Props, State> {
 		return props[CACHE_MAP_ID_LOCATION_PROFILES];
 	}
 
-	_onGalleryImageAdded() {
+	_onGalleryImageAdded(path: string) {
 		const {locationId} = this.props;
-		this._cacheMapLocationProfiles().invalidateItem(locationId);
+		this._cacheMapLocationProfiles().addImage(locationId, path);
 	}
 
 	render() {

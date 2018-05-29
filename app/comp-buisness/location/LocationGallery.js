@@ -31,20 +31,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 	}
 
 	componentWillReceiveProps(nextProps) {
-		const {locationProfile} = nextProps;
-
-		// Get the images that are currently in the previous (original form)
-		let currentImages = DaoLocation.gImageUrls(locationProfile);
-
-		// Get the images that are in the new props
-		let nextImages = DaoLocation.gImageUrls(locationProfile);
-
-		// Decide whether to update or not based on the arrays length
-		// Note that the component will not update if an image changes
-		// because the length of the two arrays remains the same
-		// 100% rendering precision is not required for now
-		if (currentImages.length !== nextImages.length)
-			this.setState({imageSources: this._getImagesFromProps(nextProps)});
+		this.setState({imageSources: this._getImagesFromProps(nextProps)});
 	}
 
 	_getImagesFromProps(props) {

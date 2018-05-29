@@ -149,19 +149,10 @@ export default class NavbarHandlerLocationProfile {
 	}
 
 	_onCaptureImage(data) {
-		const {locationProfile} = this;
-		// todo: go through location redux-pool state handler??
-		ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(locationProfile), data.path)
-			.then(addedUrl => {
-				// Add the uploaded image to this locations images
-				const images = DaoLocation.gImageUrls(locationProfile);
-				images.push(addedUrl);
-				this.onGalleryImageAdded(addedUrl);
-			})
-			.catch(err => {
-				Logger.v('NavbarHandlerLocationProfile _onCaptureImage:', err);
-				Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(err));
-			});
+		const {navigator, onGalleryImageAdded} = this;
+		onGalleryImageAdded(data.path);
+		Router.dismissModal(navigator);
+		this.setup();
 	}
 
 }

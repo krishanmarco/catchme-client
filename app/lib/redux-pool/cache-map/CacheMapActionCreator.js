@@ -10,19 +10,23 @@ import {
 	POOL_ACTION_CACHE_MAP_SET_DATA
 } from './CacheMapPool';
 import {POOL_TYPE_CACHE_MAP} from '../../../redux/ReduxPool';
-import type {TDispatch} from '../../types/Types';
+import type {TDispatch, TId} from '../../types/Types';
+import DaoLocation from "../../daos/DaoLocation";
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_CACHE_MAP, poolDefId, dispatch);
+		this.itemExists = this.itemExists.bind(this);
+		this.setData = this.setData.bind(this);
+		this.executeIfDataNotNull = this.executeIfDataNotNull.bind(this);
 		this.invalidateItem = this.invalidateItem.bind(this);
 		this.invalidateAll = this.invalidateAll.bind(this);
 		this.initializeItem = this.initializeItem.bind(this);
 	}
 
-	itemExists(itemId: number|string, needsToBeValid: boolean = true): Promise<boolean> {
+	itemExists(itemId: TId, needsToBeValid: boolean = true): Promise<boolean> {
 		const {dispatch} = this;
 		return dispatch((dispatch, getState) => {
 			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
@@ -35,14 +39,22 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 			return Promise.resolve(data !== null && (!needsToBeValid || DataProvider.cacheIsValid(expiryTs)));
 		});
 	}
+
+
+	async executeIfDataNotNull<T>(itemId: TId, functionToExecute: Object => T): Promise<T> {
+		return await this.itemExists(itemId, false)
+			? this.initializeItem(itemId).then(functionToExecute)
+			: Promise.resolve(null);
+	}
+
+	// Directly sets the {data} of this cache
+	setData<T>(itemId: TId, data: T): T {
+		this.dispatchAction({type: POOL_ACTION_CACHE_MAP_SET_DATA, itemId, data});
+		return data;
+	}
 	
 	invalidateItem(itemId) {
-		const {dispatchAction} = this;
-		
-		return dispatchAction({
-			type: POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
-			itemId
-		});
+		return this.dispatchAction({type: POOL_ACTION_CACHE_MAP_INVALIDATE_DATA, itemId});
 	}
 	
 	invalidateAll() {
@@ -86,37 +98,19 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 
 				Logger.v(`CacheMapActionCreator initializeItem: Cache invalid, ${poolId} ${itemId}, data(null)=${data == null}`);
 			}
-			
-			
-			// Run request or data builder
+
+
+			// Run the pool data-builder
 			const nextPromise = pool.buildDataSet({dispatch, getState}, itemId, extraParams)
-				.then(buildResultData => {
-					
-					// Save the result data into the pool
-					dispatchAction({
-						type: POOL_ACTION_CACHE_MAP_SET_DATA,
-						itemId,
-						data: buildResultData
-					});
-					
-					// Continue the promise chain
-					return buildResultData;
-				}).catch(apiExceptionResponse => {
-					Logger.v('CacheMapActionCreator initializeItem:', apiExceptionResponse);
-					
-					dispatchAction({
-						type: POOL_ACTION_CACHE_MAP_SET_DATA,
-						data: null,
-						itemId,
-					});
-					
-					// Continue the promise chain
-					return apiExceptionResponse;
+				.then(buildResultData => this.setData(itemId, buildResultData))
+				.catch(apiException => {
+					Logger.v('CacheMapActionCreator initializeItem:', apiException);
+					this.setData(itemId, null);
+					return apiException;
 				});
 			
-			
 			// If the promise hasn't resolved immediately then
-			// Save nextPromise to th state, this way, even if [data] is
+			// Save nextPromise to the state, this way, even if [data] is
 			// null the next request will not be processed because we know
 			// that one has already been sent out
 			return dispatchPromiseAction({

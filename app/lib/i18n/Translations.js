@@ -188,6 +188,7 @@ I18n.translations = {
 		t_ls_user_cancel: 'Friend request canceled.',
 		t_ls_user_added: 'Friend request sent. The other user will first have to accept before becoming your friend',
 		t_ls_admin_location_added: 'This location was added to the ones you own',
+		t_ls_location_image_uploaded: 'Your image was uploaded',
 
 	}
 

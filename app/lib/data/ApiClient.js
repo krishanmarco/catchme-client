@@ -14,6 +14,8 @@ import type {TApiFormRegister} from '../daos/DaoApiFormRegister';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TUser} from '../daos/DaoUser';
 import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
+import {CacheMapDefLocationProfilesActionCreator} from "../redux-pool/cache-map/def/CacheMapDefLocationProfiles";
+import type {TId} from "../types/Types";
 
 class ApiClient {
 
@@ -161,23 +163,6 @@ class ApiClient {
 
 				return this._handleResponse(response, url, () => this._postMultipart(url, formData));
 			});
-	}
-
-	mediaAddTypeIdItemId(typeId, itemId, filePath) {
-		const n = seconds().toString();
-		return this._postMultipart(
-			`${Urls.api}/media/add/${typeId}/${itemId}`,
-			[{name: 'media', filename: n, data: RNFetchBlob.wrap(filePath)}]
-		);
-	}
-
-	// Called from AddContacts.mapContactsToUsers
-	searchUsers(queryArray = []): Promise<Array<TUser>> {
-		if (queryArray.length <= 0)
-			return Promise.resolve([]);
-
-		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
-			.then(JSON.parse);
 	}
 
 	// Verified API Below ***************************************************************************
@@ -353,26 +338,44 @@ class ApiClient {
 	}
 
 	// Should only be called from SearchDataDefUsers.searchApiCall
-	searchQueryUsers(query = ''): Promise<Array<TUser>> {
+	searchQueryUsers(query: string = ''): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/search/${query}/users`)
 			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.suggestApiCall
-	suggestSeedUsers(seed = 0): Promise<Array<TUser>> {
+	suggestSeedUsers(seed: number = 0): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/suggest/${seed}/users`)
 			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.suggestApiCall
-	searchQueryLocations(query = ''): Promise<Array<TLocation>> {
+	searchQueryLocations(query: string = ''): Promise<Array<TLocation>> {
 		return this._get(`${Urls.api}/search/${query}/locations`)
 			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefLocations.suggestApiCall
-	suggestSeedLocations(seed = 0): Promise<Array<TLocation>> {
+	suggestSeedLocations(seed: number = 0): Promise<Array<TLocation>> {
 		return this._get(`${Urls.api}/suggest/${seed}/locations`)
+			.then(JSON.parse);
+	}
+
+	// Should only be called from CacheMapDefLocationProfilesActionCreator
+	mediaAddTypeIdItemId(typeId: number, itemId: TId, filePath: string) {
+		const n = seconds().toString();
+		return this._postMultipart(
+			`${Urls.api}/media/add/${typeId}/${itemId}`,
+			[{name: 'media', filename: n, data: RNFetchBlob.wrap(filePath)}]
+		);
+	}
+
+	// Called from AddContacts
+	searchUsers(queryArray = []): Promise<Array<TUser>> {
+		if (queryArray.length <= 0)
+			return Promise.resolve([]);
+
+		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
 			.then(JSON.parse);
 	}
 
