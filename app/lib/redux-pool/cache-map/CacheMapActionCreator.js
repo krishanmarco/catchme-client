@@ -1,4 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
+import _ from 'lodash';
 import DataProvider from '../../data/DataProvider';
 import Logger from '../../Logger';
 import PoolActionCreator from '../PoolActionCreator';
@@ -11,7 +12,6 @@ import {
 } from './CacheMapPool';
 import {POOL_TYPE_CACHE_MAP} from '../../../redux/ReduxPool';
 import type {TDispatch, TId} from '../../types/Types';
-import DaoLocation from "../../daos/DaoLocation";
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
@@ -67,10 +67,9 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 	}
 
 	initializeItem(itemId, extraParams) {
-		const {dispatchAction, dispatch, dispatchPromiseAction, poolId} = this;
+		const {dispatch, dispatchPromiseAction, poolId} = this;
 		const pool = this.getPoolDef();
-		// todo duplicaed in itemExists
-		return dispatch((dispatch, getState) => {
+		return dispatch(async (dispatch, getState) => {
 			
 			// If the data is already set (or is about to be set [nextPromise != null]) there is
 			// no need to run the request again.
@@ -80,25 +79,18 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 
 			// Check if the data is set, and is valid if it is return
 			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
-			
-			if (itemId in cacheMapData) {
-				const {loadingPromise, data, expiryTs} = cacheMapData[itemId];
+			const loadingPromise = _.get(cacheMapData, '[itemId].loadingPromise', false);
 
-				// If already loading return the promise
-				if (loadingPromise != null) {
-					Logger.v(`CacheMapActionCreator initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
-					return loadingPromise;
-				}
+			if (await this.itemExists(itemId, true)) {
+				Logger.v(`CacheMapActionCreator initializeItem: Cache valid, ${poolId} ${itemId}`);
+				return Promise.resolve(cacheMapData[itemId].data);
 
-				// If already loaded and valid return the data
-				if (data !== null && DataProvider.cacheIsValid(expiryTs)) {
-					Logger.v(`CacheMapActionCreator initializeItem: Cache valid, ${poolId} ${itemId}`);
-					return Promise.resolve(data);
-				}
+			} else if (loadingPromise) {
+				Logger.v(`CacheMapActionCreator initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
+				return loadingPromise;
+			} 
 
-				Logger.v(`CacheMapActionCreator initializeItem: Cache invalid, ${poolId} ${itemId}, data(null)=${data == null}`);
-			}
-
+			Logger.v(`CacheMapActionCreator initializeItem: Cache invalid, ${poolId} ${itemId}`);
 
 			// Run the pool data-builder
 			const nextPromise = pool.buildDataSet({dispatch, getState}, itemId, extraParams)
