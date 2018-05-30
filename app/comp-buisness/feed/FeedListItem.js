@@ -70,15 +70,15 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 	_renderLeftAvatar() {
 		const {feed} = this.props;
 		const leftAvatar = DaoFeed.gLeftAvatar(feed);
-		return leftAvatar && (<AvatarCircle source={{uri: leftAvatar}}/>);
+		return !!leftAvatar && (<AvatarCircle source={{uri: leftAvatar}}/>);
 	}
 
 	_renderRightAvatar() {
 		const {feed} = this.props;
 		const rightAvatar = DaoFeed.gRightAvatar(feed);
-		return rightAvatar && (
-			<Col size={20} style={listItemActions.actionLast}>
-				<AvatarCircle source={{uri: ImageURISourceAuth.fromUrl(rightAvatar)}}/>
+		return !!rightAvatar && (
+			<Col size={15} style={[listItemActions.actionOnly]}>
+				<AvatarCircle source={ImageURISourceAuth.fromUrl(rightAvatar)}/>
 			</Col>
 		);
 	}

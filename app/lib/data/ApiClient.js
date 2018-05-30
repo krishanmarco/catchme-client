@@ -1,6 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiAuthentication from './ApiAuthentication';
+import ApiExceptionHandler from './ApiExceptionHandler';
 import Context from '../Context';
+import DaoApiException from '../daos/DaoApiException';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from '../daos/DaoUser';
 import firebase from './Firebase';
@@ -11,16 +13,16 @@ import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from '../HelperFunctions';
 import type {TApiFormChangePassword} from '../daos/DaoApiFormChangePassword';
 import type {TApiFormRegister} from '../daos/DaoApiFormRegister';
+import type {TId} from '../types/Types';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TUser} from '../daos/DaoUser';
 import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
-import {CacheMapDefLocationProfilesActionCreator} from "../redux-pool/cache-map/def/CacheMapDefLocationProfiles";
-import type {TId} from "../types/Types";
 
 class ApiClient {
 
 	constructor() {
 		this.api401Attempts = 0;
+		this._getHeaders = this._getHeaders.bind(this);
 		this._handleResponse = this._handleResponse.bind(this);
 		this._get = this._get.bind(this);
 		this._post = this._post.bind(this);
@@ -28,141 +30,73 @@ class ApiClient {
 		this._onReceiveUserProfile = this._onReceiveUserProfile.bind(this);
 	}
 
-	_handleResponse(response, url, callbackRetryRequest) {
+	async _getHeaders(contentType: string) {
+		const authToken = await ApiAuthentication.getUserAuthenticationToken();
+		Logger.v(`ApiClient _getHeaders: Using auth-token ${authToken}`);
+		return {
+			'Accept': 'application/json',
+			'Content-Type': contentType,
+			'Authorization': authToken
+		};
+	}
 
-		// CASE 1, status == 200
-		if (response.status === 200) {
+	async _handleResponse(response, url, callbackRetryRequest) {
+		const status = response.status;
+		let text: ?String = await response.text();
 
-			// Request is successful, reset the failed counter
-			this.api401Attempts = 0;
+		Logger.v(`ApiClient _handleResponse: s(${status}), a(${this.api401Attempts}) u(${url})`, text);
 
-			return response.text()
-				.then(text => {
-					Logger.v(`ApiClient _handleResponse: status(200) for ${url}`, text);
-					return text;
-				});
-		}
-
-		// CASE 2, status == 400
-		if (response.status === 400) {
-
-			// Request is successful, reset the failed counter
-			this.api401Attempts = 0;
-
-			return response.text()
-				.then(text => {
-					Logger.v(`ApiClient _handleResponse: status(400) for ${url}`, text);
-					return Promise.reject(text);
-				});
-		}
-
-		// CASE 3, status == 401
-		if (response.status === 401) {
-			Logger.v(`ApiClient _handleResponse: status(401[${this.api401Attempts}]) for ${url}`);
-
-			// Request is unsuccessful, increment the failed counter
+		if (status == 401) {
 			this.api401Attempts++;
-
 			ApiAuthentication.invalidateAuthenticationToken();
 
-			if (this.api401Attempts > Const.apiMax401) {
-				// This request has been unauthorized too many times
-				Logger.v('ApiClient _handleResponse: Too many [401], terminating request retry-loop');
+			// Check if request rejected too many times
+			if (this.api401Attempts > Const.apiMax401)
+				throw new Error('ApiClient _handleResponse: Too many unauthorized requests.');
 
-				// Reset the 401 request counter
-				this.api401Attempts = 0;
-				return Promise.reject();
-			}
-
+			// Retry the request, the token will be regenerated
 			return callbackRetryRequest();
 		}
 
-		// CASE 4, status == 500
-		if (response.status === 500) {
-			Logger.v(`ApiClient _handleResponse: status(500) for ${url}`);
+		// The request was not unauthorized, reset the failed counter
+		this.api401Attempts = 0;
 
-			return response.text()
-				.then(json => {
-					const apiException = JSON.parse(json);
-					Logger.v('ApiClient _handleResponse:', apiException);
-					return Promise.reject(apiException);
-				}).catch(apiException => {
-					// Do nothing on server internal error
-				});
-		}
+		if (status == 200)
+			return text;
 
-		// CASE 5, status UNKNOWN
-		Logger.v(`ApiClient _handleResponse: status(${response.status}) for ${url}`);
-		return Promise.reject(0);
+		// (![401, 400, 500, 200]) -> Unknown status code -> Local ApiException
+		if (status != 400 && status != 500) // todo correct error code
+			return ApiExceptionHandler.onApiExceptionCatch(DaoApiException.newInstance(-1));
+
+		return ApiExceptionHandler.onApiExceptionCatch(JSON.parse(text));
 	}
 
 	_get(url) {
 		Logger.v(`ApiClient _get: Requesting auth-token for ${url}`);
 
-		return ApiAuthentication.getUserAuthenticationToken()
-			.then(authenticationToken => {
-				Logger.v(`ApiClient _get: Using auth-token ${authenticationToken}`);
-
-				return fetch(url, {
-					method: 'GET',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json',
-						'Authorization': authenticationToken
-					}
-				});
-
-			})
+		return this._getHeaders('application/json')
+			.then(headers => fetch(url, {method: 'GET', headers}))
 			.then(response => this._handleResponse(response, url, () => this._get(url)));
 	}
 
 	_post(url: string, body: ?Object) {
 		Logger.v(`ApiClient _post: Requesting auth-token for ${url}`);
 
-		return ApiAuthentication.getUserAuthenticationToken()
-			.then(authenticationToken => {
-				Logger.v(`ApiClient _post: Using auth-token ${authenticationToken}`);
-
-				return fetch(url, {
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json',
-						'Authorization': authenticationToken
-					},
-					body: JSON.stringify(body)
-				});
-
-			})
+		return this._getHeaders('application/json')
+			.then(headers => fetch(url, {method: 'POST', body: JSON.stringify(body), headers}))
 			.then(response => this._handleResponse(response, url, () => this._post(url, body)));
 	}
 
 	_postMultipart(url, formData) {
 		Logger.v(`ApiClient _postMultipart: Requesting auth-token for ${url}`);
 
-		return ApiAuthentication.getUserAuthenticationToken()
-			.then(authenticationToken => {
-				Logger.v(`ApiClient _postMultipart: Using auth-token ${authenticationToken}`);
-
-				return RNFetchBlob.fetch('POST', url,
-					{
-						'Accept': 'application/json',
-						'Content-Type': 'multipart/form-data',
-						'Authorization': authenticationToken
-					},
-					formData
-				);
-			})
-			.then(rnFetchResponse => {
-				// Map the RNFetchBlob answer to a normal fetch response
-				const response = {
-					// Add any parameters that _handleResponse may need in the response object
-					text: () => Promise.resolve(rnFetchResponse.text()),
-					status: rnFetchResponse.respInfo.status
-				};
-
-				return this._handleResponse(response, url, () => this._postMultipart(url, formData));
-			});
+		return this._getHeaders('multipart/form-data')
+			.then(headers => RNFetchBlob.fetch('POST', url, headers, formData))
+			.then(rnFetchResponse => ({
+				text: () => Promise.resolve(rnFetchResponse.text()),
+				status: rnFetchResponse.respInfo.status
+			}))
+			.then(response => this._handleResponse(response, url, () => this._postMultipart(url, formData)));
 	}
 
 	// Verified API Below ***************************************************************************

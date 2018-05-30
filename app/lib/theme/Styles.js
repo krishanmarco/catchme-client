@@ -33,5 +33,9 @@ export const listItemActions = StyleSheet.create({
 	},
 	actionLast: {
 		marginRight: 0
+	},
+	actionOnly: {
+		justifyContent: 'center',
+		alignItems: 'center'
 	}
 });
