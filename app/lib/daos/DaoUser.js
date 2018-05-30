@@ -329,5 +329,8 @@ export default class DaoUser {
 		return locationsWithULSs.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
 	}
 
+	static isSameUser(user1: TUser, user2: TUser) {
+		return DaoUser.gId(user1) === DaoUser.gId(user2);
+	}
 
 }

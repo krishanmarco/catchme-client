@@ -3,10 +3,11 @@ import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeaturedAd from '../../lib/daos/DaoFeaturedAd';
 import React from 'react';
 import {Icon} from 'react-native-elements';
-import {Image, View} from 'react-native';
-import {RkButton, RkCard, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {Image, View, StyleSheet} from 'react-native';
+import {RkButton, RkCard, RkText} from 'react-native-ui-kitten';
 import {Touchable} from '../../comp/Misc';
 import type {TFeaturedAd} from '../../lib/daos/DaoFeaturedAd';
+import {Colors} from "../../Config";
 
 
 // Const *************************************************************************************************
@@ -86,14 +87,12 @@ export default class FeaturedAdsListItem extends React.Component<void, Props, vo
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 
 	listItem: {
 		display: 'flex',
 		paddingHorizontal: 12,
 		alignItems: 'center',
-		borderBottomWidth: 0,
-		borderColor: theme.colors.border.base,
 	},
 
 	listItemHeaderContent: {
@@ -114,7 +113,7 @@ const styles = RkStyleSheet.create(theme => ({
 	},
 
 	root: {
-		backgroundColor: theme.colors.screen.base
+		backgroundColor: Colors.background
 	},
 	overlay: {
 		justifyContent: 'flex-end',
@@ -133,4 +132,4 @@ const styles = RkStyleSheet.create(theme => ({
 		paddingHorizontal: 8,
 		marginLeft: 12,
 	},
-}));
+});

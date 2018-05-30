@@ -1,8 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TStyle} from '../../lib/types/Types';
+import {Colors} from "../../Config";
 
 
 type Props = {
@@ -21,14 +22,14 @@ export default ListItemHeader;
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		paddingVertical: 8,
 		paddingHorizontal: 17.5,
 		borderBottomWidth: StyleSheet.hairlineWidth,
-		borderColor: theme.colors.border.base,
+		borderColor: Colors.border,
 		alignItems: 'center'
 	},
-}));
+});

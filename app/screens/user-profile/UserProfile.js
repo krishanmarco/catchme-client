@@ -121,7 +121,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	_isSameUser(props: Props = this.props): boolean {
 		const {userProfile, authUserProfile} = props;
-		return DaoUser.gId(userProfile) === DaoUser.gId(authUserProfile);
+		return DaoUser.isSameUser(authUserProfile, userProfile);
 	}
 
 	render() {

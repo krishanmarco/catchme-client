@@ -5,8 +5,8 @@ import {AvatarCircle, Touchable} from '../Misc';
 import {Col, Grid} from 'react-native-easy-grid';
 import {Icons} from '../../Config';
 import {listItemActions} from '../../lib/theme/Styles';
-import {RkButton, RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import {View} from 'react-native';
+import {RkButton, RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
 import type {TIcon, TImageSource} from '../../lib/types/Types';
 
 // ListItemAction *************************************************************************************
@@ -110,7 +110,7 @@ ListItemWithActions.defaultProps = {
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 
 	listItemWithActionsRoot: {
 		display: 'flex',
@@ -136,5 +136,5 @@ const styles = RkStyleSheet.create(theme => ({
 		justifyContent: 'center',
 		alignItems: 'center'
 	}
-}));
+});
 

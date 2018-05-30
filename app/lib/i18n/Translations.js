@@ -182,7 +182,7 @@ I18n.translations = {
 
 		// Local success
 		t_ls_connection_accepted: 'Friend request accepted',
-		t_ls_uls_removed: 'Your status has been removed',
+		// t_ls_uls_removed: 'Your status has been removed',
 		t_ls_user_blocked: 'User blocked. They won\'t be able to see your status anymore',
 		t_ls_user_removed: 'User removed. They will still be able to see your status but are not friends anymore',
 		t_ls_user_cancel: 'Friend request canceled.',

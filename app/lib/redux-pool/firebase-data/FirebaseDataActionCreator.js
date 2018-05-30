@@ -14,7 +14,6 @@ import {userProfileActions} from '../PoolHelper';
 import type {TDispatch} from '../../types/Types';
 import type {TUser} from '../../daos/DaoUser';
 
-// todo after a while the loader starts again?
 export default class FirebaseDataActionCreator extends PoolActionCreator {
 
 	static handleClickAction(actionHandlerParams: TActionHandlerParams, poolDefId: string): Promise {

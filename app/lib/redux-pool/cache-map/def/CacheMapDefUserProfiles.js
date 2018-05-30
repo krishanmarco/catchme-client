@@ -16,7 +16,6 @@ class CacheMapDefUserProfiles extends CacheMapDef {
 	}
 
 	buildDataSet(thunk: TThunk, uid: number, extraParams: Object): Promise<TUser> {
-		// todo: if uid is same as logged user then return the userProfile without the API request.
 		return ApiClient.usersGetUidProfile(uid);
 	}
 

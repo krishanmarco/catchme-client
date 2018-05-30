@@ -6,8 +6,7 @@ import {AvatarCircle, DynamicStyleText, Touchable} from '../../comp/Misc';
 import {Col, Grid} from 'react-native-easy-grid';
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {listItemActions} from '../../lib/theme/Styles';
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import type {TFeed} from '../../lib/daos/DaoFeed';
 import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
 
@@ -103,7 +102,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	listItem: {
 		display: 'flex',
 		paddingHorizontal: 12
@@ -116,4 +115,4 @@ const styles = RkStyleSheet.create(theme => ({
 		flex: 1,
 		marginLeft: 12
 	}
-}));
+});

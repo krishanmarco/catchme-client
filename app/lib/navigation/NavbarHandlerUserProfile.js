@@ -50,7 +50,7 @@ export default class NavbarHandlerUserProfile {
 			return;
 		}
 
-		if (DaoUser.gId(cacheUserProfile.data) == DaoUser.gId(userProfile)) {
+		if (DaoUser.isSameUser(cacheUserProfile.data, userProfile)) {
 			this.showNoButtons();
 			return;
 		}

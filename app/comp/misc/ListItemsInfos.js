@@ -2,10 +2,11 @@
 import React from 'react';
 import {Col, Grid} from 'react-native-easy-grid';
 import {Icon} from 'react-native-elements';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
 import {Touchable} from '../Misc';
 import type {TDataPoint, TStyle} from '../../lib/types/Types';
+import {Colors} from "../../Config";
 
 
 // Const *************************************************************************************************
@@ -55,10 +56,10 @@ export default ListItemInfo;
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
+const styles = StyleSheet.create({
 	root: {
 		borderBottomWidth: StyleSheet.hairlineWidth,
-		borderColor: theme.colors.border.base,
+		borderColor: Colors.border,
 		paddingVertical: 12
 	},
 	grid: {
@@ -73,4 +74,4 @@ const styles = RkStyleSheet.create(theme => ({
 	textCol: {
 		marginLeft: 8
 	},
-}));
+});

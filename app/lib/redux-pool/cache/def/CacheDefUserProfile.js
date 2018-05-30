@@ -480,7 +480,6 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userStatusDel(ulsId)
 			.then(success => {
 				Logger.v('CacheDefUserProfile removeUserLocationStatus: success', ulsId, success);
-				Snackbar.showSuccessStr(t('t_ls_uls_removed'));
 				return success;
 			})
 			.catch(err => {
