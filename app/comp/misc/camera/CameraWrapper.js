@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import RNCamera, {constants as CameraConstants} from 'react-native-camera';
 import Logger from '../../../lib/Logger';
 import React from 'react';
+import RNCamera, {constants as CameraConstants} from 'react-native-camera';
 import {Colors} from '../../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';

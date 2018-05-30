@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Col, Grid} from 'react-native-easy-grid';
+import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
 import {Touchable} from '../Misc';
 import type {TDataPoint, TStyle} from '../../lib/types/Types';
-import {Colors} from "../../Config";
 
 
 // Const *************************************************************************************************

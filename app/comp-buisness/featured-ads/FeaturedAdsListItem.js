@@ -2,12 +2,12 @@
 import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeaturedAd from '../../lib/daos/DaoFeaturedAd';
 import React from 'react';
+import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {Image, View, StyleSheet} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import {RkButton, RkCard, RkText} from 'react-native-ui-kitten';
 import {Touchable} from '../../comp/Misc';
 import type {TFeaturedAd} from '../../lib/daos/DaoFeaturedAd';
-import {Colors} from "../../Config";
 
 
 // Const *************************************************************************************************

@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import {denormObj} from "../HelperFunctions";
+import {denormObj} from '../HelperFunctions';
 
 export type TApiException = {
 	errorCode: number,            // 1                            Api error

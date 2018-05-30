@@ -1,15 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
+import _ from 'lodash';
 import ApiClient from '../../../data/ApiClient';
 import CacheMapDef from '../CacheMapDef';
 import DaoLocation from '../../../daos/DaoLocation';
 import Logger from '../../../Logger';
 import {Snackbar} from '../../../Snackbar';
 import {t} from '../../../i18n/Translations';
-import _ from 'lodash';
 import {Validate} from '../../../helpers/Validator';
 import type {TCacheMapDef} from '../CacheMapDef';
-import type {TLocation} from '../../../daos/DaoLocation';
 import type {TId, TThunk} from '../../../types/Types';
+import type {TLocation} from '../../../daos/DaoLocation';
 
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 

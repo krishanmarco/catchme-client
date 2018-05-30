@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-May-18 © **/
-import type {TApiException} from "../daos/DaoApiException";
+import type {TApiException} from '../daos/DaoApiException';
 
 // This class should handle all ApiExceptions
 // It also encodes whether or not they will show a toast
