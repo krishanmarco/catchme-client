@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import Maps from '../data/Maps';
 import {denormObj} from '../HelperFunctions';
-import Maps from "../data/Maps";
 
 export type TApiException = {
 	errorCode: number,            // 1                            Api error
