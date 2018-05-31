@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
-import Router from "../../lib/navigation/Router";
+import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import ULSListManager, {TLocationWithULS, TULSListState} from '../../lib/helpers/ULSListManager';
-import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import {FlatListEmpty} from "../../comp/Misc";
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import {FlatListEmpty} from '../../comp/Misc';
 import {ListItemLocationFollow, ListItemUserLocationStatus} from '../location/LocationListItems';
-import {poolConnect} from "../../redux/ReduxPool";
-import {t} from "../../lib/i18n/Translations";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {poolConnect} from '../../redux/ReduxPool';
+import {t} from '../../lib/i18n/Translations';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -22,8 +22,8 @@ type Props = {
 	allowEdit: boolean,
 	userProfile: TUser,
 	onLocationPress: (TLocation) => void,
-	allowFollow: boolean,
-	allowUnfollow: boolean
+	showFollow: boolean,
+	showUnfollow: boolean
 };
 
 type State = TULSListState;
@@ -101,7 +101,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 	}
 
 	_renderItem({item}: { item: TLocationWithULS|TLocation }) {
-		const {allowFollow, allowUnfollow, onLocationPress} = this.props;
+		const {showFollow, showUnfollow, onLocationPress} = this.props;
 
 		if (DaoLocation.gUserLocationStatus(item))
 			return this._renderUserLocationStatus(item);
@@ -112,18 +112,19 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 			onPress: onLocationPress
 		};
 
-		const followLocation = this._cacheUserProfile().followLocation;
-		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
+		const locationFavAdd = this._cacheUserProfile().locationFavAdd;
+		const locationFavRemove = this._cacheUserProfile().locationFavRemove;
 
-		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
-		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
+		const lid = DaoLocation.gId(item);
+		const favoriteIds = this._getFavoriteIds();
+		const sFollow = showFollow && !favoriteIds.includes(lid);
+		const sUnfollow = showUnfollow && favoriteIds.includes(lid);
 
-		if (showFollow) {
-			listItemProps.addLocationToFavorites = followLocation;
-		}
+		if (sFollow) {
+			listItemProps.onLocationFavAddPress = locationFavAdd;
 
-		if (showUnfollow) {
-			listItemProps.removeLocationFromFavorites = unfollowLocation;
+		} else if (sUnfollow) {
+			listItemProps.onLocationFavRemove = locationFavRemove;
 		}
 
 		return <ListItemLocationFollow {...listItemProps}/>;

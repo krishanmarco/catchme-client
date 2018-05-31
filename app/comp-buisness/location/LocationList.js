@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
 import {ListItemLocationFollow} from './LocationListItems';
-import {poolConnect} from "../../redux/ReduxPool";
-import {t} from "../../lib/i18n/Translations";
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import {poolConnect} from '../../redux/ReduxPool';
+import {t} from '../../lib/i18n/Translations';
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 
 // Const ************************************************************************************************
@@ -15,8 +15,8 @@ import type {TLocation} from "../../lib/daos/DaoLocation";
 
 type Props = {
 	locations: Array<TLocation>,
-	allowFollow: boolean,
-	allowUnfollow: boolean,
+	showFollow: boolean,
+	showUnfollow: boolean,
 	onLocationPress: Function
 };
 
@@ -73,25 +73,26 @@ class _LocationList extends React.PureComponent<void, Props, void> {
 
 
 	_renderItem({item}: { item: TLocation }) {
-		const {allowFollow, allowUnfollow, onLocationPress} = this.props;
+		const {showFollow, showUnfollow, onLocationPress} = this.props;
 
 		const listItemProps = {
 			location: item,
 			onPress: onLocationPress
 		};
 
-		const followLocation = this._cacheUserProfile().followLocation;
-		const unfollowLocation = this._cacheUserProfile().unfollowLocation;
+		const locationFavAdd = this._cacheUserProfile().locationFavAdd;
+		const locationFavRemove = this._cacheUserProfile().locationFavRemove;
 
-		const showFollow = allowFollow && !this._getFavoriteIds().includes(DaoLocation.gId(item));
-		const showUnfollow = allowUnfollow && this._getFavoriteIds().includes(DaoLocation.gId(item));
+		const lid = DaoLocation.gId(item);
+		const favoriteIds = this._getFavoriteIds();
+		const sFollow = showFollow && !favoriteIds.includes(lid);
+		const sUnfollow = showUnfollow && favoriteIds.includes(lid);
 
-		if (showFollow) {
-			listItemProps.addLocationToFavorites = followLocation;
-		}
+		if (sFollow) {
+			listItemProps.onLocationFavAddPress = locationFavAdd;
 
-		if (showUnfollow) {
-			listItemProps.removeLocationFromFavorites = unfollowLocation;
+		} else if (sUnfollow) {
+			listItemProps.onLocationFavRemove = locationFavRemove;
 		}
 
 		return <ListItemLocationFollow {...listItemProps}/>;

@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import ApiFormDef from "../ApiFormDef";
-import DaoApiFormRegister from "../../../daos/DaoApiFormRegister";
-import {ApiFormState} from "../ApiFormModel";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TApiFormRegister} from "../../../daos/DaoApiFormRegister";
-import type {TThunk} from "../../../types/Types";
+import ApiClient from '../../../data/ApiClient';
+import ApiFormDef from '../ApiFormDef';
+import DaoApiFormRegister from '../../../daos/DaoApiFormRegister';
+import {ApiFormState} from '../ApiFormModel';
+import {Validator} from '../../../helpers/Validator';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TApiFormRegister} from '../../../daos/DaoApiFormRegister';
+import type {TThunk} from '../../../types/Types';
 
 export const FORM_API_ID_REGISTER = 'FORM_API_ID_REGISTER';
 
@@ -29,10 +29,10 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormRegister> {
 	}
 
 	validate(apiFormRegister: TApiFormRegister, errors: TApiFormRegister, inclusive: boolean = false): TApiFormRegister {
-		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pName, n => Validate.string(n, 3, 100));
-		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pEmail, e => Validate.email(e));
+		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pName, n => Validator.string(n, 3, 100));
+		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pEmail, e => Validator.email(e));
 
-		const errorId = Validate.passwordsEqual(
+		const errorId = Validator.passwordsEqual(
 			apiFormRegister[DaoApiFormRegister.pPassword],
 			apiFormRegister[DaoApiFormRegister.pPasswordConfirm]
 		);
@@ -41,8 +41,8 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormRegister> {
 		errors[DaoApiFormRegister.pPasswordConfirm] = errorId;
 
 		// The password and passwordConfirm not set errors have precedence over the passwords not equal error
-		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pPassword, p => Validate.password(p));
-		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pPasswordConfirm, p => Validate.password(p));
+		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pPassword, p => Validator.password(p));
+		this.setError(errors, inclusive, apiFormRegister, DaoApiFormRegister.pPasswordConfirm, p => Validator.password(p));
 
 		return errors;
 	}

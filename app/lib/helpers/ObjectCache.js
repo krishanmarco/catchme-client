@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import Logger from "../Logger";
+import Logger from '../Logger';
 
 export default class ObjectCache {
 	

@@ -1,15 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import ApiFormDef from "../ApiFormDef";
-import DaoApiFormRecoverPassword from "../../../daos/DaoApiFormRecoverPassword";
-import {ApiFormState} from "../ApiFormModel";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TApiFormRecoverPassword} from "../../../daos/DaoApiFormRecoverPassword";
-import type {TThunk} from "../../../types/Types";
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
-import CacheActionCreator from "../../cache/CacheActionCreator";
-import DaoUser from "../../../daos/DaoUser";
+import ApiClient from '../../../data/ApiClient';
+import ApiFormDef from '../ApiFormDef';
+import DaoApiFormRecoverPassword from '../../../daos/DaoApiFormRecoverPassword';
+import {ApiFormState} from '../ApiFormModel';
+import {Validator} from '../../../helpers/Validator';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TApiFormRecoverPassword} from '../../../daos/DaoApiFormRecoverPassword';
+import type {TThunk} from '../../../types/Types';
 
 export const FORM_API_ID_RECOVER_PASSWORD = 'FORM_API_ID_RECOVER_PASSWORD';
 
@@ -33,7 +30,7 @@ class ApiFormDefRecoverPassword extends ApiFormDef<TApiFormRecoverPassword> {
 	}
 
 	validate(form: TApiFormRecoverPassword, errors: TApiFormRecoverPassword, inclusive: boolean = false): TApiFormRecoverPassword {
-		this.setError(errors, inclusive, form, DaoApiFormRecoverPassword.pEmail, p => Validate.email(p));
+		this.setError(errors, inclusive, form, DaoApiFormRecoverPassword.pEmail, p => Validator.email(p));
 		return errors;
 	}
 

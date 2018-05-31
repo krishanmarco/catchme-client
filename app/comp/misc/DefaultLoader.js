@@ -3,7 +3,7 @@ import React from 'react';
 import {Bubbles} from 'react-native-loader';
 import {Colors} from '../../Config';
 import {StyleSheet, View} from 'react-native';
-import type {TStyle} from "../../lib/types/Types";
+import type {TStyle} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

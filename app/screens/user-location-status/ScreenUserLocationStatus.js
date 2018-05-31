@@ -1,18 +1,18 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUserLocationStatus from '../../lib/daos/DaoUserLocationStatus';
 import React from 'react';
+import Router from '../../lib/navigation/Router';
 import UserLocationStatus from './UserLocationStatus';
-import {CACHE_MAP_ID_LOCATION_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles";
-import {Const} from "../../Config";
-import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from "../../lib/redux-pool/api-form/def/ApiFormDefUserLocationStatus";
-import {NullableObjects, Screen} from "../../comp/Misc";
+import {CACHE_MAP_ID_LOCATION_PROFILES} from '../../lib/redux-pool/cache-map/def/CacheMapDefLocationProfiles';
+import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../lib/redux-pool/api-form/def/ApiFormDefUserLocationStatus';
+import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TApiFormPool} from "../../lib/redux-pool/api-form/ApiFormPool";
-import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
-
+import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
+import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
+import {Snackbar} from "../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -75,20 +75,19 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 
 	_onStatusConfirm() {
 		const {navigator, postOnConfirm, onStatusConfirm} = this.props;
-		const newStatus = this._formApiEditUserLocationStatus().apiInput;
+		const {apiInput} = this._formApiEditUserLocationStatus();
 
-		if (postOnConfirm) {
-			this._formApiEditUserLocationStatus().post()
-				.then(success => {
+		if (onStatusConfirm)
+			onStatusConfirm(apiInput);
+		
+		Router.dismissModal(navigator);
 
-					// Notify the parent component that the status has changed
-					if (onStatusConfirm)
-						onStatusConfirm(newStatus);
-
-				});
+		if (!postOnConfirm) {
+			return;
 		}
 
-		navigator.dismissModal(Const.dismissModalConfig);
+		this._formApiEditUserLocationStatus().post()
+			.catch(Snackbar.showApiException);
 	}
 
 

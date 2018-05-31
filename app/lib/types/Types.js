@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/01/18 © **/
-import type {TAction} from "../daos/DaoAction";
+import type {TAction} from '../daos/DaoAction';
 
 export type TActionHandlers = {[string]: TActionHandler};
 
@@ -37,7 +37,8 @@ export type TNavigator = Object & {
 	showModal: Function,
 	push: Function,
 	setButtons: Function,
-	switchToTab: Function
+	switchToTab: Function,
+	dismissModal: Function,
 };
 
 export type TMoment = {
@@ -59,3 +60,7 @@ export type TImageSource = {
 };
 
 export type TStyle = Object;
+
+export type TDynamicStyleTextArray = Array<[string, TStyle]>;
+
+export type TId = number|string;

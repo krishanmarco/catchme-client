@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {CacheState} from "./CacheModel";
+import {CacheState} from './CacheModel';
+import type {TThunk} from '../../types/Types';
 
 
 export type TCacheDef<TCacheObject> = {
@@ -11,7 +12,7 @@ export type TCacheDef<TCacheObject> = {
 	initState: () => CacheState,
 
 	// Refresh or get data associated to this cache
-	buildDataSet: () => TCacheObject
+	buildDataSet: (TThunk, Object) => TCacheObject
 
 };
 

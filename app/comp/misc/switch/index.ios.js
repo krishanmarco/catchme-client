@@ -1,8 +1,6 @@
 import React from 'react';
 import {RkComponent} from 'react-native-ui-kitten';
-import {
-  Switch,
-} from 'react-native';
+import {Switch,} from 'react-native';
 
 
 export class RkSwitch extends RkComponent {

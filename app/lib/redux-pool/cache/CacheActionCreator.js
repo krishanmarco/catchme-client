@@ -1,15 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import Logger from "../../Logger";
-import PoolActionCreator from "../PoolActionCreator";
-import {CacheState} from "./CacheModel";
-import {
-	POOL_ACTION_CACHE_INIT_DATA,
-	POOL_ACTION_CACHE_INVALIDATE_DATA,
-	POOL_ACTION_CACHE_SET_DATA
-} from "./CachePool";
-import {POOL_TYPE_CACHE} from "../../../redux/ReduxPool";
-import type {TDispatch} from "../../types/Types";
-
+import Logger from '../../Logger';
+import PoolActionCreator from '../PoolActionCreator';
+import {CacheState} from './CacheModel';
+import {POOL_ACTION_CACHE_INIT_DATA, POOL_ACTION_CACHE_INVALIDATE_DATA, POOL_ACTION_CACHE_SET_DATA} from './CachePool';
+import {POOL_TYPE_CACHE} from '../../../redux/ReduxPool';
+import type {TDispatch} from '../../types/Types';
 
 export default class CacheActionCreator extends PoolActionCreator {
 
@@ -108,20 +103,10 @@ export default class CacheActionCreator extends PoolActionCreator {
 				// Continue the promise chain
 				return buildResultData;
 
-			}).catch(apiExceptionResponse => {
-				Logger.v("CacheActionCreator POOL_ACTION_CACHE_SET_DATA initialize: ", apiExceptionResponse);
-
-				/*
-				// todo developement remove comment in production
-				dispatch({
-					poolType: POOL_TYPE_CACHE,
-					poolId: poolId,
-					type: POOL_ACTION_CACHE_SET_DATA,
-					data: null
-				});*/
-
-				// Continue the promise chain
-				return apiExceptionResponse;
+			}).catch(err => {
+				Logger.v('CacheActionCreator initialize: buildDataSet failed', err);
+				this.setData(null);
+				return err;
 			});
 
 

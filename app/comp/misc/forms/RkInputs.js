@@ -2,12 +2,13 @@
 import _ from 'lodash';
 import React from 'react';
 import {RkTextInput as _RkTextInput, RkText} from 'react-native-ui-kitten';
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {Colors} from "../../../Config";
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
+import {Colors} from '../../../Config';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
-import {Validate} from "../../../lib/helpers/Validator";
-import type {TStyle} from "../../../lib/types/Types";
+import {Validator} from '../../../lib/helpers/Validator';
+import type {TStyle} from '../../../lib/types/Types';
+import Maps from "../../../lib/data/Maps";
 
 
 // RkTextInput ******************************************************************************************
@@ -38,7 +39,7 @@ export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: Rk
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
-				{hasErrorCode ? Validate.mapErrorCodeToMessage(errorCode) : ' '}
+				{hasErrorCode ? Maps.errorIdToString(errorCode) : ' '}
 			</RkText>
 
 		</View>
@@ -90,7 +91,7 @@ export const RkMultiChoice = ({title, textProps, style, options = [], ...props}:
 			{...props}
 			mode={Picker.MODE_DROPDOWN}
 			style={styles.multiChoicePicker}>
-			{options.map((item) => <Picker.Item key={item.value} {...item}/>)}
+			{options.map((item) => <Picker.Item key={item.id} {...item}/>)}
 		</Picker>
 	</View>
 );
@@ -104,19 +105,32 @@ type RkTextInputFromPoolProps = {
 	field: string,
 };
 
-export const RkTextInputFromPool = ({pool, field, ...props}: RkTextInputFromPoolProps) => {
-	const value = String(_.get(pool, `apiInput.${field}`, ''));
-	const errorCode = _.get(pool, `errors.${field}`, 0);
+export class RkTextInputFromPool extends React.PureComponent<void, RkTextInputFromPoolProps, void> {
 
-	return (
-		<RkTextInput
-			{...props}
-			value={value}
-			errorCode={errorCode}
-			onChangeText={text => pool.change(denormObj({[field]: text}))}/>
-	);
-};
+	constructor(props, context) {
+		super(props, context);
+		this._onChangeText = this._onChangeText.bind(this);
+	}
 
+	_onChangeText(text) {
+		const {pool, field} = this.props;
+		pool.change(denormObj({[field]: text}));
+	}
+
+	render() {
+		const {pool, field, ...props} = this.props;
+		const value = String(_.get(pool, `apiInput.${field}`, ''));
+		const errorCode = _.get(pool, `errors.${field}`, 0);
+		return (
+			<RkTextInput
+				{...props}
+				value={value}
+				errorCode={errorCode}
+				onChangeText={this._onChangeText}/>
+		);
+	}
+
+}
 
 // Config ***********************************************************************************************
 // Config ***********************************************************************************************

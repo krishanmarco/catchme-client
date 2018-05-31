@@ -1,24 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import _ from "lodash";
-import ActionHandler, {TActionHandlerParams} from "../../helpers/ActionHandler";
-import CacheActionCreator from "../cache/CacheActionCreator";
-import CacheDefUserProfile, {
-	CACHE_ID_USER_PROFILE,
-	CacheDefUserProfileActionCreator
-} from "../cache/def/CacheDefUserProfile";
-import DaoAction from "../../daos/DaoAction";
-import DaoUser from "../../daos/DaoUser";
-import PoolActionCreator from "../PoolActionCreator";
+import _ from 'lodash';
+import ActionHandler, {TActionHandlerParams} from '../../helpers/ActionHandler';
+import DaoAction from '../../daos/DaoAction';
+import DaoUser from '../../daos/DaoUser';
+import PoolActionCreator from '../PoolActionCreator';
 import {
 	POOL_ACTION_FIREBASE_DATA_PRE_BULK_FETCH,
 	POOL_ACTION_FIREBASE_DATA_SAVE_RECEIVED_DATA,
 	POOL_ACTION_FIREBASE_DATA_SET_FETCHED_ALL_ITEMS
-} from "./FirebaseDataPool";
-import {POOL_TYPE_FIREBASE_DATA} from "../../../redux/ReduxPool";
-import type {TDispatch} from "../../types/Types";
-import type {TUser} from "../../daos/DaoUser";
+} from './FirebaseDataPool';
+import {POOL_TYPE_FIREBASE_DATA} from '../../../redux/ReduxPool';
+import {userProfileActions} from '../PoolHelper';
+import type {TDispatch} from '../../types/Types';
+import type {TUser} from '../../daos/DaoUser';
 
-// todo after a while the loader starts again?
 export default class FirebaseDataActionCreator extends PoolActionCreator {
 
 	static handleClickAction(actionHandlerParams: TActionHandlerParams, poolDefId: string): Promise {
@@ -47,9 +42,6 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 		this.loadMore = this.loadMore.bind(this);
 		this.deleteItem = this.deleteItem.bind(this);
 		this.initialize = this.initialize.bind(this);
-		this.userProfileActionCreator = new CacheDefUserProfileActionCreator(
-			new CacheActionCreator(CACHE_ID_USER_PROFILE, dispatch)
-		);
 	}
 
 
@@ -162,7 +154,7 @@ export default class FirebaseDataActionCreator extends PoolActionCreator {
 			});
 
 			// Get and delete the item from the firebase database
-			const {executeIfDataNotNull} = this.userProfileActionCreator;
+			const {executeIfDataNotNull} = userProfileActions({dispatch, getState});
 			executeIfDataNotNull((user: TUser) => {
 				pool.removeObjectByFirebaseId(DaoUser.gId(user), firebaseItemId);
 			});

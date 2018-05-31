@@ -1,21 +1,22 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoUser from "../../../lib/daos/DaoUser";
-import ImagePicker from "../../../lib/helpers/ImagePicker";
-import Logger from "../../../lib/Logger";
-import Maps from "../../../lib/data/Maps";
+import DaoUser from '../../../lib/daos/DaoUser';
+import ImagePicker from '../../../lib/helpers/ImagePicker';
+import Logger from '../../../lib/Logger';
+import Maps from '../../../lib/data/Maps';
 import React from 'react';
-import Router from "../../../lib/navigation/Router";
-import {AvatarCircle, AvatarFull, ListItemHeader, ListItemInfo} from "../../../comp/Misc";
+import Router from '../../../lib/navigation/Router';
+import {AvatarFull, ListItemHeader, ListItemInfo} from '../../../comp/Misc';
 import {Const, Icons} from '../../../Config';
-import {FORM_API_ID_EDIT_USER_PROFILE} from "../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile";
-import {listItemInfo} from "../../../lib/theme/Styles";
+import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
+import {listItemInfo} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {stringReplace} from "../../../lib/HelperFunctions";
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {Snackbar} from '../../../lib/Snackbar';
+import {addKeys, stringReplace} from '../../../lib/HelperFunctions';
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -41,22 +42,13 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 	componentWillMount() {
 		const {authUserProfile} = this.props;
-
-		// We now have access to a user profile
-		// Initialize the redux pool form by setting all its values
-
 		this._formApiEditUserProfile().reset();
 		this._formApiEditUserProfile().change(DaoUser.apiClean(authUserProfile));
 	}
 
 	componentWillUnmount() {
 		this._formApiEditUserProfile().post()
-			.catch(err => {
-				// todo
-				// This should never happen because the back button
-				// should not be pressed if the form is invalid
-				Logger.v(`SettingsUserAccount componentWillUnmount `, err);
-			});
+			.catch(Snackbar.showApiException);
 	}
 
 	_formApiEditUserProfile(): TApiFormPool {
@@ -74,7 +66,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 		return parseInt(_.get(
 			this._formApiEditUserProfile().apiInput,
 			`${DaoUser.pSettingPrivacy}[${posIndex}]`,
-			Maps.privacyDefault().value.toString()
+			Maps.privacy.def.id.toString()
 		), 10);
 	}
 
@@ -95,9 +87,7 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 				this._formApiEditUserProfile().change({
 					[DaoUser.pPictureUrl]: response.uri
 				});
-			}).catch(error => {
-			// User canceled
-		});
+			}).catch(err => {Logger.v('SettingsUserAccount _onUserPicturePress:', err);});
 	}
 
 	render() {
@@ -146,9 +136,8 @@ class _SettingsUserAccount extends React.Component<void, Props, void> {
 
 
 	_renderPrivacySection() {
-		const privacyAll = Maps.privacyOptions();
-		const privacySub = Maps.privacyOptions();
-		privacySub.splice(1, 1);
+		const privacyAll = Maps.privacyOptions().map(p => ({value: p.id, ...p}));
+		const privacySub = Maps.privacyOptions(['onlyMe']).map(p => ({value: p.id, ...p}));
 
 		return (
 			<View>

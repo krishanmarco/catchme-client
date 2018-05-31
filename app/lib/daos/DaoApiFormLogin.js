@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 24-Mar-18 © **/
 import _ from 'lodash';
-import {denormObj} from "../HelperFunctions";
+import {denormObj} from '../HelperFunctions';
 
 
 export type TApiFormLogin = {
@@ -14,7 +14,7 @@ export default class DaoApiFormLogin {
 	static pPassword = 'password';
 
 	static newInstance(): TApiFormLogin {
-		// todo development remove
+		// development remove
 		return denormObj({
 			[DaoApiFormLogin.pEmail]: 'krishanmarco@outlook.com',
 			[DaoApiFormLogin.pPassword]: 'MomrpdrbrM93'

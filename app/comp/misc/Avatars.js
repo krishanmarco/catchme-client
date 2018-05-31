@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Avatar} from 'react-native-elements';
-import {BadgeOverlay, Touchable} from "../Misc";
-import {Image, StyleSheet, View} from 'react-native';
-import {validSource} from "../../lib/HelperFunctions";
-import type {TIcon, TImageSource} from "../../lib/types/Types";
+import {BadgeOverlay, Touchable} from '../Misc';
+import {Image, StyleSheet} from 'react-native';
+import {validSource} from '../../lib/HelperFunctions';
+import type {TIcon, TImageSource} from '../../lib/types/Types';
 
 // AvatarCircle *****************************************************************************************
 // AvatarCircle *****************************************************************************************

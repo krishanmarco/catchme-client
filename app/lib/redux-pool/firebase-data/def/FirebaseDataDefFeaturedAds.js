@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import FirebaseDataActionCreator from "../FirebaseDataActionCreator";
-import FirebaseDataDef from "../FirebaseDataDef";
-import {FirebaseData} from "../../../data/Firebase";
-import {TActionHandlerParams} from "../../../helpers/ActionHandler";
-import type {TFirebaseDataDef} from "../FirebaseDataDef";
+import FirebaseDataActionCreator from '../FirebaseDataActionCreator';
+import FirebaseDataDef from '../FirebaseDataDef';
+import {FirebaseData} from '../../../data/Firebase';
+import {TActionHandlerParams} from '../../../helpers/ActionHandler';
+import type {TFirebaseDataDef} from '../FirebaseDataDef';
 
 export const FIREBASE_DATA_ID_FEATURED_ADS = 'firebaseDataIdFeaturedAds';
 

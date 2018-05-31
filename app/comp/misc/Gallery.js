@@ -1,8 +1,8 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
 import {Dimensions, FlatList, Image, StyleSheet, View} from 'react-native';
-import type {TImageURISourceAuth} from "../../lib/data/ImageURISourceAuth";
-import type {TStyle} from "../../lib/types/Types";
+import type {TImageURISourceAuth} from '../../lib/data/ImageURISourceAuth';
+import type {TStyle} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

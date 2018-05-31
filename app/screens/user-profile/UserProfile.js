@@ -1,26 +1,27 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
-import DaoUser from "../../lib/daos/DaoUser";
+import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUser from '../../lib/daos/DaoUser';
 import LocationList from '../../comp-buisness/location/LocationList';
-import Maps from "../../lib/data/Maps";
+import Maps from '../../lib/data/Maps';
+import NavbarHandlerUserProfile from '../../lib/navigation/NavbarHandlerUserProfile';
 import React from 'react';
-import Router from "../../lib/navigation/Router";
+import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
 import UserList from '../../comp-buisness/user/UserList';
 import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
 import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
-import {AvatarFull, FlatListEmpty, ListItemInfo, ScrollableIconTabView} from "../../comp/Misc";
-import {Col, Grid, Row} from "react-native-easy-grid";
+import {AvatarFull, FlatListEmpty, ListItemInfo, ScrollableIconTabView} from '../../comp/Misc';
+import {Col, Grid, Row} from 'react-native-easy-grid';
 import {Const, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {Image, StyleSheet, View} from 'react-native';
-import {listItemInfo} from "../../lib/theme/Styles";
+import {listItemInfo} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
-import {t} from "../../lib/i18n/Translations";
-import type {TDataPoint, TNavigator, TSectionListDataPointSections} from "../../lib/types/Types";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../lib/i18n/Translations';
+import type {TDataPoint, TNavigator, TSectionListDataPointSections} from '../../lib/types/Types';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -28,7 +29,8 @@ import type {TUser} from "../../lib/daos/DaoUser";
 type Props = {
 	userProfile: TUser,
 	authUserProfile: TUser,
-	navigator: TNavigator
+	navigator: TNavigator,
+	navbarHandler: NavbarHandlerUserProfile,
 };
 
 type State = {
@@ -43,11 +45,11 @@ const userProfileTabIcons = {
 	4: Icons.userInfo
 };
 
-
 // _UserProfile *****************************************************************************************
 // _UserProfile *****************************************************************************************
 
 class _UserProfile extends React.Component<void, Props, State> {
+	static idxProfile = 0;
 
 	constructor(props: Props, context) {
 		super(props, context);
@@ -55,6 +57,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		this._onUserPress = this._onUserPress.bind(this);
 		this._onLocationSearchPress = this._onLocationSearchPress.bind(this);
 		this._onUserSearchPress = this._onUserSearchPress.bind(this);
+		this._onTabChanged = this._onTabChanged.bind(this);
 		this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
 		this._renderFavoriteListEmpty = this._renderFavoriteListEmpty.bind(this);
 		this._renderFriendsListEmpty = this._renderFriendsListEmpty.bind(this);
@@ -63,6 +66,18 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	componentWillReceiveProps(nextProps) {
 		this.setState(this._calculateState(nextProps));
+	}
+
+	_onTabChanged(changedToIndex) {
+		const {navbarHandler} = this.props;
+
+		switch (changedToIndex) {
+			case _UserProfile.idxProfile:
+				navbarHandler.showButtonAddOrAcceptConnection();
+				break;
+			default:
+				navbarHandler.showNoButtons();
+		}
 	}
 
 	_calculateState(props: Props) {
@@ -106,7 +121,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 	_isSameUser(props: Props = this.props): boolean {
 		const {userProfile, authUserProfile} = props;
-		return DaoUser.gId(userProfile) === DaoUser.gId(authUserProfile);
+		return DaoUser.isSameUser(authUserProfile, userProfile);
 	}
 
 	render() {
@@ -124,7 +139,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 		return (
 			<ScrollableIconTabView
-				icons={userProfileTabIcons}>
+				icons={userProfileTabIcons}
+				onTabChanged={this._onTabChanged}>
 				{tabs}
 			</ScrollableIconTabView>
 		);
@@ -160,11 +176,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 				<Row size={-1} style={styles.badges}>
 					{[
-						Maps.genderToIcon(DaoUser.gGender(userProfile)),
-						Maps.reputationToIcon(DaoUser.gReputation(userProfile))
-					].map((b, k) => (
+						Maps.genderIdToIcon(DaoUser.gGender(userProfile)),
+						Maps.reputationValueToIcon(DaoUser.gReputation(userProfile))
+					].map((icon, k) => (
 						<Col key={k}>
-							<Icon size={50} {...b}/>
+							<Icon size={50} {...icon}/>
 						</Col>
 					))}
 				</Row>
@@ -182,8 +198,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 					userProfile={userProfile}
 					onLocationPress={this._onLocationPress}
 					allowEdit={this._isSameUser()}
-					allowFollow={true}
-					allowUnfollow={this._isSameUser()}/>
+					showFollow={true}
+					showUnfollow={this._isSameUser()}/>
 			</View>
 		);
 	}
@@ -195,8 +211,8 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabLocationFavorites}>
 				<LocationList
 					locations={DaoUser.gLocationsFavorites(userProfile)}
-					allowFollow={true}
-					allowUnfollow={true}
+					showFollow={true}
+					showUnfollow={true}
 					onLocationPress={this._onLocationPress}
 					renderOnListEmpty={this._renderFavoriteListEmpty}/>
 			</View>
@@ -204,13 +220,17 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderFavoriteListEmpty() {
-		return (
-			<FlatListEmpty
-				text={t('t_empty_user_location_favorites')}
-				buttonText={t('t_empty_bt_user_location_favorites')}
-				onPress={this._onLocationSearchPress}
-				image={require('../../assets/images/empty-favorites.png')}/>
-		);
+		const props = {image: require('../../assets/images/empty-favorites.png')};
+
+		if (this._isSameUser()) {
+			props.text = t('t_empty_user_location_favorites');
+			props.buttonText = t('t_empty_bt_user_location_favorites');
+			props.onPress = this._onLocationSearchPress;
+		} else {
+			props.text = t('t_empty_user_other_location_favorites');
+		}
+
+		return <FlatListEmpty {...props}/>;
 	}
 
 	_renderTabFriends() {
@@ -221,8 +241,9 @@ class _UserProfile extends React.Component<void, Props, State> {
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
 					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
-					allowRequestFriend={true}
-					allowRemoveFriend={this._isSameUser()}
+					showAdd={true}
+					showRemove={this._isSameUser()}
+					showPending={true}
 					onUserPress={this._onUserPress}
 					renderOnListEmpty={this._renderFriendsListEmpty}/>
 			</View>
@@ -230,13 +251,17 @@ class _UserProfile extends React.Component<void, Props, State> {
 	}
 
 	_renderFriendsListEmpty() {
-		return (
-			<FlatListEmpty
-				text={t('t_empty_user_friends')}
-				buttonText={t('t_empty_bt_user_friends')}
-				onPress={this._onUserSearchPress}
-				image={require('../../assets/images/empty-friends.png')}/>
-		);
+		const props = {image: require('../../assets/images/empty-friends.png')};
+
+		if (this._isSameUser()) {
+			props.text = t('t_empty_user_friends');
+			props.buttonText = t('t_empty_bt_user_friends');
+			props.onPress = this._onUserSearchPress;
+		} else {
+			props.text = t('t_empty_user_other_friends');
+		}
+
+		return <FlatListEmpty {...props}/>;
 	}
 
 	_renderTabInfo() {

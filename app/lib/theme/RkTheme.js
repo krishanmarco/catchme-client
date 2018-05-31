@@ -278,6 +278,10 @@ export function bootstrapRkTheme() {
 			}
 		});
 	}
+	RkTheme.setType('RkText', 'infoText', {
+		fontSize: theme => theme.fonts.sizes.small,
+		fontFamily: theme => theme.fonts.family.regular
+	});
 	
 	RkTheme.setType('RkText', 'header1', {
 		fontSize: theme => theme.fonts.sizes.h1,

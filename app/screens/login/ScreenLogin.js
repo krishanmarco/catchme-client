@@ -1,26 +1,34 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
-import ApiFormPool from "../../lib/redux-pool/api-form/ApiFormPool";
-import DaoUser from "../../lib/daos/DaoUser";
-import Logger from "../../lib/Logger";
+import ApiFormPool from '../../lib/redux-pool/api-form/ApiFormPool';
+import DaoUser from '../../lib/daos/DaoUser';
+import Logger from '../../lib/Logger';
 import React from 'react';
-import Router from "../../lib/navigation/Router";
-import {FORM_API_ID_LOGIN} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
+import Router from '../../lib/navigation/Router';
+import {FORM_API_ID_LOGIN} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
-import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../comp/Misc";
-import {fullpageForm} from "../../lib/theme/Styles";
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
+import {fullpageForm} from '../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
-import {Icons} from "../../Config";
+import {Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkButton} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
-import {SignInFacebook} from "../../lib/social/SignInFacebook";
+import {SignInFacebook} from '../../lib/social/SignInFacebook';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
-import {startApplication} from "../../App";
+import {Snackbar} from '../../lib/Snackbar';
+import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from '../../lib/i18n/Translations';
+import {Validator} from '../../lib/helpers/Validator';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
+import Maps from "../../lib/data/Maps";
+import type {TApiException} from "../../lib/daos/DaoApiException";
+import ApiExceptionHandler from "../../lib/data/ApiExceptionHandler";
+import DaoApiException from "../../lib/daos/DaoApiException";
+import type {TApiFormLogin} from "../../lib/daos/DaoApiFormLogin";
+import type {TApiFormDefLogin} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -37,8 +45,6 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._handleSignInError = this._handleSignInError.bind(this);
-		this._handleSignInSuccess = this._handleSignInSuccess.bind(this);
 		this._getFormApiLogin = this._getFormApiLogin.bind(this);
 		this._onLoginPress = this._onLoginPress.bind(this);
 		this._onFacebookLogin = this._onFacebookLogin.bind(this);
@@ -48,43 +54,28 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		this._onGoToRecoverPasswordPress = this._onGoToRecoverPasswordPress.bind(this);
 	}
 
-	_handleSignInError(error = null) {
-		Logger.v("ScreenLogin _handleSignInError: ", error);
-	}
-
-	_handleSignInSuccess(userProfile: TUser) {
-		if (DaoUser.gApiKey(userProfile) == null) {
-			this._handleSignInError();
-			return null;
-		}
-
-		// Login was successful, start app
-		startApplication(userProfile);
-		return userProfile;
-	}
-
-	_getFormApiLogin(): ApiFormPool {
+	_getFormApiLogin(): TApiFormDefLogin {
 		return this.props[FORM_API_ID_LOGIN];
 	}
 
 	_onLoginPress() {
 		this._getFormApiLogin().post()
-			.then(this._handleSignInSuccess)
-			.catch(this._handleSignInError);
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onFacebookLogin() {
 		SignInFacebook.signInAndGetAccessToken()
-			.then(accessToken => ApiClient.accountsLoginFacebook(accessToken))
-			.then(this._handleSignInSuccess)
-			.catch(this._handleSignInError);
+			.then(ApiClient.accountsLoginFacebook)
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onGoogleLogin() {
 		SignInGoogle.signInAndGetAccessToken()
-			.then(accessToken => ApiClient.accountsLoginGoogle(accessToken))
-			.then(this._handleSignInSuccess)
-			.catch(this._handleSignInError);
+			.then(ApiClient.accountsLoginGoogle)
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onGoToSignupPress() {
@@ -97,10 +88,12 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		Router.toModalRecoverPassword(navigator);
 	}
 
-
 	render() {
+		// Do not require online to display the login screen
+		// The screen will be completely empty.
+		// This means we have to handle the failed ApiRequest in case of offline
 		return (
-			<Screen>
+			<Screen requireOnline={false}>
 				<FullpageForm
 
 					headerStyle={fullpageForm.headerStyle}

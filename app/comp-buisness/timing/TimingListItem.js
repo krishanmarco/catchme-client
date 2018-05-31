@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Clock from './Clock';
-import ManagerWeekTimings from "../../lib/helpers/ManagerWeekTimings";
-import Maps from "../../lib/data/Maps";
+import ManagerWeekTimings from '../../lib/helpers/ManagerWeekTimings';
+import Maps from '../../lib/data/Maps';
 import React from 'react';
-import {Col, Grid, Row} from "react-native-easy-grid";
-import {Colors, Const} from "../../Config";
+import {Col, Grid, Row} from 'react-native-easy-grid';
+import {Colors, Const} from '../../Config';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
+import {t} from '../../lib/i18n/Translations';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -75,7 +75,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 		return (
 			<View style={styles.headerLine}>
 				<RkText style={styles.headerSpan} rkType='accentColor'>
-					{Maps.daysOfWeek()[day]}
+					{Maps.dayIdToString(day)}
 				</RkText>
 			</View>
 		);

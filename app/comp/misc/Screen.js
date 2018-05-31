@@ -1,10 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18/01/18 © **/
-import Logger from "../../lib/Logger";
+import Logger from '../../lib/Logger';
 import React from 'react';
-import {Colors} from "../../Config";
+import {bindActionCreators} from 'redux';
+import {Colors} from '../../Config';
 import {connect} from 'react-redux';
-import {Dimensions, KeyboardAvoidingView, StyleSheet, View} from 'react-native';
-import type {TNavigator} from "../../lib/types/Types";
+import {Dimensions, KeyboardAvoidingView, NetInfo, StyleSheet, View} from 'react-native';
+import {ScreenInfo} from '../Misc';
+import {t} from '../../lib/i18n/Translations';
+import type {TNavigator} from '../../lib/types/Types';
 
 
 // Const **********************************************************************************************
@@ -14,21 +17,31 @@ type Props = {
 	navigator: TNavigator,
 	style: ?Object,
 	children: Node,
+	requireOnline: true,
+
+	// Redux stateProps
 	disablePointerEvents: boolean,
+	isOnline: boolean,
+	setOnlineStatus: Function
 };
 
 type State = {
 	// Nothing for now
 };
 
+const defaultProps = {
+	requireOnline: true
+};
 
 // Redux ************************************************************************************************
 // Redux ************************************************************************************************
 
 const ACTION_SET_DISABLE_POINTER_EVENTS = 'ACTION_SET_DISABLE_POINTER_EVENTS';
+const ACTION_SET_ONLINE_STATUS = 'ACTION_SET_ONLINE_STATUS';
 
 const screenInitState = {
-	disablePointerEvents: false
+	disablePointerEvents: false,
+	isOnline: true
 };
 
 export function screenReducer(state = screenInitState, action) {
@@ -38,13 +51,18 @@ export function screenReducer(state = screenInitState, action) {
 			return Object.assign({}, state, {
 				disablePointerEvents: action.disablePointerEvents
 			});
+
+		case ACTION_SET_ONLINE_STATUS:
+			return Object.assign({}, state, {
+				isOnline: action.isOnline
+			});
 	}
 	return state;
 }
 
 function screenSetDisablePointerEvents(disablePointerEvents: boolean) {
 	return (dispatch) => {
-		Logger.v(`Screen screenSetDisablePointerEvents: disablePointerEvents ${disablePointerEvents}`);
+		Logger.v(`Screen screenSetDisablePointerEvents: disablePointerEvents=${disablePointerEvents}`);
 		dispatch({type: ACTION_SET_DISABLE_POINTER_EVENTS, disablePointerEvents});
 	};
 }
@@ -57,13 +75,39 @@ export function screenEnablePointerEvents() {
 	return screenSetDisablePointerEvents(false);
 }
 
+export function screenSetOnlineStatus(isOnline: boolean) {
+	return {
+		type: ACTION_SET_ONLINE_STATUS,
+		isOnline
+	};
+}
+
 // Screen ***********************************************************************************************
 // Screen ***********************************************************************************************
 
 class Screen extends React.PureComponent<void, Props, State> {
+	static defaultProps = defaultProps;
+
+	constructor(props, context) {
+		super(props, context);
+		this.handleConnectivityChange = this.handleConnectivityChange.bind(this);
+	}
+
+	componentDidMount() {
+		NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
+	}
+
+	componentWillUnmount() {
+		NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
+	}
+
+	handleConnectivityChange(connectionInfo) {
+		const {setOnlineStatus} = this.props;
+		setOnlineStatus(connectionInfo.type != 'none' && connectionInfo.type != 'unknown');
+	}
 
 	render() {
-		const {children, style, disablePointerEvents} = this.props;
+		const {children, style, requireOnline, isOnline, disablePointerEvents} = this.props;
 		const {width, height} = Dimensions.get('window');
 		return (
 			<KeyboardAvoidingView
@@ -72,9 +116,17 @@ class Screen extends React.PureComponent<void, Props, State> {
 				<View
 					style={[{width, height}, styles.view, style]}
 					pointerEvents={disablePointerEvents ? 'none' : 'auto'}>
-					{children}
+					{(isOnline || !requireOnline) ? children : this._renderNoConnection()}
 				</View>
 			</KeyboardAvoidingView>
+		);
+	}
+
+	_renderNoConnection() {
+		return (
+			<ScreenInfo
+				textText={t('t_no_wifi')}
+				imageSource={require('../../assets/images/no-wifi.png')}/>
 		);
 	}
 
@@ -85,7 +137,9 @@ export default connect(
 	(state) => state.screenReducer,
 
 	// mapDispatchToProps
-	(dispatch) => ({})
+	(dispatch) => ({
+		setOnlineStatus: bindActionCreators(screenSetOnlineStatus, dispatch)
+	})
 )(Screen);
 
 

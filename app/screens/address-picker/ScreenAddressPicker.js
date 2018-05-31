@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import LocationGeocoderTextEdit from '../../comp-buisness/location/LocationGeocoderTextEdit';
 import React from 'react';
-import {Navigation} from 'react-native-navigation';
+import Router from '../../lib/navigation/Router';
 import {poolConnect} from '../../redux/ReduxPool';
-import {Screen} from "../../comp/Misc";
+import {Screen} from '../../comp/Misc';
 import {ScrollView} from 'react-native';
-import type {TLocation} from "../../lib/daos/DaoLocation";
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -27,7 +27,7 @@ class _ScreenAddressPicker extends React.Component<void, Props, void> {
 	_onSelect(location) {
 		const {onSelect} = this.props;
 		onSelect(location);
-		Navigation.dismissModal({animationType: 'slide-down'});
+		Router.dismissModal(navigator, {animationType: 'slide-down'});
 	}
 
 	render() {

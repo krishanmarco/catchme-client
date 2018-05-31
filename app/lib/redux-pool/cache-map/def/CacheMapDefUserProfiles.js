@@ -1,8 +1,9 @@
-import CacheMapDef from "../CacheMapDef";
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import DataProvider from "../../../data/DataProvider";
-import type {TCacheMapDef} from "../CacheMapDef";
-import type {TUser} from "../../../daos/DaoUser";
+import ApiClient from '../../../data/ApiClient';
+import CacheMapDef from '../CacheMapDef';
+import type {TCacheMapDef} from '../CacheMapDef';
+import type {TThunk} from '../../../types/Types';
+import type {TUser} from '../../../daos/DaoUser';
 
 export const CACHE_MAP_ID_USER_PROFILES = 'CACHE_MAP_ID_USER_PROFILES';
 
@@ -14,8 +15,8 @@ class CacheMapDefUserProfiles extends CacheMapDef {
 		this.buildDataSet = this.buildDataSet.bind(this);
 	}
 
-	buildDataSet(userId: number): Promise<TUser> {
-		return DataProvider.usersGetUidProfile(userId);
+	buildDataSet(thunk: TThunk, uid: number, extraParams: Object): Promise<TUser> {
+		return ApiClient.usersGetUidProfile(uid);
 	}
 
 }

@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
+import DaoLocation from '../../lib/daos/DaoLocation';
 import EditLocation from './EditLocation';
 import React from 'react';
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
+import {CACHE_ID_USER_PROFILE} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../lib/types/Types";
+import type {TCachePool} from '../../lib/redux-pool/cache/CachePool';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TNavigator} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

@@ -1,10 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
-import {Const, Icons} from '../../Config';
-import {ListItemWithActions} from "../../comp/Misc";
-import type {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {Icons} from '../../Config';
+import {ListItemWithActions} from '../../comp/Misc';
+import type {ListItemWithActionProps} from '../../comp/misc/ListItemsWithActions';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -12,8 +12,9 @@ import type {TUser} from "../../lib/daos/DaoUser";
 export type ListItemUserProps = ListItemWithActionProps & {
 	user: TUser,
 	onPress: (TUser) => void,
-	onUserConnectionBlockUid?: (TUser) => void,
-	onUserConnectionAddUid?: (TUser) => void,
+	onConnRemovePress?: (TUser) => void,
+	onConnAddPress?: (TUser) => void,
+	onConnPendingPress?: (TUser) => void,
 };
 
 // ListItemUser *****************************************************************************************
@@ -32,21 +33,28 @@ export default class ListItemUser extends React.PureComponent<void, ListItemUser
 	}
 
 	initialize(props = this.props) {
-		const {user, onUserConnectionAddUid, onUserConnectionBlockUid} = props;
+		const {user, onConnPendingPress, onConnAddPress, onConnRemovePress} = props;
 
 		this.actions = [];
 
-		if (onUserConnectionAddUid) {
+		if (onConnPendingPress) {
 			this.actions.push({
-				icon: Icons.userFollow,
-				onPress: () => onUserConnectionAddUid(user)
+				icon: Icons.userPending,
+				onPress: () => onConnPendingPress(user)
 			});
 		}
 
-		if (onUserConnectionBlockUid) {
+		if (onConnAddPress) {
+			this.actions.push({
+				icon: Icons.userFollow,
+				onPress: () => onConnAddPress(user)
+			});
+		}
+
+		if (onConnRemovePress) {
 			this.actions.push({
 				icon: Icons.userBlock,
-				onPress: () => onUserConnectionBlockUid(user)
+				onPress: () => onConnRemovePress(user)
 			});
 		}
 	}

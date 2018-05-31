@@ -1,14 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import ApiFormDef from "../ApiFormDef";
-import CacheActionCreator from "../../cache/CacheActionCreator";
-import DaoLocation from "../../../daos/DaoLocation";
-import {ApiFormState} from "../ApiFormModel";
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TLocation} from "../../../daos/DaoLocation";
-import type {TThunk} from "../../../types/Types";
+import ApiFormDef from '../ApiFormDef';
+import DaoLocation from '../../../daos/DaoLocation';
+import {ApiFormState} from '../ApiFormModel';
+import {userProfileActions} from '../../PoolHelper';
+import {Validator} from '../../../helpers/Validator';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TLocation} from '../../../daos/DaoLocation';
+import type {TThunk} from '../../../types/Types';
 
 
 export const FORM_API_ID_EDIT_LOCATION_PROFILE = 'FORM_API_ID_EDIT_LOCATION_PROFILE';
@@ -30,21 +28,19 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 	}
 
 	post(thunk: TThunk, locationProfile: TLocation): Promise<TLocation> {
-		const cacheActionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-		const cacheUserProfile = new CacheDefUserProfileActionCreator(cacheActionCreator);
-		return cacheUserProfile.putAdminLocation(locationProfile);
+		return userProfileActions(thunk).putAdminLocation(locationProfile);
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {
-		this.setError(errors, inclusive, location, DaoLocation.pName, n => Validate.string(n, 3, 100));
-		this.setError(errors, inclusive, location, DaoLocation.pEmail, e => Validate.email(e));
-		this.setError(errors, inclusive, location, DaoLocation.pCapacity, c => Validate.number(c, 1));
-		this.setError(errors, inclusive, location, DaoLocation.pPhone, p => Validate.phone(p));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressCountry, c => Validate.countryCode(c));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressState, s => Validate.string(s));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressCity, c => Validate.string(c));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressPostcode, p => Validate.string(p));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressAddress, a => Validate.string(a));
+		this.setError(errors, inclusive, location, DaoLocation.pName, n => Validator.string(n, 3, 100));
+		this.setError(errors, inclusive, location, DaoLocation.pEmail, e => Validator.email(e));
+		this.setError(errors, inclusive, location, DaoLocation.pCapacity, c => Validator.number(c, 1));
+		this.setError(errors, inclusive, location, DaoLocation.pPhone, p => Validator.phone(p));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressCountry, c => Validator.countryCode(c));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressState, s => Validator.string(s));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressCity, c => Validator.string(c));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressPostcode, p => Validator.string(p));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressAddress, a => Validator.string(a));
 		return errors;
 	}
 

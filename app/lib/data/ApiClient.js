@@ -1,25 +1,29 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiAuthentication from './ApiAuthentication';
-import Context from "../Context";
-import DaoLocation from "../daos/DaoLocation";
-import DaoUser from "../daos/DaoUser";
-import firebase from "./Firebase";
-import Logger from "../Logger";
-import RealmIO from './RealmIO';
+import ApiExceptionHandler from './ApiExceptionHandler';
+import Context from '../Context';
+import DaoApiException from '../daos/DaoApiException';
+import DaoLocation from '../daos/DaoLocation';
+import DaoUser from '../daos/DaoUser';
+import firebase from './Firebase';
+import Logger from '../Logger';
 import RNFetchBlob from 'react-native-fetch-blob';
+import StorageIO from './StorageIO';
 import {Const, Urls} from '../../Config';
-import {prepareForMultipart, seconds} from "../HelperFunctions";
-import type {TApiFormChangePassword} from "../daos/DaoApiFormChangePassword";
-import type {TApiFormRegister} from "../daos/DaoApiFormRegister";
-import type {TLocation} from "../daos/DaoLocation";
-import type {TUser} from "../daos/DaoUser";
-import type {TUserLocationStatus} from "../daos/DaoUserLocationStatus";
-
+import {prepareForMultipart, seconds} from '../HelperFunctions';
+import type {TApiFormChangePassword} from '../daos/DaoApiFormChangePassword';
+import type {TApiFormRegister} from '../daos/DaoApiFormRegister';
+import type {TId} from '../types/Types';
+import type {TLocation} from '../daos/DaoLocation';
+import type {TUser} from '../daos/DaoUser';
+import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
+import {Snackbar} from "../Snackbar";
 
 class ApiClient {
 
 	constructor() {
 		this.api401Attempts = 0;
+		this._getHeaders = this._getHeaders.bind(this);
 		this._handleResponse = this._handleResponse.bind(this);
 		this._get = this._get.bind(this);
 		this._post = this._post.bind(this);
@@ -27,208 +31,98 @@ class ApiClient {
 		this._onReceiveUserProfile = this._onReceiveUserProfile.bind(this);
 	}
 
+	async _getHeaders(contentType: string) {
+		const authToken = await ApiAuthentication.getUserAuthenticationToken();
+		Logger.v(`ApiClient _getHeaders: Using auth-token ${authToken}`);
+		return {
+			'Accept': 'application/json',
+			'Content-Type': contentType,
+			'Authorization': authToken
+		};
+	}
 
-	_handleResponse(response, url, callbackRetryRequest) {
+	async _handleResponse(response: Object, url: string, callbackRetryRequest: Function) {
+		const status = response.status;
+		let text: ?String = await response.text();
 
-		// CASE 1, status == 200
-		if (response.status === 200) {
+		Logger.v(`ApiClient _handleResponse: s(${status}), a(${this.api401Attempts}) u(${url})`, text);
 
-			// Request is successful, reset the failed counter
-			this.api401Attempts = 0;
-
-			return response.text()
-				.then(text => {
-					Logger.v(`ApiClient _handleResponse: status(200) for ${url}`, text);
-					return text;
-				});
-		}
-
-		// CASE 2, status == 400
-		if (response.status === 400) {
-
-			// Request is successful, reset the failed counter
-			this.api401Attempts = 0;
-
-			return response.text()
-				.then(text => {
-					Logger.v(`ApiClient _handleResponse: status(400) for ${url}`, text);
-					return Promise.reject(text);
-				});
-		}
-
-
-
-		// CASE 3, status == 401
-		if (response.status === 401) {
-			Logger.v(`ApiClient _handleResponse: status(401[${this.api401Attempts}]) for ${url}`);
-
-			// Request is unsuccessful, increment the failed counter
+		if (status == 401) {
 			this.api401Attempts++;
-
 			ApiAuthentication.invalidateAuthenticationToken();
 
-			if (this.api401Attempts > Const.apiMax401) {
-				// This request has been unauthorized too many times
-				Logger.v("ApiClient _handleResponse: Too many [401], terminating request retry-loop");
+			// Check if request rejected too many times
+			if (this.api401Attempts > Const.apiMax401)
+				throw new Error('ApiClient _handleResponse: Too many unauthorized requests.');
 
-				// Reset the 401 request counter
-				this.api401Attempts = 0;
-				return Promise.reject();
-			}
-
+			// Retry the request, the token will be regenerated
 			return callbackRetryRequest();
 		}
 
+		// The request was not unauthorized, reset the failed counter
+		this.api401Attempts = 0;
 
+		if (status == 200)
+			return text;
 
-		// CASE 4, status == 500
-		if (response.status === 500) {
-			Logger.v(`ApiClient _handleResponse: status(500) for ${url}`);
+		// (![401, 400, 500, 200]) -> Unknown status code -> Local ApiException
+		if (status != 400 && status != 500)
+			return ApiExceptionHandler.onApiExceptionCatch(ApiExceptionHandler.exUnknownStatus);
 
-			return response.text()
-				.then(json => {
-					const apiException = JSON.parse(json);
-					Logger.v('ApiClient _handleResponse: ', apiException);
-					return Promise.reject(apiException);
-				}).catch(apiException => {
-					// Do nothing on server internal error
-				});
-		}
-
-
-		// CASE 5, status UNKNOWN
-		Logger.v(`ApiClient _handleResponse: status(${response.status}) for ${url}`);
-		return Promise.reject(0);
+		return ApiExceptionHandler.onApiExceptionCatch(JSON.parse(text));
 	}
 
-
-
-
-	_get(url) {
+	_get(url: string) {
 		Logger.v(`ApiClient _get: Requesting auth-token for ${url}`);
 
-		return ApiAuthentication.getUserAuthenticationToken()
-			.then(authenticationToken => {
-				Logger.v(`ApiClient _get: Using auth-token ${authenticationToken}`);
-
-				return fetch(url, {
-					method: 'GET',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json',
-						"Authorization": authenticationToken
-					}
-				});
-
-			})
+		return this._getHeaders('application/json')
+			.then(headers => fetch(url, {method: 'GET', headers}))
 			.then(response => this._handleResponse(response, url, () => this._get(url)));
 	}
 
-
-
-
-	_post(url, body) {
+	_post(url: string, body: ?Object) {
 		Logger.v(`ApiClient _post: Requesting auth-token for ${url}`);
 
-		return ApiAuthentication.getUserAuthenticationToken()
-			.then(authenticationToken => {
-				Logger.v(`ApiClient _post: Using auth-token ${authenticationToken}`);
-
-				return fetch(url, {
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json',
-						"Authorization": authenticationToken
-					},
-					body: JSON.stringify(body)
-				});
-
-			})
+		return this._getHeaders('application/json')
+			.then(headers => fetch(url, {method: 'POST', body: JSON.stringify(body), headers}))
 			.then(response => this._handleResponse(response, url, () => this._post(url, body)));
 	}
 
-
-
-
-	_postMultipart(url, formData) {
+	_postMultipart(url: string, formData: ?Object = {}) {
 		Logger.v(`ApiClient _postMultipart: Requesting auth-token for ${url}`);
 
-		return ApiAuthentication.getUserAuthenticationToken()
-			.then(authenticationToken => {
-				Logger.v(`ApiClient _postMultipart: Using auth-token ${authenticationToken}`);
-
-				return RNFetchBlob.fetch('POST', url,
-					{
-						'Accept': 'application/json',
-						'Content-Type': 'multipart/form-data',
-						"Authorization": authenticationToken
-					},
-					formData
-				);
-			})
-			.then(rnFetchResponse => {
-				// Map the RNFetchBlob answer to a normal fetch response
-				const response = {
-					// Add any parameters that _handleResponse may need in the response object
-					text: () => Promise.resolve(rnFetchResponse.text()),
-					status: rnFetchResponse.respInfo.status
-				};
-
-				return this._handleResponse(response, url, () => this._postMultipart(url, formData));
-			});
+		return this._getHeaders('multipart/form-data')
+			.then(headers => RNFetchBlob.fetch('POST', url, headers, formData))
+			.then(rnFetchResponse => ({
+				text: () => Promise.resolve(rnFetchResponse.text()),
+				status: rnFetchResponse.respInfo.status
+			}))
+			.then(response => this._handleResponse(response, url, () => this._postMultipart(url, formData)));
 	}
 
+	// Should only be called from login and register functions
+	async _onReceiveUserProfile(userProfileJson: string): Promise<TUser> {
+		const user: TUser = JSON.parse(userProfileJson);
 
+		if (DaoUser.gApiKey(user) == null)
+			return Promise.reject(ApiExceptionHandler.exInvalidApiKey);
 
+		await StorageIO.setLocalUser(user);
+		await ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user));
 
-	time(callback) {
+		return user;
+	}
+
+	// Server API ***********************************************************************************
+	// Server API ***********************************************************************************
+
+	// Should only be called from ApiAuthentication
+	time() {
 		return fetch(`${Urls.api}/meta/time`)
-			.then(response => response.text())
-			.then(callback)
-			.catch(error => Logger.v(error));
+			.then(response => response.text());
 	}
 
-
-
-
-	_onReceiveUserProfile(userProfileJson): Promise<TUser> {
-		const userForRealm: TUser = JSON.parse(userProfileJson);
-		const userForReturn: TUser = JSON.parse(userProfileJson);
-
-		RealmIO.setLocalUser(userForRealm);
-		ApiAuthentication.update(DaoUser.gId(userForReturn), DaoUser.gApiKey(userForReturn));
-
-		return userForReturn;
-	}
-
-	accountsRegister(formUserRegister: TApiFormRegister) {
-		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
-			.then(this._onReceiveUserProfile);
-	}
-
-	accountsLogin(formUserLogin) {
-		return this._post(`${Urls.api}/accounts/login`, formUserLogin)
-			.then(this._onReceiveUserProfile);
-	}
-
-	accountsLoginFacebook(accessToken) {
-		return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
-			.then(this._onReceiveUserProfile);
-	}
-
-	accountsLoginGoogle(accessToken) {
-		return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
-			.then(this._onReceiveUserProfile);
-	}
-
-
-
-	userProfile() {
-		return this._get(`${Urls.api}/user/profile`)
-			.then(this._onReceiveUserProfile);
-	}
-
+	// Should only be called from ApiAuthentication
 	authenticateFirebase() {
 		return this._get(`${Urls.api}/user/firebase-jwt`)
 			.then(jwt => {
@@ -238,47 +132,62 @@ class ApiClient {
 			})
 			.catch(exception => {
 				Context.setFirebaseEnabled(false);
-				Logger.v("ApiClient authenticateFirebase: Failed to login to firebase: ", exception);
+				Logger.v('ApiClient authenticateFirebase: Failed to login to firebase', exception);
 			});
-		}
-
-
-
-
-	mediaAddTypeIdItemId(typeId, itemId, filePath) {
-		const n = seconds().toString();
-		return this._postMultipart(
-			`${Urls.api}/media/add/${typeId}/${itemId}`,
-			[{name: 'media', filename: n, data: RNFetchBlob.wrap(filePath)}]
-		);
 	}
 
-
-
-
-	// Verified API Below ***************************************************************************
-	// Verified API Below ***************************************************************************
-
-	usersGetUid(uid: number): Promise<TUser> {
-		return this._get(`${Urls.api}/users/${uid}`)
-			.then(json => JSON.parse(json));
+	// Should only be called from ApiFormDefRegister
+	accountsRegister(formUserRegister: TApiFormRegister) {
+		return this._post(`${Urls.api}/accounts/register`, formUserRegister)
+			.then(this._onReceiveUserProfile);
 	}
 
-	locationsGetLid(lid: number): Promise<TLocation> {
-		return this._get(`${Urls.api}/locations/${lid}`)
-			.then(json => JSON.parse(json));
+	// Should only be called from ApiFormDefLogin
+	accountsLogin(formUserLogin) {
+		return this._post(`${Urls.api}/accounts/login`, formUserLogin)
+			.then(this._onReceiveUserProfile);
 	}
 
-	// Should only be called from DataProvider.usersGetUidProfile
+	// Should only be called from ScreenLogin
+	accountsLoginFacebook(accessToken) {
+		return this._post(`${Urls.api}/accounts/login/facebook`, {token: accessToken})
+			.then(this._onReceiveUserProfile);
+	}
+
+	// Should only be called from ScreenLogin
+	accountsLoginGoogle(accessToken) {
+		return this._post(`${Urls.api}/accounts/login/google`, {token: accessToken})
+			.then(this._onReceiveUserProfile);
+	}
+
+	// Should only be called from CacheDefUserProfile
+	userProfile() {
+		return this._get(`${Urls.api}/user/profile`)
+			.then(JSON.parse);
+	}
+
+	// Should only be called from CacheMapDefUserProfiles
 	usersGetUidProfile(uid: number): Promise<TUser> {
 		return this._get(`${Urls.api}/users/${uid}/profile`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
-	// Should only be called from DataProvider.locationsGetLidProfile
+	// Should only be called from CacheMapDefLocationProfiles
 	locationsGetLidProfile(lid: number): Promise<TLocation> {
 		return this._get(`${Urls.api}/locations/${lid}/profile`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
+	}
+
+	// Should only be called from CacheMapDefUsers
+	usersGetUid(uid: number): Promise<TUser> {
+		return this._get(`${Urls.api}/users/${uid}`)
+			.then(JSON.parse);
+	}
+
+	// Should only be called from CacheMapDefLocations
+	locationsGetLid(lid: number): Promise<TLocation> {
+		return this._get(`${Urls.api}/locations/${lid}`)
+			.then(JSON.parse);
 	}
 
 	// Should only be called from ApiFormDefRecoverPassword
@@ -314,7 +223,7 @@ class ApiClient {
 	// Should only be called from CacheDefUserProfile
 	userStatusAddOrEdit(status: TUserLocationStatus): Promise<TUserLocationStatus> {
 		return this._post(`${Urls.api}/user/status/add`, status)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from CacheDefUserProfile
@@ -340,7 +249,7 @@ class ApiClient {
 		}
 
 		return this._postMultipart(`${Urls.api}/user/profile/edit`, formData)
-			.then(this._onReceiveUserProfile);
+			.then(JSON.parse);
 	}
 
 	// Should only be called from CacheDefUserProfile
@@ -359,40 +268,50 @@ class ApiClient {
 		}
 
 		return this._postMultipart(`${Urls.api}/user/locations/administrating/edit/${locationId}`, formData)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.searchApiCall
-	searchQueryUsers(query = ''): Promise<Array<TUser>> {
+	searchQueryUsers(query: string = ''): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/search/${query}/users`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.suggestApiCall
-	suggestSeedUsers(seed = 0): Promise<Array<TUser>> {
+	suggestSeedUsers(seed: number = 0): Promise<Array<TUser>> {
 		return this._get(`${Urls.api}/suggest/${seed}/users`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefUsers.suggestApiCall
-	searchQueryLocations(query = ''): Promise<Array<TLocation>> {
+	searchQueryLocations(query: string = ''): Promise<Array<TLocation>> {
 		return this._get(`${Urls.api}/search/${query}/locations`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
 	// Should only be called from SearchDataDefLocations.suggestApiCall
-	suggestSeedLocations(seed = 0): Promise<Array<TLocation>> {
+	suggestSeedLocations(seed: number = 0): Promise<Array<TLocation>> {
 		return this._get(`${Urls.api}/suggest/${seed}/locations`)
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
 
-	// Called from AddContacts.mapContactsToUsers
+	// Should only be called from CacheMapDefLocationProfilesActionCreator
+	mediaAddTypeIdItemId(typeId: number, itemId: TId, filePath: string) {
+		const n = seconds().toString();
+		return this._postMultipart(
+			`${Urls.api}/media/add/${typeId}/${itemId}`,
+			[{name: 'media', filename: n, data: RNFetchBlob.wrap(filePath)}]
+		);
+	}
+
+	// Called from AddContacts
 	searchUsers(queryArray = []): Promise<Array<TUser>> {
+		if (queryArray.length <= 0)
+			return Promise.resolve([]);
+
 		return this._post(`${Urls.api}/search/users`, {queries: queryArray})
-			.then(json => JSON.parse(json));
+			.then(JSON.parse);
 	}
-
-
 
 }
 

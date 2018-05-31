@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoFeaturedAd from "../../lib/daos/DaoFeaturedAd";
-import FeaturedAdsListItem from "./FeaturedAdsListItem";
+import DaoFeaturedAd from '../../lib/daos/DaoFeaturedAd';
+import FeaturedAdsListItem from './FeaturedAdsListItem';
 import React from 'react';
-import {Const} from "../../Config";
-import {DefaultLoader, FlatListEmpty} from "../../comp/Misc";
+import {Const} from '../../Config';
+import {DefaultLoader, FlatListEmpty} from '../../comp/Misc';
 import {FlatList} from 'react-native';
-import {t} from "../../lib/i18n/Translations";
-import type {TFeaturedAd} from "../../lib/daos/DaoFeaturedAd";
-import type {TUser} from "../../lib/daos/DaoUser";
+import {t} from '../../lib/i18n/Translations';
+import type {TFeaturedAd} from '../../lib/daos/DaoFeaturedAd';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 
 // Const ************************************************************************************************

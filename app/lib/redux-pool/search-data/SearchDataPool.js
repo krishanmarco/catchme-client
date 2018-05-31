@@ -1,14 +1,15 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import SearchDataActionCreator from "./SearchDataActionCreator";
-import SearchDataDefLocations, {SEARCH_DATA_ID_LOCATIONS} from "./def/SearchDataDefLocations";
-import SearchDataDefUsers, {SEARCH_DATA_ID_USERS} from "./def/SearchDataDefUsers";
+import SearchDataActionCreator from './SearchDataActionCreator';
+import SearchDataDefLocations, {SEARCH_DATA_ID_LOCATIONS} from './def/SearchDataDefLocations';
+import SearchDataDefUsers, {SEARCH_DATA_ID_USERS} from './def/SearchDataDefUsers';
 import {
 	mutatorSearchDataConcatSuggestList,
 	mutatorSearchDataSetLoading,
 	mutatorSearchDataSetSearchList,
-	mutatorSearchDataSetSearchQuery, SearchDataState
-} from "./SearchDataModel";
-import type {TPool} from "../Pool";
+	mutatorSearchDataSetSearchQuery,
+	SearchDataState
+} from './SearchDataModel';
+import type {TPool} from '../Pool';
 
 
 // Define result of poolConnect for this pool

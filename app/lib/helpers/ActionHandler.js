@@ -1,14 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import ApiClient from '../data/ApiClient';
-import CacheActionCreator from "../redux-pool/cache/CacheActionCreator";
-import DaoAction from "../daos/DaoAction";
-import Logger from "../Logger";
-import Router from "../navigation/Router";
-import {ActionHandlerActions, Const, Icons} from '../../Config';
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../redux-pool/cache/def/CacheDefUserProfile";
-import {TActionHandlers} from "../types/Types";
-import type {TAction} from "../daos/DaoAction";
-import type {TActionHandler, TDispatch, TNavigator, TThunk} from "../types/Types";
+import DaoAction from '../daos/DaoAction';
+import Logger from '../Logger';
+import Router from '../navigation/Router';
+import {ActionHandlerActions, Icons} from '../../Config';
+import {locationsActions, userProfileActions, usersActions} from '../redux-pool/PoolHelper';
+import {TActionHandlers} from '../types/Types';
+import type {TAction} from '../daos/DaoAction';
+import type {TActionHandler, TNavigator, TThunk} from '../types/Types';
 
 
 const _ClickActionHandlers: TActionHandlers = ({
@@ -22,11 +20,8 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-			return ApiClient.usersGetUid(userId)
-				.then(userProfileActionCreator.addUserToFriends);
+			return usersActions(thunk).initializeItem(userId)
+				.then(userProfileActions(thunk).connAdd);
 		}
 	},
 
@@ -40,17 +35,14 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!userId)
 				return Promise.resolve(0);
 
-			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-			return ApiClient.usersGetUid(userId)
-				.then(userProfileActionCreator.blockUser);
+			return usersActions(thunk).initializeItem(userId)
+				.then(userProfileActions(thunk).connBlock);
 		}
 	},
 
 
 	[ActionHandlerActions.AttendanceConfirm]: {
-		icon: Icons.locationPersonFuture,
+		icon: Icons.userLocationStatuses,
 		isValid: (action: TAction) => DaoAction.gPayloadLocationId(action) != null,
 		action: (action: TAction, navigator: TNavigator, thunk: TThunk) => {
 			const locationId = DaoAction.gPayloadLocationId(action);
@@ -78,11 +70,8 @@ const _ClickActionHandlers: TActionHandlers = ({
 			if (!locationId)
 				return Promise.resolve(0);
 
-			const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-			const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-
-			return ApiClient.locationsGetLid(locationId)
-				.then(userProfileActionCreator.followLocation);
+			return locationsActions(thunk).initializeItem(locationId)
+				.then(userProfileActions(thunk).locationFavAdd);
 		}
 	},
 

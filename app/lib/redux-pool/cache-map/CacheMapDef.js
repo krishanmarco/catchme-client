@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {CacheMapState} from "./CacheMapModel";
+import {CacheMapState} from './CacheMapModel';
+import type {TThunk} from '../../types/Types';
 
 
 export type TCacheMapDef<TCacheMapObject> = {
@@ -11,7 +12,7 @@ export type TCacheMapDef<TCacheMapObject> = {
 	initState: () => CacheMapState,
 
 	// Refresh or get data associated to this cache-map
-	buildDataSet: () => TCacheMapObject
+	buildDataSet: (TThunk, string|number, Object) => TCacheMapObject
 
 };
 

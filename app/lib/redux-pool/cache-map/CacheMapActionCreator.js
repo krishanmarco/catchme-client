@@ -1,34 +1,60 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import Logger from "../../Logger";
-import PoolActionCreator from "../PoolActionCreator";
-import {CacheMapState} from "./CacheMapModel";
+import _ from 'lodash';
+import DataProvider from '../../data/DataProvider';
+import Logger from '../../Logger';
+import PoolActionCreator from '../PoolActionCreator';
+import {CacheMapState} from './CacheMapModel';
 import {
 	POOL_ACTION_CACHE_MAP_INIT_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_ALL_DATA,
 	POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
 	POOL_ACTION_CACHE_MAP_SET_DATA
-} from "./CacheMapPool";
-import {POOL_TYPE_CACHE_MAP} from "../../../redux/ReduxPool";
-import type {TDispatch} from "../../types/Types";
+} from './CacheMapPool';
+import {POOL_TYPE_CACHE_MAP} from '../../../redux/ReduxPool';
+import type {TDispatch, TId} from '../../types/Types';
 
 
 export default class CacheMapActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
 		super(POOL_TYPE_CACHE_MAP, poolDefId, dispatch);
+		this.itemExists = this.itemExists.bind(this);
+		this.setData = this.setData.bind(this);
+		this.executeIfDataNotNull = this.executeIfDataNotNull.bind(this);
 		this.invalidateItem = this.invalidateItem.bind(this);
 		this.invalidateAll = this.invalidateAll.bind(this);
 		this.initializeItem = this.initializeItem.bind(this);
 	}
-	
+
+	itemExists(itemId: TId, needsToBeValid: boolean = true): Promise<boolean> {
+		const {dispatch} = this;
+		return dispatch((dispatch, getState) => {
+			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
+
+			if (!(itemId in cacheMapData))
+				return Promise.resolve(false);
+
+			// item id is in data, check if valid
+			const {data, expiryTs} = cacheMapData[itemId];
+			return Promise.resolve(data !== null && (!needsToBeValid || DataProvider.cacheIsValid(expiryTs)));
+		});
+	}
+
+
+	async executeIfDataNotNull<T>(itemId: TId, functionToExecute: Object => T): Promise<T> {
+		return await this.itemExists(itemId, false)
+			? this.initializeItem(itemId).then(functionToExecute)
+			: Promise.resolve(null);
+	}
+
+	// Directly sets the {data} of this cache
+	setData<T>(itemId: TId, data: T): T {
+		this.dispatchAction({type: POOL_ACTION_CACHE_MAP_SET_DATA, itemId, data});
+		return data;
+	}
 	
 	invalidateItem(itemId) {
-		const {dispatchAction} = this;
-		
-		return dispatchAction({
-			type: POOL_ACTION_CACHE_MAP_INVALIDATE_DATA,
-			itemId
-		});
+		return this.dispatchAction({type: POOL_ACTION_CACHE_MAP_INVALIDATE_DATA, itemId});
 	}
 	
 	invalidateAll() {
@@ -41,67 +67,42 @@ export default class CacheMapActionCreator extends PoolActionCreator {
 	}
 
 	initializeItem(itemId, extraParams) {
-		const {dispatchAction, dispatch, dispatchPromiseAction, poolId} = this;
+		const {dispatch, dispatchPromiseAction, poolId} = this;
 		const pool = this.getPoolDef();
-		
-		return dispatch((dispatch, getState) => {
+		return dispatch(async (dispatch, getState) => {
 			
 			// If the data is already set (or is about to be set [nextPromise != null]) there is
 			// no need to run the request again.
 			
 			// If the data has been updated and needs to be requested again, you must
 			// use invalidateItem() and then initializeItem()
-			
-			
-			// Check if the data is set, if it is return
+
+			// Check if the data is set, and is valid if it is return
 			const cacheMapData: CacheMapState = this.getPoolState(getState).data;
-			
-			if (itemId in cacheMapData) {
-				const {loadingPromise, data} = cacheMapData[itemId];
+			const loadingPromise = _.get(cacheMapData, '[itemId].loadingPromise', false);
 
-				// If already loading return the promise
-				if (loadingPromise != null) {
-					Logger.v(`ReduxPoolCacheMap initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
-					return loadingPromise;
-				}
+			if (await this.itemExists(itemId, true)) {
+				Logger.v(`CacheMapActionCreator initializeItem: Cache valid, ${poolId} ${itemId}`);
+				return Promise.resolve(cacheMapData[itemId].data);
 
-				// If already loaded return the data
-				if (data !== null) {
-					return Promise.resolve(data);
-				}
-				
-			}
-			
-			
-			// Run request or data builder
-			const nextPromise = pool.buildDataSet(itemId, extraParams)
-				.then(buildResultData => {
-					
-					// Save the result data into the pool
-					dispatchAction({
-						type: POOL_ACTION_CACHE_MAP_SET_DATA,
-						itemId,
-						data: buildResultData
-					});
-					
-					// Continue the promise chain
-					return buildResultData;
-				}).catch(apiExceptionResponse => {
-					Logger.v("ReduxPool POOL_ACTION_CACHE_MAP initializeItem: ", apiExceptionResponse);
-					
-					dispatchAction({
-						type: POOL_ACTION_CACHE_MAP_SET_DATA,
-						data: null,
-						itemId,
-					});
-					
-					// Continue the promise chain
-					return apiExceptionResponse;
+			} else if (loadingPromise) {
+				Logger.v(`CacheMapActionCreator initializeItem: Requested ${poolId} ${itemId} initialization but already loading.`);
+				return loadingPromise;
+			} 
+
+			Logger.v(`CacheMapActionCreator initializeItem: Cache invalid, ${poolId} ${itemId}`);
+
+			// Run the pool data-builder
+			const nextPromise = pool.buildDataSet({dispatch, getState}, itemId, extraParams)
+				.then(buildResultData => this.setData(itemId, buildResultData))
+				.catch(apiException => {
+					Logger.v('CacheMapActionCreator initializeItem:', apiException);
+					this.setData(itemId, null);
+					return apiException;
 				});
 			
-			
 			// If the promise hasn't resolved immediately then
-			// Save nextPromise to th state, this way, even if [data] is
+			// Save nextPromise to the state, this way, even if [data] is
 			// null the next request will not be processed because we know
 			// that one has already been sent out
 			return dispatchPromiseAction({

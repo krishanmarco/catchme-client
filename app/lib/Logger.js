@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 /* eslint-disable no-console */
-import {Const} from "../Config";
+import {Const} from '../Config';
 
 export default class Logger {
 

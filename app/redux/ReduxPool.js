@@ -1,13 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 /* eslint-disable max-depth */
-import ApiFormPool from "../lib/redux-pool/api-form/ApiFormPool";
-import CacheMapPool from "../lib/redux-pool/cache-map/CacheMapPool";
-import CachePool from "../lib/redux-pool/cache/CachePool";
-import FirebaseDataPool from "../lib/redux-pool/firebase-data/FirebaseDataPool";
-import SearchDataPool from "../lib/redux-pool/search-data/SearchDataPool";
+import ApiFormPool from '../lib/redux-pool/api-form/ApiFormPool';
+import CacheMapPool from '../lib/redux-pool/cache-map/CacheMapPool';
+import CachePool from '../lib/redux-pool/cache/CachePool';
+import FirebaseDataPool from '../lib/redux-pool/firebase-data/FirebaseDataPool';
+import SearchDataPool from '../lib/redux-pool/search-data/SearchDataPool';
 import {connect} from 'react-redux';
-import {TState} from "../lib/types/Types";
-import type {TDispatch} from "../lib/types/Types";
+import {TState} from '../lib/types/Types';
+import type {TDispatch} from '../lib/types/Types';
 
 
 // Top Level Ids ******************************************************************************************************
@@ -231,13 +231,13 @@ function subscribeDispatchToPools(mapDispatchToProps, poolIds) {
 			(poolType, poolId) => {
 				const connectParams = ReduxPoolBuilder[poolType].connectParams;
 
-				let poolDispatch = connectParams.getDefaultActionCreator(poolId, dispatch);
+				let defaultActions = connectParams.getDefaultActionCreator(poolId, dispatch);
 
 				if (connectParams[poolId] != null)
-					poolDispatch = Object.assign({}, connectParams[poolId](poolDispatch), poolDispatch);
+					defaultActions = Object.assign({}, connectParams[poolId](defaultActions), defaultActions);
 
 				// Merge the current result with all the indicated pools
-				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: poolDispatch});
+				mapDispatchToPropsResult = Object.assign({}, mapDispatchToPropsResult, {[poolId]: defaultActions});
 				
 			}
 		);

@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+import DaoUserLocationStatus from '../../lib/daos/DaoUserLocationStatus';
 import React from 'react';
-import {Colors, Icons} from '../../Config';
-import {ListItemWithActionProps} from "../../comp/misc/ListItemsWithActions";
-import {ListItemWithActions} from "../../comp/Misc";
-import type {TAction} from "../../lib/daos/DaoAction";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TLocationWithULS} from "../../lib/helpers/ULSListManager";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {Icons} from '../../Config';
+import {ListItemWithActionProps} from '../../comp/misc/ListItemsWithActions';
+import {ListItemWithActions} from '../../comp/Misc';
+import type {TAction} from '../../lib/daos/DaoAction';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TLocationWithULS} from '../../lib/helpers/ULSListManager';
+import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
 
 
 // ListItemLocation *************************************************************************************
@@ -54,8 +54,8 @@ export class ListItemLocation extends React.PureComponent<void, ListItemLocation
 // ListItemLocationFollow *******************************************************************************
 
 export type ListItemLocationFollowProps = ListItemLocationProps & {
-	addLocationToFavorites?: (TLocation) => void,
-	removeLocationFromFavorites?: (TLocation) => void,
+	onLocationFavAddPress?: (TLocation) => void,
+	onLocationFavRemove?: (TLocation) => void,
 };
 
 export class ListItemLocationFollow extends React.PureComponent<void, ListItemLocationFollowProps, void> {
@@ -72,30 +72,30 @@ export class ListItemLocationFollow extends React.PureComponent<void, ListItemLo
 	initialize(props = this.props) {
 		const {
 			location,
-			addLocationToFavorites,
-			removeLocationFromFavorites,
+			onLocationFavAddPress,
+			onLocationFavRemove,
 		} = props;
 
 		this.actions = [];
 
-		if (addLocationToFavorites) {
+		if (onLocationFavAddPress) {
 			this.actions.push({
 				icon: Icons.locationFollow,
-				onPress: () => addLocationToFavorites(location)
+				onPress: () => onLocationFavAddPress(location)
 			});
 		}
 
-		if (removeLocationFromFavorites) {
+		if (onLocationFavRemove) {
 			this.actions.push({
 				icon: Icons.locationUnfollow,
-				onPress: () => removeLocationFromFavorites(location)
+				onPress: () => onLocationFavRemove(location)
 			});
 		}
 
 	}
 
 	render() {
-		const {addLocationToFavorites, removeLocationFromFavorites, ...props} = this.props;
+		const {onLocationFavAddPress, onLocationFavRemove, ...props} = this.props;
 
 		return (
 			<ListItemLocation

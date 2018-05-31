@@ -1,15 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ActionHandler from '../../lib/helpers/ActionHandler';
-import DaoFeed from "../../lib/daos/DaoFeed";
-import HTMLView from 'react-native-htmlview';
+import DaoFeed from '../../lib/daos/DaoFeed';
+import ImageURISourceAuth from '../../lib/data/ImageURISourceAuth';
 import React from 'react';
-import {AvatarCircle, Touchable} from "../../comp/Misc";
-import {Col, Grid} from "react-native-easy-grid";
+import {AvatarCircle, DynamicStyleText, Touchable} from '../../comp/Misc';
+import {Col, Grid} from 'react-native-easy-grid';
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {View} from 'react-native';
-import type {TFeed} from "../../lib/daos/DaoFeed";
-import {listItemActions} from "../../lib/theme/Styles";
+import {listItemActions} from '../../lib/theme/Styles';
+import {StyleSheet, View} from 'react-native';
+import type {TFeed} from '../../lib/daos/DaoFeed';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -56,9 +55,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
-								<HTMLView
-									style={styles.htmlView}
-									value={DaoFeed.gContent(feed)}/>
+								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
 							</View>
 						</View>
 					</Col>
@@ -72,13 +69,17 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 	_renderLeftAvatar() {
 		const {feed} = this.props;
 		const leftAvatar = DaoFeed.gLeftAvatar(feed);
-		return leftAvatar && (<AvatarCircle source={{uri: leftAvatar}}/>);
+		return !!leftAvatar && (<AvatarCircle source={{uri: leftAvatar}}/>);
 	}
 
 	_renderRightAvatar() {
 		const {feed} = this.props;
 		const rightAvatar = DaoFeed.gRightAvatar(feed);
-		return rightAvatar && (<Col size={20}><AvatarCircle source={{uri: rightAvatar}}/></Col>);
+		return !!rightAvatar && (
+			<Col size={15} style={[listItemActions.actionOnly]}>
+				<AvatarCircle source={ImageURISourceAuth.fromUrl(rightAvatar)}/>
+			</Col>
+		);
 	}
 
 	_renderActions() {
@@ -101,37 +102,17 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-const styles = RkStyleSheet.create(theme => ({
-
+const styles = StyleSheet.create({
 	listItem: {
 		display: 'flex',
-		paddingHorizontal: 12,
-		alignItems: 'center',
-		borderBottomWidth: 0,
-		borderColor: theme.colors.border.base,
+		paddingHorizontal: 12
 	},
-
 	listItemHeaderContent: {
 		paddingVertical: 12,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center'
+		flexDirection: 'row'
 	},
-
-
-	listItemContentText: {
-		marginBottom: 3
-	},
-
 	listItemContent: {
 		flex: 1,
 		marginLeft: 12
-	},
-
-	htmlView: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'flex-start',
-		flexWrap: 'wrap'
 	}
-}));
+});

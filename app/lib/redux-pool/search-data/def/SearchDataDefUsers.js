@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import DaoUser from "../../../daos/DaoUser";
-import SearchDataDef from "../SearchDataDef";
-import type {TSearchDataDef} from "../SearchDataDef";
-import type {TUser} from "../../../daos/DaoUser";
+import ApiClient from '../../../data/ApiClient';
+import DaoUser from '../../../daos/DaoUser';
+import SearchDataDef from '../SearchDataDef';
+import type {TSearchDataDef} from '../SearchDataDef';
+import type {TUser} from '../../../daos/DaoUser';
 
 export const SEARCH_DATA_ID_USERS = 'searchDataIdUsers';
 

@@ -2,9 +2,9 @@
 import DefaultTabBar from './DefaultTabBar';
 import React from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import {Colors} from "../../../Config";
+import {Colors} from '../../../Config';
 import {StyleSheet} from 'react-native';
-import type {TIcon} from "../../../lib/types/Types";
+import type {TIcon} from '../../../lib/types/Types';
 
 
 type Props = {

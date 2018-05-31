@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import PoolActionCreator from "./PoolActionCreator";
+import PoolActionCreator from './PoolActionCreator';
 
 
 // A mutator is a function that takes an action (Object) and the previous state (Object)

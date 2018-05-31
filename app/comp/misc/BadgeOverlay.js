@@ -2,7 +2,7 @@
 import React from 'react';
 import {Icon} from 'react-native-elements';
 import {StyleSheet, View} from 'react-native';
-import type {TIcon} from "../../lib/types/Types";
+import type {TIcon} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

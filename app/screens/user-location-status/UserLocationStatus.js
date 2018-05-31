@@ -1,21 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../lib/daos/DaoLocation";
-import DaoUserLocationStatus from "../../lib/daos/DaoUserLocationStatus";
+import DaoLocation from '../../lib/daos/DaoLocation';
+import DaoUserLocationStatus from '../../lib/daos/DaoUserLocationStatus';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import React from 'react';
-import TimestampFormatter from "../../lib/helpers/TimestampFormatter";
-import {AvatarFull, Touchable} from "../../comp/Misc";
+import TimestampFormatter from '../../lib/helpers/TimestampFormatter';
+import {AvatarFull, Touchable} from '../../comp/Misc';
 import {bindActionCreators} from 'redux';
 import {Colors, Const, Icons} from '../../Config';
-import {compareTimeSmaller} from "../../lib/HelperFunctions";
+import {compareTimeSmaller} from '../../lib/HelperFunctions';
 import {Icon} from 'react-native-elements';
-import {Image, StyleSheet, View} from 'react-native';
 import {poolConnect} from '../../redux/ReduxPool';
-import {RkButton, RkText} from "react-native-ui-kitten";
-import {t} from "../../lib/i18n/Translations";
-import type {TLocation} from "../../lib/daos/DaoLocation";
-import type {TUserLocationStatus} from "../../lib/daos/DaoUserLocationStatus";
+import {RkButton, RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../lib/i18n/Translations';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
 
 
 // Const *************************************************************************************************
@@ -317,7 +317,7 @@ class _UserLocationStatus extends React.Component<void, Props, State> {
 					<Touchable onPress={this._onHereNowPressed}>
 						<Icon
 							size={55}
-							{...Icons.locationPersonFuture}
+							{...Icons.locationPersonNow}
 							color={this._getHereNowColor()}/>
 						<RkText rkType='secondary2'>{t('t_uls_here_now')}</RkText>
 					</Touchable>

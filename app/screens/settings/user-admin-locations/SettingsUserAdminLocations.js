@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import DaoUser from "../../../lib/daos/DaoUser";
+import DaoLocation from '../../../lib/daos/DaoLocation';
+import DaoUser from '../../../lib/daos/DaoUser';
 import React from 'react';
-import Router from "../../../lib/navigation/Router";
+import Router from '../../../lib/navigation/Router';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {FlatListEmpty, ListItemInfo, ScreenInfo} from "../../../comp/Misc";
+import {FlatListEmpty, ListItemInfo, ScreenInfo} from '../../../comp/Misc';
 import {Icons} from '../../../Config';
-import {listItemInfo} from "../../../lib/theme/Styles";
+import {listItemInfo} from '../../../lib/theme/Styles';
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
-import {t} from "../../../lib/i18n/Translations";
-import type {TLocation} from "../../../lib/daos/DaoLocation";
-import type {TNavigator} from "../../../lib/types/Types";
-import type {TUser} from "../../../lib/daos/DaoUser";
+import {t} from '../../../lib/i18n/Translations';
+import type {TLocation} from '../../../lib/daos/DaoLocation';
+import type {TNavigator} from '../../../lib/types/Types';
+import type {TUser} from '../../../lib/daos/DaoUser';
 
 
 // Const *************************************************************************************************
@@ -52,28 +52,10 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 
 	render() {
-		return (
-			<View>
-				{this._renderScreenHeader()}
-				{this._renderAdminLocationList()}
-			</View>
-		);
-	}
-
-	_renderScreenHeader() {
-		return (
-			<ScreenInfo
-				imageSource={require('../../../assets/images/primary-admin-locations.png')}
-				textText={t('t_si_settings_admin_locations')}/>
-		);
-	}
-
-	_renderAdminLocationList() {
 		const {userProfile} = this.props;
 
 		return (
 			<FlatList
-				style={styles.locationList}
 				data={DaoUser.gAdminLocations(userProfile)}
 				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderLocationItem}
@@ -94,12 +76,18 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 	_renderLocationsHeader() {
 		return (
-			<ListItemInfo
-				style={listItemInfo.section}
-				title={t('t_add_new_location')}
-				textRkType='header4'
-				icon={Icons.settingAdminAddLocation}
-				onPress={this._onLocationAdd}/>
+			<View style={styles.locationsHeader}>
+				<ScreenInfo
+					marginTop={32}
+					imageSource={require('../../../assets/images/primary-admin-locations.png')}
+					textText={t('t_si_settings_admin_locations')}/>
+				<ListItemInfo
+					style={listItemInfo.section}
+					title={t('t_add_new_location')}
+					textRkType='header4'
+					icon={Icons.settingAdminAddLocation}
+					onPress={this._onLocationAdd}/>
+			</View>
 		);
 	}
 
@@ -118,8 +106,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	locationList: {
-		height: 350,
-		marginTop: 32
+	locationsHeader: {
+		flex: 1
 	}
 });

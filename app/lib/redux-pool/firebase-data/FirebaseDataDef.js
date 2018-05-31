@@ -1,5 +1,5 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import {FirebaseDataState} from "./FirebaseDataModel";
+import {FirebaseDataState} from './FirebaseDataModel';
 
 
 export type TFirebaseDataDef<TFirebaseDataObject> = {

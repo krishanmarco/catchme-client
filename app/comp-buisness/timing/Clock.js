@@ -34,7 +34,7 @@ export default class Clock extends React.Component<void, Props, State> {
 		this._onSlicePress = this._onSlicePress.bind(this);
 		this._victoryPieEventKey = this._victoryPieEventKey.bind(this);
 		this.state = this._mapPropsToState(props);
-		this.victoryPieEvents = [{target: "data", eventHandlers: {onPress: this._onSlicePress}}];
+		this.victoryPieEvents = [{target: 'data', eventHandlers: {onPress: this._onSlicePress}}];
 	}
 
 	componentWillReceiveProps(nextProps) {

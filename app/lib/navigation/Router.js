@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import {Colors, Screens} from '../../Config';
-import {t} from "../i18n/Translations";
-import type {TNavigator} from "../types/Types";
+import {t} from '../i18n/Translations';
+import type {TNavigator} from '../types/Types';
 
 
 const navbarStyle = {
@@ -198,6 +198,10 @@ export default class Router {
 			screen: Screens.ScreenRecoverPassword,
 			...fullScreenOptions
 		});
+	}
+
+	static dismissModal(navigator: TNavigator, options: ?Object) {
+		navigator.dismissModal({...defaultOptions, ...options});
 	}
 
 

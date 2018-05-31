@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import DaoAction from "../../daos/DaoAction";
-import {arrayCleanAndVerify} from "../../HelperFunctions";
-import {Const} from "../../../Config";
+import DaoAction from '../../daos/DaoAction';
+import {arrayCleanAndVerify} from '../../HelperFunctions';
+import {Const} from '../../../Config';
 
 export class FirebaseDataState {
 

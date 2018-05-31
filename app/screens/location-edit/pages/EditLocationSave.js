@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoLocation from "../../../lib/daos/DaoLocation";
+import DaoLocation from '../../../lib/daos/DaoLocation';
 import React from 'react';
-import {ApiFormState} from "../../../lib/redux-pool/api-form/ApiFormModel";
-import {AvatarFull, LoadingButton} from "../../../comp/Misc";
-import {Const} from "../../../Config";
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
+import {AvatarFull, LoadingButton} from '../../../comp/Misc';
+import {Const} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

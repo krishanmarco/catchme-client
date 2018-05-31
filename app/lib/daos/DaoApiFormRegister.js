@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 24-Mar-18 © **/
 import _ from 'lodash';
-import {denormObj} from "../HelperFunctions";
-import {t} from "../i18n/Translations";
+import {denormObj} from '../HelperFunctions';
+import {t} from '../i18n/Translations';
 
 
 export type TApiFormRegister = {

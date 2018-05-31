@@ -1,10 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import Camera, {constants as CameraConstants} from 'react-native-camera';
-import Logger from "../../../lib/Logger";
+import Logger from '../../../lib/Logger';
 import React from 'react';
-import {Colors} from "../../../Config";
+import RNCamera, {constants as CameraConstants} from 'react-native-camera';
+import {Colors} from '../../../Config';
 import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
+import {Snackbar} from '../../../lib/Snackbar';
+import {t} from '../../../lib/i18n/Translations';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -61,8 +63,9 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 
 				return data;
 			})
-			.catch(error => {
-				Logger.v("CameraWrapper _onCaptureImage", error);
+			.catch(err => {
+				Logger.v('CameraWrapper _onCaptureImage:', err);
+				Snackbar.showErrorStr(t('t_le_camera_capture_failed'));
 			});
 	}
 
@@ -74,13 +77,15 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 		const {captureMode} = this.props;
 		return (
 			<View style={styles.container}>
-				<Camera
+				<RNCamera
 					ref={this._setRefCamera}
 					style={styles.preview}
 					captureMode={captureMode}
 					aspect={CameraConstants.Aspect.fill}
 					captureTarget={CameraConstants.CaptureTarget.temp}
 					captureQuality={CameraConstants.CaptureQuality.high}
+					fixOrientation={true}
+					forceUpOrientation={true}
 					orientation={CameraConstants.Orientation.portrait}
 					onBarCodeRead={this._onBarCodeRead}
 					barCodeTypes={barCodeTypes}
@@ -95,7 +100,7 @@ export default class CameraWrapper extends React.Component<void, Props, void> {
 							resizeMode='contain'
 							source={require('../../../assets/images/primary-camera-me.png')}/>
 					</RkButton>
-				</Camera>
+				</RNCamera>
 			</View>
 		);
 	}

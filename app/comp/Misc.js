@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _BadgeOverlay from './misc/BadgeOverlay';
 import _DefaultLoader from './misc/DefaultLoader';
+import _DynamicStyleText from './misc/DynamicStyleText';
 import _FlatListEmpty from './misc/FlatListEmpty';
 import _FullpageForm from './misc/FullpageForm';
 import _ListDataPoints from './misc/ListDataPoints';
@@ -33,3 +34,4 @@ export const SearchBar = _SearchBar;
 export const AvatarCircle = _AvatarCircle;
 export const AvatarFull = _AvatarFull;
 export const Touchable = _Touchable;
+export const DynamicStyleText = _DynamicStyleText;

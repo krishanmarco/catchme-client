@@ -1,18 +1,19 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import Logger from "../../../lib/Logger";
+import Logger from '../../../lib/Logger';
 import React from 'react';
-import {FORM_API_ID_CHANGE_PASSWORD} from "../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword";
-import {FullpageForm, LoadingButton, Screen, ScreenInfo} from "../../../comp/Misc";
-import {fullpageForm} from "../../../lib/theme/Styles";
-import {Icon} from 'react-native-elements';
-import {Icons} from "../../../Config";
+import Router from '../../../lib/navigation/Router';
+import {FORM_API_ID_CHANGE_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword';
+import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
+import {fullpageForm} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {RkText} from 'react-native-ui-kitten';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {Snackbar} from '../../../lib/Snackbar';
 import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
-import type {TApiFormPool} from "../../../lib/redux-pool/api-form/ApiFormPool";
-import type {TNavigator} from "../../../lib/types/Types";
+import {t} from '../../../lib/i18n/Translations';
+import {Validator} from '../../../lib/helpers/Validator';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import type {TNavigator} from '../../../lib/types/Types';
+import Maps from "../../../lib/data/Maps";
 
 
 // Const *************************************************************************************************
@@ -49,26 +50,25 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 				this._getFormChangePassword().reset();
 				this.setState({passwordChanged: true});
 			})
-			.catch(error => {
-				Logger.v('ScreenSettingsChangePassword _onChangePress', error);
-			});
+			.catch(Snackbar.showApiException);
 	}
 
 	_onBackPress() {
 		const {navigator} = this.props;
-		navigator.pop();
+		Router.dismissModal(navigator);
 	}
 
 	render() {
+		const {passwordChanged} = this.state;
 		return (
 			<Screen>
 				<FullpageForm
 
-					headerStyle={[fullpageForm.headerStyle, styles.headerStyle]}
+					headerStyle={[fullpageForm.headerStyle, styles.headerStyle, passwordChanged ? styles.headerStyleAfterChange : null]}
 					headerJsx={this._renderScreenInfo()}
 
 					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
-					fieldsJsx={(
+					fieldsJsx={!passwordChanged && (
 						<View>
 							<RkTextInputFromPool
 								pool={this._getFormChangePassword()}
@@ -117,7 +117,9 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 		}
 
 		return (
-			<ScreenInfo {...props}/>
+			<View style={styles.screenInfo}>
+				<ScreenInfo {...props}/>
+			</View>
 		);
 	}
 
@@ -127,13 +129,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 		const props = {};
 		if (passwordChanged) {
 			props.onPress = this._onBackPress;
-			props.text = (
-				<RkText>
-					<Icon {...Icons.changePasswordBack}/>
-					<RkText>{t('t_bt_back')}</RkText>
-				</RkText>
-			);
-
+			props.text = t('t_bt_back');
 		} else {
 			props.onPress = this._onChangePress;
 			props.text = t('t_bt_change');
@@ -168,7 +164,10 @@ export default ScreenSettingsChangePassword;
 
 const styles = StyleSheet.create({
 	headerStyle: {
-		flex: 0.40,
+		flex: 0.40
+	},
+	headerStyleAfterChange: {
+		flex: 0.88
 	},
 	fieldsStyle: {
 		flex: 0.48,
@@ -176,4 +175,8 @@ const styles = StyleSheet.create({
 	footerStyle: {
 		marginHorizontal: 24
 	},
+	screenInfo: {
+		flex: 1,
+		justifyContent: 'center'
+	}
 });

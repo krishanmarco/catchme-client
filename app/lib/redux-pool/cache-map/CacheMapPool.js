@@ -1,17 +1,21 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
-import CacheMapActionCreator from "./CacheMapActionCreator";
-import CacheMapDefLocationProfiles, {CACHE_MAP_ID_LOCATION_PROFILES} from "./def/CacheMapDefLocationProfiles";
-import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from "./def/CacheMapDefUserProfiles";
-import CacheMapExtraProps from "./CacheMapExtraProps";
+import CacheMapActionCreator from './CacheMapActionCreator';
+import CacheMapDefLocationProfiles, {
+	CACHE_MAP_ID_LOCATION_PROFILES, CacheMapDefLocationProfilesActionCreator
+} from './def/CacheMapDefLocationProfiles';
+import CacheMapDefLocations, {CACHE_MAP_ID_LOCATIONS} from './def/CacheMapDefLocations';
+import CacheMapDefUserProfiles, {CACHE_MAP_ID_USER_PROFILES} from './def/CacheMapDefUserProfiles';
+import CacheMapDefUsers, {CACHE_MAP_ID_USERS} from './def/CacheMapDefUsers';
+import CacheMapExtraProps from './CacheMapExtraProps';
 import {
 	CacheMapState,
 	mutatorCacheMapModelInitData,
 	mutatorCacheMapModelInvalidateAllData,
 	mutatorCacheMapModelInvalidateData,
 	mutatorCacheMapModelSetData
-} from "./CacheMapModel";
-import type {TDispatch} from "../../types/Types";
-import type {TPool} from "../Pool";
+} from './CacheMapModel';
+import type {TDispatch} from '../../types/Types';
+import type {TPool} from '../Pool';
 
 
 // Define result of poolConnect for this pool
@@ -37,13 +41,16 @@ const CacheMapPool: TPool = {
 	
 	connectParams: {
 		getExtraProps: (poolDefId, stateProps, dispatchProps) => new CacheMapExtraProps(poolDefId, stateProps, dispatchProps),
-		getDefaultActionCreator: (poolDefId: string, dispatch: TDispatch) => new CacheMapActionCreator(poolDefId, dispatch)
+		getDefaultActionCreator: (poolDefId: string, dispatch: TDispatch) => new CacheMapActionCreator(poolDefId, dispatch),
+		[CACHE_MAP_ID_LOCATION_PROFILES]: (cacheMapActionCreator) => new CacheMapDefLocationProfilesActionCreator(cacheMapActionCreator)
 	},
 
 	
 	defs: {
 		[CACHE_MAP_ID_LOCATION_PROFILES]: CacheMapDefLocationProfiles,
 		[CACHE_MAP_ID_USER_PROFILES]: CacheMapDefUserProfiles,
+		[CACHE_MAP_ID_USERS]: CacheMapDefUsers,
+		[CACHE_MAP_ID_LOCATIONS]: CacheMapDefLocations,
 	}
 	
 };

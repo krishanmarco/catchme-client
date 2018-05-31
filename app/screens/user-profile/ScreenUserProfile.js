@@ -1,17 +1,17 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoUser from "../../lib/daos/DaoUser";
-import NavbarHandlerAppLogo from "../../lib/navigation/NavbarHandlerAppLogo";
+import DaoUser from '../../lib/daos/DaoUser';
+import NavbarHandlerUserProfile from '../../lib/navigation/NavbarHandlerUserProfile';
 import React from 'react';
 import UserProfile from './UserProfile';
-import {CACHE_ID_USER_PROFILE} from "../../lib/redux-pool/cache/def/CacheDefUserProfile";
-import {CACHE_MAP_ID_USER_PROFILES} from "../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles";
-import {CacheState} from "../../lib/redux-pool/cache/CacheModel";
-import {NullableObjects, Screen} from "../../comp/Misc";
+import {CACHE_ID_USER_PROFILE} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import {CACHE_MAP_ID_USER_PROFILES} from '../../lib/redux-pool/cache-map/def/CacheMapDefUserProfiles';
+import {CacheState} from '../../lib/redux-pool/cache/CacheModel';
+import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
-import type {TCacheMapPool} from "../../lib/redux-pool/cache-map/CacheMapPool";
-import type {TCachePool} from "../../lib/redux-pool/cache/CachePool";
-import type {TNavigator} from "../../lib/types/Types";
-import type {TUser} from "../../lib/daos/DaoUser";
+import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
+import type {TCacheUserProfile} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -36,9 +36,11 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 	constructor(props, context) {
 		super(props, context);
 		this._renderUserProfile = this._renderUserProfile.bind(this);
+		this._reinitializeNavigator();
+	}
 
-		const {showAppLogo, navigator} = this.props;
-		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
+	componentWillReceiveProps(nextProps) {
+		this._reinitializeNavigator(nextProps);
 	}
 
 	componentWillMount() {
@@ -52,22 +54,36 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 			.then(userProfile => navigator.setTitle({title: DaoUser.gName(userProfile)}));
 	}
 
-	_cacheUserProfile(): TCachePool {
-		return this.props[CACHE_ID_USER_PROFILE];
+	_reinitializeNavigator(props = this.props) {
+		const {navigator, showAppLogo} = this.props;
+		this.navbarHandler = new NavbarHandlerUserProfile(
+			navigator,
+			this._cacheUserProfile(props),
+			this._userProfile(props),
+			showAppLogo
+		);
 	}
 
-	_cacheMapUserProfiles(): TCacheMapPool {
+	_cacheUserProfile(props = this.props): TCacheUserProfile {
+		return props[CACHE_ID_USER_PROFILE];
+	}
+
+	_userProfile(props = this.props): ?TUser {
+		const {userId} = props;
+
+		if (this._isSameUser(props))
+			return this._cacheUserProfile(props).data;
+
+		return this._cacheMapUserProfiles(props).get(userId);
+	}
+
+	_cacheMapUserProfiles(props = this.props): TCacheMapPool {
 		return this.props[CACHE_MAP_ID_USER_PROFILES];
 	}
 
-	_userProfile() {
-		const {userId} = this.props;
-
-		const authUser: TUser = this._cacheUserProfile().data;
-		if (userId === DaoUser.gId(authUser))
-			return authUser;
-
-		return this._cacheMapUserProfiles().get(userId);
+	_isSameUser(props = this.props) {
+		const {userId} = props;
+		return DaoUser.gId(this._cacheUserProfile().data) === userId;
 	}
 
 	render() {
@@ -85,6 +101,7 @@ class _ScreenUserProfile extends React.Component<void, ScreenUserProfileProps, v
 		return (
 			<UserProfile
 				navigator={navigator}
+				navbarHandler={this.navbarHandler}
 				userProfile={userProfile}
 				authUserProfile={authUserProfile}/>
 		);

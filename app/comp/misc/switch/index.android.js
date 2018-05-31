@@ -5,11 +5,7 @@
  *
  */
 import React from 'react';
-import {
-  Animated,
-  Easing,
-  PanResponder,
-} from 'react-native';
+import {Animated, Easing, PanResponder,} from 'react-native';
 import {RkComponent} from 'react-native-ui-kitten';
 
 let width = 52;

@@ -1,4 +1,4 @@
-import {mergeWithoutExtend} from "../../HelperFunctions";
+import {mergeWithoutExtend} from '../../HelperFunctions';
 
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 31-Mar-18 © **/
 

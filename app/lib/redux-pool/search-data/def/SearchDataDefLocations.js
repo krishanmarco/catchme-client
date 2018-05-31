@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiClient from "../../../data/ApiClient";
-import DaoLocation from "../../../daos/DaoLocation";
-import SearchDataDef from "../SearchDataDef";
-import type {TLocation} from "../../../daos/DaoLocation";
-import type {TSearchDataDef} from "../SearchDataDef";
+import ApiClient from '../../../data/ApiClient';
+import DaoLocation from '../../../daos/DaoLocation';
+import SearchDataDef from '../SearchDataDef';
+import type {TLocation} from '../../../daos/DaoLocation';
+import type {TSearchDataDef} from '../SearchDataDef';
 
 export const SEARCH_DATA_ID_LOCATIONS = 'searchDataIdLocations';
 

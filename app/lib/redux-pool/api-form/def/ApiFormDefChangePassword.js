@@ -1,13 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
-import ApiFormDef from "../ApiFormDef";
-import DaoApiFormChangePassword from "../../../daos/DaoApiFormChangePassword";
-import {ApiFormState} from "../ApiFormModel";
-import {Validate} from "../../../helpers/Validator";
-import type {TApiFormChangePassword} from "../../../daos/DaoApiFormChangePassword";
-import type {TApiFormDef} from "../ApiFormDef";
-import type {TThunk} from "../../../types/Types";
-import CacheActionCreator from "../../cache/CacheActionCreator";
-import {CACHE_ID_USER_PROFILE, CacheDefUserProfileActionCreator} from "../../cache/def/CacheDefUserProfile";
+import ApiFormDef from '../ApiFormDef';
+import DaoApiFormChangePassword from '../../../daos/DaoApiFormChangePassword';
+import {ApiFormState} from '../ApiFormModel';
+import {userProfileActions} from '../../PoolHelper';
+import {Validator} from '../../../helpers/Validator';
+import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
+import type {TApiFormDef} from '../ApiFormDef';
+import type {TThunk} from '../../../types/Types';
 
 export const FORM_API_ID_CHANGE_PASSWORD = 'FORM_API_ID_CHANGE_PASSWORD';
 
@@ -26,15 +25,13 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {
 	}
 
 	post(thunk: TThunk, apiFormChangePassword: TApiFormChangePassword): Promise<TApiFormChangePassword> {
-		const actionCreator = new CacheActionCreator(CACHE_ID_USER_PROFILE, thunk.dispatch);
-		const userProfileActionCreator = new CacheDefUserProfileActionCreator(actionCreator);
-		return userProfileActionCreator.changeUserPassword(apiFormChangePassword);
+		return userProfileActions(thunk).changeUserPassword(apiFormChangePassword);
 	}
 
 	validate(apiFormChangePassword: TApiFormChangePassword, errors: TApiFormChangePassword, inclusive: boolean = false): TApiFormChangePassword {
-		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordPrevious, p => Validate.password(p));
+		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordPrevious, p => Validator.password(p));
 
-		const errorId = Validate.passwordsEqual(
+		const errorId = Validator.passwordsEqual(
 			apiFormChangePassword[DaoApiFormChangePassword.pPasswordNext],
 			apiFormChangePassword[DaoApiFormChangePassword.pPasswordConfirmNext]
 		);
@@ -43,8 +40,8 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {
 		errors[DaoApiFormChangePassword.pPasswordConfirmNext] = errorId;
 
 		// The passwordNext and passwordConfirmNext not set errors have precedence over the passwords not equal error
-		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordNext, p => Validate.password(p));
-		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordConfirmNext, p => Validate.password(p));
+		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordNext, p => Validator.password(p));
+		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordConfirmNext, p => Validator.password(p));
 
 		return errors;
 	}

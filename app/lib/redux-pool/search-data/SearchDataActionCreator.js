@@ -1,17 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 30-Mar-18 © **/
-import _ from "lodash";
-import PoolActionCreator from "../PoolActionCreator";
+import _ from 'lodash';
+import PoolActionCreator from '../PoolActionCreator';
 import {
 	POOL_ACTION_SEARCH_DATA_CONCAT_SUGGEST_LIST,
 	POOL_ACTION_SEARCH_DATA_SEARCH_LIST,
 	POOL_ACTION_SEARCH_DATA_SET_LOADING,
 	POOL_ACTION_SEARCH_DATA_SET_SEARCH_QUERY
-} from "./SearchDataPool";
-import {POOL_TYPE_SEARCH_DATA} from "../../../redux/ReduxPool";
-import {SearchDataState} from "./SearchDataModel";
-import type {TDispatch} from "../../types/Types";
+} from './SearchDataPool';
+import {POOL_TYPE_SEARCH_DATA} from '../../../redux/ReduxPool';
+import {SearchDataState} from './SearchDataModel';
+import type {TDispatch} from '../../types/Types';
 
-// todo the search is only triggered after the user presses search for the second time
 export default class SearchDataActionCreator extends PoolActionCreator {
 
 	constructor(poolDefId: string, dispatch: TDispatch) {
@@ -62,7 +61,6 @@ export default class SearchDataActionCreator extends PoolActionCreator {
 		return dispatch((dispatch, getState) => {
 			const {searchQuery}: SearchDataState = this.getPoolState(getState);
 
-
 			if (!searchQuery || searchQuery.length <= 0)
 				return;
 
@@ -72,13 +70,13 @@ export default class SearchDataActionCreator extends PoolActionCreator {
 			// Run the search api call
 			pool.searchApiCall(searchQuery)
 				.then(resultSearchList => {
-					const {suggestList, searchList}: SearchDataState = this.getPoolState(getState);
+					const {suggestList}: SearchDataState = this.getPoolState(getState);
 
 					// The new search list is only what was returned as new data
 					const newSearchList = _.uniqBy(resultSearchList, pool.uniqueFilter);
 
 					// The new display list is the new searchList + the old suggestList
-					const newList = _.uniqBy(searchList.concat(suggestList), pool.uniqueFilter);
+					const newList = _.uniqBy(newSearchList.concat(suggestList), pool.uniqueFilter);
 
 					dispatchAction({
 						type: POOL_ACTION_SEARCH_DATA_SEARCH_LIST,
@@ -91,6 +89,7 @@ export default class SearchDataActionCreator extends PoolActionCreator {
 	}
 
 	setSearchQuery(searchQuery: string) {
+
 		const {dispatchAction} = this;
 		return dispatchAction({
 			type: POOL_ACTION_SEARCH_DATA_SET_SEARCH_QUERY,

@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import _ from 'lodash';
-import {ApiFormState} from "./ApiFormModel";
-import type {TThunk} from "../../types/Types";
+import {ApiFormState} from './ApiFormModel';
+import type {TThunk} from '../../types/Types';
 
 export type TApiFormDef<TApiFormObject> = {
 
@@ -29,19 +29,6 @@ export type TApiFormDef<TApiFormObject> = {
 
 
 export default class ApiFormDef {
-
-	// If fields is set hasErrors only returns true if the
-	// fields in {fields} have errors, else it evaluates
-	// all the fields in {errors}
-	static hasErrors(errors: Object, fields: ?Array<String> = null): boolean {
-		if (fields == null) {
-			return !Object.keys(errors).reduce((prev, key) => prev && _.get(errors, key) == 0, true);
-		}
-
-		return !fields.reduce((prev, key) => prev && (!(key in errors) || _.get(errors, key) == 0), true);
-	}
-
-
 
 	constructor(formId, validateOnChange = true, disableScreenOnLoading = false) {
 		this.formId = formId;

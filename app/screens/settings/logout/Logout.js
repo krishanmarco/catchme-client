@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import RealmIO from '../../../lib/data/RealmIO';
-import {FullpageForm, LoadingButton, ScreenInfo} from "../../../comp/Misc";
-import {fullpageForm} from "../../../lib/theme/Styles";
-import {startApplication} from "../../../App";
-import {StyleSheet, View} from 'react-native';
-import {t} from "../../../lib/i18n/Translations";
+import StorageIO from '../../../lib/data/StorageIO';
+import {FullpageForm, LoadingButton, ScreenInfo} from '../../../comp/Misc';
+import {fullpageForm} from '../../../lib/theme/Styles';
+import {startApplication} from '../../../App';
+import {StyleSheet} from 'react-native';
+import {t} from '../../../lib/i18n/Translations';
 
 
 // Const *************************************************************************************************
@@ -27,8 +27,8 @@ export default class Logout extends React.Component<void, Props, void> {
 		this._onLogoutPress = this._onLogoutPress.bind(this);
 	}
 
-	_onLogoutPress() {
-		RealmIO.removeLocalUser();
+	async _onLogoutPress() {
+		await StorageIO.removeLocalUser();
 		startApplication();
 	}
 

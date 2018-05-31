@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from './ApiClient';
-import Logger from "../Logger";
+import Logger from '../Logger';
 import MD5 from 'md5';
 import RSAKey from '../react-native-rsa/rsa';
 import {Const} from '../../Config';
@@ -21,38 +21,32 @@ class ApiAuthentication {
 		this.simpleAuthToken = this._createToken();
 	}
 
-
-	update(userId, apiKey) {
+	async update(userId, apiKey) {
 		this.userId = userId;
 		this.apiKey = apiKey;
 		this.invalidateAuthenticationToken();
+		return ApiClient.authenticateFirebase();
 	}
-
 
 	invalidateAuthenticationToken() {
 		this.userAuthToken = null;
 	}
 
-
 	// Used to get an authentication token for this specific user
 	// Returns a promise because we need to sync with the servers
 	// timestamp so this function has to be asynchronous
-	getUserAuthenticationToken() {
+	async getUserAuthenticationToken() {
 
 		if (this.userAuthToken !== null) {
 			// userAuthToken is still valid no need
 			// to recalculate it so call the callback immediately
-			Logger.v("ApiAuthentication getUserAuthenticationToken: found valid token");
+			Logger.v('ApiAuthentication getUserAuthenticationToken: found valid token');
 			return Promise.resolve(this.userAuthToken);
 		}
 
-
 		// No local timestamp,  Request server timestamp
-		return ApiClient.time()
-			.then(serverTimestamp => {
-				this.userAuthToken = this._createToken(this.userId, this.apiKey, serverTimestamp);
-				return this.userAuthToken;
-			});
+		this.userAuthToken = this._createToken(this.userId, this.apiKey, await ApiClient.time());
+		return this.userAuthToken;
 	}
 
 
@@ -63,19 +57,17 @@ class ApiAuthentication {
 		return this.simpleAuthToken;
 	}
 
-
 	_createToken(userId = -1, apiKey = '', serverTimestamp = '') {
 
-		let rsa = new RSAKey();
+		const rsa = new RSAKey();
 		rsa.setPublic(Const.apiAuthRSAN, Const.apiAuthRSAE);
 
-		let key = MD5(serverTimestamp + apiKey);
-		let json = JSON.stringify({id: userId, key});
-		let encrypted = rsa.encrypt(json);
+		const key = MD5(serverTimestamp + apiKey);
+		const json = JSON.stringify({id: userId, key});
+		const encrypted = rsa.encrypt(json);
 
 		return hex2b64(encrypted);
 	}
-
 
 }
 
