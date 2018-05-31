@@ -6,7 +6,7 @@ import Logger from '../Logger';
 import Router from './Router';
 import {Snackbar} from '../Snackbar';
 import {TCacheUserProfile} from '../redux-pool/cache/def/CacheDefUserProfile';
-import {Validate} from '../helpers/Validator';
+import {Validator} from '../helpers/Validator';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TNavigator} from '../types/Types';
 

@@ -3,7 +3,7 @@ import ApiClient from '../../../data/ApiClient';
 import ApiFormDef from '../ApiFormDef';
 import DaoApiFormLogin from '../../../daos/DaoApiFormLogin';
 import {ApiFormState} from '../ApiFormModel';
-import {Validate} from '../../../helpers/Validator';
+import {Validator} from '../../../helpers/Validator';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TApiFormLogin} from '../../../daos/DaoApiFormLogin';
 import type {TThunk} from '../../../types/Types';
@@ -29,8 +29,8 @@ class ApiFormDefLogin extends ApiFormDef<TApiFormLogin> {
 	}
 
 	validate(apiFormLogin: TApiFormLogin, errors: TApiFormLogin, inclusive: boolean = false): TApiFormLogin {
-		this.setError(errors, inclusive, apiFormLogin, DaoApiFormLogin.pEmail, e => Validate.email(e));
-		this.setError(errors, inclusive, apiFormLogin, DaoApiFormLogin.pPassword, p => Validate.password(p));
+		this.setError(errors, inclusive, apiFormLogin, DaoApiFormLogin.pEmail, e => Validator.email(e));
+		this.setError(errors, inclusive, apiFormLogin, DaoApiFormLogin.pPassword, p => Validator.password(p));
 		return errors;
 	}
 

@@ -8,6 +8,7 @@ import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Validator} from "../../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -36,7 +37,7 @@ class _EditLocationTimings extends React.Component<void, Props, State> {
 
 	hasErrors() {
 		const formErrors = this._formApiEditLocationProfile().errors;
-		return ApiFormDef.hasErrors(formErrors, [DaoLocation.pTimings]);
+		return Validator.hasErrors(formErrors, [DaoLocation.pTimings]);
 	}
 
 	_formApiEditLocationProfile(): TApiFormPool {

@@ -3,7 +3,7 @@ import ApiFormDef from '../ApiFormDef';
 import DaoUser from '../../../daos/DaoUser';
 import {ApiFormState} from '../ApiFormModel';
 import {formEditUserProfileActions, userProfileActions} from '../../PoolHelper';
-import {Validate} from '../../../helpers/Validator';
+import {Validator} from '../../../helpers/Validator';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
@@ -32,8 +32,8 @@ class ApiFormDefUserProfile extends ApiFormDef<TUser> {
 
 
 	validate(user: TUser, errors: TUser, inclusive: boolean = false): TUser {
-		this.setError(errors, inclusive, user, DaoUser.pEmail, e => Validate.email(e));
-		this.setError(errors, inclusive, user, DaoUser.pPhone, p => Validate.phone(p));
+		this.setError(errors, inclusive, user, DaoUser.pEmail, e => Validator.email(e));
+		this.setError(errors, inclusive, user, DaoUser.pPhone, p => Validator.phone(p));
 		return errors;
 	}
 

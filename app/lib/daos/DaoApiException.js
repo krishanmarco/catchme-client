@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import {denormObj} from '../HelperFunctions';
+import Maps from "../data/Maps";
 
 export type TApiException = {
 	errorCode: number,            // 1                            Api error
@@ -24,7 +25,7 @@ export default class DaoApiException {
 	}
 
 	static gErrorCode(exception: TApiException): number {
-		return _.get(exception, DaoApiException.pErrorCode, Validate.errCodes.return_error_generic);
+		return _.get(exception, DaoApiException.pErrorCode, Maps.rCodes.r_err_generic.id);
 	}
 
 	static gErrors(exception: TApiException): number {

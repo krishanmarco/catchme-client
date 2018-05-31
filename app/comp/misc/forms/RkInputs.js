@@ -6,8 +6,9 @@ import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {Colors} from '../../../Config';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
-import {Validate} from '../../../lib/helpers/Validator';
+import {Validator} from '../../../lib/helpers/Validator';
 import type {TStyle} from '../../../lib/types/Types';
+import Maps from "../../../lib/data/Maps";
 
 
 // RkTextInput ******************************************************************************************
@@ -38,7 +39,7 @@ export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: Rk
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
-				{hasErrorCode ? Validate.mapErrorCodeToMessage(errorCode) : ' '}
+				{hasErrorCode ? Maps.errorIdToString(errorCode) : ' '}
 			</RkText>
 
 		</View>
@@ -90,7 +91,7 @@ export const RkMultiChoice = ({title, textProps, style, options = [], ...props}:
 			{...props}
 			mode={Picker.MODE_DROPDOWN}
 			style={styles.multiChoicePicker}>
-			{options.map((item) => <Picker.Item key={item.value} {...item}/>)}
+			{options.map((item) => <Picker.Item key={item.id} {...item}/>)}
 		</Picker>
 	</View>
 );

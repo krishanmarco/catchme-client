@@ -144,3 +144,7 @@ export function isValidUrl(url) {
 export function validSource(source) {
 	return !_.isEmpty(_.get(source, 'uri', null));
 }
+
+export function addKeys(array: Array<Object> = []) {
+	return array.map((p, i) => ({key: i, ...p}));
+}

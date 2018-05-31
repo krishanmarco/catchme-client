@@ -287,7 +287,7 @@ export class CacheDefUserProfileActionCreator {
 	editUser(user: TUser) {
 		const {executeIfDataNotNull, mergeData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const oldUser = Object.assign({}, thisUser);
+			const oldUser = {...thisUser};
 			mergeData(user);
 
 			const uid = DaoUser.gId(user);

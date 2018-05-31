@@ -14,6 +14,7 @@ import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TIcon, TNavigator} from '../../lib/types/Types';
 import type {TLocation} from '../../lib/daos/DaoLocation';
 import type {TUser} from '../../lib/daos/DaoUser';
+import {Snackbar} from "../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -64,10 +65,8 @@ class _EditLocation extends React.Component<void, Props, void> {
 
 		// If the form doesn't have any errors, go back
 		this._formApiEditLocationProfile().post()
-			.then(apiResponse => {
-				// todo errors handle
-				navigator.pop();
-			});
+			.then(success => { navigator.pop(); })
+			.catch(Snackbar.showApiException);
 	}
 
 

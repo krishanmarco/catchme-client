@@ -189,7 +189,7 @@ export default class DaoUser {
 	}
 	
 	static gGender(user: TUser): number {
-		return _.get(user, DaoUser.pGender, Maps.genderDefault().value);
+		return _.get(user, DaoUser.pGender, Maps.genders.def.id);
 	}
 	
 	static gConnections(user: TUser): TUserConnectionIds {

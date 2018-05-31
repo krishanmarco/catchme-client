@@ -10,6 +10,7 @@ import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
+import {Snackbar} from "../../../lib/Snackbar";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -41,9 +42,8 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 
 	_onSendPress() {
 		this._getFormApiRecoverPassword().post()
-			.then(success => {
-				this.setState({passwordRecovered: true});
-			});
+			.then(success => {this.setState({passwordRecovered: true});})
+			.catch(Snackbar.showApiException);
 	}
 
 	_onGoToLoginPress() {

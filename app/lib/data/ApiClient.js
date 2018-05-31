@@ -17,6 +17,7 @@ import type {TId} from '../types/Types';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TUser} from '../daos/DaoUser';
 import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
+import {Snackbar} from "../Snackbar";
 
 class ApiClient {
 
@@ -40,7 +41,7 @@ class ApiClient {
 		};
 	}
 
-	async _handleResponse(response, url, callbackRetryRequest) {
+	async _handleResponse(response: Object, url: string, callbackRetryRequest: Function) {
 		const status = response.status;
 		let text: ?String = await response.text();
 
@@ -65,13 +66,13 @@ class ApiClient {
 			return text;
 
 		// (![401, 400, 500, 200]) -> Unknown status code -> Local ApiException
-		if (status != 400 && status != 500) // todo correct error code
-			return ApiExceptionHandler.onApiExceptionCatch(DaoApiException.newInstance(-1));
+		if (status != 400 && status != 500)
+			return ApiExceptionHandler.onApiExceptionCatch(ApiExceptionHandler.exUnknownStatus);
 
 		return ApiExceptionHandler.onApiExceptionCatch(JSON.parse(text));
 	}
 
-	_get(url) {
+	_get(url: string) {
 		Logger.v(`ApiClient _get: Requesting auth-token for ${url}`);
 
 		return this._getHeaders('application/json')
@@ -87,7 +88,7 @@ class ApiClient {
 			.then(response => this._handleResponse(response, url, () => this._post(url, body)));
 	}
 
-	_postMultipart(url, formData) {
+	_postMultipart(url: string, formData: ?Object = {}) {
 		Logger.v(`ApiClient _postMultipart: Requesting auth-token for ${url}`);
 
 		return this._getHeaders('multipart/form-data')
@@ -99,17 +100,26 @@ class ApiClient {
 			.then(response => this._handleResponse(response, url, () => this._postMultipart(url, formData)));
 	}
 
-	// Verified API Below ***************************************************************************
-	// Verified API Below ***************************************************************************
+	// Should only be called from login and register functions
+	async _onReceiveUserProfile(userProfileJson: string): Promise<TUser> {
+		const user: TUser = JSON.parse(userProfileJson);
+
+		if (DaoUser.gApiKey(user) == null)
+			return Promise.reject(ApiExceptionHandler.exInvalidApiKey);
+
+		await StorageIO.setLocalUser(user);
+		await ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user));
+
+		return user;
+	}
+
+	// Server API ***********************************************************************************
+	// Server API ***********************************************************************************
 
 	// Should only be called from ApiAuthentication
-	time(callback) {
+	time() {
 		return fetch(`${Urls.api}/meta/time`)
-			.then(response => response.text())
-			.then(callback)
-			.catch(err => {
-				Logger.v('ApiClient time:', err);
-			});
+			.then(response => response.text());
 	}
 
 	// Should only be called from ApiAuthentication
@@ -124,16 +134,6 @@ class ApiClient {
 				Context.setFirebaseEnabled(false);
 				Logger.v('ApiClient authenticateFirebase: Failed to login to firebase', exception);
 			});
-	}
-
-	// Should only be called from login and register functions
-	async _onReceiveUserProfile(userProfileJson): Promise<TUser> {
-		const user: TUser = JSON.parse(userProfileJson);
-
-		await StorageIO.setLocalUser(user);
-		await ApiAuthentication.update(DaoUser.gId(user), DaoUser.gApiKey(user));
-
-		return user;
 	}
 
 	// Should only be called from ApiFormDefRegister

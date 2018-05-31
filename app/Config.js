@@ -173,7 +173,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: true,
+	loggingEnabled: false,
 
 	googlePlacesKey: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
 	googlePlacesDebounceTimeMs: 500,

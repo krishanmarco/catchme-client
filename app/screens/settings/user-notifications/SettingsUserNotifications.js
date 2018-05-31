@@ -10,6 +10,7 @@ import {ScreenInfo} from '../../../comp/Misc';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Snackbar} from "../../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -50,7 +51,8 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 			return;
 
 		// Post the updated form
-		this._formApiEditUserProfile().post();
+		this._formApiEditUserProfile().post()
+			.catch(Snackbar.showApiException);
 	}
 
 	_formApiEditUserProfile(): TApiFormPool {

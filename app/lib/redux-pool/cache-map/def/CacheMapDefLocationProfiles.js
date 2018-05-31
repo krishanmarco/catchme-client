@@ -6,10 +6,12 @@ import DaoLocation from '../../../daos/DaoLocation';
 import Logger from '../../../Logger';
 import {Snackbar} from '../../../Snackbar';
 import {t} from '../../../i18n/Translations';
-import {Validate} from '../../../helpers/Validator';
+import {Validator} from '../../../helpers/Validator';
 import type {TCacheMapDef} from '../CacheMapDef';
 import type {TId, TThunk} from '../../../types/Types';
 import type {TLocation} from '../../../daos/DaoLocation';
+import Maps from "../../../data/Maps";
+import type {TApiException} from "../../../daos/DaoApiException";
 
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 
@@ -84,10 +86,10 @@ export class CacheMapDefLocationProfilesActionCreator {
 				Snackbar.showSuccessStr(t('t_ls_location_image_uploaded'));
 				return addedUrl;
 			})
-			.catch(err => {
+			.catch((err: TApiException) => {
 				Logger.v('CacheMapDefLocationProfileActionCreator addImage: failed', lid, err);
 				this._removeFromImagesArray(lid, imageUri);
-				Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(err));
+				Snackbar.showApiException(err);
 				return err;
 			});
 	}

@@ -1,7 +1,10 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25-May-18 © **/
 import RNSnackbar from 'react-native-snackbar';
 import {Colors} from '../Config';
-import {Validate} from './helpers/Validator';
+import {Validator} from './helpers/Validator';
+import Maps from "./data/Maps";
+import type {TApiException} from "./daos/DaoApiException";
+import DaoApiException from "./daos/DaoApiException";
 
 export class Snackbar {
 
@@ -14,7 +17,11 @@ export class Snackbar {
 	}
 
 	static showErrorCode(errorCode: number) {
-		Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(errorCode));
+		Snackbar.showErrorStr(Maps.errorIdToString(errorCode));
+	}
+
+	static showApiException(apiException: TApiException) {
+		Snackbar.showErrorCode(DaoApiException.gErrorCode(apiException));
 	}
 
 	static showSuccessStr(message: String) {

@@ -176,11 +176,11 @@ class _UserProfile extends React.Component<void, Props, State> {
 
 				<Row size={-1} style={styles.badges}>
 					{[
-						Maps.genderToIcon(DaoUser.gGender(userProfile)),
-						Maps.reputationToIcon(DaoUser.gReputation(userProfile))
-					].map((b, k) => (
+						Maps.genderIdToIcon(DaoUser.gGender(userProfile)),
+						Maps.reputationValueToIcon(DaoUser.gReputation(userProfile))
+					].map((icon, k) => (
 						<Col key={k}>
-							<Icon size={50} {...b}/>
+							<Icon size={50} {...icon}/>
 						</Col>
 					))}
 				</Row>

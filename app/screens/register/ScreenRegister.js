@@ -1,5 +1,4 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import DaoUser from '../../lib/daos/DaoUser';
 import React from 'react';
 import Router from '../../lib/navigation/Router';
 import {FontIcons} from '../../Config';
@@ -12,8 +11,9 @@ import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
-import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../lib/types/Types';
+import {Snackbar} from "../../lib/Snackbar";
+import type {TApiFormDefRegister} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 
 
 // Const *************************************************************************************************
@@ -36,22 +36,14 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 		this._onGoToLoginPress = this._onGoToLoginPress.bind(this);
 	}
 
-	_getFormApiRegister(): TApiFormPool {
+	_getFormApiRegister(): TApiFormDefRegister {
 		return this.props[FORM_API_ID_REGISTER];
 	}
 
 	_onRegisterPress() {
 		this._getFormApiRegister().post()
-			.then(userProfile => {
-
-				if (DaoUser.gApiKey(userProfile) == null) {
-					// The login failed
-					return;
-				}
-
-				// Login was successful, start app
-				startApplication();
-			});
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onGoToLoginPress() {

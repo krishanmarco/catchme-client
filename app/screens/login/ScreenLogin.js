@@ -20,9 +20,15 @@ import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
-import {Validate} from '../../lib/helpers/Validator';
+import {Validator} from '../../lib/helpers/Validator';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUser} from '../../lib/daos/DaoUser';
+import Maps from "../../lib/data/Maps";
+import type {TApiException} from "../../lib/daos/DaoApiException";
+import ApiExceptionHandler from "../../lib/data/ApiExceptionHandler";
+import DaoApiException from "../../lib/daos/DaoApiException";
+import type {TApiFormLogin} from "../../lib/daos/DaoApiFormLogin";
+import type {TApiFormDefLogin} from "../../lib/redux-pool/api-form/def/ApiFormDefLogin";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -39,8 +45,6 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 
 	constructor(props, context) {
 		super(props, context);
-		this._handleSignInError = this._handleSignInError.bind(this);
-		this._handleSignInSuccess = this._handleSignInSuccess.bind(this);
 		this._getFormApiLogin = this._getFormApiLogin.bind(this);
 		this._onLoginPress = this._onLoginPress.bind(this);
 		this._onFacebookLogin = this._onFacebookLogin.bind(this);
@@ -50,44 +54,28 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		this._onGoToRecoverPasswordPress = this._onGoToRecoverPasswordPress.bind(this);
 	}
 
-	_handleSignInError(err = null) {
-		Logger.v('ScreenLogin _handleSignInError:', err);
-		Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(err));
-	}
-
-	_handleSignInSuccess(userProfile: TUser) {
-		if (DaoUser.gApiKey(userProfile) == null) {
-			this._handleSignInError();
-			return null;
-		}
-
-		// Login was successful, start app
-		startApplication(userProfile);
-		return userProfile;
-	}
-
-	_getFormApiLogin(): ApiFormPool {
+	_getFormApiLogin(): TApiFormDefLogin {
 		return this.props[FORM_API_ID_LOGIN];
 	}
 
 	_onLoginPress() {
 		this._getFormApiLogin().post()
-			.then(this._handleSignInSuccess)
-			.catch(this._handleSignInError);
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onFacebookLogin() {
 		SignInFacebook.signInAndGetAccessToken()
 			.then(ApiClient.accountsLoginFacebook)
-			.then(this._handleSignInSuccess)
-			.catch(this._handleSignInError);
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onGoogleLogin() {
 		SignInGoogle.signInAndGetAccessToken()
 			.then(ApiClient.accountsLoginGoogle)
-			.then(this._handleSignInSuccess)
-			.catch(this._handleSignInError);
+			.then(startApplication)
+			.catch(Snackbar.showApiException);
 	}
 
 	_onGoToSignupPress() {
@@ -99,7 +87,6 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		const {navigator} = this.props;
 		Router.toModalRecoverPassword(navigator);
 	}
-
 
 	render() {
 		// Do not require online to display the login screen

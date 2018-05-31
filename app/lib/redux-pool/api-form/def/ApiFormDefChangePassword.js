@@ -3,7 +3,7 @@ import ApiFormDef from '../ApiFormDef';
 import DaoApiFormChangePassword from '../../../daos/DaoApiFormChangePassword';
 import {ApiFormState} from '../ApiFormModel';
 import {userProfileActions} from '../../PoolHelper';
-import {Validate} from '../../../helpers/Validator';
+import {Validator} from '../../../helpers/Validator';
 import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TThunk} from '../../../types/Types';
@@ -29,9 +29,9 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {
 	}
 
 	validate(apiFormChangePassword: TApiFormChangePassword, errors: TApiFormChangePassword, inclusive: boolean = false): TApiFormChangePassword {
-		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordPrevious, p => Validate.password(p));
+		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordPrevious, p => Validator.password(p));
 
-		const errorId = Validate.passwordsEqual(
+		const errorId = Validator.passwordsEqual(
 			apiFormChangePassword[DaoApiFormChangePassword.pPasswordNext],
 			apiFormChangePassword[DaoApiFormChangePassword.pPasswordConfirmNext]
 		);
@@ -40,8 +40,8 @@ class ApiFormDefChangePassword extends ApiFormDef<TApiFormChangePassword> {
 		errors[DaoApiFormChangePassword.pPasswordConfirmNext] = errorId;
 
 		// The passwordNext and passwordConfirmNext not set errors have precedence over the passwords not equal error
-		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordNext, p => Validate.password(p));
-		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordConfirmNext, p => Validate.password(p));
+		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordNext, p => Validator.password(p));
+		this.setError(errors, inclusive, apiFormChangePassword, DaoApiFormChangePassword.pPasswordConfirmNext, p => Validator.password(p));
 
 		return errors;
 	}

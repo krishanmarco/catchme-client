@@ -12,6 +12,7 @@ import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
+import {Snackbar} from "../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -74,19 +75,19 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 
 	_onStatusConfirm() {
 		const {navigator, postOnConfirm, onStatusConfirm} = this.props;
-		const newStatus = this._formApiEditUserLocationStatus().apiInput;
+		const {apiInput} = this._formApiEditUserLocationStatus();
 
-		if (postOnConfirm) {
-			this._formApiEditUserLocationStatus().post()
-				.then(success => {
-
-					// Notify the parent component that the status has changed
-					if (onStatusConfirm)
-						onStatusConfirm(newStatus);
-
-				});
-		}
+		if (onStatusConfirm)
+			onStatusConfirm(apiInput);
+		
 		Router.dismissModal(navigator);
+
+		if (!postOnConfirm) {
+			return;
+		}
+
+		this._formApiEditUserLocationStatus().post()
+			.catch(Snackbar.showApiException);
 	}
 
 

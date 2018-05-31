@@ -10,9 +10,10 @@ import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../../lib/Snackbar';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
-import {Validate} from '../../../lib/helpers/Validator';
+import {Validator} from '../../../lib/helpers/Validator';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
+import Maps from "../../../lib/data/Maps";
 
 
 // Const *************************************************************************************************
@@ -49,10 +50,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 				this._getFormChangePassword().reset();
 				this.setState({passwordChanged: true});
 			})
-			.catch(err => {
-				Logger.v('ScreenSettingsChangePassword _onChangePress:', err);
-				Snackbar.showErrorStr(Validate.mapErrorCodeToMessage(err));
-			});
+			.catch(Snackbar.showApiException);
 	}
 
 	_onBackPress() {

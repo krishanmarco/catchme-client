@@ -13,6 +13,7 @@ import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Validator} from "../../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -37,7 +38,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 	hasErrors() {
 		const formErrors = this._formApiEditLocationProfile().errors;
-		return ApiFormDef.hasErrors(formErrors, [
+		return Validator.hasErrors(formErrors, [
 			DaoLocation.pAddressCountry,
 			DaoLocation.pAddressState,
 			DaoLocation.pAddressCity,

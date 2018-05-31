@@ -75,7 +75,7 @@ export default class TimingListItem extends React.Component<void, Props, void> {
 		return (
 			<View style={styles.headerLine}>
 				<RkText style={styles.headerSpan} rkType='accentColor'>
-					{Maps.daysOfWeek()[day]}
+					{Maps.dayIdToString(day)}
 				</RkText>
 			</View>
 		);

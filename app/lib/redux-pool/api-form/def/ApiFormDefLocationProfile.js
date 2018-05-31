@@ -3,7 +3,7 @@ import ApiFormDef from '../ApiFormDef';
 import DaoLocation from '../../../daos/DaoLocation';
 import {ApiFormState} from '../ApiFormModel';
 import {userProfileActions} from '../../PoolHelper';
-import {Validate} from '../../../helpers/Validator';
+import {Validator} from '../../../helpers/Validator';
 import type {TApiFormDef} from '../ApiFormDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TThunk} from '../../../types/Types';
@@ -32,15 +32,15 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 	}
 
 	validate(location: TLocation, errors: TLocation, inclusive: boolean = false): TLocation {
-		this.setError(errors, inclusive, location, DaoLocation.pName, n => Validate.string(n, 3, 100));
-		this.setError(errors, inclusive, location, DaoLocation.pEmail, e => Validate.email(e));
-		this.setError(errors, inclusive, location, DaoLocation.pCapacity, c => Validate.number(c, 1));
-		this.setError(errors, inclusive, location, DaoLocation.pPhone, p => Validate.phone(p));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressCountry, c => Validate.countryCode(c));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressState, s => Validate.string(s));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressCity, c => Validate.string(c));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressPostcode, p => Validate.string(p));
-		this.setError(errors, inclusive, location, DaoLocation.pAddressAddress, a => Validate.string(a));
+		this.setError(errors, inclusive, location, DaoLocation.pName, n => Validator.string(n, 3, 100));
+		this.setError(errors, inclusive, location, DaoLocation.pEmail, e => Validator.email(e));
+		this.setError(errors, inclusive, location, DaoLocation.pCapacity, c => Validator.number(c, 1));
+		this.setError(errors, inclusive, location, DaoLocation.pPhone, p => Validator.phone(p));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressCountry, c => Validator.countryCode(c));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressState, s => Validator.string(s));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressCity, c => Validator.string(c));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressPostcode, p => Validator.string(p));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressAddress, a => Validator.string(a));
 		return errors;
 	}
 
