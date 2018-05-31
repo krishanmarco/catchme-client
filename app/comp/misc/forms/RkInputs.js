@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import Maps from '../../../lib/data/Maps';
 import React from 'react';
 import {RkTextInput as _RkTextInput, RkText} from 'react-native-ui-kitten';
 import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
@@ -8,7 +9,6 @@ import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
 import {Validator} from '../../../lib/helpers/Validator';
 import type {TStyle} from '../../../lib/types/Types';
-import Maps from "../../../lib/data/Maps";
 
 
 // RkTextInput ******************************************************************************************

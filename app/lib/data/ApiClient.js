@@ -11,13 +11,13 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import StorageIO from './StorageIO';
 import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from '../HelperFunctions';
+import {Snackbar} from '../Snackbar';
 import type {TApiFormChangePassword} from '../daos/DaoApiFormChangePassword';
 import type {TApiFormRegister} from '../daos/DaoApiFormRegister';
 import type {TId} from '../types/Types';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TUser} from '../daos/DaoUser';
 import type {TUserLocationStatus} from '../daos/DaoUserLocationStatus';
-import {Snackbar} from "../Snackbar";
 
 class ApiClient {
 

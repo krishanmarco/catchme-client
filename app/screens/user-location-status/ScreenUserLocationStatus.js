@@ -8,11 +8,11 @@ import {CACHE_MAP_ID_LOCATION_PROFILES} from '../../lib/redux-pool/cache-map/def
 import {FORM_API_ID_EDIT_USER_LOCATION_STATUS} from '../../lib/redux-pool/api-form/def/ApiFormDefUserLocationStatus';
 import {NullableObjects, Screen} from '../../comp/Misc';
 import {poolConnect} from '../../redux/ReduxPool';
+import {Snackbar} from '../../lib/Snackbar';
 import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TCacheMapPool} from '../../lib/redux-pool/cache-map/CacheMapPool';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUserLocationStatus} from '../../lib/daos/DaoUserLocationStatus';
-import {Snackbar} from "../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

@@ -12,8 +12,8 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
+import {Validator} from '../../../lib/helpers/Validator';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
-import {Validator} from "../../../lib/helpers/Validator";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

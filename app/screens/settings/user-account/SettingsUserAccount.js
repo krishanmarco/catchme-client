@@ -6,6 +6,7 @@ import Logger from '../../../lib/Logger';
 import Maps from '../../../lib/data/Maps';
 import React from 'react';
 import Router from '../../../lib/navigation/Router';
+import {addKeys, stringReplace} from '../../../lib/HelperFunctions';
 import {AvatarFull, ListItemHeader, ListItemInfo} from '../../../comp/Misc';
 import {Const, Icons} from '../../../Config';
 import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
@@ -14,7 +15,6 @@ import {poolConnect} from '../../../redux/ReduxPool';
 import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Snackbar} from '../../../lib/Snackbar';
-import {addKeys, stringReplace} from '../../../lib/HelperFunctions';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 

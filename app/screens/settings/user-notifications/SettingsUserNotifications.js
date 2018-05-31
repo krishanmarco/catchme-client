@@ -7,10 +7,10 @@ import {listItemInfo} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from '../../../comp/Misc';
+import {Snackbar} from '../../../lib/Snackbar';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
-import {Snackbar} from "../../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

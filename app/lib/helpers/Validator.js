@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import _ from 'lodash';
-import Maps from "../data/Maps";
+import Maps from '../data/Maps';
 
 export class Validator {
 

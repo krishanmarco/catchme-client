@@ -9,12 +9,12 @@ import {Colors, Icons} from '../../Config';
 import {FORM_API_ID_EDIT_LOCATION_PROFILE} from '../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile';
 import {poolConnect} from '../../redux/ReduxPool';
 import {ScrollableIconTabView} from '../../comp/Misc';
+import {Snackbar} from '../../lib/Snackbar';
 import {StyleSheet, View} from 'react-native';
 import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
 import type {TIcon, TNavigator} from '../../lib/types/Types';
 import type {TLocation} from '../../lib/daos/DaoLocation';
 import type {TUser} from '../../lib/daos/DaoUser';
-import {Snackbar} from "../../lib/Snackbar";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
