@@ -8,12 +8,12 @@ import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
 import {fullpageForm} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
+import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
+import type {TApiFormDefRegister} from '../../lib/redux-pool/api-form/def/ApiFormDefRegister';
 import type {TNavigator} from '../../lib/types/Types';
-import {Snackbar} from "../../lib/Snackbar";
-import type {TApiFormDefRegister} from "../../lib/redux-pool/api-form/def/ApiFormDefRegister";
 
 
 // Const *************************************************************************************************

@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import Logger from '../../../lib/Logger';
+import Maps from '../../../lib/data/Maps';
 import React from 'react';
 import Router from '../../../lib/navigation/Router';
 import {FORM_API_ID_CHANGE_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword';
@@ -13,7 +14,6 @@ import {t} from '../../../lib/i18n/Translations';
 import {Validator} from '../../../lib/helpers/Validator';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
-import Maps from "../../../lib/data/Maps";
 
 
 // Const *************************************************************************************************

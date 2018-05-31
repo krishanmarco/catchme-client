@@ -4,14 +4,14 @@ import ApiClient from '../../../data/ApiClient';
 import CacheMapDef from '../CacheMapDef';
 import DaoLocation from '../../../daos/DaoLocation';
 import Logger from '../../../Logger';
+import Maps from '../../../data/Maps';
 import {Snackbar} from '../../../Snackbar';
 import {t} from '../../../i18n/Translations';
 import {Validator} from '../../../helpers/Validator';
+import type {TApiException} from '../../../daos/DaoApiException';
 import type {TCacheMapDef} from '../CacheMapDef';
 import type {TId, TThunk} from '../../../types/Types';
 import type {TLocation} from '../../../daos/DaoLocation';
-import Maps from "../../../data/Maps";
-import type {TApiException} from "../../../daos/DaoApiException";
 
 export const CACHE_MAP_ID_LOCATION_PROFILES = 'CACHE_MAP_ID_LOCATION_PROFILES';
 
