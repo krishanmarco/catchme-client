@@ -33,5 +33,5 @@ export const SwitchTypes = (theme) => {
         borderColor: theme.colors.primary,
       }
     }
-  })
+  });
 };

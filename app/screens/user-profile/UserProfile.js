@@ -1,268 +1,336 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Icons, Colors} from '../../Config';
-
-import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
-import DaoUser from "../../lib/daos/DaoUser";
-import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
-
-import {Text, FlatList, View} from 'react-native';
-
-import AvatarDescription from '../../comp/misc/AvatarDescription';
-import TabBar from '../../comp/misc/TabBar';
-import ListDataPoints from '../../comp/misc/ListDataPoints';
-
-import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
-
-import {Row, Grid, Col} from "react-native-easy-grid";
-import UserList from '../../comp-buisness/user/UserList';
-
-import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
-
-import UserLocationsSectionedList from '../../comp-buisness/user/UserLocationsSectionedList';
-import Router from "../../lib/helpers/Router";
-import UserProfileInfoItems from '../../lib/user/UserProfileInfoItems';
+import DaoUser from '../../lib/daos/DaoUser';
+import LocationList from '../../comp-buisness/location/LocationList';
+import Maps from '../../lib/data/Maps';
+import NavbarHandlerUserProfile from '../../lib/navigation/NavbarHandlerUserProfile';
+import React from 'react';
+import Router from '../../lib/navigation/Router';
 import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
+import UserList from '../../comp-buisness/user/UserList';
+import UserLocationsStatusList from '../../comp-buisness/user/UserLocationsStatusList';
+import UserProfileInfoItems from '../../lib/datapoints/UserProfileDataPoints';
+import {AvatarFull, FlatListEmpty, ListItemInfo, ScrollableIconTabView} from '../../comp/Misc';
+import {Col, Grid, Row} from 'react-native-easy-grid';
+import {Const, Icons} from '../../Config';
+import {Icon} from 'react-native-elements';
+import {listItemInfo} from '../../lib/theme/Styles';
+import {poolConnect} from '../../redux/ReduxPool';
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../lib/i18n/Translations';
+import type {TDataPoint, TNavigator, TSectionListDataPointSections} from '../../lib/types/Types';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TUser} from '../../lib/daos/DaoUser';
 
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-const userProfileInitState = {
-  headerDragEnabled: true,
-  userInfoSections: [],           // Calculated onComponentWillMount
+type Props = {
+	userProfile: TUser,
+	authUserProfile: TUser,
+	navigator: TNavigator,
+	navbarHandler: NavbarHandlerUserProfile,
 };
 
-const ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED = 'ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED';
-const ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS = 'ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS';
+type State = {
+	userInfoSections: Array<TSectionListDataPointSections>
+};
 
-export function userProfileReducer(state = userProfileInitState, action) {
-  switch (action.type) {
+const userProfileTabIcons = {
+	0: Icons.userProfile,
+	1: Icons.userLocationStatuses,
+	2: Icons.userLocationFavorites,
+	3: Icons.userFriends,
+	4: Icons.userInfo
+};
 
-    case ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED:
-      return Object.assign({}, state, {
-        headerDragEnabled: action.headerDragEnabled
-      });
+// _UserProfile *****************************************************************************************
+// _UserProfile *****************************************************************************************
 
-    case ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS:
-      return Object.assign({}, state, {
-        userInfoSections: action.userInfoSections
-      })
+class _UserProfile extends React.Component<void, Props, State> {
+	static idxProfile = 0;
 
-  }
+	constructor(props: Props, context) {
+		super(props, context);
+		this._onLocationPress = this._onLocationPress.bind(this);
+		this._onUserPress = this._onUserPress.bind(this);
+		this._onLocationSearchPress = this._onLocationSearchPress.bind(this);
+		this._onUserSearchPress = this._onUserSearchPress.bind(this);
+		this._onTabChanged = this._onTabChanged.bind(this);
+		this._renderTabUserInfoItem = this._renderTabUserInfoItem.bind(this);
+		this._renderFavoriteListEmpty = this._renderFavoriteListEmpty.bind(this);
+		this._renderFriendsListEmpty = this._renderFriendsListEmpty.bind(this);
+		this.state = this._calculateState(props);
+	}
 
-  return state;
+	componentWillReceiveProps(nextProps) {
+		this.setState(this._calculateState(nextProps));
+	}
+
+	_onTabChanged(changedToIndex) {
+		const {navbarHandler} = this.props;
+
+		switch (changedToIndex) {
+			case _UserProfile.idxProfile:
+				navbarHandler.showButtonAddOrAcceptConnection();
+				break;
+			default:
+				navbarHandler.showNoButtons();
+		}
+	}
+
+	_calculateState(props: Props) {
+		const {userProfile} = props;
+
+		// Calculate the user info section value only once
+		return {
+			userInfoSections: new UserProfileInfoItems(userProfile)
+				.includeSettingsAndHelpIf(this._isSameUser(props))
+				.build()
+		};
+	}
+
+	_onLocationSearchPress() {
+		const {navigator} = this.props;
+		Router.toSearchTab(navigator);
+	}
+
+	_onUserSearchPress() {
+		const {navigator} = this.props;
+		Router.toSearchTab(navigator);
+	}
+
+	_onLocationPress(location: TLocation) {
+		const {navigator} = this.props;
+		Router.toModalLocationProfile(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
+	}
+
+	_onUserPress(user: TUser) {
+		const {navigator} = this.props;
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
+	}
+
+	_isSameUser(props: Props = this.props): boolean {
+		const {userProfile, authUserProfile} = props;
+		return DaoUser.isSameUser(authUserProfile, userProfile);
+	}
+
+	render() {
+		const {userInfoSections} = this.state;
+
+		const tabs = [];
+
+		tabs.push(this._renderTab('0', this._renderTabHome()));
+		tabs.push(this._renderTab('1', this._renderTabLocationStatuses()));
+		tabs.push(this._renderTab('2', this._renderTabFavoriteLocations()));
+		tabs.push(this._renderTab('3', this._renderTabFriends()));
+
+		if (userInfoSections.length > 0)
+			tabs.push(this._renderTab('4', this._renderTabInfo()));
+
+		return (
+			<ScrollableIconTabView
+				icons={userProfileTabIcons}
+				onTabChanged={this._onTabChanged}>
+				{tabs}
+			</ScrollableIconTabView>
+		);
+	}
+
+	_renderTab(tabLabel, jsx) {
+		return (
+			<View
+				key={tabLabel}
+				tabLabel={tabLabel}
+				style={styles.tabView}>
+				{jsx}
+			</View>
+		);
+	}
+
+	_renderTabHome() {
+		const {userProfile} = this.props;
+
+		return (
+			<Grid style={styles.tabHome}>
+				<Row size={-1}>
+					<View style={styles.avatar}>
+						<AvatarFull
+							source={{uri: DaoUser.gPictureUrl(userProfile)}}
+							defaultUri={Const.userDefaultAvatar}/>
+					</View>
+				</Row>
+
+				<Row size={-1} style={styles.publicMessage}>
+					<RkText rkType='primary1 hint'>{DaoUser.gPublicMessage(userProfile)}</RkText>
+				</Row>
+
+				<Row size={-1} style={styles.badges}>
+					{[
+						Maps.genderIdToIcon(DaoUser.gGender(userProfile)),
+						Maps.reputationValueToIcon(DaoUser.gReputation(userProfile))
+					].map((icon, k) => (
+						<Col key={k}>
+							<Icon size={50} {...icon}/>
+						</Col>
+					))}
+				</Row>
+			</Grid>
+		);
+	}
+
+
+	_renderTabLocationStatuses() {
+		const {userProfile, navigator} = this.props;
+		return (
+			<View style={styles.tabLocationStatuses}>
+				<UserLocationsStatusList
+					navigator={navigator}
+					userProfile={userProfile}
+					onLocationPress={this._onLocationPress}
+					allowEdit={this._isSameUser()}
+					showFollow={true}
+					showUnfollow={this._isSameUser()}/>
+			</View>
+		);
+	}
+
+
+	_renderTabFavoriteLocations() {
+		const {userProfile} = this.props;
+		return (
+			<View style={styles.tabLocationFavorites}>
+				<LocationList
+					locations={DaoUser.gLocationsFavorites(userProfile)}
+					showFollow={true}
+					showUnfollow={true}
+					onLocationPress={this._onLocationPress}
+					renderOnListEmpty={this._renderFavoriteListEmpty}/>
+			</View>
+		);
+	}
+
+	_renderFavoriteListEmpty() {
+		const props = {image: require('../../assets/images/empty-favorites.png')};
+
+		if (this._isSameUser()) {
+			props.text = t('t_empty_user_location_favorites');
+			props.buttonText = t('t_empty_bt_user_location_favorites');
+			props.onPress = this._onLocationSearchPress;
+		} else {
+			props.text = t('t_empty_user_other_location_favorites');
+		}
+
+		return <FlatListEmpty {...props}/>;
+	}
+
+	_renderTabFriends() {
+		const {userProfile, authUserProfile} = this.props;
+
+		return (
+			<View style={styles.tabFriends}>
+				<UserList
+					users={DaoUser.gConnectionsFriends(userProfile)}
+					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
+					showAdd={true}
+					showRemove={this._isSameUser()}
+					showPending={true}
+					onUserPress={this._onUserPress}
+					renderOnListEmpty={this._renderFriendsListEmpty}/>
+			</View>
+		);
+	}
+
+	_renderFriendsListEmpty() {
+		const props = {image: require('../../assets/images/empty-friends.png')};
+
+		if (this._isSameUser()) {
+			props.text = t('t_empty_user_friends');
+			props.buttonText = t('t_empty_bt_user_friends');
+			props.onPress = this._onUserSearchPress;
+		} else {
+			props.text = t('t_empty_user_other_friends');
+		}
+
+		return <FlatListEmpty {...props}/>;
+	}
+
+	_renderTabInfo() {
+		const {userInfoSections} = this.state;
+		return (
+			<View style={styles.tabInfo}>
+				<StaticSectionList
+					sections={userInfoSections}
+					renderItem={this._renderTabUserInfoItem}/>
+			</View>
+		);
+	}
+
+	_renderTabUserInfoItem({item}: { item: TDataPoint }) {
+		const {userProfile, navigator} = this.props;
+		return (
+			<ListItemInfo
+				style={listItemInfo.section}
+				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, userProfile, navigator)}
+				{...item}/>
+		);
+	}
+
 }
 
+const UserProfile = poolConnect(_UserProfile,
+	// mapStateToProps
+	(state) => ({}),
 
-function userProfileSetHeaderDragEnabled(enabled) {
-  return {
-    type: ACTION_USER_PROFILE_SET_HEADER_DRAG_ENABLED,
-    headerDragEnabled: enabled
-  };
-}
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-function userProfileSetUserInfoSections(sections) {
-  return {
-    type: ACTION_USER_PROFILE_SET_USER_INFO_SECTIONS,
-    userInfoSections: sections
-  };
-}
-
-
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
-
-class UserProfilePresentational extends React.Component {
-  static refCollapsingHeader = 'CollapsingHeaderWithScroll';
-
-
-  constructor(props, context) {
-    super(props, context);
-    this._onTabSwitch = this._onTabSwitch.bind(this);
-    this._onLocationPress = this._onLocationPress.bind(this);
-    this._onUserPress = this._onUserPress.bind(this);
-    this._initializeState();
-  }
-
-
-  _initializeState() {
-
-    // Calculate the user info section value only once
-    const userInfoSections = new UserProfileInfoItems(this._userProfile())
-        .includeSettingsAndHelpIf(this._isSameUser())
-        .build();
-
-    this.state = {
-      userInfoSections: userInfoSections
-    };
-  }
-
-
-  _navigator() { return this.props.navigator; }
-  _userProfile() { return this.props.userProfile; }
-  _authenticatedUserProfile() { return this.props.authenticatedUserProfile; }
-
-  _onLocationPress(location) {
-    Router.toLocationProfile(this._navigator(), location);
-  }
-
-  _onUserPress(user) {
-    Router.toUserProfile(this._navigator(), user);
-  }
-
-  _isSameUser() {
-    return DaoUser.gId(this._userProfile()) === DaoUser.gId(this._authenticatedUserProfile());
-  }
-
-
-  _onTabSwitch(tabIndex) {
-
-    if (tabIndex == 0 && !this.props.headerDragEnabled) {
-      // The first tab has been selected and the previous headerDragEnabled
-      // state is different than what is expected at tab 0
-
-      // Snap the header to the bottom and enable interactions
-      this.props.setHeaderDragEnabled(true);
-      this.refs[UserProfile.refCollapsingHeader].snapToBottom();
-      return;
-    }
-
-    if (tabIndex > 0 && this.props.headerDragEnabled) {
-      // The second, third or fourth tab have been selected and the previous
-      // headerDragEnabled is different than what is expected at tab > 0
-
-      // Snap the header to the top and disable interactions
-      this.props.setHeaderDragEnabled(false);
-      this.refs[UserProfile.refCollapsingHeader].snapToTop();
-    }
-  }
-
-
-  render() {
-    return (
-        <CollapsingHeaderWithScroll
-            ref={UserProfile.refCollapsingHeader}
-
-            dragEnabled={this.props.headerDragEnabled}
-
-            headerHeight={150}    // Dynamic calculation??
-            contentHeight={555}   // Screen - NavigationBar - TabBarTop - TabBarBottom
-            contentBackgroundColor={Colors.background}
-
-            header={this._renderProfileHeader()}
-            interactable={this._renderTabBar()}/>
-    );
-  }
-
-
-  _renderTabBar() {
-    const tabs = [];
-
-    tabs.push(<TabBar.Tab key={0} icon={Icons.friendRequestAccept}>{this._renderTabUserLocations()}</TabBar.Tab>);
-    tabs.push(<TabBar.Tab key={1} icon={Icons.friendRequestAccept}>{this._renderTabUserFriends()}</TabBar.Tab>);
-
-
-    if (this.state.userInfoSections.length > 0)
-      tabs.push(<TabBar.Tab key={2} icon={Icons.friendRequestAccept}>{this._renderTabUserInfo()}</TabBar.Tab>);
-
-    return (
-        <Grid>
-          <Row>
-            <TabBar onTabChange={this._onTabSwitch}>
-              {tabs}
-            </TabBar>
-          </Row>
-        </Grid>
-    );
-  }
-
-  _renderProfileHeader() {
-    let userProfile = this._userProfile();
-
-    return (
-        <Grid style={{marginTop: 16}}>
-          <Row>
-            <AvatarDescription
-                avatar={DaoUser.gPictureUrl(userProfile)}
-                content={DaoUser.gPublicMessage(userProfile)}
-                badges={[
-                  DaoUser.gGenderIcon(userProfile),
-                  DaoUser.gReputationIcon(userProfile)
-                ]}/>
-          </Row>
-        </Grid>
-    );
-  }
-
-  _renderTabUserLocations() {
-    return (
-        <UserLocationsSectionedList
-            userProfile={this._userProfile()}
-            onItemPress={this._onLocationPress}/>
-    );
-  }
-
-  _renderTabUserFriends() {
-    let userProfile = this._userProfile();
-    let authUserProfile = this._authenticatedUserProfile();
-
-    return (
-        <UserList
-            users={DaoUser.gConnectionsFriends(userProfile)}
-            friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
-            onItemPress={this._onUserPress}/>
-    );
-  }
-
-  _renderTabUserInfo() {
-    return (
-        <StaticSectionList
-            sections={this.state.userInfoSections}
-            renderItem={({item}) => (
-                <ListItemInfo
-                    onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, this._navigator())}
-                    {...item}/>
-            )}/>
-    );
-  }
-
-}
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const UserProfile = poolConnect(
-    // Presentational Component
-    UserProfilePresentational,
-
-    // mapStateToProps
-    (state) => state.userProfileReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({
-      setHeaderDragEnabled: (enabled) => dispatch(userProfileSetHeaderDragEnabled(enabled)),
-      setUserInfoSections: (sections) => dispatch(userProfileSetUserInfoSections(sections)),
-    }),
-
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[]
 );
-
-
 export default UserProfile;
 
 
-UserProfile.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  authenticatedUserProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-};
+// Config ************************************************************************************************
+// Config ************************************************************************************************
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+const styles = StyleSheet.create({
+	tabView: {
+		flex: 1
+	},
+	tabHome: {
+		flex: 1
+	},
+	tabLocationStatuses: {
+		flex: 1
+	},
+	tabLocationFavorites: {
+		flex: 1
+	},
+	tabFriends: {
+		flex: 1
+	},
+	tabInfo: {
+		flex: 1
+	},
+	avatar: {
+		width: '100%',
+		height: 200
+	},
+	publicMessage: {
+		marginTop: 12,
+		paddingHorizontal: 16
+	},
+	badges: {
+		marginTop: 12
+	}
+});

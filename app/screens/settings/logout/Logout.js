@@ -1,103 +1,72 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-
-import ApiClient from '../../../lib/data/ApiClient';
-import RealmIO from '../../../lib/data/RealmIO';
-import {boolToString, stringToBool} from '../../../lib/HelperFunctions';
-
-import {startApplication} from "../../../App";
-import {Icons} from '../../../Config';
-
-import {View} from 'react-native';
-import {scaleVertical} from '../../../lib/utils/scale';
-import {RkText, RkButton, RkStyleSheet} from 'react-native-ui-kitten';
-import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
-import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
-import DaoUser from "../../../lib/daos/DaoUser";
+import StorageIO from '../../../lib/data/StorageIO';
+import {FullpageForm, LoadingButton, ScreenInfo} from '../../../comp/Misc';
+import {fullpageForm} from '../../../lib/theme/Styles';
+import {startApplication} from '../../../App';
+import {StyleSheet} from 'react-native';
+import {t} from '../../../lib/i18n/Translations';
 
 
-
-
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  authenticatedUserProfile: Object,
-  navigator: Navigator
-};
-
-type State = {
-  // Nothing for now
+	authUserProfile: Object,
+	navigator: Navigator
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// Logout ***********************************************************************************************
+// Logout ***********************************************************************************************
 
-export default class SettingsUserNotifications extends React.Component<any, Props, State> {
+export default class Logout extends React.Component<void, Props, void> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onLogoutPress = this._onLogoutPress.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onLogoutPress = this._onLogoutPress.bind(this);
+	}
 
-  _userProfile() {
-    return this.props.authenticatedUserProfile;
-  }
+	async _onLogoutPress() {
+		await StorageIO.removeLocalUser();
+		startApplication();
+	}
 
-  _onLogoutPress() {
-    RealmIO.removeLocalUser();
-    startApplication();
-  }
+	render() {
+		return (
+				<FullpageForm
 
-  render() {
-    return (
-        <View>
-          {this._renderScreenHeader()}
-          {this._renderLogoutButton()}
-        </View>
-    );
-  }
+					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
+						<ScreenInfo
+							style={styles.info}
+							imageSource={require('../../../assets/images/primary-logout.png')}
+							textText={t('t_si_settings_logout')}/>
+					)}
 
-  _renderScreenHeader() {
-    return (
-        <ScreenInfo
-            imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Are you sure you want to log out?'/>
-    );
-  }
+					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerJsx={(
+						<LoadingButton
+							style={fullpageForm.fieldsButton}
+							rkType='large stretch accentColor'
+							text={t('t_bt_logout')}
+							onPress={this._onLogoutPress}/>
+					)}
 
-  _renderLogoutButton() {
-    return (
-        <View style={Styles.buttonCont}>
-          <RkButton style={Styles.button} onPress={this._onLogoutPress}>
-            <RkText rkType='awesome hero accentColor'>Logout</RkText>
-          </RkButton>
-        </View>
-    );
-  }
-
+				/>
+		);
+	}
 }
 
 
+// Config ************************************************************************************************
+// Config ************************************************************************************************
 
-
-
-// Style ************************************************************************************************
-// Style ************************************************************************************************
-
-let Styles = RkStyleSheet.create(theme => ({
-  buttonCont: {
-    marginTop: 64,
-    alignItems: 'center'
-  },
-  button: {
-    alignItems: 'center'
-  }
-}));
+const styles = StyleSheet.create({
+	fieldsStyle: {
+		flex: 0.88
+	},
+	footerStyle: {
+		marginHorizontal: 24
+	},
+});

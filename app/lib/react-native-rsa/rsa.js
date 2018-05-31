@@ -1,4 +1,6 @@
 // Depends on jsbn.js and rng.js
+import Logger from "../Logger";
+
 var BigInteger = require('./jsbn');
 var SecureRandom = require('./rng');
 // Version 1.1: support utf-8 encoding in pkcs1pad2
@@ -21,14 +23,13 @@ function linebrk(s,n) {
 function byte2Hex(b) {
   if(b < 0x10)
     return "0" + b.toString(16);
-  else
-    return b.toString(16);
+  return b.toString(16);
 }
 
 // PKCS#1 (type 2, random) pad input string s to n bytes, and return a bigint
 function pkcs1pad2(s,n) {
-  if(n < s.length + 11) { // TODO: fix for utf-8
-    console.log("Message too long for RSA");
+  if(n < s.length + 11) {
+		Logger.v('rsa pkcs1pad2 Message too long for RSA');
     return null;
   }
   var ba = new Array();
@@ -109,7 +110,7 @@ function RSASetPublic(N,E) {
     this.e = parseInt(E,16);
   }
   else
-    console.log("Invalid RSA public key");
+		Logger.v('rsa RSASetPublic: Invalid RSA public key');
 }
 
 function RSASetPublicString(publicStr) {
@@ -129,7 +130,7 @@ function RSAEncrypt(text) {
   var c = this.doPublic(m);
   if(c == null) return null;
   var h = c.toString(16);
-  if((h.length & 1) == 0) return h; else return "0" + h;
+  if((h.length & 1) == 0) return h; return "0" + h;
 }
 
 // Return the PKCS#1 RSA encryption of "text" as a Base64-encoded string
@@ -187,7 +188,7 @@ function RSASetPrivate(N,E,D) {
     this.d = parseBigInt(D,16);
   }
   else
-    console.log("Invalid RSA private key");
+		Logger.v('rsa RSASetPrivate Invalid RSA private key');
 }
 
 // Set the private key fields N, e, d and CRT params from hex strings
@@ -216,7 +217,7 @@ function RSASetPrivateEx(N,E,D,P,Q,DP,DQ,C) {
     this.coeff = parseBigInt(params.coeff,16);
   }
   else
-    console.log("Invalid RSA private key");
+    Logger.v('rsa RSASetPrivateEx: Invalid RSA private key');
 }
 
 // Generate a new random private key B bits long, using public expt E
@@ -258,7 +259,6 @@ function RSADoPrivate(x) {
   if(this.p == null || this.q == null)
     return x.modPow(this.d, this.n);
 
-  // TODO: re-calculate any missing CRT params
   var xp = x.mod(this.p).modPow(this.dmp1, this.p);
   var xq = x.mod(this.q).modPow(this.dmq1, this.q);
 

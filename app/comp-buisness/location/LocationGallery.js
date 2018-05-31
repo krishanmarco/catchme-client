@@ -1,108 +1,65 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import ApiClient from '../../lib/data/ApiClient';
-
-import {Icons, Colors} from '../../Config';
-
-import {View} from 'react-native';
+import DaoLocation from '../../lib/daos/DaoLocation';
 import Gallery from '../../comp/misc/Gallery';
-import DaoLocation from "../../lib/daos/DaoLocation";
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
-import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import Router from "../../lib/helpers/Router";
+import ImageURISourceAuth from '../../lib/data/ImageURISourceAuth';
+import React from 'react';
+import {FlatListEmpty} from '../../comp/Misc';
+import {t} from '../../lib/i18n/Translations';
+import type {TImageURISourceAuth} from '../../lib/data/ImageURISourceAuth';
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
 
-export default class LocationGallery extends React.Component {
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
-  constructor(props, context) {
-    super(props, context);
-    this._onAddImagePress = this._onAddImagePress.bind(this);
-    this._renderEmptyListComponent = this._renderEmptyListComponent.bind(this);
-    this._onCaptureImage = this._onCaptureImage.bind(this);
-    this.state = {imageSources: this._getImagesFromProps(props)};
-  }
+type Props = {
+	locationProfile: TLocation,
+	onAddImagePress: Function,
+};
 
-  componentWillReceiveProps(nextProps) {
-
-    // Get the images that are currently in the previous (original form)
-    let currentImages = DaoLocation.gImageUrls(this.props.locationProfile);
-
-    // Get the images that are in the new props
-    let nextImages = DaoLocation.gImageUrls(nextProps.locationProfile);
-
-    // Decide whether to update or not based on the arrays length
-    // Note that the component will not update if an image changes
-    // because the length of the two arrays remains the same
-    // 100% rendering precision is not required for now
-    if (currentImages.length !== nextImages.length)
-      this.setState({imageSources: this._getImagesFromProps(nextProps)});
-  }
-
-  _getImagesFromProps(props) {
-    return DaoLocation.gImageUrls(props.locationProfile)
-        .map(ImageURISourceAuth.fromUrl);
-  }
+type State = {
+	imageSources: Array<TImageURISourceAuth>
+};
 
 
-  _onCaptureImage(data) {
-    ApiClient.mediaAddTypeIdItemId(0, DaoLocation.gId(this.props.locationProfile), data.file)
-        .then(addedUrl => {
+export default class LocationGallery extends React.Component<void, Props, State> {
 
-          // Update only location images
-          let newImages = [ImageURISourceAuth.fromUrl(addedUrl)].concat(this.state.imageSources);
-          this.setState({imageSources: newImages});
+	constructor(props, context) {
+		super(props, context);
+		this._renderEmptyList = this._renderEmptyList.bind(this);
+		this.state = {imageSources: this._getImagesFromProps(props)};
+	}
 
-        });
-  }
+	componentWillReceiveProps(nextProps) {
+		this.setState({imageSources: this._getImagesFromProps(nextProps)});
+	}
 
-  _onAddImagePress() {
-    Router.toCameraModal(this.props.navigator, {
-      onCaptureImage: this._onCaptureImage
-    });
-  }
+	_getImagesFromProps(props) {
+		const {locationProfile} = props;
 
+		// uri: http://www.catchme.krishanmadan.website/api/media/get/0/31/1787.png
+		return DaoLocation.gImageUrls(locationProfile)
+			.map(ImageURISourceAuth.fromUrl);
+	}
 
+	render() {
+		const {imageSources} = this.state;
+		return (
+			<Gallery
+				imageSources={imageSources}
+				ListEmptyComponent={this._renderEmptyList}/>
+		);
+	}
 
-
-  render() {
-    return (
-        <Gallery
-            onAddImage={this._onAddImagePress}
-            imageSources={this.state.imageSources}
-            ListEmptyComponent={this._renderEmptyListComponent}/>
-    );
-  }
-
-
-
-  _renderEmptyListComponent() {
-    return (
-        <View style={{flex: 1, alignItems: 'center', marginTop: 16, padding: 4}}>
-          <RkText style={{textAlign: 'center', marginTop: 4}} rkType='primary'>
-            No images here...
-          </RkText>
-          <Icon style={{marginTop: 4}} size={50} {...Icons.sad} color={Colors.primary}/>
-
-          <View style={{flexDirection: 'row', marginTop: 4}}>
-            <RkText rkType='primary'>Use the </RkText>
-            <Icon style={{marginTop: 4}} size={20} {...Icons.sad} color={Colors.primary}/>
-            <RkText rkType='primary'> to add an image of your night</RkText>
-          </View>
-        </View>
-    );
-  }
-
+	_renderEmptyList() {
+		const {onAddImagePress} = this.props;
+		return (
+			<FlatListEmpty
+				text={t('t_empty_location_gallery')}
+				buttonText={t('t_empty_bt_location_gallery')}
+				onPress={onAddImagePress}
+				image={require('../../assets/images/empty-images.png')}/>
+		);
+	}
+	
 }
-
-
-LocationGallery.defaultProps = {
-
-};
-
-LocationGallery.propTypes = {
-  locationProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired
-};

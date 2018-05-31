@@ -1,60 +1,84 @@
 {
-	"name": "catchme",
-	"version": "0.0.1",
-	"private": true,
-	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest",
-		"flow": "flow",
-		"flow-stop": "flow stop"
-	},
-	"dependencies": {
-		"color": "^2.0.1",
-		"firebase": "^4.6.2",
-		"has-flag": "^2.0.0",
-		"loader": "^2.1.1",
-		"lodash": "^4.17.4",
-		"md5": "^2.2.1",
-		"moment": "^2.19.1",
-		"prop-types": "^15.6.0",
-		"react": "16.0.0-alpha.12",
-		"react-native": "^0.50.3",
-		"react-native-camera": "^0.12.0",
-		"react-native-contacts": "^1.0.4",
-		"react-native-easy-grid": "^0.1.15",
-		"react-native-elements": "^0.18.2",
-		"react-native-fetch-blob": "^0.10.8",
-		"react-native-gifted-chat": "^0.3.0",
-		"react-native-google-places-autocomplete": "^1.3.6",
-		"react-native-htmlview": "^0.12.1",
-		"react-native-linear-gradient": "^2.3.0",
-		"react-native-loader": "^1.2.1",
-		"react-native-maps": "^0.17.1",
-		"react-native-modal-datetime-picker": "^4.13.0",
-		"react-native-navigation": "^1.1.268",
-		"react-native-svg": "^6.0.0",
-		"react-native-tab-view": "^0.0.70",
-		"react-native-ui-kitten": "^2.0.1",
-		"react-native-vector-icons": "^4.4.2",
-		"react-redux": "^5.0.6",
-		"realm": "^2.0.6",
-		"redux": "^3.7.2",
-		"redux-thunk": "^2.2.0",
-		"victory-native": "^0.16.0"
-	},
-	"devDependencies": {
-		"babel-jest": "21.2.0",
-		"babel-preset-react-native": "4.0.0",
-		"flow-bin": "0.49.1",
-		"jest": "21.2.1",
-		"react-test-renderer": "16.0.0-alpha.12"
-	},
-	"jest": {
-		"preset": "react-native"
-	},
-	"rnpm": {
-		"assets": [
-			"./app/assets/fonts"
-		]
-	}
+  "name": "catchme",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "flow": "flow",
+    "flow-stop": "flow stop",
+    "eslint-fix": "node node_modules/eslint/bin/eslint.js -c .eslintrc --fix .",
+    "force-load-bash": "curl \"http://localhost:8081/index.android.bundle?platform=android\" -o \"android/app/src/main/assets/index.android.bundle\"",
+    "force-load-cmd": "wget \"http://localhost:8081/index.android.bundle?platform=android\" -OutFile \"android/app/src/main/assets/index.android.bundle\"",
+    "assemble-release": "cd android && ./gradlew assembleRelease",
+    "fake-data": "wget \"http://www.catchme.krishanmadan.website/api/fake?pw=S()KD2dk290kdLksK()&function=update\"",
+    "start-android-emulator": "$HOME\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe -avd Pixel_API_26"
+  },
+  "dependencies": {
+    "color": "^2.0.1",
+    "firebase": "^4.6.2",
+    "flat": "4.0.0",
+    "has-flag": "^2.0.0",
+    "loader": "^2.1.1",
+    "lodash": "^4.17.5",
+    "md5": "^2.2.1",
+    "moment": "^2.19.1",
+    "prop-types": "^15.6.0",
+    "react": "^16.3.0-alpha.0",
+    "react-native": "^0.55.0",
+    "react-native-camera": "^0.12.0",
+    "react-native-contacts": "^1.0.4",
+    "react-native-easy-grid": "^0.1.15",
+    "react-native-elements": "^0.18.2",
+    "react-native-facebook-login": "^1.6.0",
+    "react-native-fetch-blob": "^0.10.8",
+    "react-native-gifted-chat": "^0.3.0",
+    "react-native-google-places-autocomplete": "^1.3.6",
+    "react-native-google-signin": "^0.12.0",
+    "react-native-i18n": "^2.0.12",
+    "react-native-image-picker": "^0.26.7",
+    "react-native-loader": "^1.2.1",
+    "react-native-maps": "^0.17.1",
+    "react-native-modal-datetime-picker": "^4.13.0",
+    "react-native-navigation": "^1.1.444",
+    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-snackbar": "^0.4.6",
+    "react-native-svg": "^6.3.1",
+    "react-native-ui-kitten": "^2.0.1",
+    "react-native-vector-icons": "^4.4.2",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-promise-middleware": "^5.0.0",
+    "redux-thunk": "^2.2.0",
+    "victory-native": "^0.16.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^21.2.0",
+    "babel-preset-react-native": "^4.0.0",
+    "eslint": "^3.19.0",
+    "eslint-plugin-flowtype": "^2.46.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-react": "^7.7.0",
+    "eslint-plugin-react-native": "^3.2.1",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.2.2",
+    "flow-bin": "0.49.1",
+    "jest": "^21.2.1",
+    "react-test-renderer": "^16.2.0"
+  },
+  "jest": {
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.js?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^image![a-zA-Z0-9$_-]+$": "GlobalImageStub",
+      "^[@./a-zA-Z0-9$_-]+\\.(png|gif)$": "RelativeImageStub"
+    }
+  },
+  "rnpm": {
+    "assets": [
+      "./app/assets/fonts"
+    ]
+  }
 }

@@ -1,7 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 07/09/2017 © */
-// import {GoogleSignin} from 'react-native-google-signin';
 import _ from 'lodash';
-import firebase from '../data/Firebase';
+import {GoogleSignin} from 'react-native-google-signin';
 
 
 // {
@@ -17,47 +16,37 @@ import firebase from '../data/Firebase';
 //   accessToken: <needed to access google API from the application>
 // }
 export class SignInGoogle {
-  static pAccessToken = 'accessToken';
-
-
-  static initialize() {
-    return null;//GoogleSignin.hasPlayServices({autoResolve: true});
-  }
-
-
-  static gAccessToken(data) {
-    return _.get(data, SignInGoogle.pAccessToken, '');
-  }
-
-
-  static signIn() {
-    const google = firebase.auth.GoogleAuthProvider();
-    google.addScope('https://www.googleapis.com/auth/plus.login');
-
-    return firebase.auth().signInWithRedirect(google)
-        .then(data => {
-          console.log(data);
-          return firebase.auth().getRedirectResult();
-        });
-  }
-
-  static signInAndGetAccessToken() {
-    return SignInGoogle.signIn()
-        .then(SignInGoogle.gAccessToken);
-  }
-
-  /*
-  static signIn() {
-    // You can only call currentUserAsync() after configure()
-    return GoogleSignin.configure({iosClientId: '<FROM DEVELOPER CONSOLE> ONLY FOR IOS'})
-        .then(() => GoogleSignin.signIn());
-  }
-
-  static signInAndGetAccessToken() {
-    return SignInGoogle.signIn()
-        .then(user => SignInGoogle.gAccessToken(user));
-  }
-  */
-
-
+	static GOOGLE_SIGNIN_SCOPE = 'https://www.googleapis.com/auth/userinfo.profile';
+	static pAccessToken = 'accessToken';
+	
+	
+	static initialize() {
+		GoogleSignin.hasPlayServices({autoResolve: true});
+	}
+	
+	
+	static gAccessToken(data) {
+		return _.get(data, SignInGoogle.pAccessToken, '');
+	}
+	
+	static signInAndGetAccessToken() {
+		return SignInGoogle.signIn()
+			.then(SignInGoogle.gAccessToken);
+	}
+	
+	
+	static signIn() {
+		// You can only call currentUserAsync() after configure()
+		return GoogleSignin.configure({
+			scopes: [SignInGoogle.GOOGLE_SIGNIN_SCOPE],
+			offlineAccess: true,
+			// webClientId: '744057353512-cg4d582ren9g86uuvgvog80k1pnuij8h.apps.googleusercontent.com',
+			// hostedDomain: 'CATCHME_DOMAIN_FROM_WHERE_THE_ACCESS_TOKEN_IS_PARSED',
+			// iosClientId: '<FROM DEVELOPER CONSOLE> FOR IOS ONLY',
+		}).then(() => {
+			GoogleSignin.signIn();
+		});
+	}
+	
+	
 }

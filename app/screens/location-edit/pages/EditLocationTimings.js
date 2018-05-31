@@ -1,120 +1,101 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ApiFormDef from '../../../lib/redux-pool/api-form/ApiFormDef';
+import DaoLocation from '../../../lib/daos/DaoLocation';
+import ManagerWeekTimings from '../../../lib/helpers/ManagerWeekTimings';
 import React from 'react';
-import PropTypes from 'prop-types';
-import _ from 'lodash';
+import WeekTimingsList from '../../../comp-buisness/timing/WeekTimingsList';
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
+import {StyleSheet, View} from 'react-native';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Validator} from "../../../lib/helpers/Validator";
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
-import {AvatarCircle} from "../../../comp/misc/Avatars";
-import DaoLocation from "../../../lib/daos/DaoLocation";
-import WeekTimingsList from '../../../comp-buisness/timing/TimingList';
-import ManagerWeekTimings from "../../../lib/helpers/ManagerWeekTimings";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationTimingsInitState = {
-  // Nothing for now
-};
-
-
-export function editLocationTimingsReducer(state = editLocationTimingsInitState, action) {
-  switch (action.type) {
-      // Nothing for now
-  }
-
-  return state;
-}
-
-
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  navigator: Navigator,
-  locationProfile: Object,
+	navigator: Navigator,
+	locationProfile: Object,
+	formApiEditLocationProfile: ApiFormState
 };
 
 type State = {
-  // Nothing for now
+	managerWeekTimings: ApiFormState
 }
 
 
+// _EditLocationTimings *********************************************************************************
+// _EditLocationTimings *********************************************************************************
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+class _EditLocationTimings extends React.Component<void, Props, State> {
 
-class EditLocationTimingsPresentational extends React.Component<any, Props, State> {
-  static refWeekTimingsList = 'refWeekTimingsList';
+	constructor(props, context) {
+		super(props, context);
+		this._setRefWeekTimingsList = this._setRefWeekTimingsList.bind(this);
+		this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfile().apiInput)};
+	}
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = {managerWeekTimings: ManagerWeekTimings.buildFromLocation(this._formApiEditLocationProfileInput())};
-  }
+	hasErrors() {
+		const formErrors = this._formApiEditLocationProfile().errors;
+		return Validator.hasErrors(formErrors, [DaoLocation.pTimings]);
+	}
 
-  _formApiEditLocationProfile() { return this.props.formApiEditLocationProfile; }
-  _formApiEditLocationProfileInput() { return this._formApiEditLocationProfile().apiInput; }
-  _managerWeekTimings() { return this.state.managerWeekTimings; }
+	_formApiEditLocationProfile(): TApiFormPool {
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
+	}
 
-  _onSaveTimings() {
-    const weekBoolTimings = this.refs[EditLocationTimingsPresentational.refWeekTimingsList].getTimings();
-    const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
-    console.log(weekStrTimings);
-  }
+	saveTimingsToLocation() {
+		const weekBoolTimings = this.refWeekTimingsList.getTimings();
+		const weekStrTimings = ManagerWeekTimings.mapBoolTimingsToStr(weekBoolTimings);
+		this._formApiEditLocationProfile().change({
+			[DaoLocation.pTimings]: weekStrTimings
+		});
+	}
 
+	_setRefWeekTimingsList(ref) {
+		this.refWeekTimingsList = ref;
+	}
 
-  render() {
-    return (
+	render() {
+		const {managerWeekTimings} = this.state;
 
-        <View style={{flex: 1, paddingLeft: 24, paddingRight: 24}}>
-          <WeekTimingsList
-              ref={EditLocationTimingsPresentational.refWeekTimingsList}
-              managerWeekTimings={this._managerWeekTimings()}
-              isEditable={true}/>
-        </View>
-    );
-  }
+		return (
+			<View style={styles.view}>
+				<WeekTimingsList
+					ref={this._setRefWeekTimingsList}
+					managerWeekTimings={managerWeekTimings}
+					isEditable/>
+			</View>
+		);
+	}
 
 }
 
+const EditLocationTimings = poolConnect(_EditLocationTimings,
+	// mapStateToProps
+	(state) => ({}),
 
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+	// Array of pools to subscribe to
+	[],
 
-const EditLocationTimings = poolConnect(
-    // Presentational Component
-    EditLocationTimingsPresentational,
-
-    // mapStateToProps
-    (state) => state.editLocationTimingsReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    []
+	{withRef: true}
 );
-
 export default EditLocationTimings;
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-// Const ************************************************************************************************
-// Const ************************************************************************************************
-
-const Styles = RkStyleSheet.create(theme => ({
-  content: {
-    paddingHorizontal: 4,
-  },
-}));
-
-
-EditLocationTimings.propTypes = {
-  formApiEditLocationProfile: PropTypes.object.isRequired
-};
+const styles = StyleSheet.create({
+	view: {
+		flex: 1,
+		paddingHorizontal: 24
+	},
+	listItemWithActionsContent: {
+		paddingHorizontal: 4,
+	},
+});

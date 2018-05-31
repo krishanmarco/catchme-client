@@ -1,114 +1,142 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Colors, Icons} from "../../Config";
-
-import {StyleSheet, FlatList} from 'react-native';
-import {Row, Grid, Col} from "react-native-easy-grid";
-import {View} from 'react-native';
-import {RkButton, RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import {VictoryPie, VictoryLabel, Slice} from 'victory-native';
 import Clock from './Clock';
+import ManagerWeekTimings from '../../lib/helpers/ManagerWeekTimings';
+import Maps from '../../lib/data/Maps';
+import React from 'react';
+import {Col, Grid, Row} from 'react-native-easy-grid';
+import {Colors, Const} from '../../Config';
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../lib/i18n/Translations';
 
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-const DayMap = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', '?'];
+type Props = {
+	day: number,
+	managerWeekTimings: ManagerWeekTimings,
+	onTimingsChanged: () => void,
+	onEdit?: () => void,
+	isEditable?: boolean
+};
 
-export default class TimingListItem extends React.Component {
-  static refClockAm = 'refClockAm';
-  static refClockPm = 'refClockPm';
+// TimingListItem ****************************************************************************************
+// TimingListItem ****************************************************************************************
 
-  constructor(props, context) {
-    super(props, context);
-  }
+export default class TimingListItem extends React.Component<void, Props, void> {
 
-  getTimings() {
-    const amTimings = this.refs[TimingListItem.refClockAm].getTimings();
-    const pmTimings = this.refs[TimingListItem.refClockPm].getTimings();
-    return amTimings.concat(pmTimings);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._getLabelAm = this._getLabelAm.bind(this);
+		this._getLabelPm = this._getLabelPm.bind(this);
+		this._setRefClockAm = this._setRefClockAm.bind(this);
+		this._setRefClockPm = this._setRefClockPm.bind(this);
+	}
 
+	getTimings() {
+		const amTimings = this.refClockAm.getTimings();
+		const pmTimings = this.refClockPm.getTimings();
+		return amTimings.concat(pmTimings);
+	}
 
-  _managerWeekTimings() { return this.props.managerWeekTimings; }
-  _dayIndex() { return this.props.day; }
-  _isEditable() { return this.props.isEditable; }
+	_timingsInDay() {
+		const {managerWeekTimings, day} = this.props;
+		return managerWeekTimings.boolTimingsInDay(day);
+	}
 
-  _timingsInDay() { return this._managerWeekTimings().boolTimingsInDay(this._dayIndex()); }
+	_getLabelAm(index: number) {
+		return index + 1;
+	}
 
-  render() {
-    return (
-        <Grid style={Styles.root}>
-          <Row>{this._renderTimingHeader()}</Row>
-          <Row>{this._renderTimingContent()}</Row>
-        </Grid>
-    );
-  }
+	_getLabelPm(index: number) {
+		return index + 13;
+	}
 
-  _renderTimingHeader() {
-    return (
-        <View style={Styles.headerLine}>
-          <RkText style={Styles.headerSpan} rkType='accentColor'>{DayMap[this.props.day]}</RkText>
-        </View>
-    );
-  }
+	_setRefClockAm(ref) {
+		this.refClockAm = ref;
+	}
 
-  _renderTimingContent() {
-    return (
-        <Grid>
-          <Col style={Styles.content} size={50}>
-            <Clock
-                ref={TimingListItem.refClockAm}
-                isEditable={this._isEditable()}
-                getLabel={index => index + 1}
-                centerLabel='am'
-                timings={this._timingsInDay().slice(0, 12)}/>
-          </Col>
-          <Col size={4}></Col>
-          <Col style={Styles.content} size={50}>
-            <Clock
-                ref={TimingListItem.refClockPm}
-                isEditable={this._isEditable()}
-                getLabel={index => index + 13}
-                centerLabel='pm'
-                timings={this._timingsInDay().slice(12, 24)}/>
-          </Col>
-        </Grid>
-    );
-  }
+	_setRefClockPm(ref) {
+		this.refClockPm = ref;
+	}
+
+	render() {
+		return (
+			<Grid style={styles.root}>
+				<Row>{this._renderTimingHeader()}</Row>
+				<Row>{this._renderTimingContent()}</Row>
+			</Grid>
+		);
+	}
+
+	_renderTimingHeader() {
+		const {day} = this.props;
+
+		return (
+			<View style={styles.headerLine}>
+				<RkText style={styles.headerSpan} rkType='accentColor'>
+					{Maps.dayIdToString(day)}
+				</RkText>
+			</View>
+		);
+	}
+
+	_renderTimingContent() {
+		const {isEditable, onTimingsChanged} = this.props;
+		const timingsInDay = this._timingsInDay();
+
+		return (
+			<Grid style={styles.timingContentRoot}>
+				<Col size={50} style={styles.listItemWithActionsContent}>
+					<Clock
+						centerLabel={t('t_am')}
+						isEditable={isEditable}
+						getLabel={this._getLabelAm}
+						ref={this._setRefClockAm}
+						timings={timingsInDay.slice(0, 12)}
+						onTimingsChanged={onTimingsChanged}/>
+				</Col>
+				<Col size={4}></Col>
+				<Col size={50} style={styles.listItemWithActionsContent}>
+					<Clock
+						centerLabel={t('t_pm')}
+						isEditable={isEditable}
+						getLabel={this._getLabelPm}
+						ref={this._setRefClockPm}
+						timings={timingsInDay.slice(12, 24)}
+						onTimingsChanged={onTimingsChanged}/>
+				</Col>
+			</Grid>
+		);
+	}
 
 }
 
-TimingListItem.defaultProps = {};
+// Config *************************************************************************************************
+// Config *************************************************************************************************
 
-TimingListItem.propTypes = {
-  day: PropTypes.number.isRequired,
-  managerWeekTimings: PropTypes.object.isRequired,
-  onEdit: PropTypes.func
-};
-
-
-const Styles = StyleSheet.create({
-  root: {
-    marginTop: 4,
-  },
-  headerSpan: {
-    backgroundColor: Colors.background,
-    paddingVertical: 0,
-    paddingHorizontal: 8
-  },
-  headerLine: {
-    width: '100%',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    marginTop: 8,
-    marginBottom: 4,
-  },
-  content: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 165
-  }
+const styles = StyleSheet.create({
+	timingContentRoot: {
+		height: Const.clockSize * 0.70
+	},
+	root: {
+		marginTop: 4,
+	},
+	listItemWithActionsContent: {
+		marginTop: 4,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	headerSpan: {
+		backgroundColor: Colors.background,
+		paddingVertical: 0,
+		paddingHorizontal: 8
+	},
+	headerLine: {
+		width: '100%',
+		alignItems: 'center',
+		borderBottomWidth: 1,
+		borderStyle: 'solid',
+		borderColor: 'black',
+	}
 });

@@ -1,55 +1,66 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-import {poolConnect, CACHE_ID_USER_PROFILE} from '../../../redux/ReduxPool';
-import {NullableObjects} from "../../../comp/Misc";
 import Logout from './Logout';
+import React from 'react';
+import {CACHE_ID_USER_PROFILE} from '../../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import {NullableObjects, Screen} from '../../../comp/Misc';
+import {poolConnect} from '../../../redux/ReduxPool';
+import type {TCachePool} from '../../../lib/redux-pool/cache/CachePool';
+import type {TNavigator} from '../../../lib/types/Types';
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-class ScreenLogoutPresentational extends React.Component {
+type Props = {
+	navigator: TNavigator
+};
 
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
-  }
+// _ScreenLogout ****************************************************************************************
+// _ScreenLogout ****************************************************************************************
 
-  _authenticatedUserProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
+class _ScreenLogout extends React.Component<void, Props, void> {
 
-  render() {
-    return (
-        <NullableObjects
-            objects={[this._authenticatedUserProfile()]}
-            renderChild={([authenticatedUserProfile]) => (
-                <Logout
-                    navigator={this.props.navigator}
-                    authenticatedUserProfile={authenticatedUserProfile}/>
-            )}/>
-    );
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._renderLogout = this._renderLogout.bind(this);
+	}
+
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
+	}
+
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._cacheUserProfile().data]}
+					renderChild={this._renderLogout}/>
+			</Screen>
+		);
+	}
+
+	_renderLogout([authUserProfile]) {
+		const {navigator} = this.props;
+		return (
+			<Logout
+				navigator={navigator}
+				authUserProfile={authUserProfile}/>
+		);
+	}
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+const ScreenLogout = poolConnect(_ScreenLogout,
+	// mapStateToProps
+	(state) => ({}),
 
-const ScreenLogout = poolConnect(
-    // Presentational Component
-    ScreenLogoutPresentational,
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapStateToProps
-    (state) => ({}),
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_ID_USER_PROFILE]
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenLogout;
-
-ScreenLogout.propTypes = {
-
-};

@@ -1,154 +1,159 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
+import ApiFormDef from '../../../lib/redux-pool/api-form/ApiFormDef';
+import DaoLocation from '../../../lib/daos/DaoLocation';
+import ImagePicker from '../../../lib/helpers/ImagePicker';
+import React from 'react';
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
+import {AvatarFull} from '../../../comp/Misc';
+import {Const, Icons} from '../../../Config';
+import {listItemInfo} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
+import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Validator} from "../../../lib/helpers/Validator";
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
-import {AvatarCircle} from "../../../comp/misc/Avatars";
-import DaoLocation from "../../../lib/daos/DaoLocation";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationInfoInitState = {
-  // Nothing for now
-};
-
-
-export function editLocationInfoReducer(state = editLocationInfoInitState, action) {
-  switch (action.type) {
-      // Nothing for now
-  }
-
-  return state;
-}
-
-
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  navigator: Navigator,
-  locationProfile: Object,
+	navigator: Navigator,
+	locationProfile: Object,
+	formApiEditLocationProfile: ApiFormState
 };
 
-type State = {
-  // Nothing for now
+
+// _EditLocationInfo ************************************************************************************
+// _EditLocationInfo ************************************************************************************
+
+class _EditLocationInfo extends React.Component<void, Props, void> {
+
+	constructor(props, context) {
+		super(props, context);
+		this._onLocationPicturePress = this._onLocationPicturePress.bind(this);
+	}
+
+	_formApiEditLocationProfile(): TApiFormPool {
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
+	}
+
+	_isNewLocation() {
+		const newLocationid = Const.locationNewId;
+		const id = _.get(this._formApiEditLocationProfile().apiInput, DaoLocation.pId, newLocationid);
+		return newLocationid == id;
+	}
+
+	_onLocationPicturePress() {
+		ImagePicker.pickImage()
+			.then((response) => {
+				this._formApiEditLocationProfile().change({
+					[DaoLocation.pPictureUrl]: response.uri
+				});
+
+			}).catch((error) => {
+			// User canceled or error
+		});
+	}
+
+	hasErrors() {
+		const formErrors = this._formApiEditLocationProfile().errors;
+		return Validator.hasErrors(formErrors, [
+			DaoLocation.pName,
+			DaoLocation.pEmail,
+			DaoLocation.pPhone,
+			DaoLocation.pCapacity,
+			DaoLocation.pDescription
+		]);
+	}
+
+
+	render() {
+		return (
+			<ScrollView>
+				<View style={styles.root}>
+
+					<View style={styles.avatarRow}>
+						<AvatarFull
+							source={{uri: DaoLocation.gPictureUrl(this._formApiEditLocationProfile().apiInput)}}
+							onPress={this._onLocationPicturePress}
+							badge={Icons.locationEditAvatar}
+							defaultUri={Const.locationDefaultAvatar}/>
+					</View>
+
+					<View style={[listItemInfo.section, styles.editLocationInfoFormRow]}>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pName}
+							editable={this._isNewLocation()}
+							label={t('t_field_name')}
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pEmail}
+							label={t('t_field_email')}
+							keyboardType='email-address'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pPhone}
+							label={t('t_field_phone')}
+							keyboardType='phone-pad'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pCapacity}
+							label={t('t_field_capacity')}
+							keyboardType='numeric'
+							icon={Icons.settingChangePassword}/>
+						<RkTextInputFromPool
+							pool={this._formApiEditLocationProfile()}
+							field={DaoLocation.pDescription}
+							multiline
+							numberOfLines={3}
+							label={t('t_field_description')}
+							returnKeyType='next'
+							icon={Icons.settingChangePassword}/>
+					</View>
+
+				</View>
+			</ScrollView>
+		);
+	}
+
 }
 
+const EditLocationInfo = poolConnect(_EditLocationInfo,
+	// mapStateToProps
+	(state) => ({}),
 
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+	// Array of pools to subscribe to
+	[],
 
-class EditLocationInfoPresentational extends React.Component<any, Props, State> {
-
-  constructor(props, context) {
-    super(props, context);
-    this._onLocationPicturePress = this._onLocationPicturePress.bind(this);
-  }
-
-  _formApiEditLocationProfile() { return this.props.formApiEditLocationProfile; }
-  _formApiEditLocationProfileInput() { return this._formApiEditLocationProfile().apiInput; }
-
-  _onLocationPicturePress() {
-    // todo: open picker and upload then update
-  }
-
-
-  render() {
-    return (
-        <ScrollView style={{flex: 1}}>
-          <View style={Styles.content}>
-            <View style={{alignItems: 'center'}}>
-              <AvatarCircle
-                  badge={Icons.settingChangePassword}
-                  rkType='large'
-                  uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}
-                  onPress={this._onLocationPicturePress}/>
-            </View>
-            <RkTextInputFromPool
-                pool={this._formApiEditLocationProfile()}
-                field={DaoLocation.pName}
-                rkType='row'
-                label='Name'
-                icon={Icons.settingChangePassword}/>
-            <RkTextInputFromPool
-                pool={this._formApiEditLocationProfile()}
-                field={DaoLocation.pEmail}
-                rkType='row'
-                label='Email'
-                keyboardType='email-address'
-                icon={Icons.settingChangePassword}/>
-            <RkTextInputFromPool
-                pool={this._formApiEditLocationProfile()}
-                field={DaoLocation.pPhone}
-                rkType='row'
-                label='Phone'
-                keyboardType='phone-pad'
-                icon={Icons.settingChangePassword}/>
-            <RkTextInputFromPool
-                pool={this._formApiEditLocationProfile()}
-                field={DaoLocation.pCapacity}
-                rkType='row'
-                label='Capacity'
-                keyboardType='numeric'
-                icon={Icons.settingChangePassword}/>
-            <RkTextInputFromPool
-                pool={this._formApiEditLocationProfile()}
-                field={DaoLocation.pDescription}
-                rkType='row'
-                multline
-                numberOfLines={3}
-                label='Description'
-                returnKeyType='next'
-                icon={Icons.settingChangePassword}/>
-          </View>
-        </ScrollView>
-    );
-  }
-
-}
-
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const EditLocationInfo = poolConnect(
-    // Presentational Component
-    EditLocationInfoPresentational,
-
-    // mapStateToProps
-    (state) => state.editLocationInfoReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    []
+	{withRef: true}
 );
-
 export default EditLocationInfo;
 
 
 
-// Const ************************************************************************************************
-// Const ************************************************************************************************
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-const Styles = RkStyleSheet.create(theme => ({
-  content: {
-    paddingHorizontal: 4,
-  },
-}));
+const styles = StyleSheet.create({
+	root: {
+		flex: 1
+	},
+	avatarRow: {
+		flex: 0.28,
+	},
+	editLocationInfoFormRow: {
+		flex: 0.72,
+		marginTop: 16
+	},
+});
 
-
-EditLocationInfo.propTypes = {
-  formApiEditLocationProfile: PropTypes.object.isRequired
-};

@@ -1,83 +1,157 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import DaoUser from '../../lib/daos/DaoUser';
-
+import ListItemUser from '../../comp-buisness/user/UserListItems';
+import React from 'react';
 import SearchableFlatList from '../../comp/misc/listviews/SearchableFlatList';
-
-import {
-  ListItemUser,
-  ListItemUserRequestSend,
-  ListItemUserRequestReceived
-} from '../../comp-buisness/user/UserListItems';
-
+import {CACHE_ID_USER_PROFILE, TCacheUserProfile} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import {poolConnect} from '../../redux/ReduxPool';
+import {t} from '../../lib/i18n/Translations';
+import type {ListItemUserProps} from './UserListItems';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
-export default class UserList extends React.PureComponent {
+type Props = {
+	users: Array<TUser>,
+	onUserPress: (TUser) => void,
 
-  constructor(props, context) {
-    super(props, context);
-    this._filterExtractor = this._filterExtractor.bind(this);
-  }
+	showAccept?: boolean,
+	showRemove?: boolean,
+	showAdd?: boolean,
+	showUnblock?: boolean,
+	showPending?: boolean,
+
+	friendIds?: Array<number>,
+	requestIds?: Array<number>,
+	blockedIds?: Array<number>
+};
+
+const defaultProps = {
+	showAccept: false,
+	showRemove: false,
+	showAdd: false,
+	showUnblock: false,
+	showPending: false,
+};
+
+// UserList *********************************************************************************************
+// UserList *********************************************************************************************
+
+class _UserList extends React.PureComponent<void, Props, void> {
+	static defaultProps = defaultProps;
+
+	constructor(props, context) {
+		super(props, context);
+		this._filterExtractor = this._filterExtractor.bind(this);
+		this._renderItem = this._renderItem.bind(this);
+	}
+
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
+	}
+
+	_filterExtractor(user: TUser, regExp) {
+		return regExp.test(DaoUser.gName(user))
+			|| regExp.test(DaoUser.gEmail(user))
+			|| regExp.test(DaoUser.gPhone(user));
+	}
+
+	_cacheUserProfile(): TCacheUserProfile {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	_getRequestIds() {
+		return DaoUser.gConnectionRequestIds(this._cacheUserProfile().data);
+	}
+
+	_getBlockedIds() {
+		return DaoUser.gConnectionBlockedIds(this._cacheUserProfile().data);
+	}
+
+	_getFriendIds() {
+		return DaoUser.gConnectionFriendIds(this._cacheUserProfile().data);
+	}
+
+	_getPendingIds() {
+		return DaoUser.gConnectionPendingIds(this._cacheUserProfile().data);
+	}
 
 
-  _filterExtractor(user, regExp) {
-    return regExp.test(DaoUser.gName(user))
-        || regExp.test(DaoUser.gEmail(user))
-        || regExp.test(DaoUser.gPhone(user));
-  }
+	render() {
+		const {users, ...searchableFlatListProps} = this.props;
+		return (
+			<SearchableFlatList
+				{...searchableFlatListProps}
+
+				data={users}
+				keyExtractor={DaoUser.gIdStr}
+				renderItem={this._renderItem}
+
+				searchPlaceholder={t('t_search_user')}
+				filterExtractor={this._filterExtractor}
+			/>
+
+		);
+	}
 
 
-  render() {
-    let {users, ...searchableFlatListProps} = this.props;
+	_renderItem({item}: { item: TUser }) {
+		const {showPending, showAccept, showRemove, showAdd, showUnblock, onUserPress} = this.props;
 
-    return (
-        <SearchableFlatList
-            {...searchableFlatListProps}
+		const listItemProps: ListItemUserProps = {
+			user: item,
+			onPress: onUserPress
+		};
 
-            data={users}
-            keyExtractor={(item, index) => DaoUser.gId(item)}
-            renderItem={({item}) => this._renderItem(item)}
+		const uid = DaoUser.gId(item);
+		const isSameUser = DaoUser.gId(this._cacheUserProfile().data) == uid;
+		if (isSameUser)
+			return <ListItemUser {...listItemProps}/>;
 
-            searchPlaceholder='Search by name, email or phone'
-            filterExtractor={this._filterExtractor}
-        />
-    );
-  }
+		const connAdd = this._cacheUserProfile().connAdd;
+		const connRemove = this._cacheUserProfile().connRemove;
+		const connAccept = this._cacheUserProfile().connAccept;
+		const connCancel = this._cacheUserProfile().connCancel;
+		const connBlock = this._cacheUserProfile().connBlock;
+		const requestIds = this._getRequestIds();
+		const blockedIds = this._getBlockedIds();
+		const friendIds = this._getFriendIds();
+		const pendingIds = this._getPendingIds();
+		const sAccept = showAccept && requestIds.includes(uid);
+		const sUnblock = showUnblock && blockedIds.includes(uid);
+		const sRemove = showRemove && friendIds.includes(uid);
+		const sPending = showPending && pendingIds.includes(uid);
+		const sRequest = showAdd && !friendIds.includes(uid) && !pendingIds.includes(uid);
 
+		if (sAccept) {
+			listItemProps.onConnRemovePress = connBlock;
+			listItemProps.onConnAddPress = connAccept;
 
+		} else if (sUnblock || sRequest) {
+			listItemProps.onConnAddPress = connAdd;
 
-  _renderItem(user) {
-    let {friendIds, requestIds, blockedIds, onItemPress} = this.props;
-    let listItemProps = {user: user, onPress: onItemPress};
+		} else if (sRemove) {
+			listItemProps.onConnRemovePress = connRemove;
 
-    if (requestIds && requestIds.includes(DaoUser.gId(user)))
-      return <ListItemUserRequestReceived {...listItemProps}/>;
+		} else if (sPending) {
+			listItemProps.onConnPendingPress = connCancel;
+		}
 
-    if (blockedIds && blockedIds.includes(DaoUser.gId(user)))
-      return <ListItemUserRequestSend {...listItemProps}/>;
-
-    if (friendIds && !friendIds.includes(DaoUser.gId(user)))
-      return <ListItemUserRequestSend {...listItemProps}/>;
-
-    return <ListItemUser {...listItemProps}/>;
-  }
-
+		return <ListItemUser {...listItemProps}/>;
+	}
 
 }
 
+const UserList = poolConnect(_UserList,
+	// mapStateToProps
+	(state) => ({}),
 
-UserList.defaultProps = {
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-};
-
-UserList.propTypes = {
-  users: PropTypes.arrayOf(PropTypes.object).isRequired,
-  friendIds: PropTypes.array,
-  requestIds: PropTypes.array,
-  blockedIds: PropTypes.array,
-  onItemPress: PropTypes.func
-};
-
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
+);
+export default UserList;

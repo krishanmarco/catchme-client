@@ -1,145 +1,150 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
+import flatten from 'flat';
+
+/**
+ * Returns '1' if true, else '0'.
+ * Loose comparison!
+ * @param bool
+ * @returns {string}
+ */
+export function boolToIntString(bool) {
+	return bool ? '1' : '0';
+}
 
 
+/**
+ * Returns true if '1', else false.
+ * Loose comparison!
+ * @param str
+ * @returns {boolean}
+ */
+export function intStringToBool(str) {
+	return str == '1';
+}
 
+
+/**
+ * Replaces a value in a string at a certain index.
+ * @param string
+ * @param index
+ * @param replacement
+ * @returns {string}
+ */
+export function stringReplace(string, index, replacement) {
+	return string.substr(0, index) + replacement + string.substr(index + replacement.length);
+}
+
+
+/**
+ * Recreates a de-normalized object from a flat object
+ * that has lodash keys.
+ * {'property1.property2': 'value'} ==> {'property1': {'property2': 'value'}}
+ * @param object
+ * @returns {{}}
+ */
 export function denormObj(object) {
-  const mappedApiInput = {};
+	const mappedApiInput = {};
 
-  const keys = Object.keys(object);
-  for (let i = 0; i < keys.length; i++)
-    _.set(mappedApiInput, keys[i], object[keys[i]]);
+	const keys = Object.keys(object);
+	for (let i = 0; i < keys.length; i++)
+		_.set(mappedApiInput, keys[i], object[keys[i]]);
 
-  return mappedApiInput;
+	return mappedApiInput;
 }
 
 
+/**
+ * Maps an object to the data-structure expected from RnFetchBlob
+ * @param object
+ * @returns {{}}
+ */
+export function prepareForMultipart(object = {}) {
+	return Object.keys(flatten(object))
+		.map(key => ({name: key, data: String(_.get(object, key, ''))}));
+}
 
+
+/**
+ * Returns current epoch timestamp
+ * @returns {number}
+ */
 export function seconds() {
-  return Math.floor(Date.now() / 1000);
+	return Math.floor(Date.now() / 1000);
 }
 
+
+/**
+ * Compares two timestamps ignoring the date.
+ * Parameters can be anything accepted by the Date constructor.
+ * @param date1
+ * @param date2
+ * @returns {boolean}
+ */
 export function compareTimeSmaller(date1, date2) {
-  const normalizedDate1 = new Date(date1);
-  normalizedDate1.setFullYear(0, 0, 0);
+	const normalizedDate1 = new Date(date1);
+	normalizedDate1.setFullYear(0, 0, 0);
 
-  const normalizedDate2 = new Date(date2);
-  normalizedDate2.setFullYear(0, 0, 0);
+	const normalizedDate2 = new Date(date2);
+	normalizedDate2.setFullYear(0, 0, 0);
 
-  return normalizedDate1 < normalizedDate2;
-}
-
-export function boolToString(bool) {
-  return bool ? '1' : '0';
-}
-
-export function stringToBool(str) {
-  return str == '1';
-}
-
-export function unOrderedTextMatch(ucSearchWords, ucMatchString) {
-  // For each word in the searchWords check if
-  // the matchString contains that word
-  // Eg: 'BENCH PRESS' will match 'PRESS BENCH'
-  for (var p = 0; p < ucSearchWords.length; p++) {
-    // if matchString doesn't contain the [p]th word
-    if (ucMatchString.indexOf(ucSearchWords[p]) == -1) {
-      // The filter is not successful
-      return false;
-    }
-  }
-
-  // ucMatchString contained all
-  // words in searchString
-  return true;
+	return normalizedDate1 < normalizedDate2;
 }
 
 
-export function filterByUnOrderedTextMatch(elements, searchString, getTextFromElementFunction) {
-  // initialize result array
-  var result = [];
-
-  // Set the search string to uppercase and get all its words
-  var searchWords = searchString.toUpperCase().split(" ");
-
-  // Iterate each element and filter accordingly
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-
-    // get and prepare the second text string
-    // for the text search process
-    var matchString = getTextFromElementFunction(element).toUpperCase();
-
-    // If the i[th] element passes the filter
-    // then push it onto the result
-    if (unOrderedTextMatch(searchWords, matchString))
-      result.push(element);
-  }
-
-  return result;
+/**
+ * overrides the values in a with the values in b Object.assign
+ * without adding properties that are in b but not in a
+ * @param {object} a
+ * @param {object} b
+ */
+export function mergeWithoutExtend(a, b) {
+	return _.assign(a, _.omit(b, _.difference(Object.keys(b), Object.keys(a))));
 }
 
-
-export function arrayFind(elements, finderFunction) {
-  for (var i = 0; i < elements.length; i++) {
-    if (finderFunction(elements[i]))
-      return elements[i];
-  }
-  return null;
+export function arrayCleanAndVerify(array: ?array, dotField: string) {
+	if (!_.isArray(array))
+		return array;
+	return _.uniqBy(arrayClean(array, dotField), dotField);
 }
 
+// This function filters an array by removing all
+// items that null or undefined in a certain field
+export function arrayClean(array: ?Array, dotField: string) {
+	if (!_.isArray(array))
+		return array;
 
-export function arrayClean(elements, deleteValue) {
-  for (var i = 0; i < elements.length; i++) {
-    if (elements[i] == deleteValue) {
-      elements.splice(i, 1);
-      i--;
-    }
-  }
-  return elements;
+	return array.filter(item => _.get(item, dotField, null) != null);
 }
 
+export function mapIdsToObjects(idList, objectList, getIdFromObject) {
+	const result = [];
 
-export function arrayRemove(elements, index) {
-  if (index > -1)
-    elements.splice(index, 1);
-  return elements;
+	for (let i = 0; i < objectList.length; i++) {
+		const object = objectList[i];
+		const objectId = getIdFromObject(object);
+
+		const indexOf = idList.indexOf(objectId);
+		if (indexOf !== -1)
+			result[indexOf] = object;
+	}
+
+	// Clean any empty indexes (happens in case objectList didn't contain objectId)
+	return _.compact(result);
 }
 
-export function readCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
+export function isValidUrl(url) {
+	if (!url)
+		return false;
+
+	const urlUpper = url.toUpperCase();
+	return urlUpper.startsWith('HTTPS://') || urlUpper.startsWith('HTTP://');
 }
 
-
-export function timeToDate(intTimestamp) {
-  var moment = require('moment');
-  var date = moment(intTimestamp);
-  return date.format("MMMM Do YYYY, h:mm:ss a");
+export function validSource(source) {
+	return !_.isEmpty(_.get(source, 'uri', null));
 }
 
-
-export function strtr(string, replacePairs) {
-  var str = string, key, re;
-  for (key in replacePairs) {
-    if (replacePairs.hasOwnProperty(key)) {
-      re = new RegExp(key, "g");
-      str = str.replace(re, replacePairs[key]);
-    }
-  }
-  return str;
-}
-
-
-
-
-export function isFunction(functionToCheck) {
-  let getType = {};
-  return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+export function addKeys(array: Array<Object> = []) {
+	return array.map((p, i) => ({key: i, ...p}));
 }

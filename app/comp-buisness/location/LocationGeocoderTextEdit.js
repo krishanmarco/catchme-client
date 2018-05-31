@@ -1,22 +1,24 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import GoogleMapsDataDecoder from '../../lib/maps/GoogleMapsDataDecoder';
 import React from 'react';
-import _ from 'lodash';
-import {Const} from '../../Config';
-
-
+import {Colors, Const} from '../../Config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
-import GoogleMapsDataDecoder from "../../lib/maps/GoogleMapsDataDecoder";
+import {t} from '../../lib/i18n/Translations';
+import type {TLocation} from '../../lib/daos/DaoLocation';
 
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-// this.props.onSelect({
-// DaoLocation...
-// })
-export default class LocationGeocoderTextEdit extends React.Component {
+type Props = {
+	onSelect: (TLocation) => void
+};
+
+export default class LocationGeocoderTextEdit extends React.Component<void, Props, void> {
 
   // Available options can be found at:
   // https://developers.google.com/places/web-service/autocomplete
   static AutoCompleteQueryKey = {
-    key: Const.GooglePlacesApi.key,
+    key: Const.googlePlacesKey,
     // language: 'it',
     // types: '(cities)' // default: 'geocode'
   };
@@ -24,7 +26,7 @@ export default class LocationGeocoderTextEdit extends React.Component {
   static AutoCompleteStyles = {
     textInputContainer: {width: '100%'},
     description: {fontWeight: 'bold'},
-    predefinedPlacesDescription: {color: '#1faadb'}
+    predefinedPlacesDescription: {color: Colors.primary}
   };
 
   // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
@@ -32,7 +34,7 @@ export default class LocationGeocoderTextEdit extends React.Component {
 
   // Available options can be found at:
   // https://developers.google.com/maps/documentation/geocoding/intro
-  static GoogleReverseGeocodingQueryOptions = { };
+  static GoogleReverseGeocodingQueryOptions = {};
 
   // Filter the reverse geocoding results by types
   // Eg. ['locality', 'administrative_area_level_3'] to only display cities
@@ -51,15 +53,16 @@ export default class LocationGeocoderTextEdit extends React.Component {
 
 
   _onPress(data, details) {
+    const {onSelect} = this.props;
     // details are only provided when fetchDetails=true
-    this.props.onSelect(new GoogleMapsDataDecoder(details).toLocation());
+    onSelect(new GoogleMapsDataDecoder(details).toLocation());
   }
 
 
   render() {
     return (
         <GooglePlacesAutocomplete
-            placeholder='Search for your location'
+            placeholder={t('t_search_location_map')}
             minLength={3}
             autoFocus={false}
             returnKeyType='search'
@@ -74,7 +77,7 @@ export default class LocationGeocoderTextEdit extends React.Component {
             nearbyPlacesAPI={LocationGeocoderTextEdit.AutoCompleteApi}
             query={LocationGeocoderTextEdit.AutoCompleteQueryKey}
             styles={LocationGeocoderTextEdit.AutoCompleteStyles}
-            debounce={Const.GooglePlacesApi.debounceTimeMs}
+            debounce={Const.googlePlacesDebounceTimeMs}
 
             currentLocation={false}
 

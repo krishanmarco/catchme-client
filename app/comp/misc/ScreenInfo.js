@@ -1,53 +1,94 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View, TouchableNativeFeedback, Dimensions, Image} from 'react-native';
-
-import {scaleModerate, scaleVertical} from '../../lib/utils/scale';
+import {Image, StyleSheet, View} from 'react-native';
 import {RkText} from 'react-native-ui-kitten';
+import {Touchable} from '../Misc';
+import type {TStyle} from '../../lib/types/Types';
 
 
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-const ScreenInfoImage = ({style, scale, image, height, width, onPress}) => {
-  const contentHeight = scaleModerate(scale, 1);
-  const cHeight = Dimensions.get('window').height - contentHeight;
-  const cWidth = Dimensions.get('window').width;
-  const cStyle = {height: cHeight, width: cWidth, alignItems: 'center'};
-  return (
-      <View style={[cStyle, style]}>
-        <TouchableNativeFeedback onPress={onPress}>
-          <Image
-              style={[{resizeMode: 'cover', marginBottom: scaleVertical(16)}, {height, width}]}
-              source={image}/>
-        </TouchableNativeFeedback>
-      </View>
-  );
+type Props = {
+	imageSource: Object,
+	textText?: string,
+	height?: number|string,
+	imageHeight?: number|string,
+	marginTop?: number|string,
+	onPress?: () => void,
+	style?: TStyle
 };
 
-ScreenInfoImage.defaultProps = {
-  scale: 550,
-  height: 100,
-  width: 150
+const defaultProps = {
+	height: 124,
+	imageHeight: '75%',
+	marginTop: 8,
 };
 
+// ScreenInfo ******************************************************************************************
+// ScreenInfo ******************************************************************************************
 
-const ScreenInfoText = ({text}) => (
-    <View style={{alignItems: 'center', width: '100%'}}>
-      <RkText rkType='secondary6'>{text}</RkText>
-    </View>
-);
+export default class ScreenInfo extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
+
+	render() {
+		const {
+			style,
+			height,
+			imageHeight,
+			marginTop,
+			onPress,
+			imageSource,
+			textText
+		} = this.props;
+
+		return (
+			<View style={[{height, marginTop}, style, styles.root]}>
+
+				<Touchable
+					style={styles.imageCont}
+					onPress={onPress}>
+					<Image
+						style={[{height: imageHeight}, styles.imageImage]}
+						source={imageSource}/>
+				</Touchable>
+
+				{!!textText && (
+					<View style={styles.textCont}>
+						<RkText style={styles.text} rkType='infoText'>{textText}</RkText>
+					</View>
+				)}
+
+			</View>
+		);
+	}
+
+}
 
 
-const ScreenInfo = ({imageContainerStyle, image, scale, height, width, text, onPress}) => (
-    <View>
-      <ScreenInfoImage
-          style={imageContainerStyle}
-          onPress={onPress}
-          scale={scale}
-          height={height}
-          width={width}
-          image={image}/>
-      <ScreenInfoText text={text}/>
-    </View>
-);
+// Config *********************************************************************************************
+// Config *********************************************************************************************
 
-export default ScreenInfo;
+const styles = StyleSheet.create({
+	root: {
+		width: '100%',
+		alignItems: 'center',
+		paddingVertical: 8
+	},
+	imageCont: {
+		width: '100%',
+		alignItems: 'center',
+		marginTop: 16,
+	},
+	imageImage: {
+		resizeMode: 'contain'
+	},
+	textCont: {
+		alignItems: 'center',
+		width: '70%',
+		marginTop: 4,
+	},
+	text: {
+		textAlign: 'center'
+	}
+});

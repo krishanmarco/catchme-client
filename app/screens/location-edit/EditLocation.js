@@ -1,171 +1,210 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Icons} from '../../Config';
-
-import {poolConnect, FORM_API_ID_EDIT_LOCATION_PROFILE} from '../../redux/ReduxPool';
-import TabBar from '../../comp/misc/TabBar';
-
-import {Row, Grid} from "react-native-easy-grid";
-
-import EditLocationInfo from './pages/EditLocationInfo';
-import EditLocationTimings from './pages/EditLocationTimings';
+import DaoLocation from '../../lib/daos/DaoLocation';
 import EditLocationAddress from './pages/EditLocationAddress';
+import EditLocationInfo from './pages/EditLocationInfo';
 import EditLocationRecap from './pages/EditLocationSave';
-import {denormObj} from '../../lib/HelperFunctions';
-import DaoLocation from "../../lib/daos/DaoLocation";
+import EditLocationTimings from './pages/EditLocationTimings';
+import React from 'react';
+import {Colors, Icons} from '../../Config';
+import {FORM_API_ID_EDIT_LOCATION_PROFILE} from '../../lib/redux-pool/api-form/def/ApiFormDefLocationProfile';
+import {poolConnect} from '../../redux/ReduxPool';
+import {ScrollableIconTabView} from '../../comp/Misc';
+import {StyleSheet, View} from 'react-native';
+import type {TApiFormPool} from '../../lib/redux-pool/api-form/ApiFormPool';
+import type {TIcon, TNavigator} from '../../lib/types/Types';
+import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TUser} from '../../lib/daos/DaoUser';
+import {Snackbar} from "../../lib/Snackbar";
 
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationInitState = {
-  // Nothing for now
+type Props = {
+	navigator: TNavigator,
+	locationProfile: TLocation,
+	authUserProfile: TUser
 };
 
+// _EditLocation ****************************************************************************************
+// _EditLocation ****************************************************************************************
 
-export function editLocationReducer(state = editLocationInitState, action) {
-  switch (action.type) {
-    // Nothing for now
-  }
+class _EditLocation extends React.Component<void, Props, void> {
+	static idxInfo = 0;
+	static idxTimings = 1;
+	static idxAddress = 2;
+	static idxRecap = 3;
 
-  return state;
+	constructor(props, context) {
+		super(props, context);
+		this.refTabs = [];
+		this._allowIndexChange = this._allowIndexChange.bind(this);
+		this._onSavePress = this._onSavePress.bind(this);
+		this._onPreTabChange = this._onPreTabChange.bind(this);
+		this._setRefInfoTab = this._setRefInfoTab.bind(this);
+		this._setRefTimingsTab = this._setRefTimingsTab.bind(this);
+		this._setRefAddressTab = this._setRefAddressTab.bind(this);
+		this._setRefRecapTab = this._setRefRecapTab.bind(this);
+	}
+
+	componentWillMount() {
+		const {locationProfile} = this.props;
+
+		// We now have access to a location profile
+		// Initialize the redux pool form by setting all its values
+		this._formApiEditLocationProfile().reset();
+		this._formApiEditLocationProfile().change(DaoLocation.apiClean(locationProfile));
+	}
+
+	_formApiEditLocationProfile(): TApiFormPool {
+		return this.props[FORM_API_ID_EDIT_LOCATION_PROFILE];
+	}
+
+
+	_onSavePress() {
+		const {navigator} = this.props;
+
+		// If the form doesn't have any errors, go back
+		this._formApiEditLocationProfile().post()
+			.then(success => { navigator.pop(); })
+			.catch(Snackbar.showApiException);
+	}
+
+
+	_allowIndexChange(currentIndex, nextIndex) {
+		if (nextIndex < currentIndex)
+			return true;
+
+		return !this.refTabs[currentIndex].getWrappedInstance().hasErrors();
+	}
+
+	_onPreTabChange(currentIndex, nextIndex) {
+		if (currentIndex == EditLocation.idxTimings) {
+			this.refTabs[EditLocation.idxTimings].getWrappedInstance().saveTimingsToLocation();
+		}
+	}
+
+	_getIcon(tabIndex: number, icon: TIcon) {
+		const wrapperRef = this.refTabs[tabIndex];
+
+		if (wrapperRef) {
+			const ref = wrapperRef.getWrappedInstance();
+
+			if (ref.hasErrors())
+				return {...icon, color: Colors.alertRed};
+		}
+
+		return icon;
+	}
+
+	_setRefInfoTab(ref) {
+		this.refTabs[EditLocation.idxInfo] = ref;
+	}
+
+	_setRefTimingsTab(ref) {
+		this.refTabs[EditLocation.idxTimings] = ref;
+	}
+
+	_setRefAddressTab(ref) {
+		this.refTabs[EditLocation.idxAddress] = ref;
+	}
+
+	_setRefRecapTab(ref) {
+		this.refTabs[EditLocation.idxRecap] = ref;
+	}
+
+
+	render() {
+		const tabs = [];
+
+		tabs.push(this._renderTab('0', this._renderTabEditLocationInfo()));
+		tabs.push(this._renderTab('1', this._renderTabEditLocationTimings()));
+		tabs.push(this._renderTab('2', this._renderTabEditLocationAddress()));
+		tabs.push(this._renderTab('3', this._renderTabEditLocationRecap()));
+
+		return (
+			<ScrollableIconTabView
+				allowIndexChange={this._allowIndexChange}
+				onPreTabChange={this._onPreTabChange}
+				locked={true}
+				activeColor={false}
+				icons={{
+					0: this._getIcon(EditLocation.idxInfo, Icons.locationInfo),
+					1: this._getIcon(EditLocation.idxTimings, Icons.locationTimings),
+					2: this._getIcon(EditLocation.idxAddress, Icons.locationMap),
+					3: this._getIcon(EditLocation.idxRecap, Icons.locationSave)
+				}}>
+				{tabs}
+			</ScrollableIconTabView>
+		);
+	}
+
+	_renderTab(tabLabel, jsx) {
+		return (
+			<View
+				key={tabLabel}
+				tabLabel={tabLabel}
+				style={styles.tabView}>
+				{jsx}
+			</View>
+		);
+	}
+
+
+	_renderTabEditLocationInfo() {
+		return (
+			<EditLocationInfo
+				ref={this._setRefInfoTab}
+				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
+		);
+	}
+
+	_renderTabEditLocationTimings() {
+		return (
+			<EditLocationTimings
+				ref={this._setRefTimingsTab}
+				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
+		);
+	}
+
+	_renderTabEditLocationAddress() {
+		const {navigator} = this.props;
+		return (
+			<EditLocationAddress
+				ref={this._setRefAddressTab}
+				navigator={navigator}
+				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
+		);
+	}
+
+	_renderTabEditLocationRecap() {
+		return (
+			<EditLocationRecap
+				ref={this._setRefRecapTab}
+				onSavePress={this._onSavePress}
+				formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
+		);
+	}
+
 }
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+const EditLocation = poolConnect(_EditLocation,
+	// mapStateToProps
+	(state) => ({}),
 
-class EditLocationPresentational extends React.Component {
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-  constructor(props, context) {
-    super(props, context);
-    this._onTabChange = this._onTabChange.bind(this);
-    this._allowIndexChange = this._allowIndexChange.bind(this);
-    this._onSaveComplete = this._onSaveComplete.bind(this);
-  }
-
-  componentWillMount() {
-    // We now have access to a location profile
-    // Initialize the redux pool form by setting all its values
-    this._formApiEditLocationProfile().change(denormObj({
-      // EditLocationInfo
-      [DaoLocation.pName]: DaoLocation.gName(this._locationProfile()),
-      [DaoLocation.pPictureUrl]: DaoLocation.gPictureUrl(this._locationProfile()),
-      [DaoLocation.pDescription]: DaoLocation.gDescription(this._locationProfile()),
-      [DaoLocation.pEmail]: DaoLocation.gEmail(this._locationProfile()),
-      [DaoLocation.pPhone]: DaoLocation.gPhone(this._locationProfile()),
-      [DaoLocation.pCapacity]: DaoLocation.gCapacity(this._locationProfile()),
-
-      // EditLocationTimings
-      [DaoLocation.pTimings]: DaoLocation.gTimings(this._locationProfile()),
-
-      // EditLocationAddress
-      [DaoLocation.pAddressCountry]: DaoLocation.gCountry(this._locationProfile()),
-      [DaoLocation.pAddressState]: DaoLocation.gState(this._locationProfile()),
-      [DaoLocation.pAddressCity]: DaoLocation.gCity(this._locationProfile()),
-      [DaoLocation.pAddressPostcode]: DaoLocation.gPostcode(this._locationProfile()),
-      [DaoLocation.pAddressAddress]: DaoLocation.gAddress(this._locationProfile()),
-      [DaoLocation.pAddressLatLng]: DaoLocation.gLatLng(this._locationProfile()),
-    }));
-  }
-
-  _locationProfile() { return this.props.locationProfile; }
-  _authenticatedUserProfile() { return this.props.authenticatedUserProfile; }
-  _navigator() { return this.props.navigator; }
-  _formApiEditLocationProfile() { return this.props[FORM_API_ID_EDIT_LOCATION_PROFILE]; }
-
-
-  _onSaveComplete(apiResponse) {
-    // The form has already been posted
-    // Check for success and handle errors
-    //    .then(locationResult => Router.goToLocationProfile() && Router.closeThisModal()) todo
-  }
-
-  _onTabChange(tabIndex) {
-    console.log("SWITHCING TO TAB" + tabIndex);
-  }
-
-  _allowIndexChange(currentIndex, nextIndex) {
-    // Todo only allow submit if the current tab is completed
-    return true;
-  }
-
-
-  render() {
-    return (
-        <Grid>
-          <Row>
-            <TabBar allowIndexChange={this._allowIndexChange} onTabChange={this._onTabChange}>
-              <TabBar.Tab key={0} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditInfo()}</TabBar.Tab>
-              <TabBar.Tab key={1} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditTimings()}</TabBar.Tab>
-              <TabBar.Tab key={2} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditAddress()}</TabBar.Tab>
-              <TabBar.Tab key={3} icon={Icons.friendRequestAccept}>{this._renderTabLocationEditRecap()}</TabBar.Tab>
-            </TabBar>
-          </Row>
-        </Grid>
-    );
-  }
-
-
-  _renderTabLocationEditInfo() {
-    return (
-        <EditLocationInfo
-            formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
-    );
-  }
-
-  _renderTabLocationEditTimings() {
-    return (
-        <EditLocationTimings
-            formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
-    );
-  }
-
-  _renderTabLocationEditAddress() {
-    return (
-        <EditLocationAddress
-            navigator={this._navigator()}
-            formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
-    );
-  }
-
-  _renderTabLocationEditRecap() {
-    return (
-        <EditLocationRecap
-          onSaveComplete={this._onSaveComplete}
-          formApiEditLocationProfile={this._formApiEditLocationProfile()}/>
-    );
-  }
-
-}
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const EditLocation = poolConnect(
-    // Presentational Component
-    EditLocationPresentational,
-
-    // mapStateToProps
-    (state) => state.locationProfileReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [FORM_API_ID_EDIT_LOCATION_PROFILE]
+	// Array of pools to subscribe to
+	[FORM_API_ID_EDIT_LOCATION_PROFILE]
 );
-
-
 export default EditLocation;
 
 
-EditLocation.propTypes = {
-  locationProfile: PropTypes.object.isRequired,
-  authenticatedUserProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-};
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+const styles = StyleSheet.create({
+	tabView: {
+		flex: 1
+	}
+});

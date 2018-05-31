@@ -1,121 +1,157 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
+import {Const} from '../../../Config';
+import {DefaultLoader, SearchBar} from '../../Misc';
+import {FlatList, StyleSheet, View} from 'react-native';
+import {t} from '../../../lib/i18n/Translations';
 
-import {Colors} from '../../../Config';
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-import {FlatList, Text, SectionList} from 'react-native';
+type Props<T> = FlatList.props & {
+	data: Array<T>,
+	renderOnListEmpty: () => Node,
+	renderOnSearchResultsEmpty: () => Node,
+	filterExtractor: (T, RegExp) => boolean,
+	searchPlaceholder?: string,
+	numTriggerChars?: number,
+	onSearchChanged?: (string) => void,
+	onSearchPressed?: (string) => void,
 
-import SearchBar from '../../misc/SearchBar';
-import {DefaultLoader} from "../../Misc";
+	// Should be true while the data-set is loading
+	loading: boolean,
 
+	// If true the SearchableFlatList filters the
+	// data-set automatically
+	autoFilter: boolean,
 
-export default class SearchableFlatList extends React.PureComponent {
+	// Threshold after which the search
+	// filter is enabled
+	minTriggerChars: number,
+};
 
-  constructor(props, context) {
-    super(props, context);
-    this._onSearchChange = this._onSearchChange.bind(this);
-    this._onListEmpty = this._onListEmpty.bind(this);
-    this._renderFooterLoader = this._renderFooterLoader.bind(this);
-  }
+type State = {
+	searchText: string
+};
 
+const defaultProps = {
+	searchPlaceholder: t('t_search'),
+	minTriggerChars: 0,
+	autoFilter: true,
+	onEndReachedThreshold: Const.defaultOnEndReachedThreshold
+};
 
-  state = {
-    searchText: ''
-  };
+// SearchableFlatList ***********************************************************************************
+// SearchableFlatList ***********************************************************************************
 
+export default class SearchableFlatList extends React.PureComponent<void, Props, State> {
+	static defaultProps = defaultProps;
 
-  _onSearchChange(searchText) {
+	constructor(props, context) {
+		super(props, context);
+		this._onSearchChanged = this._onSearchChanged.bind(this);
+		this._renderOnListEmpty = this._renderOnListEmpty.bind(this);
+		this._renderFooterLoader = this._renderFooterLoader.bind(this);
+		this.state = {searchText: ''};
+	}
 
-    if (searchText.length < this.props.minTriggerChars)
-      searchText = '';
+	_onSearchChanged(searchText) {
+		const {onSearchChanged, autoFilter} = this.props;
 
-    this.setState({searchText});
-  }
+		if (onSearchChanged)
+			onSearchChanged(searchText);
 
+		// If autoFilter is set then also change the internal state so
+		// the input list gets filtered using searchText with _filterExtractor
+		if (autoFilter)
+			this._autoFilter(searchText);
+	}
 
-  _onListEmpty() {
+	_autoFilter(searchText) {
+		const {minTriggerChars} = this.props;
 
-    if (this.state.searchText.length > 0 && this.props.onSearchResultsEmpty) {
-      // List empty but the search box is not
-      return this.props.onSearchResultsEmpty(this.state.searchText);
-    }
+		if (searchText.length < minTriggerChars)
+			searchText = '';
 
-    // The list is empty or a search callback wasn't specified
-    if (this.props.onListEmpty)
-      return this.props.onListEmpty();
-
-    return null;
-  }
-
-
-  _getFilteredData() {
-    let regExp = new RegExp(String(this.state.searchText), 'i');
-    let helper = (item) => this.props.filterExtractor(item, regExp);
-    return this.props.data.filter(helper);
-  }
-
-
-  render() {
-
-    return (
-        <FlatList
-            style={{backgroundColor: Colors.background}}
-            data={this._getFilteredData()}
-            renderItem={this.props.renderItem}
-            keyExtractor={this.props.keyExtractor}
-
-            ListEmptyComponent={this._onListEmpty}
-            ListHeaderComponent={
-                <SearchBar
-                    placeholder={this.props.searchPlaceholder}
-                    onSearchPressed={this.props.onSearchPressed}
-                    onChange={this.props.onSearchChanged || this._onSearchChange}/>
-            }
-
-            onEndReached={this.props.onEndReached}
-            onEndReachedThreshold={this.props.onEndReachedThreshold}
-
-            refreshing={this.props.refreshing}
-            onRefresh={this.props.onRefresh}
+		this.setState({searchText});
+	}
 
 
-            ListFooterComponent={this._renderFooterLoader}
+	_getFilteredData() {
+		const {data, filterExtractor} = this.props;
+		const {searchText} = this.state;
 
-        />
-    );
-  }
+		try {
+			// Escape regex special chars
+			const searchTextEscaped = String(searchText)
+				.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 
+			const regExp = new RegExp(searchTextEscaped || '', 'i');
+			return data.filter((item) => filterExtractor(item, regExp));
 
-  _renderFooterLoader() {
+		} catch (exception) {
+			// Invalid regular expression, do not filter
+			return data;
+		}
+	}
 
-    if (!this.props.loading)
-      return null;
+	render() {
+		const {
+			searchPlaceholder,
+			onSearchPressed,
+			...flatListProps
+		} = this.props;
 
-    return (
-        <DefaultLoader style={{marginVertical: 16}} size={8}/>
-    );
-  }
+		return (
+			<FlatList
+				{...flatListProps}
+				data={this._getFilteredData()}
 
+				ListEmptyComponent={this._renderOnListEmpty}
+				ListHeaderComponent={
+					<View style={styles.searchBar}>
+						<SearchBar
+							placeholder={searchPlaceholder}
+							onSearchPressed={onSearchPressed}
+							onChange={this._onSearchChanged}/>
+					</View>
+				}
+				ListFooterComponent={this._renderFooterLoader}/>
+		);
+	}
+
+	_renderOnListEmpty() {
+		const {searchText} = this.state;
+		const {renderOnSearchResultsEmpty, renderOnListEmpty} = this.props;
+
+		if (renderOnSearchResultsEmpty && searchText.length > 0) {
+			// List empty but the search box is not
+			return renderOnSearchResultsEmpty(searchText);
+		}
+
+		// The list is empty or a search callback wasn't specified
+		if (renderOnListEmpty)
+			return renderOnListEmpty();
+
+		return null;
+	}
+
+	_renderFooterLoader() {
+		const {loading} = this.props;
+
+		return loading
+			? (<DefaultLoader size={8}/>)
+			: null;
+	}
 
 }
 
-SearchableFlatList.defaultProps = {
-  searchPlaceholder: 'Search',
-  minTriggerChars: 4,
-  onEndReachedThreshold: 0.5
-};
 
-SearchableFlatList.propTypes = {
-  data: PropTypes.array.isRequired,
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-  onListEmpty: PropTypes.func,
-  onSearchResultsEmpty: PropTypes.func,
-
-  filterExtractor: PropTypes.func.isRequired,
-  searchPlaceholder: PropTypes.string,
-  minTriggerChars: PropTypes.number,
-  onSearchChanged: PropTypes.func,
-  onSearchPressed: PropTypes.func,
-
-};
+const styles = StyleSheet.create({
+	searchBar: {
+		marginTop: 8
+	}
+});

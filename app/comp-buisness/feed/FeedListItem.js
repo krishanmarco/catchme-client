@@ -1,138 +1,118 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import ActionHandler from '../../lib/helpers/ActionHandler';
+import DaoFeed from '../../lib/daos/DaoFeed';
+import ImageURISourceAuth from '../../lib/data/ImageURISourceAuth';
 import React from 'react';
-import PropTypes from 'prop-types';
+import {AvatarCircle, DynamicStyleText, Touchable} from '../../comp/Misc';
+import {Col, Grid} from 'react-native-easy-grid';
+import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
+import {listItemActions} from '../../lib/theme/Styles';
+import {StyleSheet, View} from 'react-native';
+import type {TFeed} from '../../lib/daos/DaoFeed';
 
-import {Colors} from '../../Config';
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-import {Icon, Avatar} from 'react-native-elements'
-import {Col, Grid} from "react-native-easy-grid";
+type Props = {
+	feed: TFeed,
+	handleClickAction: Function
+};
 
-import {AvatarCircle} from '../../comp/misc/Avatars';
-
-import {View, TouchableNativeFeedback} from 'react-native';
-import {RkStyleSheet, RkText, RkButton} from 'react-native-ui-kitten';
-import DaoFeed from "../../lib/daos/DaoFeed";
-import HTMLView from 'react-native-htmlview';
-import {ListItemActionIcon} from '../../comp/misc/ListItemsWithActions';
-import FeedHandler from '../../lib/helpers/FeedHandler';
-
-
-
-
-export default class FeedListItem extends React.Component {
-
-  constructor(props, context) {
-    super(props, context);
-    this._onItemPress = this._onItemPress.bind(this);
-  }
-
-  _feed() { return this.props.feed; }
-  _navigator() { return this.props.navigator; }
+type State = {
+	// Nothing for now
+};
 
 
-  _onItemPress() {
-    const clickAction = DaoFeed.gClickAction(this._feed());
+// FeedListItem *****************************************************************************************
+// FeedListItem *****************************************************************************************
 
-    if (clickAction && FeedHandler.actionIsValid(this._feed(), clickAction))
-      FeedHandler.handleFeedAction(clickAction, this._feed(), this._navigator());
+export default class FeedListItem extends React.PureComponent<void, Props, State> {
 
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onFeedItemPress = this._onFeedItemPress.bind(this);
+		this._handleClickAction = this._handleClickAction.bind(this);
+	}
 
+	_onFeedItemPress(): Promise {
+		const {feed} = this.props;
 
-  render() {
-    return (
-        <TouchableNativeFeedback onPress={this._onItemPress}>
-          <Grid style={Styles.listItem}>
-            <Col size={100} style={{marginRight: 8}}>
-              <View style={Styles.listItemHeaderContent}>
-                {this._renderLeftAvatar()}
-                <View style={Styles.listItemContent}>
-                  <HTMLView
-                      style={{flex: 1, flexDirection: 'row', alignItems: 'flex-start', flexWrap: 'wrap'}}
-                      value={DaoFeed.gContent(this._feed())}/>
-                </View>
-              </View>
-            </Col>
-            {this._renderActions()}
-            {this._renderRightAvatar()}
-          </Grid>
-        </TouchableNativeFeedback>
-    );
-  }
+		// Note a feed is also a TAction type
+		return this._handleClickAction(DaoFeed.gClickAction(feed), true);
+	}
 
+	_handleClickAction(clickAction: string, neverConsume = false): Promise {
+		const {handleClickAction, feed} = this.props;
+		return handleClickAction(clickAction, feed, neverConsume);
+	}
 
-  _renderLeftAvatar() {
-    const leftAvatar = DaoFeed.gLeftAvatar(this._feed());
-    return leftAvatar && <AvatarCircle uri={leftAvatar}/>
-  }
+	render() {
+		const {feed} = this.props;
+		return (
+			<Touchable onPress={this._onFeedItemPress}>
+				<Grid style={styles.listItem}>
+					<Col size={100}>
+						<View style={styles.listItemHeaderContent}>
+							{this._renderLeftAvatar()}
+							<View style={styles.listItemContent}>
+								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
+							</View>
+						</View>
+					</Col>
+					{this._renderActions()}
+					{this._renderRightAvatar()}
+				</Grid>
+			</Touchable>
+		);
+	}
 
-  _renderRightAvatar() {
-    const rightAvatar = DaoFeed.gRightAvatar(this._feed());
-    return rightAvatar && (<Col size={20}><AvatarCircle uri={rightAvatar}/></Col>);
-  }
+	_renderLeftAvatar() {
+		const {feed} = this.props;
+		const leftAvatar = DaoFeed.gLeftAvatar(feed);
+		return !!leftAvatar && (<AvatarCircle source={{uri: leftAvatar}}/>);
+	}
 
+	_renderRightAvatar() {
+		const {feed} = this.props;
+		const rightAvatar = DaoFeed.gRightAvatar(feed);
+		return !!rightAvatar && (
+			<Col size={15} style={[listItemActions.actionOnly]}>
+				<AvatarCircle source={ImageURISourceAuth.fromUrl(rightAvatar)}/>
+			</Col>
+		);
+	}
 
-  // todo: can be calculated from state
-  _renderActions() {
-    const actions = DaoFeed.gActions(this._feed())
-        .filter(action => FeedHandler.actionIsValid(this._feed(), action));
+	_renderActions() {
+		const {feed} = this.props;
 
-    return actions.map((action, key) => {
+		const actions = DaoFeed.gActions(feed)
+			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, feed));
 
-      const marginRight = key === actions.length ? 0 : 8;
-      const actionProps = {
-        nameType: FeedHandler.mapActionToIcon(action),
-        onPress: () => FeedHandler.handleFeedAction(action, this._feed(), this._navigator())
-      };
-
-      return (
-          <Col key={key} size={15} style={{marginRight}}>
-            <ListItemActionIcon {...actionProps}/>
-          </Col>
-      );
-
-    });
-  }
-
-
+		return actions.map((clickAction, key) => (
+			<Col key={key} size={15} style={key === actions.length ? listItemActions.action : listItemActions.actionLast}>
+				<ListItemAction
+					icon={ActionHandler.mapActionToIcon(clickAction)}
+					onPress={() => this._handleClickAction(clickAction)}/>
+			</Col>
+		));
+	}
 }
 
 
-
-
-
 // Config *************************************************************************************************
 // Config *************************************************************************************************
 
-let Styles = RkStyleSheet.create(theme => ({
-
-  listItem: {
-    paddingLeft: 12,
-    paddingRight: 12,
-
-    display: 'flex',
-    alignItems: 'center',
-
-    borderBottomWidth: 0,
-    borderColor: theme.colors.border.base,
-  },
-
-  listItemHeaderContent: {
-    paddingTop: 12,
-    paddingBottom: 12,
-
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-
-  listItemContentText: {
-    marginBottom: 3
-  },
-
-  listItemContent: {
-    marginLeft: 12,
-    flex: 1
-  }
-}));
+const styles = StyleSheet.create({
+	listItem: {
+		display: 'flex',
+		paddingHorizontal: 12
+	},
+	listItemHeaderContent: {
+		paddingVertical: 12,
+		flexDirection: 'row'
+	},
+	listItemContent: {
+		flex: 1,
+		marginLeft: 12
+	}
+});

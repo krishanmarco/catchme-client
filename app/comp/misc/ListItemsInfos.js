@@ -1,59 +1,77 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Colors, Icons} from '../../Config';
-
-import {View, TouchableOpacity, StyleSheet} from 'react-native';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {Col, Grid} from 'react-native-easy-grid';
+import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {Grid, Row, Col} from 'react-native-easy-grid';
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet} from 'react-native';
+import {Touchable} from '../Misc';
+import type {TDataPoint, TStyle} from '../../lib/types/Types';
 
 
-export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType}) => (
-    <TouchableOpacity style={Styles.root} onPress={onPress}>
-      <Grid style={Styles.grid}>
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-        {icon && (
-            <Col style={{marginRight: -16}} size={10}>
-              <Icon size={30} {...icon} />
-            </Col>
-        )}
+type Props = TDataPoint & {
+	style?: TStyle,
+	subTitle?: string,
+	onPress?: Function,
+	itemRight?: Node,
+	textRkType?: string,
+};
 
-        <Col style={{marginLeft: 24}} size={100}>
-          <RkText rkType={textRkType}>{title}</RkText>
-          {subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
-        </Col>
+// ListItemInfo *****************************************************************************************
+// ListItemInfo *****************************************************************************************
 
-        {itemRight && (
-            <Col size={24}>{itemRight}</Col>
-        )}
+export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkType, style}: Props) => (
+	<Touchable onPress={onPress} style={[styles.root, style]}>
+		<Grid style={styles.grid}>
 
-      </Grid>
-    </TouchableOpacity>
+			{!!icon && (
+				<Col size={10} style={styles.iconCol}>
+					<Icon iconStyle={styles.icon} size={24} {...icon} />
+				</Col>
+			)}
+
+			<Col size={100} style={styles.textCol}>
+				<RkText rkType={textRkType}>{title}</RkText>
+				{!!subTitle && <RkText rkType='secondary4 hintColor'>{subTitle}</RkText>}
+			</Col>
+
+			{!!itemRight && (
+				<Col size={24}>{itemRight}</Col>
+			)}
+
+		</Grid>
+	</Touchable>
 );
 
 ListItemInfo.defaultProps = {
-  textRkType: 'secondary1'
+	textRkType: 'secondary1'
 };
 
-ListItemInfo.propTypes = {
-  title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string,
-  icon: PropTypes.object,
-  onPress: PropTypes.func,
-  itemRight: PropTypes.node,
-};
+export default ListItemInfo;
 
 
-let Styles = RkStyleSheet.create(theme => ({
-  root: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-  },
-  grid: {
-    alignItems: 'center'
-  }
-}));
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	root: {
+		borderBottomWidth: StyleSheet.hairlineWidth,
+		borderColor: Colors.border,
+		paddingVertical: 12
+	},
+	grid: {
+		alignItems: 'center',
+	},
+	iconCol: {
+		alignItems: 'flex-start',
+	},
+	icon: {
+		padding: 0
+	},
+	textCol: {
+		marginLeft: 8
+	},
+});

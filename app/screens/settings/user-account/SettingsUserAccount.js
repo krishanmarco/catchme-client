@@ -1,265 +1,207 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
 import _ from 'lodash';
-import {poolConnect, FORM_API_ID_EDIT_USER_PROFILE} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
+import DaoUser from '../../../lib/daos/DaoUser';
+import ImagePicker from '../../../lib/helpers/ImagePicker';
+import Logger from '../../../lib/Logger';
+import Maps from '../../../lib/data/Maps';
+import React from 'react';
+import Router from '../../../lib/navigation/Router';
+import {AvatarFull, ListItemHeader, ListItemInfo} from '../../../comp/Misc';
+import {Const, Icons} from '../../../Config';
+import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
+import {listItemInfo} from '../../../lib/theme/Styles';
+import {poolConnect} from '../../../redux/ReduxPool';
+import {RkMultiChoice, RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {Snackbar} from '../../../lib/Snackbar';
+import {addKeys, stringReplace} from '../../../lib/HelperFunctions';
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
-
-import {RkStyleSheet} from 'react-native-ui-kitten';
-import ListItemHeader from '../../../comp/misc/ListItemHeader';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
-import {RkTextInputFromPool, RkMultiChoice} from '../../../comp/misc/forms/RkInputs';
-import DaoUser from "../../../lib/daos/DaoUser";
-import Router from "../../../lib/helpers/Router";
-import {AvatarCircle} from "../../../comp/misc/Avatars";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const settingsUserAccountInitState = {
-  // Nothing for now
-};
-
-
-export function settingsUserAccountReducer(state = settingsUserAccountInitState, action) {
-  switch (action.type) {
-      // Nothing for now
-  }
-
-  return state;
-}
-
-
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  navigator: Navigator,
-  authenticatedUserProfile: Object,
-  changePrivacy: Function
+	navigator: Navigator,
+	authUserProfile: Object,
+	changePrivacy: Function
 };
 
-type State = {
-  // Nothing for now
-}
+
+// _SettingsUserAccount *********************************************************************************
+// _SettingsUserAccount *********************************************************************************
+
+class _SettingsUserAccount extends React.Component<void, Props, void> {
+
+	constructor(props, context) {
+		super(props, context);
+		this._onChangePasswordPress = this._onChangePasswordPress.bind(this);
+		this._onLogoutPress = this._onLogoutPress.bind(this);
+		this._onUserPicturePress = this._onUserPicturePress.bind(this);
+	}
+
+	componentWillMount() {
+		const {authUserProfile} = this.props;
+		this._formApiEditUserProfile().reset();
+		this._formApiEditUserProfile().change(DaoUser.apiClean(authUserProfile));
+	}
+
+	componentWillUnmount() {
+		this._formApiEditUserProfile().post()
+			.catch(Snackbar.showApiException);
+	}
+
+	_formApiEditUserProfile(): TApiFormPool {
+		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
+	}
+
+	_onChangePrivacyValue(index, value) {
+		const privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
+		this._formApiEditUserProfile().change({
+			[DaoUser.pSettingPrivacy]: stringReplace(privacyStr, index, value.toString())
+		});
+	}
+
+	_getPrivacyValue(posIndex) {
+		return parseInt(_.get(
+			this._formApiEditUserProfile().apiInput,
+			`${DaoUser.pSettingPrivacy}[${posIndex}]`,
+			Maps.privacy.def.id.toString()
+		), 10);
+	}
+
+	_onChangePasswordPress() {
+		const {navigator} = this.props;
+		Router.toModalSettingsChangePassword(navigator);
+	}
 
 
+	_onLogoutPress() {
+		const {navigator} = this.props;
+		Router.toScreenLogout(navigator);
+	}
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+	_onUserPicturePress() {
+		ImagePicker.pickImage()
+			.then(response => {
+				this._formApiEditUserProfile().change({
+					[DaoUser.pPictureUrl]: response.uri
+				});
+			}).catch(err => {Logger.v('SettingsUserAccount _onUserPicturePress:', err);});
+	}
 
-class SettingsUserAccountPresentational extends React.Component<any, Props, State> {
+	render() {
+		return (
+			<ScrollView style={styles.root}>
+				{this._renderProfileSection()}
+				{this._renderPrivacySection()}
+				{this._renderSecuritySection()}
+			</ScrollView>
+		);
+	}
 
-  constructor(props, context) {
-    super(props, context);
-    this._onChangePasswordPress = this._onChangePasswordPress.bind(this);
-    this._onRecoverPasswordPress = this._onRecoverPasswordPress.bind(this);
-    this._onLogoutPress = this._onLogoutPress.bind(this);
-    this._onAddContactsPress = this._onAddContactsPress.bind(this);
-    this._onUserPicturePress = this._onUserPicturePress.bind(this);
-  }
-
-  componentWillMount() {
-    // We now have access to a user profile
-    // Initialize the redux pool form by setting all its values
-
-    this._formApiEditUserProfile().change({
-      [DaoUser.pSettingPrivacy]: DaoUser.gSettingPrivacy(this._userProfile()),
-      [DaoUser.pPictureUrl]: DaoUser.gPictureUrl(this._userProfile()),
-      [DaoUser.pPhone]: DaoUser.gPhone(this._userProfile()),
-      [DaoUser.pEmail]: DaoUser.gEmail(this._userProfile()),
-      [DaoUser.pPublicMessage]: DaoUser.gPublicMessage(this._userProfile()),
-    });
-  }
-
-  componentWillUnmount() {
-    // this._formApiEditUserProfile().post();
-  }
-
-  _navigator() { return this.props.navigator; }
-  _userProfile() { return this.props.authenticatedUserProfile; }
-  _formApiEditUserProfile() { return this.props[FORM_API_ID_EDIT_USER_PROFILE]; }
-
-
-  _onChangePrivacyValue(index, value) {
-    let privacyStr = DaoUser.gSettingPrivacy(this._formApiEditUserProfile().apiInput);
-    privacyStr = privacyStr.split('');
-    privacyStr[index] = value;
-    privacyStr = privacyStr.join('');
-    this._formApiEditUserProfile().change({[DaoUser.pSettingPrivacy]: privacyStr});
-  }
-
-  _getPrivacyValue(posIndex) {
-    const field = `${DaoUser.pSettingPrivacy}[${posIndex}]`;
-    return _.get(this._formApiEditUserProfile().apiInput, field, 1);
-  }
-
-  _onChangePasswordPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenSettingsChangePassword);
-  }
-
-  _onRecoverPasswordPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenRecoverPassword);
-  }
-
-  _onLogoutPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenLogout);
-  }
-
-  _onAddContactsPress() {
-    Router.toScreen(this._navigator(), Const.NavigationComponents.ScreenAddContacts);
-  }
-
-  _onUserPicturePress() {
-    // todo: open picker and upload then update
-  }
+	_renderProfileSection() {
+		return (
+			<View>
+				<AvatarFull
+					source={{uri: DaoUser.gPictureUrl(this._formApiEditUserProfile().apiInput)}}
+					badge={Icons.userEditAvatar}
+					onPress={this._onUserPicturePress}
+					defaultUri={Const.userDefaultAvatar}/>
+				<View style={[styles.profileFields, listItemInfo.section]}>
+					<RkTextInputFromPool
+						pool={this._formApiEditUserProfile()}
+						field={DaoUser.pEmail}
+						label={t('t_field_email')}
+						keyboardType='email-address'
+						icon={Icons.settingChangePassword}/>
+					<RkTextInputFromPool
+						pool={this._formApiEditUserProfile()}
+						field={DaoUser.pPhone}
+						label={t('t_field_phone')}
+						keyboardType='phone-pad'
+						icon={Icons.settingChangePassword}/>
+					<RkTextInputFromPool
+						pool={this._formApiEditUserProfile()}
+						field={DaoUser.pPublicMessage}
+						multiline={true}
+						numberOfLines={3}
+						label={t('t_field_status')}
+						returnKeyType='next'
+						icon={Icons.settingChangePassword}/>
+				</View>
+			</View>
+		);
+	}
 
 
-  render() {
-    return (
-        <ScrollView style={{flex: 1}}>
-          {this._renderProfileSection()}
-          {this._renderPrivacySection()}
-          {this._renderSecuritySection()}
-          {this._renderLogoutSection()}
-        </ScrollView>
-    );
-  }
+	_renderPrivacySection() {
+		const privacyAll = Maps.privacyOptions().map(p => ({value: p.id, ...p}));
+		const privacySub = Maps.privacyOptions(['onlyMe']).map(p => ({value: p.id, ...p}));
 
-  _renderProfileSection() {
-    return (
-        <View>
-          <ListItemHeader name='Profile'/>
-          <View style={Styles.content}>
-            <View style={{alignItems: 'center'}}>
-              <AvatarCircle
-                  badge={Icons.settingChangePassword}
-                  rkType='big'
-                  uri={DaoUser.gPictureUrl(this._userProfile())}
-                  onPress={this._onUserPicturePress}/>
-            </View>
-            <RkTextInputFromPool
-                pool={this._formApiEditUserProfile()}
-                field={DaoUser.pEmail}
-                rkType='row'
-                label='Email'
-                keyboardType='email-address'
-                icon={Icons.settingChangePassword}/>
-            <RkTextInputFromPool
-                pool={this._formApiEditUserProfile()}
-                field={DaoUser.pPhone}
-                rkType='row'
-                label='Phone'
-                keyboardType='phone-pad'
-                icon={Icons.settingChangePassword}/>
-            <RkTextInputFromPool
-                pool={this._formApiEditUserProfile()}
-                field={DaoUser.pPublicMessage}
-                rkType='row'
-                multline
-                numberOfLines={3}
-                label='Status'
-                returnKeyType='next'
-                icon={Icons.settingChangePassword}/>
-          </View>
-        </View>
-    );
-  }
+		return (
+			<View>
+				<ListItemHeader name={t('t_privacy')}/>
+				<View style={listItemInfo.section}>
+					{[
+						{title: t('t_privacy_previous_location'), options: privacyAll},
+						{title: t('t_privacy_current_location'), options: privacySub},
+						{title: t('t_privacy_next_location'), options: privacyAll},
+						{title: t('t_privacy_email'), options: privacyAll},
+						{title: t('t_privacy_phone'), options: privacyAll}
+					].map((data, key) => (
+						<RkMultiChoice
+							key={key}
+							{...data}
+							selectedValue={this._getPrivacyValue(key)}
+							onValueChange={value => this._onChangePrivacyValue(key, value)}/>
+					))}
+				</View>
+			</View>
+		);
+	}
 
-
-  _renderPrivacySection() {
-    return (
-        <View>
-          <ListItemHeader name='Privacy'/>
-          <View style={Styles.content}>
-            {[
-              {title: 'My previous location', options: Const.SettingsUserAccount.privacyMeFriendsEveryone},
-              {title: 'My current location', options: Const.SettingsUserAccount.privacyFriendsEveryone},
-              {title: 'My next location', options: Const.SettingsUserAccount.privacyMeFriendsEveryone},
-              {title: 'My email', options: Const.SettingsUserAccount.privacyMeFriendsEveryone},
-              {title: 'My phone number', options: Const.SettingsUserAccount.privacyMeFriendsEveryone}
-            ].map((data, key) => (
-                <RkMultiChoice
-                    key={key}
-                    {...data}
-                    selectedValue={this._getPrivacyValue(key)}
-                    onValueChange={value => this._onChangePrivacyValue(key, value)}/>
-            ))}
-          </View>
-        </View>
-    );
-  }
-
-
-  _renderSecuritySection() {
-    return (
-        <View>
-          <ListItemHeader name='Security'/>
-          <View style={Styles.content}>
-            <ListItemInfo
-                title='Change Password'
-                icon={Icons.settingChangePassword}
-                onPress={this._onChangePasswordPress}/>
-            <ListItemInfo
-                title='Recover Password'
-                icon={Icons.settingChangePassword}
-                onPress={this._onRecoverPasswordPress}/>
-          </View>
-        </View>
-    );
-  }
-
-
-  _renderLogoutSection() {
-    return (
-        <View>
-          <ListItemHeader/>
-          <View style={Styles.content}>
-            <ListItemInfo
-                title='Add contacts'
-                icon={Icons.settingChangePassword}
-                onPress={this._onAddContactsPress}/>
-            <ListItemInfo
-                title='Logout'
-                icon={Icons.settingLogout}
-                onPress={this._onLogoutPress}/>
-          </View>
-        </View>
-    );
-  }
+	_renderSecuritySection() {
+		return (
+			<View>
+				<ListItemHeader/>
+				<View style={listItemInfo.section}>
+					<ListItemInfo
+						title={t('t_change_password')}
+						icon={Icons.settingChangePassword}
+						onPress={this._onChangePasswordPress}/>
+					<ListItemInfo
+						title={t('t_logout')}
+						icon={Icons.settingLogout}
+						onPress={this._onLogoutPress}/>
+				</View>
+			</View>
+		);
+	}
 
 }
 
+const SettingsUserAccount = poolConnect(_SettingsUserAccount,
+	// mapStateToProps
+	(state) => ({}),
 
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const SettingsUserAccount = poolConnect(
-    // Presentational Component
-    SettingsUserAccountPresentational,
-
-    // mapStateToProps
-    (state) => state.settingsUserAccountReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [FORM_API_ID_EDIT_USER_PROFILE]
+	// Array of pools to subscribe to
+	[FORM_API_ID_EDIT_USER_PROFILE]
 );
-
 export default SettingsUserAccount;
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-// Styles ***********************************************************************************************
-// Styles ***********************************************************************************************
-
-const Styles = RkStyleSheet.create(theme => ({
-  content: {
-    paddingHorizontal: 4,
-  },
-}));
+const styles = StyleSheet.create({
+	root: {
+		paddingBottom: 8
+	},
+	profileFields: {
+		marginTop: 8
+	}
+});

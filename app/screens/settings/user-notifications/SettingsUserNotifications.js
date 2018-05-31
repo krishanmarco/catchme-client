@@ -1,147 +1,169 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoUser from '../../../lib/daos/DaoUser';
 import React from 'react';
-
-import ApiClient from '../../../lib/data/ApiClient';
-import {boolToString, stringToBool} from '../../../lib/HelperFunctions';
-
-import {Icons} from '../../../Config';
-
-import {View} from 'react-native';
-import {RkText} from 'react-native-ui-kitten';
-import StaticSectionList from '../../../comp/misc/listviews/StaticSectionList';
-import {ListItemInfo} from '../../../comp/misc/ListItemsInfos';
+import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
+import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
+import {listItemInfo} from '../../../lib/theme/Styles';
+import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
-import ScreenInfo from "../../../comp/misc/ScreenInfo";
-import DaoUser from "../../../lib/daos/DaoUser";
+import {ScreenInfo} from '../../../comp/Misc';
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
+import {Snackbar} from "../../../lib/Snackbar";
 
-
-
-
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  navigator: Navigator
-};
-
-type State = {
-  friendshipRequestOn: true,
-  friendActionsOn: true,
-  catchmeSuggestionsOn: true
+	navigator: Navigator,
+	authUserProfile: Object,
 };
 
 
-// Component ********************************************************************************************
-// Component ********************************************************************************************
+// _SettingsUserNotifications ***************************************************************************
+// _SettingsUserNotifications ***************************************************************************
 
-export default class SettingsUserNotifications extends React.Component<any, Props, State> {
+class _SettingsUserNotifications extends React.Component<void, Props, void> {
 
-  constructor(props, context) {
-    super(props, context);
-    this._onDisableAllValueChange = this._onDisableAllValueChange.bind(this);
-    this._onFriendshipRequestValueChange = this._onFriendshipRequestValueChange.bind(this);
-    this._onFriendActionsValueChange = this._onFriendActionsValueChange.bind(this);
-    this._onCatchmeSuggestionsValueChange = this._onCatchmeSuggestionsValueChange.bind(this);
-    this.state = this._getStateValuesFromUserProfile(props.userProfile);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onDisableAllValueChange = this._onDisableAllValueChange.bind(this);
+		this._onFriendshipRequestValueChange = this._onFriendshipRequestValueChange.bind(this);
+		this._onFriendActionsValueChange = this._onFriendActionsValueChange.bind(this);
+		this._onCatchmeSuggestionsValueChange = this._onCatchmeSuggestionsValueChange.bind(this);
+	}
+
+	componentWillMount() {
+		// We now have access to a user profile
+		// Initialize the redux pool form by setting all its values
+		const {authUserProfile} = this.props;
+		this._formApiEditUserProfile().change(authUserProfile);
+	}
+
+	componentWillUnmount() {
+		const {authUserProfile} = this.props;
+		// Only post the new settings if they are
+		// different than the initial ones
+		const oldSettings = DaoUser.gSettingNotifications(authUserProfile);
+		const newSettings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		if (oldSettings == newSettings)
+			return;
+
+		// Post the updated form
+		this._formApiEditUserProfile().post()
+			.catch(Snackbar.showApiException);
+	}
+
+	_formApiEditUserProfile(): TApiFormPool {
+		return this.props[FORM_API_ID_EDIT_USER_PROFILE];
+	}
+
+	_saveSettingValue(newSettings) {
+		// Change the value in the form handler
+		this._formApiEditUserProfile().change({
+			[DaoUser.pSettingNotifications]: newSettings
+		});
+	}
 
 
-  _getStateValuesFromUserProfile(userProfile) {
-    return {
-      friendshipRequestOn: stringToBool(DaoUser.gSettingNotifications(userProfile)[0]),
-      friendActionsOn:  stringToBool(DaoUser.gSettingNotifications(userProfile)[1]),
-      catchmeSuggestionsOn:  stringToBool(DaoUser.gSettingNotifications(userProfile)[2])
-    };
-  }
+	_getNewSettingValue(settingStr, index, newBoolVal) {
+		return stringReplace(settingStr, index, boolToIntString(newBoolVal));
+	}
 
-  _getUserProfileValueFromState() {
-    return [
-      boolToString(this.state.friendshipRequestOn),
-      boolToString(this.state.friendActionsOn),
-      boolToString(this.state.catchmeSuggestionsOn)
-    ].join();
-  }
+	_onDisableAllValueChange(value) {
+		const userProfile = this._formApiEditUserProfile().apiInput;
+		let settingStr = DaoUser.gSettingNotifications(userProfile);
+		settingStr = this._getNewSettingValue(settingStr, 0, !value);
+		settingStr = this._getNewSettingValue(settingStr, 1, !value);
+		settingStr = this._getNewSettingValue(settingStr, 2, !value);
+		this._saveSettingValue(settingStr);
+	}
 
-  setStateAndPost(newState) {
-    // Update the state
-    this.setState(newState);
+	_onFriendshipRequestValueChange(value) {
+		const settings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		this._saveSettingValue(this._getNewSettingValue(settings, 0, value));
+	}
 
-    // Send the update to the API
-    ApiClient.userProfileEdit({
-      [DaoUser.pSettingPrivacy]: this._getUserProfileValueFromState()
-    }).then(userProfile => this.setState(this._getStateValuesFromUserProfile(userProfile)));
-  }
+	_onFriendActionsValueChange(value) {
+		const settings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		this._saveSettingValue(this._getNewSettingValue(settings, 1, value));
+	}
 
-  _onDisableAllValueChange(value) {
-    this.setStateAndPost({
-      friendshipRequestOn: !value,
-      friendActionsOn: !value,
-      catchmeSuggestionsOn: !value
-    });
-  }
+	_onCatchmeSuggestionsValueChange(value) {
+		const settings = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput);
+		this._saveSettingValue(this._getNewSettingValue(settings, 2, value));
+	}
 
-  _onFriendshipRequestValueChange(value) {
-    this.setStateAndPost({friendshipRequestOn: value});
-  }
+	render() {
+		return (
+			<View>
+				{this._renderScreenHeader()}
+				<View style={styles.notificationSwitches}>
+					{this._renderNotificationSwitches()}
+				</View>
+			</View>
+		);
+	}
 
-  _onFriendActionsValueChange(value) {
-    this.setStateAndPost({friendActionsOn: value});
-  }
+	_renderScreenHeader() {
+		return (
+			<ScreenInfo
+				imageSource={require('../../../assets/images/primary-notifications.png')}
+				textText={t('t_si_settings_notifications')}/>
+		);
+	}
 
-  _onCatchmeSuggestionsValueChange(value) {
-    this.setStateAndPost({catchmeSuggestionsOn: value});
-  }
+	_renderNotificationSwitches() {
+		const settNotifInt = DaoUser.gSettingNotifications(this._formApiEditUserProfile().apiInput)
+			.split('')							// ['0', '0', '0']
+			.map(intStringToBool);	// [ 0,   0,   0 ]
 
-  _disableAllOn() {
-    return [
-      this.state.friendActionsOn,
-      this.state.friendshipRequestOn,
-      this.state.catchmeSuggestionsOn
-    ].every(i => !i);
-  }
-
-  render() {
-    return (
-        <View>
-          {this._renderScreenHeader()}
-          {this._renderNotificationSwitches()}
-        </View>
-    );
-  }
-
-  _renderScreenHeader() {
-    return (
-        <ScreenInfo
-            imageContainerStyle={{marginTop: 64}}
-            scale={550}
-            height={100}
-            width={150}
-            image={require('../../../assets/images/splashBack.png')}
-            text='Here you can tweak your notification settings'/>
-    );
-  }
-
-  _renderNotificationSwitches() {
-    return (
-        <View style={{marginTop: 64}}>
-          <RkSwitch
-              title='Disable all'
-              value={this._disableAllOn()}
-              onValueChange={this._onDisableAllValueChange}/>
-          <RkSwitch
-              title='Friendship request'
-              value={this.state.friendshipRequestOn}
-              onValueChange={this._onFriendshipRequestValueChange}/>
-          <RkSwitch
-              title='Friend actions'
-              value={this.state.friendActionsOn}
-              onValueChange={this._onFriendActionsValueChange}/>
-          <RkSwitch
-              title='Catchme suggestions'
-              value={this.state.catchmeSuggestionsOn}
-              onValueChange={this._onCatchmeSuggestionsValueChange}/>
-        </View>
-    );
-  }
+		return (
+			<View style={listItemInfo.section}>
+				<RkSwitch
+					title={t('t_disable_all')}
+					value={settNotifInt.every(i => !i)}
+					onValueChange={this._onDisableAllValueChange}/>
+				<RkSwitch
+					title={t('t_notifications_friendship_request')}
+					value={settNotifInt[0]}
+					onValueChange={this._onFriendshipRequestValueChange}/>
+				<RkSwitch
+					title={t('t_notifications_friend_actions')}
+					value={settNotifInt[1]}
+					onValueChange={this._onFriendActionsValueChange}/>
+				<RkSwitch
+					title={t('t_notifications_catchme_suggestions')}
+					value={settNotifInt[2]}
+					onValueChange={this._onCatchmeSuggestionsValueChange}/>
+			</View>
+		);
+	}
 
 }
+
+const SettingsUserNotifications = poolConnect(_SettingsUserNotifications,
+	// mapStateToProps
+	(state) => ({}),
+
+	// mapDispatchToProps
+	(dispatch) => ({}),
+
+	// Array of pools to subscribe to
+	[FORM_API_ID_EDIT_USER_PROFILE]
+);
+export default SettingsUserNotifications;
+
+
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	listItemWithActionsContent: {
+		paddingHorizontal: 4,
+	},
+	notificationSwitches: {
+		marginTop: 64,
+	},
+});

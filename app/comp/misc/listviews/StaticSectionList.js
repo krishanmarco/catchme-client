@@ -1,47 +1,64 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import PropTypes from 'prop-types';
+import {ListItemHeader} from '../../Misc';
+import {SectionList, StyleSheet} from 'react-native';
+import type {TSectionListDataPointSections} from '../../../lib/types/Types';
 
-import {StyleSheet, View, SectionList} from 'react-native';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-export default class StaticSectionList extends React.PureComponent {
-
-
-  render() {
-
-    return (
-        <SectionList
-            sections={this.props.sections}
-            renderItem={this.props.renderItem}
-            keyExtractor={(item, index) => index}
-            renderSectionHeader={this._renderHeader}
-        />
-    );
-  }
+type Props = {
+	sections: Array<TSectionListDataPointSections>,
+	keyExtractor?: (TSectionListDataPointSections, number) => number,
+	renderItem: () => Node
+};
 
 
-  _renderHeader({section}) {
-    return (
-        <View style={[styles.row, styles.heading]}>
-          <RkText rkType='primary header6'>{section.title.toUpperCase()}</RkText>
-        </View>
-    );
-  }
+// StaticSectionList ************************************************************************************
+// StaticSectionList ************************************************************************************
+
+export default class StaticSectionList extends React.PureComponent<void, Props, void> {
+
+	constructor(props, context) {
+		super(props, context);
+		this._keyExtractor = this._keyExtractor.bind(this);
+	}
+
+	_keyExtractor(item, index) {
+		const {keyExtractor} = this.props;
+
+		if (keyExtractor)
+			return keyExtractor(item, index);
+
+		return index.toString();
+	}
+
+	render() {
+		const {sections, renderItem, ...staticSectionListProps} = this.props;
+		return (
+			<SectionList
+				{...staticSectionListProps}
+				style={styles.styles}
+				sections={sections}
+				renderItem={renderItem}
+				keyExtractor={this._keyExtractor}
+				renderSectionHeader={this._renderHeader}
+			/>
+		);
+	}
+
+	_renderHeader({section}) {
+		return (<ListItemHeader name={section.title}/>);
+	}
 
 }
 
 
-let styles = RkStyleSheet.create(theme => ({
-  heading: {
-    paddingBottom: 6
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center'
-  },
-}));
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	root: {
+		marginTop: 8
+	}
+});

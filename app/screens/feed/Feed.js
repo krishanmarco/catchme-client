@@ -1,69 +1,99 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-import {poolConnect} from '../../redux/ReduxPool';
+import DaoUser from '../../lib/daos/DaoUser';
 import FeedList from '../../comp-buisness/feed/FeedList';
+import FirebaseDataDefFeed, {FIREBASE_DATA_ID_FEED} from '../../lib/redux-pool/firebase-data/def/FirebaseDataDefFeed';
+import React from 'react';
+import {bindActionCreators} from 'redux';
+import {poolConnect} from '../../redux/ReduxPool';
+import {TActionHandlerParams} from '../../lib/helpers/ActionHandler';
+import {TFirebaseDataPool} from '../../lib/redux-pool/firebase-data/FirebaseDataPool';
+import {View} from 'react-native';
+import type {TAction} from '../../lib/daos/DaoAction';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
 
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-const feedInitState = {
-  // Nothing for now
+type Props = {
+	navigator: TNavigator,
+	userProfile: TUser,
+	handleClickAction: Function
 };
 
-export function feedReducer(state = feedInitState, action) {
-  switch (action.type) {
-    // Nothing for now
-  }
+type State = {
+	// Nothing for now
+};
 
-  return state;
+
+function feedHandleClickAction(actionHandlerParams: TActionHandlerParams): Promise {
+	return (dispatch, getState) => {
+		// ActionHandler.handleAction(string, TAction, TNavigator, TThunk): Promise
+		return FirebaseDataDefFeed.handleClickAction({...actionHandlerParams, thunk: {dispatch, getState}});
+	};
 }
 
 
+// _Feed ************************************************************************************************
+// _Feed ************************************************************************************************
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+class _Feed extends React.Component<void, Props, State> {
+	
+	constructor(props, context) {
+		super(props, context);
+		this._loadMore = this._loadMore.bind(this);
+		this._handleClickAction = this._handleClickAction.bind(this);
+	}
+	
+	componentWillMount() {
+		const {userProfile} = this.props;
+		this._firebaseDataFeed().initialize(DaoUser.gId(userProfile));
+	}
+	
+	_firebaseDataFeed(): TFirebaseDataPool {
+		return this.props[FIREBASE_DATA_ID_FEED];
+	}
 
-class FeedPresentational extends React.Component {
+	_handleClickAction(clickAction: string, action: TAction, neverConsume = false): Promise {
+		const {handleClickAction, navigator} = this.props;
+		return handleClickAction({clickAction, action, navigator, neverConsume});
+	}
 
-  _userProfile() { return this.props.userProfile; }
-  _navigator() { return this.props.navigator; }
+	_loadMore() {
+		const {userProfile} = this.props;
+		this._firebaseDataFeed().loadMore(DaoUser.gId(userProfile));
+	}
+	
+	
+	render() {
+		const {userProfile} = this.props;
 
+		return (
+			<View>
+				<FeedList
+					userProfile={userProfile}
+					handleClickAction={this._handleClickAction}
 
-  render() {
-    return (
-        <FeedList
-            userProfile={this._userProfile()}
-            navigator={this._navigator()}/>
-    );
-  }
-
+					feedList={this._firebaseDataFeed().data}
+					loading={this._firebaseDataFeed().runningBulkFetch}
+					loadMore={this._loadMore}/>
+			</View>
+		);
+	}
+	
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const Feed = poolConnect(
-    // Presentational Component
-    FeedPresentational,
-
-    // mapStateToProps
-    (state) => state.feedReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    []
+const Feed = poolConnect(_Feed,
+	// mapStateToProps
+	(state) => ({}),
+	
+	// mapDispatchToProps
+	(dispatch) => ({
+		handleClickAction: bindActionCreators(feedHandleClickAction, dispatch)
+	}),
+	
+	// Array of pools to subscribe to
+	[FIREBASE_DATA_ID_FEED]
 );
 export default Feed;
-
-
-Feed.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
-};
-
-// Style ************************************************************************************************
-// Style ************************************************************************************************

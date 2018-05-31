@@ -50,8 +50,6 @@
 		039686C3200A4E99AD0B68BD /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EE53189C5334847AFCA9628 /* Octicons.ttf */; };
 		1FF6CCE67D53478BB94A6666 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D862228FB3DE4925A728BA3D /* SimpleLineIcons.ttf */; };
 		F383FB427D6946488E1B2331 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F4952C3B94A40F2BF306003 /* Zocial.ttf */; };
-		952113930AB44C1AA8C67B18 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AF7E418C0EE4254B39BC715 /* libRealmReact.a */; };
-		3C523AF4A4F5443F9868BEA0 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3532D41306934185B51EEF72 /* libc++.tbd */; };
 		F2AEDE292A5C429BBA0E24A5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F163D83A39A48868F91D2B2 /* libz.tbd */; };
 		5363676473F147BAA60C8192 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E79A023879843919A003E95 /* libRCTContacts.a */; };
 		04D7DFC3F8784A2CA999DEF7 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C077AFA10DCD4755814CDEAF /* libRCTCamera.a */; };
@@ -67,6 +65,15 @@
 		3B54E795C8C043E2B23BC99C /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6CF8DF0E9304C6892F48073 /* Roboto-Light.ttf */; };
 		CB3EF33E39D64C6781B67AB5 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92804BA1290E4746AB716E01 /* Roboto-Medium.ttf */; };
 		C4FDE63624A04E449E6A2AAD /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB54E47CE0C74179AFAECFB3 /* Roboto-Regular.ttf */; };
+		77FC62B6DA104FC6832C547C /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 799550BA47924F2E86816BC3 /* libRNGoogleSignin.a */; };
+		789CE029D70040C19EA1A4C4 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F25F0FD8856848089D79714B /* SafariServices.framework */; };
+		108E62E0588948058E44D72F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F52222A6ABB4ED48C9F5042 /* SystemConfiguration.framework */; };
+		4EFBE08CE3BC4AF4939B3809 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346CD374A64D4A6FBAEA5A04 /* AddressBook.framework */; };
+		BC5C77048AF34CE1BBACBC55 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C07CFA6B8E4EFA8FDAD1D2 /* libRCTFBLogin.a */; };
+		0A0C3BFE5233456FB37564F5 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC6001D0F42404EB46F7B7C /* libRNImagePicker.a */; };
+		90B02D5AC5194180864B4780 /* libRNI18n.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 543160F164E844C694B61445 /* libRNI18n.a */; };
+		BFD3F436AC324319B1EA20DE /* libRNI18n-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6968F56EA3144783AD5E5E84 /* libRNI18n-tvOS.a */; };
+		46C8A4BB9E9C4DB9BBD73909 /* libRNSnackbar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9929939845094F25BFF140B3 /* libRNSnackbar.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -305,9 +312,6 @@
 		7EE53189C5334847AFCA9628 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D862228FB3DE4925A728BA3D /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		7F4952C3B94A40F2BF306003 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		75B33A8E6F944EB89FF5F5B6 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; name = "RealmReact.xcodeproj"; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		9AF7E418C0EE4254B39BC715 /* libRealmReact.a */ = {isa = PBXFileReference; name = "libRealmReact.a"; path = "libRealmReact.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		3532D41306934185B51EEF72 /* libc++.tbd */ = {isa = PBXFileReference; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		6F163D83A39A48868F91D2B2 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		597A48C0B1F249AAA7B25B6B /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; name = "RCTContacts.xcodeproj"; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		1E79A023879843919A003E95 /* libRCTContacts.a */ = {isa = PBXFileReference; name = "libRCTContacts.a"; path = "libRCTContacts.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
@@ -327,6 +331,20 @@
 		B6CF8DF0E9304C6892F48073 /* Roboto-Light.ttf */ = {isa = PBXFileReference; name = "Roboto-Light.ttf"; path = "../app/assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		92804BA1290E4746AB716E01 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; name = "Roboto-Medium.ttf"; path = "../app/assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		AB54E47CE0C74179AFAECFB3 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; name = "Roboto-Regular.ttf"; path = "../app/assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8E9BC76298C24704B1A2C4FE /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; name = "RNGoogleSignin.xcodeproj"; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		799550BA47924F2E86816BC3 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; name = "libRNGoogleSignin.a"; path = "libRNGoogleSignin.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F25F0FD8856848089D79714B /* SafariServices.framework */ = {isa = PBXFileReference; name = "SafariServices.framework"; path = "System/Library/Frameworks/SafariServices.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		1F52222A6ABB4ED48C9F5042 /* SystemConfiguration.framework */ = {isa = PBXFileReference; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		346CD374A64D4A6FBAEA5A04 /* AddressBook.framework */ = {isa = PBXFileReference; name = "AddressBook.framework"; path = "System/Library/Frameworks/AddressBook.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		E689CFF832444F8EBE002136 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBLogin.xcodeproj"; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		C5C07CFA6B8E4EFA8FDAD1D2 /* libRCTFBLogin.a */ = {isa = PBXFileReference; name = "libRCTFBLogin.a"; path = "libRCTFBLogin.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1319F79C2FFA4EC8B0B0F94E /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		6AC6001D0F42404EB46F7B7C /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		81FD68F9D277464D8944A8B8 /* RNI18n.xcodeproj */ = {isa = PBXFileReference; name = "RNI18n.xcodeproj"; path = "../node_modules/react-native-i18n/ios/RNI18n.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		543160F164E844C694B61445 /* libRNI18n.a */ = {isa = PBXFileReference; name = "libRNI18n.a"; path = "libRNI18n.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6968F56EA3144783AD5E5E84 /* libRNI18n-tvOS.a */ = {isa = PBXFileReference; name = "libRNI18n-tvOS.a"; path = "libRNI18n-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		B778C09A36EC4090BB4B0A8F /* RNSnackbar.xcodeproj */ = {isa = PBXFileReference; name = "RNSnackbar.xcodeproj"; path = "../node_modules/react-native-snackbar/ios/RNSnackbar.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		9929939845094F25BFF140B3 /* libRNSnackbar.a */ = {isa = PBXFileReference; name = "libRNSnackbar.a"; path = "libRNSnackbar.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,14 +375,20 @@
 				011F61D9A1C34A57A984615D /* libRNFetchBlob.a in Frameworks */,
 				20AABC6F532C4990B5858479 /* libAirMaps.a in Frameworks */,
 				4616A988C614404B906AF327 /* libRNVectorIcons.a in Frameworks */,
-				952113930AB44C1AA8C67B18 /* libRealmReact.a in Frameworks */,
-				3C523AF4A4F5443F9868BEA0 /* libc++.tbd in Frameworks */,
 				F2AEDE292A5C429BBA0E24A5 /* libz.tbd in Frameworks */,
 				5363676473F147BAA60C8192 /* libRCTContacts.a in Frameworks */,
 				04D7DFC3F8784A2CA999DEF7 /* libRCTCamera.a in Frameworks */,
 				460610F7B77C49EEB47547D8 /* libReactNativeNavigation.a in Frameworks */,
 				43594C9475B64218B802E5A6 /* libRNSVG.a in Frameworks */,
 				8FC393E2BB0F40B291332131 /* libRNSVG-tvOS.a in Frameworks */,
+				77FC62B6DA104FC6832C547C /* libRNGoogleSignin.a in Frameworks */,
+				789CE029D70040C19EA1A4C4 /* SafariServices.framework in Frameworks */,
+				108E62E0588948058E44D72F /* SystemConfiguration.framework in Frameworks */,
+				4EFBE08CE3BC4AF4939B3809 /* AddressBook.framework in Frameworks */,
+				BC5C77048AF34CE1BBACBC55 /* libRCTFBLogin.a in Frameworks */,
+				0A0C3BFE5233456FB37564F5 /* libRNImagePicker.a in Frameworks */,
+				90B02D5AC5194180864B4780 /* libRNI18n.a in Frameworks */,
+				46C8A4BB9E9C4DB9BBD73909 /* libRNSnackbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +404,7 @@
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
+				BFD3F436AC324319B1EA20DE /* libRNI18n-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,11 +560,15 @@
 				95E6297F0CF244FEA49FC4A9 /* RNFetchBlob.xcodeproj */,
 				E8EBF0AE656144D7AE499F02 /* AirMaps.xcodeproj */,
 				2CB5425EE5284BA291B123EA /* RNVectorIcons.xcodeproj */,
-				75B33A8E6F944EB89FF5F5B6 /* RealmReact.xcodeproj */,
 				597A48C0B1F249AAA7B25B6B /* RCTContacts.xcodeproj */,
 				51F5FB2436A443B084EEBAD5 /* RCTCamera.xcodeproj */,
 				B38DF91B5BB346D59F1C2FBE /* ReactNativeNavigation.xcodeproj */,
 				8C1E6D89FC414595922269B3 /* RNSVG.xcodeproj */,
+				8E9BC76298C24704B1A2C4FE /* RNGoogleSignin.xcodeproj */,
+				E689CFF832444F8EBE002136 /* RCTFBLogin.xcodeproj */,
+				1319F79C2FFA4EC8B0B0F94E /* RNImagePicker.xcodeproj */,
+				81FD68F9D277464D8944A8B8 /* RNI18n.xcodeproj */,
+				B778C09A36EC4090BB4B0A8F /* RNSnackbar.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -609,8 +638,10 @@
 		979AF2B3FCF241BEB23AF4EF /* Frameworks */ = {
 			isa = "PBXGroup";
 			children = (
-				3532D41306934185B51EEF72 /* libc++.tbd */,
 				6F163D83A39A48868F91D2B2 /* libz.tbd */,
+				F25F0FD8856848089D79714B /* SafariServices.framework */,
+				1F52222A6ABB4ED48C9F5042 /* SystemConfiguration.framework */,
+				346CD374A64D4A6FBAEA5A04 /* AddressBook.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1127,12 +1158,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/catchme.app/catchme";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1145,6 +1170,11 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
+					"$(SRCROOT)\..\node_modules\react-native-i18n\ios",
+					"$(SRCROOT)\..\node_modules\react-native-snackbar\ios",
 				);
 			};
 			name = Debug;
@@ -1165,12 +1195,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/catchme.app/catchme";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1183,6 +1207,11 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
+					"$(SRCROOT)\..\node_modules\react-native-i18n\ios",
+					"$(SRCROOT)\..\node_modules\react-native-snackbar\ios",
 				);
 			};
 			name = Release;
@@ -1213,6 +1242,11 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
+					"$(SRCROOT)\..\node_modules\react-native-i18n\ios",
+					"$(SRCROOT)\..\node_modules\react-native-snackbar\ios",
 				);
 			};
 			name = Debug;
@@ -1242,6 +1276,11 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
+					"$(SRCROOT)\..\node_modules\react-native-i18n\ios",
+					"$(SRCROOT)\..\node_modules\react-native-snackbar\ios",
 				);
 			};
 			name = Release;
@@ -1271,12 +1310,6 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1289,6 +1322,11 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
+					"$(SRCROOT)\..\node_modules\react-native-i18n\ios",
+					"$(SRCROOT)\..\node_modules\react-native-snackbar\ios",
 				);
 			};
 			name = Debug;
@@ -1318,12 +1356,6 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1336,6 +1368,11 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
+					"$(SRCROOT)/../node_modules/react-native-facebook-login/RCTFBLogin/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
+					"$(SRCROOT)\..\node_modules\react-native-i18n\ios",
+					"$(SRCROOT)\..\node_modules\react-native-snackbar\ios",
 				);
 			};
 			name = Release;
@@ -1360,12 +1397,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1390,12 +1421,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Release;

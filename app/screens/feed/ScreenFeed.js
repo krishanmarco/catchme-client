@@ -1,52 +1,81 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import {poolConnect, CACHE_ID_USER_PROFILE} from '../../redux/ReduxPool';
 import Context from '../../lib/Context';
-import {NullableObjects} from "../../comp/Misc";
 import Feed from './Feed';
+import NavbarHandlerAppLogo from '../../lib/navigation/NavbarHandlerAppLogo';
+import React from 'react';
+import {CACHE_ID_USER_PROFILE} from '../../lib/redux-pool/cache/def/CacheDefUserProfile';
+import {NullableObjects, Screen} from '../../comp/Misc';
+import {poolConnect} from '../../redux/ReduxPool';
+import type {TCachePool} from '../../lib/redux-pool/cache/CachePool';
+import type {TNavigator} from '../../lib/types/Types';
 
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+type Props = {
+	navigator: TNavigator,
+	showAppLogo: boolean
+};
 
-class ScreenFeedPresentational extends React.Component {
+type State = {
+	// Nothing for now
+};
 
-  componentWillMount() {
-    this.props[CACHE_ID_USER_PROFILE].initialize();
-  }
+const defaultProps = {
+	showAppLogo: false
+};
 
-  _userProfile() {
-    return this.props[CACHE_ID_USER_PROFILE].data;
-  }
+// _ScreenFeed ******************************************************************************************
+// _ScreenFeed ******************************************************************************************
 
-  render() {
-    return (
-        <NullableObjects
-            objects={[this._userProfile(), Context.getFirebaseUser()]}
-            renderChild={([userProfile]) => (
-                <Feed
-                    userProfile={userProfile}
-                    navigator={this.props.navigator}/>
-            )}/>
-    );
-  }
+class _ScreenFeed extends React.Component<void, Props, State> {
+	static defaultProps = defaultProps;
 
+	constructor(props, context) {
+		super(props, context);
+		this._renderFeed = this._renderFeed.bind(this);
+
+		const {showAppLogo, navigator} = this.props;
+		this.navbarHandler = new NavbarHandlerAppLogo(navigator, showAppLogo);
+	}
+
+	componentWillMount() {
+		this._cacheUserProfile().initialize();
+	}
+
+	_cacheUserProfile(): TCachePool {
+		return this.props[CACHE_ID_USER_PROFILE];
+	}
+
+	render() {
+		return (
+			<Screen>
+				<NullableObjects
+					objects={[this._cacheUserProfile().data, Context.getFirebaseUser()]}
+					renderChild={this._renderFeed}/>
+			</Screen>
+		);
+	}
+
+	_renderFeed([userProfile]) {
+		const {navigator} = this.props;
+		return (
+			<Feed
+				userProfile={userProfile}
+				navigator={navigator}/>
+		);
+	}
+	
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const ScreenFeed = poolConnect(
-    // Presentational Component
-    ScreenFeedPresentational,
-
-    // mapStateToProps
-    (state) => ({}),
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    [CACHE_ID_USER_PROFILE]
+const ScreenFeed = poolConnect(_ScreenFeed,
+	// mapStateToProps
+	(state) => ({}),
+	
+	// mapDispatchToProps
+	(dispatch) => ({}),
+	
+	// Array of pools to subscribe to
+	[CACHE_ID_USER_PROFILE]
 );
 export default ScreenFeed;

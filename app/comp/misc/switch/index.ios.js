@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  Switch,
-} from 'react-native';
-import {RkComponent} from 'react-native-ui-kitten'
+import {RkComponent} from 'react-native-ui-kitten';
+import {Switch,} from 'react-native';
 
 
 export class RkSwitch extends RkComponent {
@@ -18,8 +16,8 @@ export class RkSwitch extends RkComponent {
 
   constructor(props) {
     super(props);
-    this.onChange = this.props.onValueChange ?
-      this.props.onValueChange
+    this.onChange = this.props.onValueChange
+      ? this.props.onValueChange
       : () => true;
   }
 
@@ -33,6 +31,6 @@ export class RkSwitch extends RkComponent {
               value={this.props.value}
               onValueChange={(value) => this.onChange(value)}
               onTintColor={onColor}/>
-    )
+    );
   }
 }

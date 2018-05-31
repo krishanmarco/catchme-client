@@ -1,353 +1,214 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import {Const} from '../../Config';
-
-import _ from 'lodash';
-import ApiClient from '../../lib/data/ApiClient';
-
-import {Icons, Colors} from '../../Config';
-
-import {poolConnect} from '../../redux/ReduxPool';
 import DaoLocation from '../../lib/daos/DaoLocation';
-import LocationTimings from '../../lib/helpers/ManagerWeekTimings';
-
-import {Text, FlatList, View} from 'react-native';
-
-import AvatarDescription from '../../comp/misc/AvatarDescription';
-import TabBar from '../../comp/misc/TabBar';
-import ListDataPoints from '../../comp/misc/ListDataPoints';
-
-import CollapsingHeaderWithScroll from '../../comp/misc/CollapsingHeaderWithScroll';
-import StaticSectionList from '../../comp/misc/listviews/StaticSectionList';
-
-import {Row, Grid, Col} from "react-native-easy-grid";
-import UserList from '../../comp-buisness/user/UserList';
+import DaoUser from '../../lib/daos/DaoUser';
 import LocationList from '../../comp-buisness/location/LocationList';
-import Gallery from '../../comp/misc/Gallery';
+import React from 'react';
+import Router from '../../lib/navigation/Router';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import UserList from '../../comp-buisness/user/UserList';
+import {Colors} from '../../Config';
+import {FlatListEmpty} from '../../comp/Misc';
+import {poolConnect} from '../../redux/ReduxPool';
+import {SEARCH_DATA_ID_LOCATIONS} from '../../lib/redux-pool/search-data/def/SearchDataDefLocations';
+import {SEARCH_DATA_ID_USERS} from '../../lib/redux-pool/search-data/def/SearchDataDefUsers';
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../lib/i18n/Translations';
+import {TSearchDataPool} from '../../lib/redux-pool/search-data/SearchDataPool';
+import type {TNavigator} from '../../lib/types/Types';
+import type {TUser} from '../../lib/daos/DaoUser';
 
-import {ListItemInfo} from '../../comp/misc/ListItemsInfos';
 
-import LocationMap from '../../comp-buisness/location/LocationMap';
+// Const ************************************************************************************************
+// Const ************************************************************************************************
 
-import {RkText} from 'react-native-ui-kitten';
-import {Icon} from 'react-native-elements';
-import ImageURISourceAuth from "../../lib/data/ImageURISourceAuth";
-import DaoUser from "../../lib/daos/DaoUser";
-
-import LocationChat from '../../comp-buisness/location/LocationChat';
-import Router from '../../lib/helpers/Router';
-
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const locationProfileInitState = {
-  usersSuggestSeed: 0,
-  usersStopSuggestLoop: false,
-  usersSuggestList: [],
-
-  locationsSuggestSeed: 0,
-  locationsStopSuggestLoop: false,
-  locationsSuggestList: [],
-
-  usersSearchQuery: '',
-  usersSearchList: [],
-
-  locationsSearchQuery: '',
-  locationsSearchList: [],
-
-  usersLoading: false,
-  locationsLoading: false
+type Props = {
+	navigator: TNavigator,
+	userProfile: TUser,
+	initialPage?: number
 };
 
-const ACTION_CONCAT_USERS_SUGGEST_LIST = 'ACTION_SET_USERS_SUGGEST_LIST';
-const ACTION_CONCAT_LOCATIONS_SUGGEST_LIST = 'ACTION_CONCAT_LOCATIONS_SUGGEST_LIST';
+const defaultProps = {
+	initialPage: 0
+};
 
-const ACTION_SET_USERS_SEARCH_QUERY = 'ACTION_SET_USERS_SEARCH_QUERY';
-const ACTION_SET_USERS_SEARCH_LIST = 'ACTION_SET_USERS_SEARCH_LIST';
-const ACTION_SET_LOCATIONS_SEARCH_QUERY = 'ACTION_SET_LOCATIONS_SEARCH_QUERY';
-const ACTION_SET_LOCATIONS_SEARCH_LIST = 'ACTION_SET_LOCATIONS_SEARCH_LIST';
+// This is different from the Const.defaultOnEndReachedThreshold
+// because the search API request is slightly slower
+const onEndReachedThreshold = 0.7;
 
-const ACTION_SET_LOCATIONS_LOADING = 'ACTION_SET_LOCATIONS_LOADING';
-const ACTION_SET_USERS_LOADING = 'ACTION_SET_USERS_LOADING';
+// _Search **********************************************************************************************
+// _Search **********************************************************************************************
 
-export function searchReducer(state = locationProfileInitState, action) {
-  switch (action.type) {
+class _Search extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
 
-    case ACTION_CONCAT_USERS_SUGGEST_LIST:
-      return Object.assign({}, state, {
-        usersSuggestSeed: state.usersSuggestSeed + 1,
-        usersStopSuggestLoop: action.usersStopSuggestLoop,
-        usersSuggestList: action.usersSuggestList,
-        usersLoading: false
-      });
+	constructor(props, context) {
+		super(props, context);
+		this._onLocationPress = this._onLocationPress.bind(this);
+		this._onUserPress = this._onUserPress.bind(this);
+		this._locationsOnEndReached = this._locationsOnEndReached.bind(this);
+		this._usersOnEndReached = this._usersOnEndReached.bind(this);
+		this._renderListEmpty = this._renderListEmpty.bind(this);
+	}
 
-    case ACTION_CONCAT_LOCATIONS_SUGGEST_LIST:
-      return Object.assign({}, state, {
-        locationsSuggestSeed: state.locationsSuggestSeed + 1,
-        locationsStopSuggestLoop: action.locationsStopSuggestLoop,
-        locationsSuggestList: action.locationsSuggestList,
-        locationsLoading: false
-      });
+	componentWillMount() {
+		this._searchDataUsers().suggest();
+		this._searchDataLocations().suggest();
+	}
 
+	_searchDataUsers(): TSearchDataPool {
+		return this.props[SEARCH_DATA_ID_USERS];
+	}
 
-    case ACTION_SET_USERS_SEARCH_QUERY:
-      return Object.assign({}, state, {
-        usersSearchQuery: action.usersSearchQuery
-      });
+	_searchDataLocations(): TSearchDataPool {
+		return this.props[SEARCH_DATA_ID_LOCATIONS];
+	}
 
-    case ACTION_SET_USERS_SEARCH_LIST:
-      return Object.assign({}, state, {
-        usersSearchList: action.usersSearchList,
-        usersLoading: false
-      });
+	_onLocationPress(location) {
+		const {navigator} = this.props;
+		Router.toModalLocationProfile(
+			navigator,
+			{locationId: DaoLocation.gId(location)},
+			DaoLocation.gName(location)
+		);
+	}
 
-    case ACTION_SET_LOCATIONS_SEARCH_QUERY:
-      return Object.assign({}, state, {
-        locationsSearchQuery: action.locationsSearchQuery
-      });
+	_onUserPress(user: TUser) {
+		const {navigator} = this.props;
+		Router.toModalUserProfile(
+			navigator,
+			{userId: DaoUser.gId(user)},
+			DaoUser.gName(user)
+		);
+	}
 
-    case ACTION_SET_LOCATIONS_SEARCH_LIST:
-      return Object.assign({}, state, {
-        locationsSearchList: action.locationsSearchList,
-        locationsLoading: false
-      });
+	_locationsOnEndReached() {
+		if (this._searchDataLocations().stopSuggestLoop)
+			return;
 
+		// Suggest new locations
+		this._searchDataLocations().suggest();
+	}
 
-    case ACTION_SET_LOCATIONS_LOADING:
-      return Object.assign({}, state, {
-        locationsLoading: true
-      });
+	_usersOnEndReached() {
+		if (this._searchDataUsers().stopSuggestLoop)
+			return;
 
-    case ACTION_SET_USERS_LOADING:
-      return Object.assign({}, state, {
-        usersLoading: true
-      });
-
-  }
-
-  return state;
-}
-
-
-function searchSuggestUsers() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_USERS_LOADING});
-
-    let currentSeed = getState().searchReducer.usersSuggestSeed;
-
-    // Run the suggestion api call
-    ApiClient.suggestSeedUsers(currentSeed)
-        .then(users => {
-          let previousData = getState().searchReducer.usersSuggestList;
-          users = _.uniqBy(previousData.concat(users), DaoUser.pId);
-
-          dispatch({
-            type: ACTION_CONCAT_USERS_SUGGEST_LIST,
-            usersSuggestList: users,
-            usersStopSuggestLoop: previousData.length === users.length
-          });
-        });
-  };
-}
+		// Suggest new users
+		this._searchDataUsers().suggest();
+	}
 
 
-function searchSuggestLocations() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_LOCATIONS_LOADING});
-
-    let currentSeed = getState().searchReducer.locationsSuggestSeed;
-
-    // Run the suggestion api call
-    ApiClient.suggestSeedLocations(currentSeed)
-        .then(locations => {
-          let previousData = getState().searchReducer.locationsSuggestList;
-          locations = _.uniqBy(previousData.concat(locations), DaoLocation.pId);
-
-          dispatch({
-            type: ACTION_CONCAT_LOCATIONS_SUGGEST_LIST,
-            locationsSuggestList: locations,
-            locationsStopSuggestLoop: previousData.length === locations.length
-          });
-        });
-  };
-}
-
-
-function searchSearchUsers() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_USERS_LOADING});
-
-    let query = getState().searchReducer.usersSearchQuery;
-
-    // Run the suggestion api call
-    ApiClient.searchQueryUsers(query)
-        .then(users => dispatch({
-          type: ACTION_SET_USERS_SEARCH_LIST,
-          usersSearchList: users
-        }));
-  };
-}
-
-
-function searchSearchLocations() {
-  return (dispatch, getState) => {
-    dispatch({type: ACTION_SET_LOCATIONS_LOADING});
-
-    let query = getState().searchReducer.locationsSearchQuery;
-
-    // Run the suggestion api call
-    ApiClient.searchQueryLocations(query)
-        .then(locations => dispatch({
-          type: ACTION_SET_LOCATIONS_SEARCH_LIST,
-          locationsSearchList: locations
-        }));
-  };
-}
-
-
-function searchSetLocationsSearchQuery(query) {
-  return {
-    type: ACTION_SET_LOCATIONS_SEARCH_QUERY,
-    locationsSearchQuery: query
-  };
-}
-
-function searchSetUsersSearchQuery(query) {
-  return {
-    type: ACTION_SET_USERS_SEARCH_QUERY,
-    usersSearchQuery: query
-  };
-}
-
-
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
-
-class SearchPresentational extends React.Component {
-
-  constructor(props, context) {
-    super(props, context);
-    this._onLocationPress = this._onLocationPress.bind(this);
-    this._onUserPress = this._onUserPress.bind(this);
-  }
-
-
-  componentWillMount() {
-    this.props.suggestLocations();
-    this.props.suggestUsers();
-  }
-
-
-  _userProfile() {
-    return this.props.userProfile;
-  }
-
-  _onLocationPress(location) {
-    Router.toLocationProfile(this.props.navigator, location);
-  }
-
-  _onUserPress(user) {
-    Router.toUserProfile(this.props.navigator, user);
-  }
-
-
-  render() {
-    return (
-        <Grid>
-          <Row>
-            <TabBar>
-              <TabBar.Tab text="Locations">{this._renderTabSearchLocations()}</TabBar.Tab>
-              <TabBar.Tab text="People">{this._renderTabSearchUsers()}</TabBar.Tab>
-            </TabBar>
-          </Row>
-        </Grid>
-    );
-  }
+	render() {
+		const {initialPage} = this.props;
+		return (
+			<ScrollableTabView
+				initialPage={initialPage}
+				contentProps={scrollableTabViewContentProps}
+				tabBarUnderlineStyle={styles.tabBarUnderline}
+				scrollWithoutAnimation={true}
+				prerenderingSiblingsNumber={Infinity}
+				tabBarTextStyle={styles.tabBarTextStyle}
+				tabBarActiveTextColor={Colors.primary}
+				tabBarInactiveTextColor={Colors.black}>
+				<View
+					tabLabel={t('t_locations')}
+					style={styles.tabUsers}>
+					{this._renderTabSearchLocations()}
+				</View>
+				<View
+					tabLabel={t('t_people')}
+					style={styles.tabLocations}>
+					{this._renderTabSearchUsers()}
+				</View>
+			</ScrollableTabView>
+		);
+	}
 
 
 
-  _renderTabSearchLocations() {
-    let userProfile = this._userProfile();
+	_renderTabSearchLocations() {
+		const {list, loading} = this._searchDataLocations();
+		return (
+			<LocationList
+				locations={list}
+				showFollow={true}
+				showUnfollow={true}
 
-    return (
-        <LocationList
-            locations={this.props.locationsSearchQuery.length <= 0
-                ? this.props.locationsSuggestList
-                : this.props.locationsSearchList
-            }
+				onLocationPress={this._onLocationPress}
+				onSearchPressed={this._searchDataLocations().search}
+				onSearchChanged={this._searchDataLocations().setSearchQuery}
+				loading={loading}
+				onEndReachedThreshold={onEndReachedThreshold}
+				onEndReached={this._locationsOnEndReached}
+				renderOnListEmpty={this._renderListEmpty}/>
+		);
+	}
 
-            favoriteIds={DaoUser.gLocationFavoriteIds(userProfile)}
+	_renderTabSearchUsers() {
+		const {list, loading} = this._searchDataUsers();
+		return (
+			<UserList
+				users={list}
+				showAccept={true}
+				showUnblock={true}
+				showAdd={true}
+				showPending={true}
 
-            onItemPress={this._onLocationPress}
-            onSearchPressed={this.props.searchLocations}
-            onSearchChanged={this.props.setLocationsSearchQuery}
+				loading={loading}
+				onUserPress={this._onUserPress}
+				onSearchPressed={this._searchDataUsers().search}
+				onSearchChanged={this._searchDataUsers().setSearchQuery}
+				onEndReached={this._usersOnEndReached}
+				onEndReachedThreshold={onEndReachedThreshold}
+				renderOnListEmpty={this._renderListEmpty}/>
+		);
+	}
 
-            loading={this.props.locationsLoading}
-            onEndReached={!this.props.locationsStopSuggestLoop ? this.props.suggestLocations : null}/>
-    );
-  }
-
-  _renderTabSearchUsers() {
-    let userProfile = this._userProfile();
-
-    return (
-        <UserList
-            users={this.props.usersSearchQuery.length <= 0
-                ? this.props.usersSuggestList
-                : this.props.usersSearchList
-            }
-
-            friendIds={DaoUser.gConnectionFriendIds(userProfile)}
-            requestIds={DaoUser.gConnectionRequestIds(userProfile)}
-            blockedIds={DaoUser.gConnectionBlockedIds(userProfile)}
-
-            onItemPress={this._onUserPress}
-            onSearchPressed={this.props.searchUsers}
-            onSearchChanged={this.props.setUsersSearchQuery}
-
-            loading={this.props.usersLoading}
-            onEndReached={!this.props.usersStopSuggestLoop ? this.props.suggestUsers : null}/>
-    );
-  }
+	_renderListEmpty() {
+		return (
+			<FlatListEmpty
+				text={t('t_empty_search')}
+				image={require('../../assets/images/empty-search.png')}/>
+		);
+	}
 
 }
 
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
+const Search = poolConnect(_Search,
+	// mapStateToProps
+	(state) => ({}),
 
-const Search = poolConnect(
-    // Presentational Component
-    SearchPresentational,
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-    // mapStateToProps
-    (state) => state.searchReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({
-      suggestUsers: () => dispatch(searchSuggestUsers()),
-      suggestLocations: () => dispatch(searchSuggestLocations()),
-      searchUsers: () => dispatch(searchSearchUsers()),
-      searchLocations: () => dispatch(searchSearchLocations()),
-      setLocationsSearchQuery: (query) => dispatch(searchSetLocationsSearchQuery(query)),
-      setUsersSearchQuery: (query) => dispatch(searchSetUsersSearchQuery(query)),
-    }),
-
-    // Array of pools to subscribe to
-    []
+	// Array of pools to subscribe to
+	[SEARCH_DATA_ID_USERS, SEARCH_DATA_ID_LOCATIONS]
 );
-
-
 export default Search;
 
 
-Search.propTypes = {
-  userProfile: PropTypes.object.isRequired,
-  navigator: PropTypes.object.isRequired,
+// Config ************************************************************************************************
+// Config ************************************************************************************************
+
+// Bug fix for freezing tab view after back
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// https://github.com/skv-headless/react-native-scrollable-tab-view/issues/839
+// Can be removed on upgrade >> react-native 0.55.3
+const scrollableTabViewContentProps = {
+	style: {flex: 1}
 };
 
-// Style ************************************************************************************************
-// Style ************************************************************************************************
+const styles = StyleSheet.create({
+	tabBarTextStyle: {
+		marginBottom: -8
+	},
+	tabUsers: {
+		flex: 1
+	},
+	tabLocations: {
+		flex: 1
+	},
+	tabBarUnderline: {
+		backgroundColor: Colors.primary
+	}
+});

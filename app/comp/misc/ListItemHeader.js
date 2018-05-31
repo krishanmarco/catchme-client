@@ -1,30 +1,35 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import {Colors} from '../../Config';
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import type {TStyle} from '../../lib/types/Types';
 
 
 type Props = {
-  name: string,
-  style: Object
+	name: string,
+	style: TStyle
 };
 
-
-export default ({name = ' ', style}: Props) => (
-    <View style={[Styles.row, style]}>
-      <RkText rkType='primary header5'>{name.toUpperCase()}</RkText>
-    </View>
+const ListItemHeader = ({name = ' ', style}: Props) => (
+	<View style={[styles.row, style]}>
+		<RkText rkType='primary header6'>{name.toUpperCase()}</RkText>
+	</View>
 );
+export default ListItemHeader;
 
 
-const Styles = RkStyleSheet.create(theme => ({
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 8,
-    paddingHorizontal: 17.5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: theme.colors.border.base,
-    alignItems: 'center'
-  },
-}));
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
+
+const styles = StyleSheet.create({
+	row: {
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		paddingVertical: 8,
+		paddingHorizontal: 17.5,
+		borderBottomWidth: StyleSheet.hairlineWidth,
+		borderColor: Colors.border,
+		alignItems: 'center'
+	},
+});

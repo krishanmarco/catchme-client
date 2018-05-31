@@ -1,0 +1,178 @@
+{
+  "id": 0,
+  "adminId": 0,
+  "signupTs": 0,
+  "verified": 0,
+  "name": "string",
+  "description": "string",
+  "capacity": 0,
+  "pictureUrl": "string",
+  "reputation": 0,
+  "email": "string",
+  "phone": "string",
+  "timings": "string",
+  "address": {
+    "country": "string",
+    "state": "string",
+    "city": "string",
+    "town": "string",
+    "postcode": "string",
+    "address": "string",
+    "latLng": "string",
+    "googlePlaceId": "string"
+  },
+  "imageUrls": [
+    "string"
+  ],
+  "connections": {
+    "past": [
+      {
+        "id": 0,
+        "name": "string",
+        "email": "string",
+        "apiKey": "string",
+        "ban": 0,
+        "signupTs": 0,
+        "gender": 0,
+        "reputation": 0,
+        "phone": "string",
+        "publicMessage": "string",
+        "pictureUrl": "string",
+        "settingPrivacy": "string",
+        "settingNotifications": "string",
+        "adminLocations": [
+          null
+        ],
+        "locations": {
+          "favorites": [
+            null
+          ],
+          "top": [
+            null
+          ],
+          "past": [
+            null
+          ],
+          "now": [
+            null
+          ],
+          "future": [
+            null
+          ]
+        },
+        "connections": {
+          "friends": [
+            null
+          ],
+          "requests": [
+            null
+          ],
+          "blocked": [
+            null
+          ]
+        }
+      }
+    ],
+    "now": [
+      {
+        "id": 0,
+        "name": "string",
+        "email": "string",
+        "apiKey": "string",
+        "ban": 0,
+        "signupTs": 0,
+        "gender": 0,
+        "reputation": 0,
+        "phone": "string",
+        "publicMessage": "string",
+        "pictureUrl": "string",
+        "settingPrivacy": "string",
+        "settingNotifications": "string",
+        "adminLocations": [
+          null
+        ],
+        "locations": {
+          "favorites": [
+            null
+          ],
+          "top": [
+            null
+          ],
+          "past": [
+            null
+          ],
+          "now": [
+            null
+          ],
+          "future": [
+            null
+          ]
+        },
+        "connections": {
+          "friends": [
+            null
+          ],
+          "requests": [
+            null
+          ],
+          "blocked": [
+            null
+          ]
+        }
+      }
+    ],
+    "future": [
+      {
+        "id": 0,
+        "name": "string",
+        "email": "string",
+        "apiKey": "string",
+        "ban": 0,
+        "signupTs": 0,
+        "gender": 0,
+        "reputation": 0,
+        "phone": "string",
+        "publicMessage": "string",
+        "pictureUrl": "string",
+        "settingPrivacy": "string",
+        "settingNotifications": "string",
+        "adminLocations": [
+          null
+        ],
+        "locations": {
+          "favorites": [
+            null
+          ],
+          "top": [
+            null
+          ],
+          "past": [
+            null
+          ],
+          "now": [
+            null
+          ],
+          "future": [
+            null
+          ]
+        },
+        "connections": {
+          "friends": [
+            null
+          ],
+          "requests": [
+            null
+          ],
+          "blocked": [
+            null
+          ]
+        }
+      }
+    ]
+  },
+  "people": {
+    "men": 0,
+    "women": 0,
+    "total": 0
+  }
+}

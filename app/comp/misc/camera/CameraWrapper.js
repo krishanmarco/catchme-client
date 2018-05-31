@@ -1,120 +1,141 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import Logger from '../../../lib/Logger';
 import React from 'react';
-import PropTypes from 'prop-types';
-import Camera from 'react-native-camera';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import RNCamera, {constants as CameraConstants} from 'react-native-camera';
+import {Colors} from '../../../Config';
+import {Image, StyleSheet, View} from 'react-native';
 import {RkButton} from 'react-native-ui-kitten';
+import {Snackbar} from '../../../lib/Snackbar';
+import {t} from '../../../lib/i18n/Translations';
+
+// Const ************************************************************************************************
+// Const ************************************************************************************************
+
+type Props = {
+	captureMode: number,
+	onBarCodeRead: Function,
+	onCaptureImage: Function
+};
+
+const defaultProps = {
+	captureMode: CameraConstants.CaptureMode.still,
+	onBarCodeRead: null
+};
+
+const captureOptions = {
+
+	// The metadata is added to the output image
+	metadata: {},
+
+	jpegQuality: 8,
+};
+
+const barCodeTypes = ['qr'];
 
 
-export default class CameraWrapper extends React.Component {
+// CameraWrapper ****************************************************************************************
+// CameraWrapper ****************************************************************************************
 
-  constructor(props, context) {
-    super(props, context);
+export default class CameraWrapper extends React.Component<void, Props, void> {
+	static defaultProps = defaultProps;
 
-    this._onCaptureImage = this._onCaptureImage.bind(this);
-    this._onBarCodeRead = this._onBarCodeRead.bind(this);
-  }
+	constructor(props, context) {
+		super(props, context);
+		this._onCaptureImage = this._onCaptureImage.bind(this);
+		this._onBarCodeRead = this._onBarCodeRead.bind(this);
+		this._setRefCamera = this._setRefCamera.bind(this);
+	}
 
+	_onBarCodeRead(data) {
+		const {onBarCodeRead} = this.props;
 
-  _onBarCodeRead(data) {
+		if (onBarCodeRead)
+			onBarCodeRead(data.data);
+	}
 
-    if (this.props.onBarCodeRead)
-      this.props.onBarCodeRead(data['data']);
+	_onCaptureImage() {
+		return this.refCamera.capture(captureOptions)
+			.then(data => {
+				const {onCaptureImage} = this.props;
 
-  }
+				if (onCaptureImage)
+					onCaptureImage(data);
 
+				return data;
+			})
+			.catch(err => {
+				Logger.v('CameraWrapper _onCaptureImage:', err);
+				Snackbar.showErrorStr(t('t_le_camera_capture_failed'));
+			});
+	}
 
+	_setRefCamera(ref) {
+		this.refCamera = ref;
+	}
 
-  _onCaptureImage() {
-    this.camera.capture({
-      metadata: {}
-
-    })
-        .then(data => {
-
-          if(this.props.onCaptureImage)
-            this.props.onCaptureImage(data);
-
-          return data;
-        })
-        .catch(err => console.error(err));
-  }
-
-
-
-  render() {
-    return (
-        <View style={Styles.container}>
-          <Camera
-              ref={camera => this.camera = camera}
-              style={Styles.preview}
-
-              aspect={Camera.constants.Aspect.fill}
-              audio={true}
-
-              captureMode={this.props.captureMode}
-              captureTarget={Camera.constants.CaptureTarget.temp}
-              captureQuality={Camera.constants.CaptureQuality.high}
-
-              onBarCodeRead={this._onBarCodeRead}
-              barCodeTypes={["qr"]}
-
-              keepAwake={true}
-          >
-
-
-
-            <RkButton
-                style={{width: 64, height: 64, marginBottom: 32}}
-                rkType='clear contrast'
-                onPress={this._onCaptureImage}>
-              <Image
-                  style={{flex: 1, width: 64, height: 64}}
-                  resizeMode='contain'
-                  source={require('../../../assets/images/camera_512.png')}/>
-            </RkButton>
-          </Camera>
-        </View>
-    );
-  }
-
-
+	render() {
+		const {captureMode} = this.props;
+		return (
+			<View style={styles.container}>
+				<RNCamera
+					ref={this._setRefCamera}
+					style={styles.preview}
+					captureMode={captureMode}
+					aspect={CameraConstants.Aspect.fill}
+					captureTarget={CameraConstants.CaptureTarget.temp}
+					captureQuality={CameraConstants.CaptureQuality.high}
+					fixOrientation={true}
+					forceUpOrientation={true}
+					orientation={CameraConstants.Orientation.portrait}
+					onBarCodeRead={this._onBarCodeRead}
+					barCodeTypes={barCodeTypes}
+					audio={true}
+					keepAwake={true}>
+					<RkButton
+						style={styles.cameraButtonButton}
+						rkType='clear contrast'
+						onPress={this._onCaptureImage}>
+						<Image
+							style={styles.cameraButtonImage}
+							resizeMode='contain'
+							source={require('../../../assets/images/primary-camera-me.png')}/>
+					</RkButton>
+				</RNCamera>
+			</View>
+		);
+	}
 }
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-
-CameraWrapper.defaultProps = {
-  captureMode: Camera.constants.CaptureMode.still,  // || .video,
-  onBarCodeRead: null
-};
-
-CameraWrapper.propTypes = {
-  captureMode: PropTypes.number,
-  onBarCodeRead: PropTypes.func,
-  onCaptureImage: PropTypes.func,
-};
-
-
-
-
-
-const Styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
-  }
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexDirection: 'row',
+	},
+	preview: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		alignItems: 'center'
+	},
+	capture: {
+		flex: 0,
+		backgroundColor: '#fff',
+		borderRadius: 5,
+		color: Colors.black,
+		padding: 10,
+		margin: 40
+	},
+	cameraButtonButton: {
+		width: 64,
+		height: 64,
+		marginBottom: 32
+	},
+	cameraButtonImage: {
+		flex: 1,
+		width: 64,
+		height: 64
+	}
 });

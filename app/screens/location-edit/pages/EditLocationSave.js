@@ -1,137 +1,119 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import DaoLocation from '../../../lib/daos/DaoLocation';
 import React from 'react';
-import PropTypes from 'prop-types';
+import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
+import {AvatarFull, LoadingButton} from '../../../comp/Misc';
+import {Const} from '../../../Config';
 import {poolConnect} from '../../../redux/ReduxPool';
-import {Icons, Const} from '../../../Config';
+import {RkText} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import {t} from '../../../lib/i18n/Translations';
+import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 
-import {View, ScrollView, Text, StyleSheet} from 'react-native';
-
-import {RkStyleSheet, RkText} from 'react-native-ui-kitten';
-import GradientButton from '../../../comp/misc/GradientButton';
-import {AvatarCircle} from "../../../comp/misc/Avatars";
-import DaoLocation from "../../../lib/daos/DaoLocation";
-
-
-// Redux ************************************************************************************************
-// Redux ************************************************************************************************
-
-const editLocationSaveInitState = {
-  // Nothing for now
-};
-
-
-export function editLocationSaveReducer(state = editLocationSaveInitState, action) {
-  switch (action.type) {
-      // Nothing for now
-  }
-
-  return state;
-}
-
-
-// FlowProps ********************************************************************************************
-// FlowProps ********************************************************************************************
+// Const *************************************************************************************************
+// Const *************************************************************************************************
 
 type Props = {
-  formApiEditLocationProfile: Object,
-  onSaveComplete: Function
+	onSavePress: Function,
+	formApiEditLocationProfile: ApiFormState
 };
 
-type State = {
-  // Nothing for now
+
+// _EditLocationSave ************************************************************************************
+// _EditLocationSave ************************************************************************************
+
+class _EditLocationSave extends React.Component<void, Props, void> {
+
+	constructor(props, context) {
+		super(props, context);
+	}
+
+	hasErrors() {
+		return false;
+	}
+
+	_formApiEditLocationProfile(): TApiFormPool {
+		const {formApiEditLocationProfile} = this.props;
+		return formApiEditLocationProfile;
+	}
+
+	render() {
+		const {onSavePress} = this.props;
+		const locationProfile = this._formApiEditLocationProfile().apiInput;
+		return (
+			<View style={styles.root}>
+
+				<View>
+					<AvatarFull
+						source={{uri: DaoLocation.gPictureUrl(locationProfile)}}
+						defaultUri={Const.locationDefaultAvatar}/>
+				</View>
+
+				<View style={styles.contentRow}>
+
+					<RkText rkType='header2 hero'>
+						{DaoLocation.gName(locationProfile)}
+					</RkText>
+
+					<View style={styles.contentAddressRow}>
+						<RkText rkType='header4'>
+							{DaoLocation.gAddress(locationProfile)}
+						</RkText>
+					</View>
+
+					<View style={styles.contentSaveButtonRow}>
+						<LoadingButton
+							loading={this._formApiEditLocationProfile().loading}
+							rkType='large'
+							onPress={onSavePress}
+							text={t('t_bt_edit_location')}/>
+					</View>
+
+				</View>
+
+			</View>
+		);
+	}
+
 }
 
+const EditLocationSave = poolConnect(_EditLocationSave,
+	// mapStateToProps
+	(state) => ({}),
 
+	// mapDispatchToProps
+	(dispatch) => ({}),
 
-// PresentationalComponent ******************************************************************************
-// PresentationalComponent ******************************************************************************
+	// Array of pools to subscribe to
+	[],
 
-class EditLocationSavePresentational extends React.Component<any, Props, State> {
-
-  constructor(props, context) {
-    super(props, context);
-    this._onLocationSave = this._onLocationSave.bind(this);
-  }
-
-  _formApiEditLocationProfile() { return this.props.formApiEditLocationProfile; }
-  _formApiEditLocationProfileInput() { return this._formApiEditLocationProfile().apiInput; }
-
-
-  _onLocationSave() {
-    // Post the form and notify the parent component
-    this._formApiEditLocationProfile().post()
-        .then(this.props.onSaveComplete);
-  }
-
-
-  render() {
-    return (
-        <View style={Styles.root}>
-          <RkText style={Styles.headerText} rkType='header2 hero'>
-            {DaoLocation.gName(this._formApiEditLocationProfileInput())}
-          </RkText>
-          <View style={Styles.avatar}>
-            <AvatarCircle
-                rkType='huge'
-                uri={DaoLocation.gPictureUrl(this._formApiEditLocationProfileInput())}/>
-          </View>
-          <RkText style={Styles.contentText} rkType='primary3'>
-            {DaoLocation.gAddress(this._formApiEditLocationProfileInput())}
-          </RkText>
-          <GradientButton
-              rkType='large'
-              style={Styles.saveButton}
-              onPress={this._onLocationSave}
-              text='Save & Close'/>
-        </View>
-    );
-  }
-
-}
-
-
-
-// ContainerComponent ***********************************************************************************
-// ContainerComponent ***********************************************************************************
-
-const EditLocationSave = poolConnect(
-    // Presentational Component
-    EditLocationSavePresentational,
-
-    // mapStateToProps
-    (state) => state.editLocationSaveReducer,
-
-    // mapDispatchToProps
-    (dispatch) => ({}),
-
-    // Array of pools to subscribe to
-    []
+	{withRef: true}
 );
-
 export default EditLocationSave;
 
 
+// Config ***********************************************************************************************
+// Config ***********************************************************************************************
 
-// Const ************************************************************************************************
-// Const ************************************************************************************************
-
-const Styles = RkStyleSheet.create(theme => ({
-  root: {
-    flex: 1,
-    alignItems: 'center',
-    paddingHorizontal: 8,
-  },
-  headerText: {
-    marginTop: 16
-  },
-  avatar: {
-    marginTop: 40
-  },
-  contentText: {
-    marginTop: 16
-  },
-  saveButton: {
-    marginTop: 40,
-    marginHorizontal: 16
-  }
-}));
+const styles = StyleSheet.create({
+	root: {
+		flex: 1,
+		flexDirection: 'column'
+	},
+	contentRow: {
+		flex: 1,
+		paddingHorizontal: 16,
+		marginTop: 16,
+	},
+	contentAddressRow: {
+		flex: 1,
+		marginTop: 16,
+		justifyContent: 'center',
+	},
+	contentSaveButtonRow: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		marginBottom: 24
+	}
+});

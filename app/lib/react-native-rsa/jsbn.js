@@ -416,7 +416,7 @@ function bnMod(a) {
 function Classic(m) { this.m = m; }
 function cConvert(x) {
   if(x.s < 0 || x.compareTo(this.m) >= 0) return x.mod(this.m);
-  else return x;
+  return x;
 }
 function cRevert(x) { return x; }
 function cReduce(x) { x.divRemTo(this.m,null,x); }
@@ -604,7 +604,7 @@ function bnpChunkSize(r) { return Math.floor(Math.LN2*this.DB/Math.log(r)); }
 function bnSigNum() {
   if(this.s < 0) return -1;
   else if(this.t <= 0 || (this.t == 1 && this[0] <= 0)) return 0;
-  else return 1;
+  return 1;
 }
 
 // (protected) convert to radix string
@@ -948,7 +948,7 @@ function Barrett(m) {
 function barrettConvert(x) {
   if(x.s < 0 || x.t > 2*this.m.t) return x.mod(this.m);
   else if(x.compareTo(this.m) < 0) return x;
-  else { var r = nbi(); x.copyTo(r); this.reduce(r); return r; }
+   var r = nbi(); x.copyTo(r); this.reduce(r); return r; 
 }
 
 function barrettRevert(x) { return x; }
@@ -1112,7 +1112,7 @@ function bnModInverse(m) {
   if(v.compareTo(BigInteger.ONE) != 0) return BigInteger.ZERO;
   if(d.compareTo(m) >= 0) return d.subtract(m);
   if(d.signum() < 0) d.addTo(m,d); else return d;
-  if(d.signum() < 0) return d.add(m); else return d;
+  if(d.signum() < 0) return d.add(m); return d;
 }
 
 var lowprimes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997];
