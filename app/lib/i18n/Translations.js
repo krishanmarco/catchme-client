@@ -190,6 +190,12 @@ I18n.translations = {
 		t_ls_admin_location_added: 'This location was added to the ones you own',
 		t_ls_location_image_uploaded: 'Your image was uploaded',
 
+		app_feed_friend_added_image: '',
+		app_feed_friendship_accept: '',
+		app_feed_friendship_request: '',
+		app_feed_user_attendance_request_1: '',
+		app_feed_user_attendance_request_2: '',
+
 	}
 
 };

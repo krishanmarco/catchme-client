@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
 import DaoAction from './DaoAction';
-import {TDynamicStyleTextArray} from '../types/Types';
+import {TServerTextArray} from '../types/Types';
 import type {TAction} from './DaoAction';
 
 export type TFeed = TAction & {
@@ -30,7 +30,7 @@ export default class DaoFeed extends DaoAction {
 	static pLeftAvatar = 'leftAvatar';
 	static pRightAvatar = 'rightAvatar';
 
-	static gContent(feed: TFeed): TDynamicStyleTextArray {
+	static gContent(feed: TFeed): TServerTextArray {
 		return _.get(feed, DaoFeed.pContent, []);
 	}
 

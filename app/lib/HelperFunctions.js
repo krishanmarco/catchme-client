@@ -148,3 +148,10 @@ export function validSource(source) {
 export function addKeys(array: Array<Object> = []) {
 	return array.map((p, i) => ({key: i, ...p}));
 }
+
+export function strtr(str, pairs) {
+	const substrs = Object.keys(pairs).map(_.escapeRegExp);
+	return str.split(RegExp(`(${substrs.join('|')})`))
+		.map(part => pairs[part] || part)
+		.join('');
+}
