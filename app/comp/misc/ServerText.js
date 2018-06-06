@@ -3,7 +3,7 @@ import React from 'react';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
 import type {TServerTextArray} from '../../lib/types/Types';
-import {strtr} from "../../lib/HelperFunctions";
+import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -18,7 +18,6 @@ const defaultProps = {
 
 // DefaultLoader ****************************************************************************************
 // DefaultLoader ****************************************************************************************
-// todo use strtr to replace the {} unlocalized constants in dsta[0]
 export default class ServerText extends React.PureComponent<void, Props, void> {
 	static defaultProps = defaultProps;
 
@@ -27,7 +26,8 @@ export default class ServerText extends React.PureComponent<void, Props, void> {
 		return (
 			<RkText style={styles.dynamicStyleText}>
 				{dynamicStyleTextArray.map((dsta, k) => (
-					<RkText key={k} rkType='secondary5' style={dsta[1]}>
+					<RkText key={k} rkType='secondary5' style={dsta.s}>
+						{!!dsta.i ? t(dsta.i) : dsta.t}
 						{dsta[0]}
 					</RkText>
 				))}
