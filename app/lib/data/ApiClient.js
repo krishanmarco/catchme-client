@@ -2,7 +2,7 @@
 import ApiAuthentication from './ApiAuthentication';
 import ApiExceptionHandler from './ApiExceptionHandler';
 import Context from '../Context';
-import DaoApiException from '../daos/DaoApiException';
+import I18n from 'react-native-i18n';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from '../daos/DaoUser';
 import firebase from './Firebase';
@@ -11,7 +11,6 @@ import RNFetchBlob from 'react-native-fetch-blob';
 import StorageIO from './StorageIO';
 import {Const, Urls} from '../../Config';
 import {prepareForMultipart, seconds} from '../HelperFunctions';
-import {Snackbar} from '../Snackbar';
 import type {TApiFormChangePassword} from '../daos/DaoApiFormChangePassword';
 import type {TApiFormRegister} from '../daos/DaoApiFormRegister';
 import type {TId} from '../types/Types';
@@ -37,7 +36,9 @@ class ApiClient {
 		return {
 			'Accept': 'application/json',
 			'Content-Type': contentType,
-			'Authorization': authToken
+			'Authorization': authToken,
+			'Accept-Language': I18n.currentLocale(),
+			'Geolocation': JSON.stringify(Context.getGeolocation())
 		};
 	}
 

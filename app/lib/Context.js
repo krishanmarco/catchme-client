@@ -5,6 +5,7 @@ class Context {
 
 	constructor() {
 		this.firebaseEnabled = false;
+		this.updateGeolocation();
 	}
 
 	getFirebaseUser() {
@@ -18,6 +19,24 @@ class Context {
 	isFirebaseEnabled() {
 		// We could also use firebase.auth().currentUser != null
 		return this.firebaseEnabled;
+	}
+
+	getGeolocation() {
+		return this.geolocation;
+	}
+
+
+	// Setup functions
+	updateGeolocation() {
+		navigator.geolocation.getCurrentPosition(
+			(position: PositionCallback) => {
+				this.geolocation = {
+					lat: _.get(position, 'coords.latitude'),
+					lng: _.get(position, 'coords.longitude')
+				};
+			},
+			(error: PositionErrorCallback) => {}
+		);
 	}
 
 }
