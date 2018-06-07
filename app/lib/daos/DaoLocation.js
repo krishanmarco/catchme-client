@@ -14,7 +14,7 @@ export type TLocation = {
 	name: string,                       // 'Area Docks'                     Location name
 	description: string,                // 'Area Docks club'                Location Description
 	capacity: number,                   // 500                              Maximum capacity of this location
-	pictureUrl: string,                 // 'http://catchme.top/image.png'   URL of the location profile picture
+	pictureUrl: string,                 // 'http://.../image.png'   				URL of the location profile picture
 	phone: string,                      // '+393347014935'                  Location phone number
 	email: string,                      // 'admin@areadocks.com'            Location email address
 	timings: string,                    // '01001101010101...'              Timing string for location (len=24) 0=closed, 1=open

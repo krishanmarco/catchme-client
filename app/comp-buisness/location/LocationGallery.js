@@ -37,7 +37,7 @@ export default class LocationGallery extends React.Component<void, Props, State>
 	_getImagesFromProps(props) {
 		const {locationProfile} = props;
 
-		// uri: http://www.catchme.krishanmadan.website/api/media/get/0/31/1787.png
+		// uri: http://www.catchme-v1.krishanmadan.website/api/media/get/0/31/1787.png
 		return DaoLocation.gImageUrls(locationProfile)
 			.map(ImageURISourceAuth.fromUrl);
 	}

@@ -12,7 +12,7 @@ import type {TUserLocationStatus} from './DaoUserLocationStatus';
 
 export type TUser = {
 	id: number,                           // 1                                	Unique feed item identifier
-	pictureUrl: string,                   // 'http://catchme.top/image.png'   	URL of the user profile picture
+	pictureUrl: string,                   // 'http://.../image.png'   					URL of the user profile picture
 	name: string,                         // 'Krishan Madan'                  	User name
 	reputation: number,                   // 450                              	User reputation
 	publicMessage: string,                // 'Hi, i am Krishan Madan'         	User public message

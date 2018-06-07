@@ -11,7 +11,7 @@
     "force-load-bash": "curl \"http://localhost:8081/index.android.bundle?platform=android\" -o \"android/app/src/main/assets/index.android.bundle\"",
     "force-load-cmd": "wget \"http://localhost:8081/index.android.bundle?platform=android\" -OutFile \"android/app/src/main/assets/index.android.bundle\"",
     "assemble-release": "cd android && ./gradlew assembleRelease",
-    "fake-data": "wget \"http://www.catchme.krishanmadan.website/api/fake?pw=S()KD2dk290kdLksK()&function=update\"",
+    "fake-data": "wget \"http://www.catchme-v2.krishanmadan.website/api/fake?pw=S()KD2dk290kdLksK()&function=update\"",
     "start-android-emulator": "$HOME\\AppData\\Local\\Android\\Sdk\\emulator\\emulator.exe -avd Pixel_API_26"
   },
   "dependencies": {
