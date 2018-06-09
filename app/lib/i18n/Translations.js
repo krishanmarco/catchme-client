@@ -190,11 +190,11 @@ I18n.translations = {
 		t_ls_admin_location_added: 'This location was added to the ones you own',
 		t_ls_location_image_uploaded: 'Your image was uploaded',
 
-		t_srv_feed_friend_added_image: '',
-		t_srv_feed_friendship_accept: '',
-		t_srv_feed_friendship_request: '',
-		t_srv_feed_user_attendance_request_1: '',
-		t_src_feed_user_attendance_request_2: '',
+		t_srv_feed_friend_added_image: 'added an image at',
+		t_srv_feed_friendship_accept: 'accepted your friend request',
+		t_srv_feed_friendship_request: 'wants to add you as a friend',
+		t_srv_feed_user_attendance_request_1: 'has invited you to',
+		t_src_feed_user_attendance_request_2: 'will you be there?',
 
 	}
 

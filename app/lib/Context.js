@@ -1,10 +1,13 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
+import _ from 'lodash';
 import firebase from './data/Firebase';
+import Logger from "./Logger";
 
 class Context {
 
 	constructor() {
 		this.firebaseEnabled = false;
+		this.updateGeolocation = this.updateGeolocation.bind(this);
 		this.updateGeolocation();
 	}
 
@@ -22,7 +25,7 @@ class Context {
 	}
 
 	getGeolocation() {
-		return this.geolocation;
+		return _.get(this, 'geolocation', null);
 	}
 
 
@@ -34,8 +37,15 @@ class Context {
 					lat: _.get(position, 'coords.latitude'),
 					lng: _.get(position, 'coords.longitude')
 				};
+				Logger.v('Context updateGeolocation: success', this.geolocation);
 			},
-			(error: PositionErrorCallback) => {}
+			(error: PositionErrorCallback) => {
+				Logger.v('Context, updateGeolocation: failed', error);
+			},
+			{
+				timeout: 10,
+				enableHighAccuracy: true
+			}
 		);
 	}
 

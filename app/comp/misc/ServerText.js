@@ -28,7 +28,6 @@ export default class ServerText extends React.PureComponent<void, Props, void> {
 				{dynamicStyleTextArray.map((dsta, k) => (
 					<RkText key={k} rkType='secondary5' style={dsta.s}>
 						{!!dsta.i ? t(dsta.i) : dsta.t}
-						{dsta[0]}
 					</RkText>
 				))}
 			</RkText>
