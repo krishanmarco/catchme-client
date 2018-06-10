@@ -3,10 +3,10 @@ import DaoLocation from '../daos/DaoLocation';
 import ManagerWeekTimings from '../helpers/ManagerWeekTimings';
 import Router from '../navigation/Router';
 import {Icons} from '../../Config';
+import {Linking} from 'react-native';
 import {t} from '../i18n/Translations';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 import type {TLocation} from '../daos/DaoLocation';
-import {Linking} from 'react-native';
 
 
 export default class LocationProfileDataPoints {

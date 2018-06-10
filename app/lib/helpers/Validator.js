@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import _ from 'lodash';
 import Maps from '../data/Maps';
-import {isStrInt} from "../HelperFunctions";
+import {isStrInt} from '../HelperFunctions';
 
 export class Validator {
 

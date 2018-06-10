@@ -6,7 +6,7 @@ import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from '../../comp/Misc';
 import {ScrollView} from 'react-native';
 import type {TLocation} from '../../lib/daos/DaoLocation';
-import type {TNavigator} from "../../lib/types/Types";
+import type {TNavigator} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

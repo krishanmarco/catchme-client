@@ -2,8 +2,8 @@
 import React from 'react';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
+import {t} from '../../lib/i18n/Translations';
 import type {TServerTextArray} from '../../lib/types/Types';
-import {t} from "../../lib/i18n/Translations";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
