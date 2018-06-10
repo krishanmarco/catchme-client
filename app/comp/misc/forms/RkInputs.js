@@ -7,7 +7,6 @@ import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {Colors} from '../../../Config';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
-import {Validator} from '../../../lib/helpers/Validator';
 import type {TStyle} from '../../../lib/types/Types';
 
 
@@ -28,7 +27,6 @@ export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: Rk
 	const hasErrorCode = errorCode !== 0;
 	const pointerEvents = props.editable ? 'auto' : 'none';
 
-	// const borderBottomWidth =	withBorder ? StyleSheet.hairlineWidth : 0;
 	const borderColor = hasErrorCode ? Colors.alertRed : Colors.black;
 
 	return (

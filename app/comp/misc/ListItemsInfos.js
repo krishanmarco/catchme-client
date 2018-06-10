@@ -17,6 +17,7 @@ type Props = TDataPoint & {
 	subTitle?: string,
 	itemRight?: Node,
 	textRkType?: string,
+	onPress?: Function
 };
 
 // ListItemInfo *****************************************************************************************

@@ -11,7 +11,7 @@ import Router from '../../lib/navigation/Router';
 import {FORM_API_ID_LOGIN} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
-import {fullpageForm} from '../../lib/theme/Styles';
+import {fullpageForm, imageBackground} from '../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
@@ -21,14 +21,10 @@ import {SignInFacebook} from '../../lib/social/SignInFacebook';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ImageBackground} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
-import {Validator} from '../../lib/helpers/Validator';
-import type {TApiException} from '../../lib/daos/DaoApiException';
 import type {TApiFormDefLogin} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
-import type {TApiFormLogin} from '../../lib/daos/DaoApiFormLogin';
 import type {TNavigator} from '../../lib/types/Types';
-import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -36,7 +32,6 @@ import type {TUser} from '../../lib/daos/DaoUser';
 type Props = {
 	navigator: TNavigator
 };
-
 
 // _ScreenLogin *****************************************************************************************
 // _ScreenLogin *****************************************************************************************
@@ -89,73 +84,77 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		// Do not require online to display the login screen
+		// Do not require to be online to display this screen
 		// The screen will be completely empty.
 		// This means we have to handle the failed ApiRequest in case of offline
 		return (
 			<Screen requireOnline={false}>
-				<FullpageForm
+				<ImageBackground
+					source={require('../../assets/images/startup-bk.jpg')}
+					style={imageBackground.imageBackground}>
+					<FullpageForm
 
-					headerStyle={fullpageForm.headerStyle}
-					headerJsx={(
-						<ScreenInfo
-							height={120}
-							imageHeight='100%'
-							imageSource={require('../../assets/images/primary-me.png')}/>
-					)}
+						headerStyle={fullpageForm.headerStyle}
+						headerJsx={(
+							<ScreenInfo
+								height={120}
+								imageHeight='100%'
+								imageSource={require('../../assets/images/primary-me.png')}/>
+						)}
 
-					fieldsStyle={fullpageForm.fieldsStyle}
-					fieldsJsx={(
-						<View style={styles.fieldsRow}>
-							
-							<View style={styles.fieldsSocialButtons}>
-								{[
-									{icon: Icons.loginGoogle, onPress: this._onGoogleLogin},
-									{icon: Icons.loginFacebook, onPress: this._onFacebookLogin},
-								].map(this._renderSocialIcon)}
+						fieldsStyle={fullpageForm.fieldsStyle}
+						fieldsJsx={(
+							<View style={styles.fieldsRow}>
+
+								<View style={styles.fieldsSocialButtons}>
+									{[
+										{icon: Icons.loginGoogle, onPress: this._onGoogleLogin},
+										{icon: Icons.loginFacebook, onPress: this._onFacebookLogin},
+									].map(this._renderSocialIcon)}
+								</View>
+
+								<View style={styles.fieldsFields}>
+									<RkTextInputFromPool
+										pool={this._getFormApiLogin()}
+										field='email'
+										keyboardType='email-address'
+										placeholder={t('t_field_email')}
+										withBorder/>
+
+									<RkTextInputFromPool
+										pool={this._getFormApiLogin()}
+										field='password'
+										placeholder={t('t_field_password')}
+										withBorder
+										secureTextEntry/>
+
+									<LoadingButton
+										style={fullpageForm.fieldsButton}
+										rkType='large stretch accentColor'
+										loading={this._getFormApiLogin().loading}
+										text={t('t_bt_login')}
+										onPress={this._onLoginPress}/>
+
+								</View>
 							</View>
-							
-							<View style={styles.fieldsFields}>
-								<RkTextInputFromPool
-									pool={this._getFormApiLogin()}
-									field='email'
-									keyboardType='email-address'
-									placeholder={t('t_field_email')}
-									withBorder/>
+						)}
 
-								<RkTextInputFromPool
-									pool={this._getFormApiLogin()}
-									field='password'
-									placeholder={t('t_field_password')}
-									withBorder
-									secureTextEntry/>
-
-								<LoadingButton
-									style={fullpageForm.fieldsButton}
-									rkType='large stretch accentColor'
-									loading={this._getFormApiLogin().loading}
-									text={t('t_bt_login')}
-									onPress={this._onLoginPress}/>
-
+						footerStyle={fullpageForm.footerStyle}
+						footerJsx={(
+							<View>
+								<FormFooterLink
+									text={t('t_login_no_account')}
+									clickableText={t('t_clk_login_no_account')}
+									onPress={this._onGoToSignupPress}/>
+								<FormFooterLink
+									text={t('t_login_forgot_pw')}
+									clickableText={t('t_clk_login_forgot_pw')}
+									onPress={this._onGoToRecoverPasswordPress}/>
 							</View>
-						</View>
-					)}
+						)}
 
-					footerStyle={fullpageForm.footerStyle}
-					footerJsx={(
-						<View>
-							<FormFooterLink
-								text={t('t_login_no_account')}
-								clickableText={t('t_clk_login_no_account')}
-								onPress={this._onGoToSignupPress}/>
-							<FormFooterLink
-								text={t('t_login_forgot_pw')}
-								clickableText={t('t_clk_login_forgot_pw')}
-								onPress={this._onGoToRecoverPasswordPress}/>
-						</View>
-					)}
-
-				/>
+					/>
+				</ImageBackground>
 			</Screen>
 		);
 	}
@@ -208,5 +207,5 @@ const styles = StyleSheet.create({
 	fieldsFields: {
 		flex: 0.72,
 		marginTop: 16
-	},
+	}
 });

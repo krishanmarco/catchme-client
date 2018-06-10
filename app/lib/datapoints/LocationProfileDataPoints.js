@@ -16,6 +16,7 @@ export default class LocationProfileDataPoints {
 			case LocationProfileDataPoints.infoItemIdPhone:
 			case LocationProfileDataPoints.infoItemIdEmail:
 			case LocationProfileDataPoints.infoItemIdAddress:
+				Linking.openURL(this._getMapsDirectionsDeeplink());
 				break;
 			case LocationProfileDataPoints.infoItemIdTimings:
 				const managerWeekTimings = ManagerWeekTimings.buildFromLocation(locationProfile);
@@ -98,8 +99,7 @@ export default class LocationProfileDataPoints {
 		return {
 			id: LocationProfileDataPoints.infoItemIdAddress,
 			title: DaoLocation.gAddress(this.locationProfile),
-			icon: Icons.locationMap,
-			onPress: () => Linking.openURL(this._getMapsDirectionsDeeplink())
+			icon: Icons.locationMap
 		};
 	}
 

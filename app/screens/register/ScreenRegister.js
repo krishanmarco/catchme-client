@@ -5,12 +5,12 @@ import {FontIcons} from '../../Config';
 import {FORM_API_ID_REGISTER} from '../../lib/redux-pool/api-form/def/ApiFormDefRegister';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
-import {fullpageForm} from '../../lib/theme/Styles';
+import {fullpageForm, imageBackground} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
-import {StyleSheet, View} from 'react-native';
+import {ImageBackground, StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
 import type {TApiFormDefRegister} from '../../lib/redux-pool/api-form/def/ApiFormDefRegister';
 import type {TNavigator} from '../../lib/types/Types';
@@ -53,69 +53,76 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 
 
 	render() {
+		// Do not require to be online to display this screen
+		// The screen will be completely empty.
+		// This means we have to handle the failed ApiRequest in case of offline
 		return (
-			<Screen>
-				<FullpageForm
+			<Screen requireOnline={false}>
+				<ImageBackground
+					source={require('../../assets/images/startup-bk.jpg')}
+					style={imageBackground.imageBackground}>
+					<FullpageForm
 
-					headerStyle={fullpageForm.headerStyle}
-					headerJsx={(
-						<ScreenInfo
-							height={120}
-							imageHeight='100%'
-							imageSource={require('../../assets/images/primary-me.png')}/>
-					)}
+						headerStyle={fullpageForm.headerStyle}
+						headerJsx={(
+							<ScreenInfo
+								height={120}
+								imageHeight='100%'
+								imageSource={require('../../assets/images/primary-me.png')}/>
+						)}
 
-					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
-					fieldsJsx={(
-						<View>
-							<RkTextInputFromPool
-								pool={this._getFormApiRegister()}
-								field='name'
-								placeholder={t('t_field_name')}
-								withBorder/>
+						fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+						fieldsJsx={(
+							<View>
+								<RkTextInputFromPool
+									pool={this._getFormApiRegister()}
+									field='name'
+									placeholder={t('t_field_name')}
+									withBorder/>
 
-							<RkTextInputFromPool
-								pool={this._getFormApiRegister()}
-								field='email'
-								keyboardType='email-address'
-								placeholder={t('t_field_email')}
-								withBorder/>
+								<RkTextInputFromPool
+									pool={this._getFormApiRegister()}
+									field='email'
+									keyboardType='email-address'
+									placeholder={t('t_field_email')}
+									withBorder/>
 
-							<RkTextInputFromPool
-								pool={this._getFormApiRegister()}
-								field='password'
-								placeholder={t('t_field_password')}
-								secureTextEntry
-								withBorder/>
+								<RkTextInputFromPool
+									pool={this._getFormApiRegister()}
+									field='password'
+									placeholder={t('t_field_password')}
+									secureTextEntry
+									withBorder/>
 
-							<RkTextInputFromPool
-								pool={this._getFormApiRegister()}
-								field='passwordConfirm'
-								placeholder={t('t_field_password_confirm')}
-								secureTextEntry
-								withBorder/>
+								<RkTextInputFromPool
+									pool={this._getFormApiRegister()}
+									field='passwordConfirm'
+									placeholder={t('t_field_password_confirm')}
+									secureTextEntry
+									withBorder/>
 
-							<LoadingButton
-								style={fullpageForm.fieldsButton}
-								loading={this._getFormApiRegister().loading}
-								rkType='large stretch accentColor'
-								text={t('t_bt_register')}
-								onPress={this._onRegisterPress}/>
+								<LoadingButton
+									style={fullpageForm.fieldsButton}
+									loading={this._getFormApiRegister().loading}
+									rkType='large stretch accentColor'
+									text={t('t_bt_register')}
+									onPress={this._onRegisterPress}/>
 
-						</View>
-					)}
+							</View>
+						)}
 
-					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
-					footerJsx={(
-						<View>
-							<FormFooterLink
-								text={t('t_register_login')}
-								clickableText={t('t_clk_register_login')}
-								onPress={this._onGoToLoginPress}/>
-						</View>
-					)}
+						footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+						footerJsx={(
+							<View>
+								<FormFooterLink
+									text={t('t_register_login')}
+									clickableText={t('t_clk_register_login')}
+									onPress={this._onGoToLoginPress}/>
+							</View>
+						)}
 
-				/>
+					/>
+				</ImageBackground>
 			</Screen>
 		);
 	}
@@ -143,5 +150,5 @@ const styles = StyleSheet.create({
 	},
 	footerStyle: {
 		flex: 0.06,
-	},
+	}
 });

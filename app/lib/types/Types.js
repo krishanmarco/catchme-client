@@ -20,7 +20,6 @@ export type TDataPoint = {
 	title: string;
 	subtitle?: string;
 	icon?: TIcon;
-	onPress?: Function
 }
 
 export type TDataTuple = {
