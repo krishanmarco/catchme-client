@@ -6,6 +6,7 @@ import {Icons} from '../../Config';
 import {t} from '../i18n/Translations';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 import type {TLocation} from '../daos/DaoLocation';
+import {Linking} from 'react-native';
 
 
 export default class LocationProfileDataPoints {
@@ -60,7 +61,7 @@ export default class LocationProfileDataPoints {
 		if (DaoLocation.hasTimings(this.locationProfile))
 			locationInfo.push(this._infoItemLocationTimings());
 
-		if (DaoLocation.hasAddressObj(this.locationProfile))
+		if (DaoLocation.hasAddress(this.locationProfile))
 			locationInfo.push(this._infoItemLocationAddress());
 
 		return locationInfo;
@@ -97,8 +98,26 @@ export default class LocationProfileDataPoints {
 		return {
 			id: LocationProfileDataPoints.infoItemIdAddress,
 			title: DaoLocation.gAddress(this.locationProfile),
-			icon: Icons.locationMap
+			icon: Icons.locationMap,
+			onPress: () => Linking.openURL(this._getMapsDirectionsDeeplink())
 		};
+	}
+
+	_getMapsDirectionsDeeplink() {
+		const hasLatLng = DaoLocation.hasLatLng(this.locationProfile);
+		const hasGPlaceId = DaoLocation.hasGooglePlaceId(this.locationProfile);
+		const {lat, lng} = DaoLocation.gLatLng(this.locationProfile);
+		const address = DaoLocation.gAddress(this.locationProfile);
+		const gPlaceId = DaoLocation.gGooglePlaceId(this.locationProfile);
+
+		const params = {};
+		params.destination = hasLatLng ? [lat, lng].join(',') : encodeURIComponent(address);
+
+		if (hasGPlaceId)
+			params.destination_place_id = gPlaceId;
+
+		const paramsStr = Object.keys(params).map(k => `${k}=${params[k]}`).join('&');
+		return `https://www.google.com/maps/dir/?api=1&${paramsStr}`;
 	}
 
 }

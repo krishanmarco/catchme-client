@@ -1,6 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 20-Mar-18 © **/
 import _ from 'lodash';
 import Maps from '../data/Maps';
+import {isStrInt} from "../HelperFunctions";
 
 export class Validator {
 
@@ -64,6 +65,9 @@ export class Validator {
 	static number(value: number, min: number, max: number): string {
 		if (value == null)
 			return Maps.rCodes.r_err_fld_not_set.id;
+
+		if (!isStrInt(value))
+			return Maps.rCodes.r_err_fld_invalid.id;
 
 		if (min && value < min)
 			return Maps.rCodes.r_err_fld_length_short.id;

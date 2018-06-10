@@ -41,6 +41,7 @@ class _LocationList extends React.PureComponent<void, Props, void> {
 			|| regExp.test(DaoLocation.gEmail(location))
 			|| regExp.test(DaoLocation.gPhone(location))
 			|| regExp.test(DaoLocation.gCity(location))
+			|| regExp.test(DaoLocation.gTown(location))
 			|| regExp.test(DaoLocation.gPostcode(location))
 			|| regExp.test(DaoLocation.gAddress(location));
 	}

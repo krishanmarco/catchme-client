@@ -106,16 +106,21 @@ export class CacheDefUserProfileActionCreator {
 		});
 	}
 
-	_putToAdminLocationsArray(locationToAdd: TLocation) {
+	_putToAdminLocationsArray(locationToAdd: TLocation, removeLocation: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
 			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
 
 			const newLid = DaoLocation.gId(locationToAdd);
-			if (userAdminLocations.map(DaoLocation.gId).includes(newLid)) {
-				// This lid is already in the array, remove it so the new version gets pushed
+			const currentIds = userAdminLocations.map(DaoLocation.gId);
+
+			// The location id might already be in the array, needs remove
+			if (currentIds.includes(newLid))
 				this._removeFromAdminLocationsArray(locationToAdd);
-			}
+
+			// Maybe we need also remove some other location
+			if (removeLocation != null && currentIds.includes(DaoLocation.gId(removeLocation)))
+				this._removeFromAdminLocationsArray(removeLocation);
 
 			userAdminLocations.push(locationToAdd);
 			_.set(thisUser, DaoUser.pAdminLocations, userAdminLocations);
@@ -496,10 +501,11 @@ export class CacheDefUserProfileActionCreator {
 
 		const lid = DaoLocation.gId(location);
 		return ApiClient.userLocationsAdminEditLid(location)
-			.then((location: TLocation) => {
-				Logger.v('CacheDefUserProfile putAdminLocation: success', lid, location);
+			.then((locationWithId: TLocation) => {
+				Logger.v('CacheDefUserProfile putAdminLocation: success', lid, locationWithId);
+				this._putToAdminLocationsArray(locationWithId, location);
 				Snackbar.showSuccessStr(t('t_ls_admin_location_added'));
-				return location;
+				return locationWithId;
 			})
 			.catch(err => {
 				// Revert to the previous state

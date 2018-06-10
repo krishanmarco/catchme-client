@@ -42,6 +42,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 			DaoLocation.pAddressCountry,
 			DaoLocation.pAddressState,
 			DaoLocation.pAddressCity,
+			DaoLocation.pAddressTown,
 			DaoLocation.pAddressPostcode,
 			DaoLocation.pAddressAddress
 		]);
@@ -72,6 +73,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 							{field: DaoLocation.pAddressCountry, label: t('t_country')},
 							{field: DaoLocation.pAddressState, label: t('t_state')},
 							{field: DaoLocation.pAddressCity, label: t('t_city')},
+							{field: DaoLocation.pAddressTown, label: t('t_town')},
 							{field: DaoLocation.pAddressPostcode, label: t('t_postcode')},
 							{field: DaoLocation.pAddressAddress, label: t('t_address')},
 						].map((addressComponent, key) => (

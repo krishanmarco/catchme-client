@@ -63,17 +63,17 @@ export default class DaoLocation {
 	static pEmail = 'email';
 	static pTimings = 'timings';
 	static pImageUrls = 'imageUrls';
-	static pAddress = 'address';
 	static pPeople = 'people';
 	static pConnections = 'connections';
 	static pGooglePlaceId = 'googlePlaceId';
 	static pStatus = 'status';
-	static pAddressCountry = `${DaoLocation.pAddress}.country`;
-	static pAddressState = `${DaoLocation.pAddress}.state`;
-	static pAddressCity = `${DaoLocation.pAddress}.city`;
-	static pAddressPostcode = `${DaoLocation.pAddress}.postcode`;
-	static pAddressAddress = `${DaoLocation.pAddress}.address`;
-	static pAddressLatLng = `${DaoLocation.pAddress}.latLng`;
+	static pAddressCountry = 'country';
+	static pAddressState = 'state';
+	static pAddressCity = 'city';
+	static pAddressTown = 'town';
+	static pAddressPostcode = 'postcode';
+	static pAddressAddress = 'address';
+	static pAddressLatLng = 'latLng';
 	static pPeopleMen = `${DaoLocation.pPeople}.men`;
 	static pPeopleWomen = `${DaoLocation.pPeople}.women`;
 	static pPeopleTotal = `${DaoLocation.pPeople}.total`;
@@ -96,6 +96,7 @@ export default class DaoLocation {
 		_.set(newLocation, DaoLocation.pAddressCountry, DaoLocation.gCountry(location));
 		_.set(newLocation, DaoLocation.pAddressState, DaoLocation.gState(location));
 		_.set(newLocation, DaoLocation.pAddressCity, DaoLocation.gCity(location));
+		_.set(newLocation, DaoLocation.pAddressTown, DaoLocation.gTown(location));
 		_.set(newLocation, DaoLocation.pAddressPostcode, DaoLocation.gPostcode(location));
 		_.set(newLocation, DaoLocation.pAddressAddress, DaoLocation.gAddress(location));
 		_.set(newLocation, DaoLocation.pAddressLatLng, DaoLocation.gLatLng(location));
@@ -123,6 +124,7 @@ export default class DaoLocation {
 			[DaoLocation.pAddressCountry]: '',
 			[DaoLocation.pAddressState]: '',
 			[DaoLocation.pAddressCity]: '',
+			[DaoLocation.pAddressTown]: '',
 			[DaoLocation.pAddressPostcode]: '',
 			[DaoLocation.pAddressAddress]: '',
 			[DaoLocation.pAddressLatLng]: {lat: null, lng: null,}
@@ -143,6 +145,7 @@ export default class DaoLocation {
 		_.set(newLocation, DaoLocation.pAddressCountry, DaoLocation.gCountry(location));
 		_.set(newLocation, DaoLocation.pAddressState, DaoLocation.gState(location));
 		_.set(newLocation, DaoLocation.pAddressCity, DaoLocation.gCity(location));
+		_.set(newLocation, DaoLocation.pAddressTown, DaoLocation.gTown(location));
 		_.set(newLocation, DaoLocation.pAddressPostcode, DaoLocation.gPostcode(location));
 		_.set(newLocation, DaoLocation.pAddressAddress, DaoLocation.gAddress(location));
 		_.set(newLocation, DaoLocation.pAddressLatLng, DaoLocation.gLatLng(location));
@@ -187,10 +190,6 @@ export default class DaoLocation {
 		return _.get(location, DaoLocation.pGooglePlaceId);
 	}
 	
-	static gAddressObj(location: TLocation): TLocationAddress {
-		return _.get(location, DaoLocation.pAddress);
-	}
-	
 	static gCountry(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressCountry);
 	}
@@ -201,6 +200,10 @@ export default class DaoLocation {
 	
 	static gCity(location: TLocation): string {
 		return _.get(location, DaoLocation.pAddressCity);
+	}
+
+	static gTown(location: TLocation): string {
+		return _.get(location, DaoLocation.pAddressTown);
 	}
 	
 	static gPostcode(location: TLocation): string {
@@ -278,8 +281,8 @@ export default class DaoLocation {
 		return DaoLocation.pConnections in location;
 	}
 	
-	static hasAddressObj(location: TLocation): boolean {
-		return DaoLocation.pAddress in location;
+	static hasAddress(location: TLocation): boolean {
+		return DaoLocation.pAddressAddress in location;
 	}
 	
 	static hasPeople(location: TLocation): boolean {
@@ -289,6 +292,10 @@ export default class DaoLocation {
 	static hasLatLng(location: TLocation): boolean {
 		const {lat, lng} = DaoLocation.gLatLng(location);
 		return _.isFinite(lat) && _.isFinite(lng);
+	}
+
+	static hasGooglePlaceId(location: TLocation): boolean {
+		return !_.isEmpty(DaoLocation.gGooglePlaceId(location));
 	}
 
 	static hasNewImage(location: TLocation): boolean {

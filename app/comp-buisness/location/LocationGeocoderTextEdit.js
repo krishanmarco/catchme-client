@@ -5,6 +5,7 @@ import {Colors, Const} from '../../Config';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import {t} from '../../lib/i18n/Translations';
 import type {TLocation} from '../../lib/daos/DaoLocation';
+import Logger from "../../lib/Logger";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -15,81 +16,82 @@ type Props = {
 
 export default class LocationGeocoderTextEdit extends React.Component<void, Props, void> {
 
-  // Available options can be found at:
-  // https://developers.google.com/places/web-service/autocomplete
-  static AutoCompleteQueryKey = {
-    key: Const.googlePlacesKey,
-    // language: 'it',
-    // types: '(cities)' // default: 'geocode'
-  };
+	// Available options can be found at:
+	// https://developers.google.com/places/web-service/autocomplete
+	static AutoCompleteQueryKey = {
+		key: Const.googlePlacesKey,
+		// language: 'it',
+		// types: '(cities)' // default: 'geocode'
+	};
 
-  static AutoCompleteStyles = {
-    textInputContainer: {width: '100%'},
-    description: {fontWeight: 'bold'},
-    predefinedPlacesDescription: {color: Colors.primary}
-  };
+	static AutoCompleteStyles = {
+		textInputContainer: {width: '100%'},
+		description: {fontWeight: 'bold'},
+		predefinedPlacesDescription: {color: Colors.primary}
+	};
 
-  // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
-  static AutoCompleteApi = 'GoogleReverseGeocoding';
+	// Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
+	static AutoCompleteApi = 'GoogleReverseGeocoding';
 
-  // Available options can be found at:
-  // https://developers.google.com/maps/documentation/geocoding/intro
-  static GoogleReverseGeocodingQueryOptions = {};
+	// Available options can be found at:
+	// https://developers.google.com/maps/documentation/geocoding/intro
+	static GoogleReverseGeocodingQueryOptions = {};
 
-  // Filter the reverse geocoding results by types
-  // Eg. ['locality', 'administrative_area_level_3'] to only display cities
-  static GoogleReverseGeocodingFilterByTypes = [];
+	// Filter the reverse geocoding results by types
+	// Eg. ['locality', 'administrative_area_level_3'] to only display cities
+	static GoogleReverseGeocodingFilterByTypes = [];
 
-  // Available options can be found at:
-  // https://developers.google.com/places/web-service/search
-  static GooglePlacesSearchQueryOptions = {rankby: 'distance'};
-
-
-
-  constructor(props, context) {
-    super(props, context);
-    this._onPress = this._onPress.bind(this);
-  }
+	// Available options can be found at:
+	// https://developers.google.com/places/web-service/search
+	static GooglePlacesSearchQueryOptions = {rankby: 'distance'};
 
 
-  _onPress(data, details) {
-    const {onSelect} = this.props;
-    // details are only provided when fetchDetails=true
-    onSelect(new GoogleMapsDataDecoder(details).toLocation());
-  }
+
+	constructor(props, context) {
+		super(props, context);
+		this._onPress = this._onPress.bind(this);
+	}
 
 
-  render() {
-    return (
-        <GooglePlacesAutocomplete
-            placeholder={t('t_search_location_map')}
-            minLength={3}
-            autoFocus={false}
-            returnKeyType='search'
-            listViewDisplayed='auto'
-            renderDescription={row => row.description}
+	_onPress(data, details) {
+		const {onSelect} = this.props;
+		Logger.v('LocationGeocoderTextEdit _onPress: geocode', details);
+		// details are only provided when fetchDetails=true
+		onSelect(new GoogleMapsDataDecoder(details).toLocation());
+	}
 
-            fetchDetails={true}
-            onPress={this._onPress}
 
-            getDefaultValue={() => ''}
+	render() {
+		return (
+			<GooglePlacesAutocomplete
+				placeholder={t('t_search_location_map')}
+				minLength={3}
+				autoFocus={false}
+				returnKeyType='search'
+				listViewDisplayed='auto'
+				renderDescription={row => row.description}
 
-            nearbyPlacesAPI={LocationGeocoderTextEdit.AutoCompleteApi}
-            query={LocationGeocoderTextEdit.AutoCompleteQueryKey}
-            styles={LocationGeocoderTextEdit.AutoCompleteStyles}
-            debounce={Const.googlePlacesDebounceTimeMs}
+				fetchDetails={true}
+				onPress={this._onPress}
 
-            currentLocation={false}
+				getDefaultValue={() => ''}
 
-            GoogleReverseGeocodingQuery={LocationGeocoderTextEdit.GoogleReverseGeocodingQueryOptions}
-            GooglePlacesSearchQuery={LocationGeocoderTextEdit.GooglePlacesSearchQueryOptions}
+				nearbyPlacesAPI={LocationGeocoderTextEdit.AutoCompleteApi}
+				query={LocationGeocoderTextEdit.AutoCompleteQueryKey}
+				styles={LocationGeocoderTextEdit.AutoCompleteStyles}
+				debounce={Const.googlePlacesDebounceTimeMs}
 
-            filterReverseGeocodingByTypes={LocationGeocoderTextEdit.GoogleReverseGeocodingFilterByTypes}
+				currentLocation={false}
 
-            renderLeftButton={() => null}
-            renderRightButton={() => null}
-        />
-    );
-  }
+				GoogleReverseGeocodingQuery={LocationGeocoderTextEdit.GoogleReverseGeocodingQueryOptions}
+				GooglePlacesSearchQuery={LocationGeocoderTextEdit.GooglePlacesSearchQueryOptions}
+
+				filterReverseGeocodingByTypes={LocationGeocoderTextEdit.GoogleReverseGeocodingFilterByTypes}
+
+				renderLeftButton={() => null}
+				renderRightButton={() => null}
+			/>
+		);
+	}
 
 }

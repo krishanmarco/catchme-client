@@ -155,3 +155,7 @@ export function strtr(str, pairs) {
 		.map(part => pairs[part] || part)
 		.join('');
 }
+
+export function isStrInt(val) {
+	return (/^\d+$/).test(val);
+}

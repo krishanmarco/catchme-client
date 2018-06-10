@@ -260,6 +260,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 						renderItem={this._renderTabLocationInfoItem}/>
 					<View style={[{height: dim.height - 130}, styles.infoTabMapCont]}>
 						<LocationMap
+							toolbarEnabled={true}
 							scrollEnabled={false}
 							locations={[locationProfile]}/>
 					</View>
