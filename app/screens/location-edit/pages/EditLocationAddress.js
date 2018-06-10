@@ -51,7 +51,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 		const {navigator} = this.props;
 		Router.toModalAddressPicker(
 			navigator,
-			{onSelect: location => this._formApiEditLocationProfile().change(location)}
+			{onSelect: this._formApiEditLocationProfile().change}
 		);
 	}
 
