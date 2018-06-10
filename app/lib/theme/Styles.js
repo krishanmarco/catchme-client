@@ -39,10 +39,3 @@ export const listItemActions = StyleSheet.create({
 		alignItems: 'center'
 	}
 });
-
-export const imageBackground = StyleSheet.create({
-	imageBackground: {
-		width: '100%',
-		height: '100%'
-	}
-});

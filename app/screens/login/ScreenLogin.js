@@ -1,17 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
-import ApiExceptionHandler from '../../lib/data/ApiExceptionHandler';
-import ApiFormPool from '../../lib/redux-pool/api-form/ApiFormPool';
-import DaoApiException from '../../lib/daos/DaoApiException';
-import DaoUser from '../../lib/daos/DaoUser';
-import Logger from '../../lib/Logger';
-import Maps from '../../lib/data/Maps';
 import React from 'react';
 import Router from '../../lib/navigation/Router';
 import {FORM_API_ID_LOGIN} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
-import {fullpageForm, imageBackground} from '../../lib/theme/Styles';
+import {fullpageForm} from '../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
@@ -21,7 +15,7 @@ import {SignInFacebook} from '../../lib/social/SignInFacebook';
 import {SignInGoogle} from '../../lib/social/SignInGoogle';
 import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
-import {StyleSheet, View, ImageBackground} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
 import type {TApiFormDefLogin} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import type {TNavigator} from '../../lib/types/Types';
@@ -89,72 +83,68 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 		// This means we have to handle the failed ApiRequest in case of offline
 		return (
 			<Screen requireOnline={false}>
-				<ImageBackground
-					source={require('../../assets/images/startup-bk.jpg')}
-					style={imageBackground.imageBackground}>
-					<FullpageForm
+				<FullpageForm
 
-						headerStyle={fullpageForm.headerStyle}
-						headerJsx={(
-							<ScreenInfo
-								height={120}
-								imageHeight='100%'
-								imageSource={require('../../assets/images/primary-me.png')}/>
-						)}
+					headerStyle={fullpageForm.headerStyle}
+					headerJsx={(
+						<ScreenInfo
+							height={120}
+							imageHeight='100%'
+							imageSource={require('../../assets/images/primary-me.png')}/>
+					)}
 
-						fieldsStyle={fullpageForm.fieldsStyle}
-						fieldsJsx={(
-							<View style={styles.fieldsRow}>
+					fieldsStyle={fullpageForm.fieldsStyle}
+					fieldsJsx={(
+						<View style={styles.fieldsRow}>
 
-								<View style={styles.fieldsSocialButtons}>
-									{[
-										{icon: Icons.loginGoogle, onPress: this._onGoogleLogin},
-										{icon: Icons.loginFacebook, onPress: this._onFacebookLogin},
-									].map(this._renderSocialIcon)}
-								</View>
-
-								<View style={styles.fieldsFields}>
-									<RkTextInputFromPool
-										pool={this._getFormApiLogin()}
-										field='email'
-										keyboardType='email-address'
-										placeholder={t('t_field_email')}
-										withBorder/>
-
-									<RkTextInputFromPool
-										pool={this._getFormApiLogin()}
-										field='password'
-										placeholder={t('t_field_password')}
-										withBorder
-										secureTextEntry/>
-
-									<LoadingButton
-										style={fullpageForm.fieldsButton}
-										rkType='large stretch accentColor'
-										loading={this._getFormApiLogin().loading}
-										text={t('t_bt_login')}
-										onPress={this._onLoginPress}/>
-
-								</View>
+							<View style={styles.fieldsSocialButtons}>
+								{[
+									{icon: Icons.loginGoogle, onPress: this._onGoogleLogin},
+									{icon: Icons.loginFacebook, onPress: this._onFacebookLogin},
+								].map(this._renderSocialIcon)}
 							</View>
-						)}
 
-						footerStyle={fullpageForm.footerStyle}
-						footerJsx={(
-							<View>
-								<FormFooterLink
-									text={t('t_login_no_account')}
-									clickableText={t('t_clk_login_no_account')}
-									onPress={this._onGoToSignupPress}/>
-								<FormFooterLink
-									text={t('t_login_forgot_pw')}
-									clickableText={t('t_clk_login_forgot_pw')}
-									onPress={this._onGoToRecoverPasswordPress}/>
+							<View style={styles.fieldsFields}>
+								<RkTextInputFromPool
+									pool={this._getFormApiLogin()}
+									field='email'
+									keyboardType='email-address'
+									placeholder={t('t_field_email')}
+									withBorder/>
+
+								<RkTextInputFromPool
+									pool={this._getFormApiLogin()}
+									field='password'
+									placeholder={t('t_field_password')}
+									withBorder
+									secureTextEntry/>
+
+								<LoadingButton
+									style={fullpageForm.fieldsButton}
+									rkType='large stretch accentColor'
+									loading={this._getFormApiLogin().loading}
+									text={t('t_bt_login')}
+									onPress={this._onLoginPress}/>
+
 							</View>
-						)}
+						</View>
+					)}
 
-					/>
-				</ImageBackground>
+					footerStyle={fullpageForm.footerStyle}
+					footerJsx={(
+						<View>
+							<FormFooterLink
+								text={t('t_login_no_account')}
+								clickableText={t('t_clk_login_no_account')}
+								onPress={this._onGoToSignupPress}/>
+							<FormFooterLink
+								text={t('t_login_forgot_pw')}
+								clickableText={t('t_clk_login_forgot_pw')}
+								onPress={this._onGoToRecoverPasswordPress}/>
+						</View>
+					)}
+
+				/>
 			</Screen>
 		);
 	}

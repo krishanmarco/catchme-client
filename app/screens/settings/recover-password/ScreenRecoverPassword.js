@@ -7,7 +7,7 @@ import {fullpageForm, imageBackground} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../../lib/Snackbar';
-import {StyleSheet, ImageBackground, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
 import type {TApiFormPool} from '../../../lib/redux-pool/api-form/ApiFormPool';
 import type {TNavigator} from '../../../lib/types/Types';
@@ -57,47 +57,43 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 		// This means we have to handle the failed ApiRequest in case of offline
 		return (
 			<Screen requireOnline={false}>
-				<ImageBackground
-					source={require('../../../assets/images/startup-bk.jpg')}
-					style={imageBackground.imageBackground}>
-					<FullpageForm
+				<FullpageForm
 
-						headerStyle={fullpageForm.headerStyle}
-						headerJsx={this._renderScreenInfo()}
+					headerStyle={fullpageForm.headerStyle}
+					headerJsx={this._renderScreenInfo()}
 
-						fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
-						fieldsJsx={(
-							<View>
-								<RkTextInputFromPool
-									pool={this._getFormApiRecoverPassword()}
-									field='email'
-									keyboardType='email-address'
-									placeholder={t('t_field_email')}
-									secureTextEntry
-									withBorder/>
+					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsJsx={(
+						<View>
+							<RkTextInputFromPool
+								pool={this._getFormApiRecoverPassword()}
+								field='email'
+								keyboardType='email-address'
+								placeholder={t('t_field_email')}
+								secureTextEntry
+								withBorder/>
 
-								<LoadingButton
-									style={fullpageForm.fieldsButton}
-									loading={this._getFormApiRecoverPassword().loading}
-									onPress={this._onSendPress}
-									rkType='large stretch accentColor'
-									text={t('t_bt_send')}
-									withBorder/>
-							</View>
-						)}
+							<LoadingButton
+								style={fullpageForm.fieldsButton}
+								loading={this._getFormApiRecoverPassword().loading}
+								onPress={this._onSendPress}
+								rkType='large stretch accentColor'
+								text={t('t_bt_send')}
+								withBorder/>
+						</View>
+					)}
 
-						footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
-						footerJsx={(
-							<View>
-								<FormFooterLink
-									text={t('t_register_login')}
-									clickableText={t('t_clk_register_login')}
-									onPress={this._onGoToLoginPress}/>
-							</View>
-						)}
+					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerJsx={(
+						<View>
+							<FormFooterLink
+								text={t('t_register_login')}
+								clickableText={t('t_clk_register_login')}
+								onPress={this._onGoToLoginPress}/>
+						</View>
+					)}
 
-					/>
-				</ImageBackground>
+				/>
 			</Screen>
 		);
 	}
