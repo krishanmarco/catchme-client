@@ -73,9 +73,9 @@ export default class NavbarHandlerUserProfile {
 		// do not display the navigation buttons
 		if (cacheUserProfile.data != null && userProfile != null) {
 			const uid = DaoUser.gId(userProfile);
-			const friendIds = DaoUser.gConnectionFriendIds(cacheUserProfile.data);
-			const pendingIds = DaoUser.gConnectionPendingIds(cacheUserProfile.data);
-			const requestIds = DaoUser.gConnectionRequestIds(cacheUserProfile.data);
+			const friendIds = DaoUser.gConnectionsFriendIds(cacheUserProfile.data);
+			const pendingIds = DaoUser.gConnectionsPendingIds(cacheUserProfile.data);
+			const requestIds = DaoUser.gConnectionsRequestIds(cacheUserProfile.data);
 
 			if (this.visibleButtons.includes(nbBtAddConnection.id))
 				if (!friendIds.includes(uid) && !pendingIds.includes(uid) && !requestIds.includes(uid))

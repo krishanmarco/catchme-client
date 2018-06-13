@@ -63,19 +63,19 @@ class _UserList extends React.PureComponent<void, Props, void> {
 	}
 
 	_getRequestIds() {
-		return DaoUser.gConnectionRequestIds(this._cacheUserProfile().data);
+		return DaoUser.gConnectionsRequestIds(this._cacheUserProfile().data);
 	}
 
 	_getBlockedIds() {
-		return DaoUser.gConnectionBlockedIds(this._cacheUserProfile().data);
+		return DaoUser.gConnectionsBlockedIds(this._cacheUserProfile().data);
 	}
 
 	_getFriendIds() {
-		return DaoUser.gConnectionFriendIds(this._cacheUserProfile().data);
+		return DaoUser.gConnectionsFriendIds(this._cacheUserProfile().data);
 	}
 
 	_getPendingIds() {
-		return DaoUser.gConnectionPendingIds(this._cacheUserProfile().data);
+		return DaoUser.gConnectionsPendingIds(this._cacheUserProfile().data);
 	}
 
 

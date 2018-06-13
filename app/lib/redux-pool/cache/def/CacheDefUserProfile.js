@@ -3,6 +3,7 @@ import _ from 'lodash';
 import ApiClient from '../../../data/ApiClient';
 import CacheDef from '../CacheDef';
 import DaoLocation from '../../../daos/DaoLocation';
+import DaoMetadata from '../../../daos/DaoMetadata';
 import DaoUser from '../../../daos/DaoUser';
 import DaoUserLocationStatus from '../../../daos/DaoUserLocationStatus';
 import Logger from '../../../Logger';
@@ -78,7 +79,7 @@ export class CacheDefUserProfileActionCreator {
 		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userLocationStatuses = DaoUser.gLocationsUserLocationStatuses(thisUser);
+			const userLocationStatuses = DaoUser.gLocationsUserLocations(thisUser);
 
 			const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
 			if (userLocationStatuses.map(DaoUserLocationStatus.gId).includes(ulsId)) {
@@ -87,7 +88,7 @@ export class CacheDefUserProfileActionCreator {
 			}
 
 			userLocationStatuses.push(DaoLocation.gUserLocationStatus(locationWithULS));
-			_.set(thisUser, DaoUser.pLocationsUserLocationStatuses, userLocationStatuses);
+			_.set(thisUser, DaoUser.pLocationsUserLocationIds, userLocationStatuses);
 			setData(thisUser);
 		});
 	}
@@ -96,11 +97,11 @@ export class CacheDefUserProfileActionCreator {
 		const {executeIfDataNotNull, setData} = this;
 
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userLocationStatuses = DaoUser.gLocationsUserLocationStatuses(thisUser);
+			const userLocationStatuses = DaoUser.gLocationsUserLocations(thisUser);
 
 			const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
 			_.remove(userLocationStatuses, uls => DaoUserLocationStatus.gId(uls) == ulsId);
-			_.set(thisUser, DaoUser.pLocationsUserLocationStatuses, userLocationStatuses);
+			_.set(thisUser, DaoUser.pLocationsUserLocationIds, userLocationStatuses);
 
 			setData(thisUser);
 		});
@@ -109,7 +110,7 @@ export class CacheDefUserProfileActionCreator {
 	_putToAdminLocationsArray(locationToAdd: TLocation, removeLocation: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
+			const userAdminLocations = DaoUser.gLocationsAdmin(thisUser);
 
 			const newLid = DaoLocation.gId(locationToAdd);
 			const currentIds = userAdminLocations.map(DaoLocation.gId);
@@ -123,7 +124,7 @@ export class CacheDefUserProfileActionCreator {
 				this._removeFromAdminLocationsArray(removeLocation);
 
 			userAdminLocations.push(locationToAdd);
-			_.set(thisUser, DaoUser.pAdminLocations, userAdminLocations);
+			_.set(thisUser, DaoUser.pLocationsAdminIds, userAdminLocations);
 			setData(thisUser);
 		});
 	}
@@ -131,10 +132,10 @@ export class CacheDefUserProfileActionCreator {
 	_removeFromAdminLocationsArray(locationToRemove: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userAdminLocations = DaoUser.gAdminLocations(thisUser);
+			const userAdminLocations = DaoUser.gLocationsAdmin(thisUser);
 
 			_.remove(userAdminLocations, l => DaoLocation.gId(l) == DaoLocation.gId(locationToRemove));
-			_.set(thisUser, DaoUser.pAdminLocations, userAdminLocations);
+			_.set(thisUser, DaoUser.pLocationsAdminIds, userAdminLocations);
 
 			setData(thisUser);
 		});
@@ -156,16 +157,7 @@ export class CacheDefUserProfileActionCreator {
 			// Add the new id
 			favoriteLocationIds.push(locationId);
 			_.set(thisUser, DaoUser.pLocationsFavoriteIds, favoriteLocationIds);
-
-			// Get the list of locations associated to the user.locations object
-			const locations = DaoUser.gLocationsLocations(thisUser);
-
-			const locationAlreadyIncluded = _.some(locations, l => DaoLocation.gId(l) == locationId);
-			if (!locationAlreadyIncluded) {
-				// Add the new location
-				locations.push(locationToAdd);
-				_.set(thisUser, DaoUser.pLocationsLocations, locations);
-			}
+			DaoMetadata.putLocation(DaoUser.gMetadata(thisUser), locationToAdd);
 
 			// Run the dispatch action (updating this user)
 			setData(thisUser);
@@ -238,54 +230,54 @@ export class CacheDefUserProfileActionCreator {
 	_addUserToConnectionsFriends(userToAdd: TUser) {
 		this._addToConnectionArray(
 			userToAdd,
-			DaoUser.pConnectionFriends,
-			DaoUser.gConnectionFriendIds,
-			DaoUser.invalidateConnectionFriendIds
+			DaoUser.pConnectionsFriendIds,
+			DaoUser.gConnectionsFriendIds,
+			() => {}
 		);
 	}
 
 	_addUserToConnectionsPending(userToAdd: TUser) {
 		this._addToConnectionArray(
 			userToAdd,
-			DaoUser.pConnectionPending,
-			DaoUser.gConnectionPendingIds,
-			DaoUser.invalidateConnectionPendingIds
+			DaoUser.pConnectionsPendingIds,
+			DaoUser.gConnectionsPendingIds,
+			() => {}
 		);
 	}
 
 	_addUserToConnectionsBlocked(userToAdd: TUser) {
 		this._addToConnectionArray(
 			userToAdd,
-			DaoUser.pConnectionBlocked,
-			DaoUser.gConnectionBlockedIds,
-			DaoUser.invalidateConnectionBlockedIds
+			DaoUser.pConnectionsBlockedIds,
+			DaoUser.gConnectionsBlockedIds,
+			() => {}
 		);
 	}
 
 	_removeUserFromConnectionsFriends(userToRemove: TUser) {
 		this._removeFromConnectionArray(
 			userToRemove,
-			DaoUser.pConnectionFriends,
-			DaoUser.gConnectionFriendIds,
-			DaoUser.invalidateConnectionFriendIds
+			DaoUser.pConnectionsFriendIds,
+			DaoUser.gConnectionsFriendIds,
+			() => {}
 		);
 	}
 
 	_removeUserFromConnectionsPending(userToRemove: TUser) {
 		this._removeFromConnectionArray(
 			userToRemove,
-			DaoUser.pConnectionPending,
-			DaoUser.gConnectionPendingIds,
-			DaoUser.invalidateConnectionPendingIds
+			DaoUser.pConnectionsPendingIds,
+			DaoUser.gConnectionsPendingIds,
+			() => {}
 		);
 	}
 
 	_removeUserFromConnectionsBlocked(userToRemove: TUser) {
 		this._removeFromConnectionArray(
 			userToRemove,
-			DaoUser.pConnectionBlocked,
-			DaoUser.gConnectionBlockedIds,
-			DaoUser.invalidateConnectionBlockedIds
+			DaoUser.pConnectionsBlockedIds,
+			DaoUser.gConnectionsBlockedIds,
+			() => {}
 		);
 	}
 

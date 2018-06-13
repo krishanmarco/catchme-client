@@ -189,7 +189,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.tabFriendsNow}>
 				<UserList
-					users={DaoLocation.gFriendsNow(locationProfile)}
+					users={DaoLocation.gConnectionsNow(locationProfile)}
 					showAdd={true}
 					showPending={true}
 					onUserPress={this._onUserPress}
@@ -215,7 +215,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.tabFriendsFuture}>
 				<UserList
-					users={DaoLocation.gFriendsFuture(locationProfile)}
+					users={DaoLocation.gConnectionsFuture(locationProfile)}
 					showAdd={true}
 					showPending={true}
 					onUserPress={this._onUserPress}
