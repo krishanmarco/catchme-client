@@ -402,8 +402,8 @@ export default class DaoUser {
 	}
 
 	static findUserLocationStatus(user: TUser, ulsId: number): ?TLocationWithULS {
-		const locationsWithULSs = DaoUser.gLocationsUserLocations(user);
-		return locationsWithULSs.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
+		return DaoUser.gLocationsUserLocations(user)
+			.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
 	}
 
 	static isSameUser(user1: TUser, user2: TUser) {

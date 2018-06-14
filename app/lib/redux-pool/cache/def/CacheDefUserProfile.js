@@ -325,36 +325,38 @@ export class CacheDefUserProfileActionCreator {
 			});
 	}
 
-	putLocationWithULS(locationWithULS: TLocationWithULS) {
+	putLocationWithULS(newOrEditedLocationWithULS: TLocationWithULS) {
 		const {executeIfDataNotNull} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userLocationStatus = DaoLocation.gUserLocationStatus(locationWithULS);
-			const ulsId = DaoUserLocationStatus.gId(userLocationStatus);
+			const newOrEditedUserLocation = DaoLocation.gUserLocationStatus(newOrEditedLocationWithULS);
+			const newOrEditedUlid = DaoUserLocationStatus.gId(newOrEditedUserLocation);
 
-			// Get the old state (needed if the request fails)
-			const oldLocationWithULS: ?TLocationWithULS = Object.assign({}, DaoUser.findUserLocationStatus(thisUser, ulsId));
-			this._putToUserLocationStatusesArray(locationWithULS);
+			// Get the old state (needed if the request fails), must be before putting new object
+			const oldUserLocation = {...DaoUser.findUserLocationStatus(thisUser, newOrEditedUlid)};
+			const oldUserLocationId = DaoUserLocationStatus.gId(oldUserLocation);
+			this._putToUserLocationStatusesArray(newOrEditedLocationWithULS);
 
-			return ApiClient.userStatusAddOrEdit(userLocationStatus)
-				.then((newUserLocationStatus: TUserLocationStatus) => {
+			return ApiClient.userStatusAddOrEdit(newOrEditedUserLocation)
+				.then((userLocationWithId: TUserLocationStatus) => {
 					// The add was successful and the UserLocationStatus id will
 					// have changed, remove {userLocationStatus} and add {newUserLocationStatus}
-					const newLocationWithULS = DaoLocation.sUserLocationStatus(locationWithULS, newUserLocationStatus);
-					const oldUlid = DaoUserLocationStatus.gId(DaoLocation.gUserLocationStatus(oldLocationWithULS));
-					this._putToUserLocationStatusesArray(newLocationWithULS, [-1, oldUlid]);
-					Logger.v('CacheDefUserProfile putLocationWithULS: success', ulsId, newUserLocationStatus);
-					return newUserLocationStatus;
+					const locationWithNewULS = DaoLocation.sUserLocationStatus(newOrEditedLocationWithULS, userLocationWithId);
+					this._putToUserLocationStatusesArray(locationWithNewULS, [-1, oldUserLocationId]);
+					Logger.v('CacheDefUserProfile putLocationWithULS: success', newOrEditedUlid, userLocationWithId);
+					return userLocationWithId;
 				})
 				.catch(err => {
 					// Revert to the previous state if oldLocationWithULS is not a valid uls
 					// then the _putToUserLocationStatusesArray did an edit and we need to
 					// edit the object again, if oldLocationWithULS is a valid uls
 					// then the _putToUserLocationStatusesArray did an add and we should remove
-					if (DaoLocation.hasUserLocationStatus(oldLocationWithULS))
-						this._putToUserLocationStatusesArray(oldLocationWithULS);
-					else this._removeFromUserLocationStatusesArray(locationWithULS);
+					const locationWithOldULS = DaoLocation.sUserLocationStatus(newOrEditedLocationWithULS, oldUserLocation);
 
-					Logger.v('CacheDefUserProfile putLocationWithULS: failed', ulsId, err);
+					if (oldUserLocation != null)
+						this._putToUserLocationStatusesArray(locationWithOldULS);
+					else this._removeFromUserLocationStatusesArray(locationWithOldULS);
+
+					Logger.v('CacheDefUserProfile putLocationWithULS: failed', newOrEditedUlid, err);
 					return err;
 				});
 		});
