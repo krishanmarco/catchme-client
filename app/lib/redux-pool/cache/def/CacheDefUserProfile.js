@@ -135,7 +135,7 @@ export class CacheDefUserProfileActionCreator {
 	_removeFromLocationFavoritesArray(locationToRemove: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			DaoUser.removeLocationsFavorite(thisUser, DaoLocation.gId(locationToRemove));
+			DaoUser.removeLocationsFavorite(thisUser, [DaoLocation.gId(locationToRemove)]);
 			setData(thisUser);
 		});
 	}
@@ -143,7 +143,7 @@ export class CacheDefUserProfileActionCreator {
 	_removeFromAdminLocationsArray(locationToRemove: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			DaoUser.removeLocationsAdmin(thisUser, DaoLocation.gId(locationToRemove));
+			DaoUser.removeLocationsAdmin(thisUser, [DaoLocation.gId(locationToRemove)]);
 			setData(thisUser);
 		});
 	}
@@ -151,7 +151,7 @@ export class CacheDefUserProfileActionCreator {
 	_removeUserFromConnectionsFriends(userToRemove: TUser) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			DaoUser.removeConnectionsFriend(thisUser, DaoUser.gId(userToRemove));
+			DaoUser.removeConnectionsFriend(thisUser, [DaoUser.gId(userToRemove)]);
 			setData(thisUser);
 		});
 	}
@@ -159,7 +159,7 @@ export class CacheDefUserProfileActionCreator {
 	_removeUserFromConnectionsPending(userToRemove: TUser) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			DaoUser.removeConnectionsPending(thisUser, DaoUser.gId(userToRemove));
+			DaoUser.removeConnectionsPending(thisUser, [DaoUser.gId(userToRemove)]);
 			setData(thisUser);
 		});
 	}
@@ -167,7 +167,7 @@ export class CacheDefUserProfileActionCreator {
 	_removeUserFromConnectionsBlocked(userToRemove: TUser) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			DaoUser.removeConnectionsBlocked(thisUser, DaoUser.gId(userToRemove));
+			DaoUser.removeConnectionsBlocked(thisUser, [DaoUser.gId(userToRemove)]);
 			setData(thisUser);
 		});
 	}

@@ -9,8 +9,8 @@ import {Const} from '../../Config';
 import {denormObj, isValidUrl} from '../HelperFunctions';
 import type {TLocationWithULS} from '../helpers/ULSListManager';
 import type {TUserLocationStatus} from './DaoUserLocationStatus';
-import type {TId} from "../types/Types";
 import DaoUserLocationStatus from "./DaoUserLocationStatus";
+import type {TId} from "../types/Types";
 
 export type TUser = {
 	id: number,
@@ -204,102 +204,140 @@ export default class DaoUser {
 // Modifiers ********************************************************************************************
 // Modifiers ********************************************************************************************
 
-	static removeLocationsFavorite(user: TUser, lid: TId) {
-		const locationsFavoriteIds = DaoUser.gLocationsFavoriteIds(user);
-		_.remove(locationsFavoriteIds, _lid => _lid == lid);
-		_.set(user, DaoUser.pLocationsFavoriteIds, locationsFavoriteIds);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pLocations, DaoUser.pLocationsFavoriteIds);
+	static _removeIdsFromPropIdArrVal(user: TUser, removeIds: Array<TId> = [], mdPCat: string, pName: string) {
+		const ids = _.get(user, pName, []);
+		_.remove(ids, id => removeIds.includes(id));
+		_.set(user, pName, ids);
+		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), mdPCat, pName);
+	}
+
+	static _addObjToPropIdArrVal(user: TUser, obj: any, gObjId: any => TId, mdPCat: string, pName: string, unique: boolean = true) {
+		const objId = gObjId(obj);
+		const ids = _.get(user, pName, []);
+
+		if (unique && ids.includes(objId))
+			return;
+
+		ids.push(objId);
+		_.set(user, pName, ids);
+		DaoMetadata.putObjectToArrayProperty(DaoUser.gMetadata(user), mdPCat, obj, gObjId);
+		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), mdPCat, pName);
+	}
+
+	static addLocationsFavorite(user: TUser, locationToAdd: TLocation) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			locationToAdd,
+			DaoLocation.gId,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsFavoriteIds
+		);
+	}
+
+	static addLocationsAdmin(user: TUser, locationToAdd: TLocation) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			locationToAdd,
+			DaoLocation.gId,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsAdminIds
+		);
+	}
+
+	static removeLocationsFavorite(user: TUser, lids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			lids,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsFavoriteIds
+		);
 	}
 
 	static removeLocationsAdmin(user: TUser, lids: Array<TId>) {
-		const locationsAdminIds = DaoUser.gLocationsAdminIds(user);
-		_.remove(locationsAdminIds, lid => lids.includes(lid));
-		_.set(user, DaoUser.pLocationsAdminIds, locationsAdminIds);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pLocations, DaoUser.pLocationsAdminIds);
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			lids,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsAdminIds
+		);
 	}
 
-	static removeUserLocation(user: TUser, ulids: Array<TId> = []) {
-		const userLocationIds = DaoUser.gUserLocationIds(user);
-		_.remove(userLocationIds, ulid => ulids.includes(ulid));
-		_.set(user, DaoUser.pUserLocationIds, userLocationIds);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUserLocations, DaoUser.pUserLocationIds);
+	static addConnectionsFriend(user: TUser, userToAdd: TUser) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userToAdd,
+			DaoUser.gId,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsFriendIds
+		);
 	}
 
-	static removeConnectionsFriend(user: TUser, uid: TId) {
-		const connectionsFriendIds = DaoUser.gConnectionsFriendIds(user);
-		_.remove(connectionsFriendIds, _uid => _uid == uid);
-		_.set(user, DaoUser.pConnectionsFriendIds, connectionsFriendIds);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUsers, DaoUser.pConnectionsFriendIds);
+	static addConnectionsPending(user: TUser, userToAdd: TUser) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userToAdd,
+			DaoUser.gId,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsPendingIds
+		);
 	}
 
-	static removeConnectionsPending(user: TUser, uid: TId) {
-		const connectionsPendingIds = DaoUser.gConnectionsPendingIds(user);
-		_.remove(connectionsPendingIds, _uid => _uid == uid);
-		_.set(user, DaoUser.pConnectionsPendingIds, connectionsPendingIds);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUsers, DaoUser.pConnectionsPendingIds);
+	static addConnectionsBlocked(user: TUser, userToAdd: TUser) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userToAdd,
+			DaoUser.gId,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsBlockedIds
+		);
 	}
 
-	static removeConnectionsBlocked(user: TUser, uid: TId) {
-		const connectionsBlockedIds = DaoUser.gConnectionsBlockedIds(user);
-		_.remove(connectionsBlockedIds, _uid => _uid == uid);
-		_.set(user, DaoUser.pConnectionsBlockedIds, connectionsBlockedIds);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUsers, DaoUser.pConnectionsBlockedIds);
+	static removeConnectionsFriend(user: TUser, uids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			uids,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsFriendIds
+		);
+	}
+
+	static removeConnectionsPending(user: TUser, uids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			uids,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsPendingIds
+		);
+	}
+
+	static removeConnectionsBlocked(user: TUser, uids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			uids,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsBlockedIds
+		);
 	}
 
 	static addUserLocation(user: TUser, locationWithULD: TLocationWithULS) {
 		const userLocation = DaoLocation.gUserLocationStatus(locationWithULD);
-		const ulidToAdd = DaoUserLocationStatus.gId(userLocation);
-		const userLocationIds = DaoUser.gUserLocationIds(user);
-		userLocationIds.push(ulidToAdd);
-		_.set(user, DaoUser.pUserLocationIds, userLocationIds);
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userLocation,
+			DaoUserLocationStatus.gId,
+			DaoMetadata.pUserLocations,
+			DaoUser.pUserLocationIds
+		);
 		DaoMetadata.putUserLocation(DaoUser.gMetadata(user), userLocation);
-		DaoMetadata.putLocation(DaoUser.gMetadata(user), locationWithULD);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUserLocations, DaoUser.pUserLocationIds);
 	}
 
-	static addLocationsFavorite(user: TUser, locationToAdd: TLocation) {
-		const lidToAdd = DaoLocation.gId(locationToAdd);
-		const locationFavoriteIds = DaoUser.gLocationsFavoriteIds(user);
-		locationFavoriteIds.push(lidToAdd);
-		_.set(user, DaoUser.pLocationsFavoriteIds, locationFavoriteIds);
-		DaoMetadata.putLocation(DaoUser.gMetadata(user), locationToAdd);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pLocations, DaoUser.pLocationsFavoriteIds);
-	}
-
-	static addLocationsAdmin(user: TUser, locationToAdd: TLocation) {
-		const lidToAdd = DaoLocation.gId(locationToAdd);
-		const locationAdminIds = DaoUser.gLocationsAdminIds(user);
-		locationAdminIds.push(lidToAdd);
-		_.set(user, DaoUser.pLocationsAdminIds, locationAdminIds);
-		DaoMetadata.putLocation(DaoUser.gMetadata(user), locationToAdd);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pLocations, DaoUser.pLocationsAdminIds);
-	}
-
-	static addConnectionsFriend(user: TUser, userToAdd: TUser) {
-		const uidToAdd = DaoUser.gId(userToAdd);
-		const connectionFriendIds = DaoUser.gConnectionsFriendIds(user);
-		connectionFriendIds.push(uidToAdd);
-		_.set(user, DaoUser.pConnectionsFriendIds, connectionFriendIds);
-		DaoMetadata.putUser(DaoUser.gMetadata(user), userToAdd);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUsers, DaoUser.pConnectionsFriendIds);
-	}
-
-	static addConnectionsPending(user: TUser, userToAdd: TUser) {
-		const uidToAdd = DaoUser.gId(userToAdd);
-		const connectionPendingIds = DaoUser.gConnectionsPendingIds(user);
-		connectionPendingIds.push(uidToAdd);
-		_.set(user, DaoUser.pConnectionsPendingIds, connectionPendingIds);
-		DaoMetadata.putUser(DaoUser.gMetadata(user), userToAdd);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUsers, DaoUser.pConnectionsPendingIds);
-	}
-
-	static addConnectionsBlocked(user: TUser, userToAdd: TUser) {
-		const uidToAdd = DaoUser.gId(userToAdd);
-		const connectionBlockedIds = DaoUser.gConnectionsBlockedIds(user);
-		connectionBlockedIds.push(uidToAdd);
-		_.set(user, DaoUser.pConnectionsBlockedIds, connectionBlockedIds);
-		DaoMetadata.putUser(DaoUser.gMetadata(user), userToAdd);
-		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), DaoMetadata.pUsers, DaoUser.pConnectionsBlockedIds);
+	static removeUserLocation(user: TUser, ulids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			ulids,
+			DaoMetadata.pUserLocations,
+			DaoUser.pUserLocationIds
+		);
 	}
 
 

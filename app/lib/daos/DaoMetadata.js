@@ -104,7 +104,7 @@ export default class DaoMetadata {
 		DaoMetadata.putObjectToArrayProperty(metadata, DaoMetadata.pUsers, userToAdd, DaoUser.gId);
 	}
 
-	static putUserLocation(metadata: TMetadata, userLocationToAdd: TUserLocationStatus, pName: ?string) {
+	static putUserLocation(metadata: TMetadata, userLocationToAdd: TUserLocationStatus) {
 		DaoMetadata.putObjectToArrayProperty(metadata, DaoMetadata.pUserLocations, userLocationToAdd, DaoUserLocationStatus.gId);
 	}
 
@@ -115,7 +115,7 @@ export default class DaoMetadata {
 		ObjectCache.invalidate(metadata, `_${pName}${pChildName != null ? `.${pChildName}` : ''}`);
 	}
 
-	static putObjectToArrayProperty(metadata: TMetadata, pName: string, objToAdd: Object, gObjId: Object => TId) {
+	static putObjectToArrayProperty(metadata: TMetadata, pName: string, objToAdd: Object, gObjId: any => TId) {
 		const objs = _.get(metadata, pName, []);
 		const objAlreadyIncluded = _.some(objs, o => gObjId(o) == gObjId(objToAdd));
 
