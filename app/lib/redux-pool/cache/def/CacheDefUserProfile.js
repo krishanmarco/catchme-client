@@ -14,7 +14,7 @@ import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePasswor
 import type {TCacheDef} from '../CacheDef';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TLocationWithULS} from '../../../helpers/ULSListManager';
-import type {TThunk} from '../../../types/Types';
+import type {TId, TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
 
@@ -53,8 +53,6 @@ export class CacheDefUserProfileActionCreator {
 		this._removeFromAdminLocationsArray= this._removeFromAdminLocationsArray.bind(this);
 		this._addToLocationFavoritesArray = this._addToLocationFavoritesArray.bind(this);
 		this._removeFromLocationFavoritesArray = this._removeFromLocationFavoritesArray.bind(this);
-		this._addToConnectionArray = this._addToConnectionArray.bind(this);
-		this._removeFromConnectionArray = this._removeFromConnectionArray.bind(this);
 		this._removeUserFromConnectionsFriends = this._removeUserFromConnectionsFriends.bind(this);
 		this._removeUserFromConnectionsPending = this._removeUserFromConnectionsPending.bind(this);
 		this._removeUserFromConnectionsBlocked = this._removeUserFromConnectionsBlocked.bind(this);
@@ -75,56 +73,69 @@ export class CacheDefUserProfileActionCreator {
 		this.changeUserPassword = this.changeUserPassword.bind(this);
 	}
 
-	_putToUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
+	_putToUserLocationStatusesArray(locationWithULS: TLocationWithULS, removeUlids: Array<TId>) {
 		const {executeIfDataNotNull, setData} = this;
-
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userLocationStatuses = DaoUser.gLocationsUserLocations(thisUser);
+			DaoUser.removeUserLocation(thisUser, removeUlids);
+			DaoUser.addUserLocation(thisUser, locationWithULS);
+			setData(thisUser);
+		});
+	}
 
-			const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
-			if (userLocationStatuses.map(DaoUserLocationStatus.gId).includes(ulsId)) {
-				// This uls is already in the array, remove it so the new version gets pushed
-				this._removeFromUserLocationStatusesArray(locationWithULS);
-			}
+	_putToAdminLocationsArray(locationToAdd: TLocation, removeLids: Array<TId>) {
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.removeLocationsAdmin(thisUser, removeLids);
+			DaoUser.addLocationsAdmin(thisUser, locationToAdd);
+			setData(thisUser);
+		});
+	}
 
-			userLocationStatuses.push(DaoLocation.gUserLocationStatus(locationWithULS));
-			_.set(thisUser, DaoUser.pLocationsUserLocationIds, userLocationStatuses);
+	_addToLocationFavoritesArray(locationToAdd: TLocation) {
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.addLocationsFavorite(thisUser, locationToAdd);
+			setData(thisUser);
+		});
+	}
+
+	_addUserToConnectionsFriends(userToAdd: TUser) {
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.addConnectionsFriend(thisUser, userToAdd);
+			setData(thisUser);
+		});
+	}
+
+	_addUserToConnectionsPending(userToAdd: TUser) {
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.addConnectionsPending(thisUser, userToAdd);
+			setData(thisUser);
+		});
+	}
+
+	_addUserToConnectionsBlocked(userToAdd: TUser) {
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.addConnectionsBlocked(thisUser, userToAdd);
 			setData(thisUser);
 		});
 	}
 
 	_removeFromUserLocationStatusesArray(locationWithULS: TLocationWithULS) {
 		const {executeIfDataNotNull, setData} = this;
-
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userLocationStatuses = DaoUser.gLocationsUserLocations(thisUser);
-
-			const ulsId = DaoLocation.gUserLocationStatusId(locationWithULS);
-			_.remove(userLocationStatuses, uls => DaoUserLocationStatus.gId(uls) == ulsId);
-			_.set(thisUser, DaoUser.pLocationsUserLocationIds, userLocationStatuses);
-
+			const ulid = DaoUserLocationStatus.gId(DaoLocation.gUserLocationStatus(locationWithULS));
+			DaoUser.removeUserLocation(thisUser, [ulid]);
 			setData(thisUser);
 		});
 	}
 
-	_putToAdminLocationsArray(locationToAdd: TLocation, removeLocation: TLocation) {
+	_removeFromLocationFavoritesArray(locationToRemove: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userAdminLocations = DaoUser.gLocationsAdmin(thisUser);
-
-			const newLid = DaoLocation.gId(locationToAdd);
-			const currentIds = userAdminLocations.map(DaoLocation.gId);
-
-			// The location id might already be in the array, needs remove
-			if (currentIds.includes(newLid))
-				this._removeFromAdminLocationsArray(locationToAdd);
-
-			// Maybe we need also remove some other location
-			if (removeLocation != null && currentIds.includes(DaoLocation.gId(removeLocation)))
-				this._removeFromAdminLocationsArray(removeLocation);
-
-			userAdminLocations.push(locationToAdd);
-			_.set(thisUser, DaoUser.pLocationsAdminIds, userAdminLocations);
+			DaoUser.removeLocationsFavorite(thisUser, DaoLocation.gId(locationToRemove));
 			setData(thisUser);
 		});
 	}
@@ -132,153 +143,33 @@ export class CacheDefUserProfileActionCreator {
 	_removeFromAdminLocationsArray(locationToRemove: TLocation) {
 		const {executeIfDataNotNull, setData} = this;
 		return executeIfDataNotNull((thisUser: TUser) => {
-			const userAdminLocations = DaoUser.gLocationsAdmin(thisUser);
-
-			_.remove(userAdminLocations, l => DaoLocation.gId(l) == DaoLocation.gId(locationToRemove));
-			_.set(thisUser, DaoUser.pLocationsAdminIds, userAdminLocations);
-
+			DaoUser.removeLocationsAdmin(thisUser, DaoLocation.gId(locationToRemove));
 			setData(thisUser);
 		});
-	}
-
-	_addToLocationFavoritesArray(locationToAdd: TLocation) {
-		const {executeIfDataNotNull, setData} = this;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const locationId = DaoLocation.gId(locationToAdd);
-
-			// Get all the location ids
-			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
-
-			// If this is already a favorite location don't do anything
-			if (favoriteLocationIds.includes(locationId))
-				return;
-
-			// Add the new id
-			favoriteLocationIds.push(locationId);
-			_.set(thisUser, DaoUser.pLocationsFavoriteIds, favoriteLocationIds);
-			DaoMetadata.putLocation(DaoUser.gMetadata(thisUser), locationToAdd);
-
-			// Run the dispatch action (updating this user)
-			setData(thisUser);
-		});
-	}
-
-	_removeFromLocationFavoritesArray(locationToRemove: TLocation) {
-		const {executeIfDataNotNull, setData} = this;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const favoriteLocationIds = DaoUser.gLocationsFavoriteIds(thisUser);
-
-			_.remove(favoriteLocationIds, lid => lid == DaoLocation.gId(locationToRemove));
-			_.set(thisUser, DaoUser.pLocationsFavoriteIds, favoriteLocationIds);
-
-			setData(thisUser);
-		});
-	}
-
-	_addToConnectionArray(userToAdd: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
-		const {executeIfDataNotNull, setData} = this;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const userIdToAdd = DaoUser.gId(userToAdd);
-
-			// Get all the connection ids
-			const connectionIds = getConnectionIds(thisUser);
-
-			if (connectionIds.includes(userIdToAdd))
-				return;
-
-			// Get the connections, add the userToAdd and set
-			const connections = _.get(thisUser, connectionPropertyName, []);
-			connections.push(userToAdd);
-			_.set(thisUser, connectionPropertyName, connections);
-
-			// Invalidate the id cache
-			invalidateConnectionIds(thisUser);
-
-			// Run the dispatch action (updating this user)
-			setData(thisUser);
-		});
-	}
-
-	_removeFromConnectionArray(userToRemove: TUser, connectionPropertyName, getConnectionIds, invalidateConnectionIds) {
-		const {executeIfDataNotNull, setData} = this;
-
-		return executeIfDataNotNull((thisUser: TUser) => {
-			const userIdToRemove = DaoUser.gId(userToRemove);
-
-			// Get all the connection ids
-			const connectionIds = getConnectionIds(thisUser);
-
-			if (!connectionIds.includes(userIdToRemove))
-				return;
-
-			// Get the connections, remove the userToRemove and set
-			const connections = _.get(thisUser, connectionPropertyName, []);
-			_.remove(connections, u => userIdToRemove == DaoUser.gId(u));
-			_.set(thisUser, connectionPropertyName, connections);
-
-			// Invalidate the id cache
-			invalidateConnectionIds(thisUser);
-
-			// Run the dispatch action (updating this user)
-			setData(thisUser);
-		});
-	}
-
-	_addUserToConnectionsFriends(userToAdd: TUser) {
-		this._addToConnectionArray(
-			userToAdd,
-			DaoUser.pConnectionsFriendIds,
-			DaoUser.gConnectionsFriendIds,
-			() => {}
-		);
-	}
-
-	_addUserToConnectionsPending(userToAdd: TUser) {
-		this._addToConnectionArray(
-			userToAdd,
-			DaoUser.pConnectionsPendingIds,
-			DaoUser.gConnectionsPendingIds,
-			() => {}
-		);
-	}
-
-	_addUserToConnectionsBlocked(userToAdd: TUser) {
-		this._addToConnectionArray(
-			userToAdd,
-			DaoUser.pConnectionsBlockedIds,
-			DaoUser.gConnectionsBlockedIds,
-			() => {}
-		);
 	}
 
 	_removeUserFromConnectionsFriends(userToRemove: TUser) {
-		this._removeFromConnectionArray(
-			userToRemove,
-			DaoUser.pConnectionsFriendIds,
-			DaoUser.gConnectionsFriendIds,
-			() => {}
-		);
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.removeConnectionsFriend(thisUser, DaoUser.gId(userToRemove));
+			setData(thisUser);
+		});
 	}
 
 	_removeUserFromConnectionsPending(userToRemove: TUser) {
-		this._removeFromConnectionArray(
-			userToRemove,
-			DaoUser.pConnectionsPendingIds,
-			DaoUser.gConnectionsPendingIds,
-			() => {}
-		);
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.removeConnectionsPending(thisUser, DaoUser.gId(userToRemove));
+			setData(thisUser);
+		});
 	}
 
 	_removeUserFromConnectionsBlocked(userToRemove: TUser) {
-		this._removeFromConnectionArray(
-			userToRemove,
-			DaoUser.pConnectionsBlockedIds,
-			DaoUser.gConnectionsBlockedIds,
-			() => {}
-		);
+		const {executeIfDataNotNull, setData} = this;
+		return executeIfDataNotNull((thisUser: TUser) => {
+			DaoUser.removeConnectionsBlocked(thisUser, DaoUser.gId(userToRemove));
+			setData(thisUser);
+		});
 	}
 
 	editUser(user: TUser) {
@@ -448,9 +339,9 @@ export class CacheDefUserProfileActionCreator {
 				.then((newUserLocationStatus: TUserLocationStatus) => {
 					// The add was successful and the UserLocationStatus id will
 					// have changed, remove {userLocationStatus} and add {newUserLocationStatus}
-					this._removeFromUserLocationStatusesArray(locationWithULS);
 					const newLocationWithULS = DaoLocation.sUserLocationStatus(locationWithULS, newUserLocationStatus);
-					this._putToUserLocationStatusesArray(newLocationWithULS);
+					const oldUlid = DaoUserLocationStatus.gId(DaoLocation.gUserLocationStatus(oldLocationWithULS));
+					this._putToUserLocationStatusesArray(newLocationWithULS, [-1, oldUlid]);
 					Logger.v('CacheDefUserProfile putLocationWithULS: success', ulsId, newUserLocationStatus);
 					return newUserLocationStatus;
 				})
@@ -495,7 +386,7 @@ export class CacheDefUserProfileActionCreator {
 		return ApiClient.userLocationsAdminEditLid(location)
 			.then((locationWithId: TLocation) => {
 				Logger.v('CacheDefUserProfile putAdminLocation: success', lid, locationWithId);
-				this._putToAdminLocationsArray(locationWithId, location);
+				this._putToAdminLocationsArray(locationWithId, [-1]);
 				Snackbar.showSuccessStr(t('t_ls_admin_location_added'));
 				return locationWithId;
 			})

@@ -10,9 +10,11 @@ export default class ObjectCache {
 		// Try get the previously cached data
 		let data = _.get(object, path);
 		
-		if (data)
+		if (data) {
+			Logger.v(`ObjectCache get: Using cache ${path}`);
 			return data;
-		
+		}
+
 		Logger.v(`ObjectCache get: Calculating ${path}`);
 		
 		data = calcCallback();
@@ -22,6 +24,7 @@ export default class ObjectCache {
 	}
 	
 	static invalidate(object, path) {
+		Logger.v(`ObjectCache invalidate: Invalidating ${path}`);
 		path = ObjectCache.fullPath(path);
 		_.unset(object, path);
 	}
