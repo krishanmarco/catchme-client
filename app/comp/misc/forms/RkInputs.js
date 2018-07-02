@@ -4,7 +4,6 @@ import Maps from '../../../lib/data/Maps';
 import React from 'react';
 import {RkTextInput as _RkTextInput, RkText} from 'react-native-ui-kitten';
 import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
-import {Colors} from '../../../Config';
 import {denormObj} from '../../../lib/HelperFunctions';
 import {Picker, StyleSheet, Switch, View} from 'react-native';
 import type {TStyle} from '../../../lib/types/Types';
@@ -17,23 +16,22 @@ type RkTextInputProps = {
 	rkType?: string,
 	style?: Object,
 	errorCode?: number | string,
-	editable?: boolean,
-	withBorder?: boolean
+  editable?: boolean,
+  numberOfLines?: number
 };
 
 
-export const RkTextInput = ({rkType, style, errorCode, withBorder, ...props}: RkTextInputProps) => {
+export const RkTextInput = ({rkType, style, errorCode, ...props}: RkTextInputProps) => {
 
 	const hasErrorCode = errorCode !== 0;
 	const pointerEvents = props.editable ? 'auto' : 'none';
-
-	const borderColor = hasErrorCode ? Colors.alertRed : Colors.black;
+	const minHeight = props.numberOfLines ? props.numberOfLines * 16 : null;
 
 	return (
 		<View style={style} pointerEvents={pointerEvents}>
 
-			<View style={[{borderColor}, styles.row, styles.fullTextInput]}>
-				<_RkTextInput {...props} rkType={`row ${rkType}`}/>
+			<View style={[styles.row, styles.fullTextInput]}>
+				<_RkTextInput inputStyle={{minHeight}} {...props} rkType={`row ${rkType}`}/>
 			</View>
 
 			<RkText style={styles.error} rkType='danger secondary6'>
@@ -88,7 +86,8 @@ export const RkMultiChoice = ({title, textProps, style, options = [], ...props}:
 		<Picker
 			{...props}
 			mode={Picker.MODE_DROPDOWN}
-			style={styles.multiChoicePicker}>
+			style={styles.multiChoicePicker}
+      itemStyle={styles.multiChoicePickerItem}>
 			{options.map((item) => <Picker.Item key={item.id} {...item}/>)}
 		</Picker>
 	</View>
@@ -153,6 +152,11 @@ const styles = StyleSheet.create({
 	},
 	multiChoicePicker: {
 		width: 140
+	},
+	multiChoicePickerItem: {
+		height: 44,
+    borderWidth: 0,
+    fontSize: 16
 	}
 });
 

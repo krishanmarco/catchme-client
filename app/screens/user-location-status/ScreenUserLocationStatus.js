@@ -79,8 +79,8 @@ class _ScreenUserLocationStatus extends React.Component<void, TUserLocationStatu
 
 		if (onStatusConfirm)
 			onStatusConfirm(apiInput);
-		
-		Router.dismissModal(navigator);
+
+		Router.closeUserLocationStatus(navigator);
 
 		if (!postOnConfirm) {
 			return;

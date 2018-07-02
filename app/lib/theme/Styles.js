@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 18-Apr-18 © **/
 import {StyleSheet} from 'react-native';
 
-export const fullpageForm = StyleSheet.create({
+export const fullpageFormStyles = StyleSheet.create({
 	headerStyle: {
 		flex: 0.28,
 		marginTop: 16
@@ -21,13 +21,13 @@ export const fullpageForm = StyleSheet.create({
 	},
 });
 
-export const listItemInfo = StyleSheet.create({
+export const listItemInfoStyles = StyleSheet.create({
 	section: {
 		paddingHorizontal: 16
 	}
 });
 
-export const listItemActions = StyleSheet.create({
+export const listItemActionsStyles = StyleSheet.create({
 	action: {
 		marginRight: 8
 	},
@@ -38,4 +38,11 @@ export const listItemActions = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center'
 	}
+});
+
+export const iconStyles = StyleSheet.create({
+  icon: {
+    padding: 0,
+    margin: 0
+  }
 });

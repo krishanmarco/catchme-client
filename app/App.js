@@ -12,7 +12,7 @@ import type {TUser} from './lib/daos/DaoUser';
 
 
 export function initializeApplication() {
-	
+
 	// Set all the warnings to ignore by adding the prefix of the warning message
 	console.ignoredYellowBox = [
 		'Setting a timer',
@@ -21,23 +21,22 @@ export function initializeApplication() {
 		'Warning: PropTypes has been moved to a separate',
 		'Warning: checkPropTypes has been moved to a separate'
 	];
-	
-	
+
+
 	// Bootstrap the KittenUI theme
 	bootstrapRkTheme();
-	
+
 }
 
 
 export async function startApplication(userProfile: ?TUser = null) {
 	userProfile = userProfile || await StorageIO.getLocalUser();
-	
 	// Try get the logged in user from storage
-	let apiKey = DaoUser.gApiKey(userProfile);
-	
+	const apiKey = DaoUser.gApiKey(userProfile);
+
 	if (apiKey == null) {
 		runAppUnuth();
-		
+
 	} else {
 		runAppAuth(userProfile);
 	}

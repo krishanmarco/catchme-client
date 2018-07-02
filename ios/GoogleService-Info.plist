@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>458235769872-f4c7p29qhhgqaimuc4f927dd2vc2fa3q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.458235769872-f4c7p29qhhgqaimuc4f927dd2vc2fa3q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAjkl5aybfTV0acFXZ86_IK_GBx-wnAycs</string>
+	<key>GCM_SENDER_ID</key>
+	<string>458235769872</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.catchme</string>
+	<key>PROJECT_ID</key>
+	<string>catch-me-179514</string>
+	<key>STORAGE_BUCKET</key>
+	<string>catch-me-179514.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false></false>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:458235769872:ios:81f653166c1b1727</string>
+	<key>DATABASE_URL</key>
+	<string>https://catch-me-179514.firebaseio.com</string>
+</dict>
+</plist>

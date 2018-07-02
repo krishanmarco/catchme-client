@@ -3,7 +3,7 @@ import Router from '../../../lib/navigation/Router';
 import {FORM_API_ID_RECOVER_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword';
 import {FormFooterLink} from '../../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
-import {fullpageForm, imageBackground} from '../../../lib/theme/Styles';
+import {fullpageFormStyles, imageBackground} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../../lib/Snackbar';
@@ -48,7 +48,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 
 	_onGoToLoginPress() {
 		const {navigator} = this.props;
-		Router.dismissModal(navigator);
+		Router.closeRecoverPassword(navigator);
 	}
 
 	render() {
@@ -59,10 +59,10 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 			<Screen requireOnline={false}>
 				<FullpageForm
 
-					headerStyle={fullpageForm.headerStyle}
+					headerStyle={fullpageFormStyles.headerStyle}
 					headerJsx={this._renderScreenInfo()}
 
-					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsStyle={[fullpageFormStyles.fieldsStyle, styles.fieldsStyle]}
 					fieldsJsx={(
 						<View>
 							<RkTextInputFromPool
@@ -74,7 +74,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 								withBorder/>
 
 							<LoadingButton
-								style={fullpageForm.fieldsButton}
+								style={fullpageFormStyles.fieldsButton}
 								loading={this._getFormApiRecoverPassword().loading}
 								onPress={this._onSendPress}
 								rkType='large stretch accentColor'
@@ -83,7 +83,7 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 						</View>
 					)}
 
-					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerStyle={[fullpageFormStyles.footerStyle, styles.footerStyle]}
 					footerJsx={(
 						<View>
 							<FormFooterLink

@@ -65,6 +65,7 @@ export default class Gallery extends React.Component<void, Props, State> {
 		);
 	}
 
+	// if we need to add a carousel to scroll images use react-native-navigation LightBox
 	_renderImage({item}) {
 		const {imageSizeStyle} = this.state;
 		return (

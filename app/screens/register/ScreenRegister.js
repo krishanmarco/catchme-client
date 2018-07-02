@@ -5,7 +5,7 @@ import {FontIcons} from '../../Config';
 import {FORM_API_ID_REGISTER} from '../../lib/redux-pool/api-form/def/ApiFormDefRegister';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
-import {fullpageForm} from '../../lib/theme/Styles';
+import {fullpageFormStyles} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../lib/Snackbar';
@@ -48,7 +48,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 
 	_onGoToLoginPress() {
 		const {navigator} = this.props;
-		Router.dismissModal(navigator);
+		Router.closeRegister(navigator);
 	}
 
 
@@ -60,7 +60,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 			<Screen requireOnline={false}>
 				<FullpageForm
 
-					headerStyle={fullpageForm.headerStyle}
+					headerStyle={fullpageFormStyles.headerStyle}
 					headerJsx={(
 						<ScreenInfo
 							height={120}
@@ -68,7 +68,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 							imageSource={require('../../assets/images/primary-me.png')}/>
 					)}
 
-					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsStyle={[fullpageFormStyles.fieldsStyle, styles.fieldsStyle]}
 					fieldsJsx={(
 						<View>
 							<RkTextInputFromPool
@@ -99,7 +99,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 								withBorder/>
 
 							<LoadingButton
-								style={fullpageForm.fieldsButton}
+								style={fullpageFormStyles.fieldsButton}
 								loading={this._getFormApiRegister().loading}
 								rkType='large stretch accentColor'
 								text={t('t_bt_register')}
@@ -108,7 +108,7 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 						</View>
 					)}
 
-					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerStyle={[fullpageFormStyles.footerStyle, styles.footerStyle]}
 					footerJsx={(
 						<View>
 							<FormFooterLink

@@ -30,10 +30,10 @@ const _Icons = {
 	hand: 								{name: 'md-hand',  					 						type: 'ionicon'},
 	images: 							{name: 'md-images',  										type: 'ionicon'},
 	search: 							{name: 'md-search',  										type: 'ionicon'},
-	back: 								{name: 'md-arrow-round-back', 					type: 'ionicon'},
 	google: 						 	{name: 'logo-googleplus',  							type: 'ionicon'},
 	facebook: 						{name: 'logo-facebook', 							 	type: 'ionicon'},
 	logout: 							{name: 'md-exit',												type: 'ionicon'},
+  back: 								{name: 'ios-arrow-back-outline',				type: 'ionicon'},
 	email: 								{name: 'email',  					 							type: 'entypo'},
 	phone: 								{name: 'phone',  												type: 'entypo'},
 	personSettings: 			{name: 'account-settings-variant', 			type: 'material-community'},
@@ -75,8 +75,6 @@ export const Icons = {
 	userPending:  						 				{..._Icons.pending,  							color: Colors.neutralOrange},
 	userAdminLocations:  							{..._Icons.building,  						color: Colors.primary},
 
-	changePasswordBack:  							{..._Icons.back,  								color: Colors.primary},
-
 	locationProfile:  								{..._Icons.building, 							color: Colors.primary},
 	locationImages:  									{..._Icons.images,  							color: Colors.primary},
 	locationPersonNow:  							{..._Icons.timerSandEmpty,  			color: Colors.primary},
@@ -113,7 +111,10 @@ export const Icons = {
 	reputationDude:  									{..._Icons.star,  								color: Colors.primary},
 	reputationHero:  									{..._Icons.star,  								color: Colors.primary},
 	reputationVip:  									{..._Icons.star,  								color: Colors.primary},
-	reputationCatcher:  							{..._Icons.star,  								color: Colors.primary}
+	reputationCatcher:  							{..._Icons.star,  								color: Colors.primary},
+
+
+  screenBack:  							        {..._Icons.back,  								color: Colors.primary},
 
 };
 

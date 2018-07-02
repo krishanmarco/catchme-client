@@ -5,7 +5,7 @@ import React from 'react';
 import Router from '../../../lib/navigation/Router';
 import {FORM_API_ID_CHANGE_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefChangePassword';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
-import {fullpageForm} from '../../../lib/theme/Styles';
+import {fullpageFormStyles} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../../lib/Snackbar';
@@ -55,7 +55,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 
 	_onBackPress() {
 		const {navigator} = this.props;
-		Router.dismissModal(navigator);
+		Router.closeSettingsChangePassword(navigator);
 	}
 
 	render() {
@@ -64,10 +64,10 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 			<Screen>
 				<FullpageForm
 
-					headerStyle={[fullpageForm.headerStyle, styles.headerStyle, passwordChanged ? styles.headerStyleAfterChange : null]}
+					headerStyle={[fullpageFormStyles.headerStyle, styles.headerStyle, passwordChanged ? styles.headerStyleAfterChange : null]}
 					headerJsx={this._renderScreenInfo()}
 
-					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsStyle={[fullpageFormStyles.fieldsStyle, styles.fieldsStyle]}
 					fieldsJsx={!passwordChanged && (
 						<View>
 							<RkTextInputFromPool
@@ -94,7 +94,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 						</View>
 					)}
 
-					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerStyle={[fullpageFormStyles.footerStyle, styles.footerStyle]}
 					footerJsx={this._renderFooterJsx()}
 
 				/>
@@ -138,7 +138,7 @@ class _ScreenSettingsChangePassword extends React.Component<void, Props, State> 
 		return (
 			<LoadingButton
 				{...props}
-				style={fullpageForm.fieldsButton}
+				style={fullpageFormStyles.fieldsButton}
 				rkType='large stretch accentColor'
 				loading={this._getFormChangePassword().loading}/>
 		);

@@ -4,7 +4,7 @@ import {Avatar, Icon} from 'react-native-elements';
 import {AvatarCircle, Touchable} from '../Misc';
 import {Col, Grid} from 'react-native-easy-grid';
 import {Icons} from '../../Config';
-import {listItemActions} from '../../lib/theme/Styles';
+import {listItemActionsStyles} from '../../lib/theme/Styles';
 import {RkButton, RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import type {TIcon, TImageSource} from '../../lib/types/Types';
@@ -85,7 +85,7 @@ const ListItemWithActions = (props: ListItemWithActionProps) => {
 				</Col>
 
 				{actions.map((action, key) => (
-					<Col key={key} size={15} style={key !== actions.length ? listItemActions.action : listItemActions.actionLast}>
+					<Col key={key} size={15} style={key !== actions.length ? listItemActionsStyles.action : listItemActionsStyles.actionLast}>
 						<ListItemAction {...action}/>
 					</Col>
 				))}

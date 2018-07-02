@@ -20,7 +20,7 @@ export default class LocationProfileDataPoints {
 				break;
 			case LocationProfileDataPoints.infoItemIdTimings:
 				const managerWeekTimings = ManagerWeekTimings.buildFromLocation(locationProfile);
-				Router.toModalTimings(navigator, {managerWeekTimings});
+				Router.toModalTimings(navigator, {managerWeekTimings}, DaoLocation.gName(locationProfile));
 				break;
 		}
 	}

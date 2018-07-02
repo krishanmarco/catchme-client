@@ -7,7 +7,7 @@ import Router from '../../../lib/navigation/Router';
 import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {BadgeOverlay, ScreenInfo} from '../../../comp/Misc';
 import {Icons} from '../../../Config';
-import {listItemInfo} from '../../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
@@ -68,7 +68,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 					{this._renderHeader()}
 
-					<View style={[listItemInfo.section, styles.editLocationAddressFormRow]}>
+					<View style={[listItemInfoStyles.section, styles.editLocationAddressFormRow]}>
 						{[
 							{field: DaoLocation.pAddressCountry, label: t('t_country')},
 							{field: DaoLocation.pAddressState, label: t('t_state')},

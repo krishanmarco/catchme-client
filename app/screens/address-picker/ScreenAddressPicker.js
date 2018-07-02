@@ -29,7 +29,7 @@ class _ScreenAddressPicker extends React.Component<void, Props, void> {
 	_onSelect(location) {
 		const {navigator, onSelect} = this.props;
 		onSelect(location);
-		Router.dismissModal(navigator, {animationType: 'slide-down'});
+		Router.closeAddressPicker(navigator);
 	}
 
 	render() {

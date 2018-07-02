@@ -5,7 +5,7 @@ import Router from '../../lib/navigation/Router';
 import {FORM_API_ID_LOGIN} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
-import {fullpageForm} from '../../lib/theme/Styles';
+import {fullpageFormStyles} from '../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
@@ -85,7 +85,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 			<Screen requireOnline={false}>
 				<FullpageForm
 
-					headerStyle={fullpageForm.headerStyle}
+					headerStyle={fullpageFormStyles.headerStyle}
 					headerJsx={(
 						<ScreenInfo
 							height={120}
@@ -93,7 +93,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 							imageSource={require('../../assets/images/primary-me.png')}/>
 					)}
 
-					fieldsStyle={fullpageForm.fieldsStyle}
+					fieldsStyle={fullpageFormStyles.fieldsStyle}
 					fieldsJsx={(
 						<View style={styles.fieldsRow}>
 
@@ -120,7 +120,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 									secureTextEntry/>
 
 								<LoadingButton
-									style={fullpageForm.fieldsButton}
+									style={fullpageFormStyles.fieldsButton}
 									rkType='large stretch accentColor'
 									loading={this._getFormApiLogin().loading}
 									text={t('t_bt_login')}
@@ -130,7 +130,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						</View>
 					)}
 
-					footerStyle={fullpageForm.footerStyle}
+					footerStyle={fullpageFormStyles.footerStyle}
 					footerJsx={(
 						<View>
 							<FormFooterLink

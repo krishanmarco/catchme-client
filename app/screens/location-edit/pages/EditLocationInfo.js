@@ -7,7 +7,7 @@ import React from 'react';
 import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {AvatarFull} from '../../../comp/Misc';
 import {Const, Icons} from '../../../Config';
-import {listItemInfo} from '../../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
@@ -83,7 +83,7 @@ class _EditLocationInfo extends React.Component<void, Props, void> {
 							defaultUri={Const.locationDefaultAvatar}/>
 					</View>
 
-					<View style={[listItemInfo.section, styles.editLocationInfoFormRow]}>
+					<View style={[listItemInfoStyles.section, styles.editLocationInfoFormRow]}>
 						<RkTextInputFromPool
 							pool={this._formApiEditLocationProfile()}
 							field={DaoLocation.pName}
