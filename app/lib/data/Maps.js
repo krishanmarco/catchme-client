@@ -94,7 +94,6 @@ export default class Maps {
 	static privacyOptions(excludeKeys = []) {
 		const privacy = {...Maps.privacy};
 		excludeKeys.push('def');
-		// delete privacy.def;
 		return _.values(_.pickBy(privacy, (v, k) => !excludeKeys.includes(k)));
 	}
 
@@ -106,7 +105,7 @@ export default class Maps {
 		const rCode = _.find(Maps.rCodes, e => e.id === eid);
 		return rCode != null ? rCode : Maps.rCodes.def;
 	}
-	
+
 	static errorIdToString(eid: number) {
 		return _.get(Maps.errorIdToRCode(eid), 'label', Maps.rCodes.def.label);
 	}

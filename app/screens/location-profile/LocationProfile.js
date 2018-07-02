@@ -15,7 +15,7 @@ import {AvatarFull, FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconT
 import {Const, Icons} from '../../Config';
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {Grid, Row} from 'react-native-easy-grid';
-import {listItemInfo} from '../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {t} from '../../lib/i18n/Translations';
@@ -273,7 +273,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				style={listItemInfo.section}
+				style={listItemInfoStyles.section}
 				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
 				{...item}/>
 		);

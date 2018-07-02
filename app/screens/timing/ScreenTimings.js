@@ -5,12 +5,15 @@ import WeekTimingsList from '../../comp-buisness/timing/WeekTimingsList';
 import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from '../../comp/Misc';
 import {StyleSheet} from 'react-native';
+import Router from "../../lib/navigation/Router";
+import type {TNavigator} from "../../lib/types/Types";
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	managerWeekTimings: ManagerWeekTimings
+  navigator: TNavigator,
+  managerWeekTimings: ManagerWeekTimings
 }
 
 // _ScreenTimings *****************************************************************************************
@@ -18,29 +21,39 @@ type Props = {
 
 class _ScreenTimings extends React.Component<void, Props, void> {
 
-	render() {
-		const {managerWeekTimings} = this.props;
-		return (
-			<Screen style={styles.root}>
-				<WeekTimingsList
-					ref={_ScreenTimings.refWeekTimingsList}
-					managerWeekTimings={managerWeekTimings}
-					isEditable={false}/>
-			</Screen>
-		);
-	}
+  constructor(props, context) {
+    super(props, context);
+    this._onBackPressed = this._onBackPressed.bind(this);
+  }
+
+  _onBackPressed() {
+    const {navigator} = this.props;
+    Router.closeTimings(navigator);
+  }
+
+  render() {
+    const {managerWeekTimings} = this.props;
+    return (
+      <Screen style={styles.root}>
+        <WeekTimingsList
+          ref={_ScreenTimings.refWeekTimingsList}
+          managerWeekTimings={managerWeekTimings}
+          isEditable={false}/>
+      </Screen>
+    );
+  }
 
 }
 
 const ScreenTimings = poolConnect(_ScreenTimings,
-	// mapStateToProps
-	(state) => ({}),
+  // mapStateToProps
+  (state) => ({}),
 
-	// mapDispatchToProps
-	(dispatch) => ({}),
+  // mapDispatchToProps
+  (dispatch) => ({}),
 
-	// Array of pools to subscribe to
-	[]
+  // Array of pools to subscribe to
+  []
 );
 export default ScreenTimings;
 
@@ -49,7 +62,7 @@ export default ScreenTimings;
 // Config ***********************************************************************************************
 
 const styles = StyleSheet.create({
-	root: {
-		paddingHorizontal: 24,
-	}
+  root: {
+    paddingHorizontal: 24,
+  }
 });

@@ -2,7 +2,7 @@
 import React from 'react';
 import {Colors, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {listItemInfo} from '../../lib/theme/Styles';
+import {iconStyles, listItemInfoStyles} from '../../lib/theme/Styles';
 import {RkTextInput} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
@@ -41,14 +41,14 @@ export default class SearchBar extends React.Component<void, Props, void> {
 	render() {
 		const {onSearchPressed, placeholder} = this.props;
 		return (
-			<View style={[styles.searchBarRoot, listItemInfo.section]}>
+			<View style={[styles.searchBarRoot, listItemInfoStyles.section]}>
 				<RkTextInput
 					style={styles.textInput}
 					includeFontPadding={false}
 					rkType='row rounded'
 					autoCapitalize='none'
 					autoCorrect={false}
-					label={<Icon {...Icons.searchBar} />}
+					label={<Icon style={iconStyles.icon} {...Icons.searchBar} />}
 					onChange={this._onChange}
 					onEndEditing={onSearchPressed}
 					placeholder={placeholder}/>

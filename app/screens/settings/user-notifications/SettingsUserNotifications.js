@@ -3,7 +3,7 @@ import DaoUser from '../../../lib/daos/DaoUser';
 import React from 'react';
 import {boolToIntString, intStringToBool, stringReplace} from '../../../lib/HelperFunctions';
 import {FORM_API_ID_EDIT_USER_PROFILE} from '../../../lib/redux-pool/api-form/def/ApiFormDefUserProfile';
-import {listItemInfo} from '../../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkSwitch} from '../../../comp/misc/forms/RkInputs';
 import {ScreenInfo} from '../../../comp/Misc';
@@ -120,7 +120,7 @@ class _SettingsUserNotifications extends React.Component<void, Props, void> {
 			.map(intStringToBool);	// [ 0,   0,   0 ]
 
 		return (
-			<View style={listItemInfo.section}>
+			<View style={listItemInfoStyles.section}>
 				<RkSwitch
 					title={t('t_disable_all')}
 					value={settNotifInt.every(i => !i)}

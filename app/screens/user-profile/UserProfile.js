@@ -14,7 +14,7 @@ import {AvatarFull, FlatListEmpty, ListItemInfo, ScrollableIconTabView} from '..
 import {Col, Grid, Row} from 'react-native-easy-grid';
 import {Const, Icons} from '../../Config';
 import {Icon} from 'react-native-elements';
-import {listItemInfo} from '../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet, View} from 'react-native';
@@ -279,7 +279,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 		const {userProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				style={listItemInfo.section}
+				style={listItemInfoStyles.section}
 				onPress={() => UserProfileInfoItems.handleOnItemPress(item.id, userProfile, navigator)}
 				{...item}/>
 		);

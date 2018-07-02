@@ -1,34 +1,27 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
-import ApiClient from '../data/ApiClient';
 import DaoLocation from '../daos/DaoLocation';
 import DaoUser from '../daos/DaoUser';
-import Logger from '../Logger';
 import Router from './Router';
-import {Snackbar} from '../Snackbar';
 import {TCacheUserProfile} from '../redux-pool/cache/def/CacheDefUserProfile';
-import {Validator} from '../helpers/Validator';
 import type {TLocation} from '../daos/DaoLocation';
 import type {TNavigator} from '../types/Types';
 
 const nbBtULS = {
+  ...Router.navbarButtonStyle,
 	id: 'NB_BT_ID_ULS',
 	icon: require('../../assets/images/navbar-plus.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 
 const nbBtFollowLocation = {
+  ...Router.navbarButtonStyle,
 	id: 'NB_BT_ID_FOLLOW_LOCATION',
 	icon: require('../../assets/images/navbar-star.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 
 const nbBtAddLocationImage = {
+  ...Router.navbarButtonStyle,
 	id: 'NB_BT_ID_ADD_LOCATION_IMAGE',
 	icon: require('../../assets/images/navbar-camera.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 
 export default class NavbarHandlerLocationProfile {
@@ -151,7 +144,7 @@ export default class NavbarHandlerLocationProfile {
 	_onCaptureImage(data) {
 		const {navigator, onGalleryImageAdded} = this;
 		onGalleryImageAdded(data.path);
-		Router.dismissModal(navigator);
+		Router.closeModalCamera(navigator);
 		this.setup();
 	}
 
