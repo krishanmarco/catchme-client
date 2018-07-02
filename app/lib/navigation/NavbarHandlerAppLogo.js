@@ -1,6 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
-import type {TNavigator} from '../types/Types';
 import Router from './Router';
+import type {TNavigator} from '../types/Types';
 
 const navbarBtAppLogo = {
 	...Router.navbarButtonStyle,

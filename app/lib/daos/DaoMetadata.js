@@ -1,14 +1,14 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import type {TLocation} from './DaoLocation';
 import DaoLocation from './DaoLocation';
-import type {TUser} from './DaoUser';
 import DaoUser from './DaoUser';
-import type {TUserLocationStatus} from './DaoUserLocationStatus';
 import DaoUserLocationStatus from './DaoUserLocationStatus';
 import ObjectCache from '../helpers/ObjectCache';
 import {denormObj, mapIdsToObjects} from '../HelperFunctions';
 import type {TId} from '../types/Types';
+import type {TLocation} from './DaoLocation';
+import type {TUser} from './DaoUser';
+import type {TUserLocationStatus} from './DaoUserLocationStatus';
 
 export type TMetadata = {
 	locations: Array<TLocation>,

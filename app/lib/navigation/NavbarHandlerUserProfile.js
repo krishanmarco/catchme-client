@@ -1,9 +1,9 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
 import DaoUser from '../daos/DaoUser';
+import Router from './Router';
 import {TCacheUserProfile} from '../redux-pool/cache/def/CacheDefUserProfile';
 import type {TNavigator} from '../types/Types';
 import type {TUser} from '../daos/DaoUser';
-import Router from './Router';
 
 const nbBtAddConnection = {
   ...Router.navbarButtonStyle,

@@ -1,16 +1,16 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import type {TLocation} from './DaoLocation';
 import DaoLocation from './DaoLocation';
-import type {TMetadata} from './DaoMetadata';
 import DaoMetadata from './DaoMetadata';
+import DaoUserLocationStatus from './DaoUserLocationStatus';
 import Maps from '../data/Maps';
 import {Const} from '../../Config';
 import {denormObj, isValidUrl} from '../HelperFunctions';
+import type {TId} from '../types/Types';
+import type {TLocation} from './DaoLocation';
 import type {TLocationWithULS} from '../helpers/ULSListManager';
+import type {TMetadata} from './DaoMetadata';
 import type {TUserLocationStatus} from './DaoUserLocationStatus';
-import DaoUserLocationStatus from "./DaoUserLocationStatus";
-import type {TId} from "../types/Types";
 
 export type TUser = {
 	id: number,

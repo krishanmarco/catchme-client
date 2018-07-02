@@ -1,12 +1,12 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ManagerWeekTimings from '../../lib/helpers/ManagerWeekTimings';
 import React from 'react';
+import Router from '../../lib/navigation/Router';
 import WeekTimingsList from '../../comp-buisness/timing/WeekTimingsList';
 import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from '../../comp/Misc';
 import {StyleSheet} from 'react-native';
-import Router from "../../lib/navigation/Router";
-import type {TNavigator} from "../../lib/types/Types";
+import type {TNavigator} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************

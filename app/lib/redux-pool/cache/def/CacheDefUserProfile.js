@@ -12,9 +12,9 @@ import {Snackbar} from '../../../Snackbar';
 import {t} from '../../../i18n/Translations';
 import type {TApiFormChangePassword} from '../../../daos/DaoApiFormChangePassword';
 import type {TCacheDef} from '../CacheDef';
+import type {TId, TThunk} from '../../../types/Types';
 import type {TLocation} from '../../../daos/DaoLocation';
 import type {TLocationWithULS} from '../../../helpers/ULSListManager';
-import type {TId, TThunk} from '../../../types/Types';
 import type {TUser} from '../../../daos/DaoUser';
 import type {TUserLocationStatus} from '../../../daos/DaoUserLocationStatus';
 

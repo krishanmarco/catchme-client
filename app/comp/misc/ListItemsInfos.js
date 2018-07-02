@@ -3,11 +3,11 @@ import React from 'react';
 import {Col, Grid} from 'react-native-easy-grid';
 import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
+import {iconStyles} from '../../lib/theme/Styles';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
 import {Touchable} from '../Misc';
 import type {TDataPoint, TStyle} from '../../lib/types/Types';
-import {iconStyles} from "../../lib/theme/Styles";
 
 
 // Const *************************************************************************************************
