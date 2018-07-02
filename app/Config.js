@@ -122,8 +122,12 @@ export const Icons = {
 // Urls *************************************************************************************************
 
 export const Urls = {
-	api: 'http://www.catchme.krishanmadan.website/api',
-	apiImages: 'http://www.catchme.krishanmadan.website/img'
+	base: 'http://www.catchme-v2.krishanmadan.website',
+	get api() { return `${this.base}/api`; },
+	get publicImg() { return `${this.base}/img`; },
+	get helpFaq() { return `${this.base}`; },
+	get contactUs() { return `${this.base}`; },
+	get termsOfService() { return `${this.base}`; }
 };
 
 
@@ -173,7 +177,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 
 	googlePlacesKey: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
 	googlePlacesDebounceTimeMs: 500,
@@ -199,12 +203,12 @@ export const Const = {
 	chatPaginationSize: 20,
 	firebasePaginationSize: 10,
 
-	userDefaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`,
+	userDefaultAvatar: `${Urls.publicImg}/avatar-placeholder.png`,
 	userDefaultPrivacySettings: '22222',
 	userDefaultNotificationsSettings: '111',
 
 	locationNewId: -1,
-	locationDefaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`,
+	locationDefaultAvatar: `${Urls.publicImg}/avatar-placeholder.png`,
 	locationInitialRegion: {latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.02, longitudeDelta: 0.02},
 
 	userLocationStatusDefaultLaterStartHrs: 22,

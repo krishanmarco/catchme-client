@@ -2,13 +2,14 @@
 import React from 'react';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
-import type {TDynamicStyleTextArray} from '../../lib/types/Types';
+import {t} from '../../lib/i18n/Translations';
+import type {TServerTextArray} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	dynamicStyleTextArray?: TDynamicStyleTextArray
+	dynamicStyleTextArray?: TServerTextArray
 };
 
 const defaultProps = {
@@ -17,8 +18,7 @@ const defaultProps = {
 
 // DefaultLoader ****************************************************************************************
 // DefaultLoader ****************************************************************************************
-
-export default class DynamicStyleText extends React.PureComponent<void, Props, void> {
+export default class ServerText extends React.PureComponent<void, Props, void> {
 	static defaultProps = defaultProps;
 
 	render() {
@@ -26,7 +26,9 @@ export default class DynamicStyleText extends React.PureComponent<void, Props, v
 		return (
 			<RkText style={styles.dynamicStyleText}>
 				{dynamicStyleTextArray.map((dsta, k) => (
-					<RkText key={k} rkType='secondary5' style={dsta[1]}>{dsta[0]}</RkText>
+					<RkText key={k} rkType='secondary5' style={dsta.s}>
+						{!!dsta.i ? t(dsta.i) : dsta.t}
+					</RkText>
 				))}
 			</RkText>
 		);

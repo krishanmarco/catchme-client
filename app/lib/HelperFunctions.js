@@ -148,3 +148,24 @@ export function validSource(source) {
 export function addKeys(array: Array<Object> = []) {
 	return array.map((p, i) => ({key: i, ...p}));
 }
+
+export function strtr(str, pairs) {
+	const substrs = Object.keys(pairs).map(_.escapeRegExp);
+	return str.split(RegExp(`(${substrs.join('|')})`))
+		.map(part => pairs[part] || part)
+		.join('');
+}
+
+export function isStrInt(val) {
+	return (/^\d+$/).test(val);
+}
+
+export function randString(length = 15) {
+	let text = "";
+	let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (let i = 0; i < length; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	return text;
+}

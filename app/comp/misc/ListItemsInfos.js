@@ -15,9 +15,9 @@ import type {TDataPoint, TStyle} from '../../lib/types/Types';
 type Props = TDataPoint & {
 	style?: TStyle,
 	subTitle?: string,
-	onPress?: Function,
 	itemRight?: Node,
 	textRkType?: string,
+	onPress?: Function
 };
 
 // ListItemInfo *****************************************************************************************

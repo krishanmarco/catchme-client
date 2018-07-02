@@ -56,7 +56,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 		return (
 			<FlatList
-				data={DaoUser.gAdminLocations(userProfile)}
+				data={DaoUser.gLocationsAdmin(userProfile)}
 				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderLocationItem}
 				ListHeaderComponent={this._renderLocationsHeader()}

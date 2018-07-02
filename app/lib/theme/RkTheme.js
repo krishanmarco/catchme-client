@@ -59,12 +59,6 @@ export const Colors = {
 	
 	gradientBaseBegin: '#25A59A',
 	gradientBaseEnd: '#25A59A',
-	// gradientVisaBegin:'#63e2ff',
-	// gradientVisaEnd:'#712ec3',
-	// gradientMasterBegin:'#febb5b',
-	// gradientMasterEnd:'#f24645',
-	// gradientAxpBegin:'#42e695',
-	// gradientAxpEnd:'#3bb2bb',
 	
 	// -----
 	faded: '#e5e5e5',

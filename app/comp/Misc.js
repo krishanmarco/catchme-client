@@ -1,7 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _BadgeOverlay from './misc/BadgeOverlay';
 import _DefaultLoader from './misc/DefaultLoader';
-import _DynamicStyleText from './misc/DynamicStyleText';
 import _FlatListEmpty from './misc/FlatListEmpty';
 import _FullpageForm from './misc/FullpageForm';
 import _ListDataPoints from './misc/ListDataPoints';
@@ -14,6 +13,7 @@ import _Screen from './misc/Screen';
 import _ScreenInfo from './misc/ScreenInfo';
 import _ScrollableIconTabView from './misc/tab-view/ScrollableIconTabView';
 import _SearchBar from './misc/SearchBar';
+import _ServerText from './misc/ServerText';
 import _Touchable from './misc/touchable/Touchable';
 import {AvatarCircle as _AvatarCircle, AvatarFull as _AvatarFull} from './misc/Avatars';
 
@@ -34,4 +34,4 @@ export const SearchBar = _SearchBar;
 export const AvatarCircle = _AvatarCircle;
 export const AvatarFull = _AvatarFull;
 export const Touchable = _Touchable;
-export const DynamicStyleText = _DynamicStyleText;
+export const ServerText = _ServerText;

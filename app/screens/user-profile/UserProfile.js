@@ -240,7 +240,7 @@ class _UserProfile extends React.Component<void, Props, State> {
 			<View style={styles.tabFriends}>
 				<UserList
 					users={DaoUser.gConnectionsFriends(userProfile)}
-					friendIds={DaoUser.gConnectionFriendIds(authUserProfile)}
+					friendIds={DaoUser.gConnectionsFriendIds(authUserProfile)}
 					showAdd={true}
 					showRemove={this._isSameUser()}
 					showPending={true}

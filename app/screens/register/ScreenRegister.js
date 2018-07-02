@@ -53,8 +53,11 @@ class _ScreenRegister extends React.Component<void, Props, void> {
 
 
 	render() {
+		// Do not require to be online to display this screen
+		// The screen will be completely empty.
+		// This means we have to handle the failed ApiRequest in case of offline
 		return (
-			<Screen>
+			<Screen requireOnline={false}>
 				<FullpageForm
 
 					headerStyle={fullpageForm.headerStyle}
@@ -143,5 +146,5 @@ const styles = StyleSheet.create({
 	},
 	footerStyle: {
 		flex: 0.06,
-	},
+	}
 });

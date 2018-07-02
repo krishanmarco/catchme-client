@@ -6,12 +6,14 @@ import {poolConnect} from '../../redux/ReduxPool';
 import {Screen} from '../../comp/Misc';
 import {ScrollView} from 'react-native';
 import type {TLocation} from '../../lib/daos/DaoLocation';
+import type {TNavigator} from '../../lib/types/Types';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
 
 type Props = {
-	onSelect: (TLocation) => void
+	onSelect: (TLocation) => void,
+	navigator: TNavigator
 };
 
 // _ScreenAddressPicker *********************************************************************************
@@ -25,7 +27,7 @@ class _ScreenAddressPicker extends React.Component<void, Props, void> {
 	}
 
 	_onSelect(location) {
-		const {onSelect} = this.props;
+		const {navigator, onSelect} = this.props;
 		onSelect(location);
 		Router.dismissModal(navigator, {animationType: 'slide-down'});
 	}

@@ -3,7 +3,7 @@ import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeed from '../../lib/daos/DaoFeed';
 import ImageURISourceAuth from '../../lib/data/ImageURISourceAuth';
 import React from 'react';
-import {AvatarCircle, DynamicStyleText, Touchable} from '../../comp/Misc';
+import {AvatarCircle, ServerText, Touchable} from '../../comp/Misc';
 import {Col, Grid} from 'react-native-easy-grid';
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
 import {listItemActions} from '../../lib/theme/Styles';
@@ -55,7 +55,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
-								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
+								<ServerText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
 							</View>
 						</View>
 					</Col>

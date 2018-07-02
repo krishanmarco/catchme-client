@@ -39,6 +39,7 @@ class ApiFormDefLocationProfile extends ApiFormDef<TLocation> {
 		this.setError(errors, inclusive, location, DaoLocation.pAddressCountry, c => Validator.countryCode(c));
 		this.setError(errors, inclusive, location, DaoLocation.pAddressState, s => Validator.string(s));
 		this.setError(errors, inclusive, location, DaoLocation.pAddressCity, c => Validator.string(c));
+		this.setError(errors, inclusive, location, DaoLocation.pAddressTown, t => Validator.string(t));
 		this.setError(errors, inclusive, location, DaoLocation.pAddressPostcode, p => Validator.string(p));
 		this.setError(errors, inclusive, location, DaoLocation.pAddressAddress, a => Validator.string(a));
 		return errors;

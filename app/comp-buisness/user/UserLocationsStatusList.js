@@ -13,6 +13,7 @@ import {t} from '../../lib/i18n/Translations';
 import type {TLocation} from '../../lib/daos/DaoLocation';
 import type {TNavigator} from '../../lib/types/Types';
 import type {TUser} from '../../lib/daos/DaoUser';
+import {randString} from "../../lib/HelperFunctions";
 
 // Const ************************************************************************************************
 // Const ************************************************************************************************
@@ -31,7 +32,7 @@ type State = TULSListState;
 
 // UserLocationsStatusList ******************************************************************************
 // UserLocationsStatusList ******************************************************************************
-
+// todo UserLocationStatus not updating on change
 class _UserLocationsStatusList extends React.Component<void, Props, State> {
 
 	constructor(props, context) {
@@ -55,10 +56,6 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 
 	_cacheUserProfile(): TCacheUserProfile {
 		return this.props[CACHE_ID_USER_PROFILE];
-	}
-
-	_getFavoriteIds() {
-		return DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 	}
 
 	_onUserLocationStatusEditPress(locationWithULS: TLocationWithULS) {
@@ -116,7 +113,7 @@ class _UserLocationsStatusList extends React.Component<void, Props, State> {
 		const locationFavRemove = this._cacheUserProfile().locationFavRemove;
 
 		const lid = DaoLocation.gId(item);
-		const favoriteIds = this._getFavoriteIds();
+		const favoriteIds = DaoUser.gLocationsFavoriteIds(this._cacheUserProfile().data);
 		const sFollow = showFollow && !favoriteIds.includes(lid);
 		const sUnfollow = showUnfollow && favoriteIds.includes(lid);
 

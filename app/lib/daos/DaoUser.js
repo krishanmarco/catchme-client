@@ -1,112 +1,84 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import _ from 'lodash';
-import DaoLocation from './DaoLocation';
-import Maps from '../data/Maps';
-import ObjectCache from '../helpers/ObjectCache';
-import {Const} from '../../Config';
-import {denormObj, isValidUrl, mapIdsToObjects} from '../HelperFunctions';
 import type {TLocation} from './DaoLocation';
+import DaoLocation from './DaoLocation';
+import type {TMetadata} from './DaoMetadata';
+import DaoMetadata from './DaoMetadata';
+import Maps from '../data/Maps';
+import {Const} from '../../Config';
+import {denormObj, isValidUrl} from '../HelperFunctions';
 import type {TLocationWithULS} from '../helpers/ULSListManager';
 import type {TUserLocationStatus} from './DaoUserLocationStatus';
-
+import DaoUserLocationStatus from "./DaoUserLocationStatus";
+import type {TId} from "../types/Types";
 
 export type TUser = {
-	id: number,                           // 1                                	Unique feed item identifier
-	pictureUrl: string,                   // 'http://catchme.top/image.png'   	URL of the user profile picture
-	name: string,                         // 'Krishan Madan'                  	User name
-	reputation: number,                   // 450                              	User reputation
-	publicMessage: string,                // 'Hi, i am Krishan Madan'         	User public message
-	phone?: string,                       // '+393347014935'                  	Location phone number
-	email?: string,                       // 'admin@areadocks.com'            	Location email address
-	apiKey?: string,                      // '203984230092384230984'          	Api key is only set if this is current users
-	gender?: number,                      // 1                                	User gender id
-	settingPrivacy?: string,              // '120'                            	Users privacy settings
-	settingNotifications?: string,        // '00101'                          	Users notification settings
-	adminLocations?: Array<TLocation>,    // [{...TLocation}, {TLocation} ...]  Locations administered by this user
-	connections?: TUserConnections,       // {...TUserConnections}            	Connections
-	locations?: TUserLocations,           // {...TUserLocations}              	Locations
-	_connectionIds?: TUserConnectionIds,  // {...TUserConnectionIds}          	Connection ids [Lazy], needs refresh
-	_locationIds?: TUserLocationIds       // {...TUserLocationIds}            	Location ids [Lazy], needs refresh
+	id: number,
+	name: string,
+	email?: string,
+	apiKey?: string,
+	settingPrivacy?: string,
+	settingNotifications?: string,
+	gender?: number,
+	reputation: number,
+	phone?: string,
+	publicMessage: string,
+	pictureUrl: string,
+	locationsAdminIds: Array<number>,
+	locationsFavoritesIds: Array<number>,
+	locationsTopIds: Array<number>,
+	locationsUserLocationIds: Array<number>,
+	connectionsFriendsIds: Array<number>,
+	connectionsPendingIds: Array<number>,
+	connectionsRequestIds: Array<number>,
+	connectionsBlockedIds: Array<number>,
+	metadata: TMetadata
 };
-
-export type TUserConnections = {
-	friends: Array<TUser>,              // [{...TUser}, ...]                People confirmed as friends
-	requests: Array<TUser>,             // [{...TUser}, ...]                Pending friend requests
-	blocked: Array<TUser>               // [{...TUser}, ...]                People blocked
-};
-export type TUserConnectionIds = {
-	friends: Array<number>,             // [1, 2, 3, 4, 5, ...]             Ids of each friend, lazy and cached
-	requests: Array<number>,            // [6, 7, 8, ...]                   Ids of each request, lazy and cached
-	blocked: Array<number>              // [9, 10,11, ...]                  Ids of each blocked user, lazy and cached
-};
-
-export type TUserLocations = {
-	favorites: Array<number>,                         // [1, 2, 3, 4, ...]            Preferred locations by this user, no order
-	top: Array<number>,                               // [1, 2, 3, 4, ...]            Where the user has been most, ordered
-	userLocationStatuses: Array<TUserLocationStatus>, // [{...TUserLocationStatus}]   All UserLocationStatuses not necessarily ordered
-	locations: Array<TLocation>                       // [{...TLocation}, ...]        All locations which have a corresponding id in object
-};
-
-export type TUserLocationIds = {
-	favorites: Array<number>,             // [1, 2, 3, 4, ...]          Ids of preferred locations by this user, lazy and cached, no order
-	top: Array<number>,                   // [1, 2, 3, 4, ...]          Ids of where the user has been most, lazy and cached, ordered
-	userLocationStatuses: Array<number>,  // [1, 2, 3, 4, ...]          Ids of where UserLocationStatuses (past, now, future), lazy and cached
-	locations: Array<number>              // [1, 2, 3, 4, ...]          Ids of all locations used in the other fields of this object
-};
-
 
 export default class DaoUser {
 	static pId = 'id';
-	static pPictureUrl = 'pictureUrl';
 	static pName = 'name';
-	static pReputation = 'reputation';
-	static pPublicMessage = 'publicMessage';
-	static pPhone = 'phone';
 	static pEmail = 'email';
 	static pApiKey = 'apiKey';
-	static pGender = 'gender';
 	static pSettingPrivacy = 'settingPrivacy';
 	static pSettingNotifications = 'settingNotifications';
-	static pConnections = 'connections';
-	static pLocations = 'locations';
-	static pConnectionFriends = `${DaoUser.pConnections}.friends`;
-	static pConnectionPending = `${DaoUser.pConnections}.pending`;
-	static pConnectionRequests = `${DaoUser.pConnections}.requests`;
-	static pConnectionBlocked = `${DaoUser.pConnections}.blocked`;
-	static pAdminLocations = 'adminLocations';
-	static pLocationsFavoriteIds = `${DaoUser.pLocations}.favorites`;
-	static pLocationsTopIds = `${DaoUser.pLocations}.top`;
-	static pLocationsUserLocationStatuses = `${DaoUser.pLocations}.userLocationStatuses`;
-	static pLocationsLocations = `${DaoUser.pLocations}.locations`;
-	static _pConnectionIds = '_connectionIds';
-	static _pConnectionFriendIds = `${DaoUser._pConnectionIds}.friends`;
-	static _pConnectionPendingIds = `${DaoUser._pConnectionIds}.pending`;
-	static _pConnectionRequestIds = `${DaoUser._pConnectionIds}.requests`;
-	static _pConnectionBlockedIds = `${DaoUser._pConnectionIds}.blocked`;
-	
-	
+	static pGender = 'gender';
+	static pReputation = 'reputation';
+	static pPhone = 'phone';
+	static pPublicMessage = 'publicMessage';
+	static pPictureUrl = 'pictureUrl';
+	static pLocationsAdminIds = 'locationsAdminIds';
+	static pLocationsFavoriteIds = 'locationsFavoriteIds';
+	static pLocationsTopIds = 'locationsTopIds';
+	static pUserLocationIds = 'locationsUserLocationIds';
+	static pConnectionsFriendIds = 'connectionsFriendIds';
+	static pConnectionsPendingIds = 'connectionsPendingIds';
+	static pConnectionsRequestIds = 'connectionsRequestIds';
+	static pConnectionsBlockedIds = 'connectionsBlockedIds';
+	static pMetadata = 'metadata';
+
 	static shallowCopy(user: TUser): TUser {
 		const newUser = {};
 		_.set(newUser, DaoUser.pId, DaoUser.gId(user));
-		_.set(newUser, DaoUser.pPictureUrl, DaoUser.gPictureUrl(user));
 		_.set(newUser, DaoUser.pName, DaoUser.gName(user));
-		_.set(newUser, DaoUser.pReputation, DaoUser.gReputation(user));
-		_.set(newUser, DaoUser.pPublicMessage, DaoUser.gPublicMessage(user));
-		_.set(newUser, DaoUser.pPhone, DaoUser.gPhone(user));
 		_.set(newUser, DaoUser.pEmail, DaoUser.gEmail(user));
 		_.set(newUser, DaoUser.pApiKey, DaoUser.gApiKey(user));
 		_.set(newUser, DaoUser.pSettingPrivacy, DaoUser.gSettingPrivacy(user));
 		_.set(newUser, DaoUser.pSettingNotifications, DaoUser.gSettingNotifications(user));
-		_.set(newUser, DaoUser.pAdminLocations, DaoUser.gAdminLocations(user));
-		_.set(newUser, DaoUser.pConnectionFriends, DaoUser.gConnectionsFriends(user));
-		_.set(newUser, DaoUser.pConnectionPending, DaoUser.gConnectionsPending(user));
-		_.set(newUser, DaoUser.pConnectionRequests, DaoUser.gConnectionsRequests(user));
-		_.set(newUser, DaoUser.pConnectionBlocked, DaoUser.gConnectionsBlocked(user));
+		_.set(newUser, DaoUser.pGender, DaoUser.gGender(user));
+		_.set(newUser, DaoUser.pReputation, DaoUser.gReputation(user));
+		_.set(newUser, DaoUser.pPhone, DaoUser.gPhone(user));
+		_.set(newUser, DaoUser.pPublicMessage, DaoUser.gPublicMessage(user));
+		_.set(newUser, DaoUser.pPictureUrl, DaoUser.gPictureUrl(user));
+		_.set(newUser, DaoUser.pLocationsAdminIds, DaoUser.gLocationsAdminIds(user));
 		_.set(newUser, DaoUser.pLocationsFavoriteIds, DaoUser.gLocationsFavoriteIds(user));
 		_.set(newUser, DaoUser.pLocationsTopIds, DaoUser.gLocationsTopIds(user));
-		_.set(newUser, DaoUser.pLocationsUserLocationStatuses, DaoUser.gLocationsUserLocationStatuses(user));
-		_.set(newUser, DaoUser.pLocationsLocations, DaoUser.gLocationsLocations(user));
-		
+		_.set(newUser, DaoUser.pUserLocationIds, DaoUser.gUserLocationIds(user));
+		_.set(newUser, DaoUser.pConnectionsFriendIds, DaoUser.gConnectionsFriendIds(user));
+		_.set(newUser, DaoUser.pConnectionsPendingIds, DaoUser.gConnectionsPendingIds(user));
+		_.set(newUser, DaoUser.pConnectionsRequestIds, DaoUser.gConnectionsRequestIds(user));
+		_.set(newUser, DaoUser.pConnectionsBlockedIds, DaoUser.gConnectionsBlockedIds(user));
+		_.set(newUser, DaoUser.pMetadata, DaoMetadata.shallowCopy(DaoUser.gMetadata(user)));
 		// Private fields (_) will have to be recalculated...
 		return newUser;
 	}
@@ -139,185 +111,290 @@ export default class DaoUser {
 			[DaoUser.pPictureUrl]: '',
 			[DaoUser.pPhone]: '',
 			[DaoUser.pEmail]: '',
-			[DaoUser.pPublicMessage]: ''
+			[DaoUser.pPublicMessage]: '',
+			[DaoUser.pMetadata]: DaoMetadata.newInstance()
 		});
 	}
 
 
 // Accessors ********************************************************************************************
 // Accessors ********************************************************************************************
-	
+
 	static gId(user: TUser): number {
 		return _.get(user, DaoUser.pId);
 	}
-	
+
+	static gName(user: TUser): string {
+		return _.get(user, DaoUser.pName);
+	}
+
+	static gEmail(user: TUser): string {
+		return _.get(user, DaoUser.pEmail);
+	}
+
+	static gApiKey(user: TUser): string {
+		return _.get(user, DaoUser.pApiKey);
+	}
+
+	static gSettingPrivacy(user: TUser): string {
+		return _.get(user, DaoUser.pSettingPrivacy, Const.userDefaultPrivacySettings);
+	}
+
+	static gSettingNotifications(user: TUser): string {
+		return _.get(user, DaoUser.pSettingNotifications, Const.userDefaultNotificationsSettings);
+	}
+
+	static gGender(user: TUser): number {
+		return _.get(user, DaoUser.pGender, Maps.genders.def.id);
+	}
+
+	static gReputation(user: TUser): number {
+		return _.get(user, DaoUser.pReputation);
+	}
+
+	static gPhone(user: TUser): string {
+		return _.get(user, DaoUser.pPhone);
+	}
+
+	static gPublicMessage(user: TUser): string {
+		return _.get(user, DaoUser.pPublicMessage);
+	}
+
 	static gPictureUrl(user: TUser): string {
 		const pictureUri = _.trim(_.get(user, DaoUser.pPictureUrl));
 		return _.isEmpty(pictureUri) ? Const.userDefaultAvatar : pictureUri;
 	}
-	
-	static gName(user: TUser): string {
-		return _.get(user, DaoUser.pName);
-	}
-	
-	static gReputation(user: TUser): number {
-		return _.get(user, DaoUser.pReputation);
-	}
-	
-	static gPublicMessage(user: TUser): string {
-		return _.get(user, DaoUser.pPublicMessage);
-	}
-	
-	static gPhone(user: TUser): string {
-		return _.get(user, DaoUser.pPhone);
-	}
-	
-	static gEmail(user: TUser): string {
-		return _.get(user, DaoUser.pEmail);
-	}
-	
-	static gApiKey(user: TUser): string {
-		return _.get(user, DaoUser.pApiKey);
-	}
-	
-	static gSettingPrivacy(user: TUser): string {
-		return _.get(user, DaoUser.pSettingPrivacy, Const.userDefaultPrivacySettings);
-	}
-	
-	static gSettingNotifications(user: TUser): string {
-		return _.get(user, DaoUser.pSettingNotifications, Const.userDefaultNotificationsSettings);
-	}
-	
-	static gGender(user: TUser): number {
-		return _.get(user, DaoUser.pGender, Maps.genders.def.id);
-	}
-	
-	static gConnections(user: TUser): TUserConnectionIds {
-		return _.get(user, DaoUser.pConnections);
-	}
-	
-	static gLocations(user: TUser): Array<TLocation> {
-		return _.get(user, DaoUser.pLocations);
-	}
-	
-	static gAdminLocations(user: TUser): Array<TLocation> {
-		return _.get(user, DaoUser.pAdminLocations, []);
-	}
-	
-	static gConnectionsFriends(user: TUser): Array<TUser> {
-		return _.get(user, DaoUser.pConnectionFriends, []);
-	}
-	
-	static gConnectionsPending(user: TUser): Array<TUser> {
-		return _.get(user, DaoUser.pConnectionPending, []);
+
+	static gLocationsAdminIds(user: TUser): Array<TLocation> {
+		return _.get(user, DaoUser.pLocationsAdminIds, []);
 	}
 
-	static gConnectionsRequests(user: TUser): Array<TUser> {
-		return _.get(user, DaoUser.pConnectionRequests, []);
-	}
-	
-	static gConnectionsBlocked(user: TUser): Array<TUser> {
-		return _.get(user, DaoUser.pConnectionBlocked, []);
-	}
-	
 	static gLocationsFavoriteIds(user: TUser): Array<number> {
 		return _.get(user, DaoUser.pLocationsFavoriteIds, []);
 	}
-	
+
 	static gLocationsTopIds(user: TUser): Array<number> {
 		return _.get(user, DaoUser.pLocationsTopIds, []);
 	}
-	
-	static gLocationsUserLocationStatuses(user: TUser): Array<TUserLocationStatus> {
-		return _.get(user, DaoUser.pLocationsUserLocationStatuses, []);
-	}
-	
-	static gLocationsLocations(user: TUser): Array<TLocation> {
-		return _.get(user, DaoUser.pLocationsLocations, []);
+
+	static gUserLocationIds(user: TUser): Array<number> {
+		return _.get(user, DaoUser.pUserLocationIds, []);
 	}
 
-
-// CacheAccessors ***************************************************************************************
-// CacheAccessors ***************************************************************************************
-
-	static invalidateConnectionFriendIds(user: TUser) {
-		ObjectCache.invalidate(user, DaoUser._pConnectionFriendIds);
+	static gConnectionsFriendIds(user: TUser): Array<number> {
+		return _.get(user, DaoUser.pConnectionsFriendIds, []);
 	}
 
-	static invalidateConnectionPendingIds(user: TUser) {
-		ObjectCache.invalidate(user, DaoUser._pConnectionPendingIds);
+	static gConnectionsPendingIds(user: TUser): Array<number> {
+		return _.get(user, DaoUser.pConnectionsPendingIds, []);
 	}
 
-	static invalidateConnectionBlockedIds(user: TUser) {
-		ObjectCache.invalidate(user, DaoUser._pConnectionBlockedIds);
+	static gConnectionsRequestIds(user: TUser): Array<number> {
+		return _.get(user, DaoUser.pConnectionsRequestIds, []);
 	}
-	
-	static gConnectionFriendIds(user: TUser) {
-		return ObjectCache.get(user, DaoUser._pConnectionFriendIds,
-			() => DaoUser.gConnectionsFriends(user).map(DaoUser.gId)
+
+	static gConnectionsBlockedIds(user: TUser): Array<number> {
+		return _.get(user, DaoUser.pConnectionsBlockedIds, []);
+	}
+
+	static gMetadata(user: TUser): TMetadata {
+		return _.get(user, DaoUser.pMetadata, {});
+	}
+
+// Modifiers ********************************************************************************************
+// Modifiers ********************************************************************************************
+
+	static _removeIdsFromPropIdArrVal(user: TUser, removeIds: Array<TId> = [], mdPCat: string, pName: string) {
+		const ids = _.get(user, pName, []);
+		_.remove(ids, id => removeIds.includes(id));
+		_.set(user, pName, ids);
+		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), mdPCat, pName);
+	}
+
+	static _addObjToPropIdArrVal(user: TUser, obj: any, gObjId: any => TId, mdPCat: string, pName: string, unique: boolean = true) {
+		const objId = gObjId(obj);
+		const ids = _.get(user, pName, []);
+
+		if (unique && ids.includes(objId))
+			return;
+
+		ids.push(objId);
+		_.set(user, pName, ids);
+		DaoMetadata.putObjectToArrayProperty(DaoUser.gMetadata(user), mdPCat, obj, gObjId);
+		DaoMetadata.cInvalidateObject(DaoUser.gMetadata(user), mdPCat, pName);
+	}
+
+	static addLocationsFavorite(user: TUser, locationToAdd: TLocation) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			locationToAdd,
+			DaoLocation.gId,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsFavoriteIds
 		);
 	}
 
-	static gConnectionPendingIds(user: TUser) {
-		return ObjectCache.get(user, DaoUser._pConnectionPendingIds,
-			() => DaoUser.gConnectionsPending(user).map(DaoUser.gId)
+	static addLocationsAdmin(user: TUser, locationToAdd: TLocation) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			locationToAdd,
+			DaoLocation.gId,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsAdminIds
 		);
 	}
-	
-	static gConnectionRequestIds(user: TUser) {
-		return ObjectCache.get(user, DaoUser._pConnectionRequestIds,
-			() => DaoUser.gConnectionsRequests(user).map(DaoUser.gId)
+
+	static removeLocationsFavorite(user: TUser, lids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			lids,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsFavoriteIds
 		);
 	}
-	
-	static gConnectionBlockedIds(user: TUser) {
-		return ObjectCache.get(user, DaoUser._pConnectionBlockedIds,
-			() => DaoUser.gConnectionsBlocked(user).map(DaoUser.gId)
+
+	static removeLocationsAdmin(user: TUser, lids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			lids,
+			DaoMetadata.pLocations,
+			DaoUser.pLocationsAdminIds
+		);
+	}
+
+	static addConnectionsFriend(user: TUser, userToAdd: TUser) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userToAdd,
+			DaoUser.gId,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsFriendIds
+		);
+	}
+
+	static addConnectionsPending(user: TUser, userToAdd: TUser) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userToAdd,
+			DaoUser.gId,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsPendingIds
+		);
+	}
+
+	static addConnectionsBlocked(user: TUser, userToAdd: TUser) {
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userToAdd,
+			DaoUser.gId,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsBlockedIds
+		);
+	}
+
+	static removeConnectionsFriend(user: TUser, uids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			uids,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsFriendIds
+		);
+	}
+
+	static removeConnectionsPending(user: TUser, uids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			uids,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsPendingIds
+		);
+	}
+
+	static removeConnectionsBlocked(user: TUser, uids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			uids,
+			DaoMetadata.pUsers,
+			DaoUser.pConnectionsBlockedIds
+		);
+	}
+
+	static addUserLocation(user: TUser, locationWithULD: TLocationWithULS) {
+		const userLocation = DaoLocation.gUserLocationStatus(locationWithULD);
+		DaoUser._addObjToPropIdArrVal(
+			user,
+			userLocation,
+			DaoUserLocationStatus.gId,
+			DaoMetadata.pUserLocations,
+			DaoUser.pUserLocationIds
+		);
+		DaoMetadata.putUserLocation(DaoUser.gMetadata(user), userLocation);
+	}
+
+	static removeUserLocation(user: TUser, ulids: Array<TId>) {
+		DaoUser._removeIdsFromPropIdArrVal(
+			user,
+			ulids,
+			DaoMetadata.pUserLocations,
+			DaoUser.pUserLocationIds
 		);
 	}
 
 
 // HelperAccessors **************************************************************************************
 // HelperAccessors **************************************************************************************
-	
+
+	static gLocationsAdmin(user: TUser): Array<TLocation> {
+		return DaoMetadata.gLocationsFromIds(
+			DaoUser.gMetadata(user),
+			DaoUser.gLocationsAdminIds(user),
+			DaoUser.pLocationsAdminIds
+		);
+	}
+
 	static gLocationsFavorites(user: TUser) {
-		return mapIdsToObjects(
+		return DaoMetadata.gLocationsFromIds(
+			DaoUser.gMetadata(user),
 			DaoUser.gLocationsFavoriteIds(user),
-			DaoUser.gLocationsLocations(user),
-			DaoLocation.gId
+			DaoUser.pLocationsFavoriteIds
 		);
 	}
-	
+
 	static gLocationsTop(user: TUser) {
-		return mapIdsToObjects(
+		return DaoMetadata.gLocationsFromIds(
+			DaoUser.gMetadata(user),
 			DaoUser.gLocationsTopIds(user),
-			DaoUser.gLocationsLocations(user),
-			DaoLocation.gId
+			DaoUser.pLocationsTopIds
 		);
 	}
-	
-	
+
+	static gLocationsUserLocations(user: TUser): Array<TUserLocationStatus> {
+		return DaoMetadata.gUserLocationsFromIds(
+			DaoUser.gMetadata(user),
+			DaoUser.gUserLocationIds(user),
+			DaoUser.pUserLocationIds
+		);
+	}
+
+	static gConnectionsFriends(user: TUser): Array<TUser> {
+		return DaoMetadata.gUsersFromIds(
+			DaoUser.gMetadata(user),
+			DaoUser.gConnectionsFriendIds(user),
+			DaoUser.pConnectionsFriendIds
+		);
+	}
+
 	static hasPhone(user: TUser) {
 		return !_.isEmpty(DaoUser.gPhone(user));
 	}
-	
+
 	static hasEmail(user: TUser) {
 		return !_.isEmpty(DaoUser.gEmail(user));
-	}
-	
-	static hasConnections(user: TUser) {
-		return DaoUser.pConnections in user;
-	}
-	
-	static hasLocations(user: TUser) {
-		return DaoUser.pLocations in user;
 	}
 
 	static hasNewImage(user: TUser): boolean {
 		const image = DaoUser.gPictureUrl(user);
-		return image != null
-			&& image != Const.userDefaultAvatar
-			&& !isValidUrl(image);
+		return image != null && image != Const.userDefaultAvatar && !isValidUrl(image);
 	}
 
 	static gIdStr(user: TUser): string {
@@ -325,8 +402,8 @@ export default class DaoUser {
 	}
 
 	static findUserLocationStatus(user: TUser, ulsId: number): ?TLocationWithULS {
-		const locationsWithULSs = DaoUser.gLocationsUserLocationStatuses(user);
-		return locationsWithULSs.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
+		return DaoUser.gLocationsUserLocations(user)
+			.find(locationWithULS => DaoLocation.isUlSInLocation(ulsId, locationWithULS));
 	}
 
 	static isSameUser(user1: TUser, user2: TUser) {

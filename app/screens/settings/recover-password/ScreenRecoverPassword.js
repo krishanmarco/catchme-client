@@ -3,7 +3,7 @@ import Router from '../../../lib/navigation/Router';
 import {FORM_API_ID_RECOVER_PASSWORD} from '../../../lib/redux-pool/api-form/def/ApiFormDefRecoverPassword';
 import {FormFooterLink} from '../../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../../comp/Misc';
-import {fullpageForm} from '../../../lib/theme/Styles';
+import {fullpageForm, imageBackground} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {Snackbar} from '../../../lib/Snackbar';
@@ -52,8 +52,11 @@ class _RecoverPassword extends React.Component<void, Props, State> {
 	}
 
 	render() {
+		// Do not require to be online to display this screen
+		// The screen will be completely empty.
+		// This means we have to handle the failed ApiRequest in case of offline
 		return (
-			<Screen>
+			<Screen requireOnline={false}>
 				<FullpageForm
 
 					headerStyle={fullpageForm.headerStyle}
@@ -137,5 +140,5 @@ const styles = StyleSheet.create({
 	},
 	footerStyle: {
 		flex: 0.06,
-	},
+	}
 });

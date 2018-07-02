@@ -3,6 +3,7 @@ import DaoLocation from '../daos/DaoLocation';
 import ManagerWeekTimings from '../helpers/ManagerWeekTimings';
 import Router from '../navigation/Router';
 import {Icons} from '../../Config';
+import {Linking} from 'react-native';
 import {t} from '../i18n/Translations';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
 import type {TLocation} from '../daos/DaoLocation';
@@ -15,6 +16,7 @@ export default class LocationProfileDataPoints {
 			case LocationProfileDataPoints.infoItemIdPhone:
 			case LocationProfileDataPoints.infoItemIdEmail:
 			case LocationProfileDataPoints.infoItemIdAddress:
+				Linking.openURL(this._getMapsDirectionsDeeplink());
 				break;
 			case LocationProfileDataPoints.infoItemIdTimings:
 				const managerWeekTimings = ManagerWeekTimings.buildFromLocation(locationProfile);
@@ -60,7 +62,7 @@ export default class LocationProfileDataPoints {
 		if (DaoLocation.hasTimings(this.locationProfile))
 			locationInfo.push(this._infoItemLocationTimings());
 
-		if (DaoLocation.hasAddressObj(this.locationProfile))
+		if (DaoLocation.hasAddress(this.locationProfile))
 			locationInfo.push(this._infoItemLocationAddress());
 
 		return locationInfo;
@@ -99,6 +101,23 @@ export default class LocationProfileDataPoints {
 			title: DaoLocation.gAddress(this.locationProfile),
 			icon: Icons.locationMap
 		};
+	}
+
+	_getMapsDirectionsDeeplink() {
+		const hasLatLng = DaoLocation.hasLatLng(this.locationProfile);
+		const hasGPlaceId = DaoLocation.hasGooglePlaceId(this.locationProfile);
+		const {lat, lng} = DaoLocation.gLatLng(this.locationProfile);
+		const address = DaoLocation.gAddress(this.locationProfile);
+		const gPlaceId = DaoLocation.gGooglePlaceId(this.locationProfile);
+
+		const params = {};
+		params.destination = hasLatLng ? [lat, lng].join(',') : encodeURIComponent(address);
+
+		if (hasGPlaceId)
+			params.destination_place_id = gPlaceId;
+
+		const paramsStr = Object.keys(params).map(k => `${k}=${params[k]}`).join('&');
+		return `https://www.google.com/maps/dir/?api=1&${paramsStr}`;
 	}
 
 }
