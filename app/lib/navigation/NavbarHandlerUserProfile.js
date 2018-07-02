@@ -1,28 +1,25 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
 import DaoUser from '../daos/DaoUser';
+import Router from './Router';
 import {TCacheUserProfile} from '../redux-pool/cache/def/CacheDefUserProfile';
 import type {TNavigator} from '../types/Types';
 import type {TUser} from '../daos/DaoUser';
 
-
 const nbBtAddConnection = {
+  ...Router.navbarButtonStyle,
 	id: 'NB_BT_ID_ADD_CONNECTION',
 	icon: require('../../assets/images/navbar-hand.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 const nbBtAcceptConnection = {
+  ...Router.navbarButtonStyle,
 	id: 'NB_BT_ID_ACCEPT_CONNECTION',
 	icon: require('../../assets/images/navbar-hand.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 
 const nbBtAppLogo = {
+  ...Router.navbarButtonStyle,
 	id: 'NB_BT_ID_APP_LOGO',
 	icon: require('../../assets/images/primary-me.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 
 export default class NavbarHandlerUserProfile {
@@ -73,9 +70,9 @@ export default class NavbarHandlerUserProfile {
 		// do not display the navigation buttons
 		if (cacheUserProfile.data != null && userProfile != null) {
 			const uid = DaoUser.gId(userProfile);
-			const friendIds = DaoUser.gConnectionFriendIds(cacheUserProfile.data);
-			const pendingIds = DaoUser.gConnectionPendingIds(cacheUserProfile.data);
-			const requestIds = DaoUser.gConnectionRequestIds(cacheUserProfile.data);
+			const friendIds = DaoUser.gConnectionsFriendIds(cacheUserProfile.data);
+			const pendingIds = DaoUser.gConnectionsPendingIds(cacheUserProfile.data);
+			const requestIds = DaoUser.gConnectionsRequestIds(cacheUserProfile.data);
 
 			if (this.visibleButtons.includes(nbBtAddConnection.id))
 				if (!friendIds.includes(uid) && !pendingIds.includes(uid) && !requestIds.includes(uid))
@@ -89,7 +86,7 @@ export default class NavbarHandlerUserProfile {
 		if (rightButtons.length <= 0 && this.showAppLogo)
 			rightButtons.push(nbBtAppLogo);
 
-		navigator.setButtons({rightButtons});
+		navigator.setButtons({rightButtons, leftButtons: []});
 		navigator.setOnNavigatorEvent(this._onNavigatorEvent);
 	}
 

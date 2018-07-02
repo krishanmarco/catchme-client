@@ -1,7 +1,7 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import DaoUser from '../daos/DaoUser';
 import Router from '../navigation/Router';
-import {Icons} from '../../Config';
+import {Icons, Urls} from '../../Config';
 import {Linking} from 'react-native';
 import {t} from '../i18n/Translations';
 import type {TDataPoint, TSectionListDataPointSections} from '../types/Types';
@@ -28,13 +28,13 @@ export default class UserProfileDataPoints {
 				Router.toScreenAddContacts(navigator);
 				break;
 			case UserProfileDataPoints.infoItemIdHelpFAQ:
-				Linking.openURL('http://catchme.krishanmadan.website');
+				Linking.openURL(Urls.helpFaq);
 				break;
 			case UserProfileDataPoints.infoItemIdHelpContactUs:
-				Linking.openURL('http://catchme.krishanmadan.website');
+				Linking.openURL(Urls.contactUs);
 				break;
 			case UserProfileDataPoints.infoItemIdHelpTermsOfService:
-				Linking.openURL('http://catchme.krishanmadan.website');
+				Linking.openURL(Urls.termsOfService);
 				break;
 			case UserProfileDataPoints.infoItemIdHelpAppInfo:
 				Router.toScreenHelpAppInfo(navigator);

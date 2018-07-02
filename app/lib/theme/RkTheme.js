@@ -20,7 +20,7 @@ export const Colors = {
 	white: '#ffffff',
 	transparent: '#00FFFFFF',
 	grey: '#f0f0f0',
-	
+
 	primaryFade: 'rgba(37, 165, 154, 0.3)',
 	primaryTrans: 'rgba(37, 165, 154, 0.2)',
 	greyFade: '#828282',
@@ -29,69 +29,64 @@ export const Colors = {
 	successGreen: '#3bd555',
 	neutralOrange: '#ff9147',
 	borders: '#F5FCFF',
-	
-	
-	
+
+
+
 	// -------- Default Kitten UI Theme
-	
+
 	accent: '#25A59A',
 	primary: '#25A59A',
+	primaryDark: '#239b90',
 	success: '#3bd555',
 	disabled: '#cacaca',
-	
+
 	foreground: '#212121',
 	alterForeground: '#707070',
 	inverseForeground: '#ffffff',
 	secondaryForeground: '#bcbcbc',
 	hintForeground: '#969696',
-	
+
 	background: '#ffffff',
 	alterBackground: '#f2f2f2',
 	overlayBackground: '#00000057',
 	neutralBackground: '#f2f2f2',
 	fadedBackground: '#e5e5e5',
-	
+
 	border: '#f2f2f2',
-	
+
 	twitter: '#41abe1',
 	google: '#e94335',
 	facebook: '#3b5998',
-	
+
 	gradientBaseBegin: '#25A59A',
 	gradientBaseEnd: '#25A59A',
-	// gradientVisaBegin:'#63e2ff',
-	// gradientVisaEnd:'#712ec3',
-	// gradientMasterBegin:'#febb5b',
-	// gradientMasterEnd:'#f24645',
-	// gradientAxpBegin:'#42e695',
-	// gradientAxpEnd:'#3bb2bb',
-	
+
 	// -----
 	faded: '#e5e5e5',
 	icon: '#c2c2c2',
 	neutral: '#f2f2f2',
-	
-	
+
+
 	info: '#19bfe5',
 	warning: '#feb401',
 	danger: '#ed1c4d',
-	
+
 	starsStat: '#2ab5fa',
 	tweetsStat: '#ffc61c',
 	likesStat: '#5468ff',
-	
+
 	doughnutFirst: '#8a98ff',
 	doughnutSecond: '#ffd146',
 	doughnutThird: '#c2d521',
 	doughnutFourth: '#ff6b5c',
-	
+
 	followersProgress: '#c2d521',
-	
+
 	followersFirst: '#b3e5fc',
 	followersSecond: '#81d4fa',
 	followersThird: '#4fc3f7',
 	followersFourth: '#42a5f5',
-	
+
 	chartsAreaStroke: '#097fe5',
 	chartsAreaFill: '#d6ecff'
 };
@@ -227,7 +222,7 @@ export const KittenTheme = {
 
 
 export function bootstrapRkTheme() {
-	
+
 	RkTheme.setTheme(KittenTheme, null);
 
 	RkTheme.setType('RkText', 'basic', {
@@ -255,21 +250,21 @@ export function bootstrapRkTheme() {
 	RkTheme.setType('RkText', 'menuIcon', {
 		fontSize: 44
 	});
-	
+
 	//all font sizes
 	for (let key in RkTheme.current.fonts.sizes) {
 		RkTheme.setType('RkText', key, {
 			fontSize: theme => theme.fonts.sizes[key]
 		});
 	}
-	
+
 	//all text colors
 	for (let key in RkTheme.current.colors.text) {
 		RkTheme.setType('RkText', `${key}Color`, {
 			color: theme => theme.colors.text[key]
 		});
 	}
-	
+
 	//all text line heights
 	for (let key in RkTheme.current.fonts.lineHeights) {
 		RkTheme.setType('RkText', `${key}Line`, {
@@ -282,7 +277,7 @@ export function bootstrapRkTheme() {
 		fontSize: theme => theme.fonts.sizes.small,
 		fontFamily: theme => theme.fonts.family.regular
 	});
-	
+
 	RkTheme.setType('RkText', 'header1', {
 		fontSize: theme => theme.fonts.sizes.h1,
 		fontFamily: theme => theme.fonts.family.bold
@@ -359,28 +354,15 @@ export function bootstrapRkTheme() {
 	RkTheme.setType('RkText', 'chat', {
 		color: theme => theme.colors.chat.text
 	});
-
-	RkTheme.setType('RkButton', 'basic', {
-		listItemHeaderContent: {
-			alignSelf: 'auto',
-		}
-	});
 	RkTheme.setType('RkButton', 'square', {
 		borderRadius: 3,
 		backgroundColor: theme => theme.colors.button.back,
-		listItemHeaderContent: {
-			flexDirection: 'column',
-			margin: 8
-		},
 	});
 	RkTheme.setType('RkButton', 'tile', {
 		borderRadius: 0,
 		backgroundColor: 'transparent',
 		borderWidth: 0.5,
 		borderColor: theme => theme.colors.border.base,
-		listItemHeaderContent: {
-			flexDirection: 'column'
-		}
 	});
 	RkTheme.setType('RkButton', 'link', {
 		color: theme => theme.colors.primary,
@@ -439,25 +421,16 @@ export function bootstrapRkTheme() {
 		underlineWidth: 1,
 		placeholderTextColor: theme => theme.colors.input.text,
 		input: {
-			marginVertical: {
-				ios: scaleVertical(15),
-				android: scaleVertical(4)
-			},
+			marginVertical: scaleVertical(3),
 		},
 	});
 	RkTheme.setType('RkTextInput', 'right', {
 		input: {
 			textAlign: 'right',
-			marginTop: {
-				ios: scaleVertical(18),
-				android: scaleVertical(11)
-			}
+			marginTop: scaleVertical(11)
 		},
 		label: {
 			fontFamily: theme => theme.fonts.family.light,
-		},
-		listItemHeaderContent: {
-			marginVertical: 4
 		},
 		backgroundColor: 'transparent',
 		labelFontSize: theme => theme.fonts.sizes.small,
@@ -467,24 +440,13 @@ export function bootstrapRkTheme() {
 			marginVertical: 0,
 			marginHorizontal: 0,
 			marginTop: 0,
-			paddingTop: {
-				ios: 2,
-				android: 0
-			},
+			paddingTop: 0,
 			paddingBottom: 0,
 			textAlignVertical: 'center',
 			includeFontPadding: false,
 			fontFamily: theme => theme.fonts.family.light,
 			fontSize: theme => theme.fonts.sizes.small,
 		},
-		listItemHeaderContent: {
-			flex: 1,
-			backgroundColor: theme => theme.colors.input.background,
-			marginVertical: 0,
-			borderRadius: 20,
-			paddingHorizontal: 16
-		},
-		
 	});
 	RkTheme.setType('RkTextInput', 'iconRight', {
 		label: {
@@ -499,10 +461,6 @@ export function bootstrapRkTheme() {
 		input: {
 			marginHorizontal: 14
 		},
-		listItemHeaderContent: {
-			justifyContent: 'center',
-			paddingHorizontal: 0
-		},
 		label: {
 			position: 'absolute',
 			right: 0
@@ -510,10 +468,6 @@ export function bootstrapRkTheme() {
 	});
 
 	RkTheme.setType('RkCard', 'basic', {
-		listItemHeaderContent: {
-			borderRadius: 3,
-			backgroundColor: theme => theme.colors.control.background
-		},
 		header: {
 			justifyContent: 'flex-start',
 			paddingVertical: 14
@@ -528,10 +482,6 @@ export function bootstrapRkTheme() {
 		}
 	});
 	RkTheme.setType('RkCard', 'backImg', {
-		listItemHeaderContent: {
-			borderWidth: 0,
-			borderRadius: 0
-		},
 		img: {
 			height: 225
 		},
@@ -569,10 +519,6 @@ export function bootstrapRkTheme() {
 		}
 	});
 	RkTheme.setType('RkCard', 'horizontal', {
-		listItemHeaderContent: {
-			flexDirection: 'row',
-			height: 110
-		},
 		listItemContent: {
 			flex: 1,
 		},
@@ -601,10 +547,6 @@ export function bootstrapRkTheme() {
 		}
 	});
 	RkTheme.setType('RkCard', 'article', {
-		listItemHeaderContent: {
-			borderWidth: 0,
-			backgroundColor: 'transparent'
-		},
 		header: {
 			paddingVertical: 0,
 			paddingTop: 20,
@@ -626,10 +568,6 @@ export function bootstrapRkTheme() {
 		}
 	});
 	RkTheme.setType('RkCard', 'credit', {
-		listItemHeaderContent: {
-			borderWidth: 0,
-			borderRadius: 7
-		},
 		header: {
 			justifyContent: 'space-between',
 			paddingHorizontal: 14,
@@ -651,10 +589,6 @@ export function bootstrapRkTheme() {
 	RkTheme.registerComponent('Avatar', (theme) => {
 		return ({
 			_base: {
-				listItemHeaderContent: {
-					alignItems: 'center',
-					flexDirection: 'row',
-				},
 				image: {
 					width: 40,
 					height: 40
@@ -680,9 +614,6 @@ export function bootstrapRkTheme() {
 					height: 90,
 					borderRadius: 55,
 					marginBottom: 19
-				},
-				listItemHeaderContent: {
-					flexDirection: 'column'
 				}
 			},
 			large: {
@@ -690,9 +621,6 @@ export function bootstrapRkTheme() {
 					width: 130,
 					height: 130,
 					borderRadius: 83,
-				},
-				listItemHeaderContent: {
-					flexDirection: 'column'
 				},
 				badge: {
 					width: 15,
@@ -712,9 +640,6 @@ export function bootstrapRkTheme() {
 					borderRadius: 110,
 					marginBottom: 19
 				},
-				listItemHeaderContent: {
-					flexDirection: 'column'
-				}
 			},
 			small: {
 				image: {
@@ -764,6 +689,6 @@ export function bootstrapRkTheme() {
 			}
 		});
 	});
-	
+
 	StatusBar.setBarStyle('dark-content', true);
 }

@@ -40,6 +40,7 @@ I18n.translations = {
 		t_country: 'Country',
 		t_state: 'State',
 		t_city: 'City',
+		t_town: 'Town',
 		t_postcode: 'Postcode',
 		t_address: 'Address',
 
@@ -159,19 +160,19 @@ I18n.translations = {
 		t_e_form_error: 'Form error',
 		t_e_not_allowed: 'You are not allowed to do that',
 		t_e_email_taken: 'That email is taken',
-		t_e_user_not_found: 'That user was not found',
+		t_e_user_not_found: 'User not found',
 		t_e_wrong_password: 'Wrong password',
 		t_e_user_banned: 'This user has been banned',
 		t_e_upload_failed: 'The file upload failed',
 		t_e_invalid_social_token: 'Something wen\'t wrong',
-		t_e_field_invalid: 'This field was not valid',
+		t_e_field_invalid: 'This field is not valid',
 		t_e_field_not_set: 'Please fill this field',
 		t_e_field_length_invalid: 'The length of this field is invalid',
 		t_e_field_length_short: 'This field is too short',
 		t_e_field_length_long: 'This field is too long',
 		t_e_field_phone: 'Please insert a valid phone number',
 		t_e_field_email: 'Please insert a valid email',
-		t_e_field_url: 'That URL was not valid',
+		t_e_field_url: 'That URL is not valid',
 		t_e_field_country: 'Please insert a valid country',
 		t_e_passwords_not_equal: 'The two passwords do not match',
 		t_e_incorrect_recovery_key: 'Invalid recovery key',
@@ -189,6 +190,12 @@ I18n.translations = {
 		t_ls_user_added: 'Friend request sent. The other user will first have to accept before becoming your friend',
 		t_ls_admin_location_added: 'This location was added to the ones you own',
 		t_ls_location_image_uploaded: 'Your image was uploaded',
+
+		t_srv_feed_friend_added_image: 'added an image at',
+		t_srv_feed_friendship_accept: 'accepted your friend request',
+		t_srv_feed_friendship_request: 'wants to add you as a friend',
+		t_srv_feed_user_attendance_request_1: 'has invited you to',
+		t_src_feed_user_attendance_request_2: 'will you be there?',
 
 	}
 

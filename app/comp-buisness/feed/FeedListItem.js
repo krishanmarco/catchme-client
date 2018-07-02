@@ -3,10 +3,10 @@ import ActionHandler from '../../lib/helpers/ActionHandler';
 import DaoFeed from '../../lib/daos/DaoFeed';
 import ImageURISourceAuth from '../../lib/data/ImageURISourceAuth';
 import React from 'react';
-import {AvatarCircle, DynamicStyleText, Touchable} from '../../comp/Misc';
+import {AvatarCircle, ServerText, Touchable} from '../../comp/Misc';
 import {Col, Grid} from 'react-native-easy-grid';
 import {ListItemAction} from '../../comp/misc/ListItemsWithActions';
-import {listItemActions} from '../../lib/theme/Styles';
+import {listItemActionsStyles} from '../../lib/theme/Styles';
 import {StyleSheet, View} from 'react-native';
 import type {TFeed} from '../../lib/daos/DaoFeed';
 
@@ -55,7 +55,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 						<View style={styles.listItemHeaderContent}>
 							{this._renderLeftAvatar()}
 							<View style={styles.listItemContent}>
-								<DynamicStyleText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
+								<ServerText dynamicStyleTextArray={DaoFeed.gContent(feed)}/>
 							</View>
 						</View>
 					</Col>
@@ -76,7 +76,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 		const {feed} = this.props;
 		const rightAvatar = DaoFeed.gRightAvatar(feed);
 		return !!rightAvatar && (
-			<Col size={15} style={[listItemActions.actionOnly]}>
+			<Col size={15} style={[listItemActionsStyles.actionOnly]}>
 				<AvatarCircle source={ImageURISourceAuth.fromUrl(rightAvatar)}/>
 			</Col>
 		);
@@ -89,7 +89,7 @@ export default class FeedListItem extends React.PureComponent<void, Props, State
 			.filter(clickAction => ActionHandler.clickActionIsValid(clickAction, feed));
 
 		return actions.map((clickAction, key) => (
-			<Col key={key} size={15} style={key === actions.length ? listItemActions.action : listItemActions.actionLast}>
+			<Col key={key} size={15} style={key === actions.length ? listItemActionsStyles.action : listItemActionsStyles.actionLast}>
 				<ListItemAction
 					icon={ActionHandler.mapActionToIcon(clickAction)}
 					onPress={() => this._handleClickAction(clickAction)}/>

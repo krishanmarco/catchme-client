@@ -1,17 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 25/10/2017 © **/
 import ApiClient from '../../lib/data/ApiClient';
-import ApiExceptionHandler from '../../lib/data/ApiExceptionHandler';
-import ApiFormPool from '../../lib/redux-pool/api-form/ApiFormPool';
-import DaoApiException from '../../lib/daos/DaoApiException';
-import DaoUser from '../../lib/daos/DaoUser';
-import Logger from '../../lib/Logger';
-import Maps from '../../lib/data/Maps';
 import React from 'react';
 import Router from '../../lib/navigation/Router';
 import {FORM_API_ID_LOGIN} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
 import {FormFooterLink} from '../../comp/misc/forms/FormComponents';
 import {FullpageForm, LoadingButton, Screen, ScreenInfo} from '../../comp/Misc';
-import {fullpageForm} from '../../lib/theme/Styles';
+import {fullpageFormStyles} from '../../lib/theme/Styles';
 import {Icon} from 'react-native-elements';
 import {Icons} from '../../Config';
 import {poolConnect} from '../../redux/ReduxPool';
@@ -23,12 +17,8 @@ import {Snackbar} from '../../lib/Snackbar';
 import {startApplication} from '../../App';
 import {StyleSheet, View} from 'react-native';
 import {t} from '../../lib/i18n/Translations';
-import {Validator} from '../../lib/helpers/Validator';
-import type {TApiException} from '../../lib/daos/DaoApiException';
 import type {TApiFormDefLogin} from '../../lib/redux-pool/api-form/def/ApiFormDefLogin';
-import type {TApiFormLogin} from '../../lib/daos/DaoApiFormLogin';
 import type {TNavigator} from '../../lib/types/Types';
-import type {TUser} from '../../lib/daos/DaoUser';
 
 // Const *************************************************************************************************
 // Const *************************************************************************************************
@@ -36,7 +26,6 @@ import type {TUser} from '../../lib/daos/DaoUser';
 type Props = {
 	navigator: TNavigator
 };
-
 
 // _ScreenLogin *****************************************************************************************
 // _ScreenLogin *****************************************************************************************
@@ -89,14 +78,14 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 	}
 
 	render() {
-		// Do not require online to display the login screen
+		// Do not require to be online to display this screen
 		// The screen will be completely empty.
 		// This means we have to handle the failed ApiRequest in case of offline
 		return (
 			<Screen requireOnline={false}>
 				<FullpageForm
 
-					headerStyle={fullpageForm.headerStyle}
+					headerStyle={fullpageFormStyles.headerStyle}
 					headerJsx={(
 						<ScreenInfo
 							height={120}
@@ -104,17 +93,17 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 							imageSource={require('../../assets/images/primary-me.png')}/>
 					)}
 
-					fieldsStyle={fullpageForm.fieldsStyle}
+					fieldsStyle={fullpageFormStyles.fieldsStyle}
 					fieldsJsx={(
 						<View style={styles.fieldsRow}>
-							
+
 							<View style={styles.fieldsSocialButtons}>
 								{[
 									{icon: Icons.loginGoogle, onPress: this._onGoogleLogin},
 									{icon: Icons.loginFacebook, onPress: this._onFacebookLogin},
 								].map(this._renderSocialIcon)}
 							</View>
-							
+
 							<View style={styles.fieldsFields}>
 								<RkTextInputFromPool
 									pool={this._getFormApiLogin()}
@@ -131,7 +120,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 									secureTextEntry/>
 
 								<LoadingButton
-									style={fullpageForm.fieldsButton}
+									style={fullpageFormStyles.fieldsButton}
 									rkType='large stretch accentColor'
 									loading={this._getFormApiLogin().loading}
 									text={t('t_bt_login')}
@@ -141,7 +130,7 @@ class _ScreenLogin extends React.Component<void, Props, void> {
 						</View>
 					)}
 
-					footerStyle={fullpageForm.footerStyle}
+					footerStyle={fullpageFormStyles.footerStyle}
 					footerJsx={(
 						<View>
 							<FormFooterLink
@@ -208,5 +197,5 @@ const styles = StyleSheet.create({
 	fieldsFields: {
 		flex: 0.72,
 		marginTop: 16
-	},
+	}
 });

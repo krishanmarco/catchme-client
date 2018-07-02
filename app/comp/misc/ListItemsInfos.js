@@ -3,6 +3,7 @@ import React from 'react';
 import {Col, Grid} from 'react-native-easy-grid';
 import {Colors} from '../../Config';
 import {Icon} from 'react-native-elements';
+import {iconStyles} from '../../lib/theme/Styles';
 import {RkText} from 'react-native-ui-kitten';
 import {StyleSheet} from 'react-native';
 import {Touchable} from '../Misc';
@@ -15,9 +16,9 @@ import type {TDataPoint, TStyle} from '../../lib/types/Types';
 type Props = TDataPoint & {
 	style?: TStyle,
 	subTitle?: string,
-	onPress?: Function,
 	itemRight?: Node,
 	textRkType?: string,
+	onPress?: Function
 };
 
 // ListItemInfo *****************************************************************************************
@@ -29,7 +30,7 @@ export const ListItemInfo = ({title, subTitle, icon, onPress, itemRight, textRkT
 
 			{!!icon && (
 				<Col size={10} style={styles.iconCol}>
-					<Icon iconStyle={styles.icon} size={24} {...icon} />
+					<Icon iconStyle={iconStyles.icon} size={24} {...icon} />
 				</Col>
 			)}
 
@@ -67,9 +68,6 @@ const styles = StyleSheet.create({
 	},
 	iconCol: {
 		alignItems: 'flex-start',
-	},
-	icon: {
-		padding: 0
 	},
 	textCol: {
 		marginLeft: 8

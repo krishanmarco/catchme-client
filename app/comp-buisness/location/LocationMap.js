@@ -58,8 +58,8 @@ export default class LocationMap extends React.Component<void, Props, State> {
 
 
 	_getCoordinates(location) {
-		const latLng = DaoLocation.gLatLng(location);
-		return {latitude: parseFloat(latLng.lat), longitude: parseFloat(latLng.lng)};
+		const {lat, lng} = DaoLocation.gLatLng(location);
+		return {latitude: parseFloat(lat), longitude: parseFloat(lng)};
 	}
 
 	_onRegionChanged(region) {

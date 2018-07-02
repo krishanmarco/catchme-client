@@ -7,7 +7,7 @@ import Router from '../../../lib/navigation/Router';
 import {ApiFormState} from '../../../lib/redux-pool/api-form/ApiFormModel';
 import {BadgeOverlay, ScreenInfo} from '../../../comp/Misc';
 import {Icons} from '../../../Config';
-import {listItemInfo} from '../../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../../lib/theme/Styles';
 import {poolConnect} from '../../../redux/ReduxPool';
 import {RkTextInputFromPool} from '../../../comp/misc/forms/RkInputs';
 import {ScrollView, StyleSheet, View} from 'react-native';
@@ -42,6 +42,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 			DaoLocation.pAddressCountry,
 			DaoLocation.pAddressState,
 			DaoLocation.pAddressCity,
+			DaoLocation.pAddressTown,
 			DaoLocation.pAddressPostcode,
 			DaoLocation.pAddressAddress
 		]);
@@ -51,7 +52,7 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 		const {navigator} = this.props;
 		Router.toModalAddressPicker(
 			navigator,
-			{onSelect: location => this._formApiEditLocationProfile().change(location)}
+			{onSelect: this._formApiEditLocationProfile().change}
 		);
 	}
 
@@ -67,11 +68,12 @@ class _EditLocationAddress extends React.Component<void, Props, void> {
 
 					{this._renderHeader()}
 
-					<View style={[listItemInfo.section, styles.editLocationAddressFormRow]}>
+					<View style={[listItemInfoStyles.section, styles.editLocationAddressFormRow]}>
 						{[
 							{field: DaoLocation.pAddressCountry, label: t('t_country')},
 							{field: DaoLocation.pAddressState, label: t('t_state')},
 							{field: DaoLocation.pAddressCity, label: t('t_city')},
+							{field: DaoLocation.pAddressTown, label: t('t_town')},
 							{field: DaoLocation.pAddressPostcode, label: t('t_postcode')},
 							{field: DaoLocation.pAddressAddress, label: t('t_address')},
 						].map((addressComponent, key) => (

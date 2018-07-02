@@ -15,7 +15,7 @@ import {AvatarFull, FlatListEmpty, ListDataPoints, ListItemInfo, ScrollableIconT
 import {Const, Icons} from '../../Config';
 import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import {Grid, Row} from 'react-native-easy-grid';
-import {listItemInfo} from '../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../lib/theme/Styles';
 import {poolConnect} from '../../redux/ReduxPool';
 import {RkText} from 'react-native-ui-kitten';
 import {t} from '../../lib/i18n/Translations';
@@ -189,7 +189,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.tabFriendsNow}>
 				<UserList
-					users={DaoLocation.gFriendsNow(locationProfile)}
+					users={DaoLocation.gConnectionsNow(locationProfile)}
 					showAdd={true}
 					showPending={true}
 					onUserPress={this._onUserPress}
@@ -215,7 +215,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		return (
 			<View style={styles.tabFriendsFuture}>
 				<UserList
-					users={DaoLocation.gFriendsFuture(locationProfile)}
+					users={DaoLocation.gConnectionsFuture(locationProfile)}
 					showAdd={true}
 					showPending={true}
 					onUserPress={this._onUserPress}
@@ -260,6 +260,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 						renderItem={this._renderTabLocationInfoItem}/>
 					<View style={[{height: dim.height - 130}, styles.infoTabMapCont]}>
 						<LocationMap
+							toolbarEnabled={true}
 							scrollEnabled={false}
 							locations={[locationProfile]}/>
 					</View>
@@ -272,7 +273,7 @@ class _LocationProfile extends React.Component<void, Props, State> {
 		const {locationProfile, navigator} = this.props;
 		return (
 			<ListItemInfo
-				style={listItemInfo.section}
+				style={listItemInfoStyles.section}
 				onPress={() => LocationProfileDataPoints.handleOnItemPress(item.id, locationProfile, navigator)}
 				{...item}/>
 		);

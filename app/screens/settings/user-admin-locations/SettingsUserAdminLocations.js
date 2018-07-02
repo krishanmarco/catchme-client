@@ -6,7 +6,7 @@ import Router from '../../../lib/navigation/Router';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {FlatListEmpty, ListItemInfo, ScreenInfo} from '../../../comp/Misc';
 import {Icons} from '../../../Config';
-import {listItemInfo} from '../../../lib/theme/Styles';
+import {listItemInfoStyles} from '../../../lib/theme/Styles';
 import {ListItemLocation} from '../../../comp-buisness/location/LocationListItems';
 import {t} from '../../../lib/i18n/Translations';
 import type {TLocation} from '../../../lib/daos/DaoLocation';
@@ -56,7 +56,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 
 		return (
 			<FlatList
-				data={DaoUser.gAdminLocations(userProfile)}
+				data={DaoUser.gLocationsAdmin(userProfile)}
 				keyExtractor={DaoLocation.gIdStr}
 				renderItem={this._renderLocationItem}
 				ListHeaderComponent={this._renderLocationsHeader()}
@@ -82,7 +82,7 @@ export default class SettingsUserAdministratingLocations extends React.Component
 					imageSource={require('../../../assets/images/primary-admin-locations.png')}
 					textText={t('t_si_settings_admin_locations')}/>
 				<ListItemInfo
-					style={listItemInfo.section}
+					style={listItemInfoStyles.section}
 					title={t('t_add_new_location')}
 					textRkType='header4'
 					icon={Icons.settingAdminAddLocation}

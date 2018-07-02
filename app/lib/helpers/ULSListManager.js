@@ -1,5 +1,6 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 13-Apr-18 © **/
 import DaoLocation from '../daos/DaoLocation';
+import DaoMetadata from '../daos/DaoMetadata';
 import DaoUser from '../daos/DaoUser';
 import DaoUserLocationStatus from '../daos/DaoUserLocationStatus';
 import moment from 'moment/moment';
@@ -68,10 +69,10 @@ export default class ULSListManager {
 		const state = new ULSListState(DaoUser.gLocationsTop(userProfile));
 
 		// Get all the possible locations object
-		const locations = DaoUser.gLocationsLocations(userProfile);
+		const locations = DaoMetadata.gLocations(DaoUser.gMetadata(userProfile));
 
 		// Get all the possible statuses (not organized)
-		const ulsList = DaoUser.gLocationsUserLocationStatuses(userProfile);
+		const ulsList = DaoUser.gLocationsUserLocations(userProfile);
 
 		// Create a list of TLocationWithULS for each TUserLocationStatus
 		const locationsWithUls = [];

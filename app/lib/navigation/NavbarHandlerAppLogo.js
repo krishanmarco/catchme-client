@@ -1,11 +1,11 @@
 /** Created by Krishan Marco Madan [krishanmarco@outlook.com] on 14-Apr-18 © **/
+import Router from './Router';
 import type {TNavigator} from '../types/Types';
 
 const navbarBtAppLogo = {
+	...Router.navbarButtonStyle,
 	id: 'NAVBAR_BUTTON_ID_APP_LOGO',
 	icon: require('../../assets/images/primary-me.png'),
-	buttonFontSize: 2,
-	buttonFontWeight: '100',
 };
 
 export default class NavbarHandlerAppLogo {

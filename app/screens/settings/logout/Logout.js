@@ -2,7 +2,7 @@
 import React from 'react';
 import StorageIO from '../../../lib/data/StorageIO';
 import {FullpageForm, LoadingButton, ScreenInfo} from '../../../comp/Misc';
-import {fullpageForm} from '../../../lib/theme/Styles';
+import {fullpageFormStyles} from '../../../lib/theme/Styles';
 import {startApplication} from '../../../App';
 import {StyleSheet} from 'react-native';
 import {t} from '../../../lib/i18n/Translations';
@@ -36,7 +36,7 @@ export default class Logout extends React.Component<void, Props, void> {
 		return (
 				<FullpageForm
 
-					fieldsStyle={[fullpageForm.fieldsStyle, styles.fieldsStyle]}
+					fieldsStyle={[fullpageFormStyles.fieldsStyle, styles.fieldsStyle]}
 					fieldsJsx={(
 						<ScreenInfo
 							style={styles.info}
@@ -44,10 +44,10 @@ export default class Logout extends React.Component<void, Props, void> {
 							textText={t('t_si_settings_logout')}/>
 					)}
 
-					footerStyle={[fullpageForm.footerStyle, styles.footerStyle]}
+					footerStyle={[fullpageFormStyles.footerStyle, styles.footerStyle]}
 					footerJsx={(
 						<LoadingButton
-							style={fullpageForm.fieldsButton}
+							style={fullpageFormStyles.fieldsButton}
 							rkType='large stretch accentColor'
 							text={t('t_bt_logout')}
 							onPress={this._onLogoutPress}/>

@@ -30,10 +30,10 @@ const _Icons = {
 	hand: 								{name: 'md-hand',  					 						type: 'ionicon'},
 	images: 							{name: 'md-images',  										type: 'ionicon'},
 	search: 							{name: 'md-search',  										type: 'ionicon'},
-	back: 								{name: 'md-arrow-round-back', 					type: 'ionicon'},
 	google: 						 	{name: 'logo-googleplus',  							type: 'ionicon'},
 	facebook: 						{name: 'logo-facebook', 							 	type: 'ionicon'},
 	logout: 							{name: 'md-exit',												type: 'ionicon'},
+  back: 								{name: 'ios-arrow-back-outline',				type: 'ionicon'},
 	email: 								{name: 'email',  					 							type: 'entypo'},
 	phone: 								{name: 'phone',  												type: 'entypo'},
 	personSettings: 			{name: 'account-settings-variant', 			type: 'material-community'},
@@ -75,8 +75,6 @@ export const Icons = {
 	userPending:  						 				{..._Icons.pending,  							color: Colors.neutralOrange},
 	userAdminLocations:  							{..._Icons.building,  						color: Colors.primary},
 
-	changePasswordBack:  							{..._Icons.back,  								color: Colors.primary},
-
 	locationProfile:  								{..._Icons.building, 							color: Colors.primary},
 	locationImages:  									{..._Icons.images,  							color: Colors.primary},
 	locationPersonNow:  							{..._Icons.timerSandEmpty,  			color: Colors.primary},
@@ -113,7 +111,10 @@ export const Icons = {
 	reputationDude:  									{..._Icons.star,  								color: Colors.primary},
 	reputationHero:  									{..._Icons.star,  								color: Colors.primary},
 	reputationVip:  									{..._Icons.star,  								color: Colors.primary},
-	reputationCatcher:  							{..._Icons.star,  								color: Colors.primary}
+	reputationCatcher:  							{..._Icons.star,  								color: Colors.primary},
+
+
+  screenBack:  							        {..._Icons.back,  								color: Colors.primary},
 
 };
 
@@ -122,8 +123,12 @@ export const Icons = {
 // Urls *************************************************************************************************
 
 export const Urls = {
-	api: 'http://www.catchme.krishanmadan.website/api',
-	apiImages: 'http://www.catchme.krishanmadan.website/img'
+	base: 'http://www.catchme-v2.krishanmadan.website',
+	get api() { return `${this.base}/api`; },
+	get publicImg() { return `${this.base}/img`; },
+	get helpFaq() { return `${this.base}`; },
+	get contactUs() { return `${this.base}`; },
+	get termsOfService() { return `${this.base}`; }
 };
 
 
@@ -173,7 +178,7 @@ export const ActionHandlerActions = {
 
 export const Const = {
 	devMode: true,
-	loggingEnabled: false,
+	loggingEnabled: true,
 
 	googlePlacesKey: 'AIzaSyBiqqmxejdNoFPGl-sxBdQazETzNLkcVwA',
 	googlePlacesDebounceTimeMs: 500,
@@ -199,12 +204,12 @@ export const Const = {
 	chatPaginationSize: 20,
 	firebasePaginationSize: 10,
 
-	userDefaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`,
+	userDefaultAvatar: `${Urls.publicImg}/avatar-placeholder.png`,
 	userDefaultPrivacySettings: '22222',
 	userDefaultNotificationsSettings: '111',
 
 	locationNewId: -1,
-	locationDefaultAvatar: `${Urls.apiImages}/avatar-placeholder.png`,
+	locationDefaultAvatar: `${Urls.publicImg}/avatar-placeholder.png`,
 	locationInitialRegion: {latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.02, longitudeDelta: 0.02},
 
 	userLocationStatusDefaultLaterStartHrs: 22,
